@@ -40,7 +40,7 @@ namespace AirpocketAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class FlightController : ApiController
     {
-       
+
 
 
         //[Route("api/fmis/delay")]
@@ -77,7 +77,7 @@ namespace AirpocketAPI.Controllers
         //            obj.Delay.Item = new List<xmlDelayItem>();
         //            obj.Delay.Item.Add(objs.Delay.Item);
         //        }
-               
+
         //        foreach(var item in obj.Delay.Item)
         //        {
         //            var xitem = new DelayXMLItem() { XmlId = xd.Id, FlightId = xd.FlightId, Description = item.Description, Code = item.DigitCode,Remark="" };
@@ -115,7 +115,7 @@ namespace AirpocketAPI.Controllers
         //            context.DelayXMLItems.Add(xitem);
 
         //        }
-                
+
         //    }
         //    //context.SaveChanges();
         //    context.BulkSaveChanges();
@@ -178,16 +178,16 @@ namespace AirpocketAPI.Controllers
         [Route("api/flight/daily")]
         [AcceptVerbs("GET")]
         public IHttpActionResult GetFlightsDaily(DateTime df, DateTime dt, string regs, string routes, string from, string to, string no
-            ,string status
-            ,string type2
-            ,string idx
-            ,string chr)
+            , string status
+            , string type2
+            , string idx
+            , string chr)
         {
             var cmd = "select * from viewflightdaily ";
             try
             {
                 var context = new AirpocketAPI.Models.FLYEntities();
-               // var cmd = "select * from viewflightdaily ";
+                // var cmd = "select * from viewflightdaily ";
                 string whr = " (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
 
                 if (!string.IsNullOrEmpty(status) && status != "-1")
@@ -267,21 +267,25 @@ namespace AirpocketAPI.Controllers
 
                 return Ok(flts);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Ok(cmd);
             }
-           
+
         }
 
+        //09-09
         [Route("api/flight/daily/export")]
         [AcceptVerbs("GET")]
-        public HttpResponseMessage GetFlightsDailyExport( DateTime df, DateTime dt, string regs, string routes, string from, string to, string no, string status
+        public HttpResponseMessage GetFlightsDailyExport(DateTime df, DateTime dt, string regs, string routes, string from, string to, string no, string status
             , string type2
             , string idx
-            , string chr)
+            , string chr
+            , string time
+            , string fuel
+            , string weight)
         {
-            
+
             var context = new AirpocketAPI.Models.FLYEntities();
             var cmd = "select * from viewflightdaily ";
             string whr = "FlightStatusId<>4 and (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
@@ -296,7 +300,7 @@ namespace AirpocketAPI.Controllers
             if (!string.IsNullOrEmpty(type2) && type2 != "-1")
             {
                 var _regs = type2.Split('_').ToList();
-                var col = _regs.Select(q => "FlightType2='" + q + "'").ToList();
+                var col = _regs.Select(q => "FlightType2=N'" + q + "'").ToList();
                 var _whr = "(" + string.Join(" OR ", col) + ")";
                 whr += " AND " + _whr;
             }
@@ -304,7 +308,7 @@ namespace AirpocketAPI.Controllers
             if (!string.IsNullOrEmpty(idx) && idx != "-1")
             {
                 var _regs = idx.Split('_').ToList();
-                var col = _regs.Select(q => "FlightIndex='" + q + "'").ToList();
+                var col = _regs.Select(q => "FlightIndex=N'" + q + "'").ToList();
                 var _whr = "(" + string.Join(" OR ", col) + ")";
                 whr += " AND " + _whr;
             }
@@ -366,9 +370,26 @@ namespace AirpocketAPI.Controllers
 
             Spire.License.LicenseProvider.SetLicenseKey(LData);
             Workbook workbook = new Workbook();
+            //1
             var mappedPathSource = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "fltdaily" + ".xlsx");
             workbook.LoadFromFile(mappedPathSource);
             Worksheet sheet = workbook.Worksheets[0];
+
+            sheet.Range[6, 20].Text = weight == "kg" ? "بار حمل شده کارگو (کیلوگرم)" : "بار حمل شده کارگو (پوند)";
+            sheet.Range[6, 19].Text = weight == "kg" ? "بار حمل شده (کیلوگرم)" : "بار حمل شده (پوند)";
+            sheet.Range[6, 35].Text = "سوخت (لیتر)";
+            if (fuel == "lbs")
+            {
+                
+                sheet.Range[6, 35].Text = "سوخت (پوند)";
+            }
+
+            if (fuel == "kg")
+            {
+               
+                sheet.Range[6, 35].Text = "سوخت (کیلوگرم)";
+            }
+
             var ln = 8;
             foreach (var flt in flts)
             {
@@ -393,8 +414,8 @@ namespace AirpocketAPI.Controllers
                 sheet.Range[ln, 13].NumberFormat = "0";
                 sheet.Range[ln, 14].Value2 = flt.PaxInfant;
                 sheet.Range[ln, 14].NumberFormat = "0";
-                 sheet.Range[ln, 15].Formula = "=SUM(Sheet2!$L$"+ln+":M$" + ln + ")"; 
-               // sheet.Range[ln, 15].Value2 = flt.RevPax;
+                sheet.Range[ln, 15].Formula = "=SUM(Sheet2!$L$" + ln + ":M$" + ln + ")";
+                // sheet.Range[ln, 15].Value2 = flt.RevPax;
                 sheet.Range[ln, 15].NumberFormat = "0";
                 //  sheet.Range[ln, 16].Value2 = flt.TotalPax;
                 sheet.Range[ln, 16].Formula = "=SUM(Sheet2!$L$" + ln + ":N$" + ln + ")";
@@ -405,11 +426,14 @@ namespace AirpocketAPI.Controllers
                 sheet.Range[ln, 18].Value2 = null;
                 sheet.Range[ln, 18].NumberFormat = "0";
 
-                sheet.Range[ln, 19].Value2 = flt.BaggageWeight;
-                sheet.Range[ln, 19].NumberFormat = "0";
 
-                sheet.Range[ln, 20].Value2 = flt.CargoWeight;
-                sheet.Range[ln, 20].NumberFormat = "0";
+              
+                sheet.Range[ln, 19].Value2 = weight == "kg" ? flt.BaggageWeightKg : flt.BaggageWeightLbs;
+                sheet.Range[ln, 19].NumberFormat = "0.0";
+
+              
+                sheet.Range[ln, 20].Value2 = weight == "kg" ? flt.CargoWeightKg : flt.CargoWeightLbs;
+                sheet.Range[ln, 20].NumberFormat = "0.0";
 
                 sheet.Range[ln, 21].Value2 = flt.TotalSeat;
                 sheet.Range[ln, 21].NumberFormat = "0";
@@ -421,35 +445,74 @@ namespace AirpocketAPI.Controllers
                 sheet.Range[ln, 23].Value2 = null;
                 sheet.Range[ln, 23].NumberFormat = "0";
 
-                var _std = ((DateTime)flt.STDLocal);
-                var _sta = ((DateTime)flt.STALocal);
-                sheet.Range[ln, 24].Text = _std.Hour.ToString().PadLeft(2, '0') + ":" + _std.Minute.ToString().PadLeft(2, '0'); //flt.STDLocal;
-                sheet.Range[ln, 25].Text = _sta.Hour.ToString().PadLeft(2, '0') + ":" + _sta.Minute.ToString().PadLeft(2, '0'); //flt.STALocal;
-                sheet.Range[ln, 26].Formula ="IF(Y"+ln+">=X"+ln+ ",Y" + ln + "-" + "X" + ln+",(Y"+ln+"+1)-X"+ln+")"; //"Sheet2!$Y"+ln;
+                var _std = time == "lcl" ? ((DateTime)flt.STDLocal) : ((DateTime)flt.STD);
+                var _stdHour = _std.Hour; //(_std.Hour > 12 ? _std.Hour - 12 : _std.Hour);
+                var _sta = time == "lcl" ? ((DateTime)flt.STALocal) : ((DateTime)flt.STA);
+                var _staHour = _sta.Hour; //(_sta.Hour > 12 ? _sta.Hour - 12 : _sta.Hour);
+
+                sheet.Range[ln, 24].Cells[0].Text = _stdHour.ToString().PadLeft(2, '0') + ":" + _std.Minute.ToString().PadLeft(2, '0'); /*+ (_std.Hour<12?" AM":" PM")*/; //flt.STDLocal;
+                sheet.Range[ln, 25].Cells[0].Text = _staHour.ToString().PadLeft(2, '0') + ":" + _sta.Minute.ToString().PadLeft(2, '0');   /*+(_sta.Hour < 12 ? " AM" : " PM")*/; //flt.STALocal;
+                                                                                                                                                                                 // sheet.Range[ln, 26].Formula ="IF(Y"+ln+">=X"+ln+ ",Y" + ln + "-" + "X" + ln+",(Y"+ln+"+1)-X"+ln+")"; //"Sheet2!$Y"+ln;
+                                                                                                                                                                                 //sheet.Range[ln, 26].Formula ="Y"+ln+"-"+"X"+ln;
+                sheet.Range[ln, 24].NumberFormat = "HH:mm";
+                sheet.Range[ln, 25].NumberFormat = "HH:mm";
+                sheet.Range[ln, 26].NumberFormat = "HH:mm";
+
+                sheet.Range[ln, 26].Formula = "IF(Y" + ln + "+0>=X" + ln + "+0,Y" + ln + "-" + "X" + ln + ",Y" + ln + "-X" + ln + "+1)"; //"Sheet2!$Y"+ln;
                 //IF(Y14>=X14,Y14-X14,(Y14+1)-X14)
                 //"=SUM(Sheet2!$L$"+ln+":M$" + ln + ")"; 
                 // sheet.Range[ln, 26].TimeSpanValue = flt.ScheduledTime==null? TimeSpan.FromMinutes(0):  TimeSpan.FromMinutes(Convert.ToDouble(flt.ScheduledTime));
 
                 //sheet.Range[ln, 26].Text =toHHMM( flt.ScheduledTime);
 
+                var _takeoff = time == "lcl" ? ((DateTime)flt.TakeOffLocal) : ((DateTime)flt.TakeOff);
+                var _landing = time == "lcl" ? ((DateTime)flt.LandingLocal) : ((DateTime)flt.Landing);
+                sheet.Range[ln, 27].Text = _takeoff.Hour.ToString().PadLeft(2, '0') + ":" + _takeoff.Minute.ToString().PadLeft(2, '0');
+                sheet.Range[ln, 28].Text = _landing.Hour.ToString().PadLeft(2, '0') + ":" + _landing.Minute.ToString().PadLeft(2, '0');
+                sheet.Range[ln, 29].Formula = "IF(AB" + ln + "+0>=AA" + ln + "+0,AB" + ln + "-" + "AA" + ln + ",AB" + ln + "-AA" + ln + "+1)";
+                sheet.Range[ln, 27].NumberFormat = "HH:mm";
+                sheet.Range[ln, 28].NumberFormat = "HH:mm";
+                sheet.Range[ln, 29].NumberFormat = "HH:mm";
+                // sheet.Range[ln, 27].Value2 = flt.TakeOffLocal;
+                // sheet.Range[ln, 28].Value2 = flt.LandingLocal;
+                // sheet.Range[ln, 29].TimeSpanValue = flt.FlightTime == null ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(Convert.ToDouble(flt.FlightTime));
 
-                sheet.Range[ln, 27].Value2 = flt.TakeOffLocal;
-                sheet.Range[ln, 28].Value2 = flt.LandingLocal;
-                sheet.Range[ln, 29].TimeSpanValue = flt.FlightTime == null ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(Convert.ToDouble(flt.FlightTime));
-                
+                var _offblock = time == "lcl" ? ((DateTime)flt.BlockOffLocal) : ((DateTime)flt.BlockOff);
+                var _onblock = time == "lcl" ? ((DateTime)flt.BlockOnLocal) : ((DateTime)flt.BlockOn);
+                sheet.Range[ln, 30].Text = _offblock.Hour.ToString().PadLeft(2, '0') + ":" + _offblock.Minute.ToString().PadLeft(2, '0');
+                sheet.Range[ln, 31].Text = _onblock.Hour.ToString().PadLeft(2, '0') + ":" + _onblock.Minute.ToString().PadLeft(2, '0');
+                sheet.Range[ln, 32].Formula = "IF(AE" + ln + "+0>=AD" + ln + "+0,AE" + ln + "-" + "AD" + ln + ",AE" + ln + "-AD" + ln + "+1)";
+                sheet.Range[ln, 30].NumberFormat = "HH:mm";
+                sheet.Range[ln, 31].NumberFormat = "HH:mm";
+                sheet.Range[ln, 32].NumberFormat = "HH:mm";
 
-                sheet.Range[ln, 30].Value2 = flt.BlockOffLocal;
-                sheet.Range[ln, 31].Value2 = flt.BlockOnLocal;
-                sheet.Range[ln, 32].TimeSpanValue = flt.BlockTime == null ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(Convert.ToDouble(flt.BlockTime));
-                if (flt.DelayOffBlock <= 0)
-                    sheet.Range[ln, 33].TimeSpanValue = TimeSpan.FromMinutes(0);
-                else
-                    sheet.Range[ln, 33].TimeSpanValue = flt.DelayOffBlock == null ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(Convert.ToDouble(flt.DelayOffBlock));
+                //if (flt.DelayOffBlock <= 0)
+                //    sheet.Range[ln, 33].TimeSpanValue = TimeSpan.FromMinutes(0);
+                //else
+                //    sheet.Range[ln, 33].TimeSpanValue = flt.DelayOffBlock == null ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(Convert.ToDouble(flt.DelayOffBlock));
+                sheet.Range[ln, 33].Formula = "IF(AD"+ln+"+0>=X"+ln+"+0,AD"+ln+"-X"+ln+",0)";//"IF(AE" + ln + "+0>=AD" + ln + "+0,AE" + ln + "-" + "AD" + ln + ",AE" + ln + "-AD" + ln + "+1)";
+                sheet.Range[ln, 33].NumberFormat = "HH:mm";
+
                 //DelayReason
                 sheet.Range[ln, 34].Value2 = flt.DelayReason;
                 //UsedFuel
-                sheet.Range[ln, 35].Value2 = flt.FuelDeparture;
-                sheet.Range[ln, 35].NumberFormat = "0";
+                var _fuel = flt.UpliftLtr;
+                
+                if (fuel == "lbs")
+                { 
+                    _fuel = flt.UpliftLbs;
+                    
+                }
+
+                if (fuel == "kg")
+                {
+                    _fuel = flt.UpliftKg;
+                   
+                }
+
+
+                sheet.Range[ln, 35].Value2 = _fuel;
+                sheet.Range[ln, 35].NumberFormat = "0.0";
                 //Distance
                 sheet.Range[ln, 36].Value2 = flt.Distance;
                 sheet.Range[ln, 36].NumberFormat = "0";
@@ -463,11 +526,16 @@ namespace AirpocketAPI.Controllers
                 //Remark
                 sheet.Range[ln, 53].Value2 = flt.TotalRemark;
                 sheet.Range[ln, 54].Value2 = flt.FlightStatus;
+
+                //sheet.Range[r, 11].Borders[BordersLineType.EdgeRight].LineStyle = LineStyleType.Thin;
+                //sheet.Rows[ln-1].Borders.LineStyle = LineStyleType.Thin;
+                sheet.Rows[ln - 1].BorderInside(LineStyleType.Double);
+                sheet.Rows[ln - 1].BorderAround(LineStyleType.Double);
                 ln++;
             }
 
             sheet.InsertRow(ln);
-            var frm_paxadult = "=SUM(Sheet2!$L$8:L$"+(ln-1)+")";
+            var frm_paxadult = "=SUM(Sheet2!$L$8:L$" + (ln - 1) + ")";
             sheet.Range[ln, 12].Formula = frm_paxadult;
 
             var frm_paxchild = "=SUM(Sheet2!$M$8:M$" + (ln - 1) + ")";
@@ -476,19 +544,30 @@ namespace AirpocketAPI.Controllers
             var frm_paxinfant = "=SUM(Sheet2!$N$8:N$" + (ln - 1) + ")";
             sheet.Range[ln, 14].Formula = frm_paxinfant;
 
-            sheet.Range[ln, 15].Formula = "=SUM(Sheet2!$O$8:O$" + (ln - 1) + ")"; 
-            sheet.Range[ln, 16].Formula = "=SUM(Sheet2!$P$8:P$" + (ln - 1) + ")"; 
-            sheet.Range[ln, 17].Formula = "=SUM(Sheet2!$Q$8:Q$" + (ln - 1) + ")"; 
-            sheet.Range[ln, 18].Formula = "=SUM(Sheet2!$R$8:R$" + (ln - 1) + ")"; 
-            sheet.Range[ln, 19].Formula = "=SUM(Sheet2!$S$8:S$" + (ln - 1) + ")"; 
+            sheet.Range[ln, 15].Formula = "=SUM(Sheet2!$O$8:O$" + (ln - 1) + ")";
+            sheet.Range[ln, 16].Formula = "=SUM(Sheet2!$P$8:P$" + (ln - 1) + ")";
+            sheet.Range[ln, 17].Formula = "=SUM(Sheet2!$Q$8:Q$" + (ln - 1) + ")";
+            sheet.Range[ln, 18].Formula = "=SUM(Sheet2!$R$8:R$" + (ln - 1) + ")";
+            sheet.Range[ln, 19].Formula = "=SUM(Sheet2!$S$8:S$" + (ln - 1) + ")";
             sheet.Range[ln, 20].Formula = "=SUM(Sheet2!$T$8:T$" + (ln - 1) + ")";
 
             //fixtime
+            //Spire.Xls.CellFormatType.Unknown
             sheet.Range[ln, 26].Formula = "=SUM(Sheet2!$Z$8:Z$" + (ln - 1) + ")";
+            sheet.Range[ln, 26].Style.NumberFormat = "[h]:mm;@";// .NumberFormat = "[h]:mm;@";
+
+            //  sheet.Range[ln, 26].Style.NumberFormatSettings
+            //sheet.Range[ln, 26].DateTimeValue = System.DateTime.Today;
+
+
+
             sheet.Range[ln, 29].Formula = "=SUM(Sheet2!$AC$8:AC$" + (ln - 1) + ")";
+            sheet.Range[ln, 29].Style.NumberFormat = "[h]:mm;@";
             sheet.Range[ln, 32].Formula = "=SUM(Sheet2!$AF$8:AF$" + (ln - 1) + ")";
+            sheet.Range[ln, 32].Style.NumberFormat = "[h]:mm;@";
 
             sheet.Range[ln, 33].Formula = "=SUM(Sheet2!$AG$8:AG$" + (ln - 1) + ")";
+            sheet.Range[ln, 33].Style.NumberFormat = "[h]:mm;@";
 
             sheet.Range[ln, 35].Formula = "=SUM(Sheet2!$AI$8:AI$" + (ln - 1) + ")";
             sheet.Range[ln, 36].Formula = "=SUM(Sheet2!$AJ$8:AJ$" + (ln - 1) + ")";
@@ -497,7 +576,8 @@ namespace AirpocketAPI.Controllers
 
 
 
-
+            sheet.Rows[ln - 1].BorderInside(LineStyleType.Double);
+            sheet.Rows[ln - 1].BorderAround(LineStyleType.Double);
 
 
             var name = "daily-" + ((DateTime)df).ToString("yyyy-MMM-dd");
@@ -520,8 +600,8 @@ namespace AirpocketAPI.Controllers
         {
             if (mm == null || mm <= 0)
                 return "00:00";
-            TimeSpan ts = TimeSpan.FromMinutes(Convert.ToDouble( mm));
-            var result =ts.Hours.ToString().PadLeft(2,'0')+":"+ ts.Minutes.ToString().PadLeft(2, '0')  ;
+            TimeSpan ts = TimeSpan.FromMinutes(Convert.ToDouble(mm));
+            var result = ts.Hours.ToString().PadLeft(2, '0') + ":" + ts.Minutes.ToString().PadLeft(2, '0');
             return result;
 
         }
@@ -756,7 +836,8 @@ namespace AirpocketAPI.Controllers
                             double totalMin = submision.TotalMinutes;
                             double hours = (totalMin - totalMin % 60) / 60;
                             double minute = totalMin - hours * 60;
-                            var flt = new FlightInformation() {
+                            var flt = new FlightInformation()
+                            {
                                 RegisterID = register.ID,
                                 FlightTypeID = 9,
                                 FlightStatusID = 1,
@@ -1206,11 +1287,14 @@ namespace AirpocketAPI.Controllers
             }
 
             var reult = await context.SaveChangesAsync();
-            var _res = new {
+            var _res = new
+            {
                 message = cnt + " FLIGHT(S) INSERTED.",
                 df
-               , dt
-               , WS = workbook.Worksheets.Count
+               ,
+                dt
+               ,
+                WS = workbook.Worksheets.Count
                ,
                 dbids
             };
@@ -1300,7 +1384,7 @@ namespace AirpocketAPI.Controllers
                 switch (sort)
                 {
                     case 1:
-                        flts = grp.OrderBy(q=> getFlightOrder(q)).ThenBy(q => q.STD).ThenBy(q => q.FromAirportIATA).ToList();
+                        flts = grp.OrderBy(q => getFlightOrder(q)).ThenBy(q => q.STD).ThenBy(q => q.FromAirportIATA).ToList();
                         break;
                     case 2:
                         flts = grp.OrderBy(q => getFlightOrder(q)).ThenBy(q => q.AircraftType).ThenBy(q => q.Register).ThenBy(q => q.STD).ToList();
@@ -1318,10 +1402,10 @@ namespace AirpocketAPI.Controllers
 
                 if (sep == 1)
                 {
-                    
-                    DateTime d = ((DateTime)grp.Key.STDDay) ;
+
+                    DateTime d = ((DateTime)grp.Key.STDDay);
                     PersianCalendar pc = new PersianCalendar();
-                    var sheetName =  string.Format("{0}_{1}_{2}", pc.GetYear(d), pc.GetMonth(d).ToString().PadLeft(2,'0'), pc.GetDayOfMonth(d).ToString().PadLeft(2, '0'));
+                    var sheetName = string.Format("{0}_{1}_{2}", pc.GetYear(d), pc.GetMonth(d).ToString().PadLeft(2, '0'), pc.GetDayOfMonth(d).ToString().PadLeft(2, '0'));
                     //var sheetName = ((DateTime)grp.Key.STDDay).ToString("dddd dd-MMM-yyyy");
                     sheet = workbook.Worksheets.Add(sheetName);
                     sheet.PageSetup.Orientation = PageOrientationType.Portrait;
@@ -1338,21 +1422,24 @@ namespace AirpocketAPI.Controllers
 
 
                 string picPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "logo.png");
-               ExcelPicture picture = sheet.Pictures.Add(1, 1, picPath);
+                ExcelPicture picture = sheet.Pictures.Add(1, 1, picPath);
                 sheet.Range[1, 1].ColumnWidth = 10;
-                sheet.Range[1, 1].RowHeight = 30;
-                picture.TopRowOffset = 25;
-                 picture.LeftColumnOffset = 100;
+                sheet.Range[1, 1].RowHeight = 20;
+                picture.TopRowOffset =  5;
+                picture.LeftColumnOffset = 50;
 
                 sheet.Range["A1:A2"].Merge();
 
                 sheet.Range[1, 12].ColumnWidth = 40;
                 //oopp
-                sheet.Range["B1:H1" ].Merge();
-                sheet.Range[1, 2].Value = "TABAN AIRLINES FLIGHTS TIMETABLE";
+                sheet.Range["B1:H1"].Merge();
+                //  sheet.Range[1, 2].Value = "TABAN AIRLINES FLIGHTS TIMETABLE";
+                sheet.Range[1, 2].Value = "VARESH AIRLINES FLIGHTS TIMETABLE";
                 sheet.Range[1, 2].RowHeight = 30;
                 sheet.Range[1, 2].Style.Font.Size = 14;
-                
+
+                sheet.Range[2, 2].Text ="Created At "+DateTime.Now.ToString("MMM-dd HH:mm");
+
                 sheet.Range[1, 2].Style.HorizontalAlignment = HorizontalAlignType.Left;
                 sheet.Range[1, 2].Style.VerticalAlignment = VerticalAlignType.Center;
                 sheet.Range[1, 2].Style.Font.IsBold = true;
@@ -1369,7 +1456,7 @@ namespace AirpocketAPI.Controllers
                     sheet.Range[1, 11].Style.Font.FontName = "Times New Roman";
                     sheet.Range[1, 11].Style.Font.Size = 11;
                     sheet.Range[1, 11].Style.Font.IsBold = true;
-                    
+
                     sheet.Range[1, 11].Style.HorizontalAlignment = HorizontalAlignType.Right;
                     sheet.Range[1, 11].Style.VerticalAlignment = VerticalAlignType.Center;
                     var pdate = grp.First().PDate.Substring(0, 10).Split('/').ToList();
@@ -1393,7 +1480,7 @@ namespace AirpocketAPI.Controllers
 
                 // sheet.Range["A" + startRow + ":K" + (flts.Count + 5)].Style.VerticalAlignment = VerticalAlignType.Bottom;
 
-               // sheet.Range["A" + 1 + ":K" + 2].BorderAround(LineStyleType.Medium, Color.Black);
+                // sheet.Range["A" + 1 + ":K" + 2].BorderAround(LineStyleType.Medium, Color.Black);
 
                 sheet.Range["A" + 4 + ":K" + 5].BorderAround(LineStyleType.Thin, Color.Black);
                 sheet.Range["A" + 4 + ":K" + 5].BorderInside(LineStyleType.Thin, Color.Black);
@@ -1419,19 +1506,19 @@ namespace AirpocketAPI.Controllers
                     sheet.Range[startRow + 1, c].Value = clmn;
                     sheet.Range[startRow + 1, c].Style.Font.FontName = "Courier New";
                     sheet.Range[startRow + 1, c].Style.Font.Size = 14;
-                    
+
 
                     if (c == 6)
-                    { 
+                    {
                         sheet.Range[startRow, c].Value = "Local";
-                        sheet.Range[startRow , c].Style.Font.FontName = "Courier New";
+                        sheet.Range[startRow, c].Style.Font.FontName = "Courier New";
                         sheet.Range[startRow, c].Style.Font.Size = 14;
                     }
                     if (c == 8)
-                    { 
+                    {
                         sheet.Range[startRow, c].Value = "UTC";
-                        sheet.Range[startRow , c].Style.Font.FontName = "Courier New";
-                        sheet.Range[startRow , c].Style.Font.Size = 14;
+                        sheet.Range[startRow, c].Style.Font.FontName = "Courier New";
+                        sheet.Range[startRow, c].Style.Font.Size = 14;
                     }
                     c++;
                 }
@@ -1486,7 +1573,7 @@ namespace AirpocketAPI.Controllers
                     if (flt.FlightStatusID == 4)
                     {
                         flt.AircraftType = "-";
-                       // sheet.Rows[r].Style.Color = Color.Silver;
+                        // sheet.Rows[r].Style.Color = Color.Silver;
 
                     }
                     // List<string> clmns = new List<string>() {"Date","PDate","Day","Flight No","Status","Reg" };
@@ -1500,7 +1587,8 @@ namespace AirpocketAPI.Controllers
                         sheet.Range[r, 1].Style.Font.FontName = "Courier New";
                         sheet.Range[r, 1].AutoFitColumns();
                         sheet.Range[r, 1].Style.HorizontalAlignment = HorizontalAlignType.Center;
-                    } else
+                    }
+                    else
                     if (r == newGrp + 1)
                     {
                         var _pdate = flt.PDate.Substring(0, 10).Split('/').ToList();
@@ -1513,14 +1601,15 @@ namespace AirpocketAPI.Controllers
                         sheet.Range[r, 1].Style.HorizontalAlignment = HorizontalAlignType.Center;
                         sheet.Range[r, 1].AutoFitColumns();
 
-                       // sheet[r + 1, 1].RowHeight = 23;
-                       // sheet.Range[r + 1, 1].Text = ((DateTime)flt.STDDayLocal).ToString("ddd");
-                       // sheet.Range[r + 1, 1].Style.Font.Size = 14;
+                        // sheet[r + 1, 1].RowHeight = 23;
+                        // sheet.Range[r + 1, 1].Text = ((DateTime)flt.STDDayLocal).ToString("ddd");
+                        // sheet.Range[r + 1, 1].Style.Font.Size = 14;
                         //sheet.Range[r + 1, 1].Style.Font.IsBold = true;
                         //sheet.Range[r + 1, 1].Style.Font.FontName = "Courier New";
-                       // sheet.Range[r + 1, 1].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                        // sheet.Range[r + 1, 1].Style.HorizontalAlignment = HorizontalAlignType.Center;
                         //sheet.Range[r + 1, 1].AutoFitColumns();
-                    } else
+                    }
+                    else
                     {
                         //sheet[r, 1].RowHeight = 23;
                         //sheet.Range[r, 1].Text = "'''";
@@ -1572,8 +1661,8 @@ namespace AirpocketAPI.Controllers
                         sheet.Range[r, 6].Style.HorizontalAlignment = HorizontalAlignType.Center;
                         sheet.Range[r, 6].AutoFitColumns();
                     }
-                    
-                     
+
+
                     if (flt.FlightStatusID != 4)
                     {
                         sheet.Range[r, 7].Text = ((DateTime)flt.STD).ToString("HH:mm");
@@ -1591,7 +1680,7 @@ namespace AirpocketAPI.Controllers
                         sheet.Range[r, 8].Style.HorizontalAlignment = HorizontalAlignType.Center;
                         sheet.Range[r, 8].AutoFitColumns();
                     }
-                    if (flt.FlightStatusID==4)
+                    if (flt.FlightStatusID == 4)
                     {
                         sheet.Range[r, 5].Text = "Cancel";
                         sheet.Range[r, 5].Style.Font.FontName = "Courier New";
@@ -1599,24 +1688,24 @@ namespace AirpocketAPI.Controllers
                         sheet.Range[r, 5].Style.Font.IsBold = true;
                         sheet.Range[r, 5].Style.HorizontalAlignment = HorizontalAlignType.Center;
                         sheet.Range["E" + r + ":H" + r].Merge();
-                        
-                        
-                        sheet.Rows[r-1].Style.Color = Color.Silver;
+
+
+                        sheet.Rows[r - 1].Style.Color = Color.Silver;
                         sheet.Range[r, 5].AutoFitColumns();
-                       
+
                     }
 
-                    
 
 
-                    sheet.Range[r, 9].Text =flt.FlightStatusID==4?"xld": flt.AircraftType;
+
+                    sheet.Range[r, 9].Text = flt.FlightStatusID == 4 ? "xld" : flt.AircraftType;
                     sheet.Range[r, 9].Style.Font.FontName = "Courier New";
                     sheet.Range[r, 9].Style.Font.Size = 14;
                     sheet.Range[r, 9].Style.Font.IsBold = true;
                     sheet.Range[r, 9].Style.HorizontalAlignment = HorizontalAlignType.Center;
                     sheet.Range[r, 9].AutoFitColumns();
 
-                    sheet.Range[r, 10].Text =flt.FlightStatusID==4?"TBF": flt.Register;
+                    sheet.Range[r, 10].Text =/* flt.FlightStatusID == 4 ? "TBF" :*/ flt.Register;
                     sheet.Range[r, 10].Style.Font.FontName = "Courier New";
                     sheet.Range[r, 10].Style.Font.Size = 14;
                     sheet.Range[r, 10].Style.Font.IsBold = true;
@@ -1636,7 +1725,7 @@ namespace AirpocketAPI.Controllers
 
                     //sheet.Rows[r - 1].Borders[BordersLineType.EdgeLeft].LineStyle = LineStyleType.Medium;
                     //sheet.Rows[r - 1].Borders[BordersLineType.EdgeRight].LineStyle = LineStyleType.Medium;
-                    if (flt != flts.Last() && (flt.Register == _reg || flt.Register=="CNL"))
+                    if (flt != flts.Last() && (flt.Register == _reg || flt.Register == "CNL"))
                         sheet.Rows[r - 1].Borders[BordersLineType.EdgeBottom].LineStyle = LineStyleType.Thin;
                     else
                     {
@@ -1676,6 +1765,438 @@ namespace AirpocketAPI.Controllers
 
             return response;
         }
+
+
+        [Route("api/xls/taban")]
+        [AcceptVerbs("GET")]
+        public HttpResponseMessage GetXLSTABAN(DateTime dt1, DateTime dt2, int chr, int time, int cnl, int crew, int sort, int sep)
+        {
+
+            var _dt1 = dt1.Date;
+            var _dt2 = dt2.Date.AddDays(0);
+            var context = new AirpocketAPI.Models.FLYEntities();
+            var query = (from x in context.ViewTimeTables
+                         where x.STDDay >= _dt1 && x.STDDay <= _dt2
+                         select x);
+            if (cnl == -1)
+                query = query.Where(q => q.FlightStatusID != 4);
+
+
+            var totalcnt = query.Count();
+            var grps = (from x in query
+                        group x by new { x.STDDay } into grp
+                        orderby grp.Key.STDDay
+                        select grp).ToList();
+
+            //var query = from x in context.ViewRosterCrewCounts
+            //            where x.DateLocal >= _dt1 && x.DateLocal <= _dt2
+            //            orderby x.DateLocal, x.STDLocal
+            //            select x;
+            //var _result = query.ToList();
+
+            //return Ok(_result);
+            string LData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8TGljZW5zZSBLZXk9ImNyOERaN1hKMkR5MUs2UUJBTkRPSVRLdlpjTzZkelVod2lsSHBnVlluQ3k0cXlHV2V6TFZubFJGeFAxNU1mSWZnUmdNWm1XaEdOQWRFNFRqZWZnQ1ovbFR2b1BkSXRIbDZXdDVBNWk1TVhFbnFkQnVPMUthRnovRFFzYUdWTGhzdjlySG1ybnRxSElFRGxJeGRxYUpNcGtLb0Frd1A3d1N6T01KMVkrbUNmVTVVRmV6REwvTjd1enJ4M0Y0d2I1SGErd0E2VFQ5VFJ3SzAzejlFS01aRmwzU1lSL3o0YVU3TE0wZFNYWTlqU0ZKZ2dqZlZzRFVLaUJyVm5td1ljaXVyOUVrYmw5Q3RaWTAzdG1yZm01QlplKzZnaHRFTm4wb2gzMzh0WlJleWpjcjc0QWs3MWhnWWtuTE9CQzE1VllmalhzcXVBVW13MlI2TWNWMlBPT2JyY1RSYlhBZ3pvUWJPeWQ4U2JFWmN3aE43NktQd1dzUVFTMUowdGlZSFVLeE9tMnQ0ZkJWMGhQVmhhOUI4Y0swNHFKUVp0MDBaMWNKRGEwd2I4VWx6RWs5QkhVVzJlbk9mVDE0UnlIQ2krWUdlbVBLY2RDUXJoMXpyWVRGN0ltb0x4N3h1NGV2RFRZc2xzV0JrbFFJb3g4NnJWckVVa1N0dXErQUNTWS9xVTM5L1Zhd3Y5S0FmUjVUZUVicGt3RGhTYjBOQkFqVDhBeXRsRFZkR2ZpZzBxS0czVllpVHBYRnc1cHRMVmgrYmtkK2RnN3Z4dHZyNDVaVVdKZXlyekdOR0g3YUZZZDZwLzJNRy9YSlRsR3ovU05RbzJDUExraU83SlhuOU5HZXhaN3BIbTBkZ3pNWmJHRVhxVmR2bG04MTJhL1hMMVNxeEdVWStvNVpsVUM3WTV4Z2dhRCtGZVA5enpoeUpxSUVwcDk3My9ScTRteG1wQWZMcVNzTzJSeHlTcStpdjFDc3AwQ3JvMDc4OEhybDFteWt4dVQweWRSWVpDNkRTeDhNMi9MWTNkOXNud3U3NkFmYjVDOVF1ZE9Zc0wzREh2aGZncmNVSWUvcUhmVFo5QWF6Y3pUanlyM2RPQkFjczBLZk12Y0xVUzRSeHZDdW1NNDVyNDJnMXJ3UGluN2JBcmYvZnNMTzZtS3g0WWRoSURNWlF6V3RjbkhFSTF5TXJ6aU9pdXhMdE8xalRBV25uU2VLVDJ0cXI3Tm42Qmg5TURHNjZZK2lJaW4xV05TUCtMdDFYdXRkajNKTyt4b1FNUVB5ZFpoZkJYZXpVMEhRMnd0eEdwdzRNczRTMTVJbFg1TEdXR3dXeUdYTWNjVWd3b1RDeFRGYmgyZFo0Vkg3OVZHTEVFR1JRWEZrNTRBdlFLdFBpdUcxY0w4RFo3WEoyRHkxSzZUUWVORE9YeFl2NFNveitCMHNBS0VwTVRrNCtTYWpYNksrSjlUOFhZVXRTOE8wWWZGUFZqZkhIYTZORWQyODdVcUlqMnJnQlF1bjVDV3hCczFHUm5BYmd1Z3MyL2ZQakcwZmdQemdSYzR5Q3ZObFg4V2pKUnloc3U5VFRKTjd1R3NOdnprU2IyZWlyQmhEaG1vQ0Jqa0wyYnMzT3I2d2pnNnBUNVpmNGhEdDF0STBJNXo1aytxQXVSZnRhd1lmamhXYmpMS0xKOTlUVk1kRDZaTCtTenNtQkNWN05lYm96V0RUTWgrRnJPT292R09ZbUk1bWp4Smd1MVRXNnI1V0JUK2oxSjBFNmJIb2tEMWo0Wm1DWUQreVBPUW1PMm1yUTNGdC9jVmZwQWlJdzliRkgwZ1FIbXQ4QnNuZnQ2MVV3c1h6cSs2akNvY1hOOUMvRXZPblhTczZuVlNGSkVBL3l1QmNIazZxOWdqanBnRG1NTEcrNlpxR1VjRWMzZEp2THpuK3pNT0p3TDI4WUQxN3BLSXBUNnd6WFBFVFJwWS9qNHhoMkQvaFhJRVNHcTk1eTVmZE9MNmx1QT09IiBWZXJzaW9uPSI5LjkiPgogICAgPFR5cGU+UnVudGltZTwvVHlwZT4KICAgIDxVc2VybmFtZT5Vc2VyTmFtZTwvVXNlcm5hbWU+CiAgICA8RW1haWw+ZU1haWxAaG9zdC5jb208L0VtYWlsPgogICAgPE9yZ2FuaXphdGlvbj5Pcmdhbml6YXRpb248L09yZ2FuaXphdGlvbj4KICAgIDxMaWNlbnNlZERhdGU+MjAxNi0wMS0wMVQxMjowMDowMFo8L0xpY2Vuc2VkRGF0ZT4KICAgIDxFeHBpcmVkRGF0ZT4yMDk5LTEyLTMxVDEyOjAwOjAwWjwvRXhwaXJlZERhdGU+CiAgICA8UHJvZHVjdHM+CiAgICAgICAgPFByb2R1Y3Q+CiAgICAgICAgICAgIDxOYW1lPlNwaXJlLk9mZmljZSBQbGF0aW51bTwvTmFtZT4KICAgICAgICAgICAgPFZlcnNpb24+OS45OTwvVmVyc2lvbj4KICAgICAgICAgICAgPFN1YnNjcmlwdGlvbj4KICAgICAgICAgICAgICAgIDxOdW1iZXJPZlBlcm1pdHRlZERldmVsb3Blcj45OTk5OTwvTnVtYmVyT2ZQZXJtaXR0ZWREZXZlbG9wZXI+CiAgICAgICAgICAgICAgICA8TnVtYmVyT2ZQZXJtaXR0ZWRTaXRlPjk5OTk5PC9OdW1iZXJPZlBlcm1pdHRlZFNpdGU+CiAgICAgICAgICAgIDwvU3Vic2NyaXB0aW9uPgogICAgICAgIDwvUHJvZHVjdD4KICAgIDwvUHJvZHVjdHM+CiAgICA8SXNzdWVyPgogICAgICAgIDxOYW1lPklzc3VlcjwvTmFtZT4KICAgICAgICA8RW1haWw+aXNzdWVyQGlzc3Vlci5jb208L0VtYWlsPgogICAgICAgIDxVcmw+aHR0cDovL3d3dy5pc3N1ZXIuY29tPC9Vcmw+CiAgICA8L0lzc3Vlcj4KPC9MaWNlbnNlPg==";
+
+            Spire.License.LicenseProvider.SetLicenseKey(LData);
+
+            List<string> clmns = new List<string>() { "Date",/* "PDate",*/ "FltNo", "Dep", "Arr", "Dep", "Arr", "Dep", "Arr", "A/C", "REG", "Remark" };
+
+            Workbook workbook = new Workbook();
+
+            workbook.Worksheets.Clear();
+            Worksheet sheet;
+            var startRow = 4;
+            int r = -1;
+            var newGrp = startRow + 2;
+            foreach (var grp in grps)
+            {
+                if (sep == 1)
+                    newGrp = startRow + 2;
+                List<ViewTimeTable> flts = new List<ViewTimeTable>();
+                switch (sort)
+                {
+                    case 1:
+                        flts = grp.OrderBy(q => getFlightOrder(q)).ThenBy(q => q.STD).ThenBy(q => q.FromAirportIATA).ToList();
+                        break;
+                    case 2:
+                        flts = grp.OrderBy(q => getFlightOrder(q)).ThenBy(q => q.AircraftType).ThenBy(q => q.Register).ThenBy(q => q.STD).ToList();
+                        break;
+                    case 3:
+                        flts = grp.OrderBy(q => getFlightOrder(q)).ThenBy(q => q.STD).ToList();
+                        break;
+                    case 4:
+                        flts = grp.OrderBy(q => getFlightOrder(q)).ThenBy(q => q.FromAirportIATA).ThenBy(q => q.STD).ToList();
+                        break;
+                    default:
+                        flts = grp.OrderBy(q => getFlightOrder(q)).ThenBy(q => q.Register).ThenBy(q => q.STD).ToList();
+                        break;
+                }
+
+                if (sep == 1)
+                {
+
+                    DateTime d = ((DateTime)grp.Key.STDDay);
+                    PersianCalendar pc = new PersianCalendar();
+                    var sheetName = string.Format("{0}_{1}_{2}", pc.GetYear(d), pc.GetMonth(d).ToString().PadLeft(2, '0'), pc.GetDayOfMonth(d).ToString().PadLeft(2, '0'));
+                    //var sheetName = ((DateTime)grp.Key.STDDay).ToString("dddd dd-MMM-yyyy");
+                    sheet = workbook.Worksheets.Add(sheetName);
+                    sheet.PageSetup.Orientation = PageOrientationType.Portrait;
+                }
+                else
+                {
+                    var sheetName = "FLIGHTS";
+                    sheet = workbook.Worksheets.Add(sheetName);
+                    sheet.PageSetup.Orientation = PageOrientationType.Portrait;
+
+                    // sheet.Range["A" + startRow + ":K" + (totalcnt + 5)].BorderInside(LineStyleType.Thin, Color.Black);
+                    // sheet.Range["A" + startRow + ":K" + (totalcnt + 5)].BorderAround(LineStyleType.Medium, Color.Black);
+                }
+
+
+                string picPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "logo.png");
+                ExcelPicture picture = sheet.Pictures.Add(1, 1, picPath);
+                sheet.Range[1, 1].ColumnWidth = 10;
+                sheet.Range[1, 1].RowHeight = 30;
+                picture.TopRowOffset = 25;
+                picture.LeftColumnOffset = 100;
+
+                sheet.Range["A1:A2"].Merge();
+
+                sheet.Range[1, 12].ColumnWidth = 40;
+                //oopp
+                sheet.Range["B1:H1"].Merge();
+                //  sheet.Range[1, 2].Value = "TABAN AIRLINES FLIGHTS TIMETABLE";
+                sheet.Range[1, 2].Value = "VARESH AIRLINES FLIGHTS TIMETABLE";
+                sheet.Range[1, 2].RowHeight = 30;
+                sheet.Range[1, 2].Style.Font.Size = 14;
+
+                sheet.Range[1, 2].Style.HorizontalAlignment = HorizontalAlignType.Left;
+                sheet.Range[1, 2].Style.VerticalAlignment = VerticalAlignType.Center;
+                sheet.Range[1, 2].Style.Font.IsBold = true;
+                sheet.Range[1, 2].Style.Font.FontName = "Times New Roman";
+
+                //sheet.Range[1, 3].Value = "FLIGHTS TIMETABLE";
+                //sheet.Range[1, 3].Style.Font.Size = 13;
+                //sheet.Range[1, 3].Style.Font.IsBold = true;
+                //sheet.Range[1, 3].Style.HorizontalAlignment = HorizontalAlignType.Left;
+                //sheet.Range[1, 3].Style.VerticalAlignment = VerticalAlignType.Center;
+                if (sep == 1)
+                {
+                    sheet.Range[1, 11].Text = ((DateTime)grp.Key.STDDay).ToString("yyyy-MMM-dd");
+                    sheet.Range[1, 11].Style.Font.FontName = "Times New Roman";
+                    sheet.Range[1, 11].Style.Font.Size = 11;
+                    sheet.Range[1, 11].Style.Font.IsBold = true;
+
+                    sheet.Range[1, 11].Style.HorizontalAlignment = HorizontalAlignType.Right;
+                    sheet.Range[1, 11].Style.VerticalAlignment = VerticalAlignType.Center;
+                    var pdate = grp.First().PDate.Substring(0, 10).Split('/').ToList();
+                    sheet.Range[2, 11].Text = pdate[0] + "-" + pdate[1] + "-" + pdate[2];
+                    sheet.Range[2, 11].Style.Font.FontName = "Times New Roman";
+                    sheet.Range[2, 11].Style.Font.Size = 11;
+                    sheet.Range[2, 9].Text = ((DateTime)grp.Key.STDDay).ToString("ddd");
+                    sheet.Range[2, 9].Style.Font.IsBold = true;
+                    sheet.Range[2, 9].Style.Font.FontName = "Times New Roman";
+                    sheet.Range[2, 9].Style.Font.Size = 11;
+                    sheet.Range[2, 9].Style.HorizontalAlignment = HorizontalAlignType.Right;
+
+                    sheet.Range[2, 11].Style.Font.IsBold = true;
+                    sheet.Range[2, 11].Style.HorizontalAlignment = HorizontalAlignType.Right;
+                }
+
+
+
+
+                // sheet.Range["A" + startRow + ":J" + (flts.Count + 5)].Style.HorizontalAlignment = HorizontalAlignType.Center;
+
+                // sheet.Range["A" + startRow + ":K" + (flts.Count + 5)].Style.VerticalAlignment = VerticalAlignType.Bottom;
+
+                // sheet.Range["A" + 1 + ":K" + 2].BorderAround(LineStyleType.Medium, Color.Black);
+
+                sheet.Range["A" + 4 + ":K" + 5].BorderAround(LineStyleType.Thin, Color.Black);
+                sheet.Range["A" + 4 + ":K" + 5].BorderInside(LineStyleType.Thin, Color.Black);
+
+                sheet.Range["A" + 4 + ":K" + 5].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                //if (sep == 1)
+                //{
+                //    sheet.Range["A" + startRow + ":K" + (flts.Count + 5)].BorderInside(LineStyleType.Thin, Color.Black);
+
+                //    sheet.Range["A" + startRow + ":K" + (flts.Count + 5)].BorderAround(LineStyleType.Medium, Color.Black);
+                //}
+
+
+                sheet.Range["A" + startRow + ":K" + startRow].Style.Color = Color.FromArgb(221, 255, 221);
+                sheet.Range["A" + startRow + ":K" + startRow].Style.Font.IsBold = true;
+                sheet.Range["A" + (startRow + 1) + ":K" + (startRow + 1)].Style.Color = Color.FromArgb(221, 255, 221);
+                sheet.Range["A" + (startRow + 1) + ":K" + (startRow + 1)].Style.Font.IsBold = true;
+
+
+                int c = 1;
+                foreach (var clmn in clmns)
+                {
+                    sheet.Range[startRow + 1, c].Value = clmn;
+                    sheet.Range[startRow + 1, c].Style.Font.FontName = "Courier New";
+                    sheet.Range[startRow + 1, c].Style.Font.Size = 14;
+
+
+                    if (c == 6)
+                    {
+                        sheet.Range[startRow, c].Value = "Local";
+                        sheet.Range[startRow, c].Style.Font.FontName = "Courier New";
+                        sheet.Range[startRow, c].Style.Font.Size = 14;
+                    }
+                    if (c == 8)
+                    {
+                        sheet.Range[startRow, c].Value = "UTC";
+                        sheet.Range[startRow, c].Style.Font.FontName = "Courier New";
+                        sheet.Range[startRow, c].Style.Font.Size = 14;
+                    }
+                    c++;
+                }
+                sheet.Rows[startRow].RowHeight = 18;
+                sheet.Range["E" + startRow + ":F" + startRow].Merge();
+                sheet.Range["G" + startRow + ":H" + startRow].Merge();
+                var _lets = new List<string>() { "A", "B", "C", "D", /*"E",*/ "J", "K"/*, "L"*/ };
+                foreach (var let in _lets)
+                {
+                    sheet.Range[let + startRow + ":" + let + (startRow + 1)].Merge();
+                }
+
+
+
+                if (sep == 1)
+                {
+                    r = startRow + 2;
+                }
+                else if (r == -1)
+                {
+                    r = startRow + 2;
+                }
+
+                var _reg = flts.First().Register;
+                foreach (var flt in flts)
+                {
+                    flt.IP = "";
+                    if (chr == 1)
+                    {
+                        flt.IP = flt.ChrCode;
+                    }
+                    if (chr == 2)
+                    {
+                        flt.IP = flt.ChrTitle;
+                    }
+                    if (flt.IP != "")
+                        flt.IP += " - ";
+                    if (crew == 1)
+                    {
+                        flt.IP += flt.Cockpit;
+                    }
+                    if (crew == 2)
+                    {
+                        flt.IP += flt.Cabin;
+                    }
+                    if (crew == 3)
+                    {
+                        flt.IP += flt.Cockpit + ", " + flt.Cabin;
+                    }
+                    if (flt.IP.Replace(" ", "") == "-")
+                        flt.IP = "";
+                    if (flt.FlightStatusID == 4)
+                    {
+                        flt.AircraftType = "-";
+                        // sheet.Rows[r].Style.Color = Color.Silver;
+
+                    }
+                    // List<string> clmns = new List<string>() {"Date","PDate","Day","Flight No","Status","Reg" };
+
+                    if (r == newGrp)
+                    {
+                        sheet[r, 1].RowHeight = 23;
+                        sheet.Range[r, 1].Text = ((DateTime)flt.STDDayLocal).ToString("yyyy-MM-dd");
+                        sheet.Range[r, 1].Style.Font.Size = 14;
+                        sheet.Range[r, 1].Style.Font.IsBold = true;
+                        sheet.Range[r, 1].Style.Font.FontName = "Courier New";
+                        sheet.Range[r, 1].AutoFitColumns();
+                        sheet.Range[r, 1].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    }
+                    else
+                    if (r == newGrp + 1)
+                    {
+                        var _pdate = flt.PDate.Substring(0, 10).Split('/').ToList();
+
+                        sheet[r, 1].RowHeight = 23;
+                        sheet.Range[r, 1].Text = _pdate[0] + "-" + _pdate[1] + "-" + _pdate[2];
+                        sheet.Range[r, 1].Style.Font.Size = 14;
+                        sheet.Range[r, 1].Style.Font.IsBold = true;
+                        sheet.Range[r, 1].Style.Font.FontName = "Courier New";
+                        sheet.Range[r, 1].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                        sheet.Range[r, 1].AutoFitColumns();
+
+                        // sheet[r + 1, 1].RowHeight = 23;
+                        // sheet.Range[r + 1, 1].Text = ((DateTime)flt.STDDayLocal).ToString("ddd");
+                        // sheet.Range[r + 1, 1].Style.Font.Size = 14;
+                        //sheet.Range[r + 1, 1].Style.Font.IsBold = true;
+                        //sheet.Range[r + 1, 1].Style.Font.FontName = "Courier New";
+                        // sheet.Range[r + 1, 1].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                        //sheet.Range[r + 1, 1].AutoFitColumns();
+                    }
+                    else
+                    {
+                        //sheet[r, 1].RowHeight = 23;
+                        //sheet.Range[r, 1].Text = "'''";
+                        //sheet.Range[r, 1].Style.Font.Size = 14;
+                        //sheet.Range[r, 1].Style.Font.IsBold = true;
+                        //sheet.Range[r, 1].Style.Font.FontName = "Courier New";
+                        //sheet.Range[r, 1].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                        //sheet.Range[r, 1].AutoFitColumns();
+                    }
+                    sheet.Range[r, 1].Borders[BordersLineType.EdgeLeft].LineStyle = LineStyleType.Thin;
+                    //sheet.Range[r, 2].Text = flt.PDateLocal;
+                    //sheet.Range[r, 2].Style.Font.FontName = "Courier New";
+                    //sheet.Range[r,2 ].Style.Font.Size = 14;
+                    //sheet.Range[r, 2].Style.Font.IsBold = true;
+                    //sheet.Range[r, 2].AutoFitColumns();
+
+                    sheet.Range[r, 2].Text = flt.FlightNumber;
+                    sheet.Range[r, 2].Style.Font.FontName = "Courier New";
+                    sheet.Range[r, 2].Style.Font.Size = 14;
+                    sheet.Range[r, 2].Style.Font.IsBold = true;
+                    sheet.Range[r, 2].Style.HorizontalAlignment = HorizontalAlignType.Left;
+                    //sheet.Range[r, 3].AutoFitColumns();
+                    sheet.Range[r, 3].Text = flt.FromAirportIATA;
+                    sheet.Range[r, 3].Style.Font.FontName = "Courier New";
+                    sheet.Range[r, 3].Style.Font.Size = 14;
+                    sheet.Range[r, 3].Style.Font.IsBold = true;
+                    sheet.Range[r, 3].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    // sheet.Range[r, 4].AutoFitColumns();
+                    sheet.Range[r, 4].Text = flt.ToAirportIATA;
+                    sheet.Range[r, 4].Style.Font.FontName = "Courier New";
+                    sheet.Range[r, 4].Style.Font.Size = 14;
+                    sheet.Range[r, 4].Style.Font.IsBold = true;
+                    sheet.Range[r, 4].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    // sheet.Range[r, 5].AutoFitColumns();
+
+                    if (flt.FlightStatusID != 4)
+                    {
+                        sheet.Range[r, 5].Text = ((DateTime)flt.STDLocal).ToString("HH:mm");
+                        sheet.Range[r, 5].Style.Font.FontName = "Courier New";
+                        sheet.Range[r, 5].Style.Font.Size = 14;
+                        sheet.Range[r, 5].Style.Font.IsBold = true;
+                        sheet.Range[r, 5].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                        sheet.Range[r, 5].AutoFitColumns();
+
+                        sheet.Range[r, 6].Text = ((DateTime)flt.STALocal).ToString("HH:mm");
+                        sheet.Range[r, 6].Style.Font.FontName = "Courier New";
+                        sheet.Range[r, 6].Style.Font.Size = 14;
+                        sheet.Range[r, 6].Style.Font.IsBold = true;
+                        sheet.Range[r, 6].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                        sheet.Range[r, 6].AutoFitColumns();
+                    }
+
+
+                    if (flt.FlightStatusID != 4)
+                    {
+                        sheet.Range[r, 7].Text = ((DateTime)flt.STD).ToString("HH:mm");
+                        sheet.Range[r, 7].Style.Font.FontName = "Courier New";
+                        sheet.Range[r, 7].Style.Font.Size = 14;
+                        sheet.Range[r, 7].Style.Font.IsBold = true;
+                        sheet.Range[r, 7].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                        sheet.Range[r, 7].AutoFitColumns();
+
+
+                        sheet.Range[r, 8].Text = ((DateTime)flt.STA).ToString("HH:mm");
+                        sheet.Range[r, 8].Style.Font.FontName = "Courier New";
+                        sheet.Range[r, 8].Style.Font.Size = 14;
+                        sheet.Range[r, 8].Style.Font.IsBold = true;
+                        sheet.Range[r, 8].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                        sheet.Range[r, 8].AutoFitColumns();
+                    }
+                    if (flt.FlightStatusID == 4)
+                    {
+                        sheet.Range[r, 5].Text = "Cancel";
+                        sheet.Range[r, 5].Style.Font.FontName = "Courier New";
+                        sheet.Range[r, 5].Style.Font.Size = 14;
+                        sheet.Range[r, 5].Style.Font.IsBold = true;
+                        sheet.Range[r, 5].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                        sheet.Range["E" + r + ":H" + r].Merge();
+
+
+                        sheet.Rows[r - 1].Style.Color = Color.Silver;
+                        sheet.Range[r, 5].AutoFitColumns();
+
+                    }
+
+
+
+
+                    sheet.Range[r, 9].Text = flt.FlightStatusID == 4 ? "xld" : flt.AircraftType;
+                    sheet.Range[r, 9].Style.Font.FontName = "Courier New";
+                    sheet.Range[r, 9].Style.Font.Size = 14;
+                    sheet.Range[r, 9].Style.Font.IsBold = true;
+                    sheet.Range[r, 9].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[r, 9].AutoFitColumns();
+
+                    sheet.Range[r, 10].Text = flt.FlightStatusID == 4 ? "TBF" : flt.Register;
+                    sheet.Range[r, 10].Style.Font.FontName = "Courier New";
+                    sheet.Range[r, 10].Style.Font.Size = 14;
+                    sheet.Range[r, 10].Style.Font.IsBold = true;
+                    sheet.Range[r, 10].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[r, 10].AutoFitColumns();
+
+
+                    sheet.Range[r, 11].Text = flt.IP;
+                    sheet.Range[r, 11].Style.Font.FontName = "Courier New";
+                    sheet.Range[r, 11].Style.Font.Size = 14;
+                    sheet.Range[r, 11].Style.Font.IsBold = true;
+
+                    sheet.Range[r, 11].Style.HorizontalAlignment = HorizontalAlignType.Right;
+                    sheet.Range[r, 11].Borders[BordersLineType.EdgeRight].LineStyle = LineStyleType.Thin;
+                    //sheet.Range[r, 11].Borders[BordersLineType.EdgeBottom].LineStyle = LineStyleType.Thick;
+                    sheet.Rows[r - 1].BorderInside(LineStyleType.Thin, Color.Black);
+
+                    //sheet.Rows[r - 1].Borders[BordersLineType.EdgeLeft].LineStyle = LineStyleType.Medium;
+                    //sheet.Rows[r - 1].Borders[BordersLineType.EdgeRight].LineStyle = LineStyleType.Medium;
+                    if (flt != flts.Last() && (flt.Register == _reg || flt.Register == "CNL"))
+                        sheet.Rows[r - 1].Borders[BordersLineType.EdgeBottom].LineStyle = LineStyleType.Thin;
+                    else
+                    {
+                        if (flt == flts.Last())
+                            sheet.Rows[r - 1].Borders[BordersLineType.EdgeBottom].LineStyle = LineStyleType.Thin;
+                        else
+                            sheet.Rows[r - 2].Borders[BordersLineType.EdgeBottom].LineStyle = LineStyleType.Medium;
+                    }
+
+                    if (flt.Register != _reg)
+                    {
+
+                        _reg = flt.Register;
+                    }
+                    r++;
+
+                }
+                //sheet.Rows[r - 2].Borders[BordersLineType.EdgeBottom].LineStyle = LineStyleType.Medium;
+                //r++;
+                newGrp = r;
+
+                sheet.Columns[10].AutoFitColumns();
+                sheet.Columns[0].AutoFitColumns();
+                sheet.Columns[10].Style.HorizontalAlignment = HorizontalAlignType.Right;
+            }
+            var name = "Flights_Report_" + dt1.ToString("yyyy-MMM-dd") + "_" + dt2.ToString("yyyy-MMM-dd");
+            var mappedPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + name + ".xlsx");
+
+            workbook.SaveToFile(mappedPath, ExcelVersion.Version2016);
+
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(new FileStream(mappedPath, FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = name + ".xlsx";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+
+            return response;
+        }
+
+
 
         [Route("api/xls/gd")]
         [AcceptVerbs("GET")]
@@ -1874,7 +2395,8 @@ namespace AirpocketAPI.Controllers
                                FlightId = x.FlightId,
                                PID = x.PID,
                                Mobile = x.Mobile,
-                               Address = x.Address
+                               Address = x.Address,
+                                PassportNo=x.Sex
 
                            }).ToList();
             var _gcrews = (from x in _crews2
@@ -1892,7 +2414,8 @@ namespace AirpocketAPI.Controllers
                                x.IsCockpit,
                                x.PID,
                                x.Mobile,
-                               x.Address
+                               x.Address,
+                              PassportNo=string.IsNullOrEmpty( x.PassportNo)?"-":x.PassportNo
                            } into grp
                            select grp).ToList();
             var query = (from x in _gcrews
@@ -1911,6 +2434,7 @@ namespace AirpocketAPI.Controllers
                              PID = x.Key.PID,
                              Mobile = x.Key.Mobile,
                              Address = x.Key.Address,
+                             PassportNo=x.Key.PassportNo,
                              IsCockpit = x.Key.IsCockpit,
                              Legs = vflights.Where(q => xfids.Contains((int)q.ID)).OrderBy(q => q.DepartureLocal).Select(q => q.FlightNumber).Distinct().ToList(),
                              LegsStr = string.Join("-", vflights.Where(q => xfids.Contains((int)q.ID)).OrderBy(q => q.DepartureLocal).Select(q => q.FlightNumber).Distinct().ToList()),
@@ -1983,6 +2507,7 @@ namespace AirpocketAPI.Controllers
                 sheet.Range[r, 3].Text = cr.Position;
                 sheet.Range[r, 4].Text = "";
                 sheet.Range[r, 5].Text = cr.Name;
+                sheet.Range[r, 6].Text = cr.PassportNo;
                 r++;
             }
 
@@ -2171,20 +2696,29 @@ namespace AirpocketAPI.Controllers
                     sheet.Range[ln, 9].Text = flt.Arr;
                     // if (string.IsNullOrEmpty(flt.SCCM))
                     //   flt.SCCM = "";
+
+                    var isccms = !string.IsNullOrEmpty(flt.ISCCM) ? flt.ISCCM.Replace(" ", "").Split(',').ToList() : new List<string>();
+                    if (!string.IsNullOrEmpty(flt.ISCCM))
+                    {
+                        //dodo
+                        sheet.Range[ln, 10].Text = flt.ISCCM;
+                        //sheet.Range["J" + (ln) + ":K" + (ln)].Merge();
+                    }
+
                     var sccms = !string.IsNullOrEmpty(flt.SCCM) ? flt.SCCM.Replace(" ", "").Split(',').ToList() : new List<string>();
                     if (sccms.Count <= 2)
                     {
                         if (sccms.Count > 0)
-                            sheet.Range[ln, 10].Text = sccms[0];
+                            sheet.Range[ln, 11].Text = sccms[0];
                         if (sccms.Count > 1)
-                            sheet.Range[ln, 11].Text = sccms[1];
+                            sheet.Range[ln, 12].Text = sccms[1];
                         // else
                         //    sheet.Range["H" + (ln) + ":I" + (ln)].Merge();
                     }
                     else
                     {
                         //dodo
-                        sheet.Range[ln, 10].Text = flt.SCCM;
+                        sheet.Range[ln, 11].Text = flt.SCCM;
                         sheet.Range["J" + (ln) + ":K" + (ln)].Merge();
                     }
 
@@ -2193,28 +2727,28 @@ namespace AirpocketAPI.Controllers
                     if (ccms.Count <= 4)
                     {
                         if (ccms.Count > 0)
-                            sheet.Range[ln, 12].Text = ccms[0];
+                            sheet.Range[ln, 13].Text = ccms[0];
                         if (ccms.Count > 1)
-                            sheet.Range[ln, 13].Text = ccms[1];
+                            sheet.Range[ln, 14].Text = ccms[1];
                         if (ccms.Count > 2)
-                            sheet.Range[ln, 14].Text = ccms[2];
+                            sheet.Range[ln, 15].Text = ccms[2];
                         if (ccms.Count > 3)
-                            sheet.Range[ln, 15].Text = ccms[3];
-                      //  if (ccms.Count > 4)
-                          //  sheet.Range[ln, 16].Text = ccms[4];
-                        
-                        
+                            sheet.Range[ln, 16].Text = ccms[3];
+                        //  if (ccms.Count > 4)
+                        //  sheet.Range[ln, 16].Text = ccms[4];
+
+
                         // else
                         //    sheet.Range["H" + (ln) + ":I" + (ln)].Merge();
                     }
                     else
                     {
                         //dodo
-                        sheet.Range[ln, 12].Text = flt.CCM;
+                        sheet.Range[ln, 13].Text = flt.CCM;
                         sheet.Range["L" + (ln) + ":P" + (ln)].Merge();
                     }
-                    sheet.Range[ln, 16].Text = string.IsNullOrEmpty(flt.OBSC) ? "" : flt.OBSC;
-                    sheet.Range[ln, 17].Text = string.IsNullOrEmpty(flt.POSITIONINGCABIN) ? "" : flt.POSITIONINGCABIN;
+                    sheet.Range[ln, 17].Text = string.IsNullOrEmpty(flt.OBSC) ? "" : flt.OBSC;
+                    sheet.Range[ln, 18].Text = string.IsNullOrEmpty(flt.POSITIONINGCABIN) ? "" : flt.POSITIONINGCABIN;
 
                     sheet.Range["B" + ln + ":Q" + ln].Style.HorizontalAlignment = HorizontalAlignType.Center;
                     sheet.Range["B" + ln + ":Q" + ln].BorderInside(LineStyleType.Thin, Color.Black);
@@ -2687,14 +3221,14 @@ namespace AirpocketAPI.Controllers
                              where x.DutyType == 1167 //&& x.BaseAirportId == 135502
                              orderby x.OrderIndex, x.ScheduleName
                              select x;
-           /* var stbypm_mhd = from x in dutiesQuery
-                             where x.DutyType == 1167 && x.BaseAirportId == 140870
-                             orderby x.OrderIndex, x.ScheduleName
-                             select x;*/
+            /* var stbypm_mhd = from x in dutiesQuery
+                              where x.DutyType == 1167 && x.BaseAirportId == 140870
+                              orderby x.OrderIndex, x.ScheduleName
+                              select x;*/
 
-            var am_cockpit = stbyam_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup=="P2").ToList();
-          //  var am_sccm_mhd = stbyam_mhd/*.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1")*/.ToList();
-            var pm_cockpit = stbypm_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup=="P2").ToList();
+            var am_cockpit = stbyam_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").ToList();
+            //  var am_sccm_mhd = stbyam_mhd/*.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1")*/.ToList();
+            var pm_cockpit = stbypm_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").ToList();
             // var pm_sccm_mhd = stbypm_mhd/*.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1")*/.ToList();
 
 
@@ -2702,8 +3236,8 @@ namespace AirpocketAPI.Controllers
             // var am_ccm_mhd = stbyam_mhd.Where(q => q.JobGroup == "P2").ToList();
             //var pm_ccm_thr = stbypm_thr.Where(q => q.JobGroup == "P2").ToList();
             // var pm_ccm_mhd = stbypm_mhd.Where(q => q.JobGroup == "P2").ToList();
-            var am_cabin = stbyam_thr.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM" ).ToList();
-            var pm_cabin = stbypm_thr.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM" ).ToList();
+            var am_cabin = stbyam_thr.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").ToList();
+            var pm_cabin = stbypm_thr.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").ToList();
 
             Workbook workbook = new Workbook();
             var mappedPathSource = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "drcnew" + ".xlsx");
@@ -2793,7 +3327,7 @@ namespace AirpocketAPI.Controllers
             ln = ln + 2;
 
 
-            sheet.Range[ln, 5].Text = string.Join(", ", am_cockpit.Select(q => q.ScheduleName+"("+q.JobGroup+")"));
+            sheet.Range[ln, 5].Text = string.Join(", ", am_cockpit.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
             ln++;
             sheet.Range[ln, 5].Text = string.Join(", ", pm_cockpit.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
             ln++;
@@ -3437,7 +3971,7 @@ namespace AirpocketAPI.Controllers
             var context = new AirpocketAPI.Models.FLYEntities();
             var result = context.EFBVoyageReports.FirstOrDefault(q => q.FlightId == flightId);
             //result.EFBFlightIrregularities = context.EFBFlightIrregularities.Where(q => q.VoyageReportId == result.Id).ToList();
-           // result.EFBReasons = context.EFBReasons.Where(q => q.VoyageReportId == result.Id).ToList();
+            // result.EFBReasons = context.EFBReasons.Where(q => q.VoyageReportId == result.Id).ToList();
             var _vr = new
             {
                 result.Id,
@@ -3470,7 +4004,7 @@ namespace AirpocketAPI.Controllers
                 result.OPSStaffUser,
                 result.OPSStatusId,
                 result.OPSStaffStatusId,
-                EFBFlightIrregularities=context.EFBFlightIrregularities.Where(q => q.VoyageReportId == result.Id).Select(q=>new {q.Id,q.IrrId }).ToList(),
+                EFBFlightIrregularities = context.EFBFlightIrregularities.Where(q => q.VoyageReportId == result.Id).Select(q => new { q.Id, q.IrrId }).ToList(),
                 EFBReasons = context.EFBReasons.Where(q => q.VoyageReportId == result.Id).Select(q => new { q.Id, q.ReasonId }).ToList()
 
             };
@@ -3797,7 +4331,7 @@ new JsonSerializerSettings
             {
                 query = query.Where(q => q.JobGroup2 == rank);
             }
-           // else
+            // else
             //    query = query.Where(q => q.JobGroup == rank);
             if (type != -1)
                 query = query.Where(q => q.DutyType == type);
@@ -3825,7 +4359,7 @@ new JsonSerializerSettings
             return Ok(new
             {
                 duties,
-               // resources
+                // resources
             });
 
         }
@@ -3845,10 +4379,10 @@ new JsonSerializerSettings
                             //where x.YearLocal == year && x.MonthLocal == month
                         where x.StartLocal >= df && x.StartLocal <= dt
                         select x;
-            
+
 
             var duties = query.OrderBy(q => q.GroupOrder).ThenBy(q => q.ScheduleName).ToList();
-             
+
             return Ok(new
             {
                 duties,
@@ -3861,7 +4395,7 @@ new JsonSerializerSettings
         [Route("api/assign/grid/group/{code}")]
         [AcceptVerbs("GET")]
         //nookp
-        public IHttpActionResult GetAssignGridGroup(string code,DateTime df, DateTime dt)
+        public IHttpActionResult GetAssignGridGroup(string code, DateTime df, DateTime dt)
         {
             //nooz
             //this.context.Database.CommandTimeout = 160;
@@ -3917,14 +4451,14 @@ new JsonSerializerSettings
         [Route("api/duty/timeline/{id}")]
         [AcceptVerbs("GET")]
         //nookp
-        public IHttpActionResult GetDutyTimeLineByDutyId(  int id)
+        public IHttpActionResult GetDutyTimeLineByDutyId(int id)
         {
-            
+
             var context = new AirpocketAPI.Models.FLYEntities();
 
             var query = from x in context.ViewCrewDutyTimeLines
                             //where x.YearLocal == year && x.MonthLocal == month
-                        where x.Id==id
+                        where x.Id == id
                         select x;
 
 
@@ -4009,7 +4543,7 @@ new JsonSerializerSettings
             //this.context.Database.CommandTimeout = 160;
             var context = new AirpocketAPI.Models.FLYEntities();
             var query = context.ViewCrewValidFTLs.ToList();
-            
+
 
 
             // return result.OrderBy(q => q.STD);
@@ -4025,7 +4559,7 @@ new JsonSerializerSettings
             //nooz
             //this.context.Database.CommandTimeout = 160;
             var context = new AirpocketAPI.Models.FLYEntities();
-            var query = context.ViewCrewValidFTLs.Where(q=>q.JobGroupCode.StartsWith(code)) .ToList();
+            var query = context.ViewCrewValidFTLs.Where(q => q.JobGroupCode.StartsWith(code)).ToList();
 
 
 
@@ -4270,7 +4804,7 @@ new JsonSerializerSettings
             };
 
 
-          
+
 
 
             // return result.OrderBy(q => q.STD);
@@ -5306,7 +5840,7 @@ new JsonSerializerSettings
 
             var context = new AirpocketAPI.Models.FLYEntities();
             var result = context.ViewEFBDSPReleases.FirstOrDefault(q => q.FlightId == fltid);
-                //.EFBDSPReleases.FirstOrDefault(q => q.FlightId == fltid);
+            //.EFBDSPReleases.FirstOrDefault(q => q.FlightId == fltid);
             return Ok(result);
         }
         [Route("api/dr/save")]
@@ -5434,7 +5968,7 @@ new JsonSerializerSettings
 
                 }
 
-               // release.User = DSPRelease.User;
+                // release.User = DSPRelease.User;
 
 
 
@@ -5512,7 +6046,7 @@ new JsonSerializerSettings
                 //release.OperationEngineeringCPTRemark = DSPRelease.OperationEngineeringCPTRemark;
                 release.VoyageReportDSP = DSPRelease.VoyageReportDSP;
                 //release.VoyageReportCPT = DSPRelease.VoyageReportCPT;
-                
+
                 //release.VoyageReportCPTRemark = DSPRelease.VoyageReportCPTRemark;
                 release.PIFDSP = DSPRelease.PIFDSP;
                 //release.PIFCPT = DSPRelease.PIFCPT;
@@ -5536,7 +6070,7 @@ new JsonSerializerSettings
                 context.SaveChanges();
                 return Ok(true);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var msg = ex.Message;
                 if (ex.InnerException != null)
@@ -5552,7 +6086,7 @@ new JsonSerializerSettings
         public IHttpActionResult GetASRByFlight(int fltid)
         {
 
-           // GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.Re‌​ferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            // GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.Re‌​ferenceLoopHandling = ReferenceLoopHandling.Ignore;
             var context = new AirpocketAPI.Models.FLYEntities();
             var result = context.ViewEFBASRs.FirstOrDefault(q => q.FlightId == fltid);
             return Ok(result);
@@ -7175,13 +7709,13 @@ new JsonSerializerSettings
         [AcceptVerbs("GET")]
         public IHttpActionResult PostImportATCTextGET(int id)
         {
-            
+
             var context = new AirpocketAPI.Models.FLYEntities();
 
-            
+
             var flightObj = context.FlightInformations.FirstOrDefault(q => q.ID == id);
 
-             
+
             return Ok(flightObj.ATCPlan);
         }
 
@@ -7195,9 +7729,9 @@ new JsonSerializerSettings
             var ofpSky = context.OFPSkyPuters.FirstOrDefault();
             var rawText = ofpSky.OFP;
             // var mpln = rawText.Split(new string[] { "mpln:|" }, StringSplitOptions.None).ToList()[1];
-            var parts = rawText.Split( new string[] { "||" }, StringSplitOptions.None).ToList();
+            var parts = rawText.Split(new string[] { "||" }, StringSplitOptions.None).ToList();
 
-            var info= parts.FirstOrDefault(q => q.StartsWith("binfo:|")).Replace("binfo:|", "");
+            var info = parts.FirstOrDefault(q => q.StartsWith("binfo:|")).Replace("binfo:|", "");
             var infoRows = info.Split(';').ToList();
             //binfo:|OPT=VARESH AIRLINE;FLN=VAR5820;DTE=6/24/2022 12:00:00 AM;ETD=02:35;REG=;MCI=78;FLL=330;DOW=43742
             var opt = infoRows.FirstOrDefault(q => q.StartsWith("OPT")).Split('=')[1];
@@ -7217,7 +7751,7 @@ new JsonSerializerSettings
             var cplan = context.OFPImports.FirstOrDefault(q => q.FlightId == flight.ID);
             if (cplan != null)
                 context.OFPImports.Remove(cplan);
-           
+
             var plan = new OFPImport()
             {
                 DateCreate = DateTime.Now,
@@ -7228,7 +7762,7 @@ new JsonSerializerSettings
                 Destination = flight.ToAirportICAO,
                 User = "airpocket",
                 Text = rawText,
-               
+
 
 
             };
@@ -7249,35 +7783,35 @@ new JsonSerializerSettings
             //WAP=OIKB;COR=N27° 13' 06" ,  E056;FRE= ;VIA=ASMU1A;ALT=CLB;MEA=0;GMR=131;DIS=0;TDS=0;WID=;TRK=;TMP=;TME=00:00:00.0000000;TTM=00:00:00.0000000;FRE=-200;FUS=200;TAS=361;GSP=0
             List<JObject> mplnpJson = new List<JObject>();
             var idx = 0;
-            foreach(var r in mplnRows)
+            foreach (var r in mplnRows)
             {
                 var procStr = "";
                 var _r = r.Replace("=;", "= ;");
                 var prts = _r.Split(';');
-                foreach(var x in prts)
+                foreach (var x in prts)
                 {
                     var str = x.Replace("\"", "^").Replace("'", "#");
-                    var substr = str.Split('=')[0] + ":'" + str.Split('=')[1]+"'";
-                    
+                    var substr = str.Split('=')[0] + ":'" + str.Split('=')[1] + "'";
+
                     procStr += substr;
                     if (x != prts.Last())
                         procStr += ",";
                 }
                 procStr = "{" + procStr + "}";
-               
+
                 var jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
-                var _key = ("mpln_WAP_" + jsonObj.GetValue("WAP").ToString()).ToLower() ;
+                var _key = ("mpln_WAP_" + jsonObj.GetValue("WAP").ToString()).ToLower();
                 jsonObj.Add("_key", _key);
-                props.Add("prop_" + _key + "_eta_"+idx);
+                props.Add("prop_" + _key + "_eta_" + idx);
                 props.Add("prop_" + _key + "_ata_" + idx);
                 props.Add("prop_" + _key + "_rem_" + idx);
                 props.Add("prop_" + _key + "_usd_" + idx);
                 mplnpJson.Add(jsonObj);
                 idx++;
 
-            } 
-         //   var _r0 ="{"+ mplnRows.First().Replace("=;", ":''").Replace("= ;", ":''").Replace("=", ":").Replace(";", ",")+"}";
-           // var jsonObj = JsonConvert.DeserializeObject<JObject>(_r0);
+            }
+            //   var _r0 ="{"+ mplnRows.First().Replace("=;", ":''").Replace("= ;", ":''").Replace("=", ":").Replace(";", ",")+"}";
+            // var jsonObj = JsonConvert.DeserializeObject<JObject>(_r0);
 
 
             var apln1 = parts.FirstOrDefault(q => q.StartsWith("apln:|")).Replace("apln:|", "");
@@ -7320,34 +7854,34 @@ new JsonSerializerSettings
             var prmParts = futbl.Split('|');
             var fuel = new List<fuelPrm>();
             idx = 0;
-            foreach(var x in prmParts)
+            foreach (var x in prmParts)
             {
                 var _prts = x.Split(';');
                 //PRM=TRIP FUEL;TIM=17:26:00.00000;VAL=99960|
                 var prm = _prts[0].Split('=')[1];
-                var tim= _prts[1].Split('=')[1];
-                var val= _prts[2].Split('=')[1];
-                var _key = "fuel_"+(prm != "CONT[5%]" ? prm.ToLower() : "cont05");
+                var tim = _prts[1].Split('=')[1];
+                var val = _prts[2].Split('=')[1];
+                var _key = "fuel_" + (prm != "CONT[5%]" ? prm.ToLower() : "cont05");
                 fuel.Add(new fuelPrm()
                 {
-                     prm=prm,
-                      time=tim,
-                       value=val,
-                       _key=_key,
+                    prm = prm,
+                    time = tim,
+                    value = val,
+                    _key = _key,
                 });
 
                 if (prm == "TRIP FUEL")
                     plan.FPTripFuel = Convert.ToDecimal(val);
-                
-               
+
+
                 props.Add("prop_" + _key + "_" + idx);
-               
+
                 idx++;
             }
             fuel.Add(new fuelPrm()
             {
                 prm = "REQ",
-                _key = "fuel_"+"req"
+                _key = "fuel_" + "req"
             }); ;
             props.Add("prop_fuel_" + "req" + "_" + idx);
             var dtupd = DateTime.UtcNow.ToString("yyyyMMddHHmm");
@@ -7360,7 +7894,7 @@ new JsonSerializerSettings
                     User = "airpocket",
 
                 });
-            plan.JFuel =string.Join("", fuel);
+            plan.JFuel = string.Join("", fuel);
             plan.JPlan = string.Join("", mplnpJson);
             plan.JAPlan1 = string.Join("", apln1Json);
             try
@@ -7380,13 +7914,16 @@ new JsonSerializerSettings
                 }
                 throw;
             }
-            
-            var result = new {
+
+            var result = new
+            {
                 mplnpJson
                 ,
                 apln1Json
-                ,fuel
-                ,plan
+                ,
+                fuel
+                ,
+                plan
 
             };
             return Ok(result);
@@ -7397,6 +7934,7 @@ new JsonSerializerSettings
             public string prm { get; set; }
             public string time { get; set; }
             public string value { get; set; }
+
 
             public string _key { get; set; }
         }
@@ -7475,27 +8013,30 @@ new JsonSerializerSettings
                 var _olines = new List<string>();
                 var cln = 0;
                 //foreach(var ln in lines)
-                while (cln< lines.Count)
+                while (cln < lines.Count)
                 {
                     var ln = lines[cln];
+                    //10-17
                     if (ln.Contains("RVSM ALTIMETER CHECKS"))
                     {
                         _olines.Add(ln);
-                        
+
                         _olines.Add("PHASE          CPT              STBY              FO               TIME");
                         _olines.Add("                      ");
 
                         _olines.Add("Ground         $cptgnd      $stbygnd      $fognd      $timegnd");
                         _olines.Add("                      ");
-                        _olines.Add("Flight         $cptflt      $stbyflt      $foflt      $timeflt");
+                        _olines.Add("Flight         $cptflt28      $stbyflt28      $foflt28      $timeflt28");
                         _olines.Add("                      ");
-                        cln = cln +7;
+                        _olines.Add("Flight         $cptfltfl      $stbyfltfl      $fofltfl      $timefltfl");
+                        _olines.Add("                      ");
+                        cln = cln + 7;
 
                     }
                     else if (ln.Contains("N") && ln.Contains(" E") && ln.Contains("/"))
                     {
-                       
-                       
+
+
                         try
                         {
                             _olines.Add(ln);
@@ -7509,7 +8050,7 @@ new JsonSerializerSettings
                             var _fvalue = Convert.ToDouble(_plnf);
                             _fl += _fvalue.ToString();
                             _olines.Add(_fl);
-                           // cln++;
+                            // cln++;
 
                         }
                         catch (Exception _ex2)
@@ -7517,7 +8058,7 @@ new JsonSerializerSettings
                             _olines.Add(ln);
                             cln++;
                         }
-                        
+
                     }
                     else
                     {
@@ -7534,7 +8075,7 @@ new JsonSerializerSettings
 
                         cln++;
                     }
-                   
+
 
                 }
 
@@ -7545,16 +8086,16 @@ new JsonSerializerSettings
                 {
                     var ln = lines[cnt];
                     var preLnFuel = "";
-                    
+
                     if (ln.Contains("N") && ln.Contains(" E") && ln.Contains("/"))
                     {
                         // ln += "....  ....";
                         //"                        ....  ....       ";
-                        ln=ln.TrimEnd(new Char[] { ' ' });
+                        ln = ln.TrimEnd(new Char[] { ' ' });
                         //ln+= "                        ....  ....       ";
                         ln += "                                                 ....  ";
                         //ln += "                                                 xxxx  ";
-                        
+
                     }
                     try
                     {
@@ -7574,18 +8115,33 @@ new JsonSerializerSettings
 
 
                         }
-                        if (ln.Contains("$cptflt"))
+                        if (ln.Contains("$cptfltfl"))
                         {
                             var str = ln;
                             //$cptgnd      $stbygnd      $fognd      $timegnd
-                            str = str.Replace("$cptflt", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_cptflt'></input>");
+                            str = str.Replace("$cptfltfl", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_cptflt'></input>");
                             props.Add("prop_cptflt");
-                            str = str.Replace("$stbyflt", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_stbyflt'></input>");
+                            str = str.Replace("$stbyfltfl", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_stbyflt'></input>");
                             props.Add("prop_stbyflt");
-                            str = str.Replace("$foflt", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_foflt'></input>");
+                            str = str.Replace("$fofltfl", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_foflt'></input>");
                             props.Add("prop_foflt");
-                            str = str.Replace("$timeflt", "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_timeflt'></input>");
+                            str = str.Replace("$timefltfl", "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_timeflt'></input>");
                             props.Add("prop_timeflt");
+
+                            ln = str;
+                        }
+                        if (ln.Contains("$cptflt28"))
+                        {
+                            var str = ln;
+                            //$cptgnd      $stbygnd      $fognd      $timegnd
+                            str = str.Replace("$cptflt28", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_cptflt28'></input>");
+                            props.Add("prop_cptflt28");
+                            str = str.Replace("$stbyflt28", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_stbyflt28'></input>");
+                            props.Add("prop_stbyflt28");
+                            str = str.Replace("$foflt28", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_foflt28'></input>");
+                            props.Add("prop_foflt28");
+                            str = str.Replace("$timeflt28", "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_timeflt28'></input>");
+                            props.Add("prop_timeflt28");
 
                             ln = str;
                         }
@@ -7876,8 +8432,8 @@ new JsonSerializerSettings
                                     if (ln.Replace(" ", "").ToUpper().Contains("XTR"))
                                     { style = "-"; xtraclass = "due"; }
                                     if (ln.Replace(" ", "").ToUpper().Contains("REQUESTED"))
-                                    {   xtraclass = "requestedfuel"; }
-                                    str += "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop "+xtraclass+actfuel+"' id='prop_" + propIndex + "' "+(string.IsNullOrEmpty(style)?"":"style='width:250px !important'")+">" + "" + "</input>"; // "@prop_" + propIndex;
+                                    { xtraclass = "requestedfuel"; }
+                                    str += "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop " + xtraclass + actfuel + "' id='prop_" + propIndex + "' " + (string.IsNullOrEmpty(style) ? "" : "style='width:250px !important'") + ">" + "" + "</input>"; // "@prop_" + propIndex;
                                     props.Add("prop_" + propIndex);
                                     propIndex++;
                                 }
@@ -7905,7 +8461,7 @@ new JsonSerializerSettings
                             props.Add("prop_" + propIndex);
                             propIndex++;
 
-                            
+
                             ln = str;
                         }
 
@@ -8496,108 +9052,108 @@ new JsonSerializerSettings
 
         }
 
-     
 
-            [Route("api/upd/trn")]
+
+        [Route("api/upd/trn")]
         [AcceptVerbs("POST")]
         public IHttpActionResult PostUpdTrn(UpdTrnDto dto)
         {
             var context = new AirpocketAPI.Models.FLYEntities();
             var people = context.People.Where(q => dto.ids.Contains(q.Id)).ToList();
-            
+
             foreach (var person in people)
             {
                 switch (dto.type)
                 {
                     //dg
                     case "DG":
-                        
-                            person.DangerousGoodsExpireDate = dto.expire;
-                            person.DangerousGoodsIssueDate = dto.issue;
-                        
+
+                        person.DangerousGoodsExpireDate = dto.expire;
+                        person.DangerousGoodsIssueDate = dto.issue;
+
                         break;
                     //1	SEPT-P
                     case "SEPTP":
-                        
-                            person.SEPTPExpireDate = dto.expire;
-                            person.SEPTPIssueDate = dto.issue;
-                        
+
+                        person.SEPTPExpireDate = dto.expire;
+                        person.SEPTPIssueDate = dto.issue;
+
                         break;
                     //2   SEPT - T
                     case "SEPTT":
-                        
-                            person.SEPTExpireDate = dto.expire;
-                            person.SEPTIssueDate = dto.issue;
-                        
+
+                        person.SEPTExpireDate = dto.expire;
+                        person.SEPTIssueDate = dto.issue;
+
                         break;
                     //4	CRM
                     case "CRM":
-                         
-                            person.UpsetRecoveryTrainingExpireDate = dto.expire;
-                            person.UpsetRecoveryTrainingIssueDate = dto.issue;
-                        
+
+                        person.UpsetRecoveryTrainingExpireDate = dto.expire;
+                        person.UpsetRecoveryTrainingIssueDate = dto.issue;
+
                         break;
                     //5	CCRM
                     case "CCRM":
-                        
-                            person.CCRMExpireDate = dto.expire;
-                            person.CCRMIssueDate = dto.issue;
-                         
+
+                        person.CCRMExpireDate = dto.expire;
+                        person.CCRMIssueDate = dto.issue;
+
                         break;
                     //6	SMS
                     case "SMS":
-                        
-                            person.SMSExpireDate = dto.expire;
-                            person.SMSIssueDate = dto.issue;
-                         
+
+                        person.SMSExpireDate = dto.expire;
+                        person.SMSIssueDate = dto.issue;
+
                         break;
                     //7	AV-SEC
                     case "AVSEC":
-                         
-                            person.AviationSecurityExpireDate = dto.expire;
-                            person.AviationSecurityIssueDate = dto.issue;
-                        
+
+                        person.AviationSecurityExpireDate = dto.expire;
+                        person.AviationSecurityIssueDate = dto.issue;
+
                         break;
                     //8	COLD-WX
                     case "COLDWX":
-                        
-                            person.ColdWeatherOperationExpireDate = dto.expire;
-                            person.ColdWeatherOperationIssueDate = dto.issue;
-                         
+
+                        person.ColdWeatherOperationExpireDate = dto.expire;
+                        person.ColdWeatherOperationIssueDate = dto.issue;
+
                         break;
                     //9	HOT-WX
                     case "HOTWX":
-                       
-                            person.HotWeatherOperationExpireDate = dto.expire;
-                            person.HotWeatherOperationIssueDate = dto.issue;
-                       
+
+                        person.HotWeatherOperationExpireDate = dto.expire;
+                        person.HotWeatherOperationIssueDate = dto.issue;
+
                         break;
                     //10	FIRSTAID
                     case "FIRSTAID":
-                        
-                            person.FirstAidExpireDate = dto.expire;
-                            person.FirstAidIssueDate = dto.issue;
-                       
+
+                        person.FirstAidExpireDate = dto.expire;
+                        person.FirstAidIssueDate = dto.issue;
+
                         break;
                     //lpc
                     case "LINE":
-                        
-                            person.LineExpireDate =dto.expire;
-                            person.LineIssueDate = dto.issue;
-                        
+
+                        person.LineExpireDate = dto.expire;
+                        person.LineIssueDate = dto.issue;
+
                         break;
-                    
+
                     //lpr
                     case "TYPEMD":
-                         
-                            person.TypeMDExpireDate =dto.expire;
+
+                        person.TypeMDExpireDate = dto.expire;
                         person.TypeMDIssueDate = dto.issue;
-                            // person.ProficiencyCheckDateOPC = cp.DateIssue;
-                        
+                        // person.ProficiencyCheckDateOPC = cp.DateIssue;
+
                         break;
                     case "TYPE737":
-                        
-                            person.Type737ExpireDate =dto.expire;
+
+                        person.Type737ExpireDate = dto.expire;
                         person.Type737IssueDate = dto.issue;
                         break;
                     case "TYPEAIRBUS":
@@ -8610,27 +9166,27 @@ new JsonSerializerSettings
 
                     //recurrent
                     case "RECURRENT":
-                        
-                            person.RecurrentExpireDate = dto.expire;
-                            person.RecurrentIssueDate = dto.issue;
-                        
+
+                        person.RecurrentExpireDate = dto.expire;
+                        person.RecurrentIssueDate = dto.issue;
+
                         break;
                     //fmt
                     case "FMT":
-                        
-                            person.FMTExpireDate = dto.expire;
-                            person.FMTIssueDate = dto.issue;
-                        
+
+                        person.FMTExpireDate = dto.expire;
+                        person.FMTIssueDate = dto.issue;
+
                         break;
                     default:
                         break;
                 }
             }
-            var result=context.SaveChanges();
+            var result = context.SaveChanges();
             return Ok(result);
         }
 
-            public string ReplaceWhitespace(string input, string replace)
+        public string ReplaceWhitespace(string input, string replace)
         {
             var chrs = input.ToCharArray();
             var str = "";
@@ -8881,7 +9437,7 @@ new JsonSerializerSettings
     {
         public int? FlightId { get; set; }
         public bool? ActualWXDSP { get; set; }
-       // public bool? ActualWXCPT { get; set; }
+        // public bool? ActualWXCPT { get; set; }
         public string ActualWXDSPRemark { get; set; }
         //public string ActualWXCPTRemark { get; set; }
         public bool? WXForcastDSP { get; set; }
@@ -8983,6 +9539,7 @@ new JsonSerializerSettings
         public string JobGroupCode { get; set; }
         public int? GroupOrder { get; set; }
         public int IsCockpit { get; set; }
+        public string PassportNo { get; set; }
 
         public List<string> Legs { get; set; }
         public string LegsStr { get; set; }
@@ -9049,11 +9606,12 @@ new JsonSerializerSettings
     }
     public class xmlDelayItemSingle
     {
-        public  xmlDelayItem  Item { get; set; }
+        public xmlDelayItem Item { get; set; }
 
     }
-    public class xmlDelay{
-       public xmlDelayItemCol Delay { get; set; }
+    public class xmlDelay
+    {
+        public xmlDelayItemCol Delay { get; set; }
     }
     public class xmlDelaySingle
     {

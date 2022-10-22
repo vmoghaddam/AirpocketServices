@@ -38,10 +38,14 @@ namespace ApiLog.Models
         public virtual DbSet<FDPExtra> FDPExtras { get; set; }
         public virtual DbSet<HelperMaxFDP> HelperMaxFDPs { get; set; }
         public virtual DbSet<ViewRegisterGround> ViewRegisterGrounds { get; set; }
-        public virtual DbSet<FlightInformation> FlightInformations { get; set; }
         public virtual DbSet<ViewFlightInformation> ViewFlightInformations { get; set; }
         public virtual DbSet<FDPItem> FDPItems { get; set; }
+        public virtual DbSet<EFBDSPRelease> EFBDSPReleases { get; set; }
         public virtual DbSet<ViewEmployeeLight> ViewEmployeeLights { get; set; }
+        public virtual DbSet<ViewEFBDSPReleas> ViewEFBDSPReleases { get; set; }
+        public virtual DbSet<AppCrewFlight> AppCrewFlights { get; set; }
+        public virtual DbSet<AppLeg> AppLegs { get; set; }
+        public virtual DbSet<FlightInformation> FlightInformations { get; set; }
         public virtual DbSet<ViewFlightsGantt> ViewFlightsGantts { get; set; }
     }
 }

@@ -37,7 +37,9 @@ namespace AirpocketAPI.Models
         public Nullable<int> TypeId { get; set; }
         public string FlightNumber { get; set; }
         public Nullable<int> FromAirport { get; set; }
+        public string FromAirportICAO { get; set; }
         public Nullable<int> ToAirport { get; set; }
+        public string ToAirportICAO { get; set; }
         public Nullable<System.DateTime> STAPlanned { get; set; }
         public Nullable<System.DateTime> STDPlanned { get; set; }
         public Nullable<int> FlightHPlanned { get; set; }
@@ -113,8 +115,6 @@ namespace AirpocketAPI.Models
         public Nullable<int> JLBlockTime { get; set; }
         public Nullable<int> JLFlightTime { get; set; }
         public Nullable<decimal> FPFuel { get; set; }
-        public string FromAirportICAO { get; set; }
-        public string ToAirportICAO { get; set; }
         public Nullable<decimal> FPTripFuel { get; set; }
         public Nullable<int> MaxWeightTO { get; set; }
         public Nullable<int> MaxWeightLND { get; set; }

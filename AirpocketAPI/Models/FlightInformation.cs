@@ -20,12 +20,12 @@ namespace AirpocketAPI.Models
             this.EFBASRs = new HashSet<EFBASR>();
             this.EFBDSPReleases = new HashSet<EFBDSPRelease>();
             this.EFBVoyageReports = new HashSet<EFBVoyageReport>();
+            this.FDPItems = new HashSet<FDPItem>();
             this.FlightCharterers = new HashSet<FlightCharterer>();
             this.FlightDelays = new HashSet<FlightDelay>();
             this.MVTs = new HashSet<MVT>();
             this.MVTAPIs = new HashSet<MVTAPI>();
             this.OFPImports = new HashSet<OFPImport>();
-            this.FDPItems = new HashSet<FDPItem>();
         }
     
         public int ID { get; set; }
@@ -153,7 +153,6 @@ namespace AirpocketAPI.Models
         public string ALT5 { get; set; }
         public Nullable<int> UTCDIFF { get; set; }
         public Nullable<decimal> FPTripFuel { get; set; }
-        public string Charterer { get; set; }
         public string ChrCode { get; set; }
         public string ChrTitle { get; set; }
         public Nullable<int> ChrCapacity { get; set; }
@@ -162,6 +161,36 @@ namespace AirpocketAPI.Models
         public Nullable<int> ChrInfant { get; set; }
         public string ATCPlan { get; set; }
         public string ATL { get; set; }
+        public string Charterer { get; set; }
+        public Nullable<int> TTL { get; set; }
+        public Nullable<int> DOW { get; set; }
+        public Nullable<decimal> ZFW { get; set; }
+        public Nullable<decimal> TOW { get; set; }
+        public Nullable<decimal> LNW { get; set; }
+        public Nullable<decimal> DOI { get; set; }
+        public Nullable<decimal> LIZFW { get; set; }
+        public Nullable<decimal> LITOW { get; set; }
+        public Nullable<decimal> LILNW { get; set; }
+        public Nullable<decimal> DLI { get; set; }
+        public Nullable<decimal> MACZFW { get; set; }
+        public Nullable<decimal> MACTOW { get; set; }
+        public Nullable<decimal> MACLNW { get; set; }
+        public Nullable<int> MAXTOW { get; set; }
+        public Nullable<int> CPT1 { get; set; }
+        public Nullable<int> CPT2 { get; set; }
+        public Nullable<int> CPT3 { get; set; }
+        public Nullable<int> CPT4 { get; set; }
+        public string PantryCode { get; set; }
+        public Nullable<decimal> StabTrimFive { get; set; }
+        public Nullable<decimal> StabTrimFifteen { get; set; }
+        public Nullable<int> FSO { get; set; }
+        public Nullable<int> FM { get; set; }
+        public Nullable<int> Pilot { get; set; }
+        public Nullable<int> Cabin { get; set; }
+        public Nullable<int> OASec { get; set; }
+        public Nullable<int> OBSec { get; set; }
+        public Nullable<int> OCSec { get; set; }
+        public Nullable<int> ODSec { get; set; }
         public Nullable<long> CargoCost { get; set; }
     
         public virtual Ac_MSN Ac_MSN { get; set; }
@@ -174,6 +203,8 @@ namespace AirpocketAPI.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EFBVoyageReport> EFBVoyageReports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FDPItem> FDPItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FlightCharterer> FlightCharterers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FlightDelay> FlightDelays { get; set; }
@@ -183,7 +214,5 @@ namespace AirpocketAPI.Models
         public virtual ICollection<MVTAPI> MVTAPIs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImport> OFPImports { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FDPItem> FDPItems { get; set; }
     }
 }

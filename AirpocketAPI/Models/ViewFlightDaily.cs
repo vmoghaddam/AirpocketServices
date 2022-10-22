@@ -78,11 +78,20 @@ namespace AirpocketAPI.Models
         public Nullable<int> FuelUnitID { get; set; }
         public Nullable<decimal> FuelArrival { get; set; }
         public Nullable<decimal> FuelDeparture { get; set; }
+        public Nullable<double> UpliftLtr { get; set; }
+        public Nullable<double> UpliftLbs { get; set; }
+        public Nullable<double> UpliftKg { get; set; }
         public Nullable<decimal> UsedFuel { get; set; }
         public Nullable<int> TotalSeat { get; set; }
         public int BaggageWeight { get; set; }
         public int CargoWeight { get; set; }
         public Nullable<int> Freight { get; set; }
+        public Nullable<double> BaggageWeightLbs { get; set; }
+        public Nullable<double> BaggageWeightKg { get; set; }
+        public Nullable<double> CargoWeightLbs { get; set; }
+        public Nullable<double> CargoWeightKg { get; set; }
+        public Nullable<double> FreightLbs { get; set; }
+        public Nullable<double> FreightKg { get; set; }
         public Nullable<System.DateTime> FlightDate { get; set; }
         public Nullable<int> CargoCount { get; set; }
         public Nullable<int> BaggageCount { get; set; }

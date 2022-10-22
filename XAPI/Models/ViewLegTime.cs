@@ -125,5 +125,6 @@ namespace XAPI.Models
         public Nullable<int> ChrAdult { get; set; }
         public Nullable<int> ChrChild { get; set; }
         public Nullable<int> ChrInfant { get; set; }
+        public Nullable<long> CargoCost { get; set; }
     }
 }

@@ -142,6 +142,15 @@ namespace AirpocketTRN.Controllers
 
             return Ok(result.Data);
         }
+
+        [Route("api/trainingcard/{pid}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetTrainingCard(int pid)
+        {
+            var result = await courseService.GetTrainingCard(pid);
+
+            return Ok(result.Data);
+        }
         [Route("api/courses/passed/history/{pid}")]
         [AcceptVerbs("GET")]
         public async Task<IHttpActionResult> GetCoursesPassedHistory(int pid)

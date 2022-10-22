@@ -59,6 +59,24 @@
           <Property Name="SendFrom" Type="varchar" MaxLength="255" />
           <Property Name="OnBlock" Type="datetime" />
         </EntityType>
+        <EntityType Name="NiraHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FLIGHT" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CHTIME" Type="nvarchar" MaxLength="1000" />
+          <Property Name="NEWAIRCRAFT" Type="nvarchar" MaxLength="1000" />
+          <Property Name="NEWSTATUS" Type="nvarchar" MaxLength="1000" />
+          <Property Name="DateSend" Type="datetime" />
+          <Property Name="DateReplied" Type="datetime" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="FlightStatusId" Type="int" />
+          <Property Name="Departure" Type="datetime" />
+          <Property Name="Arrival" Type="datetime" />
+          <Property Name="Register" Type="varchar" MaxLength="500" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightDelayCode' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFlightDelayCode">
@@ -208,10 +226,38 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ChrAdult" Type="int" />
           <Property Name="ChrChild" Type="int" />
           <Property Name="ChrInfant" Type="int" />
+          <Property Name="CargoCost" Type="bigint" />
+          <Property Name="CPRegister" Type="varchar" MaxLength="500" />
+          <Property Name="DepCountry" Type="varchar" MaxLength="255" />
+          <Property Name="ArrCountry" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewNiraFlight">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FlightStatus" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="FlightStatusID" Type="int" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="FlightStatus" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="STDLocal" Type="datetime" />
+          <Property Name="STALocal" Type="datetime" />
+          <Property Name="DepartureLocal" Type="datetime" />
+          <Property Name="ArrivalLocal" Type="datetime" />
+          <Property Name="DateUTC" Type="date" />
+          <Property Name="DateLocal" Type="date" />
         </EntityType>
         <EntityContainer Name="ppa_vareshModelStoreContainer">
           <EntitySet Name="MVT" EntityType="Self.MVT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MVTAPI" EntityType="Self.MVTAPI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NiraHistory" EntityType="Self.NiraHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ViewFlightDelayCode" EntityType="Self.ViewFlightDelayCode" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewFlightDelayCode].[FlightId] AS [FlightId], 
@@ -341,8 +387,31 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
     [ViewLegTime].[ChrCapacity] AS [ChrCapacity], 
     [ViewLegTime].[ChrAdult] AS [ChrAdult], 
     [ViewLegTime].[ChrChild] AS [ChrChild], 
-    [ViewLegTime].[ChrInfant] AS [ChrInfant]
+    [ViewLegTime].[ChrInfant] AS [ChrInfant], 
+    [ViewLegTime].[CargoCost] AS [CargoCost], 
+    [ViewLegTime].[CPRegister] AS [CPRegister], 
+    [ViewLegTime].[DepCountry] AS [DepCountry], 
+    [ViewLegTime].[ArrCountry] AS [ArrCountry]
     FROM [dbo].[ViewLegTime] AS [ViewLegTime]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewNiraFlight" EntityType="Self.ViewNiraFlight" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewNiraFlight].[ID] AS [ID], 
+    [ViewNiraFlight].[FlightStatusID] AS [FlightStatusID], 
+    [ViewNiraFlight].[Register] AS [Register], 
+    [ViewNiraFlight].[FlightNumber] AS [FlightNumber], 
+    [ViewNiraFlight].[FromAirportIATA] AS [FromAirportIATA], 
+    [ViewNiraFlight].[ToAirportIATA] AS [ToAirportIATA], 
+    [ViewNiraFlight].[FlightStatus] AS [FlightStatus], 
+    [ViewNiraFlight].[STD] AS [STD], 
+    [ViewNiraFlight].[STA] AS [STA], 
+    [ViewNiraFlight].[STDLocal] AS [STDLocal], 
+    [ViewNiraFlight].[STALocal] AS [STALocal], 
+    [ViewNiraFlight].[DepartureLocal] AS [DepartureLocal], 
+    [ViewNiraFlight].[ArrivalLocal] AS [ArrivalLocal], 
+    [ViewNiraFlight].[DateUTC] AS [DateUTC], 
+    [ViewNiraFlight].[DateLocal] AS [DateLocal]
+    FROM [dbo].[ViewNiraFlight] AS [ViewNiraFlight]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -524,12 +593,18 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ChrAdult" Type="Int32" />
           <Property Name="ChrChild" Type="Int32" />
           <Property Name="ChrInfant" Type="Int32" />
+          <Property Name="CargoCost" Type="Int64" />
+          <Property Name="CPRegister" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DepCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ArrCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="ppa_vareshEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MVTs" EntityType="Self.MVT" />
           <EntitySet Name="MVTAPIs" EntityType="Self.MVTAPI" />
           <EntitySet Name="ViewLegTimes" EntityType="Self.ViewLegTime" />
           <EntitySet Name="ViewFlightDelayCodes" EntityType="ppa_vareshModel.ViewFlightDelayCode" />
+          <EntitySet Name="NiraHistories" EntityType="ppa_vareshModel.NiraHistory" />
+          <EntitySet Name="ViewNiraFlights" EntityType="ppa_vareshModel.ViewNiraFlight" />
         </EntityContainer>
         <EntityType Name="ViewFlightDelayCode">
           <Key>
@@ -554,6 +629,45 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="DelayCodeId" Type="Int32" Nullable="false" />
           <Property Name="Selected" Type="Int32" Nullable="false" />
           <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NiraHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FLIGHT" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CHTIME" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NEWAIRCRAFT" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NEWSTATUS" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DateSend" Type="DateTime" Precision="3" />
+          <Property Name="DateReplied" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="FlightStatusId" Type="Int32" />
+          <Property Name="Departure" Type="DateTime" Precision="3" />
+          <Property Name="Arrival" Type="DateTime" Precision="3" />
+          <Property Name="Register" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewNiraFlight">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FlightStatus" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="FlightStatusID" Type="Int32" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FlightStatus" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="STDLocal" Type="DateTime" Precision="3" />
+          <Property Name="STALocal" Type="DateTime" Precision="3" />
+          <Property Name="DepartureLocal" Type="DateTime" Precision="3" />
+          <Property Name="ArrivalLocal" Type="DateTime" Precision="3" />
+          <Property Name="DateUTC" Type="DateTime" Precision="0" />
+          <Property Name="DateLocal" Type="DateTime" Precision="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -620,6 +734,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="ViewLegTimes">
             <EntityTypeMapping TypeName="ppa_vareshModel.ViewLegTime">
               <MappingFragment StoreEntitySet="ViewLegTime">
+                <ScalarProperty Name="ArrCountry" ColumnName="ArrCountry" />
+                <ScalarProperty Name="DepCountry" ColumnName="DepCountry" />
+                <ScalarProperty Name="CPRegister" ColumnName="CPRegister" />
+                <ScalarProperty Name="CargoCost" ColumnName="CargoCost" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="FlightPlanId" ColumnName="FlightPlanId" />
@@ -750,6 +868,46 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
                 <ScalarProperty Name="HH" ColumnName="HH" />
                 <ScalarProperty Name="FlighrDelayId" ColumnName="FlighrDelayId" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NiraHistories">
+            <EntityTypeMapping TypeName="ppa_vareshModel.NiraHistory">
+              <MappingFragment StoreEntitySet="NiraHistory">
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="Arrival" ColumnName="Arrival" />
+                <ScalarProperty Name="Departure" ColumnName="Departure" />
+                <ScalarProperty Name="FlightStatusId" ColumnName="FlightStatusId" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DateReplied" ColumnName="DateReplied" />
+                <ScalarProperty Name="DateSend" ColumnName="DateSend" />
+                <ScalarProperty Name="NEWSTATUS" ColumnName="NEWSTATUS" />
+                <ScalarProperty Name="NEWAIRCRAFT" ColumnName="NEWAIRCRAFT" />
+                <ScalarProperty Name="CHTIME" ColumnName="CHTIME" />
+                <ScalarProperty Name="FLIGHT" ColumnName="FLIGHT" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewNiraFlights">
+            <EntityTypeMapping TypeName="ppa_vareshModel.ViewNiraFlight">
+              <MappingFragment StoreEntitySet="ViewNiraFlight">
+                <ScalarProperty Name="DateLocal" ColumnName="DateLocal" />
+                <ScalarProperty Name="DateUTC" ColumnName="DateUTC" />
+                <ScalarProperty Name="ArrivalLocal" ColumnName="ArrivalLocal" />
+                <ScalarProperty Name="DepartureLocal" ColumnName="DepartureLocal" />
+                <ScalarProperty Name="STALocal" ColumnName="STALocal" />
+                <ScalarProperty Name="STDLocal" ColumnName="STDLocal" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="FlightStatus" ColumnName="FlightStatus" />
+                <ScalarProperty Name="ToAirportIATA" ColumnName="ToAirportIATA" />
+                <ScalarProperty Name="FromAirportIATA" ColumnName="FromAirportIATA" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

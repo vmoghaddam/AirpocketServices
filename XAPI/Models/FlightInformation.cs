@@ -185,6 +185,8 @@ namespace XAPI.Models
         public Nullable<int> OBSec { get; set; }
         public Nullable<int> OCSec { get; set; }
         public Nullable<int> ODSec { get; set; }
+        public Nullable<int> MAXZFW { get; set; }
+        public Nullable<int> MAXLNW { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EFBDSPRelease> EFBDSPReleases { get; set; }

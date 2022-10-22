@@ -85,6 +85,111 @@ namespace ApiLog.ViewModels
         public int? ChrInfant { get; set; }
         public int? ChrCapacity { get; set; }
         public int? UpdateDelays { get; set; }
+
+
+
+        public int? FreeAWBCount { get; set; }
+        public int? FreeAWBWeight { get; set; }
+        public int? CargoCost { get; set; }
+        public int? NoShowCount { get; set; }
+        public int? NoShowPieces { get; set; }
+        public int? NoGoCount { get; set; }
+        public int? NoGoPieces { get; set; }
+        public int? DSBreakfast { get; set; }
+        public int? DSWarmFood { get; set; }
+        public int? DSColdFood { get; set; }
+        public int? DSRefreshment { get; set; }
+        public string Ready { get; set; }
+        public string Start { get; set; }
+        public int? YClass { get; set; }
+        public int? CClass { get; set; }
+        public int? PaxAdult50 { get; set; }
+        public int? PaxChild50 { get; set; }
+        public int? PaxInfant50 { get; set; }
+        public int? PaxAdult100 { get; set; }
+        public int? PaxChild100 { get; set; }
+        public int? PaxInfant100 { get; set; }
+        public int? PaxVIP { get; set; }
+        public int? PaxCIP { get; set; }
+        public int? PaxHUM { get; set; }
+        public int? PaxUM { get; set; }
+        public int? PaxAVI { get; set; }
+        public int? PaxWCHR { get; set; }
+        public int? PaxSTRC { get; set; }
+        public int? FreeAWBPieces { get; set; }
+        public int? CargoPieces { get; set; }
+        public int? PaxPIRLost { get; set; }
+        public int? PaxPIRDamage { get; set; }
+        public int? PaxPIRFound { get; set; }
+        public int? CargoPIRLost { get; set; }
+        public int? CargoPIRDamage { get; set; }
+        public int? CargoPIRFound { get; set; }
+        public int? LimitTag { get; set; }
+        public int? RushTag { get; set; }
+        public string CLCheckIn { get; set; }
+        public string CLPark { get; set; }
+        public string CLAddTools { get; set; }
+        public string CLBusReady { get; set; }
+        public string CLPaxOut { get; set; }
+        public string CLDepoOut { get; set; }
+        public string CLServicePresence { get; set; }
+        public string CLCleaningStart { get; set; }
+        public string CLTechReady { get; set; }
+        public string CLBagSent { get; set; }
+        public string CLCateringLoad { get; set; }
+        public string CLFuelStart { get; set; }
+        public string CLFuelEnd { get; set; }
+        public string CLCleaningEnd { get; set; }
+        public string CLBoardingStart { get; set; }
+        public string CLBoardingEnd { get; set; }
+        public string CLLoadSheetStart { get; set; }
+        public string CLGateClosed { get; set; }
+        public string CLTrafficCrew { get; set; }
+        public string CLLoadCrew { get; set; }
+        public string CLForbiddenObj { get; set; }
+        public string CLLoadSheetSign { get; set; }
+        public string CLLoadingEnd { get; set; }
+        public string CLDoorClosed { get; set; }
+        public string CLEqDC { get; set; }
+        public string CLMotorStart { get; set; }
+        public string CLMovingStart { get; set; }
+        public string CLACStart { get; set; }
+        public string CLACEnd { get; set; }
+        public string CLGPUStart { get; set; }
+        public string CLGPUEnd { get; set; }
+        public int? CLDepStairs { get; set; }
+        public int? CLDepGPU { get; set; }
+        public int? CLDepCrewCar { get; set; }
+        public int? CLDepCrewCarCount { get; set; }
+        public int? CLDepCabinService { get; set; }
+        public int? CLDepCateringCar { get; set; }
+        public int? CLDepPatientCar { get; set; }
+        public int? CLDepPaxCar { get; set; }
+        public int? CLDepPaxCarCount { get; set; }
+        public int? CLDepPushback { get; set; }
+        public int? CLDepWaterService { get; set; }
+        public int? CLDepAC { get; set; }
+        public int? CLDepDeIce { get; set; }
+        public string CLDepEqRemark { get; set; }
+        public int? CLArrStairs { get; set; }
+        public int? CLArrGPU { get; set; }
+        public int? CLArrCrewCar { get; set; }
+        public int? CLArrCrewCarCount { get; set; }
+        public int? CLArrCabinService { get; set; }
+        public int? CLArrPatientCar { get; set; }
+        public int? CLArrPaxCar { get; set; }
+        public int? CLArrPaxCarCount { get; set; }
+        public int? CLArrToiletService { get; set; }
+        public string CLArrEqRemark { get; set; }
+
+        public int? WLCount { get; set; }
+        public long? WLCost { get; set; }
+        public int? ExBagWeight { get; set; }
+        public long? ExBagCost { get; set; }
+
+        public int? TotalTrafficLoad { get; set; }
+
+
     }
 
 
@@ -901,6 +1006,111 @@ namespace ApiLog.ViewModels
         public string SerialNo { get; set; }
 
         public int? DefaultChrId { get; set; }
+
+        public DateTime? Ready { get; set; }
+        public DateTime? Start { get; set; }
+        public int? CargoPieces { get; set; }
+        public long? CargoCost { get; set; }
+        public int? FreeAWBCount { get; set; }
+        public int? FreeAWBPieces { get; set; }
+        public int? FreeAWBWeight { get; set; }
+        public int? NoShowCount { get; set; }
+        public int? NoShowPieces { get; set; }
+        public int? NoGoCount { get; set; }
+        public int? NoGoPieces { get; set; }
+        public int? DSBreakfast { get; set; }
+        public int? DSWarmFood { get; set; }
+        public int? DSColdFood { get; set; }
+        public int? DSRefreshment { get; set; }
+        public int? YClass { get; set; }
+        public int? CClass { get; set; }
+        public int? PaxAdult50 { get; set; }
+        public int? PaxChild50 { get; set; }
+        public int? PaxInfant50 { get; set; }
+        public int? PaxAdult100 { get; set; }
+        public int? PaxChild100 { get; set; }
+        public int? PaxInfant100 { get; set; }
+        public int? PaxVIP { get; set; }
+        public int? PaxCIP { get; set; }
+        public int? PaxHUM { get; set; }
+        public int? PaxUM { get; set; }
+        public int? PaxAVI { get; set; }
+        public int? PaxWCHR { get; set; }
+        public int? PaxSTRC { get; set; }
+        public int? PaxPIRLost { get; set; }
+        public int? PaxPIRDamage { get; set; }
+        public int? PaxPIRFound { get; set; }
+        public int? CargoPIRLost { get; set; }
+        public int? CargoPIRDamage { get; set; }
+        public int? CargoPIRFound { get; set; }
+        public int? LimitTag { get; set; }
+        public int? RushTag { get; set; }
+        public DateTime? CLCheckIn { get; set; }
+        public DateTime? CLPark { get; set; }
+        public DateTime? CLAddTools { get; set; }
+        public DateTime? CLBusReady { get; set; }
+        public DateTime? CLPaxOut { get; set; }
+        public DateTime? CLDepoOut { get; set; }
+        public DateTime? CLServicePresence { get; set; }
+        public DateTime? CLCleaningStart { get; set; }
+        public DateTime? CLTechReady { get; set; }
+        public DateTime? CLBagSent { get; set; }
+        public DateTime? CLCateringLoad { get; set; }
+        public DateTime? CLFuelStart { get; set; }
+        public DateTime? CLFuelEnd { get; set; }
+        public DateTime? CLCleaningEnd { get; set; }
+        public DateTime? CLBoardingStart { get; set; }
+        public DateTime? CLBoardingEnd { get; set; }
+        public DateTime? CLLoadSheetStart { get; set; }
+        public DateTime? CLGateClosed { get; set; }
+        public DateTime? CLTrafficCrew { get; set; }
+        public DateTime? CLLoadCrew { get; set; }
+        public DateTime? CLForbiddenObj { get; set; }
+        public DateTime? CLLoadSheetSign { get; set; }
+        public DateTime? CLLoadingEnd { get; set; }
+        public DateTime? CLDoorClosed { get; set; }
+        public DateTime? CLEqDC { get; set; }
+        public DateTime? CLMotorStart { get; set; }
+        public DateTime? CLMovingStart { get; set; }
+        public DateTime? CLACStart { get; set; }
+        public DateTime? CLACEnd { get; set; }
+        public DateTime? CLGPUStart { get; set; }
+        public DateTime? CLGPUEnd { get; set; }
+        public int? CLDepStairs { get; set; }
+        public int? CLDepGPU { get; set; }
+        public int? CLDepCrewCar { get; set; }
+        public int? CLDepCrewCarCount { get; set; }
+        public int? CLDepCabinService { get; set; }
+        public int? CLDepCateringCar { get; set; }
+        public int? CLDepPatientCar { get; set; }
+        public int? CLDepPaxCar { get; set; }
+        public int? CLDepPaxCarCount { get; set; }
+        public int? CLDepPushback { get; set; }
+        public int? CLDepWaterService { get; set; }
+        public int? CLDepAC { get; set; }
+        public int? CLDepDeIce { get; set; }
+        public string CLDepEqRemark { get; set; }
+        public int? CLArrStairs { get; set; }
+        public int? CLArrGPU { get; set; }
+        public int? CLArrCrewCar { get; set; }
+        public int? CLArrCrewCarCount { get; set; }
+        public int? CLArrCabinService { get; set; }
+        public int? CLArrPatientCar { get; set; }
+        public int? CLArrPaxCar { get; set; }
+        public int? CLArrPaxCarCount { get; set; }
+        public int? CLArrToiletService { get; set; }
+        public string CLArrEqRemark { get; set; }
+
+
+        public int? WLCount { get; set; }
+        public long? WLCost { get; set; }
+        public int? ExBagWeight { get; set; }
+        public long? ExBagCost { get; set; }
+
+
+        public int? TotalTrafficLoad { get; set; }
+
+
         public string OAircraftType { get; set; }
         public static void Fill(Models.ViewFlightsGantt entity, ViewModels.ViewFlightsGanttDto viewflightinformation)
         {
@@ -1017,6 +1227,103 @@ namespace ApiLog.ViewModels
             entity.FPFlightMM = viewflightinformation.FPFlightMM;
             entity.Defuel = viewflightinformation.Defuel;
             entity.FPFuel = viewflightinformation.FPFuel;
+
+
+
+
+            entity.Ready = viewflightinformation.Ready;
+            entity.Start = viewflightinformation.Start;
+            entity.CargoPieces = viewflightinformation.CargoPieces;
+            entity.CargoCost = viewflightinformation.CargoCost;
+            entity.FreeAWBCount = viewflightinformation.FreeAWBCount;
+            entity.FreeAWBPieces = viewflightinformation.FreeAWBPieces;
+            entity.FreeAWBWeight = viewflightinformation.FreeAWBWeight;
+            entity.NoShowCount = viewflightinformation.NoShowCount;
+            entity.NoShowPieces = viewflightinformation.NoShowPieces;
+            entity.NoGoCount = viewflightinformation.NoGoCount;
+            entity.NoGoPieces = viewflightinformation.NoGoPieces;
+            entity.DSBreakfast = viewflightinformation.DSBreakfast;
+            entity.DSWarmFood = viewflightinformation.DSWarmFood;
+            entity.DSColdFood = viewflightinformation.DSColdFood;
+            entity.DSRefreshment = viewflightinformation.DSRefreshment;
+            entity.YClass = viewflightinformation.YClass;
+            entity.CClass = viewflightinformation.CClass;
+            entity.PaxAdult50 = viewflightinformation.PaxAdult50;
+            entity.PaxChild50 = viewflightinformation.PaxChild50;
+            entity.PaxInfant50 = viewflightinformation.PaxInfant50;
+            entity.PaxAdult100 = viewflightinformation.PaxAdult100;
+            entity.PaxChild100 = viewflightinformation.PaxChild100;
+            entity.PaxInfant100 = viewflightinformation.PaxInfant100;
+            entity.PaxVIP = viewflightinformation.PaxVIP;
+            entity.PaxCIP = viewflightinformation.PaxCIP;
+            entity.PaxHUM = viewflightinformation.PaxHUM;
+            entity.PaxUM = viewflightinformation.PaxUM;
+            entity.PaxAVI = viewflightinformation.PaxAVI;
+            entity.PaxWCHR = viewflightinformation.PaxWCHR;
+            entity.PaxSTRC = viewflightinformation.PaxSTRC;
+            entity.PaxPIRLost = viewflightinformation.PaxPIRLost;
+            entity.PaxPIRDamage = viewflightinformation.PaxPIRDamage;
+            entity.PaxPIRFound = viewflightinformation.PaxPIRFound;
+            entity.CargoPIRLost = viewflightinformation.CargoPIRLost;
+            entity.CargoPIRDamage = viewflightinformation.CargoPIRDamage;
+            entity.CargoPIRFound = viewflightinformation.CargoPIRFound;
+            entity.LimitTag = viewflightinformation.LimitTag;
+            entity.RushTag = viewflightinformation.RushTag;
+            entity.CLCheckIn = viewflightinformation.CLCheckIn;
+            entity.CLPark = viewflightinformation.CLPark;
+            entity.CLAddTools = viewflightinformation.CLAddTools;
+            entity.CLBusReady = viewflightinformation.CLBusReady;
+            entity.CLPaxOut = viewflightinformation.CLPaxOut;
+            entity.CLDepoOut = viewflightinformation.CLDepoOut;
+            entity.CLServicePresence = viewflightinformation.CLServicePresence;
+            entity.CLCleaningStart = viewflightinformation.CLCleaningStart;
+            entity.CLTechReady = viewflightinformation.CLTechReady;
+            entity.CLBagSent = viewflightinformation.CLBagSent;
+            entity.CLCateringLoad = viewflightinformation.CLCateringLoad;
+            entity.CLFuelStart = viewflightinformation.CLFuelStart;
+            entity.CLFuelEnd = viewflightinformation.CLFuelEnd;
+            entity.CLCleaningEnd = viewflightinformation.CLCleaningEnd;
+            entity.CLBoardingStart = viewflightinformation.CLBoardingStart;
+            entity.CLBoardingEnd = viewflightinformation.CLBoardingEnd;
+            entity.CLLoadSheetStart = viewflightinformation.CLLoadSheetStart;
+            entity.CLGateClosed = viewflightinformation.CLGateClosed;
+            entity.CLTrafficCrew = viewflightinformation.CLTrafficCrew;
+            entity.CLLoadCrew = viewflightinformation.CLLoadCrew;
+            entity.CLForbiddenObj = viewflightinformation.CLForbiddenObj;
+            entity.CLLoadSheetSign = viewflightinformation.CLLoadSheetSign;
+            entity.CLLoadingEnd = viewflightinformation.CLLoadingEnd;
+            entity.CLDoorClosed = viewflightinformation.CLDoorClosed;
+            entity.CLEqDC = viewflightinformation.CLEqDC;
+            entity.CLMotorStart = viewflightinformation.CLMotorStart;
+            entity.CLMovingStart = viewflightinformation.CLMovingStart;
+            entity.CLACStart = viewflightinformation.CLACStart;
+            entity.CLACEnd = viewflightinformation.CLACEnd;
+            entity.CLGPUStart = viewflightinformation.CLGPUStart;
+            entity.CLGPUEnd = viewflightinformation.CLGPUEnd;
+            entity.CLDepStairs = viewflightinformation.CLDepStairs;
+            entity.CLDepGPU = viewflightinformation.CLDepGPU;
+            entity.CLDepCrewCar = viewflightinformation.CLDepCrewCar;
+            entity.CLDepCrewCarCount = viewflightinformation.CLDepCrewCarCount;
+            entity.CLDepCabinService = viewflightinformation.CLDepCabinService;
+            entity.CLDepCateringCar = viewflightinformation.CLDepCateringCar;
+            entity.CLDepPatientCar = viewflightinformation.CLDepPatientCar;
+            entity.CLDepPaxCar = viewflightinformation.CLDepPaxCar;
+            entity.CLDepPaxCarCount = viewflightinformation.CLDepPaxCarCount;
+            entity.CLDepPushback = viewflightinformation.CLDepPushback;
+            entity.CLDepWaterService = viewflightinformation.CLDepWaterService;
+            entity.CLDepAC = viewflightinformation.CLDepAC;
+            entity.CLDepDeIce = viewflightinformation.CLDepDeIce;
+            entity.CLDepEqRemark = viewflightinformation.CLDepEqRemark;
+            entity.CLArrStairs = viewflightinformation.CLArrStairs;
+            entity.CLArrGPU = viewflightinformation.CLArrGPU;
+            entity.CLArrCrewCar = viewflightinformation.CLArrCrewCar;
+            entity.CLArrCrewCarCount = viewflightinformation.CLArrCrewCarCount;
+            entity.CLArrCabinService = viewflightinformation.CLArrCabinService;
+            entity.CLArrPatientCar = viewflightinformation.CLArrPatientCar;
+            entity.CLArrPaxCar = viewflightinformation.CLArrPaxCar;
+            entity.CLArrPaxCarCount = viewflightinformation.CLArrPaxCarCount;
+            entity.CLArrToiletService = viewflightinformation.CLArrToiletService;
+            entity.CLArrEqRemark = viewflightinformation.CLArrEqRemark;
 
 
 
@@ -1197,8 +1504,110 @@ namespace ApiLog.ViewModels
 
             viewflightinformation.DefaultChrId = entity.DefaultChrId;
             viewflightinformation.FuelDensity = entity.FuelDensity;
-            viewflightinformation.LTR = entity.LTR.ToString();
+            viewflightinformation.LTR = entity.LTR != null ? entity.LTR.ToString() : null; //string.IsNullOrEmpty(entity.LTR)?null: entity.LTR.ToString();
             viewflightinformation.SerialNo = entity.SerialNo;
+
+
+            viewflightinformation.Ready = entity.Ready;
+            viewflightinformation.Start = entity.Start;
+            viewflightinformation.CargoPieces = entity.CargoPieces;
+            viewflightinformation.CargoCost = entity.CargoCost;
+            viewflightinformation.FreeAWBCount = entity.FreeAWBCount;
+            viewflightinformation.FreeAWBPieces = entity.FreeAWBPieces;
+            viewflightinformation.FreeAWBWeight = entity.FreeAWBWeight;
+            viewflightinformation.NoShowCount = entity.NoShowCount;
+            viewflightinformation.NoShowPieces = entity.NoShowPieces;
+            viewflightinformation.NoGoCount = entity.NoGoCount;
+            viewflightinformation.NoGoPieces = entity.NoGoPieces;
+            viewflightinformation.DSBreakfast = entity.DSBreakfast;
+            viewflightinformation.DSWarmFood = entity.DSWarmFood;
+            viewflightinformation.DSColdFood = entity.DSColdFood;
+            viewflightinformation.DSRefreshment = entity.DSRefreshment;
+            viewflightinformation.YClass = entity.YClass;
+            viewflightinformation.CClass = entity.CClass;
+            viewflightinformation.PaxAdult50 = entity.PaxAdult50;
+            viewflightinformation.PaxChild50 = entity.PaxChild50;
+            viewflightinformation.PaxInfant50 = entity.PaxInfant50;
+            viewflightinformation.PaxAdult100 = entity.PaxAdult100;
+            viewflightinformation.PaxChild100 = entity.PaxChild100;
+            viewflightinformation.PaxInfant100 = entity.PaxInfant100;
+            viewflightinformation.PaxVIP = entity.PaxVIP;
+            viewflightinformation.PaxCIP = entity.PaxCIP;
+            viewflightinformation.PaxHUM = entity.PaxHUM;
+            viewflightinformation.PaxUM = entity.PaxUM;
+            viewflightinformation.PaxAVI = entity.PaxAVI;
+            viewflightinformation.PaxWCHR = entity.PaxWCHR;
+            viewflightinformation.PaxSTRC = entity.PaxSTRC;
+            viewflightinformation.PaxPIRLost = entity.PaxPIRLost;
+            viewflightinformation.PaxPIRDamage = entity.PaxPIRDamage;
+            viewflightinformation.PaxPIRFound = entity.PaxPIRFound;
+            viewflightinformation.CargoPIRLost = entity.CargoPIRLost;
+            viewflightinformation.CargoPIRDamage = entity.CargoPIRDamage;
+            viewflightinformation.CargoPIRFound = entity.CargoPIRFound;
+            viewflightinformation.LimitTag = entity.LimitTag;
+            viewflightinformation.RushTag = entity.RushTag;
+            viewflightinformation.CLCheckIn = entity.CLCheckIn;
+            viewflightinformation.CLPark = entity.CLPark;
+            viewflightinformation.CLAddTools = entity.CLAddTools;
+            viewflightinformation.CLBusReady = entity.CLBusReady;
+            viewflightinformation.CLPaxOut = entity.CLPaxOut;
+            viewflightinformation.CLDepoOut = entity.CLDepoOut;
+            viewflightinformation.CLServicePresence = entity.CLServicePresence;
+            viewflightinformation.CLCleaningStart = entity.CLCleaningStart;
+            viewflightinformation.CLTechReady = entity.CLTechReady;
+            viewflightinformation.CLBagSent = entity.CLBagSent;
+            viewflightinformation.CLCateringLoad = entity.CLCateringLoad;
+            viewflightinformation.CLFuelStart = entity.CLFuelStart;
+            viewflightinformation.CLFuelEnd = entity.CLFuelEnd;
+            viewflightinformation.CLCleaningEnd = entity.CLCleaningEnd;
+            viewflightinformation.CLBoardingStart = entity.CLBoardingStart;
+            viewflightinformation.CLBoardingEnd = entity.CLBoardingEnd;
+            viewflightinformation.CLLoadSheetStart = entity.CLLoadSheetStart;
+            viewflightinformation.CLGateClosed = entity.CLGateClosed;
+            viewflightinformation.CLTrafficCrew = entity.CLTrafficCrew;
+            viewflightinformation.CLLoadCrew = entity.CLLoadCrew;
+            viewflightinformation.CLForbiddenObj = entity.CLForbiddenObj;
+            viewflightinformation.CLLoadSheetSign = entity.CLLoadSheetSign;
+            viewflightinformation.CLLoadingEnd = entity.CLLoadingEnd;
+            viewflightinformation.CLDoorClosed = entity.CLDoorClosed;
+            viewflightinformation.CLEqDC = entity.CLEqDC;
+            viewflightinformation.CLMotorStart = entity.CLMotorStart;
+            viewflightinformation.CLMovingStart = entity.CLMovingStart;
+            viewflightinformation.CLACStart = entity.CLACStart;
+            viewflightinformation.CLACEnd = entity.CLACEnd;
+            viewflightinformation.CLGPUStart = entity.CLGPUStart;
+            viewflightinformation.CLGPUEnd = entity.CLGPUEnd;
+            viewflightinformation.CLDepStairs = entity.CLDepStairs;
+            viewflightinformation.CLDepGPU = entity.CLDepGPU;
+            viewflightinformation.CLDepCrewCar = entity.CLDepCrewCar;
+            viewflightinformation.CLDepCrewCarCount = entity.CLDepCrewCarCount;
+            viewflightinformation.CLDepCabinService = entity.CLDepCabinService;
+            viewflightinformation.CLDepCateringCar = entity.CLDepCateringCar;
+            viewflightinformation.CLDepPatientCar = entity.CLDepPatientCar;
+            viewflightinformation.CLDepPaxCar = entity.CLDepPaxCar;
+            viewflightinformation.CLDepPaxCarCount = entity.CLDepPaxCarCount;
+            viewflightinformation.CLDepPushback = entity.CLDepPushback;
+            viewflightinformation.CLDepWaterService = entity.CLDepWaterService;
+            viewflightinformation.CLDepAC = entity.CLDepAC;
+            viewflightinformation.CLDepDeIce = entity.CLDepDeIce;
+            viewflightinformation.CLDepEqRemark = entity.CLDepEqRemark;
+            viewflightinformation.CLArrStairs = entity.CLArrStairs;
+            viewflightinformation.CLArrGPU = entity.CLArrGPU;
+            viewflightinformation.CLArrCrewCar = entity.CLArrCrewCar;
+            viewflightinformation.CLArrCrewCarCount = entity.CLArrCrewCarCount;
+            viewflightinformation.CLArrCabinService = entity.CLArrCabinService;
+            viewflightinformation.CLArrPatientCar = entity.CLArrPatientCar;
+            viewflightinformation.CLArrPaxCar = entity.CLArrPaxCar;
+            viewflightinformation.CLArrPaxCarCount = entity.CLArrPaxCarCount;
+            viewflightinformation.CLArrToiletService = entity.CLArrToiletService;
+            viewflightinformation.CLArrEqRemark = entity.CLArrEqRemark;
+
+            viewflightinformation.WLCost = entity.WLCost;
+            viewflightinformation.WLCount = entity.WLCount;
+            viewflightinformation.ExBagCost = entity.ExBagCost;
+            viewflightinformation.ExBagWeight = entity.ExBagWeight;
+
+            viewflightinformation.TotalTrafficLoad = entity.TotalTrafficLoad;
 
 
         }

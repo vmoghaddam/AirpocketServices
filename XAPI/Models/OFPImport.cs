@@ -49,11 +49,14 @@ namespace XAPI.Models
         public string JAPlan1 { get; set; }
         public string JAPlan2 { get; set; }
         public string JFuel { get; set; }
+        public string JCSTBL { get; set; }
+        public string JALDRF { get; set; }
+        public string JWTDRF { get; set; }
     
+        public virtual FlightInformation FlightInformation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImportItem> OFPImportItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImportProp> OFPImportProps { get; set; }
-        public virtual FlightInformation FlightInformation { get; set; }
     }
 }

@@ -108,6 +108,39 @@ namespace XAPI.Models
         public Nullable<System.DateTime> JLDatePICApproved { get; set; }
         public Nullable<int> PICId { get; set; }
         public string PIC { get; set; }
+        public Nullable<bool> OperationalFlightPlanFOO { get; set; }
+        public Nullable<bool> OperationalFlightPlanCMDR { get; set; }
+        public string OperationalFlightPlanFOORemark { get; set; }
+        public string OperationalFlightPlanCMDRRemark { get; set; }
+        public Nullable<bool> ATSFlightPlanFOO { get; set; }
+        public Nullable<bool> ATSFlightPlanCMDR { get; set; }
+        public string ATSFlightPlanFOORemark { get; set; }
+        public string ATSFlightPlanCMDRRemark { get; set; }
+        public Nullable<bool> VldEFBFOO { get; set; }
+        public Nullable<bool> VldEFBCMDR { get; set; }
+        public string VldEFBFOORemark { get; set; }
+        public string VldEFBCMDRRemark { get; set; }
+        public Nullable<bool> VldFlightCrewFOO { get; set; }
+        public Nullable<bool> VldFlightCrewCMDR { get; set; }
+        public string VldFlightCrewFOORemark { get; set; }
+        public string VldFlightCrewCMDRRemark { get; set; }
+        public Nullable<bool> VldMedicalFOO { get; set; }
+        public Nullable<bool> VldMedicalCMDR { get; set; }
+        public string VldMedicalFOORemark { get; set; }
+        public string VldMedicalCMDRRemark { get; set; }
+        public Nullable<bool> VldPassportFOO { get; set; }
+        public Nullable<bool> VldPassportCMDR { get; set; }
+        public string VldPassportFOORemark { get; set; }
+        public string VldPassportCMDRRemark { get; set; }
+        public Nullable<bool> VldCMCFOO { get; set; }
+        public Nullable<bool> VldCMCCMDR { get; set; }
+        public string VldCMCFOORemark { get; set; }
+        public string VldCMCCMDRRemark { get; set; }
+        public Nullable<bool> VldRampPassFOO { get; set; }
+        public Nullable<bool> VldRampPassCMDR { get; set; }
+        public string VldRampPassFOORemark { get; set; }
+        public string VldRampPassCMDRRemark { get; set; }
+        public string Note { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
     }

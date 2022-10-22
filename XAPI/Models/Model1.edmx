@@ -103,6 +103,39 @@
           <Property Name="JLDatePICApproved" Type="datetime" />
           <Property Name="PICId" Type="int" />
           <Property Name="PIC" Type="varchar" MaxLength="500" />
+          <Property Name="OperationalFlightPlanFOO" Type="bit" />
+          <Property Name="OperationalFlightPlanCMDR" Type="bit" />
+          <Property Name="OperationalFlightPlanFOORemark" Type="varchar" MaxLength="1" />
+          <Property Name="OperationalFlightPlanCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="ATSFlightPlanFOO" Type="bit" />
+          <Property Name="ATSFlightPlanCMDR" Type="bit" />
+          <Property Name="ATSFlightPlanFOORemark" Type="varchar" MaxLength="1" />
+          <Property Name="ATSFlightPlanCMDRRemark" Type="varchar" MaxLength="1" />
+          <Property Name="VldEFBFOO" Type="bit" />
+          <Property Name="VldEFBCMDR" Type="bit" />
+          <Property Name="VldEFBFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldEFBCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldFlightCrewFOO" Type="bit" />
+          <Property Name="VldFlightCrewCMDR" Type="bit" />
+          <Property Name="VldFlightCrewFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldFlightCrewCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldMedicalFOO" Type="bit" />
+          <Property Name="VldMedicalCMDR" Type="bit" />
+          <Property Name="VldMedicalFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldMedicalCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldPassportFOO" Type="bit" />
+          <Property Name="VldPassportCMDR" Type="bit" />
+          <Property Name="VldPassportFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldPassportCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldCMCFOO" Type="bit" />
+          <Property Name="VldCMCCMDR" Type="bit" />
+          <Property Name="VldCMCFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldCMCCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldRampPassFOO" Type="bit" />
+          <Property Name="VldRampPassCMDR" Type="bit" />
+          <Property Name="VldRampPassFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldRampPassCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="Note" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="FlightCard">
           <Key>
@@ -252,7 +285,7 @@
           <Property Name="ChrAdult" Type="int" />
           <Property Name="ChrChild" Type="int" />
           <Property Name="ChrInfant" Type="int" />
-          <Property Name="ATCPlan" Type="varchar" MaxLength="1000" />
+          <Property Name="ATCPlan" Type="varchar" MaxLength="3000" />
           <Property Name="ATL" Type="varchar" MaxLength="1000" />
           <Property Name="CargoCost" Type="bigint" />
           <Property Name="TTL" Type="int" />
@@ -284,6 +317,8 @@
           <Property Name="OBSec" Type="int" />
           <Property Name="OCSec" Type="int" />
           <Property Name="ODSec" Type="int" />
+          <Property Name="MAXZFW" Type="int" />
+          <Property Name="MAXLNW" Type="int" />
         </EntityType>
         <EntityType Name="OFPImport">
           <Key>
@@ -317,6 +352,9 @@
           <Property Name="JAPlan1" Type="varchar(max)" />
           <Property Name="JAPlan2" Type="varchar(max)" />
           <Property Name="JFuel" Type="varchar(max)" />
+          <Property Name="JCSTBL" Type="varchar(max)" />
+          <Property Name="JALDRF" Type="nvarchar(max)" />
+          <Property Name="JWTDRF" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="OFPImportItem">
           <Key>
@@ -478,6 +516,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ChrAdult" Type="int" />
           <Property Name="ChrChild" Type="int" />
           <Property Name="ChrInfant" Type="int" />
+          <Property Name="CargoCost" Type="bigint" />
         </EntityType>
         <Association Name="fk_EFB_FI">
           <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="0..1" />
@@ -651,7 +690,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
     [ViewLegTime].[ChrCapacity] AS [ChrCapacity], 
     [ViewLegTime].[ChrAdult] AS [ChrAdult], 
     [ViewLegTime].[ChrChild] AS [ChrChild], 
-    [ViewLegTime].[ChrInfant] AS [ChrInfant]
+    [ViewLegTime].[ChrInfant] AS [ChrInfant], 
+    [ViewLegTime].[CargoCost] AS [CargoCost]
     FROM [dbo].[ViewLegTime] AS [ViewLegTime]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="fk_EFB_FI" Association="Self.fk_EFB_FI">
@@ -796,15 +836,25 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ChrAdult" Type="Int32" />
           <Property Name="ChrChild" Type="Int32" />
           <Property Name="ChrInfant" Type="Int32" />
+          <Property Name="CargoCost" Type="Int64" />
         </EntityType>
         <EntityContainer Name="PPAEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ViewLegTimes" EntityType="Self.ViewLegTime" />
           <EntitySet Name="OFPSkyPuters" EntityType="ppa_tabanModel.OFPSkyPuter" />
           <EntitySet Name="EFBDSPReleases" EntityType="ppa_tabanModel.EFBDSPRelease" />
           <EntitySet Name="FlightCards" EntityType="ppa_tabanModel.FlightCard" />
-          <EntitySet Name="OFPImports" EntityType="ppa_tabanModel.OFPImport" />
           <EntitySet Name="OFPImportItems" EntityType="ppa_tabanModel.OFPImportItem" />
           <EntitySet Name="OFPImportProps" EntityType="ppa_tabanModel.OFPImportProp" />
+          <EntitySet Name="FlightInformations" EntityType="ppa_tabanModel.FlightInformation" />
+          <AssociationSet Name="fk_EFB_FI" Association="ppa_tabanModel.fk_EFB_FI">
+            <End Role="FlightInformation" EntitySet="FlightInformations" />
+            <End Role="EFBDSPRelease" EntitySet="EFBDSPReleases" />
+          </AssociationSet>
+          <EntitySet Name="OFPImports" EntityType="ppa_tabanModel.OFPImport" />
+          <AssociationSet Name="fk_ofp_flt" Association="ppa_tabanModel.fk_ofp_flt">
+            <End Role="FlightInformation" EntitySet="FlightInformations" />
+            <End Role="OFPImport" EntitySet="OFPImports" />
+          </AssociationSet>
           <AssociationSet Name="fk_ofpl_ofp" Association="ppa_tabanModel.fk_ofpl_ofp">
             <End Role="OFPImport" EntitySet="OFPImports" />
             <End Role="OFPImportItem" EntitySet="OFPImportItems" />
@@ -812,15 +862,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <AssociationSet Name="fk_ofpp_ofp" Association="ppa_tabanModel.fk_ofpp_ofp">
             <End Role="OFPImport" EntitySet="OFPImports" />
             <End Role="OFPImportProp" EntitySet="OFPImportProps" />
-          </AssociationSet>
-          <EntitySet Name="FlightInformations" EntityType="ppa_tabanModel.FlightInformation" />
-          <AssociationSet Name="fk_EFB_FI" Association="ppa_tabanModel.fk_EFB_FI">
-            <End Role="FlightInformation" EntitySet="FlightInformations" />
-            <End Role="EFBDSPRelease" EntitySet="EFBDSPReleases" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ofp_flt" Association="ppa_tabanModel.fk_ofp_flt">
-            <End Role="FlightInformation" EntitySet="FlightInformations" />
-            <End Role="OFPImport" EntitySet="OFPImports" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="OFPSkyPuter">
@@ -937,6 +978,39 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="PICId" Type="Int32" />
           <Property Name="PIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FlightInformation" Relationship="ppa_tabanModel.fk_EFB_FI" FromRole="EFBDSPRelease" ToRole="FlightInformation" />
+          <Property Name="OperationalFlightPlanFOO" Type="Boolean" />
+          <Property Name="OperationalFlightPlanCMDR" Type="Boolean" />
+          <Property Name="OperationalFlightPlanFOORemark" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="OperationalFlightPlanCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ATSFlightPlanFOO" Type="Boolean" />
+          <Property Name="ATSFlightPlanCMDR" Type="Boolean" />
+          <Property Name="ATSFlightPlanFOORemark" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ATSFlightPlanCMDRRemark" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="VldEFBFOO" Type="Boolean" />
+          <Property Name="VldEFBCMDR" Type="Boolean" />
+          <Property Name="VldEFBFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldEFBCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldFlightCrewFOO" Type="Boolean" />
+          <Property Name="VldFlightCrewCMDR" Type="Boolean" />
+          <Property Name="VldFlightCrewFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldFlightCrewCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldMedicalFOO" Type="Boolean" />
+          <Property Name="VldMedicalCMDR" Type="Boolean" />
+          <Property Name="VldMedicalFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldMedicalCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldPassportFOO" Type="Boolean" />
+          <Property Name="VldPassportCMDR" Type="Boolean" />
+          <Property Name="VldPassportFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldPassportCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldCMCFOO" Type="Boolean" />
+          <Property Name="VldCMCCMDR" Type="Boolean" />
+          <Property Name="VldCMCFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldCMCCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldRampPassFOO" Type="Boolean" />
+          <Property Name="VldRampPassCMDR" Type="Boolean" />
+          <Property Name="VldRampPassFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldRampPassCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="FlightCard">
           <Key>
@@ -949,42 +1023,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="Route" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="FltNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="DateCreate" Type="DateTime" Precision="7" />
-        </EntityType>
-        <EntityType Name="OFPImport">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FileName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="FlightNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Origin" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Destination" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="DateFlight" Type="DateTime" Precision="0" />
-          <Property Name="DateCreate" Type="DateTime" Precision="3" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="User" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="TextOutput" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="FlightId" Type="Int32" />
-          <Property Name="DateUpdate" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="DateConfirmed" Type="DateTime" Precision="3" />
-          <Property Name="UserConfirmed" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="PICId" Type="Int32" />
-          <Property Name="JLDatePICApproved" Type="DateTime" Precision="3" />
-          <Property Name="JLSignedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="PIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="FPFuel" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="FPTripFuel" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="MCI" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="FLL" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="DOW" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="Source" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="JPlan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="JAPlan1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="JAPlan2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="JFuel" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="OFPImportItems" Relationship="ppa_tabanModel.fk_ofpl_ofp" FromRole="OFPImport" ToRole="OFPImportItem" />
-          <NavigationProperty Name="OFPImportProps" Relationship="ppa_tabanModel.fk_ofpp_ofp" FromRole="OFPImport" ToRole="OFPImportProp" />
-          <NavigationProperty Name="FlightInformation" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="OFPImport" ToRole="FlightInformation" />
         </EntityType>
         <EntityType Name="OFPImportItem">
           <Key>
@@ -1010,34 +1048,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OFPImport" Relationship="ppa_tabanModel.fk_ofpp_ofp" FromRole="OFPImportProp" ToRole="OFPImport" />
         </EntityType>
-        <Association Name="fk_ofpl_ofp">
-          <End Type="ppa_tabanModel.OFPImport" Role="OFPImport" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ppa_tabanModel.OFPImportItem" Role="OFPImportItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OFPImport">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OFPImportItem">
-              <PropertyRef Name="OFPId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ofpp_ofp">
-          <End Type="ppa_tabanModel.OFPImport" Role="OFPImport" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ppa_tabanModel.OFPImportProp" Role="OFPImportProp" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OFPImport">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OFPImportProp">
-              <PropertyRef Name="OFPId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="FlightInformation">
           <Key>
             <PropertyRef Name="ID" />
@@ -1174,7 +1184,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ChrAdult" Type="Int32" />
           <Property Name="ChrChild" Type="Int32" />
           <Property Name="ChrInfant" Type="Int32" />
-          <Property Name="ATCPlan" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ATCPlan" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
           <Property Name="ATL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="CargoCost" Type="Int64" />
           <Property Name="TTL" Type="Int32" />
@@ -1207,6 +1217,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="OCSec" Type="Int32" />
           <Property Name="ODSec" Type="Int32" />
           <NavigationProperty Name="EFBDSPReleases" Relationship="ppa_tabanModel.fk_EFB_FI" FromRole="FlightInformation" ToRole="EFBDSPRelease" />
+          <Property Name="MAXZFW" Type="Int32" />
+          <Property Name="MAXLNW" Type="Int32" />
           <NavigationProperty Name="OFPImports" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="FlightInformation" ToRole="OFPImport" />
         </EntityType>
         <Association Name="fk_EFB_FI">
@@ -1221,6 +1233,45 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="OFPImport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FlightNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Origin" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Destination" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateFlight" Type="DateTime" Precision="0" />
+          <Property Name="DateCreate" Type="DateTime" Precision="3" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TextOutput" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="DateUpdate" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="3" />
+          <Property Name="UserConfirmed" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PICId" Type="Int32" />
+          <Property Name="JLDatePICApproved" Type="DateTime" Precision="3" />
+          <Property Name="JLSignedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FPFuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FPTripFuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="MCI" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FLL" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DOW" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Source" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JPlan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="JAPlan1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="JAPlan2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="JFuel" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="JCSTBL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="JALDRF" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="JWTDRF" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FlightInformation" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="OFPImport" ToRole="FlightInformation" />
+          <NavigationProperty Name="OFPImportItems" Relationship="ppa_tabanModel.fk_ofpl_ofp" FromRole="OFPImport" ToRole="OFPImportItem" />
+          <NavigationProperty Name="OFPImportProps" Relationship="ppa_tabanModel.fk_ofpp_ofp" FromRole="OFPImport" ToRole="OFPImportProp" />
+        </EntityType>
         <Association Name="fk_ofp_flt">
           <End Type="ppa_tabanModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
           <End Type="ppa_tabanModel.OFPImport" Role="OFPImport" Multiplicity="*" />
@@ -1233,6 +1284,34 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_ofpl_ofp">
+          <End Type="ppa_tabanModel.OFPImport" Role="OFPImport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppa_tabanModel.OFPImportItem" Role="OFPImportItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OFPImport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OFPImportItem">
+              <PropertyRef Name="OFPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ofpp_ofp">
+          <End Type="ppa_tabanModel.OFPImport" Role="OFPImport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppa_tabanModel.OFPImportProp" Role="OFPImportProp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OFPImport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OFPImportProp">
+              <PropertyRef Name="OFPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1242,6 +1321,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="ViewLegTimes">
             <EntityTypeMapping TypeName="ppa_tabanModel.ViewLegTime">
               <MappingFragment StoreEntitySet="ViewLegTime">
+                <ScalarProperty Name="CargoCost" ColumnName="CargoCost" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="FlightPlanId" ColumnName="FlightPlanId" />
@@ -1375,6 +1455,39 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="EFBDSPReleases">
             <EntityTypeMapping TypeName="ppa_tabanModel.EFBDSPRelease">
               <MappingFragment StoreEntitySet="EFBDSPRelease">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="VldRampPassCMDRRemark" ColumnName="VldRampPassCMDRRemark" />
+                <ScalarProperty Name="VldRampPassFOORemark" ColumnName="VldRampPassFOORemark" />
+                <ScalarProperty Name="VldRampPassCMDR" ColumnName="VldRampPassCMDR" />
+                <ScalarProperty Name="VldRampPassFOO" ColumnName="VldRampPassFOO" />
+                <ScalarProperty Name="VldCMCCMDRRemark" ColumnName="VldCMCCMDRRemark" />
+                <ScalarProperty Name="VldCMCFOORemark" ColumnName="VldCMCFOORemark" />
+                <ScalarProperty Name="VldCMCCMDR" ColumnName="VldCMCCMDR" />
+                <ScalarProperty Name="VldCMCFOO" ColumnName="VldCMCFOO" />
+                <ScalarProperty Name="VldPassportCMDRRemark" ColumnName="VldPassportCMDRRemark" />
+                <ScalarProperty Name="VldPassportFOORemark" ColumnName="VldPassportFOORemark" />
+                <ScalarProperty Name="VldPassportCMDR" ColumnName="VldPassportCMDR" />
+                <ScalarProperty Name="VldPassportFOO" ColumnName="VldPassportFOO" />
+                <ScalarProperty Name="VldMedicalCMDRRemark" ColumnName="VldMedicalCMDRRemark" />
+                <ScalarProperty Name="VldMedicalFOORemark" ColumnName="VldMedicalFOORemark" />
+                <ScalarProperty Name="VldMedicalCMDR" ColumnName="VldMedicalCMDR" />
+                <ScalarProperty Name="VldMedicalFOO" ColumnName="VldMedicalFOO" />
+                <ScalarProperty Name="VldFlightCrewCMDRRemark" ColumnName="VldFlightCrewCMDRRemark" />
+                <ScalarProperty Name="VldFlightCrewFOORemark" ColumnName="VldFlightCrewFOORemark" />
+                <ScalarProperty Name="VldFlightCrewCMDR" ColumnName="VldFlightCrewCMDR" />
+                <ScalarProperty Name="VldFlightCrewFOO" ColumnName="VldFlightCrewFOO" />
+                <ScalarProperty Name="VldEFBCMDRRemark" ColumnName="VldEFBCMDRRemark" />
+                <ScalarProperty Name="VldEFBFOORemark" ColumnName="VldEFBFOORemark" />
+                <ScalarProperty Name="VldEFBCMDR" ColumnName="VldEFBCMDR" />
+                <ScalarProperty Name="VldEFBFOO" ColumnName="VldEFBFOO" />
+                <ScalarProperty Name="ATSFlightPlanCMDRRemark" ColumnName="ATSFlightPlanCMDRRemark" />
+                <ScalarProperty Name="ATSFlightPlanFOORemark" ColumnName="ATSFlightPlanFOORemark" />
+                <ScalarProperty Name="ATSFlightPlanCMDR" ColumnName="ATSFlightPlanCMDR" />
+                <ScalarProperty Name="ATSFlightPlanFOO" ColumnName="ATSFlightPlanFOO" />
+                <ScalarProperty Name="OperationalFlightPlanCMDRRemark" ColumnName="OperationalFlightPlanCMDRRemark" />
+                <ScalarProperty Name="OperationalFlightPlanFOORemark" ColumnName="OperationalFlightPlanFOORemark" />
+                <ScalarProperty Name="OperationalFlightPlanCMDR" ColumnName="OperationalFlightPlanCMDR" />
+                <ScalarProperty Name="OperationalFlightPlanFOO" ColumnName="OperationalFlightPlanFOO" />
                 <ScalarProperty Name="PIC" ColumnName="PIC" />
                 <ScalarProperty Name="PICId" ColumnName="PICId" />
                 <ScalarProperty Name="JLDatePICApproved" ColumnName="JLDatePICApproved" />
@@ -1485,40 +1598,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OFPImports">
-            <EntityTypeMapping TypeName="ppa_tabanModel.OFPImport">
-              <MappingFragment StoreEntitySet="OFPImport">
-                <ScalarProperty Name="JFuel" ColumnName="JFuel" />
-                <ScalarProperty Name="JAPlan2" ColumnName="JAPlan2" />
-                <ScalarProperty Name="JAPlan1" ColumnName="JAPlan1" />
-                <ScalarProperty Name="JPlan" ColumnName="JPlan" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="DOW" ColumnName="DOW" />
-                <ScalarProperty Name="FLL" ColumnName="FLL" />
-                <ScalarProperty Name="MCI" ColumnName="MCI" />
-                <ScalarProperty Name="FPTripFuel" ColumnName="FPTripFuel" />
-                <ScalarProperty Name="FPFuel" ColumnName="FPFuel" />
-                <ScalarProperty Name="PIC" ColumnName="PIC" />
-                <ScalarProperty Name="JLSignedBy" ColumnName="JLSignedBy" />
-                <ScalarProperty Name="JLDatePICApproved" ColumnName="JLDatePICApproved" />
-                <ScalarProperty Name="PICId" ColumnName="PICId" />
-                <ScalarProperty Name="UserConfirmed" ColumnName="UserConfirmed" />
-                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
-                <ScalarProperty Name="DateUpdate" ColumnName="DateUpdate" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="TextOutput" ColumnName="TextOutput" />
-                <ScalarProperty Name="User" ColumnName="User" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
-                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
-                <ScalarProperty Name="DateFlight" ColumnName="DateFlight" />
-                <ScalarProperty Name="Destination" ColumnName="Destination" />
-                <ScalarProperty Name="Origin" ColumnName="Origin" />
-                <ScalarProperty Name="FlightNo" ColumnName="FlightNo" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="OFPImportItems">
             <EntityTypeMapping TypeName="ppa_tabanModel.OFPImportItem">
               <MappingFragment StoreEntitySet="OFPImportItem">
@@ -1546,6 +1625,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="FlightInformations">
             <EntityTypeMapping TypeName="ppa_tabanModel.FlightInformation">
               <MappingFragment StoreEntitySet="FlightInformation">
+                <ScalarProperty Name="MAXLNW" ColumnName="MAXLNW" />
+                <ScalarProperty Name="MAXZFW" ColumnName="MAXZFW" />
                 <ScalarProperty Name="ODSec" ColumnName="ODSec" />
                 <ScalarProperty Name="OCSec" ColumnName="OCSec" />
                 <ScalarProperty Name="OBSec" ColumnName="OBSec" />
@@ -1710,6 +1791,43 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
                 <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
                 <ScalarProperty Name="TypeID" ColumnName="TypeID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OFPImports">
+            <EntityTypeMapping TypeName="ppa_tabanModel.OFPImport">
+              <MappingFragment StoreEntitySet="OFPImport">
+                <ScalarProperty Name="JWTDRF" ColumnName="JWTDRF" />
+                <ScalarProperty Name="JALDRF" ColumnName="JALDRF" />
+                <ScalarProperty Name="JCSTBL" ColumnName="JCSTBL" />
+                <ScalarProperty Name="JFuel" ColumnName="JFuel" />
+                <ScalarProperty Name="JAPlan2" ColumnName="JAPlan2" />
+                <ScalarProperty Name="JAPlan1" ColumnName="JAPlan1" />
+                <ScalarProperty Name="JPlan" ColumnName="JPlan" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="DOW" ColumnName="DOW" />
+                <ScalarProperty Name="FLL" ColumnName="FLL" />
+                <ScalarProperty Name="MCI" ColumnName="MCI" />
+                <ScalarProperty Name="FPTripFuel" ColumnName="FPTripFuel" />
+                <ScalarProperty Name="FPFuel" ColumnName="FPFuel" />
+                <ScalarProperty Name="PIC" ColumnName="PIC" />
+                <ScalarProperty Name="JLSignedBy" ColumnName="JLSignedBy" />
+                <ScalarProperty Name="JLDatePICApproved" ColumnName="JLDatePICApproved" />
+                <ScalarProperty Name="PICId" ColumnName="PICId" />
+                <ScalarProperty Name="UserConfirmed" ColumnName="UserConfirmed" />
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="DateUpdate" ColumnName="DateUpdate" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="TextOutput" ColumnName="TextOutput" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="DateFlight" ColumnName="DateFlight" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Origin" ColumnName="Origin" />
+                <ScalarProperty Name="FlightNo" ColumnName="FlightNo" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

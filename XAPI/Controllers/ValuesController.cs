@@ -596,7 +596,148 @@ namespace XAPI.Controllers
 
 
 
+                var cstbl = parts.FirstOrDefault(q => q.StartsWith("cstbl:|"));
+                if (cstbl != null)
+                {
+                    cstbl = cstbl.Replace("cstbl:|", "");
+                    var cstblRows = cstbl.Split('|').ToList();
+                    List<JObject> cstblJson = new List<JObject>();
+                    idx = 0;
+                    foreach (var r in cstblRows)
+                    {
+                        var procStr = "";
+                        var _r = r.Replace("=;", "= ;");
+                        var prts = _r.Split(';');
+                        foreach (var x in prts)
+                        {
+                            var str = x.Replace("\"", "^").Replace("'", "#");
+                            var substr = str.Split('=')[0] + ":'" + str.Split('=')[1] + "'";
 
+                            procStr += substr;
+                            if (x != prts.Last())
+                                procStr += ",";
+                        }
+                        procStr = "{" + procStr + "}";
+
+                        var jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                        var _key = ("cstbl_ETN_" + jsonObj.GetValue("ETN").ToString()).Replace(" ", "").ToLower();
+                        jsonObj.Add("_key", _key);
+                        // props.Add("prop_" + _key + "_eta_" + idx);
+                        // props.Add("prop_" + _key + "_ata_" + idx);
+                        // props.Add("prop_" + _key + "_rem_" + idx);
+                        // props.Add("prop_" + _key + "_usd_" + idx);
+                        cstblJson.Add(jsonObj);
+                        idx++;
+
+                    }
+                    plan.JCSTBL = "[" + string.Join(",", cstblJson) + "]";
+                }
+
+                var aldrf = parts.FirstOrDefault(q => q.StartsWith("aldrf:|"));
+                if (aldrf != null)
+                {
+                    aldrf = aldrf.Replace("aldrf:|", "");
+                    var aldrfRows = aldrf.Split('/').Where(q=>!string.IsNullOrEmpty(q)).ToList();
+                    List<JObject> aldrfJson = new List<JObject>();
+                    idx = 0;
+
+                    foreach (var r in aldrfRows)
+                    {
+                        var procStr = "";
+                        var _r = r.Replace("=;", "= ;");
+                        var prts = _r.Split(new string[] { "  " }, StringSplitOptions.None).Where(q=>!string.IsNullOrEmpty(q)).ToList();
+                      //  var prts2 = _r.Split(new string[] { " " }, StringSplitOptions.None);
+                        //foreach (var x in prts)
+                        //{
+                        //    var str = x.Replace("\"", "^").Replace("'", "#");
+                        //    var substr = str.Split('=')[0] + ":'" + str.Split('=')[1] + "'";
+
+                        //    procStr += substr;
+                        //    if (x != prts.Last())
+                        //        procStr += ",";
+                        //}
+                        procStr += "FL:'"+prts[0].Replace(" ","").Replace("|","")+"'";
+                        procStr += ",WIND:'" + prts[1].Replace(" ", "") + "'";
+                        procStr += ",FUEL:'" + prts[2].Replace(" ", "") + "'";
+                        procStr += ",T:'" + prts[3].Replace(" ", "") + "'";
+                        procStr += ",SH1:'" + prts[4].Replace(" ", "") + "'";
+                        procStr += ",SH2:'" + prts[5].Replace(" ", "") + "'";
+                        procStr += ",DEV:'" + prts[6].Replace(" ", "") + "'";
+                        procStr = "{" + procStr + "}";
+
+                        var jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                        var _key = ("aldrf_FL_" + jsonObj.GetValue("FL").ToString()).Replace(" ", "").ToLower();
+                        jsonObj.Add("_key", _key);
+
+                        aldrfJson.Add(jsonObj);
+                        idx++;
+
+                    }
+                    plan.JALDRF = "[" + string.Join(",", aldrfJson) + "]";
+                }
+
+                var wtdrf = parts.FirstOrDefault(q => q.StartsWith("wtdrf:|"));
+                if (wtdrf != null)
+                {
+                    wtdrf = wtdrf.Replace("wtdrf:|", "");
+                    var aldrfRows = wtdrf.Split(new string[] { "  " }, StringSplitOptions.None).Where(q => !string.IsNullOrEmpty(q)).ToList();
+                    List<JObject> wtdrfJson = new List<JObject>();
+                    idx = 0;
+
+                    var procStr = "{IDX:'1',X:'-8',FUEL:'" + aldrfRows[1].Replace(" ", "")+"'}";
+                    var jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                    var _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                    jsonObj.Add("_key", _key);
+                    wtdrfJson.Add(jsonObj);
+
+
+                    procStr = "{IDX:'2',X:'-6',FUEL:'" + aldrfRows[3].Replace(" ", "") + "'}";
+                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                    jsonObj.Add("_key", _key);
+                    wtdrfJson.Add(jsonObj);
+
+                    procStr = "{IDX:'3',X:'-4',FUEL:'" + aldrfRows[5].Replace(" ", "") + "'}";
+                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                    jsonObj.Add("_key", _key);
+                    wtdrfJson.Add(jsonObj);
+
+
+                    procStr = "{IDX:'4',X:'-2',FUEL:'" + aldrfRows[7].Replace(" ", "") + "'}";
+                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                    jsonObj.Add("_key", _key);
+                    wtdrfJson.Add(jsonObj);
+
+                    procStr = "{IDX:'5',X:'+2',FUEL:'" + aldrfRows[9].Replace(" ", "") + "'}";
+                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                    jsonObj.Add("_key", _key);
+                    wtdrfJson.Add(jsonObj);
+
+
+                    procStr = "{IDX:'6',X:'+4',FUEL:'" + aldrfRows[11].Replace(" ", "") + "'}";
+                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                    jsonObj.Add("_key", _key);
+                    wtdrfJson.Add(jsonObj);
+
+                    procStr = "{IDX:'7',X:'+6',FUEL:'" + aldrfRows[13].Replace(" ", "") + "'}";
+                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                    jsonObj.Add("_key", _key);
+                    wtdrfJson.Add(jsonObj);
+
+                    procStr = "{IDX:'8',X:'+8',FUEL:'" + aldrfRows[15].Replace(" ", "") + "'}";
+                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                    jsonObj.Add("_key", _key);
+                    wtdrfJson.Add(jsonObj);
+
+                    plan.JWTDRF = "[" + string.Join(",", wtdrfJson) + "]";
+
+                }
 
 
                 var futbl = parts.FirstOrDefault(q => q.StartsWith("futbl:|")).Replace("futbl:|", "");
@@ -773,6 +914,53 @@ namespace XAPI.Controllers
                 other.Add(new fuelPrm() { prm = "FUEL_ONBLOCK", value = "" });
                 props.Add("prop_fuel_onblock");
 
+                other.Add(new fuelPrm() { prm = "ARR_ATIS", value = "" });
+                props.Add("prop_arr_atis");
+                other.Add(new fuelPrm() { prm = "DEP_ATIS1", value = "" });
+                props.Add("prop_dep_atis1");
+                other.Add(new fuelPrm() { prm = "DEP_ATIS2", value = "" });
+                props.Add("prop_dep_atis2");
+
+                other.Add(new fuelPrm() { prm = "ARR_QNH", value = "" });
+                props.Add("prop_arr_qnh");
+                other.Add(new fuelPrm() { prm = "DEP_QNH1", value = "" });
+                props.Add("prop_dep_qnh1");
+                other.Add(new fuelPrm() { prm = "DEP_QNH2", value = "" });
+                props.Add("prop_dep_qnh2");
+
+
+                other.Add(new fuelPrm() { prm = "TO_V1", value = "" });
+                props.Add("prop_to_v1");
+                other.Add(new fuelPrm() { prm = "TO_VR", value = "" });
+                props.Add("prop_to_vr");
+                other.Add(new fuelPrm() { prm = "TO_V2", value = "" });
+                props.Add("prop_to_v2");
+                other.Add(new fuelPrm() { prm = "TO_CONF", value = "" });
+                props.Add("prop_to_conf");
+                other.Add(new fuelPrm() { prm = "TO_ASMD", value = "" });
+                props.Add("prop_to_asmd");
+                other.Add(new fuelPrm() { prm = "TO_RWY", value = "" });
+                props.Add("prop_to_rwy");
+                other.Add(new fuelPrm() { prm = "TO_COND", value = "" });
+                props.Add("prop_to_cond");
+
+
+
+                other.Add(new fuelPrm() { prm = "LND_STAR", value = "" });
+                props.Add("prop_lnd_star");
+                other.Add(new fuelPrm() { prm = "LND_APP", value = "" });
+                props.Add("prop_lnd_app");
+                other.Add(new fuelPrm() { prm = "LND_VREF", value = "" });
+                props.Add("prop_lnd_vref");
+                other.Add(new fuelPrm() { prm = "LND_CONF", value = "" });
+                props.Add("prop_lnd_conf");
+                other.Add(new fuelPrm() { prm = "LND_LDA", value = "" });
+                props.Add("prop_lnd_lda");
+                other.Add(new fuelPrm() { prm = "LND_RWY", value = "" });
+                props.Add("prop_lnd_rwy");
+                other.Add(new fuelPrm() { prm = "LND_COND", value = "" });
+                props.Add("prop_lnd_cond");
+
 
 
                 var dtupd = DateTime.UtcNow.ToString("yyyyMMddHHmm");
@@ -936,6 +1124,8 @@ namespace XAPI.Controllers
             var dt = from.Date; //DateTime.Now.Date;
             var fmis_cnn_string = "Data Source=VA.FMIS.IR,2019;Initial Catalog=CrewVA;User ID=WinUsers;Password=Crew1018!)!*";
             var ap_cnn_string = "Data Source=65.21.14.236;Initial Catalog=ppa_varesh;User ID=Vahid;Password=Atrina1359@aA";
+            //185.141.132.14
+            //var ap_cnn_string = "Data Source=185.141.132.14;Initial Catalog=x_varesh;User ID=Vahid;Password=Atrina1359@aA";
 
             SqlConnection cnnAP = new SqlConnection(ap_cnn_string);
             cnnAP.Open();
@@ -1394,7 +1584,8 @@ namespace XAPI.Controllers
                 //            where x.DateUTC == dt
                 //            select x;
 
-                var fmis_cnn_string = "Data Source=VA.FMIS.IR,2019;Initial Catalog=CrewVA;User ID=WinUsers;Password=Crew1018!)!*";
+                 var fmis_cnn_string = "Data Source=VA.FMIS.IR,2019;Initial Catalog=CrewVA;User ID=WinUsers;Password=Crew1018!)!*";
+                //var fmis_cnn_string = "Data Source=65.21.100.132;Initial Catalog=VARESH;User ID=sa;Password=Atrina1359";
                 var ap_cnn_string = "Data Source=65.21.14.236;Initial Catalog=ppa_varesh;User ID=Vahid;Password=Atrina1359@aA";
 
                 //var fmis_cnn_string = "Data Source=185.116.160.80;Initial Catalog=CrewCH;User ID=WinUsers;Password=Crew1018!)!*";
@@ -1449,9 +1640,9 @@ namespace XAPI.Controllers
 
 
 
-                var updmvt = "update FMISFLT set OffBlock=STD,TakeOff=STD,OnBlock=STA,OnRunway=STA";
-                SqlCommand updmvtcom = new SqlCommand(updmvt, cnnAP);
-                var r1111 = updmvtcom.ExecuteNonQuery();
+             //   var updmvt = "update FMISFLT set OffBlock=STD,TakeOff=STD,OnBlock=STA,OnRunway=STA";
+             //   SqlCommand updmvtcom = new SqlCommand(updmvt, cnnAP);
+             //   var r1111 = updmvtcom.ExecuteNonQuery();
 
 
 

@@ -9,6 +9,8 @@
         <EntityTypeShape EntityType="ppa_vareshModel.MVTAPI" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ppa_vareshModel.ViewLegTime" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ppa_vareshModel.ViewFlightDelayCode" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ppa_vareshModel.NiraHistory" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ppa_vareshModel.ViewNiraFlight" Width="1.5" PointX="7.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -29,5 +29,7 @@ namespace ApiMSG.Models
         public virtual DbSet<MVTAPI> MVTAPIs { get; set; }
         public virtual DbSet<ViewLegTime> ViewLegTimes { get; set; }
         public virtual DbSet<ViewFlightDelayCode> ViewFlightDelayCodes { get; set; }
+        public virtual DbSet<NiraHistory> NiraHistories { get; set; }
+        public virtual DbSet<ViewNiraFlight> ViewNiraFlights { get; set; }
     }
 }

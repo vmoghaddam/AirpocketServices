@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirpocketTRN", "AirpocketTR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XAPI", "XAPI\XAPI.csproj", "{92354FDB-A00F-4E54-A4AC-8FD961D5860E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiReportFlight", "ApiReportFlight\ApiReportFlight.csproj", "{D79CD664-CD16-4BA1-8A13-6FDEC5F9D1FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiScheduling", "ApiScheduling\ApiScheduling.csproj", "{75100C5B-6D61-4215-9443-E6C515E84B7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,22 @@ Global
 		{92354FDB-A00F-4E54-A4AC-8FD961D5860E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{92354FDB-A00F-4E54-A4AC-8FD961D5860E}.Release|x64.ActiveCfg = Release|Any CPU
 		{92354FDB-A00F-4E54-A4AC-8FD961D5860E}.Release|x64.Build.0 = Release|Any CPU
+		{D79CD664-CD16-4BA1-8A13-6FDEC5F9D1FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D79CD664-CD16-4BA1-8A13-6FDEC5F9D1FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D79CD664-CD16-4BA1-8A13-6FDEC5F9D1FA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D79CD664-CD16-4BA1-8A13-6FDEC5F9D1FA}.Debug|x64.Build.0 = Debug|Any CPU
+		{D79CD664-CD16-4BA1-8A13-6FDEC5F9D1FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D79CD664-CD16-4BA1-8A13-6FDEC5F9D1FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D79CD664-CD16-4BA1-8A13-6FDEC5F9D1FA}.Release|x64.ActiveCfg = Release|Any CPU
+		{D79CD664-CD16-4BA1-8A13-6FDEC5F9D1FA}.Release|x64.Build.0 = Release|Any CPU
+		{75100C5B-6D61-4215-9443-E6C515E84B7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75100C5B-6D61-4215-9443-E6C515E84B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75100C5B-6D61-4215-9443-E6C515E84B7D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{75100C5B-6D61-4215-9443-E6C515E84B7D}.Debug|x64.Build.0 = Debug|Any CPU
+		{75100C5B-6D61-4215-9443-E6C515E84B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75100C5B-6D61-4215-9443-E6C515E84B7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75100C5B-6D61-4215-9443-E6C515E84B7D}.Release|x64.ActiveCfg = Release|Any CPU
+		{75100C5B-6D61-4215-9443-E6C515E84B7D}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

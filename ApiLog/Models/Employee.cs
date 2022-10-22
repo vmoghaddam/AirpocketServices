@@ -18,6 +18,7 @@ namespace ApiLog.Models
         public Employee()
         {
             this.FDPs = new HashSet<FDP>();
+            this.EFBDSPReleases = new HashSet<EFBDSPRelease>();
         }
     
         public int Id { get; set; }
@@ -34,5 +35,7 @@ namespace ApiLog.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FDP> FDPs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EFBDSPRelease> EFBDSPReleases { get; set; }
     }
 }

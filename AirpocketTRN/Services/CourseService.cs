@@ -287,6 +287,353 @@ namespace AirpocketTRN.Services
                 IsSuccess = true,
             };
         }
+        //09-11
+        public async Task<DataResponse> GetTrainingCard(int pid)
+        {
+            var person = await context.People.Where(q => q.Id == pid).FirstOrDefaultAsync();
+            var employee = await context.ViewEmployees.Where(q => q.PersonId == pid).FirstOrDefaultAsync();
+            var result = await context.ViewCoursePeoplePassedRankeds.Where(q => q.PersonId == pid && q.RankLast == 1).OrderBy(q => q.DateExpire).ToListAsync();
+            var trg02 = result.Where(q => q.CourseType == "AVSEC-TRG-02").FirstOrDefault();
+            var ds = new List<ViewCoursePeoplePassedRanked>();
+            if (employee.JobGroup=="TRE" || employee.JobGroup=="TRI" || employee.JobGroup=="LTC" || employee.JobGroup=="P1" || employee.JobGroup == "P2")
+            {
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "LPC",
+                    DateIssue = person.ProficiencyCheckDate,
+                    DateExpire = person.ProficiencyValidUntil,
+                    Interval = 12,
+                    ImageUrl = result.First().ImageUrl,
+                });
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "OPC",
+                    DateIssue = person.ProficiencyCheckDateOPC,
+                    DateExpire = person.ProficiencyValidUntilOPC,
+                    Interval = 6,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "AVSEC-TRG-02",
+                    DateIssue = trg02 != null ? trg02.DateIssue : null,
+                    DateExpire = trg02 != null ? trg02.DateExpire : null,
+                    Interval = 36,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "AVSEC-TRG-07B",
+                    DateIssue = person.AviationSecurityIssueDate,
+                    DateExpire = person.AviationSecurityExpireDate,
+                    Interval = 36,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "SMS",
+                    DateIssue = person.SMSIssueDate,
+                    DateExpire = person.SMSExpireDate,
+                    Interval = 24,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "SEPT-P",
+                    DateIssue = person.SEPTPIssueDate,
+                    DateExpire = person.SEPTPExpireDate,
+                    Interval = 36,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "ESET",
+                    DateIssue = person.SEPTIssueDate,
+                    DateExpire = person.SEPTExpireDate,
+                    Interval = 12,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "DGR",
+                    DateIssue = person.DangerousGoodsIssueDate,
+                    DateExpire = person.DangerousGoodsExpireDate,
+                    Interval = 24,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "CRM",
+                    DateIssue = person.UpsetRecoveryTrainingIssueDate,
+                    DateExpire = person.UpsetRecoveryTrainingExpireDate,
+                    Interval = 12,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "CCRM",
+                    DateIssue = person.CCRMIssueDate,
+                    DateExpire = person.CCRMExpireDate,
+                    Interval = 36,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "HOT-WX",
+                    DateIssue = person.HotWeatherOperationIssueDate,
+                    DateExpire = person.HotWeatherOperationExpireDate,
+                    Interval = 12,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "COLD-WX",
+                    DateIssue = person.ColdWeatherOperationIssueDate,
+                    DateExpire = person.ColdWeatherOperationExpireDate,
+                    Interval = 12,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "FMT",
+                    DateIssue = person.EGPWSIssueDate,
+                    DateExpire = person.EGPWSExpireDate,
+                    Interval = 24,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "LINE CHECK",
+                    DateIssue = person.DateIssueNDT,
+                    DateExpire = person.DateIssueNDT == null ? null : (Nullable<DateTime>)((DateTime)person.DateIssueNDT).AddYears(1),
+                    Interval = 12,
+                    ImageUrl = result.First().ImageUrl,
+                });
+            }
+            else
+            {
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "AVSEC-TRG-02",
+                    DateIssue = trg02 != null ? trg02.DateIssue : null,
+                    DateExpire = trg02 != null ? trg02.DateExpire : null,
+                    Interval = 36,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "AVSEC-TRG-07B",
+                    DateIssue = person.AviationSecurityIssueDate,
+                    DateExpire = person.AviationSecurityExpireDate,
+                    Interval = 36,
+                    ImageUrl = result.First().ImageUrl,
+                });
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "SMS",
+                    DateIssue = person.SMSIssueDate,
+                    DateExpire = person.SMSExpireDate,
+                    Interval = 24,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "SEPT-P",
+                    DateIssue = person.SEPTPIssueDate,
+                    DateExpire = person.SEPTPExpireDate,
+                    Interval = 36,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "DGR",
+                    DateIssue = person.DangerousGoodsIssueDate,
+                    DateExpire = person.DangerousGoodsExpireDate,
+                    Interval = 24,
+                    ImageUrl = result.First().ImageUrl,
+                });
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "CRM",
+                    DateIssue = person.UpsetRecoveryTrainingIssueDate,
+                    DateExpire = person.UpsetRecoveryTrainingExpireDate,
+                    Interval = 12,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "CCRM",
+                    DateIssue = person.CCRMIssueDate,
+                    DateExpire = person.CCRMExpireDate,
+                    Interval = 36,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "FIRST-AID",
+                    DateIssue = person.FirstAidIssueDate,
+                    DateExpire = person.FirstAidExpireDate,
+                    Interval = 36,
+                    ImageUrl = result.First().ImageUrl,
+                });
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "FMT",
+                    DateIssue = person.EGPWSIssueDate,
+                    DateExpire = person.EGPWSExpireDate,
+                    Interval = 24,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "TYPE RECURRENT",
+                    DateIssue = person.RecurrentIssueDate,
+                    DateExpire = person.RecurrentIssueDate == null ? null : (Nullable<DateTime>)((DateTime)person.RecurrentIssueDate).AddYears(1),
+                    Interval = 12,
+                    ImageUrl = result.First().ImageUrl,
+                });
+                ds.Add(new ViewCoursePeoplePassedRanked()
+                {
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    JobGroup = employee.JobGroup,
+                    NID = person.NID,
+                    Title = "LINE CHECK",
+                    DateIssue = person.DateIssueNDT,
+                    DateExpire = person.DateIssueNDT == null ? null : (Nullable<DateTime>)((DateTime)person.DateIssueNDT).AddYears(1),
+                    Interval = 12,
+                    ImageUrl = result.First().ImageUrl,
+                });
+
+            }
+           
+
+
+
+
+
+            return new DataResponse()
+            {
+                Data = ds,//result,
+                IsSuccess = true,
+            };
+        }
 
         public async Task<DataResponse> GetCoursesPassedHistory(int pid)
         {
@@ -660,7 +1007,7 @@ namespace AirpocketTRN.Services
             }
 
             //pasco
-            var docs = await context.CourseDocuments.Where(q => q.CourseId == dto.Id).ToListAsync();
+           /* var docs = await context.CourseDocuments.Where(q => q.CourseId == dto.Id).ToListAsync();
             var docids = dto.Documents.Where(q => q.Id > 0).Select(q => q.Id).ToList();
             var deleted = docs.Where(q => !docids.Contains(q.Id)).ToList();
             context.CourseDocuments.RemoveRange(deleted);
@@ -673,7 +1020,7 @@ namespace AirpocketTRN.Services
                     FileUrl = x.FileUrl,
                     Remark = x.Remark,
                     TypeId = x.TypeId,
-                });
+                });*/
             /////////////////////////////////////////
 
 
@@ -826,6 +1173,13 @@ namespace AirpocketTRN.Services
                             {
                                 person.FirstAidExpireDate = cp.DateExpire;
                                 person.FirstAidIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case 105:
+                            if ((DateTime)cp.DateExpire > person.LineExpireDate)
+                            {
+                                person.LineExpireDate = cp.DateExpire;
+                                person.LineIssueDate = cp.DateIssue;
                             }
                             break;
                         default:
@@ -1085,6 +1439,13 @@ namespace AirpocketTRN.Services
                         {
                             person.EGPWSExpireDate = cp.DateExpire;
                             person.EGPWSIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case 105:
+                        if ((DateTime)cp.DateExpire > person.LineExpireDate || person.LineExpireDate == null)
+                        {
+                            person.LineExpireDate = cp.DateExpire;
+                            person.LineIssueDate = cp.DateIssue;
                         }
                         break;
                     default:
@@ -1347,11 +1708,11 @@ namespace AirpocketTRN.Services
         public async Task<DataResponse> NotifyCourseRemaining(int dd)
         {
             Magfa m = new Magfa();
-            List<string> nos = new List<string>() { "09128070746", "09122106372","09124449584" };
+            List<string> nos = new List<string>() { "09128070746", "09122106372", "09124449584" };
             var courses = await context.ViewCourseRemainings.Where(q => q.Remaining == dd).ToListAsync();
             var jgs = courses.Select(q => q.JobGroupCode).ToList();
             var jobgroups = await context.ViewJobGroups.Where(q => jgs.Contains(q.FullCode) || jgs.Contains(q.FullCode2)).ToListAsync();
-            
+
             var sent = new List<CourseRemainingNotification>();
             var hises = new List<CourseRemainingNotification>();
             var refs = new List<Int64>();
@@ -1372,7 +1733,7 @@ namespace AirpocketTRN.Services
                 strs.Add("Expired:" + ((DateTime)x.DateExpire).ToString("yyyy-MM-dd"));
                 strs.Add("FLYPERSIA TRAINING DEPARTMENT");
                 var text = String.Join("\n", strs);
-                var rs = m.enqueue(1,  x.Mobile , text)[0];
+                var rs = m.enqueue(1, x.Mobile, text)[0];
                 //foreach(var mo in nos)
                 //{
                 //    m.enqueue(1, /*x.Mobile*/mo, text) ;
@@ -1393,16 +1754,16 @@ namespace AirpocketTRN.Services
                     PersonId = x.PersonId,
                     Remaining = dd,
                     Title = x.Title,
-                     RefId=rs,
+                    RefId = rs,
                 };
                 hises.Add(his);
                 //if (rs != -1)
-                    refs.Add(rs);
+                refs.Add(rs);
                 context.CourseRemainingNotifications.Add(his);
 
             }
 
-            
+
             await Task.Delay(5000);
 
 
@@ -1412,7 +1773,7 @@ namespace AirpocketTRN.Services
             {
 
                 hises[c].Status = st;
-               
+
                 c++;
             }
             var saveResult = await context.SaveAsync();
@@ -1427,7 +1788,7 @@ namespace AirpocketTRN.Services
 
         public async Task<DataResponse> EmailCourseRemaining(int dd)
         {
-             
+
             List<string> nos = new List<string>() { "09128070746", "09122106372", "09124449584" };
             var courses = await context.ViewCourseRemainings.Where(q => q.Remaining == dd).ToListAsync();
             var jgs = courses.Select(q => q.JobGroupCode).ToList();
@@ -1442,26 +1803,26 @@ namespace AirpocketTRN.Services
             strs.Add("<div>The below certificates/licences will be expired in " + dd.ToString() + " day(s).</div>");
             foreach (var x in courses)
             {
-                
-               
+
+
                 List<string> mngnos = new List<string>();
-               // var _mng = jobgroups.FirstOrDefault(q => q.FullCode == x.JobGroupCode || q.FullCode2 == x.JobGroupCode);
-               // if (_mng != null && _mng.Manager != null)
-               // {
-               //     mngnos = await context.ViewEmployees.Where(q => q.GroupId == _mng.Manager || q.IntervalNDT == _mng.Manager).Select(q => q.Mobile).ToListAsync();
-               // }
-              
-                strs.Add("<div>"+x.CourseType+", "+ x.Name+", "+ "Issued:" + ((DateTime)x.DateIssue).ToString("yyyy-MM-dd")+", "+ "Expired:" + ((DateTime)x.DateExpire).ToString("yyyy-MM-dd")+"</di>" );
-               
-                
-                
-                
-                 
+                // var _mng = jobgroups.FirstOrDefault(q => q.FullCode == x.JobGroupCode || q.FullCode2 == x.JobGroupCode);
+                // if (_mng != null && _mng.Manager != null)
+                // {
+                //     mngnos = await context.ViewEmployees.Where(q => q.GroupId == _mng.Manager || q.IntervalNDT == _mng.Manager).Select(q => q.Mobile).ToListAsync();
+                // }
+
+                strs.Add("<div>" + x.CourseType + ", " + x.Name + ", " + "Issued:" + ((DateTime)x.DateIssue).ToString("yyyy-MM-dd") + ", " + "Expired:" + ((DateTime)x.DateExpire).ToString("yyyy-MM-dd") + "</di>");
+
+
+
+
+
 
             }
             var text = String.Join("", strs);
             var helper = new MailHelper();
-            var result = helper.SendTest("v.moghaddam59@gmail.com",text, "EXPIRING NOTIFICATION", 25, 0);
+            var result = helper.SendTest("v.moghaddam59@gmail.com", text, "EXPIRING NOTIFICATION", 25, 0);
 
 
 
@@ -1842,7 +2203,7 @@ namespace AirpocketTRN.Services
         }
 
 
-        public async Task<DataResponse> GetTrnStatCoursePeople(DateTime df, DateTime dt, int? ct, int? status, int? cstatus, string cls, int? pid, int? inst1, int? inst2, int? rank,int? active,string grp)
+        public async Task<DataResponse> GetTrnStatCoursePeople(DateTime df, DateTime dt, int? ct, int? status, int? cstatus, string cls, int? pid, int? inst1, int? inst2, int? rank, int? active, string grp)
         {
             var _df = df.Date;
             var _dt = dt.Date.AddDays(1);
@@ -1879,7 +2240,7 @@ namespace AirpocketTRN.Services
             }
             if (active != -1)
             {
-                query = query.Where(q => q.CustomerId==0);
+                query = query.Where(q => q.CustomerId == 0);
             }
             else query = query.Where(q => q.CustomerId == 1);
 
@@ -1888,7 +2249,7 @@ namespace AirpocketTRN.Services
                 query = query.Where(q => q.JobGroupCode.StartsWith(grp));
 
             }
-          
+
 
             var result = await query.OrderBy(q => q.LastName).ThenBy(q => q.FirstName).ThenBy(q => q.CourseType).ThenBy(q => q.RankLast).ToListAsync();
 

@@ -7,7 +7,6 @@
       <Diagram DiagramId="c174d1540e4f4698a5a9f320322c7352" Name="Diagram1" ZoomLevel="18">
         <EntityTypeShape EntityType="FLYModel.RptFlight" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FLYModel.DlyGrpFlight" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="FLYModel.ViewLegTime" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="FLYModel.ExpFlight" Width="1.5" PointX="9.375" PointY="0.75" />
         <EntityTypeShape EntityType="FLYModel.IdeaSession" Width="1.5" PointX="9.375" PointY="10" />
         <EntityTypeShape EntityType="FLYModel.IdeaAll" Width="1.5" PointX="0.75" PointY="9.75" />
@@ -38,16 +37,13 @@
         <EntityTypeShape EntityType="FLYModel.ViewBookFile" Width="1.5" PointX="9.375" PointY="20.75" />
         <AssociationConnector Association="FLYModel.FK_BookFile_Document_Id" />
         <AssociationConnector Association="FLYModel.FK_DOC_DOC" />
-        <EntityTypeShape EntityType="FLYModel.EFBDSPRelease" Width="1.5" PointX="11.375" PointY="20.75" />
         <EntityTypeShape EntityType="FLYModel.OFPImportItem" Width="1.5" PointX="23.625" PointY="1.125" />
         <EntityTypeShape EntityType="FLYModel.LoginInfo" Width="1.5" PointX="21.375" PointY="7.75" />
         <EntityTypeShape EntityType="FLYModel.EFBFlightIrregularity" Width="1.5" PointX="24.625" PointY="23" />
         <EntityTypeShape EntityType="FLYModel.EFBReason" Width="1.5" PointX="24.625" PointY="25.625" />
-        <EntityTypeShape EntityType="FLYModel.AppLeg" Width="1.5" PointX="18.375" PointY="24.75" />
         <EntityTypeShape EntityType="FLYModel.ViewFlightCrewNewX" Width="1.5" PointX="23.375" PointY="7.75" />
         <EntityTypeShape EntityType="FLYModel.PersonHistory" Width="1.5" PointX="25.375" PointY="7.75" />
         <EntityTypeShape EntityType="FLYModel.ViewTrainingSMSHistory" Width="1.5" PointX="7.375" PointY="25.75" />
-        <EntityTypeShape EntityType="FLYModel.AppCrewFlight" Width="1.5" PointX="13.375" PointY="26.75" />
         <EntityTypeShape EntityType="FLYModel.ViewFlightCrewNew" Width="1.5" PointX="25.375" PointY="10.75" />
         <EntityTypeShape EntityType="FLYModel.RosterDailyReport" Width="1.5" PointX="27.375" PointY="0.75" />
         <EntityTypeShape EntityType="FLYModel.FTLSummary" Width="1.5" PointX="25.375" PointY="16.75" />
@@ -95,25 +91,29 @@
         <EntityTypeShape EntityType="FLYModel.FlightCharterer" Width="1.5" PointX="41.625" PointY="33.375" />
         <EntityTypeShape EntityType="FLYModel.FltFMI" Width="1.5" PointX="39.375" PointY="0.75" />
         <EntityTypeShape EntityType="FLYModel.ViewFlightCharterer" Width="1.5" PointX="41.375" PointY="0.75" />
-        <EntityTypeShape EntityType="FLYModel.ViewFlightDaily" Width="1.5" PointX="41.375" PointY="37.75" />
         <AssociationConnector Association="FLYModel.fk_chr_chr" />
         <EntityTypeShape EntityType="FLYModel.Ac_MSN" Width="1.5" PointX="0.75" PointY="41.375" />
-        <EntityTypeShape EntityType="FLYModel.FlightInformation" Width="1.5" PointX="6" PointY="32.375" />
+        <EntityTypeShape EntityType="FLYModel.FDPItem" Width="1.5" PointX="28.625" PointY="43.625" />
+        <AssociationConnector Association="FLYModel.fk_fdpitem_fdp" />
+        <EntityTypeShape EntityType="FLYModel.ViewFlightDaily" Width="1.5" PointX="43.375" PointY="0.75" />
+        <EntityTypeShape EntityType="FLYModel.EFBDSPRelease" Width="1.5" PointX="8.25" PointY="62.75" />
+        <EntityTypeShape EntityType="FLYModel.FlightInformation" Width="1.5" PointX="13" PointY="29.5" />
         <AssociationConnector Association="FLYModel.FK_FlightInformation_Ac_MSN" />
         <AssociationConnector Association="FLYModel.fk_flightinformation_fromairport" />
         <AssociationConnector Association="FLYModel.fk_flightinformation_toairport" />
         <AssociationConnector Association="FLYModel.fk_asr_flt" />
         <AssociationConnector Association="FLYModel.fk_EFB_FI" />
         <AssociationConnector Association="FLYModel.fk_vr_flt" />
+        <AssociationConnector Association="FLYModel.fk_fdpitem_flight" />
         <AssociationConnector Association="FLYModel.fk_chr_flt" />
         <AssociationConnector Association="FLYModel.FK_FlightDelay_FlightInformation" />
         <AssociationConnector Association="FLYModel.fk_mvt_flight" />
         <AssociationConnector Association="FLYModel.fk_mvtapi_flight" />
         <AssociationConnector Association="FLYModel.fk_ofp_flt" />
-        <EntityTypeShape EntityType="FLYModel.FDPItem" Width="1.5" PointX="28.625" PointY="43.625" />
-        <AssociationConnector Association="FLYModel.fk_fdpitem_fdp" />
-        <AssociationConnector Association="FLYModel.fk_fdpitem_flight" />
-        <EntityTypeShape EntityType="FLYModel.ViewFlightInformation" Width="1.5" PointX="43.375" PointY="37.75" />
+        <EntityTypeShape EntityType="FLYModel.ViewFlightInformation" Width="1.5" PointX="35.375" PointY="44.75" />
+        <EntityTypeShape EntityType="FLYModel.ViewLegTime" Width="1.5" PointX="45.375" PointY="0.75" />
+        <EntityTypeShape EntityType="FLYModel.AppCrewFlight" Width="1.5" PointX="17.375" PointY="35.75" />
+        <EntityTypeShape EntityType="FLYModel.AppLeg" Width="1.5" PointX="41.375" PointY="37.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

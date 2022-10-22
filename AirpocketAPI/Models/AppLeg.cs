@@ -40,7 +40,6 @@ namespace AirpocketAPI.Models
         public string FromAirportIATA { get; set; }
         public string ToAirportIATA { get; set; }
         public string Register { get; set; }
-        public int MSN { get; set; }
         public string FlightStatus { get; set; }
         public string ArrivalRemark { get; set; }
         public string DepartureRemark { get; set; }
@@ -116,6 +115,7 @@ namespace AirpocketAPI.Models
         public string CommanderNote { get; set; }
         public Nullable<bool> AttASR { get; set; }
         public Nullable<bool> AttVoyageReport { get; set; }
+        public int MSN { get; set; }
         public Nullable<bool> AttRepositioning1 { get; set; }
         public Nullable<bool> AttRepositioning2 { get; set; }
         public string JLUser { get; set; }

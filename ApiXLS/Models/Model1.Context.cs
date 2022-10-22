@@ -25,6 +25,7 @@ namespace ApiXLS.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ViewLegCrew> ViewLegCrews { get; set; }
         public virtual DbSet<AppCrewFlight> AppCrewFlights { get; set; }
         public virtual DbSet<AppLeg> AppLegs { get; set; }
     }

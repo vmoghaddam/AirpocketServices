@@ -29,7 +29,6 @@ namespace ApiLog.Models
         public Nullable<int> GroupId { get; set; }
         public string JobGroup { get; set; }
         public string JobGroupCode { get; set; }
-        public string JobGroupCode2 { get; set; }
         public string JobGroupRoot { get; set; }
         public int MarriageId { get; set; }
         public string NID { get; set; }
@@ -110,5 +109,6 @@ namespace ApiLog.Models
         public string ScheduleName { get; set; }
         public Nullable<bool> InActive { get; set; }
         public Nullable<int> BaseAirportId { get; set; }
+        public string JobGroupCode2 { get; set; }
     }
 }

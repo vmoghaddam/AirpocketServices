@@ -27,7 +27,6 @@ namespace AirpocketAPI.Models
     
         public virtual DbSet<RptFlight> RptFlights { get; set; }
         public virtual DbSet<DlyGrpFlight> DlyGrpFlights { get; set; }
-        public virtual DbSet<ViewLegTime> ViewLegTimes { get; set; }
         public virtual DbSet<ExpFlight> ExpFlights { get; set; }
         public virtual DbSet<IdeaSession> IdeaSessions { get; set; }
         public virtual DbSet<IdeaAll> IdeaAlls { get; set; }
@@ -52,16 +51,13 @@ namespace AirpocketAPI.Models
         public virtual DbSet<BookFile> BookFiles { get; set; }
         public virtual DbSet<Document> Documents { get; set; }
         public virtual DbSet<ViewBookFile> ViewBookFiles { get; set; }
-        public virtual DbSet<EFBDSPRelease> EFBDSPReleases { get; set; }
         public virtual DbSet<OFPImportItem> OFPImportItems { get; set; }
         public virtual DbSet<LoginInfo> LoginInfoes { get; set; }
         public virtual DbSet<EFBFlightIrregularity> EFBFlightIrregularities { get; set; }
         public virtual DbSet<EFBReason> EFBReasons { get; set; }
-        public virtual DbSet<AppLeg> AppLegs { get; set; }
         public virtual DbSet<ViewFlightCrewNewX> ViewFlightCrewNewXes { get; set; }
         public virtual DbSet<PersonHistory> PersonHistories { get; set; }
         public virtual DbSet<ViewTrainingSMSHistory> ViewTrainingSMSHistories { get; set; }
-        public virtual DbSet<AppCrewFlight> AppCrewFlights { get; set; }
         public virtual DbSet<ViewFlightCrewNew> ViewFlightCrewNews { get; set; }
         public virtual DbSet<RosterDailyReport> RosterDailyReports { get; set; }
         public virtual DbSet<FTLSummary> FTLSummaries { get; set; }
@@ -104,10 +100,14 @@ namespace AirpocketAPI.Models
         public virtual DbSet<FlightCharterer> FlightCharterers { get; set; }
         public virtual DbSet<FltFMI> FltFMIS { get; set; }
         public virtual DbSet<ViewFlightCharterer> ViewFlightCharterers { get; set; }
-        public virtual DbSet<ViewFlightDaily> ViewFlightDailies { get; set; }
         public virtual DbSet<Ac_MSN> Ac_MSN { get; set; }
-        public virtual DbSet<FlightInformation> FlightInformations { get; set; }
         public virtual DbSet<FDPItem> FDPItems { get; set; }
+        public virtual DbSet<ViewFlightDaily> ViewFlightDailies { get; set; }
+        public virtual DbSet<EFBDSPRelease> EFBDSPReleases { get; set; }
+        public virtual DbSet<FlightInformation> FlightInformations { get; set; }
         public virtual DbSet<ViewFlightInformation> ViewFlightInformations { get; set; }
+        public virtual DbSet<ViewLegTime> ViewLegTimes { get; set; }
+        public virtual DbSet<AppCrewFlight> AppCrewFlights { get; set; }
+        public virtual DbSet<AppLeg> AppLegs { get; set; }
     }
 }
