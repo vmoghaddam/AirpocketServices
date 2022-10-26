@@ -154,7 +154,7 @@ namespace XAPI.Controllers
             var _dt = Start.Date;
             var _de = Finish.Date.AddDays(1).Date;
             var query = from x in ctx.ViewLegTimes
-                        where x.STALocal >= _dt && x.STALocal < _de && (x.FlightStatusID == 15)
+                        where x.STALocal >= _dt && x.STALocal < _de //&& (x.FlightStatusID == 15)
                         select x;
 
             //    Baggage,PAXADL,PAXCHD,PAXINF,TotalPAX,Status
@@ -178,7 +178,8 @@ namespace XAPI.Controllers
                 PAXCHD = q.PaxChild != null ? q.PaxChild : 0,
                 PAXINF = q.PaxInfant != null ? q.PaxInfant : 0,
                 TotalPAX = (q.PaxAdult != null ? q.PaxAdult : 0) + (q.PaxChild != null ? q.PaxChild : 0) + (q.PaxInfant != null ? q.PaxInfant : 0),
-                Status = 'F'
+                
+                Status=q.FlightStatus
 
 
 
@@ -1680,7 +1681,7 @@ namespace XAPI.Controllers
 
                 //////////////////////////////////
                 //////////////////////////////////
-                var updRecsTxt = "select ID from ViewFMISFLT  where DateUTC='" + dt.ToString("yyyy-MM-dd") + "' and (STD<>STD1  or STA<>STA1 or Takeoff<>Takeoff1 or offblock<>offblock1 or onblock<>onblock1 or landing<>landing1 or reg<>reg1 or StatusId1<>statusid or depstn<>depstn1 or arrstn<>arrstn1)";
+                var updRecsTxt = "select ID from ViewFMISFLT  where DateUTC='" + dt.ToString("yyyy-MM-dd") + "' and (STD<>STD1  or STA<>STA1 or Takeoff<>Takeoff1 or offblock<>offblock1 or onblock<>onblock1 or landing<>landing1 or reg<>reg1 or StatusId1<>statusid or depstn<>depstn1 or arrstn<>arrstn1 or PaxAdult1<>PaxAdult or PaxChild1<>PaxChild or PaxInfant1<>PaxInfant)";
                 List<string> updKeys = new List<string>();
                 using (SqlCommand command = new SqlCommand(updRecsTxt, cnnAP))
                 {

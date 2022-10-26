@@ -441,6 +441,34 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primar
           <Property Name="JL_BlockTime" Type="int" />
           <Property Name="Takeoff" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="XFlightCrew">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="JobGroupCode" />
+            <PropertyRef Name="JobGroup" />
+            <PropertyRef Name="SexId" />
+            <PropertyRef Name="GroupOrder" />
+            <PropertyRef Name="IsCockpit" />
+          </Key>
+          <Property Name="CrewId" Type="int" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="IsPositioning" Type="bit" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="Position" Type="varchar" MaxLength="255" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1001" Nullable="false" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="500" />
+          <Property Name="ScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="JobGroupCode" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="SexId" Type="int" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="500" />
+          <Property Name="GroupOrder" Type="int" Nullable="false" />
+          <Property Name="IsCockpit" Type="int" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="500" />
+        </EntityType>
         <EntityContainer Name="ModelEntitiesStoreContainer">
           <EntitySet Name="RptFlightRVSM" EntityType="Self.RptFlightRVSM" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -820,6 +848,26 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primar
     [ViewLegCrew].[Takeoff] AS [Takeoff]
     FROM [dbo].[ViewLegCrew] AS [ViewLegCrew]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="XFlightCrew" EntityType="Self.XFlightCrew" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [XFlightCrew].[CrewId] AS [CrewId], 
+    [XFlightCrew].[FlightId] AS [FlightId], 
+    [XFlightCrew].[IsPositioning] AS [IsPositioning], 
+    [XFlightCrew].[PositionId] AS [PositionId], 
+    [XFlightCrew].[Position] AS [Position], 
+    [XFlightCrew].[Name] AS [Name], 
+    [XFlightCrew].[Mobile] AS [Mobile], 
+    [XFlightCrew].[ScheduleName] AS [ScheduleName], 
+    [XFlightCrew].[GroupId] AS [GroupId], 
+    [XFlightCrew].[JobGroupCode] AS [JobGroupCode], 
+    [XFlightCrew].[JobGroup] AS [JobGroup], 
+    [XFlightCrew].[SexId] AS [SexId], 
+    [XFlightCrew].[Sex] AS [Sex], 
+    [XFlightCrew].[GroupOrder] AS [GroupOrder], 
+    [XFlightCrew].[IsCockpit] AS [IsCockpit], 
+    [XFlightCrew].[Code] AS [Code]
+    FROM [dbo].[XFlightCrew] AS [XFlightCrew]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -832,6 +880,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primar
           <EntitySet Name="RptFlightRVSMs" EntityType="ModelEntities.RptFlightRVSM" />
           <EntitySet Name="ViewFormBs" EntityType="ModelEntities.ViewFormB" />
           <EntitySet Name="ViewFormCs" EntityType="ModelEntities.ViewFormC" />
+          <EntitySet Name="XFlightCrews" EntityType="ModelEntities.XFlightCrew" />
         </EntityContainer>
         <EntityType Name="ViewFlightDaily">
           <Key>
@@ -1257,6 +1306,32 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primar
           <Property Name="Mail" Type="Int32" Nullable="false" />
           <Property Name="IsDom" Type="Boolean" />
         </EntityType>
+        <EntityType Name="XFlightCrew">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="JobGroupCode" />
+            <PropertyRef Name="JobGroup" />
+            <PropertyRef Name="SexId" />
+            <PropertyRef Name="GroupOrder" />
+            <PropertyRef Name="IsCockpit" />
+          </Key>
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="IsPositioning" Type="Boolean" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="JobGroupCode" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroup" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SexId" Type="Int32" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="GroupOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsCockpit" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1650,6 +1725,28 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primar
                 <ScalarProperty Name="YearName" ColumnName="YearName" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="XFlightCrews">
+            <EntityTypeMapping TypeName="ModelEntities.XFlightCrew">
+              <MappingFragment StoreEntitySet="XFlightCrew">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="IsCockpit" ColumnName="IsCockpit" />
+                <ScalarProperty Name="GroupOrder" ColumnName="GroupOrder" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="SexId" ColumnName="SexId" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

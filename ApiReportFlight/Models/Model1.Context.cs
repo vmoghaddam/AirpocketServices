@@ -31,5 +31,6 @@ namespace ApiReportFlight.Models
         public virtual DbSet<RptFlightRVSM> RptFlightRVSMs { get; set; }
         public virtual DbSet<ViewFormB> ViewFormBs { get; set; }
         public virtual DbSet<ViewFormC> ViewFormCs { get; set; }
+        public virtual DbSet<XFlightCrew> XFlightCrews { get; set; }
     }
 }

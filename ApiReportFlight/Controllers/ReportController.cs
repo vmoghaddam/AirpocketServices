@@ -25,9 +25,11 @@ namespace ApiReportFlight.Controllers
             var cmd = "select * from viewflightdaily ";
             try
             {
-                var context = new ppa_Entities();
+                var context = new ppa_Entities();  
+
+
                 // var cmd = "select * from viewflightdaily ";
-                string whr = " (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
+                string whr = "  (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
 
                 if (!string.IsNullOrEmpty(status) && status != "-1")
                 {

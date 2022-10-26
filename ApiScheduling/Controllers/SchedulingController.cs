@@ -41,6 +41,20 @@ namespace ApiScheduling.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class SchedulingController : ApiController
     {
+
+        [Route("api/test")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetTEST()
+        {
+            var _context = new Models.dbEntities();
+
+            var result = _context.FDPs.Take(10).ToList();
+            return Ok(result);
+
+            // return new DataResponse() { IsSuccess = false };
+        }
+
+
         [Route("api/event/group/save")]
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> SaveEventGroup(eventDto dto)

@@ -1,0 +1,2030 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EFBDSPRelease">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FlightId" Type="int" />
+          <Property Name="ActualWXDSP" Type="bit" />
+          <Property Name="ActualWXCPT" Type="bit" />
+          <Property Name="ActualWXDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ActualWXCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WXForcastDSP" Type="bit" />
+          <Property Name="WXForcastCPT" Type="bit" />
+          <Property Name="WXForcastDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WXForcastCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="SigxWXDSP" Type="bit" />
+          <Property Name="SigxWXCPT" Type="bit" />
+          <Property Name="SigxWXDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="SigxWXCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WindChartDSP" Type="bit" />
+          <Property Name="WindChartCPT" Type="bit" />
+          <Property Name="WindChartDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WindChartCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="NotamDSP" Type="bit" />
+          <Property Name="NotamCPT" Type="bit" />
+          <Property Name="NotamDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="NotamCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ComputedFligthPlanDSP" Type="bit" />
+          <Property Name="ComputedFligthPlanCPT" Type="bit" />
+          <Property Name="ComputedFligthPlanDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ComputedFligthPlanCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ATCFlightPlanDSP" Type="bit" />
+          <Property Name="ATCFlightPlanCPT" Type="bit" />
+          <Property Name="ATCFlightPlanDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ATCFlightPlanCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PermissionsDSP" Type="bit" />
+          <Property Name="PermissionsCPT" Type="bit" />
+          <Property Name="PermissionsDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PermissionsCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="JeppesenAirwayManualDSP" Type="bit" />
+          <Property Name="JeppesenAirwayManualCPT" Type="bit" />
+          <Property Name="JeppesenAirwayManualDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="JeppesenAirwayManualCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MinFuelRequiredDSP" Type="bit" />
+          <Property Name="MinFuelRequiredCPT" Type="bit" />
+          <Property Name="MinFuelRequiredCFP" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MinFuelRequiredPilotReq" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="GeneralDeclarationDSP" Type="bit" />
+          <Property Name="GeneralDeclarationCPT" Type="bit" />
+          <Property Name="GeneralDeclarationDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="GeneralDeclarationCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FlightReportDSP" Type="bit" />
+          <Property Name="FlightReportCPT" Type="bit" />
+          <Property Name="FlightReportDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FlightReportCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="TOLndCardsDSP" Type="bit" />
+          <Property Name="TOLndCardsCPT" Type="bit" />
+          <Property Name="TOLndCardsDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="TOLndCardsCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LoadSheetDSP" Type="bit" />
+          <Property Name="LoadSheetCPT" Type="bit" />
+          <Property Name="LoadSheetDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LoadSheetCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FlightSafetyReportDSP" Type="bit" />
+          <Property Name="FlightSafetyReportCPT" Type="bit" />
+          <Property Name="FlightSafetyReportDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FlightSafetyReportCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AVSECIncidentReportDSP" Type="bit" />
+          <Property Name="AVSECIncidentReportCPT" Type="bit" />
+          <Property Name="AVSECIncidentReportDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AVSECIncidentReportCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="OperationEngineeringDSP" Type="bit" />
+          <Property Name="OperationEngineeringCPT" Type="bit" />
+          <Property Name="OperationEngineeringDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="OperationEngineeringCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="VoyageReportDSP" Type="bit" />
+          <Property Name="VoyageReportCPT" Type="bit" />
+          <Property Name="VoyageReportDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="VoyageReportCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PIFDSP" Type="bit" />
+          <Property Name="PIFCPT" Type="bit" />
+          <Property Name="PIFDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PIFCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="GoodDeclarationDSP" Type="bit" />
+          <Property Name="GoodDeclarationCPT" Type="bit" />
+          <Property Name="GoodDeclarationDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="GoodDeclarationCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IPADDSP" Type="bit" />
+          <Property Name="IPADCPT" Type="bit" />
+          <Property Name="IPADDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IPADCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="DateConfirmed" Type="date" />
+          <Property Name="DispatcherId" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateUpdate" Type="varchar" MaxLength="255" />
+          <Property Name="User" Type="varchar" MaxLength="255" />
+          <Property Name="JLSignedBy" Type="varchar" MaxLength="255" />
+          <Property Name="JLDatePICApproved" Type="datetime" />
+          <Property Name="PICId" Type="int" />
+          <Property Name="PIC" Type="varchar" MaxLength="500" />
+          <Property Name="OperationalFlightPlanFOO" Type="bit" />
+          <Property Name="OperationalFlightPlanCMDR" Type="bit" />
+          <Property Name="OperationalFlightPlanFOORemark" Type="varchar" MaxLength="1" />
+          <Property Name="OperationalFlightPlanCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="ATSFlightPlanFOO" Type="bit" />
+          <Property Name="ATSFlightPlanCMDR" Type="bit" />
+          <Property Name="ATSFlightPlanFOORemark" Type="varchar" MaxLength="1" />
+          <Property Name="ATSFlightPlanCMDRRemark" Type="varchar" MaxLength="1" />
+          <Property Name="VldEFBFOO" Type="bit" />
+          <Property Name="VldEFBCMDR" Type="bit" />
+          <Property Name="VldEFBFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldEFBCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldFlightCrewFOO" Type="bit" />
+          <Property Name="VldFlightCrewCMDR" Type="bit" />
+          <Property Name="VldFlightCrewFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldFlightCrewCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldMedicalFOO" Type="bit" />
+          <Property Name="VldMedicalCMDR" Type="bit" />
+          <Property Name="VldMedicalFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldMedicalCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldPassportFOO" Type="bit" />
+          <Property Name="VldPassportCMDR" Type="bit" />
+          <Property Name="VldPassportFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldPassportCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldCMCFOO" Type="bit" />
+          <Property Name="VldCMCCMDR" Type="bit" />
+          <Property Name="VldCMCFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldCMCCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldRampPassFOO" Type="bit" />
+          <Property Name="VldRampPassCMDR" Type="bit" />
+          <Property Name="VldRampPassFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldRampPassCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="Note" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="FDPItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FDPId" Type="int" Nullable="false" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="IsSector" Type="bit" Nullable="false" />
+          <Property Name="SplitDutyPairId" Type="int" />
+          <Property Name="SplitDuty" Type="bit" />
+          <Property Name="IsPositioning" Type="bit" />
+          <Property Name="IsOff" Type="bit" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="RosterPositionId" Type="int" />
+          <Property Name="Pickup" Type="datetime" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.AppCrewFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AppCrewFlight">
+          <Key>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <PropertyRef Name="CrewId" />
+            <PropertyRef Name="FlightId" />
+          </Key>
+          <Property Name="FDPId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" />
+          <Property Name="DutyType" Type="int" Nullable="false" />
+          <Property Name="DutyTypeTitle" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="FDPItemId" Type="int" Nullable="false" />
+          <Property Name="CrewId" Type="int" Nullable="false" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
+          <Property Name="IsPositioning" Type="bit" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="Position" Type="varchar" MaxLength="7" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="ScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
+          <Property Name="SexId" Type="int" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="1000" />
+          <Property Name="GroupOrder" Type="int" Nullable="false" />
+          <Property Name="IsCockpit" Type="int" Nullable="false" />
+          <Property Name="STDDay" Type="date" />
+          <Property Name="STADay" Type="date" />
+          <Property Name="STDDayLocal" Type="date" />
+          <Property Name="STADayLocal" Type="date" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="FromAirport" Type="int" />
+          <Property Name="ToAirport" Type="int" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="STDLocal" Type="datetime" />
+          <Property Name="STALocal" Type="datetime" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisterId" Type="int" />
+          <Property Name="BlockOff" Type="datetime" />
+          <Property Name="BlockOn" Type="datetime" />
+          <Property Name="TakeOff" Type="datetime" />
+          <Property Name="Landing" Type="datetime" />
+          <Property Name="BlockOffLocal" Type="datetime" />
+          <Property Name="BlockOnLocal" Type="datetime" />
+          <Property Name="TakeOffLocal" Type="datetime" />
+          <Property Name="LandingLocal" Type="datetime" />
+          <Property Name="BlockTime" Type="int" />
+          <Property Name="FlightTime" Type="int" />
+          <Property Name="ScheduledFlightTime" Type="int" />
+          <Property Name="FPFlightTime" Type="int" />
+          <Property Name="BaggageWeight" Type="int" Nullable="false" />
+          <Property Name="CargoWeight" Type="int" Nullable="false" />
+          <Property Name="Freight" Type="int" />
+          <Property Name="FlightStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FlightStatusId" Type="int" />
+          <Property Name="Airline" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AirlineOperatorsID" Type="int" />
+          <Property Name="CPCrewId" Type="int" />
+          <Property Name="CPInstructor" Type="varchar" MaxLength="500" />
+          <Property Name="CPP1" Type="varchar" MaxLength="500" />
+          <Property Name="CPP2" Type="varchar" MaxLength="500" />
+          <Property Name="CPSCCM" Type="varchar" MaxLength="500" />
+          <Property Name="CPISCCM" Type="varchar" MaxLength="500" />
+          <Property Name="SplitDuty" Type="bit" />
+          <Property Name="NightTime" Type="int" Nullable="false" />
+          <Property Name="DayTime" Type="int" />
+          <Property Name="DelayBlockOff" Type="int" />
+          <Property Name="NightTakeOff" Type="int" />
+          <Property Name="DayTakeOff" Type="int" />
+          <Property Name="NightLanding" Type="int" />
+          <Property Name="DayLanding" Type="int" />
+          <Property Name="JLUserId" Type="int" />
+          <Property Name="JLApproverId" Type="int" />
+          <Property Name="JLDate" Type="datetime" />
+          <Property Name="JLDateApproved" Type="datetime" />
+          <Property Name="JLNo" Type="varchar" MaxLength="200" />
+          <Property Name="JLUser" Type="nvarchar" MaxLength="1001" />
+          <Property Name="JLApprover" Type="nvarchar" MaxLength="1001" />
+          <Property Name="IsJL" Type="int" Nullable="false" />
+          <Property Name="IsJLApproved" Type="int" Nullable="false" />
+          <Property Name="FuelUnitID" Type="int" />
+          <Property Name="FuelRemaining" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FuelUplift" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FuelUsed" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FuelTotal" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="PaxAdult" Type="int" />
+          <Property Name="PaxChild" Type="int" />
+          <Property Name="PaxInfant" Type="int" />
+          <Property Name="PaxTotal" Type="int" />
+          <Property Name="PaxRevenued" Type="int" />
+          <Property Name="SerialNo" Type="varchar" MaxLength="255" />
+          <Property Name="LTR" Type="varchar" MaxLength="255" />
+          <Property Name="RVSM_GND_CPT" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="RVSM_GND_STBY" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="RVSM_GND_FO" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="RVSM_FLT_CPT" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="RVSM_FLT_STBY" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="RVSM_FLT_FO" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CARGO" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FuelDensity" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CommanderNote" Type="nvarchar" MaxLength="2000" />
+          <Property Name="AttASR" Type="bit" />
+          <Property Name="AttVoyageReport" Type="bit" />
+          <Property Name="AttRepositioning1" Type="bit" />
+          <Property Name="AttRepositioning2" Type="bit" />
+          <Property Name="Version" Type="int" />
+          <Property Name="IsSynced" Type="bit" />
+          <Property Name="PF" Type="varchar" MaxLength="255" />
+          <Property Name="IPName" Type="nvarchar" MaxLength="1001" />
+          <Property Name="IPId" Type="int" />
+          <Property Name="IPScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="P1Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P1Id" Type="int" />
+          <Property Name="P1ScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P2Id" Type="int" />
+          <Property Name="P2ScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="PIC" Type="nvarchar" MaxLength="1001" />
+          <Property Name="PICId" Type="int" />
+          <Property Name="SIC" Type="varchar" MaxLength="500" />
+          <Property Name="SICId" Type="int" />
+          <Property Name="JLDatePICApproved" Type="datetime" />
+          <Property Name="IStart" Type="datetime" />
+          <Property Name="JLSignedBy" Type="varchar" MaxLength="500" />
+          <Property Name="ALT1" Type="varchar" MaxLength="255" />
+          <Property Name="ALT2" Type="varchar" MaxLength="255" />
+          <Property Name="ALT3" Type="varchar" MaxLength="255" />
+          <Property Name="ALT4" Type="varchar" MaxLength="255" />
+          <Property Name="ALT5" Type="varchar" MaxLength="500" />
+          <Property Name="ATL" Type="varchar" MaxLength="1000" />
+          <Property Name="ATCPlan" Type="varchar" MaxLength="3000" />
+          <Property Name="FPTripFuel" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FPFuel" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FuelPlanned" Type="decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBDSPReleases' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewEFBDSPReleases">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="ActualWXDSP" Type="bit" />
+          <Property Name="ActualWXCPT" Type="bit" />
+          <Property Name="ActualWXDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ActualWXCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WXForcastDSP" Type="bit" />
+          <Property Name="WXForcastCPT" Type="bit" />
+          <Property Name="WXForcastDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WXForcastCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="SigxWXDSP" Type="bit" />
+          <Property Name="SigxWXCPT" Type="bit" />
+          <Property Name="SigxWXDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="SigxWXCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WindChartDSP" Type="bit" />
+          <Property Name="WindChartCPT" Type="bit" />
+          <Property Name="WindChartDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WindChartCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="NotamDSP" Type="bit" />
+          <Property Name="NotamCPT" Type="bit" />
+          <Property Name="NotamDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="NotamCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ComputedFligthPlanDSP" Type="bit" />
+          <Property Name="ComputedFligthPlanCPT" Type="bit" />
+          <Property Name="ComputedFligthPlanDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ComputedFligthPlanCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ATCFlightPlanDSP" Type="bit" />
+          <Property Name="ATCFlightPlanCPT" Type="bit" />
+          <Property Name="ATCFlightPlanDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ATCFlightPlanCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PermissionsDSP" Type="bit" />
+          <Property Name="PermissionsCPT" Type="bit" />
+          <Property Name="PermissionsDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PermissionsCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="JeppesenAirwayManualDSP" Type="bit" />
+          <Property Name="JeppesenAirwayManualCPT" Type="bit" />
+          <Property Name="JeppesenAirwayManualDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="JeppesenAirwayManualCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MinFuelRequiredDSP" Type="bit" />
+          <Property Name="MinFuelRequiredCPT" Type="bit" />
+          <Property Name="MinFuelRequiredPilotReq" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="GeneralDeclarationDSP" Type="bit" />
+          <Property Name="GeneralDeclarationCPT" Type="bit" />
+          <Property Name="GeneralDeclarationDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="GeneralDeclarationCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FlightReportDSP" Type="bit" />
+          <Property Name="FlightReportCPT" Type="bit" />
+          <Property Name="FlightReportDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FlightReportCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="TOLndCardsDSP" Type="bit" />
+          <Property Name="TOLndCardsCPT" Type="bit" />
+          <Property Name="TOLndCardsDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="TOLndCardsCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LoadSheetDSP" Type="bit" />
+          <Property Name="LoadSheetCPT" Type="bit" />
+          <Property Name="LoadSheetDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LoadSheetCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FlightSafetyReportDSP" Type="bit" />
+          <Property Name="FlightSafetyReportCPT" Type="bit" />
+          <Property Name="FlightSafetyReportDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FlightSafetyReportCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AVSECIncidentReportDSP" Type="bit" />
+          <Property Name="AVSECIncidentReportCPT" Type="bit" />
+          <Property Name="AVSECIncidentReportDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AVSECIncidentReportCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="OperationEngineeringDSP" Type="bit" />
+          <Property Name="OperationEngineeringCPT" Type="bit" />
+          <Property Name="OperationEngineeringDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="OperationEngineeringCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="VoyageReportDSP" Type="bit" />
+          <Property Name="VoyageReportCPT" Type="bit" />
+          <Property Name="VoyageReportDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="VoyageReportCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PIFDSP" Type="bit" />
+          <Property Name="PIFCPT" Type="bit" />
+          <Property Name="PIFDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PIFCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="GoodDeclarationDSP" Type="bit" />
+          <Property Name="GoodDeclarationCPT" Type="bit" />
+          <Property Name="GoodDeclarationDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="GoodDeclarationCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IPADDSP" Type="bit" />
+          <Property Name="IPADCPT" Type="bit" />
+          <Property Name="IPADDSPRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IPADCPTRemark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="DateConfirmed" Type="date" />
+          <Property Name="DispatcherId" Type="int" />
+          <Property Name="DSPName" Type="varchar" MaxLength="255" />
+          <Property Name="DSPPID" Type="nvarchar" MaxLength="500" />
+          <Property Name="DSPNID" Type="nvarchar" MaxLength="500" />
+          <Property Name="DSPMobile" Type="nvarchar" MaxLength="500" />
+          <Property Name="JLSignedBy" Type="varchar" MaxLength="255" />
+          <Property Name="JLDatePICApproved" Type="datetime" />
+          <Property Name="PICId" Type="int" />
+          <Property Name="PIC" Type="varchar" MaxLength="500" />
+          <Property Name="OperationalFlightPlanFOO" Type="bit" />
+          <Property Name="OperationalFlightPlanCMDR" Type="bit" />
+          <Property Name="OperationalFlightPlanFOORemark" Type="varchar" MaxLength="1" />
+          <Property Name="OperationalFlightPlanCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="ATSFlightPlanFOO" Type="bit" />
+          <Property Name="ATSFlightPlanCMDR" Type="bit" />
+          <Property Name="ATSFlightPlanFOORemark" Type="varchar" MaxLength="1" />
+          <Property Name="ATSFlightPlanCMDRRemark" Type="varchar" MaxLength="1" />
+          <Property Name="VldEFBFOO" Type="bit" />
+          <Property Name="VldEFBCMDR" Type="bit" />
+          <Property Name="VldEFBFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldEFBCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldFlightCrewFOO" Type="bit" />
+          <Property Name="VldFlightCrewCMDR" Type="bit" />
+          <Property Name="VldFlightCrewFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldFlightCrewCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldMedicalFOO" Type="bit" />
+          <Property Name="VldMedicalCMDR" Type="bit" />
+          <Property Name="VldMedicalFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldMedicalCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldPassportFOO" Type="bit" />
+          <Property Name="VldPassportCMDR" Type="bit" />
+          <Property Name="VldPassportFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldPassportCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldCMCFOO" Type="bit" />
+          <Property Name="VldCMCCMDR" Type="bit" />
+          <Property Name="VldCMCFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldCMCCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldRampPassFOO" Type="bit" />
+          <Property Name="VldRampPassCMDR" Type="bit" />
+          <Property Name="VldRampPassFOORemark" Type="varchar" MaxLength="255" />
+          <Property Name="VldRampPassCMDRRemark" Type="varchar" MaxLength="255" />
+          <Property Name="Note" Type="varchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewLegCrew">
+          <Key>
+            <PropertyRef Name="FDPId" />
+            <PropertyRef Name="FDPItemId" />
+            <PropertyRef Name="Name" />
+            
+            <PropertyRef Name="IsCockpit" />
+            <PropertyRef Name="FixTime" />
+            <PropertyRef Name="FlightStatus" />
+          </Key>
+          <Property Name="CrewId" Type="int" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="FDPId" Type="int" Nullable="false" />
+          <Property Name="FDPItemId" Type="int" Nullable="false" />
+          <Property Name="IsPositioning" Type="bit" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="Position" Type="varchar" MaxLength="255" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="ScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
+          <Property Name="GroupOrder" Type="int" Nullable="false" />
+          <Property Name="IsCockpit" Type="int" Nullable="false" />
+          <Property Name="FlightPlanId" Type="int" />
+          <Property Name="BlockM" Type="tinyint" />
+          <Property Name="BlockH" Type="int" />
+          <Property Name="FlightH" Type="int" />
+          <Property Name="FlightM" Type="tinyint" />
+          <Property Name="ChocksIn" Type="datetime" />
+          <Property Name="Landing" Type="datetime" />
+          <Property Name="Duty" Type="int" />
+          <Property Name="ScheduledFlightTime" Type="int" />
+          <Property Name="SITATime" Type="int" />
+          <Property Name="FixTime" Type="int" Nullable="false" />
+          <Property Name="FlightTimeActual" Type="int" />
+          <Property Name="ArrivalLocal" Type="datetime" />
+          <Property Name="DepartureLocal" Type="datetime" />
+          <Property Name="Arrival" Type="datetime" />
+          <Property Name="Departure" Type="datetime" />
+          <Property Name="FPFlightMM" Type="int" />
+          <Property Name="FPFlightHH" Type="int" />
+          <Property Name="OToAirportIATA" Type="varchar" MaxLength="255" />
+          <Property Name="OToAirportId" Type="int" />
+          <Property Name="OSTA" Type="datetime" />
+          <Property Name="ActualFlightMTakeoff" Type="numeric" Precision="21" Scale="6" />
+          <Property Name="ActualFlightHTakeoff" Type="int" />
+          <Property Name="ActualFlightMOffBlock" Type="numeric" Precision="21" Scale="6" />
+          <Property Name="ActualFlightHOffBlock" Type="int" />
+          <Property Name="IsDelayLanding" Type="int" />
+          <Property Name="IsDelayOnBlock" Type="int" />
+          <Property Name="IsDelayTakeoff" Type="int" />
+          <Property Name="IsDelayOffBlock" Type="int" />
+          <Property Name="DelayLanding" Type="int" />
+          <Property Name="DelayOnBlock" Type="int" />
+          <Property Name="DelayTakeoff" Type="int" />
+          <Property Name="DelayOffBlock" Type="int" />
+          <Property Name="STADay" Type="date" />
+          <Property Name="STDDay" Type="date" />
+          <Property Name="ArrivalRemark" Type="nvarchar" MaxLength="2000" />
+          <Property Name="FlightStatus" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="MSN" Type="int" />
+          <Property Name="DepartureRemark" Type="nvarchar" MaxLength="2000" />
+          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="FlightPlan" Type="varchar" MaxLength="200" />
+          <Property Name="FlightMPlanned" Type="int" />
+          <Property Name="FlightHPlanned" Type="int" />
+          <Property Name="STDPlanned" Type="datetime" />
+          <Property Name="STAPlanned" Type="datetime" />
+          <Property Name="ToAirport" Type="int" />
+          <Property Name="FromAirport" Type="int" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlightTypeID" Type="int" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="FlightStatusID" Type="int" />
+          <Property Name="Date" Type="date" />
+          <Property Name="STALocal" Type="datetime" />
+          <Property Name="STDLocal" Type="datetime" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="ChocksOut" Type="datetime" />
+          <Property Name="ChocksInLocal" Type="datetime" />
+          <Property Name="ChocksOutLocal" Type="datetime" />
+          <Property Name="LandingLocal" Type="datetime" />
+          <Property Name="TakeOffLocal" Type="datetime" />
+          <Property Name="JL_OffBlock" Type="datetime" />
+          <Property Name="JL_OnBlock" Type="datetime" />
+          <Property Name="JL_TakeOff" Type="datetime" />
+          <Property Name="JL_Landing" Type="datetime" />
+          <Property Name="JL_OffBlockLocal" Type="datetime" />
+          <Property Name="JL_OnBlockLocal" Type="datetime" />
+          <Property Name="JL_TakeOffLocal" Type="datetime" />
+          <Property Name="JL_LandingLocal" Type="datetime" />
+          <Property Name="FlightTime" Type="int" />
+          <Property Name="BlockTime" Type="int" />
+          <Property Name="JL_FlightTime" Type="int" />
+          <Property Name="JL_BlockTime" Type="int" />
+          <Property Name="Takeoff" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.XAppLeg' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="XAppLeg">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FlightId" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
+          <Property Name="PICId" Type="int" />
+        </EntityType>
+        <EntityContainer Name="dbModelStoreContainer">
+          <EntitySet Name="EFBDSPRelease" EntityType="Self.EFBDSPRelease" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FDPItem" EntityType="Self.FDPItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AppCrewFlight" EntityType="Self.AppCrewFlight" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AppCrewFlight].[FDPId] AS [FDPId], 
+    [AppCrewFlight].[Id] AS [Id], 
+    [AppCrewFlight].[DutyType] AS [DutyType], 
+    [AppCrewFlight].[DutyTypeTitle] AS [DutyTypeTitle], 
+    [AppCrewFlight].[FDPItemId] AS [FDPItemId], 
+    [AppCrewFlight].[CrewId] AS [CrewId], 
+    [AppCrewFlight].[FlightId] AS [FlightId], 
+    [AppCrewFlight].[IsPositioning] AS [IsPositioning], 
+    [AppCrewFlight].[PositionId] AS [PositionId], 
+    [AppCrewFlight].[Position] AS [Position], 
+    [AppCrewFlight].[Name] AS [Name], 
+    [AppCrewFlight].[ScheduleName] AS [ScheduleName], 
+    [AppCrewFlight].[GroupId] AS [GroupId], 
+    [AppCrewFlight].[JobGroup] AS [JobGroup], 
+    [AppCrewFlight].[JobGroupCode] AS [JobGroupCode], 
+    [AppCrewFlight].[SexId] AS [SexId], 
+    [AppCrewFlight].[Sex] AS [Sex], 
+    [AppCrewFlight].[GroupOrder] AS [GroupOrder], 
+    [AppCrewFlight].[IsCockpit] AS [IsCockpit], 
+    [AppCrewFlight].[STDDay] AS [STDDay], 
+    [AppCrewFlight].[STADay] AS [STADay], 
+    [AppCrewFlight].[STDDayLocal] AS [STDDayLocal], 
+    [AppCrewFlight].[STADayLocal] AS [STADayLocal], 
+    [AppCrewFlight].[FlightNumber] AS [FlightNumber], 
+    [AppCrewFlight].[FromAirportIATA] AS [FromAirportIATA], 
+    [AppCrewFlight].[ToAirportIATA] AS [ToAirportIATA], 
+    [AppCrewFlight].[FromAirport] AS [FromAirport], 
+    [AppCrewFlight].[ToAirport] AS [ToAirport], 
+    [AppCrewFlight].[STD] AS [STD], 
+    [AppCrewFlight].[STA] AS [STA], 
+    [AppCrewFlight].[STDLocal] AS [STDLocal], 
+    [AppCrewFlight].[STALocal] AS [STALocal], 
+    [AppCrewFlight].[Register] AS [Register], 
+    [AppCrewFlight].[RegisterId] AS [RegisterId], 
+    [AppCrewFlight].[BlockOff] AS [BlockOff], 
+    [AppCrewFlight].[BlockOn] AS [BlockOn], 
+    [AppCrewFlight].[TakeOff] AS [TakeOff], 
+    [AppCrewFlight].[Landing] AS [Landing], 
+    [AppCrewFlight].[BlockOffLocal] AS [BlockOffLocal], 
+    [AppCrewFlight].[BlockOnLocal] AS [BlockOnLocal], 
+    [AppCrewFlight].[TakeOffLocal] AS [TakeOffLocal], 
+    [AppCrewFlight].[LandingLocal] AS [LandingLocal], 
+    [AppCrewFlight].[BlockTime] AS [BlockTime], 
+    [AppCrewFlight].[FlightTime] AS [FlightTime], 
+    [AppCrewFlight].[ScheduledFlightTime] AS [ScheduledFlightTime], 
+    [AppCrewFlight].[FPFlightTime] AS [FPFlightTime], 
+    [AppCrewFlight].[BaggageWeight] AS [BaggageWeight], 
+    [AppCrewFlight].[CargoWeight] AS [CargoWeight], 
+    [AppCrewFlight].[Freight] AS [Freight], 
+    [AppCrewFlight].[FlightStatus] AS [FlightStatus], 
+    [AppCrewFlight].[FlightStatusId] AS [FlightStatusId], 
+    [AppCrewFlight].[Airline] AS [Airline], 
+    [AppCrewFlight].[AirlineOperatorsID] AS [AirlineOperatorsID], 
+    [AppCrewFlight].[CPCrewId] AS [CPCrewId], 
+    [AppCrewFlight].[CPInstructor] AS [CPInstructor], 
+    [AppCrewFlight].[CPP1] AS [CPP1], 
+    [AppCrewFlight].[CPP2] AS [CPP2], 
+    [AppCrewFlight].[CPSCCM] AS [CPSCCM], 
+    [AppCrewFlight].[CPISCCM] AS [CPISCCM], 
+    [AppCrewFlight].[SplitDuty] AS [SplitDuty], 
+    [AppCrewFlight].[NightTime] AS [NightTime], 
+    [AppCrewFlight].[DayTime] AS [DayTime], 
+    [AppCrewFlight].[DelayBlockOff] AS [DelayBlockOff], 
+    [AppCrewFlight].[NightTakeOff] AS [NightTakeOff], 
+    [AppCrewFlight].[DayTakeOff] AS [DayTakeOff], 
+    [AppCrewFlight].[NightLanding] AS [NightLanding], 
+    [AppCrewFlight].[DayLanding] AS [DayLanding], 
+    [AppCrewFlight].[JLUserId] AS [JLUserId], 
+    [AppCrewFlight].[JLApproverId] AS [JLApproverId], 
+    [AppCrewFlight].[JLDate] AS [JLDate], 
+    [AppCrewFlight].[JLDateApproved] AS [JLDateApproved], 
+    [AppCrewFlight].[JLNo] AS [JLNo], 
+    [AppCrewFlight].[JLUser] AS [JLUser], 
+    [AppCrewFlight].[JLApprover] AS [JLApprover], 
+    [AppCrewFlight].[IsJL] AS [IsJL], 
+    [AppCrewFlight].[IsJLApproved] AS [IsJLApproved], 
+    [AppCrewFlight].[FuelUnitID] AS [FuelUnitID], 
+    [AppCrewFlight].[FuelRemaining] AS [FuelRemaining], 
+    [AppCrewFlight].[FuelUplift] AS [FuelUplift], 
+    [AppCrewFlight].[FuelUsed] AS [FuelUsed], 
+    [AppCrewFlight].[FuelTotal] AS [FuelTotal], 
+    [AppCrewFlight].[PaxAdult] AS [PaxAdult], 
+    [AppCrewFlight].[PaxChild] AS [PaxChild], 
+    [AppCrewFlight].[PaxInfant] AS [PaxInfant], 
+    [AppCrewFlight].[PaxTotal] AS [PaxTotal], 
+    [AppCrewFlight].[PaxRevenued] AS [PaxRevenued], 
+    [AppCrewFlight].[SerialNo] AS [SerialNo], 
+    [AppCrewFlight].[LTR] AS [LTR], 
+    [AppCrewFlight].[RVSM_GND_CPT] AS [RVSM_GND_CPT], 
+    [AppCrewFlight].[RVSM_GND_STBY] AS [RVSM_GND_STBY], 
+    [AppCrewFlight].[RVSM_GND_FO] AS [RVSM_GND_FO], 
+    [AppCrewFlight].[RVSM_FLT_CPT] AS [RVSM_FLT_CPT], 
+    [AppCrewFlight].[RVSM_FLT_STBY] AS [RVSM_FLT_STBY], 
+    [AppCrewFlight].[RVSM_FLT_FO] AS [RVSM_FLT_FO], 
+    [AppCrewFlight].[CARGO] AS [CARGO], 
+    [AppCrewFlight].[FuelDensity] AS [FuelDensity], 
+    [AppCrewFlight].[CommanderNote] AS [CommanderNote], 
+    [AppCrewFlight].[AttASR] AS [AttASR], 
+    [AppCrewFlight].[AttVoyageReport] AS [AttVoyageReport], 
+    [AppCrewFlight].[AttRepositioning1] AS [AttRepositioning1], 
+    [AppCrewFlight].[AttRepositioning2] AS [AttRepositioning2], 
+    [AppCrewFlight].[Version] AS [Version], 
+    [AppCrewFlight].[IsSynced] AS [IsSynced], 
+    [AppCrewFlight].[PF] AS [PF], 
+    [AppCrewFlight].[IPName] AS [IPName], 
+    [AppCrewFlight].[IPId] AS [IPId], 
+    [AppCrewFlight].[IPScheduleName] AS [IPScheduleName], 
+    [AppCrewFlight].[P1Name] AS [P1Name], 
+    [AppCrewFlight].[P1Id] AS [P1Id], 
+    [AppCrewFlight].[P1ScheduleName] AS [P1ScheduleName], 
+    [AppCrewFlight].[P2Name] AS [P2Name], 
+    [AppCrewFlight].[P2Id] AS [P2Id], 
+    [AppCrewFlight].[P2ScheduleName] AS [P2ScheduleName], 
+    [AppCrewFlight].[PIC] AS [PIC], 
+    [AppCrewFlight].[PICId] AS [PICId], 
+    [AppCrewFlight].[SIC] AS [SIC], 
+    [AppCrewFlight].[SICId] AS [SICId], 
+    [AppCrewFlight].[JLDatePICApproved] AS [JLDatePICApproved], 
+    [AppCrewFlight].[IStart] AS [IStart], 
+    [AppCrewFlight].[JLSignedBy] AS [JLSignedBy], 
+    [AppCrewFlight].[ALT1] AS [ALT1], 
+    [AppCrewFlight].[ALT2] AS [ALT2], 
+    [AppCrewFlight].[ALT3] AS [ALT3], 
+    [AppCrewFlight].[ALT4] AS [ALT4], 
+    [AppCrewFlight].[ALT5] AS [ALT5], 
+    [AppCrewFlight].[ATL] AS [ATL], 
+    [AppCrewFlight].[ATCPlan] AS [ATCPlan], 
+    [AppCrewFlight].[FPTripFuel] AS [FPTripFuel], 
+    [AppCrewFlight].[FPFuel] AS [FPFuel], 
+    [AppCrewFlight].[FuelPlanned] AS [FuelPlanned]
+    FROM [dbo].[AppCrewFlight] AS [AppCrewFlight]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewEFBDSPReleases" EntityType="Self.ViewEFBDSPReleases" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewEFBDSPReleases].[Id] AS [Id], 
+    [ViewEFBDSPReleases].[FlightId] AS [FlightId], 
+    [ViewEFBDSPReleases].[ActualWXDSP] AS [ActualWXDSP], 
+    [ViewEFBDSPReleases].[ActualWXCPT] AS [ActualWXCPT], 
+    [ViewEFBDSPReleases].[ActualWXDSPRemark] AS [ActualWXDSPRemark], 
+    [ViewEFBDSPReleases].[ActualWXCPTRemark] AS [ActualWXCPTRemark], 
+    [ViewEFBDSPReleases].[WXForcastDSP] AS [WXForcastDSP], 
+    [ViewEFBDSPReleases].[WXForcastCPT] AS [WXForcastCPT], 
+    [ViewEFBDSPReleases].[WXForcastDSPRemark] AS [WXForcastDSPRemark], 
+    [ViewEFBDSPReleases].[WXForcastCPTRemark] AS [WXForcastCPTRemark], 
+    [ViewEFBDSPReleases].[SigxWXDSP] AS [SigxWXDSP], 
+    [ViewEFBDSPReleases].[SigxWXCPT] AS [SigxWXCPT], 
+    [ViewEFBDSPReleases].[SigxWXDSPRemark] AS [SigxWXDSPRemark], 
+    [ViewEFBDSPReleases].[SigxWXCPTRemark] AS [SigxWXCPTRemark], 
+    [ViewEFBDSPReleases].[WindChartDSP] AS [WindChartDSP], 
+    [ViewEFBDSPReleases].[WindChartCPT] AS [WindChartCPT], 
+    [ViewEFBDSPReleases].[WindChartDSPRemark] AS [WindChartDSPRemark], 
+    [ViewEFBDSPReleases].[WindChartCPTRemark] AS [WindChartCPTRemark], 
+    [ViewEFBDSPReleases].[NotamDSP] AS [NotamDSP], 
+    [ViewEFBDSPReleases].[NotamCPT] AS [NotamCPT], 
+    [ViewEFBDSPReleases].[NotamDSPRemark] AS [NotamDSPRemark], 
+    [ViewEFBDSPReleases].[NotamCPTRemark] AS [NotamCPTRemark], 
+    [ViewEFBDSPReleases].[ComputedFligthPlanDSP] AS [ComputedFligthPlanDSP], 
+    [ViewEFBDSPReleases].[ComputedFligthPlanCPT] AS [ComputedFligthPlanCPT], 
+    [ViewEFBDSPReleases].[ComputedFligthPlanDSPRemark] AS [ComputedFligthPlanDSPRemark], 
+    [ViewEFBDSPReleases].[ComputedFligthPlanCPTRemark] AS [ComputedFligthPlanCPTRemark], 
+    [ViewEFBDSPReleases].[ATCFlightPlanDSP] AS [ATCFlightPlanDSP], 
+    [ViewEFBDSPReleases].[ATCFlightPlanCPT] AS [ATCFlightPlanCPT], 
+    [ViewEFBDSPReleases].[ATCFlightPlanDSPRemark] AS [ATCFlightPlanDSPRemark], 
+    [ViewEFBDSPReleases].[ATCFlightPlanCPTRemark] AS [ATCFlightPlanCPTRemark], 
+    [ViewEFBDSPReleases].[PermissionsDSP] AS [PermissionsDSP], 
+    [ViewEFBDSPReleases].[PermissionsCPT] AS [PermissionsCPT], 
+    [ViewEFBDSPReleases].[PermissionsDSPRemark] AS [PermissionsDSPRemark], 
+    [ViewEFBDSPReleases].[PermissionsCPTRemark] AS [PermissionsCPTRemark], 
+    [ViewEFBDSPReleases].[JeppesenAirwayManualDSP] AS [JeppesenAirwayManualDSP], 
+    [ViewEFBDSPReleases].[JeppesenAirwayManualCPT] AS [JeppesenAirwayManualCPT], 
+    [ViewEFBDSPReleases].[JeppesenAirwayManualDSPRemark] AS [JeppesenAirwayManualDSPRemark], 
+    [ViewEFBDSPReleases].[JeppesenAirwayManualCPTRemark] AS [JeppesenAirwayManualCPTRemark], 
+    [ViewEFBDSPReleases].[MinFuelRequiredDSP] AS [MinFuelRequiredDSP], 
+    [ViewEFBDSPReleases].[MinFuelRequiredCPT] AS [MinFuelRequiredCPT], 
+    [ViewEFBDSPReleases].[MinFuelRequiredPilotReq] AS [MinFuelRequiredPilotReq], 
+    [ViewEFBDSPReleases].[GeneralDeclarationDSP] AS [GeneralDeclarationDSP], 
+    [ViewEFBDSPReleases].[GeneralDeclarationCPT] AS [GeneralDeclarationCPT], 
+    [ViewEFBDSPReleases].[GeneralDeclarationDSPRemark] AS [GeneralDeclarationDSPRemark], 
+    [ViewEFBDSPReleases].[GeneralDeclarationCPTRemark] AS [GeneralDeclarationCPTRemark], 
+    [ViewEFBDSPReleases].[FlightReportDSP] AS [FlightReportDSP], 
+    [ViewEFBDSPReleases].[FlightReportCPT] AS [FlightReportCPT], 
+    [ViewEFBDSPReleases].[FlightReportDSPRemark] AS [FlightReportDSPRemark], 
+    [ViewEFBDSPReleases].[FlightReportCPTRemark] AS [FlightReportCPTRemark], 
+    [ViewEFBDSPReleases].[TOLndCardsDSP] AS [TOLndCardsDSP], 
+    [ViewEFBDSPReleases].[TOLndCardsCPT] AS [TOLndCardsCPT], 
+    [ViewEFBDSPReleases].[TOLndCardsDSPRemark] AS [TOLndCardsDSPRemark], 
+    [ViewEFBDSPReleases].[TOLndCardsCPTRemark] AS [TOLndCardsCPTRemark], 
+    [ViewEFBDSPReleases].[LoadSheetDSP] AS [LoadSheetDSP], 
+    [ViewEFBDSPReleases].[LoadSheetCPT] AS [LoadSheetCPT], 
+    [ViewEFBDSPReleases].[LoadSheetDSPRemark] AS [LoadSheetDSPRemark], 
+    [ViewEFBDSPReleases].[LoadSheetCPTRemark] AS [LoadSheetCPTRemark], 
+    [ViewEFBDSPReleases].[FlightSafetyReportDSP] AS [FlightSafetyReportDSP], 
+    [ViewEFBDSPReleases].[FlightSafetyReportCPT] AS [FlightSafetyReportCPT], 
+    [ViewEFBDSPReleases].[FlightSafetyReportDSPRemark] AS [FlightSafetyReportDSPRemark], 
+    [ViewEFBDSPReleases].[FlightSafetyReportCPTRemark] AS [FlightSafetyReportCPTRemark], 
+    [ViewEFBDSPReleases].[AVSECIncidentReportDSP] AS [AVSECIncidentReportDSP], 
+    [ViewEFBDSPReleases].[AVSECIncidentReportCPT] AS [AVSECIncidentReportCPT], 
+    [ViewEFBDSPReleases].[AVSECIncidentReportDSPRemark] AS [AVSECIncidentReportDSPRemark], 
+    [ViewEFBDSPReleases].[AVSECIncidentReportCPTRemark] AS [AVSECIncidentReportCPTRemark], 
+    [ViewEFBDSPReleases].[OperationEngineeringDSP] AS [OperationEngineeringDSP], 
+    [ViewEFBDSPReleases].[OperationEngineeringCPT] AS [OperationEngineeringCPT], 
+    [ViewEFBDSPReleases].[OperationEngineeringDSPRemark] AS [OperationEngineeringDSPRemark], 
+    [ViewEFBDSPReleases].[OperationEngineeringCPTRemark] AS [OperationEngineeringCPTRemark], 
+    [ViewEFBDSPReleases].[VoyageReportDSP] AS [VoyageReportDSP], 
+    [ViewEFBDSPReleases].[VoyageReportCPT] AS [VoyageReportCPT], 
+    [ViewEFBDSPReleases].[VoyageReportDSPRemark] AS [VoyageReportDSPRemark], 
+    [ViewEFBDSPReleases].[VoyageReportCPTRemark] AS [VoyageReportCPTRemark], 
+    [ViewEFBDSPReleases].[PIFDSP] AS [PIFDSP], 
+    [ViewEFBDSPReleases].[PIFCPT] AS [PIFCPT], 
+    [ViewEFBDSPReleases].[PIFDSPRemark] AS [PIFDSPRemark], 
+    [ViewEFBDSPReleases].[PIFCPTRemark] AS [PIFCPTRemark], 
+    [ViewEFBDSPReleases].[GoodDeclarationDSP] AS [GoodDeclarationDSP], 
+    [ViewEFBDSPReleases].[GoodDeclarationCPT] AS [GoodDeclarationCPT], 
+    [ViewEFBDSPReleases].[GoodDeclarationDSPRemark] AS [GoodDeclarationDSPRemark], 
+    [ViewEFBDSPReleases].[GoodDeclarationCPTRemark] AS [GoodDeclarationCPTRemark], 
+    [ViewEFBDSPReleases].[IPADDSP] AS [IPADDSP], 
+    [ViewEFBDSPReleases].[IPADCPT] AS [IPADCPT], 
+    [ViewEFBDSPReleases].[IPADDSPRemark] AS [IPADDSPRemark], 
+    [ViewEFBDSPReleases].[IPADCPTRemark] AS [IPADCPTRemark], 
+    [ViewEFBDSPReleases].[DateConfirmed] AS [DateConfirmed], 
+    [ViewEFBDSPReleases].[DispatcherId] AS [DispatcherId], 
+    [ViewEFBDSPReleases].[DSPName] AS [DSPName], 
+    [ViewEFBDSPReleases].[DSPPID] AS [DSPPID], 
+    [ViewEFBDSPReleases].[DSPNID] AS [DSPNID], 
+    [ViewEFBDSPReleases].[DSPMobile] AS [DSPMobile], 
+    [ViewEFBDSPReleases].[JLSignedBy] AS [JLSignedBy], 
+    [ViewEFBDSPReleases].[JLDatePICApproved] AS [JLDatePICApproved], 
+    [ViewEFBDSPReleases].[PICId] AS [PICId], 
+    [ViewEFBDSPReleases].[PIC] AS [PIC], 
+    [ViewEFBDSPReleases].[OperationalFlightPlanFOO] AS [OperationalFlightPlanFOO], 
+    [ViewEFBDSPReleases].[OperationalFlightPlanCMDR] AS [OperationalFlightPlanCMDR], 
+    [ViewEFBDSPReleases].[OperationalFlightPlanFOORemark] AS [OperationalFlightPlanFOORemark], 
+    [ViewEFBDSPReleases].[OperationalFlightPlanCMDRRemark] AS [OperationalFlightPlanCMDRRemark], 
+    [ViewEFBDSPReleases].[ATSFlightPlanFOO] AS [ATSFlightPlanFOO], 
+    [ViewEFBDSPReleases].[ATSFlightPlanCMDR] AS [ATSFlightPlanCMDR], 
+    [ViewEFBDSPReleases].[ATSFlightPlanFOORemark] AS [ATSFlightPlanFOORemark], 
+    [ViewEFBDSPReleases].[ATSFlightPlanCMDRRemark] AS [ATSFlightPlanCMDRRemark], 
+    [ViewEFBDSPReleases].[VldEFBFOO] AS [VldEFBFOO], 
+    [ViewEFBDSPReleases].[VldEFBCMDR] AS [VldEFBCMDR], 
+    [ViewEFBDSPReleases].[VldEFBFOORemark] AS [VldEFBFOORemark], 
+    [ViewEFBDSPReleases].[VldEFBCMDRRemark] AS [VldEFBCMDRRemark], 
+    [ViewEFBDSPReleases].[VldFlightCrewFOO] AS [VldFlightCrewFOO], 
+    [ViewEFBDSPReleases].[VldFlightCrewCMDR] AS [VldFlightCrewCMDR], 
+    [ViewEFBDSPReleases].[VldFlightCrewFOORemark] AS [VldFlightCrewFOORemark], 
+    [ViewEFBDSPReleases].[VldFlightCrewCMDRRemark] AS [VldFlightCrewCMDRRemark], 
+    [ViewEFBDSPReleases].[VldMedicalFOO] AS [VldMedicalFOO], 
+    [ViewEFBDSPReleases].[VldMedicalCMDR] AS [VldMedicalCMDR], 
+    [ViewEFBDSPReleases].[VldMedicalFOORemark] AS [VldMedicalFOORemark], 
+    [ViewEFBDSPReleases].[VldMedicalCMDRRemark] AS [VldMedicalCMDRRemark], 
+    [ViewEFBDSPReleases].[VldPassportFOO] AS [VldPassportFOO], 
+    [ViewEFBDSPReleases].[VldPassportCMDR] AS [VldPassportCMDR], 
+    [ViewEFBDSPReleases].[VldPassportFOORemark] AS [VldPassportFOORemark], 
+    [ViewEFBDSPReleases].[VldPassportCMDRRemark] AS [VldPassportCMDRRemark], 
+    [ViewEFBDSPReleases].[VldCMCFOO] AS [VldCMCFOO], 
+    [ViewEFBDSPReleases].[VldCMCCMDR] AS [VldCMCCMDR], 
+    [ViewEFBDSPReleases].[VldCMCFOORemark] AS [VldCMCFOORemark], 
+    [ViewEFBDSPReleases].[VldCMCCMDRRemark] AS [VldCMCCMDRRemark], 
+    [ViewEFBDSPReleases].[VldRampPassFOO] AS [VldRampPassFOO], 
+    [ViewEFBDSPReleases].[VldRampPassCMDR] AS [VldRampPassCMDR], 
+    [ViewEFBDSPReleases].[VldRampPassFOORemark] AS [VldRampPassFOORemark], 
+    [ViewEFBDSPReleases].[VldRampPassCMDRRemark] AS [VldRampPassCMDRRemark], 
+    [ViewEFBDSPReleases].[Note] AS [Note]
+    FROM [dbo].[ViewEFBDSPReleases] AS [ViewEFBDSPReleases]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewLegCrew" EntityType="Self.ViewLegCrew" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewLegCrew].[CrewId] AS [CrewId], 
+    [ViewLegCrew].[FlightId] AS [FlightId], 
+    [ViewLegCrew].[FDPId] AS [FDPId], 
+    [ViewLegCrew].[FDPItemId] AS [FDPItemId], 
+    [ViewLegCrew].[IsPositioning] AS [IsPositioning], 
+    [ViewLegCrew].[PositionId] AS [PositionId], 
+    [ViewLegCrew].[Position] AS [Position], 
+    [ViewLegCrew].[Name] AS [Name], 
+    [ViewLegCrew].[ScheduleName] AS [ScheduleName], 
+    [ViewLegCrew].[GroupId] AS [GroupId], 
+    [ViewLegCrew].[JobGroup] AS [JobGroup], 
+    [ViewLegCrew].[JobGroupCode] AS [JobGroupCode], 
+    [ViewLegCrew].[GroupOrder] AS [GroupOrder], 
+    [ViewLegCrew].[IsCockpit] AS [IsCockpit], 
+    [ViewLegCrew].[FlightPlanId] AS [FlightPlanId], 
+    [ViewLegCrew].[BlockM] AS [BlockM], 
+    [ViewLegCrew].[BlockH] AS [BlockH], 
+    [ViewLegCrew].[FlightH] AS [FlightH], 
+    [ViewLegCrew].[FlightM] AS [FlightM], 
+    [ViewLegCrew].[ChocksIn] AS [ChocksIn], 
+    [ViewLegCrew].[Landing] AS [Landing], 
+    [ViewLegCrew].[Duty] AS [Duty], 
+    [ViewLegCrew].[ScheduledFlightTime] AS [ScheduledFlightTime], 
+    [ViewLegCrew].[SITATime] AS [SITATime], 
+    [ViewLegCrew].[FixTime] AS [FixTime], 
+    [ViewLegCrew].[FlightTimeActual] AS [FlightTimeActual], 
+    [ViewLegCrew].[ArrivalLocal] AS [ArrivalLocal], 
+    [ViewLegCrew].[DepartureLocal] AS [DepartureLocal], 
+    [ViewLegCrew].[Arrival] AS [Arrival], 
+    [ViewLegCrew].[Departure] AS [Departure], 
+    [ViewLegCrew].[FPFlightMM] AS [FPFlightMM], 
+    [ViewLegCrew].[FPFlightHH] AS [FPFlightHH], 
+    [ViewLegCrew].[OToAirportIATA] AS [OToAirportIATA], 
+    [ViewLegCrew].[OToAirportId] AS [OToAirportId], 
+    [ViewLegCrew].[OSTA] AS [OSTA], 
+    [ViewLegCrew].[ActualFlightMTakeoff] AS [ActualFlightMTakeoff], 
+    [ViewLegCrew].[ActualFlightHTakeoff] AS [ActualFlightHTakeoff], 
+    [ViewLegCrew].[ActualFlightMOffBlock] AS [ActualFlightMOffBlock], 
+    [ViewLegCrew].[ActualFlightHOffBlock] AS [ActualFlightHOffBlock], 
+    [ViewLegCrew].[IsDelayLanding] AS [IsDelayLanding], 
+    [ViewLegCrew].[IsDelayOnBlock] AS [IsDelayOnBlock], 
+    [ViewLegCrew].[IsDelayTakeoff] AS [IsDelayTakeoff], 
+    [ViewLegCrew].[IsDelayOffBlock] AS [IsDelayOffBlock], 
+    [ViewLegCrew].[DelayLanding] AS [DelayLanding], 
+    [ViewLegCrew].[DelayOnBlock] AS [DelayOnBlock], 
+    [ViewLegCrew].[DelayTakeoff] AS [DelayTakeoff], 
+    [ViewLegCrew].[DelayOffBlock] AS [DelayOffBlock], 
+    [ViewLegCrew].[STADay] AS [STADay], 
+    [ViewLegCrew].[STDDay] AS [STDDay], 
+    [ViewLegCrew].[ArrivalRemark] AS [ArrivalRemark], 
+    [ViewLegCrew].[FlightStatus] AS [FlightStatus], 
+    [ViewLegCrew].[Register] AS [Register], 
+    [ViewLegCrew].[ToAirportIATA] AS [ToAirportIATA], 
+    [ViewLegCrew].[MSN] AS [MSN], 
+    [ViewLegCrew].[DepartureRemark] AS [DepartureRemark], 
+    [ViewLegCrew].[FromAirportIATA] AS [FromAirportIATA], 
+    [ViewLegCrew].[CustomerId] AS [CustomerId], 
+    [ViewLegCrew].[FlightPlan] AS [FlightPlan], 
+    [ViewLegCrew].[FlightMPlanned] AS [FlightMPlanned], 
+    [ViewLegCrew].[FlightHPlanned] AS [FlightHPlanned], 
+    [ViewLegCrew].[STDPlanned] AS [STDPlanned], 
+    [ViewLegCrew].[STAPlanned] AS [STAPlanned], 
+    [ViewLegCrew].[ToAirport] AS [ToAirport], 
+    [ViewLegCrew].[FromAirport] AS [FromAirport], 
+    [ViewLegCrew].[FlightNumber] AS [FlightNumber], 
+    [ViewLegCrew].[FlightTypeID] AS [FlightTypeID], 
+    [ViewLegCrew].[RegisterID] AS [RegisterID], 
+    [ViewLegCrew].[FlightStatusID] AS [FlightStatusID], 
+    [ViewLegCrew].[Date] AS [Date], 
+    [ViewLegCrew].[STALocal] AS [STALocal], 
+    [ViewLegCrew].[STDLocal] AS [STDLocal], 
+    [ViewLegCrew].[STA] AS [STA], 
+    [ViewLegCrew].[STD] AS [STD], 
+    [ViewLegCrew].[ChocksOut] AS [ChocksOut], 
+    [ViewLegCrew].[ChocksInLocal] AS [ChocksInLocal], 
+    [ViewLegCrew].[ChocksOutLocal] AS [ChocksOutLocal], 
+    [ViewLegCrew].[LandingLocal] AS [LandingLocal], 
+    [ViewLegCrew].[TakeOffLocal] AS [TakeOffLocal], 
+    [ViewLegCrew].[JL_OffBlock] AS [JL_OffBlock], 
+    [ViewLegCrew].[JL_OnBlock] AS [JL_OnBlock], 
+    [ViewLegCrew].[JL_TakeOff] AS [JL_TakeOff], 
+    [ViewLegCrew].[JL_Landing] AS [JL_Landing], 
+    [ViewLegCrew].[JL_OffBlockLocal] AS [JL_OffBlockLocal], 
+    [ViewLegCrew].[JL_OnBlockLocal] AS [JL_OnBlockLocal], 
+    [ViewLegCrew].[JL_TakeOffLocal] AS [JL_TakeOffLocal], 
+    [ViewLegCrew].[JL_LandingLocal] AS [JL_LandingLocal], 
+    [ViewLegCrew].[FlightTime] AS [FlightTime], 
+    [ViewLegCrew].[BlockTime] AS [BlockTime], 
+    [ViewLegCrew].[JL_FlightTime] AS [JL_FlightTime], 
+    [ViewLegCrew].[JL_BlockTime] AS [JL_BlockTime], 
+    [ViewLegCrew].[Takeoff] AS [Takeoff]
+    FROM [dbo].[ViewLegCrew] AS [ViewLegCrew]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="XAppLeg" EntityType="Self.XAppLeg" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [XAppLeg].[ID] AS [ID], 
+    [XAppLeg].[FlightId] AS [FlightId], 
+    [XAppLeg].[PICId] AS [PICId]
+    FROM [dbo].[XAppLeg] AS [XAppLeg]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ViewLegCrews" EntityType="dbModel.ViewLegCrew" />
+          <EntitySet Name="EFBDSPReleases" EntityType="dbModel.EFBDSPRelease" />
+          <EntitySet Name="ViewEFBDSPReleases" EntityType="dbModel.ViewEFBDSPReleas" />
+          <EntitySet Name="AppCrewFlights" EntityType="dbModel.AppCrewFlight" />
+          <EntitySet Name="FDPItems" EntityType="dbModel.FDPItem" />
+          <EntitySet Name="XAppLegs" EntityType="dbModel.XAppLeg" />
+        </EntityContainer>
+        <EntityType Name="ViewLegCrew">
+          <Key>
+            <PropertyRef Name="FDPId" />
+            <PropertyRef Name="FDPItemId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IsCockpit" />
+            <PropertyRef Name="FixTime" />
+            <PropertyRef Name="FlightStatus" />
+          </Key>
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="FDPId" Type="Int32" Nullable="false" />
+          <Property Name="FDPItemId" Type="Int32" Nullable="false" />
+          <Property Name="IsPositioning" Type="Boolean" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GroupOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsCockpit" Type="Int32" Nullable="false" />
+          <Property Name="FlightPlanId" Type="Int32" />
+          <Property Name="BlockM" Type="Byte" />
+          <Property Name="BlockH" Type="Int32" />
+          <Property Name="FlightH" Type="Int32" />
+          <Property Name="FlightM" Type="Byte" />
+          <Property Name="ChocksIn" Type="DateTime" Precision="3" />
+          <Property Name="Landing" Type="DateTime" Precision="3" />
+          <Property Name="Duty" Type="Int32" />
+          <Property Name="ScheduledFlightTime" Type="Int32" />
+          <Property Name="SITATime" Type="Int32" />
+          <Property Name="FixTime" Type="Int32" Nullable="false" />
+          <Property Name="FlightTimeActual" Type="Int32" />
+          <Property Name="ArrivalLocal" Type="DateTime" Precision="3" />
+          <Property Name="DepartureLocal" Type="DateTime" Precision="3" />
+          <Property Name="Arrival" Type="DateTime" Precision="3" />
+          <Property Name="Departure" Type="DateTime" Precision="3" />
+          <Property Name="FPFlightMM" Type="Int32" />
+          <Property Name="FPFlightHH" Type="Int32" />
+          <Property Name="OToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OToAirportId" Type="Int32" />
+          <Property Name="OSTA" Type="DateTime" Precision="3" />
+          <Property Name="ActualFlightMTakeoff" Type="Decimal" Precision="21" Scale="6" />
+          <Property Name="ActualFlightHTakeoff" Type="Int32" />
+          <Property Name="ActualFlightMOffBlock" Type="Decimal" Precision="21" Scale="6" />
+          <Property Name="ActualFlightHOffBlock" Type="Int32" />
+          <Property Name="IsDelayLanding" Type="Int32" />
+          <Property Name="IsDelayOnBlock" Type="Int32" />
+          <Property Name="IsDelayTakeoff" Type="Int32" />
+          <Property Name="IsDelayOffBlock" Type="Int32" />
+          <Property Name="DelayLanding" Type="Int32" />
+          <Property Name="DelayOnBlock" Type="Int32" />
+          <Property Name="DelayTakeoff" Type="Int32" />
+          <Property Name="DelayOffBlock" Type="Int32" />
+          <Property Name="STADay" Type="DateTime" Precision="0" />
+          <Property Name="STDDay" Type="DateTime" Precision="0" />
+          <Property Name="ArrivalRemark" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightStatus" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MSN" Type="Int32" />
+          <Property Name="DepartureRemark" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="FlightPlan" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FlightMPlanned" Type="Int32" />
+          <Property Name="FlightHPlanned" Type="Int32" />
+          <Property Name="STDPlanned" Type="DateTime" Precision="3" />
+          <Property Name="STAPlanned" Type="DateTime" Precision="3" />
+          <Property Name="ToAirport" Type="Int32" />
+          <Property Name="FromAirport" Type="Int32" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlightTypeID" Type="Int32" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="FlightStatusID" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="STALocal" Type="DateTime" Precision="3" />
+          <Property Name="STDLocal" Type="DateTime" Precision="3" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="ChocksOut" Type="DateTime" Precision="3" />
+          <Property Name="ChocksInLocal" Type="DateTime" Precision="3" />
+          <Property Name="ChocksOutLocal" Type="DateTime" Precision="3" />
+          <Property Name="LandingLocal" Type="DateTime" Precision="3" />
+          <Property Name="TakeOffLocal" Type="DateTime" Precision="3" />
+          <Property Name="JL_OffBlock" Type="DateTime" Precision="3" />
+          <Property Name="JL_OnBlock" Type="DateTime" Precision="3" />
+          <Property Name="JL_TakeOff" Type="DateTime" Precision="3" />
+          <Property Name="JL_Landing" Type="DateTime" Precision="3" />
+          <Property Name="JL_OffBlockLocal" Type="DateTime" Precision="3" />
+          <Property Name="JL_OnBlockLocal" Type="DateTime" Precision="3" />
+          <Property Name="JL_TakeOffLocal" Type="DateTime" Precision="3" />
+          <Property Name="JL_LandingLocal" Type="DateTime" Precision="3" />
+          <Property Name="FlightTime" Type="Int32" />
+          <Property Name="BlockTime" Type="Int32" />
+          <Property Name="JL_FlightTime" Type="Int32" />
+          <Property Name="JL_BlockTime" Type="Int32" />
+          <Property Name="Takeoff" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="EFBDSPRelease">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="ActualWXDSP" Type="Boolean" />
+          <Property Name="ActualWXCPT" Type="Boolean" />
+          <Property Name="ActualWXDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ActualWXCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WXForcastDSP" Type="Boolean" />
+          <Property Name="WXForcastCPT" Type="Boolean" />
+          <Property Name="WXForcastDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WXForcastCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="SigxWXDSP" Type="Boolean" />
+          <Property Name="SigxWXCPT" Type="Boolean" />
+          <Property Name="SigxWXDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="SigxWXCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WindChartDSP" Type="Boolean" />
+          <Property Name="WindChartCPT" Type="Boolean" />
+          <Property Name="WindChartDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WindChartCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NotamDSP" Type="Boolean" />
+          <Property Name="NotamCPT" Type="Boolean" />
+          <Property Name="NotamDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NotamCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ComputedFligthPlanDSP" Type="Boolean" />
+          <Property Name="ComputedFligthPlanCPT" Type="Boolean" />
+          <Property Name="ComputedFligthPlanDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ComputedFligthPlanCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ATCFlightPlanDSP" Type="Boolean" />
+          <Property Name="ATCFlightPlanCPT" Type="Boolean" />
+          <Property Name="ATCFlightPlanDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ATCFlightPlanCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PermissionsDSP" Type="Boolean" />
+          <Property Name="PermissionsCPT" Type="Boolean" />
+          <Property Name="PermissionsDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PermissionsCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="JeppesenAirwayManualDSP" Type="Boolean" />
+          <Property Name="JeppesenAirwayManualCPT" Type="Boolean" />
+          <Property Name="JeppesenAirwayManualDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="JeppesenAirwayManualCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MinFuelRequiredDSP" Type="Boolean" />
+          <Property Name="MinFuelRequiredCPT" Type="Boolean" />
+          <Property Name="MinFuelRequiredCFP" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MinFuelRequiredPilotReq" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="GeneralDeclarationDSP" Type="Boolean" />
+          <Property Name="GeneralDeclarationCPT" Type="Boolean" />
+          <Property Name="GeneralDeclarationDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="GeneralDeclarationCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightReportDSP" Type="Boolean" />
+          <Property Name="FlightReportCPT" Type="Boolean" />
+          <Property Name="FlightReportDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightReportCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TOLndCardsDSP" Type="Boolean" />
+          <Property Name="TOLndCardsCPT" Type="Boolean" />
+          <Property Name="TOLndCardsDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TOLndCardsCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="LoadSheetDSP" Type="Boolean" />
+          <Property Name="LoadSheetCPT" Type="Boolean" />
+          <Property Name="LoadSheetDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="LoadSheetCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightSafetyReportDSP" Type="Boolean" />
+          <Property Name="FlightSafetyReportCPT" Type="Boolean" />
+          <Property Name="FlightSafetyReportDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightSafetyReportCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AVSECIncidentReportDSP" Type="Boolean" />
+          <Property Name="AVSECIncidentReportCPT" Type="Boolean" />
+          <Property Name="AVSECIncidentReportDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AVSECIncidentReportCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="OperationEngineeringDSP" Type="Boolean" />
+          <Property Name="OperationEngineeringCPT" Type="Boolean" />
+          <Property Name="OperationEngineeringDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="OperationEngineeringCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="VoyageReportDSP" Type="Boolean" />
+          <Property Name="VoyageReportCPT" Type="Boolean" />
+          <Property Name="VoyageReportDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="VoyageReportCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PIFDSP" Type="Boolean" />
+          <Property Name="PIFCPT" Type="Boolean" />
+          <Property Name="PIFDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PIFCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="GoodDeclarationDSP" Type="Boolean" />
+          <Property Name="GoodDeclarationCPT" Type="Boolean" />
+          <Property Name="GoodDeclarationDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="GoodDeclarationCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IPADDSP" Type="Boolean" />
+          <Property Name="IPADCPT" Type="Boolean" />
+          <Property Name="IPADDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IPADCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="0" />
+          <Property Name="DispatcherId" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateUpdate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="JLSignedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="JLDatePICApproved" Type="DateTime" Precision="3" />
+          <Property Name="PICId" Type="Int32" />
+          <Property Name="PIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OperationalFlightPlanFOO" Type="Boolean" />
+          <Property Name="OperationalFlightPlanCMDR" Type="Boolean" />
+          <Property Name="OperationalFlightPlanFOORemark" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="OperationalFlightPlanCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ATSFlightPlanFOO" Type="Boolean" />
+          <Property Name="ATSFlightPlanCMDR" Type="Boolean" />
+          <Property Name="ATSFlightPlanFOORemark" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ATSFlightPlanCMDRRemark" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="VldEFBFOO" Type="Boolean" />
+          <Property Name="VldEFBCMDR" Type="Boolean" />
+          <Property Name="VldEFBFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldEFBCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldFlightCrewFOO" Type="Boolean" />
+          <Property Name="VldFlightCrewCMDR" Type="Boolean" />
+          <Property Name="VldFlightCrewFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldFlightCrewCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldMedicalFOO" Type="Boolean" />
+          <Property Name="VldMedicalCMDR" Type="Boolean" />
+          <Property Name="VldMedicalFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldMedicalCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldPassportFOO" Type="Boolean" />
+          <Property Name="VldPassportCMDR" Type="Boolean" />
+          <Property Name="VldPassportFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldPassportCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldCMCFOO" Type="Boolean" />
+          <Property Name="VldCMCCMDR" Type="Boolean" />
+          <Property Name="VldCMCFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldCMCCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldRampPassFOO" Type="Boolean" />
+          <Property Name="VldRampPassCMDR" Type="Boolean" />
+          <Property Name="VldRampPassFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldRampPassCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewEFBDSPReleas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="ActualWXDSP" Type="Boolean" />
+          <Property Name="ActualWXCPT" Type="Boolean" />
+          <Property Name="ActualWXDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ActualWXCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WXForcastDSP" Type="Boolean" />
+          <Property Name="WXForcastCPT" Type="Boolean" />
+          <Property Name="WXForcastDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WXForcastCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="SigxWXDSP" Type="Boolean" />
+          <Property Name="SigxWXCPT" Type="Boolean" />
+          <Property Name="SigxWXDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="SigxWXCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WindChartDSP" Type="Boolean" />
+          <Property Name="WindChartCPT" Type="Boolean" />
+          <Property Name="WindChartDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WindChartCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NotamDSP" Type="Boolean" />
+          <Property Name="NotamCPT" Type="Boolean" />
+          <Property Name="NotamDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NotamCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ComputedFligthPlanDSP" Type="Boolean" />
+          <Property Name="ComputedFligthPlanCPT" Type="Boolean" />
+          <Property Name="ComputedFligthPlanDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ComputedFligthPlanCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ATCFlightPlanDSP" Type="Boolean" />
+          <Property Name="ATCFlightPlanCPT" Type="Boolean" />
+          <Property Name="ATCFlightPlanDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ATCFlightPlanCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PermissionsDSP" Type="Boolean" />
+          <Property Name="PermissionsCPT" Type="Boolean" />
+          <Property Name="PermissionsDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PermissionsCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="JeppesenAirwayManualDSP" Type="Boolean" />
+          <Property Name="JeppesenAirwayManualCPT" Type="Boolean" />
+          <Property Name="JeppesenAirwayManualDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="JeppesenAirwayManualCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MinFuelRequiredDSP" Type="Boolean" />
+          <Property Name="MinFuelRequiredCPT" Type="Boolean" />
+          <Property Name="MinFuelRequiredPilotReq" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="GeneralDeclarationDSP" Type="Boolean" />
+          <Property Name="GeneralDeclarationCPT" Type="Boolean" />
+          <Property Name="GeneralDeclarationDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="GeneralDeclarationCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightReportDSP" Type="Boolean" />
+          <Property Name="FlightReportCPT" Type="Boolean" />
+          <Property Name="FlightReportDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightReportCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TOLndCardsDSP" Type="Boolean" />
+          <Property Name="TOLndCardsCPT" Type="Boolean" />
+          <Property Name="TOLndCardsDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TOLndCardsCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="LoadSheetDSP" Type="Boolean" />
+          <Property Name="LoadSheetCPT" Type="Boolean" />
+          <Property Name="LoadSheetDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="LoadSheetCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightSafetyReportDSP" Type="Boolean" />
+          <Property Name="FlightSafetyReportCPT" Type="Boolean" />
+          <Property Name="FlightSafetyReportDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightSafetyReportCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AVSECIncidentReportDSP" Type="Boolean" />
+          <Property Name="AVSECIncidentReportCPT" Type="Boolean" />
+          <Property Name="AVSECIncidentReportDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AVSECIncidentReportCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="OperationEngineeringDSP" Type="Boolean" />
+          <Property Name="OperationEngineeringCPT" Type="Boolean" />
+          <Property Name="OperationEngineeringDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="OperationEngineeringCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="VoyageReportDSP" Type="Boolean" />
+          <Property Name="VoyageReportCPT" Type="Boolean" />
+          <Property Name="VoyageReportDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="VoyageReportCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PIFDSP" Type="Boolean" />
+          <Property Name="PIFCPT" Type="Boolean" />
+          <Property Name="PIFDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PIFCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="GoodDeclarationDSP" Type="Boolean" />
+          <Property Name="GoodDeclarationCPT" Type="Boolean" />
+          <Property Name="GoodDeclarationDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="GoodDeclarationCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IPADDSP" Type="Boolean" />
+          <Property Name="IPADCPT" Type="Boolean" />
+          <Property Name="IPADDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IPADCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="0" />
+          <Property Name="DispatcherId" Type="Int32" />
+          <Property Name="DSPName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DSPPID" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DSPNID" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DSPMobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JLSignedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="JLDatePICApproved" Type="DateTime" Precision="3" />
+          <Property Name="PICId" Type="Int32" />
+          <Property Name="PIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OperationalFlightPlanFOO" Type="Boolean" />
+          <Property Name="OperationalFlightPlanCMDR" Type="Boolean" />
+          <Property Name="OperationalFlightPlanFOORemark" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="OperationalFlightPlanCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ATSFlightPlanFOO" Type="Boolean" />
+          <Property Name="ATSFlightPlanCMDR" Type="Boolean" />
+          <Property Name="ATSFlightPlanFOORemark" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ATSFlightPlanCMDRRemark" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="VldEFBFOO" Type="Boolean" />
+          <Property Name="VldEFBCMDR" Type="Boolean" />
+          <Property Name="VldEFBFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldEFBCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldFlightCrewFOO" Type="Boolean" />
+          <Property Name="VldFlightCrewCMDR" Type="Boolean" />
+          <Property Name="VldFlightCrewFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldFlightCrewCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldMedicalFOO" Type="Boolean" />
+          <Property Name="VldMedicalCMDR" Type="Boolean" />
+          <Property Name="VldMedicalFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldMedicalCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldPassportFOO" Type="Boolean" />
+          <Property Name="VldPassportCMDR" Type="Boolean" />
+          <Property Name="VldPassportFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldPassportCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldCMCFOO" Type="Boolean" />
+          <Property Name="VldCMCCMDR" Type="Boolean" />
+          <Property Name="VldCMCFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldCMCCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldRampPassFOO" Type="Boolean" />
+          <Property Name="VldRampPassCMDR" Type="Boolean" />
+          <Property Name="VldRampPassFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VldRampPassCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AppCrewFlight">
+          <Key>
+            <PropertyRef Name="FlightId" />
+            <PropertyRef Name="CrewId" />
+          </Key>
+          <Property Name="FDPId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" />
+          <Property Name="DutyType" Type="Int32" Nullable="false" />
+          <Property Name="DutyTypeTitle" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FDPItemId" Type="Int32" Nullable="false" />
+          <Property Name="CrewId" Type="Int32" Nullable="false" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="IsPositioning" Type="Boolean" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SexId" Type="Int32" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="GroupOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsCockpit" Type="Int32" Nullable="false" />
+          <Property Name="STDDay" Type="DateTime" Precision="0" />
+          <Property Name="STADay" Type="DateTime" Precision="0" />
+          <Property Name="STDDayLocal" Type="DateTime" Precision="0" />
+          <Property Name="STADayLocal" Type="DateTime" Precision="0" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirport" Type="Int32" />
+          <Property Name="ToAirport" Type="Int32" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="STDLocal" Type="DateTime" Precision="3" />
+          <Property Name="STALocal" Type="DateTime" Precision="3" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterId" Type="Int32" />
+          <Property Name="BlockOff" Type="DateTime" Precision="3" />
+          <Property Name="BlockOn" Type="DateTime" Precision="3" />
+          <Property Name="TakeOff" Type="DateTime" Precision="3" />
+          <Property Name="Landing" Type="DateTime" Precision="3" />
+          <Property Name="BlockOffLocal" Type="DateTime" Precision="3" />
+          <Property Name="BlockOnLocal" Type="DateTime" Precision="3" />
+          <Property Name="TakeOffLocal" Type="DateTime" Precision="3" />
+          <Property Name="LandingLocal" Type="DateTime" Precision="3" />
+          <Property Name="BlockTime" Type="Int32" />
+          <Property Name="FlightTime" Type="Int32" />
+          <Property Name="ScheduledFlightTime" Type="Int32" />
+          <Property Name="FPFlightTime" Type="Int32" />
+          <Property Name="BaggageWeight" Type="Int32" Nullable="false" />
+          <Property Name="CargoWeight" Type="Int32" Nullable="false" />
+          <Property Name="Freight" Type="Int32" />
+          <Property Name="FlightStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlightStatusId" Type="Int32" />
+          <Property Name="Airline" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AirlineOperatorsID" Type="Int32" />
+          <Property Name="CPCrewId" Type="Int32" />
+          <Property Name="CPInstructor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CPP1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CPP2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CPSCCM" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CPISCCM" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SplitDuty" Type="Boolean" />
+          <Property Name="NightTime" Type="Int32" Nullable="false" />
+          <Property Name="DayTime" Type="Int32" />
+          <Property Name="DelayBlockOff" Type="Int32" />
+          <Property Name="NightTakeOff" Type="Int32" />
+          <Property Name="DayTakeOff" Type="Int32" />
+          <Property Name="NightLanding" Type="Int32" />
+          <Property Name="DayLanding" Type="Int32" />
+          <Property Name="JLUserId" Type="Int32" />
+          <Property Name="JLApproverId" Type="Int32" />
+          <Property Name="JLDate" Type="DateTime" Precision="3" />
+          <Property Name="JLDateApproved" Type="DateTime" Precision="3" />
+          <Property Name="JLNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="JLUser" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="JLApprover" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="IsJL" Type="Int32" Nullable="false" />
+          <Property Name="IsJLApproved" Type="Int32" Nullable="false" />
+          <Property Name="FuelUnitID" Type="Int32" />
+          <Property Name="FuelRemaining" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FuelUplift" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FuelUsed" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FuelTotal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PaxAdult" Type="Int32" />
+          <Property Name="PaxChild" Type="Int32" />
+          <Property Name="PaxInfant" Type="Int32" />
+          <Property Name="PaxTotal" Type="Int32" />
+          <Property Name="PaxRevenued" Type="Int32" />
+          <Property Name="SerialNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LTR" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RVSM_GND_CPT" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="RVSM_GND_STBY" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="RVSM_GND_FO" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="RVSM_FLT_CPT" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="RVSM_FLT_STBY" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="RVSM_FLT_FO" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="CARGO" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FuelDensity" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="CommanderNote" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="AttASR" Type="Boolean" />
+          <Property Name="AttVoyageReport" Type="Boolean" />
+          <Property Name="AttRepositioning1" Type="Boolean" />
+          <Property Name="AttRepositioning2" Type="Boolean" />
+          <Property Name="Version" Type="Int32" />
+          <Property Name="IsSynced" Type="Boolean" />
+          <Property Name="PF" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IPName" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="IPId" Type="Int32" />
+          <Property Name="IPScheduleName" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="P1Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P1Id" Type="Int32" />
+          <Property Name="P1ScheduleName" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P2Id" Type="Int32" />
+          <Property Name="P2ScheduleName" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PIC" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="PICId" Type="Int32" />
+          <Property Name="SIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SICId" Type="Int32" />
+          <Property Name="JLDatePICApproved" Type="DateTime" Precision="3" />
+          <Property Name="IStart" Type="DateTime" Precision="3" />
+          <Property Name="JLSignedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ALT1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ALT2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ALT3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ALT4" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ALT5" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ATL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ATCPlan" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="FPTripFuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FPFuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FuelPlanned" Type="Decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="FDPItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FDPId" Type="Int32" Nullable="false" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="IsSector" Type="Boolean" Nullable="false" />
+          <Property Name="SplitDutyPairId" Type="Int32" />
+          <Property Name="SplitDuty" Type="Boolean" />
+          <Property Name="IsPositioning" Type="Boolean" />
+          <Property Name="IsOff" Type="Boolean" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="RosterPositionId" Type="Int32" />
+          <Property Name="Pickup" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="XAppLeg">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FlightId" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="PICId" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbModelStoreContainer" CdmEntityContainer="dbEntities">
+          <EntitySetMapping Name="ViewLegCrews">
+            <EntityTypeMapping TypeName="dbModel.ViewLegCrew">
+              <MappingFragment StoreEntitySet="ViewLegCrew">
+                <ScalarProperty Name="Takeoff" ColumnName="Takeoff" />
+                <ScalarProperty Name="JL_BlockTime" ColumnName="JL_BlockTime" />
+                <ScalarProperty Name="JL_FlightTime" ColumnName="JL_FlightTime" />
+                <ScalarProperty Name="BlockTime" ColumnName="BlockTime" />
+                <ScalarProperty Name="FlightTime" ColumnName="FlightTime" />
+                <ScalarProperty Name="JL_LandingLocal" ColumnName="JL_LandingLocal" />
+                <ScalarProperty Name="JL_TakeOffLocal" ColumnName="JL_TakeOffLocal" />
+                <ScalarProperty Name="JL_OnBlockLocal" ColumnName="JL_OnBlockLocal" />
+                <ScalarProperty Name="JL_OffBlockLocal" ColumnName="JL_OffBlockLocal" />
+                <ScalarProperty Name="JL_Landing" ColumnName="JL_Landing" />
+                <ScalarProperty Name="JL_TakeOff" ColumnName="JL_TakeOff" />
+                <ScalarProperty Name="JL_OnBlock" ColumnName="JL_OnBlock" />
+                <ScalarProperty Name="JL_OffBlock" ColumnName="JL_OffBlock" />
+                <ScalarProperty Name="TakeOffLocal" ColumnName="TakeOffLocal" />
+                <ScalarProperty Name="LandingLocal" ColumnName="LandingLocal" />
+                <ScalarProperty Name="ChocksOutLocal" ColumnName="ChocksOutLocal" />
+                <ScalarProperty Name="ChocksInLocal" ColumnName="ChocksInLocal" />
+                <ScalarProperty Name="ChocksOut" ColumnName="ChocksOut" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STDLocal" ColumnName="STDLocal" />
+                <ScalarProperty Name="STALocal" ColumnName="STALocal" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="FlightTypeID" ColumnName="FlightTypeID" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="FromAirport" ColumnName="FromAirport" />
+                <ScalarProperty Name="ToAirport" ColumnName="ToAirport" />
+                <ScalarProperty Name="STAPlanned" ColumnName="STAPlanned" />
+                <ScalarProperty Name="STDPlanned" ColumnName="STDPlanned" />
+                <ScalarProperty Name="FlightHPlanned" ColumnName="FlightHPlanned" />
+                <ScalarProperty Name="FlightMPlanned" ColumnName="FlightMPlanned" />
+                <ScalarProperty Name="FlightPlan" ColumnName="FlightPlan" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="FromAirportIATA" ColumnName="FromAirportIATA" />
+                <ScalarProperty Name="DepartureRemark" ColumnName="DepartureRemark" />
+                <ScalarProperty Name="MSN" ColumnName="MSN" />
+                <ScalarProperty Name="ToAirportIATA" ColumnName="ToAirportIATA" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="FlightStatus" ColumnName="FlightStatus" />
+                <ScalarProperty Name="ArrivalRemark" ColumnName="ArrivalRemark" />
+                <ScalarProperty Name="STDDay" ColumnName="STDDay" />
+                <ScalarProperty Name="STADay" ColumnName="STADay" />
+                <ScalarProperty Name="DelayOffBlock" ColumnName="DelayOffBlock" />
+                <ScalarProperty Name="DelayTakeoff" ColumnName="DelayTakeoff" />
+                <ScalarProperty Name="DelayOnBlock" ColumnName="DelayOnBlock" />
+                <ScalarProperty Name="DelayLanding" ColumnName="DelayLanding" />
+                <ScalarProperty Name="IsDelayOffBlock" ColumnName="IsDelayOffBlock" />
+                <ScalarProperty Name="IsDelayTakeoff" ColumnName="IsDelayTakeoff" />
+                <ScalarProperty Name="IsDelayOnBlock" ColumnName="IsDelayOnBlock" />
+                <ScalarProperty Name="IsDelayLanding" ColumnName="IsDelayLanding" />
+                <ScalarProperty Name="ActualFlightHOffBlock" ColumnName="ActualFlightHOffBlock" />
+                <ScalarProperty Name="ActualFlightMOffBlock" ColumnName="ActualFlightMOffBlock" />
+                <ScalarProperty Name="ActualFlightHTakeoff" ColumnName="ActualFlightHTakeoff" />
+                <ScalarProperty Name="ActualFlightMTakeoff" ColumnName="ActualFlightMTakeoff" />
+                <ScalarProperty Name="OSTA" ColumnName="OSTA" />
+                <ScalarProperty Name="OToAirportId" ColumnName="OToAirportId" />
+                <ScalarProperty Name="OToAirportIATA" ColumnName="OToAirportIATA" />
+                <ScalarProperty Name="FPFlightHH" ColumnName="FPFlightHH" />
+                <ScalarProperty Name="FPFlightMM" ColumnName="FPFlightMM" />
+                <ScalarProperty Name="Departure" ColumnName="Departure" />
+                <ScalarProperty Name="Arrival" ColumnName="Arrival" />
+                <ScalarProperty Name="DepartureLocal" ColumnName="DepartureLocal" />
+                <ScalarProperty Name="ArrivalLocal" ColumnName="ArrivalLocal" />
+                <ScalarProperty Name="FlightTimeActual" ColumnName="FlightTimeActual" />
+                <ScalarProperty Name="FixTime" ColumnName="FixTime" />
+                <ScalarProperty Name="SITATime" ColumnName="SITATime" />
+                <ScalarProperty Name="ScheduledFlightTime" ColumnName="ScheduledFlightTime" />
+                <ScalarProperty Name="Duty" ColumnName="Duty" />
+                <ScalarProperty Name="Landing" ColumnName="Landing" />
+                <ScalarProperty Name="ChocksIn" ColumnName="ChocksIn" />
+                <ScalarProperty Name="FlightM" ColumnName="FlightM" />
+                <ScalarProperty Name="FlightH" ColumnName="FlightH" />
+                <ScalarProperty Name="BlockH" ColumnName="BlockH" />
+                <ScalarProperty Name="BlockM" ColumnName="BlockM" />
+                <ScalarProperty Name="FlightPlanId" ColumnName="FlightPlanId" />
+                <ScalarProperty Name="IsCockpit" ColumnName="IsCockpit" />
+                <ScalarProperty Name="GroupOrder" ColumnName="GroupOrder" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
+                <ScalarProperty Name="FDPItemId" ColumnName="FDPItemId" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EFBDSPReleases">
+            <EntityTypeMapping TypeName="dbModel.EFBDSPRelease">
+              <MappingFragment StoreEntitySet="EFBDSPRelease">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="VldRampPassCMDRRemark" ColumnName="VldRampPassCMDRRemark" />
+                <ScalarProperty Name="VldRampPassFOORemark" ColumnName="VldRampPassFOORemark" />
+                <ScalarProperty Name="VldRampPassCMDR" ColumnName="VldRampPassCMDR" />
+                <ScalarProperty Name="VldRampPassFOO" ColumnName="VldRampPassFOO" />
+                <ScalarProperty Name="VldCMCCMDRRemark" ColumnName="VldCMCCMDRRemark" />
+                <ScalarProperty Name="VldCMCFOORemark" ColumnName="VldCMCFOORemark" />
+                <ScalarProperty Name="VldCMCCMDR" ColumnName="VldCMCCMDR" />
+                <ScalarProperty Name="VldCMCFOO" ColumnName="VldCMCFOO" />
+                <ScalarProperty Name="VldPassportCMDRRemark" ColumnName="VldPassportCMDRRemark" />
+                <ScalarProperty Name="VldPassportFOORemark" ColumnName="VldPassportFOORemark" />
+                <ScalarProperty Name="VldPassportCMDR" ColumnName="VldPassportCMDR" />
+                <ScalarProperty Name="VldPassportFOO" ColumnName="VldPassportFOO" />
+                <ScalarProperty Name="VldMedicalCMDRRemark" ColumnName="VldMedicalCMDRRemark" />
+                <ScalarProperty Name="VldMedicalFOORemark" ColumnName="VldMedicalFOORemark" />
+                <ScalarProperty Name="VldMedicalCMDR" ColumnName="VldMedicalCMDR" />
+                <ScalarProperty Name="VldMedicalFOO" ColumnName="VldMedicalFOO" />
+                <ScalarProperty Name="VldFlightCrewCMDRRemark" ColumnName="VldFlightCrewCMDRRemark" />
+                <ScalarProperty Name="VldFlightCrewFOORemark" ColumnName="VldFlightCrewFOORemark" />
+                <ScalarProperty Name="VldFlightCrewCMDR" ColumnName="VldFlightCrewCMDR" />
+                <ScalarProperty Name="VldFlightCrewFOO" ColumnName="VldFlightCrewFOO" />
+                <ScalarProperty Name="VldEFBCMDRRemark" ColumnName="VldEFBCMDRRemark" />
+                <ScalarProperty Name="VldEFBFOORemark" ColumnName="VldEFBFOORemark" />
+                <ScalarProperty Name="VldEFBCMDR" ColumnName="VldEFBCMDR" />
+                <ScalarProperty Name="VldEFBFOO" ColumnName="VldEFBFOO" />
+                <ScalarProperty Name="ATSFlightPlanCMDRRemark" ColumnName="ATSFlightPlanCMDRRemark" />
+                <ScalarProperty Name="ATSFlightPlanFOORemark" ColumnName="ATSFlightPlanFOORemark" />
+                <ScalarProperty Name="ATSFlightPlanCMDR" ColumnName="ATSFlightPlanCMDR" />
+                <ScalarProperty Name="ATSFlightPlanFOO" ColumnName="ATSFlightPlanFOO" />
+                <ScalarProperty Name="OperationalFlightPlanCMDRRemark" ColumnName="OperationalFlightPlanCMDRRemark" />
+                <ScalarProperty Name="OperationalFlightPlanFOORemark" ColumnName="OperationalFlightPlanFOORemark" />
+                <ScalarProperty Name="OperationalFlightPlanCMDR" ColumnName="OperationalFlightPlanCMDR" />
+                <ScalarProperty Name="OperationalFlightPlanFOO" ColumnName="OperationalFlightPlanFOO" />
+                <ScalarProperty Name="PIC" ColumnName="PIC" />
+                <ScalarProperty Name="PICId" ColumnName="PICId" />
+                <ScalarProperty Name="JLDatePICApproved" ColumnName="JLDatePICApproved" />
+                <ScalarProperty Name="JLSignedBy" ColumnName="JLSignedBy" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="DateUpdate" ColumnName="DateUpdate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DispatcherId" ColumnName="DispatcherId" />
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="IPADCPTRemark" ColumnName="IPADCPTRemark" />
+                <ScalarProperty Name="IPADDSPRemark" ColumnName="IPADDSPRemark" />
+                <ScalarProperty Name="IPADCPT" ColumnName="IPADCPT" />
+                <ScalarProperty Name="IPADDSP" ColumnName="IPADDSP" />
+                <ScalarProperty Name="GoodDeclarationCPTRemark" ColumnName="GoodDeclarationCPTRemark" />
+                <ScalarProperty Name="GoodDeclarationDSPRemark" ColumnName="GoodDeclarationDSPRemark" />
+                <ScalarProperty Name="GoodDeclarationCPT" ColumnName="GoodDeclarationCPT" />
+                <ScalarProperty Name="GoodDeclarationDSP" ColumnName="GoodDeclarationDSP" />
+                <ScalarProperty Name="PIFCPTRemark" ColumnName="PIFCPTRemark" />
+                <ScalarProperty Name="PIFDSPRemark" ColumnName="PIFDSPRemark" />
+                <ScalarProperty Name="PIFCPT" ColumnName="PIFCPT" />
+                <ScalarProperty Name="PIFDSP" ColumnName="PIFDSP" />
+                <ScalarProperty Name="VoyageReportCPTRemark" ColumnName="VoyageReportCPTRemark" />
+                <ScalarProperty Name="VoyageReportDSPRemark" ColumnName="VoyageReportDSPRemark" />
+                <ScalarProperty Name="VoyageReportCPT" ColumnName="VoyageReportCPT" />
+                <ScalarProperty Name="VoyageReportDSP" ColumnName="VoyageReportDSP" />
+                <ScalarProperty Name="OperationEngineeringCPTRemark" ColumnName="OperationEngineeringCPTRemark" />
+                <ScalarProperty Name="OperationEngineeringDSPRemark" ColumnName="OperationEngineeringDSPRemark" />
+                <ScalarProperty Name="OperationEngineeringCPT" ColumnName="OperationEngineeringCPT" />
+                <ScalarProperty Name="OperationEngineeringDSP" ColumnName="OperationEngineeringDSP" />
+                <ScalarProperty Name="AVSECIncidentReportCPTRemark" ColumnName="AVSECIncidentReportCPTRemark" />
+                <ScalarProperty Name="AVSECIncidentReportDSPRemark" ColumnName="AVSECIncidentReportDSPRemark" />
+                <ScalarProperty Name="AVSECIncidentReportCPT" ColumnName="AVSECIncidentReportCPT" />
+                <ScalarProperty Name="AVSECIncidentReportDSP" ColumnName="AVSECIncidentReportDSP" />
+                <ScalarProperty Name="FlightSafetyReportCPTRemark" ColumnName="FlightSafetyReportCPTRemark" />
+                <ScalarProperty Name="FlightSafetyReportDSPRemark" ColumnName="FlightSafetyReportDSPRemark" />
+                <ScalarProperty Name="FlightSafetyReportCPT" ColumnName="FlightSafetyReportCPT" />
+                <ScalarProperty Name="FlightSafetyReportDSP" ColumnName="FlightSafetyReportDSP" />
+                <ScalarProperty Name="LoadSheetCPTRemark" ColumnName="LoadSheetCPTRemark" />
+                <ScalarProperty Name="LoadSheetDSPRemark" ColumnName="LoadSheetDSPRemark" />
+                <ScalarProperty Name="LoadSheetCPT" ColumnName="LoadSheetCPT" />
+                <ScalarProperty Name="LoadSheetDSP" ColumnName="LoadSheetDSP" />
+                <ScalarProperty Name="TOLndCardsCPTRemark" ColumnName="TOLndCardsCPTRemark" />
+                <ScalarProperty Name="TOLndCardsDSPRemark" ColumnName="TOLndCardsDSPRemark" />
+                <ScalarProperty Name="TOLndCardsCPT" ColumnName="TOLndCardsCPT" />
+                <ScalarProperty Name="TOLndCardsDSP" ColumnName="TOLndCardsDSP" />
+                <ScalarProperty Name="FlightReportCPTRemark" ColumnName="FlightReportCPTRemark" />
+                <ScalarProperty Name="FlightReportDSPRemark" ColumnName="FlightReportDSPRemark" />
+                <ScalarProperty Name="FlightReportCPT" ColumnName="FlightReportCPT" />
+                <ScalarProperty Name="FlightReportDSP" ColumnName="FlightReportDSP" />
+                <ScalarProperty Name="GeneralDeclarationCPTRemark" ColumnName="GeneralDeclarationCPTRemark" />
+                <ScalarProperty Name="GeneralDeclarationDSPRemark" ColumnName="GeneralDeclarationDSPRemark" />
+                <ScalarProperty Name="GeneralDeclarationCPT" ColumnName="GeneralDeclarationCPT" />
+                <ScalarProperty Name="GeneralDeclarationDSP" ColumnName="GeneralDeclarationDSP" />
+                <ScalarProperty Name="MinFuelRequiredPilotReq" ColumnName="MinFuelRequiredPilotReq" />
+                <ScalarProperty Name="MinFuelRequiredCFP" ColumnName="MinFuelRequiredCFP" />
+                <ScalarProperty Name="MinFuelRequiredCPT" ColumnName="MinFuelRequiredCPT" />
+                <ScalarProperty Name="MinFuelRequiredDSP" ColumnName="MinFuelRequiredDSP" />
+                <ScalarProperty Name="JeppesenAirwayManualCPTRemark" ColumnName="JeppesenAirwayManualCPTRemark" />
+                <ScalarProperty Name="JeppesenAirwayManualDSPRemark" ColumnName="JeppesenAirwayManualDSPRemark" />
+                <ScalarProperty Name="JeppesenAirwayManualCPT" ColumnName="JeppesenAirwayManualCPT" />
+                <ScalarProperty Name="JeppesenAirwayManualDSP" ColumnName="JeppesenAirwayManualDSP" />
+                <ScalarProperty Name="PermissionsCPTRemark" ColumnName="PermissionsCPTRemark" />
+                <ScalarProperty Name="PermissionsDSPRemark" ColumnName="PermissionsDSPRemark" />
+                <ScalarProperty Name="PermissionsCPT" ColumnName="PermissionsCPT" />
+                <ScalarProperty Name="PermissionsDSP" ColumnName="PermissionsDSP" />
+                <ScalarProperty Name="ATCFlightPlanCPTRemark" ColumnName="ATCFlightPlanCPTRemark" />
+                <ScalarProperty Name="ATCFlightPlanDSPRemark" ColumnName="ATCFlightPlanDSPRemark" />
+                <ScalarProperty Name="ATCFlightPlanCPT" ColumnName="ATCFlightPlanCPT" />
+                <ScalarProperty Name="ATCFlightPlanDSP" ColumnName="ATCFlightPlanDSP" />
+                <ScalarProperty Name="ComputedFligthPlanCPTRemark" ColumnName="ComputedFligthPlanCPTRemark" />
+                <ScalarProperty Name="ComputedFligthPlanDSPRemark" ColumnName="ComputedFligthPlanDSPRemark" />
+                <ScalarProperty Name="ComputedFligthPlanCPT" ColumnName="ComputedFligthPlanCPT" />
+                <ScalarProperty Name="ComputedFligthPlanDSP" ColumnName="ComputedFligthPlanDSP" />
+                <ScalarProperty Name="NotamCPTRemark" ColumnName="NotamCPTRemark" />
+                <ScalarProperty Name="NotamDSPRemark" ColumnName="NotamDSPRemark" />
+                <ScalarProperty Name="NotamCPT" ColumnName="NotamCPT" />
+                <ScalarProperty Name="NotamDSP" ColumnName="NotamDSP" />
+                <ScalarProperty Name="WindChartCPTRemark" ColumnName="WindChartCPTRemark" />
+                <ScalarProperty Name="WindChartDSPRemark" ColumnName="WindChartDSPRemark" />
+                <ScalarProperty Name="WindChartCPT" ColumnName="WindChartCPT" />
+                <ScalarProperty Name="WindChartDSP" ColumnName="WindChartDSP" />
+                <ScalarProperty Name="SigxWXCPTRemark" ColumnName="SigxWXCPTRemark" />
+                <ScalarProperty Name="SigxWXDSPRemark" ColumnName="SigxWXDSPRemark" />
+                <ScalarProperty Name="SigxWXCPT" ColumnName="SigxWXCPT" />
+                <ScalarProperty Name="SigxWXDSP" ColumnName="SigxWXDSP" />
+                <ScalarProperty Name="WXForcastCPTRemark" ColumnName="WXForcastCPTRemark" />
+                <ScalarProperty Name="WXForcastDSPRemark" ColumnName="WXForcastDSPRemark" />
+                <ScalarProperty Name="WXForcastCPT" ColumnName="WXForcastCPT" />
+                <ScalarProperty Name="WXForcastDSP" ColumnName="WXForcastDSP" />
+                <ScalarProperty Name="ActualWXCPTRemark" ColumnName="ActualWXCPTRemark" />
+                <ScalarProperty Name="ActualWXDSPRemark" ColumnName="ActualWXDSPRemark" />
+                <ScalarProperty Name="ActualWXCPT" ColumnName="ActualWXCPT" />
+                <ScalarProperty Name="ActualWXDSP" ColumnName="ActualWXDSP" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewEFBDSPReleases">
+            <EntityTypeMapping TypeName="dbModel.ViewEFBDSPReleas">
+              <MappingFragment StoreEntitySet="ViewEFBDSPReleases">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="VldRampPassCMDRRemark" ColumnName="VldRampPassCMDRRemark" />
+                <ScalarProperty Name="VldRampPassFOORemark" ColumnName="VldRampPassFOORemark" />
+                <ScalarProperty Name="VldRampPassCMDR" ColumnName="VldRampPassCMDR" />
+                <ScalarProperty Name="VldRampPassFOO" ColumnName="VldRampPassFOO" />
+                <ScalarProperty Name="VldCMCCMDRRemark" ColumnName="VldCMCCMDRRemark" />
+                <ScalarProperty Name="VldCMCFOORemark" ColumnName="VldCMCFOORemark" />
+                <ScalarProperty Name="VldCMCCMDR" ColumnName="VldCMCCMDR" />
+                <ScalarProperty Name="VldCMCFOO" ColumnName="VldCMCFOO" />
+                <ScalarProperty Name="VldPassportCMDRRemark" ColumnName="VldPassportCMDRRemark" />
+                <ScalarProperty Name="VldPassportFOORemark" ColumnName="VldPassportFOORemark" />
+                <ScalarProperty Name="VldPassportCMDR" ColumnName="VldPassportCMDR" />
+                <ScalarProperty Name="VldPassportFOO" ColumnName="VldPassportFOO" />
+                <ScalarProperty Name="VldMedicalCMDRRemark" ColumnName="VldMedicalCMDRRemark" />
+                <ScalarProperty Name="VldMedicalFOORemark" ColumnName="VldMedicalFOORemark" />
+                <ScalarProperty Name="VldMedicalCMDR" ColumnName="VldMedicalCMDR" />
+                <ScalarProperty Name="VldMedicalFOO" ColumnName="VldMedicalFOO" />
+                <ScalarProperty Name="VldFlightCrewCMDRRemark" ColumnName="VldFlightCrewCMDRRemark" />
+                <ScalarProperty Name="VldFlightCrewFOORemark" ColumnName="VldFlightCrewFOORemark" />
+                <ScalarProperty Name="VldFlightCrewCMDR" ColumnName="VldFlightCrewCMDR" />
+                <ScalarProperty Name="VldFlightCrewFOO" ColumnName="VldFlightCrewFOO" />
+                <ScalarProperty Name="VldEFBCMDRRemark" ColumnName="VldEFBCMDRRemark" />
+                <ScalarProperty Name="VldEFBFOORemark" ColumnName="VldEFBFOORemark" />
+                <ScalarProperty Name="VldEFBCMDR" ColumnName="VldEFBCMDR" />
+                <ScalarProperty Name="VldEFBFOO" ColumnName="VldEFBFOO" />
+                <ScalarProperty Name="ATSFlightPlanCMDRRemark" ColumnName="ATSFlightPlanCMDRRemark" />
+                <ScalarProperty Name="ATSFlightPlanFOORemark" ColumnName="ATSFlightPlanFOORemark" />
+                <ScalarProperty Name="ATSFlightPlanCMDR" ColumnName="ATSFlightPlanCMDR" />
+                <ScalarProperty Name="ATSFlightPlanFOO" ColumnName="ATSFlightPlanFOO" />
+                <ScalarProperty Name="OperationalFlightPlanCMDRRemark" ColumnName="OperationalFlightPlanCMDRRemark" />
+                <ScalarProperty Name="OperationalFlightPlanFOORemark" ColumnName="OperationalFlightPlanFOORemark" />
+                <ScalarProperty Name="OperationalFlightPlanCMDR" ColumnName="OperationalFlightPlanCMDR" />
+                <ScalarProperty Name="OperationalFlightPlanFOO" ColumnName="OperationalFlightPlanFOO" />
+                <ScalarProperty Name="PIC" ColumnName="PIC" />
+                <ScalarProperty Name="PICId" ColumnName="PICId" />
+                <ScalarProperty Name="JLDatePICApproved" ColumnName="JLDatePICApproved" />
+                <ScalarProperty Name="JLSignedBy" ColumnName="JLSignedBy" />
+                <ScalarProperty Name="DSPMobile" ColumnName="DSPMobile" />
+                <ScalarProperty Name="DSPNID" ColumnName="DSPNID" />
+                <ScalarProperty Name="DSPPID" ColumnName="DSPPID" />
+                <ScalarProperty Name="DSPName" ColumnName="DSPName" />
+                <ScalarProperty Name="DispatcherId" ColumnName="DispatcherId" />
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="IPADCPTRemark" ColumnName="IPADCPTRemark" />
+                <ScalarProperty Name="IPADDSPRemark" ColumnName="IPADDSPRemark" />
+                <ScalarProperty Name="IPADCPT" ColumnName="IPADCPT" />
+                <ScalarProperty Name="IPADDSP" ColumnName="IPADDSP" />
+                <ScalarProperty Name="GoodDeclarationCPTRemark" ColumnName="GoodDeclarationCPTRemark" />
+                <ScalarProperty Name="GoodDeclarationDSPRemark" ColumnName="GoodDeclarationDSPRemark" />
+                <ScalarProperty Name="GoodDeclarationCPT" ColumnName="GoodDeclarationCPT" />
+                <ScalarProperty Name="GoodDeclarationDSP" ColumnName="GoodDeclarationDSP" />
+                <ScalarProperty Name="PIFCPTRemark" ColumnName="PIFCPTRemark" />
+                <ScalarProperty Name="PIFDSPRemark" ColumnName="PIFDSPRemark" />
+                <ScalarProperty Name="PIFCPT" ColumnName="PIFCPT" />
+                <ScalarProperty Name="PIFDSP" ColumnName="PIFDSP" />
+                <ScalarProperty Name="VoyageReportCPTRemark" ColumnName="VoyageReportCPTRemark" />
+                <ScalarProperty Name="VoyageReportDSPRemark" ColumnName="VoyageReportDSPRemark" />
+                <ScalarProperty Name="VoyageReportCPT" ColumnName="VoyageReportCPT" />
+                <ScalarProperty Name="VoyageReportDSP" ColumnName="VoyageReportDSP" />
+                <ScalarProperty Name="OperationEngineeringCPTRemark" ColumnName="OperationEngineeringCPTRemark" />
+                <ScalarProperty Name="OperationEngineeringDSPRemark" ColumnName="OperationEngineeringDSPRemark" />
+                <ScalarProperty Name="OperationEngineeringCPT" ColumnName="OperationEngineeringCPT" />
+                <ScalarProperty Name="OperationEngineeringDSP" ColumnName="OperationEngineeringDSP" />
+                <ScalarProperty Name="AVSECIncidentReportCPTRemark" ColumnName="AVSECIncidentReportCPTRemark" />
+                <ScalarProperty Name="AVSECIncidentReportDSPRemark" ColumnName="AVSECIncidentReportDSPRemark" />
+                <ScalarProperty Name="AVSECIncidentReportCPT" ColumnName="AVSECIncidentReportCPT" />
+                <ScalarProperty Name="AVSECIncidentReportDSP" ColumnName="AVSECIncidentReportDSP" />
+                <ScalarProperty Name="FlightSafetyReportCPTRemark" ColumnName="FlightSafetyReportCPTRemark" />
+                <ScalarProperty Name="FlightSafetyReportDSPRemark" ColumnName="FlightSafetyReportDSPRemark" />
+                <ScalarProperty Name="FlightSafetyReportCPT" ColumnName="FlightSafetyReportCPT" />
+                <ScalarProperty Name="FlightSafetyReportDSP" ColumnName="FlightSafetyReportDSP" />
+                <ScalarProperty Name="LoadSheetCPTRemark" ColumnName="LoadSheetCPTRemark" />
+                <ScalarProperty Name="LoadSheetDSPRemark" ColumnName="LoadSheetDSPRemark" />
+                <ScalarProperty Name="LoadSheetCPT" ColumnName="LoadSheetCPT" />
+                <ScalarProperty Name="LoadSheetDSP" ColumnName="LoadSheetDSP" />
+                <ScalarProperty Name="TOLndCardsCPTRemark" ColumnName="TOLndCardsCPTRemark" />
+                <ScalarProperty Name="TOLndCardsDSPRemark" ColumnName="TOLndCardsDSPRemark" />
+                <ScalarProperty Name="TOLndCardsCPT" ColumnName="TOLndCardsCPT" />
+                <ScalarProperty Name="TOLndCardsDSP" ColumnName="TOLndCardsDSP" />
+                <ScalarProperty Name="FlightReportCPTRemark" ColumnName="FlightReportCPTRemark" />
+                <ScalarProperty Name="FlightReportDSPRemark" ColumnName="FlightReportDSPRemark" />
+                <ScalarProperty Name="FlightReportCPT" ColumnName="FlightReportCPT" />
+                <ScalarProperty Name="FlightReportDSP" ColumnName="FlightReportDSP" />
+                <ScalarProperty Name="GeneralDeclarationCPTRemark" ColumnName="GeneralDeclarationCPTRemark" />
+                <ScalarProperty Name="GeneralDeclarationDSPRemark" ColumnName="GeneralDeclarationDSPRemark" />
+                <ScalarProperty Name="GeneralDeclarationCPT" ColumnName="GeneralDeclarationCPT" />
+                <ScalarProperty Name="GeneralDeclarationDSP" ColumnName="GeneralDeclarationDSP" />
+                <ScalarProperty Name="MinFuelRequiredPilotReq" ColumnName="MinFuelRequiredPilotReq" />
+                <ScalarProperty Name="MinFuelRequiredCPT" ColumnName="MinFuelRequiredCPT" />
+                <ScalarProperty Name="MinFuelRequiredDSP" ColumnName="MinFuelRequiredDSP" />
+                <ScalarProperty Name="JeppesenAirwayManualCPTRemark" ColumnName="JeppesenAirwayManualCPTRemark" />
+                <ScalarProperty Name="JeppesenAirwayManualDSPRemark" ColumnName="JeppesenAirwayManualDSPRemark" />
+                <ScalarProperty Name="JeppesenAirwayManualCPT" ColumnName="JeppesenAirwayManualCPT" />
+                <ScalarProperty Name="JeppesenAirwayManualDSP" ColumnName="JeppesenAirwayManualDSP" />
+                <ScalarProperty Name="PermissionsCPTRemark" ColumnName="PermissionsCPTRemark" />
+                <ScalarProperty Name="PermissionsDSPRemark" ColumnName="PermissionsDSPRemark" />
+                <ScalarProperty Name="PermissionsCPT" ColumnName="PermissionsCPT" />
+                <ScalarProperty Name="PermissionsDSP" ColumnName="PermissionsDSP" />
+                <ScalarProperty Name="ATCFlightPlanCPTRemark" ColumnName="ATCFlightPlanCPTRemark" />
+                <ScalarProperty Name="ATCFlightPlanDSPRemark" ColumnName="ATCFlightPlanDSPRemark" />
+                <ScalarProperty Name="ATCFlightPlanCPT" ColumnName="ATCFlightPlanCPT" />
+                <ScalarProperty Name="ATCFlightPlanDSP" ColumnName="ATCFlightPlanDSP" />
+                <ScalarProperty Name="ComputedFligthPlanCPTRemark" ColumnName="ComputedFligthPlanCPTRemark" />
+                <ScalarProperty Name="ComputedFligthPlanDSPRemark" ColumnName="ComputedFligthPlanDSPRemark" />
+                <ScalarProperty Name="ComputedFligthPlanCPT" ColumnName="ComputedFligthPlanCPT" />
+                <ScalarProperty Name="ComputedFligthPlanDSP" ColumnName="ComputedFligthPlanDSP" />
+                <ScalarProperty Name="NotamCPTRemark" ColumnName="NotamCPTRemark" />
+                <ScalarProperty Name="NotamDSPRemark" ColumnName="NotamDSPRemark" />
+                <ScalarProperty Name="NotamCPT" ColumnName="NotamCPT" />
+                <ScalarProperty Name="NotamDSP" ColumnName="NotamDSP" />
+                <ScalarProperty Name="WindChartCPTRemark" ColumnName="WindChartCPTRemark" />
+                <ScalarProperty Name="WindChartDSPRemark" ColumnName="WindChartDSPRemark" />
+                <ScalarProperty Name="WindChartCPT" ColumnName="WindChartCPT" />
+                <ScalarProperty Name="WindChartDSP" ColumnName="WindChartDSP" />
+                <ScalarProperty Name="SigxWXCPTRemark" ColumnName="SigxWXCPTRemark" />
+                <ScalarProperty Name="SigxWXDSPRemark" ColumnName="SigxWXDSPRemark" />
+                <ScalarProperty Name="SigxWXCPT" ColumnName="SigxWXCPT" />
+                <ScalarProperty Name="SigxWXDSP" ColumnName="SigxWXDSP" />
+                <ScalarProperty Name="WXForcastCPTRemark" ColumnName="WXForcastCPTRemark" />
+                <ScalarProperty Name="WXForcastDSPRemark" ColumnName="WXForcastDSPRemark" />
+                <ScalarProperty Name="WXForcastCPT" ColumnName="WXForcastCPT" />
+                <ScalarProperty Name="WXForcastDSP" ColumnName="WXForcastDSP" />
+                <ScalarProperty Name="ActualWXCPTRemark" ColumnName="ActualWXCPTRemark" />
+                <ScalarProperty Name="ActualWXDSPRemark" ColumnName="ActualWXDSPRemark" />
+                <ScalarProperty Name="ActualWXCPT" ColumnName="ActualWXCPT" />
+                <ScalarProperty Name="ActualWXDSP" ColumnName="ActualWXDSP" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppCrewFlights">
+            <EntityTypeMapping TypeName="dbModel.AppCrewFlight">
+              <MappingFragment StoreEntitySet="AppCrewFlight">
+                <ScalarProperty Name="FuelPlanned" ColumnName="FuelPlanned" />
+                <ScalarProperty Name="FPFuel" ColumnName="FPFuel" />
+                <ScalarProperty Name="FPTripFuel" ColumnName="FPTripFuel" />
+                <ScalarProperty Name="ATCPlan" ColumnName="ATCPlan" />
+                <ScalarProperty Name="ATL" ColumnName="ATL" />
+                <ScalarProperty Name="ALT5" ColumnName="ALT5" />
+                <ScalarProperty Name="ALT4" ColumnName="ALT4" />
+                <ScalarProperty Name="ALT3" ColumnName="ALT3" />
+                <ScalarProperty Name="ALT2" ColumnName="ALT2" />
+                <ScalarProperty Name="ALT1" ColumnName="ALT1" />
+                <ScalarProperty Name="JLSignedBy" ColumnName="JLSignedBy" />
+                <ScalarProperty Name="IStart" ColumnName="IStart" />
+                <ScalarProperty Name="JLDatePICApproved" ColumnName="JLDatePICApproved" />
+                <ScalarProperty Name="SICId" ColumnName="SICId" />
+                <ScalarProperty Name="SIC" ColumnName="SIC" />
+                <ScalarProperty Name="PICId" ColumnName="PICId" />
+                <ScalarProperty Name="PIC" ColumnName="PIC" />
+                <ScalarProperty Name="P2ScheduleName" ColumnName="P2ScheduleName" />
+                <ScalarProperty Name="P2Id" ColumnName="P2Id" />
+                <ScalarProperty Name="P2Name" ColumnName="P2Name" />
+                <ScalarProperty Name="P1ScheduleName" ColumnName="P1ScheduleName" />
+                <ScalarProperty Name="P1Id" ColumnName="P1Id" />
+                <ScalarProperty Name="P1Name" ColumnName="P1Name" />
+                <ScalarProperty Name="IPScheduleName" ColumnName="IPScheduleName" />
+                <ScalarProperty Name="IPId" ColumnName="IPId" />
+                <ScalarProperty Name="IPName" ColumnName="IPName" />
+                <ScalarProperty Name="PF" ColumnName="PF" />
+                <ScalarProperty Name="IsSynced" ColumnName="IsSynced" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="AttRepositioning2" ColumnName="AttRepositioning2" />
+                <ScalarProperty Name="AttRepositioning1" ColumnName="AttRepositioning1" />
+                <ScalarProperty Name="AttVoyageReport" ColumnName="AttVoyageReport" />
+                <ScalarProperty Name="AttASR" ColumnName="AttASR" />
+                <ScalarProperty Name="CommanderNote" ColumnName="CommanderNote" />
+                <ScalarProperty Name="FuelDensity" ColumnName="FuelDensity" />
+                <ScalarProperty Name="CARGO" ColumnName="CARGO" />
+                <ScalarProperty Name="RVSM_FLT_FO" ColumnName="RVSM_FLT_FO" />
+                <ScalarProperty Name="RVSM_FLT_STBY" ColumnName="RVSM_FLT_STBY" />
+                <ScalarProperty Name="RVSM_FLT_CPT" ColumnName="RVSM_FLT_CPT" />
+                <ScalarProperty Name="RVSM_GND_FO" ColumnName="RVSM_GND_FO" />
+                <ScalarProperty Name="RVSM_GND_STBY" ColumnName="RVSM_GND_STBY" />
+                <ScalarProperty Name="RVSM_GND_CPT" ColumnName="RVSM_GND_CPT" />
+                <ScalarProperty Name="LTR" ColumnName="LTR" />
+                <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+                <ScalarProperty Name="PaxRevenued" ColumnName="PaxRevenued" />
+                <ScalarProperty Name="PaxTotal" ColumnName="PaxTotal" />
+                <ScalarProperty Name="PaxInfant" ColumnName="PaxInfant" />
+                <ScalarProperty Name="PaxChild" ColumnName="PaxChild" />
+                <ScalarProperty Name="PaxAdult" ColumnName="PaxAdult" />
+                <ScalarProperty Name="FuelTotal" ColumnName="FuelTotal" />
+                <ScalarProperty Name="FuelUsed" ColumnName="FuelUsed" />
+                <ScalarProperty Name="FuelUplift" ColumnName="FuelUplift" />
+                <ScalarProperty Name="FuelRemaining" ColumnName="FuelRemaining" />
+                <ScalarProperty Name="FuelUnitID" ColumnName="FuelUnitID" />
+                <ScalarProperty Name="IsJLApproved" ColumnName="IsJLApproved" />
+                <ScalarProperty Name="IsJL" ColumnName="IsJL" />
+                <ScalarProperty Name="JLApprover" ColumnName="JLApprover" />
+                <ScalarProperty Name="JLUser" ColumnName="JLUser" />
+                <ScalarProperty Name="JLNo" ColumnName="JLNo" />
+                <ScalarProperty Name="JLDateApproved" ColumnName="JLDateApproved" />
+                <ScalarProperty Name="JLDate" ColumnName="JLDate" />
+                <ScalarProperty Name="JLApproverId" ColumnName="JLApproverId" />
+                <ScalarProperty Name="JLUserId" ColumnName="JLUserId" />
+                <ScalarProperty Name="DayLanding" ColumnName="DayLanding" />
+                <ScalarProperty Name="NightLanding" ColumnName="NightLanding" />
+                <ScalarProperty Name="DayTakeOff" ColumnName="DayTakeOff" />
+                <ScalarProperty Name="NightTakeOff" ColumnName="NightTakeOff" />
+                <ScalarProperty Name="DelayBlockOff" ColumnName="DelayBlockOff" />
+                <ScalarProperty Name="DayTime" ColumnName="DayTime" />
+                <ScalarProperty Name="NightTime" ColumnName="NightTime" />
+                <ScalarProperty Name="SplitDuty" ColumnName="SplitDuty" />
+                <ScalarProperty Name="CPISCCM" ColumnName="CPISCCM" />
+                <ScalarProperty Name="CPSCCM" ColumnName="CPSCCM" />
+                <ScalarProperty Name="CPP2" ColumnName="CPP2" />
+                <ScalarProperty Name="CPP1" ColumnName="CPP1" />
+                <ScalarProperty Name="CPInstructor" ColumnName="CPInstructor" />
+                <ScalarProperty Name="CPCrewId" ColumnName="CPCrewId" />
+                <ScalarProperty Name="AirlineOperatorsID" ColumnName="AirlineOperatorsID" />
+                <ScalarProperty Name="Airline" ColumnName="Airline" />
+                <ScalarProperty Name="FlightStatusId" ColumnName="FlightStatusId" />
+                <ScalarProperty Name="FlightStatus" ColumnName="FlightStatus" />
+                <ScalarProperty Name="Freight" ColumnName="Freight" />
+                <ScalarProperty Name="CargoWeight" ColumnName="CargoWeight" />
+                <ScalarProperty Name="BaggageWeight" ColumnName="BaggageWeight" />
+                <ScalarProperty Name="FPFlightTime" ColumnName="FPFlightTime" />
+                <ScalarProperty Name="ScheduledFlightTime" ColumnName="ScheduledFlightTime" />
+                <ScalarProperty Name="FlightTime" ColumnName="FlightTime" />
+                <ScalarProperty Name="BlockTime" ColumnName="BlockTime" />
+                <ScalarProperty Name="LandingLocal" ColumnName="LandingLocal" />
+                <ScalarProperty Name="TakeOffLocal" ColumnName="TakeOffLocal" />
+                <ScalarProperty Name="BlockOnLocal" ColumnName="BlockOnLocal" />
+                <ScalarProperty Name="BlockOffLocal" ColumnName="BlockOffLocal" />
+                <ScalarProperty Name="Landing" ColumnName="Landing" />
+                <ScalarProperty Name="TakeOff" ColumnName="TakeOff" />
+                <ScalarProperty Name="BlockOn" ColumnName="BlockOn" />
+                <ScalarProperty Name="BlockOff" ColumnName="BlockOff" />
+                <ScalarProperty Name="RegisterId" ColumnName="RegisterId" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="STALocal" ColumnName="STALocal" />
+                <ScalarProperty Name="STDLocal" ColumnName="STDLocal" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="ToAirport" ColumnName="ToAirport" />
+                <ScalarProperty Name="FromAirport" ColumnName="FromAirport" />
+                <ScalarProperty Name="ToAirportIATA" ColumnName="ToAirportIATA" />
+                <ScalarProperty Name="FromAirportIATA" ColumnName="FromAirportIATA" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="STADayLocal" ColumnName="STADayLocal" />
+                <ScalarProperty Name="STDDayLocal" ColumnName="STDDayLocal" />
+                <ScalarProperty Name="STADay" ColumnName="STADay" />
+                <ScalarProperty Name="STDDay" ColumnName="STDDay" />
+                <ScalarProperty Name="IsCockpit" ColumnName="IsCockpit" />
+                <ScalarProperty Name="GroupOrder" ColumnName="GroupOrder" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="SexId" ColumnName="SexId" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="FDPItemId" ColumnName="FDPItemId" />
+                <ScalarProperty Name="DutyTypeTitle" ColumnName="DutyTypeTitle" />
+                <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDPItems">
+            <EntityTypeMapping TypeName="dbModel.FDPItem">
+              <MappingFragment StoreEntitySet="FDPItem">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Pickup" ColumnName="Pickup" />
+                <ScalarProperty Name="RosterPositionId" ColumnName="RosterPositionId" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="IsOff" ColumnName="IsOff" />
+                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
+                <ScalarProperty Name="SplitDuty" ColumnName="SplitDuty" />
+                <ScalarProperty Name="SplitDutyPairId" ColumnName="SplitDutyPairId" />
+                <ScalarProperty Name="IsSector" ColumnName="IsSector" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="XAppLegs">
+            <EntityTypeMapping TypeName="dbModel.XAppLeg">
+              <MappingFragment StoreEntitySet="XAppLeg">
+                <ScalarProperty Name="PICId" ColumnName="PICId" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
