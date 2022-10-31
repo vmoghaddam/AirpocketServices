@@ -136,6 +136,37 @@ warning 6002: The table/view 'ppa_varesh.dbo.RptFuelOFP' does not have a primary
           <Property Name="PaxChild" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFinMonthlyRoute' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewFinMonthlyRoute">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Month" />
+            <PropertyRef Name="FromAirportIATA" />
+            <PropertyRef Name="ToAirportIATA" />
+          </Key>
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="YearName" Type="nvarchar" MaxLength="4000" />
+          <Property Name="MonthName" Type="nvarchar" MaxLength="4000" />
+          <Property Name="YearMonth" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Route" Type="nvarchar" MaxLength="511" />
+          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Legs" Type="int" />
+          <Property Name="Child" Type="int" Nullable="false" />
+          <Property Name="Infant" Type="int" Nullable="false" />
+          <Property Name="Adult" Type="int" Nullable="false" />
+          <Property Name="TotalPax" Type="int" Nullable="false" />
+          <Property Name="TotalSeat" Type="int" Nullable="false" />
+          <Property Name="Delay" Type="int" Nullable="false" />
+          <Property Name="UpliftFuel" Type="decimal" Precision="38" Scale="4" Nullable="false" />
+          <Property Name="UsedFuel" Type="decimal" Precision="38" Scale="4" Nullable="false" />
+          <Property Name="BaggageWeight" Type="int" Nullable="false" />
+          <Property Name="CargoWeight" Type="int" Nullable="false" />
+          <Property Name="Freight" Type="int" Nullable="false" />
+          <Property Name="IsDom" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFlightDaily">
           <Key>
@@ -589,6 +620,31 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
     [RptFuelOFP].[PaxChild] AS [PaxChild]
     FROM [dbo].[RptFuelOFP] AS [RptFuelOFP]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ViewFinMonthlyRoute" EntityType="Self.ViewFinMonthlyRoute" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewFinMonthlyRoute].[Year] AS [Year], 
+    [ViewFinMonthlyRoute].[Month] AS [Month], 
+    [ViewFinMonthlyRoute].[YearName] AS [YearName], 
+    [ViewFinMonthlyRoute].[MonthName] AS [MonthName], 
+    [ViewFinMonthlyRoute].[YearMonth] AS [YearMonth], 
+    [ViewFinMonthlyRoute].[Route] AS [Route], 
+    [ViewFinMonthlyRoute].[FromAirportIATA] AS [FromAirportIATA], 
+    [ViewFinMonthlyRoute].[ToAirportIATA] AS [ToAirportIATA], 
+    [ViewFinMonthlyRoute].[Legs] AS [Legs], 
+    [ViewFinMonthlyRoute].[Child] AS [Child], 
+    [ViewFinMonthlyRoute].[Infant] AS [Infant], 
+    [ViewFinMonthlyRoute].[Adult] AS [Adult], 
+    [ViewFinMonthlyRoute].[TotalPax] AS [TotalPax], 
+    [ViewFinMonthlyRoute].[TotalSeat] AS [TotalSeat], 
+    [ViewFinMonthlyRoute].[Delay] AS [Delay], 
+    [ViewFinMonthlyRoute].[UpliftFuel] AS [UpliftFuel], 
+    [ViewFinMonthlyRoute].[UsedFuel] AS [UsedFuel], 
+    [ViewFinMonthlyRoute].[BaggageWeight] AS [BaggageWeight], 
+    [ViewFinMonthlyRoute].[CargoWeight] AS [CargoWeight], 
+    [ViewFinMonthlyRoute].[Freight] AS [Freight], 
+    [ViewFinMonthlyRoute].[IsDom] AS [IsDom]
+    FROM [dbo].[ViewFinMonthlyRoute] AS [ViewFinMonthlyRoute]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewFlightDaily" EntityType="Self.ViewFlightDaily" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewFlightDaily].[ID] AS [ID], 
@@ -881,6 +937,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <EntitySet Name="ViewFormBs" EntityType="ModelEntities.ViewFormB" />
           <EntitySet Name="ViewFormCs" EntityType="ModelEntities.ViewFormC" />
           <EntitySet Name="XFlightCrews" EntityType="ModelEntities.XFlightCrew" />
+          <EntitySet Name="ViewFinMonthlyRoutes" EntityType="ModelEntities.ViewFinMonthlyRoute" />
         </EntityContainer>
         <EntityType Name="ViewFlightDaily">
           <Key>
@@ -1332,6 +1389,35 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <Property Name="IsCockpit" Type="Int32" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="ViewFinMonthlyRoute">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Month" />
+            <PropertyRef Name="FromAirportIATA" />
+            <PropertyRef Name="ToAirportIATA" />
+          </Key>
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="YearName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="MonthName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="YearMonth" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="Route" Type="String" MaxLength="511" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Legs" Type="Int32" />
+          <Property Name="Child" Type="Int32" Nullable="false" />
+          <Property Name="Infant" Type="Int32" Nullable="false" />
+          <Property Name="Adult" Type="Int32" Nullable="false" />
+          <Property Name="TotalPax" Type="Int32" Nullable="false" />
+          <Property Name="TotalSeat" Type="Int32" Nullable="false" />
+          <Property Name="Delay" Type="Int32" Nullable="false" />
+          <Property Name="UpliftFuel" Type="Decimal" Nullable="false" Precision="38" Scale="4" />
+          <Property Name="UsedFuel" Type="Decimal" Nullable="false" Precision="38" Scale="4" />
+          <Property Name="BaggageWeight" Type="Int32" Nullable="false" />
+          <Property Name="CargoWeight" Type="Int32" Nullable="false" />
+          <Property Name="Freight" Type="Int32" Nullable="false" />
+          <Property Name="IsDom" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1747,6 +1833,33 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
                 <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewFinMonthlyRoutes">
+            <EntityTypeMapping TypeName="ModelEntities.ViewFinMonthlyRoute">
+              <MappingFragment StoreEntitySet="ViewFinMonthlyRoute">
+                <ScalarProperty Name="IsDom" ColumnName="IsDom" />
+                <ScalarProperty Name="Freight" ColumnName="Freight" />
+                <ScalarProperty Name="CargoWeight" ColumnName="CargoWeight" />
+                <ScalarProperty Name="BaggageWeight" ColumnName="BaggageWeight" />
+                <ScalarProperty Name="UsedFuel" ColumnName="UsedFuel" />
+                <ScalarProperty Name="UpliftFuel" ColumnName="UpliftFuel" />
+                <ScalarProperty Name="Delay" ColumnName="Delay" />
+                <ScalarProperty Name="TotalSeat" ColumnName="TotalSeat" />
+                <ScalarProperty Name="TotalPax" ColumnName="TotalPax" />
+                <ScalarProperty Name="Adult" ColumnName="Adult" />
+                <ScalarProperty Name="Infant" ColumnName="Infant" />
+                <ScalarProperty Name="Child" ColumnName="Child" />
+                <ScalarProperty Name="Legs" ColumnName="Legs" />
+                <ScalarProperty Name="ToAirportIATA" ColumnName="ToAirportIATA" />
+                <ScalarProperty Name="FromAirportIATA" ColumnName="FromAirportIATA" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="YearMonth" ColumnName="YearMonth" />
+                <ScalarProperty Name="MonthName" ColumnName="MonthName" />
+                <ScalarProperty Name="YearName" ColumnName="YearName" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

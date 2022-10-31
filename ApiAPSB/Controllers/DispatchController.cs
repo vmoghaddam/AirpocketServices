@@ -43,18 +43,79 @@ namespace ApiAPSB.Controllers
     {
         [Route("api/dr/test/{fltid}")]
         [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> GetDR(int fltid) { 
+        public async Task<IHttpActionResult> GetDR(int fltid) {
+            var x=Environment.GetEnvironmentVariable("cnn_string", EnvironmentVariableTarget.User);
             var _context = new Models.dbEntities();
 
-            var appleg = await _context.XAppLegs.FirstOrDefaultAsync(q => q.FlightId == fltid);
-           // var appcrewflight = await _context.AppCrewFlights.Where(q => q.FlightId == appleg.FlightId && q.CrewId == appleg.PICId).FirstOrDefaultAsync();
-           // var fdpitems = await _context.FDPItems.Where(q => q.FDPId == appcrewflight.FDPId).ToListAsync();
-            //var fltIds = fdpitems.Select(q => q.FlightId).ToList();
-
+            var appleg = await _context.XAppLegs.OrderByDescending(q => q.ID).Select(q => q.FlightId).FirstOrDefaultAsync();
+           
             return Ok(appleg);
 
             // return new DataResponse() { IsSuccess = false };
         }
+
+
+        [Route("api/appleg/ofp/{flightId}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetOPF(int flightId)
+        {
+
+
+            var context = new Models.dbEntities();
+            var ofp = context.OFPImports.FirstOrDefault(q => q.FlightId == flightId);
+            if (ofp == null)
+                return Ok(new { Id = -1 });
+            else
+            {
+                var props = context.OFPImportProps.Where(q => q.OFPId == ofp.Id).Select(q =>
+                  new
+                  {
+                      q.Id,
+                      q.OFPId,
+                      q.PropName,
+                      q.PropType,
+                      q.PropValue,
+                      q.User,
+                      q.DateUpdate,
+
+                  }
+                    ).ToList();
+                return Ok(new
+                {
+                    ofp.Id,
+                    ofp.FlightId,
+                    ofp.TextOutput,
+                    ofp.User,
+                    ofp.DateCreate,
+                    ofp.PIC,
+                    ofp.PICId,
+                    ofp.JLSignedBy,
+                    ofp.JLDatePICApproved,
+
+
+                    
+                    ofp.DOW,
+                    ofp.FLL,
+                    ofp.MCI,
+                    ofp.JAPlan1,
+                    ofp.JAPlan2,
+                    ofp.JPlan,
+                    ofp.JFuel,
+                    
+                    ofp.JWTDRF,
+                    ofp.JCSTBL,
+                    ofp.JALDRF,
+
+
+                    props
+
+                });
+            }
+
+
+
+        }
+
 
         [Route("api/dr/test1/{fltid}")]
         [AcceptVerbs("GET")]

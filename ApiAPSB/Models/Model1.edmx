@@ -154,6 +154,56 @@
           <Property Name="Pickup" Type="datetime" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="OFPImport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="varchar" MaxLength="500" />
+          <Property Name="FlightNo" Type="varchar" MaxLength="255" />
+          <Property Name="Origin" Type="varchar" MaxLength="255" />
+          <Property Name="Destination" Type="varchar" MaxLength="255" />
+          <Property Name="DateFlight" Type="date" />
+          <Property Name="DateCreate" Type="datetime" />
+          <Property Name="Text" Type="varchar(max)" />
+          <Property Name="User" Type="varchar" MaxLength="255" />
+          <Property Name="TextOutput" Type="varchar(max)" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="DateUpdate" Type="varchar" MaxLength="500" />
+          <Property Name="DateConfirmed" Type="datetime" />
+          <Property Name="UserConfirmed" Type="varchar" MaxLength="500" />
+          <Property Name="PICId" Type="int" />
+          <Property Name="JLDatePICApproved" Type="datetime" />
+          <Property Name="JLSignedBy" Type="varchar" MaxLength="255" />
+          <Property Name="PIC" Type="varchar" MaxLength="500" />
+          <Property Name="FPFuel" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FPTripFuel" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="MCI" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FLL" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="DOW" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Source" Type="varchar" MaxLength="500" />
+          <Property Name="JPlan" Type="varchar(max)" />
+          <Property Name="JAPlan1" Type="varchar(max)" />
+          <Property Name="JAPlan2" Type="varchar(max)" />
+          <Property Name="JFuel" Type="varchar(max)" />
+          <Property Name="JCSTBL" Type="varchar(max)" />
+          <Property Name="JALDRF" Type="nvarchar(max)" />
+          <Property Name="JWTDRF" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="OFPImportProp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OFPId" Type="int" Nullable="false" />
+          <Property Name="PropName" Type="varchar" MaxLength="500" />
+          <Property Name="PropValue" Type="varchar" MaxLength="500" />
+          <Property Name="PropType" Type="varchar" MaxLength="255" />
+          <Property Name="User" Type="varchar" MaxLength="255" />
+          <Property Name="DateUpdate" Type="varchar" MaxLength="255" />
+          <Property Name="DateUpdateLocal" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.AppCrewFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AppCrewFlight">
@@ -559,9 +609,25 @@ warning 6002: The table/view 'ppa_varesh.dbo.XAppLeg' does not have a primary ke
           <Property Name="FlightId" Type="int" Nullable="false" />
           <Property Name="PICId" Type="int" />
         </EntityType>
+        <Association Name="fk_ofpp_ofp">
+          <End Role="OFPImport" Type="Self.OFPImport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OFPImportProp" Type="Self.OFPImportProp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OFPImport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OFPImportProp">
+              <PropertyRef Name="OFPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="dbModelStoreContainer">
           <EntitySet Name="EFBDSPRelease" EntityType="Self.EFBDSPRelease" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FDPItem" EntityType="Self.FDPItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OFPImport" EntityType="Self.OFPImport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OFPImportProp" EntityType="Self.OFPImportProp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AppCrewFlight" EntityType="Self.AppCrewFlight" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [AppCrewFlight].[FDPId] AS [FDPId], 
@@ -930,6 +996,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.XAppLeg' does not have a primary ke
     [XAppLeg].[PICId] AS [PICId]
     FROM [dbo].[XAppLeg] AS [XAppLeg]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="fk_ofpp_ofp" Association="Self.fk_ofpp_ofp">
+            <End Role="OFPImport" EntitySet="OFPImport" />
+            <End Role="OFPImportProp" EntitySet="OFPImportProp" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -942,6 +1012,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.XAppLeg' does not have a primary ke
           <EntitySet Name="AppCrewFlights" EntityType="dbModel.AppCrewFlight" />
           <EntitySet Name="FDPItems" EntityType="dbModel.FDPItem" />
           <EntitySet Name="XAppLegs" EntityType="dbModel.XAppLeg" />
+          <EntitySet Name="OFPImports" EntityType="dbModel.OFPImport" />
+          <EntitySet Name="OFPImportProps" EntityType="dbModel.OFPImportProp" />
+          <AssociationSet Name="fk_ofpp_ofp" Association="dbModel.fk_ofpp_ofp">
+            <End Role="OFPImport" EntitySet="OFPImports" />
+            <End Role="OFPImportProp" EntitySet="OFPImportProps" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ViewLegCrew">
           <Key>
@@ -1471,6 +1547,72 @@ warning 6002: The table/view 'ppa_varesh.dbo.XAppLeg' does not have a primary ke
           <Property Name="FlightId" Type="Int32" Nullable="false" />
           <Property Name="PICId" Type="Int32" />
         </EntityType>
+        <EntityType Name="OFPImport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FlightNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Origin" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Destination" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateFlight" Type="DateTime" Precision="0" />
+          <Property Name="DateCreate" Type="DateTime" Precision="3" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TextOutput" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="DateUpdate" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="3" />
+          <Property Name="UserConfirmed" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PICId" Type="Int32" />
+          <Property Name="JLDatePICApproved" Type="DateTime" Precision="3" />
+          <Property Name="JLSignedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FPFuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FPTripFuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="MCI" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FLL" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DOW" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Source" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JPlan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="JAPlan1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="JAPlan2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="JFuel" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="JCSTBL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="JALDRF" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="JWTDRF" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OFPImportProps" Relationship="dbModel.fk_ofpp_ofp" FromRole="OFPImport" ToRole="OFPImportProp" />
+        </EntityType>
+        <EntityType Name="OFPImportProp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OFPId" Type="Int32" Nullable="false" />
+          <Property Name="PropName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PropValue" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PropType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateUpdate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateUpdateLocal" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OFPImport" Relationship="dbModel.fk_ofpp_ofp" FromRole="OFPImportProp" ToRole="OFPImport" />
+        </EntityType>
+        <Association Name="fk_ofpp_ofp">
+          <End Type="dbModel.OFPImport" Role="OFPImport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.OFPImportProp" Role="OFPImportProp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OFPImport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OFPImportProp">
+              <PropertyRef Name="OFPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2001,6 +2143,58 @@ warning 6002: The table/view 'ppa_varesh.dbo.XAppLeg' does not have a primary ke
                 <ScalarProperty Name="PICId" ColumnName="PICId" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OFPImports">
+            <EntityTypeMapping TypeName="dbModel.OFPImport">
+              <MappingFragment StoreEntitySet="OFPImport">
+                <ScalarProperty Name="JWTDRF" ColumnName="JWTDRF" />
+                <ScalarProperty Name="JALDRF" ColumnName="JALDRF" />
+                <ScalarProperty Name="JCSTBL" ColumnName="JCSTBL" />
+                <ScalarProperty Name="JFuel" ColumnName="JFuel" />
+                <ScalarProperty Name="JAPlan2" ColumnName="JAPlan2" />
+                <ScalarProperty Name="JAPlan1" ColumnName="JAPlan1" />
+                <ScalarProperty Name="JPlan" ColumnName="JPlan" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="DOW" ColumnName="DOW" />
+                <ScalarProperty Name="FLL" ColumnName="FLL" />
+                <ScalarProperty Name="MCI" ColumnName="MCI" />
+                <ScalarProperty Name="FPTripFuel" ColumnName="FPTripFuel" />
+                <ScalarProperty Name="FPFuel" ColumnName="FPFuel" />
+                <ScalarProperty Name="PIC" ColumnName="PIC" />
+                <ScalarProperty Name="JLSignedBy" ColumnName="JLSignedBy" />
+                <ScalarProperty Name="JLDatePICApproved" ColumnName="JLDatePICApproved" />
+                <ScalarProperty Name="PICId" ColumnName="PICId" />
+                <ScalarProperty Name="UserConfirmed" ColumnName="UserConfirmed" />
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="DateUpdate" ColumnName="DateUpdate" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="TextOutput" ColumnName="TextOutput" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="DateFlight" ColumnName="DateFlight" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Origin" ColumnName="Origin" />
+                <ScalarProperty Name="FlightNo" ColumnName="FlightNo" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OFPImportProps">
+            <EntityTypeMapping TypeName="dbModel.OFPImportProp">
+              <MappingFragment StoreEntitySet="OFPImportProp">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DateUpdateLocal" ColumnName="DateUpdateLocal" />
+                <ScalarProperty Name="DateUpdate" ColumnName="DateUpdate" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="PropType" ColumnName="PropType" />
+                <ScalarProperty Name="PropValue" ColumnName="PropValue" />
+                <ScalarProperty Name="PropName" ColumnName="PropName" />
+                <ScalarProperty Name="OFPId" ColumnName="OFPId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

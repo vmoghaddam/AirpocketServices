@@ -11,6 +11,9 @@
         <EntityTypeShape EntityType="dbModel.AppCrewFlight" Width="1.5" PointX="11.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.FDPItem" Width="1.5" PointX="13.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.XAppLeg" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.OFPImport" Width="1.5" PointX="13.375" PointY="6.125" />
+        <EntityTypeShape EntityType="dbModel.OFPImportProp" Width="1.5" PointX="15.625" PointY="8.25" />
+        <AssociationConnector Association="dbModel.fk_ofpp_ofp" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

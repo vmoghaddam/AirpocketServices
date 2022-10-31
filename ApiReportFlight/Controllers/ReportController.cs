@@ -25,7 +25,7 @@ namespace ApiReportFlight.Controllers
             var cmd = "select * from viewflightdaily ";
             try
             {
-                var context = new ppa_Entities();  
+                var context = new ppa_Entities();
 
 
                 // var cmd = "select * from viewflightdaily ";
@@ -170,14 +170,14 @@ namespace ApiReportFlight.Controllers
         }
 
         [Route("api/formb/report")]
-         
+
         // [Authorize]
         public IHttpActionResult GetFormBReport(int year, int qrt)
         {
             var context = new ppa_Entities();
             var query = (from x in context.ViewFormBs
-                        where x.Year == year && x.Quarter == qrt
-                        select x).ToList();
+                         where x.Year == year && x.Quarter == qrt
+                         select x).ToList();
 
 
 
@@ -186,20 +186,125 @@ namespace ApiReportFlight.Controllers
         }
 
         [Route("api/formc/report")]
-        
+
         // [Authorize]
         public IHttpActionResult GetFormCReport(int year, int month)
         {
             var context = new ppa_Entities();
             var query = (from x in context.ViewFormCs
-                                    where x.Year == year && x.Month == month
-                        select x).ToList();
+                         where x.Year == year && x.Month == month
+                         select x).ToList();
 
 
 
 
             return Ok(query);
         }
+
+        string reverseRoute(string rt)
+        {
+            var prts = rt.Split('-');
+            return prts[1] + "-" + prts[0];
+        }
+        int getRouteOrder(string r)
+        {
+            if (r.StartsWith("THR"))
+                return 1;
+            if (r.StartsWith("IKA"))
+                return 2;
+            if (r.StartsWith("SRY"))
+                return 3;
+            return 10;
+
+        }
+        [Route("api/citypair/report")]
+
+        // [Authorize]
+        public IHttpActionResult GetCityPairReport(int year, int month, int? dom = -1)
+        {
+            var context = new ppa_Entities();
+
+
+            var query = from x in context.ViewFinMonthlyRoutes
+                        where x.Year == year && x.Month == month
+                        select x;
+
+            if (dom == 1)
+                query = query.Where(q => q.IsDom == true);
+            if (dom == 0)
+                query = query.Where(q => q.IsDom == false);
+
+            var ds = query.ToList();
+            var routes = ds.Select(q => q.Route).OrderBy(q => getRouteOrder(q)).ToList();
+            var result = new List<ViewFinMonthlyRoute>();
+            while (routes.Count > 0)
+            {
+                var rt = routes.First();
+                var data = ds.Where(q => q.Route == rt).FirstOrDefault();
+
+                var rec = new ViewFinMonthlyRoute()
+                {
+                    Adult = data.Adult,
+                    BaggageWeight = data.BaggageWeight,
+                    Route = data.Route,
+                    CargoWeight = data.CargoWeight,
+                    Child = data.Child,
+                    Delay = data.Delay,
+                    Freight = data.Freight,
+                    FromAirportIATA = data.FromAirportIATA,
+                    Infant = data.Infant,
+                    IsDom = data.IsDom,
+                    Legs = data.Legs,
+                    Month = data.Month,
+                    MonthName = data.MonthName,
+                    ToAirportIATA = data.ToAirportIATA,
+                    TotalPax = data.TotalPax,
+                    TotalSeat = data.TotalSeat,
+                    UpliftFuel = data.UpliftFuel,
+                    UsedFuel = data.UsedFuel,
+                    Year = data.Year,
+                    YearMonth = data.YearMonth,
+                    YearName = data.YearName,
+                };
+                var rev = reverseRoute(rt);
+                var data2 = ds.Where(q => q.Route == rev).FirstOrDefault();
+                if (data2 != null)
+                {
+                    rec.Route = rec.Route +"-"+ (rec.Route.Split('-')[0]);
+                    rec.Adult += data2.Adult;
+                    rec.BaggageWeight += data2.BaggageWeight;
+                    rec.CargoWeight += data2.CargoWeight;
+                    rec.Child += data2.Child;
+                    rec.Delay += data2.Delay;
+                    rec.Freight += data2.Freight;
+                    rec.Infant += data2.Infant;
+                    rec.Legs += data2.Legs;
+                    rec.TotalPax += data2.TotalPax;
+                    rec.TotalSeat += data2.TotalSeat;
+                    rec.UsedFuel += data2.UsedFuel;
+                    rec.UpliftFuel += data2.UpliftFuel;
+                }
+
+                routes.Remove(rt);
+                routes.Remove(reverseRoute(rt));
+
+                result.Add(rec);
+
+            }
+
+
+
+            //var query = (from x in context.ViewFormCs
+            //             where x.Year == year && x.Month == month
+            //             select x).ToList();
+
+
+
+
+            //return Ok(query);
+            return Ok(result.OrderByDescending(q=>q.TotalPax).ToList());
+        }
+
 
 
         string toHHMM(int? mm)
@@ -263,25 +368,25 @@ namespace ApiReportFlight.Controllers
             var _dt = dt.Date.AddDays(1);
             var _query = (
                            from x in ctx.ViewLegCrews
-                           where x.STDLocal >= df && x.STDLocal < dt  && x.FlightStatusID != 4
+                           where x.STDLocal >= df && x.STDLocal < dt && x.FlightStatusID != 4
                            group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name } into _grp
                            select new FlightTimeDto()
                            {
-                              CrewId=  _grp.Key.CrewId,
-                              ScheduleName= _grp.Key.ScheduleName,
-                              JobGroup=  _grp.Key.JobGroup,
-                              JobGropCode= _grp.Key.JobGroupCode,
-                              Name = _grp.Key.Name,
-                               
-                               Legs=_grp.Where(q=>q.IsPositioning==false).Count(),
-                               DH=_grp.Where(q=>q.IsPositioning==true).Count(),
+                               CrewId = _grp.Key.CrewId,
+                               ScheduleName = _grp.Key.ScheduleName,
+                               JobGroup = _grp.Key.JobGroup,
+                               JobGropCode = _grp.Key.JobGroupCode,
+                               Name = _grp.Key.Name,
+
+                               Legs = _grp.Where(q => q.IsPositioning == false).Count(),
+                               DH = _grp.Where(q => q.IsPositioning == true).Count(),
                                FlightTime = _grp.Sum(q => q.FlightTime),
                                BlockTime = _grp.Sum(q => q.BlockTime),
                                JLFlightTime = _grp.Sum(q => q.JL_FlightTime),
                                JLBlockTime = _grp.Sum(q => q.JL_BlockTime),
                                FixTime = _grp.Sum(q => q.FixTime),
                            }
-                          ).ToList() ;
+                          ).ToList();
             foreach (var x in _query)
                 x.GroupOrder = getOrder(x.JobGroup);
             _query = _query.OrderBy(q => q.GroupOrder).ThenByDescending(q => q.FixTime).ToList();
@@ -297,11 +402,11 @@ namespace ApiReportFlight.Controllers
             var _dt = dt.Date.AddDays(1);
             var _query = (
                            from x in ctx.ViewLegCrews
-                           where x.STDLocal >= df && x.STDLocal < dt && x.FlightStatusID != 4 && x.CrewId==id
+                           where x.STDLocal >= df && x.STDLocal < dt && x.FlightStatusID != 4 && x.CrewId == id
                            orderby x.STD
                            select x
-                            
-                          ).ToList() ;
+
+                          ).ToList();
 
             return Ok(_query);
         }

@@ -31,5 +31,7 @@ namespace ApiAPSB.Models
         public virtual DbSet<AppCrewFlight> AppCrewFlights { get; set; }
         public virtual DbSet<FDPItem> FDPItems { get; set; }
         public virtual DbSet<XAppLeg> XAppLegs { get; set; }
+        public virtual DbSet<OFPImport> OFPImports { get; set; }
+        public virtual DbSet<OFPImportProp> OFPImportProps { get; set; }
     }
 }

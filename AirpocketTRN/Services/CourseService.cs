@@ -1553,7 +1553,7 @@ namespace AirpocketTRN.Services
 
                 }
             }
-            strs.Add("FLYPERSIA TRAINING DEPARTMENT");
+            strs.Add("TRAINING DEPARTMENT");
 
             var text = String.Join("\n", strs);
             Magfa m = new Magfa();
@@ -1645,7 +1645,7 @@ namespace AirpocketTRN.Services
 
                 }
             }
-            strs.Add("FLYPERSIA TRAINING DEPARTMENT");
+            strs.Add("TRAINING DEPARTMENT");
 
             var text = String.Join("\n", strs);
             Magfa m = new Magfa();
@@ -1731,7 +1731,7 @@ namespace AirpocketTRN.Services
                 strs.Add(x.CourseType);
                 strs.Add("Issued:" + ((DateTime)x.DateIssue).ToString("yyyy-MM-dd"));
                 strs.Add("Expired:" + ((DateTime)x.DateExpire).ToString("yyyy-MM-dd"));
-                strs.Add("FLYPERSIA TRAINING DEPARTMENT");
+                strs.Add("TRAINING DEPARTMENT");
                 var text = String.Join("\n", strs);
                 var rs = m.enqueue(1, x.Mobile, text)[0];
                 //foreach(var mo in nos)

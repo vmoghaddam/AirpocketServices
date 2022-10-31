@@ -33,7 +33,10 @@ namespace ApiLogDefault.Controllers
             }
             catch(Exception ex)
             {
-                return Ok(new List<Models.XFlightCrew> { new Models.XFlightCrew() { Name="ERROR" } });
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   INNER:" + ex.InnerException.Message;
+                return Ok(new List<Models.XFlightCrew> { new Models.XFlightCrew() { Name=msg } });
             }
              
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AirpocketTRN.FatehService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,7 @@ namespace AirpocketTRN
         public  string password = "YYDWMU5BAJQQHCuG";
         public string domain = "magfa";
         public string senderNumber =  "300048000";
-        public long[] enqueue(int count, String recipientNumber, String text)
+        public long[] _enqueue(int count, String recipientNumber, String text)
         {
             try
             {
@@ -110,6 +111,30 @@ namespace AirpocketTRN
                 //}
                 //return resp;
                 //////////////////////////////////////////
+            }
+            catch (Exception ex)
+            {
+                return new long[] { -1 };
+            }
+
+        }
+
+        public long[] enqueue(int count, String recipientNumber, String text)
+        {
+            try
+            {
+                ServiceSoap soap = new ServiceSoapClient();
+
+                string[] mobile = new string[] { recipientNumber };
+
+                foreach (var mobileNumber in mobile)
+                {
+                    soap.SendSms("fateh", "F$k@2013", text, mobileNumber, "0", 1, 2, "", "fateh", "300081358", 1, 1, "", "");
+                }
+
+                return new long[] {200 };
+
+
             }
             catch (Exception ex)
             {
