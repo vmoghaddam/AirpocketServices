@@ -234,11 +234,24 @@ namespace ApiReportFlight.Controllers
             if (dom == 0)
                 query = query.Where(q => q.IsDom == false);
 
-            var ds = query.ToList();
+            var ds = query.ToList().OrderByDescending(q=>q.Legs).ThenBy(q => getRouteOrder(q.Route)).ToList();
             var routes = ds.Select(q => q.Route).OrderBy(q => getRouteOrder(q)).ToList();
             var result = new List<ViewFinMonthlyRoute>();
-            while (routes.Count > 0)
+            while (ds.Count > 0)
             {
+                var data = ds.First();
+                var rev = reverseRoute(data.Route);
+                var data_rev = ds.Where(q => q.Route == rev).FirstOrDefault();
+                result.Add(data);
+                ds.Remove(data);
+                if (data_rev != null)
+                {
+                    result.Add(data_rev);
+                    ds.Remove(data_rev);
+                }
+            }
+           /* while (routes.Count > 0)
+            { 
                 var rt = routes.First(); 
 
                 var data = ds.Where(q => q.Route == rt).FirstOrDefault();
@@ -291,7 +304,7 @@ namespace ApiReportFlight.Controllers
 
                 result.Add(rec);
 
-            }
+            }*/
 
 
 
@@ -303,7 +316,7 @@ namespace ApiReportFlight.Controllers
 
 
             //return Ok(query);
-            return Ok(result.OrderByDescending(q=>q.TotalPax).ToList());
+            return Ok(result);
         }
 
 
