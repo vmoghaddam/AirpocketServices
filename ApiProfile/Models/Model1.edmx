@@ -5,6 +5,51 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentTypeId" Type="int" />
+          <Property Name="FileTypeId" Type="int" />
+          <Property Name="FileUrl" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Title" Type="nvarchar" MaxLength="500" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="SysUrl" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FileType" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="PID" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="500" />
+          <Property Name="CurrentLocationAirport" Type="int" />
+          <Property Name="BaseAirportId" Type="int" />
+          <Property Name="DateInactiveBegin" Type="datetime" />
+          <Property Name="DateInactiveEnd" Type="datetime" />
+          <Property Name="FlightSum" Type="float" />
+          <Property Name="FlightEarly" Type="int" />
+          <Property Name="FlightLate" Type="int" />
+          <Property Name="InActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="EmployeeLocation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="IsMainLocation" Type="bit" Nullable="false" />
+          <Property Name="OrgRoleId" Type="int" />
+          <Property Name="DateActiveStartP" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DateActiveEndP" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DateActiveStart" Type="datetime" />
+          <Property Name="DateActiveEnd" Type="datetime" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="IdeaUnique">
           <Key>
             <PropertyRef Name="Id" />
@@ -81,7 +126,7 @@
           <Property Name="LicenceExpireDate" Type="datetime" />
           <Property Name="SimulatorLastCheck" Type="datetime" />
           <Property Name="SimulatorNextCheck" Type="datetime" />
-          <Property Name="RampPassNo" Type="nvarchar" MaxLength="1" />
+          <Property Name="RampPassNo" Type="nvarchar" MaxLength="500" />
           <Property Name="RampPassExpireDate" Type="datetime" />
           <Property Name="LanguageCourseExpireDate" Type="datetime" />
           <Property Name="LicenceTitle" Type="nvarchar" MaxLength="500" />
@@ -150,10 +195,10 @@
           <Property Name="RecurrentExpireDate" Type="datetime" />
           <Property Name="FMTIssueDate" Type="datetime" />
           <Property Name="FMTExpireDate" Type="datetime" />
-          <Property Name="OtherAirline" Type="bit" />
           <Property Name="PFirstName" Type="nvarchar" MaxLength="500" />
           <Property Name="PLastName" Type="nvarchar" MaxLength="500" />
           <Property Name="MultiType" Type="varchar" MaxLength="1000" />
+          <Property Name="OtherAirline" Type="bit" />
           <Property Name="TypeMDIssueDate" Type="datetime2" Precision="7" />
           <Property Name="TypeMDExpireDate" Type="datetime2" Precision="7" />
           <Property Name="Type737IssueDate" Type="datetime2" Precision="7" />
@@ -171,6 +216,185 @@
           <Property Name="CTUExpireDate" Type="datetime2" Precision="7" />
           <Property Name="SAIssueDate" Type="datetime2" Precision="7" />
           <Property Name="SAExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="HFIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="HFExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="ASDIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="ASDExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="GOMIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="GOMExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="ASFIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="ASFExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="CCIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="CCExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="ERPIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="ERPExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="MBIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="MBExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="PSIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="PSExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="ANNEXIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="ANNEXExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="DRMIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="DRMExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="FMTDIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="FMTDExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="MELExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="MELIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="METIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="METExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="PERIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="PERExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="LPCC1ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="LPCC2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="LPCC3ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="LPCC1IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="LPCC2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="LPCC3IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OPCC1IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OPCC2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OPCC3IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="LineC1IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="LineC2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="LineC3IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="LineC1ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="LineC2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="LineC3ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="RampIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="RampExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="ACIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="ACExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="UPRTIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="UPRTExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="SFIIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="SFIExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="SFEIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="SFEExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="TRI2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="TRI2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="TRE2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="TRE2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="IRIIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="IRIExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="IREIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="IREExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="CRIIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="CRIExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="CREIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="CREExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="SFI2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="SFI2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="SFE2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="SFE2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="AirCrewIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="AirCrewExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="AirOpsIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="AirOpsExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="SOPIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="SOPExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="Diff31IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="Diff31ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="Diff34IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="Diff34ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OMA1IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OMA1ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OMB1IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OMB1ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OMC1IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OMC1ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OMA2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OMA2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OMB2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OMB2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OMC2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OMC2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OMA3IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OMA3ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OMB3IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OMB3ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OMC3IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="OMC3ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="MapIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="MapExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="ComResIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="ComResExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OPCC1ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OPCC2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="OPCC3ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate1" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate1" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate2" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate2" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate3" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate3" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate4" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate4" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate5" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate5" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate6" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate6" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate7" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate7" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate8" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate8" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate9" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate9" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate10" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate10" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="PersonAircraftType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AircraftTypeId" Type="int" Nullable="false" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="DateLimitBegin" Type="datetime" />
+          <Property Name="DateLimitEnd" Type="datetime" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="PersonCustomer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="DateJoinCompany" Type="date" />
+          <Property Name="DateJoinCompanyP" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="DateRegisterP" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DateConfirmedP" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DateRegister" Type="datetime" />
+          <Property Name="DateConfirmed" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="DateActiveStart" Type="datetime" />
+          <Property Name="DateActiveEnd" Type="datetime" />
+          <Property Name="DateLastLoginP" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DateLastLogin" Type="datetime" />
+          <Property Name="Username" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Password" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="C1GroupId" Type="int" />
+          <Property Name="C2GroupId" Type="int" />
+          <Property Name="C3GroupId" Type="int" />
+        </EntityType>
+        <EntityType Name="PersonDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="500" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PersonDocumentFile">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="int" Nullable="false" />
+          <Property Name="PersonDocumentId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ThirdPartySyncHistory">
           <Key>
@@ -182,7 +406,7 @@
           <Property Name="Remark" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'EPACSPN.dbo.ViewEmployeeLight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployeeLight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewEmployeeLight">
           <Key>
             <PropertyRef Name="Id" />
@@ -306,9 +530,39 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewEmployeeLight' does not have a pri
           <Property Name="ScheduleName" Type="varchar" MaxLength="500" />
           <Property Name="InActive" Type="bit" />
           <Property Name="BaseAirportId" Type="int" />
+          <Property Name="JobGroupCode2" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployeeLocation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewEmployeeLocation">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="LocationId" />
+            <PropertyRef Name="IsMainLocation" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="IsMainLocation" Type="bit" Nullable="false" />
+          <Property Name="OrgRoleId" Type="int" />
+          <Property Name="DateActiveStartP" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DateActiveEndP" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DateActiveStart" Type="datetime" />
+          <Property Name="DateActiveEnd" Type="datetime" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrgRole" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Title" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="FullCode" Type="nvarchar" MaxLength="500" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="Root2Code" Type="nvarchar" MaxLength="500" />
+          <Property Name="Root2Title" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewIdeaUniqueLast' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewIdeaUniqueLast">
           <Key>
             <PropertyRef Name="Id" />
@@ -340,9 +594,318 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
           <Property Name="IsCockpit" Type="int" />
           <Property Name="IsCabin" Type="int" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewPersonAircraftType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewPersonAircraftType">
+          <Key>
+            <PropertyRef Name="AircraftType" />
+            <PropertyRef Name="ManufacturerId" />
+            <PropertyRef Name="Manufacturer" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="AircraftTypeId" />
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="AircraftType" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ManufacturerId" Type="int" Nullable="false" />
+          <Property Name="Manufacturer" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="AircraftTypeId" Type="int" Nullable="false" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="DateLimitBegin" Type="datetime" />
+          <Property Name="DateLimitEnd" Type="datetime" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+          <Property Name="Remain" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewPersonDocument' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewPersonDocument">
+          <Key>
+            <PropertyRef Name="PersonId" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="500" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+          <Property Name="DocumentTypeId" Type="int" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DocumentType" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewPersonDocumentFile' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewPersonDocumentFile">
+          <Key>
+            <PropertyRef Name="PersonId" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="PersonDocumentId" />
+          </Key>
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DocumentTypeId" Type="int" />
+          <Property Name="FileTypeId" Type="int" />
+          <Property Name="FileUrl" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Title" Type="nvarchar" MaxLength="500" />
+          <Property Name="SysUrl" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FileType" Type="nvarchar" MaxLength="500" />
+          <Property Name="PersonDocumentId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="PID" />
+            <PropertyRef Name="IsActive" />
+            <PropertyRef Name="IsDeleted" />
+            <PropertyRef Name="JobGroup" />
+            <PropertyRef Name="JobGroupCode" />
+            <PropertyRef Name="JobGroupRoot" />
+            <PropertyRef Name="NID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="PID" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="C1GroupId" Type="int" />
+          <Property Name="JobGroupC1" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroupCodeC1" Type="varchar" MaxLength="500" />
+          <Property Name="C2GroupId" Type="int" />
+          <Property Name="JobGroupC2" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroupCodeC2" Type="varchar" MaxLength="500" />
+          <Property Name="C3GroupId" Type="int" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="JobGroupCode" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="JobGroupRoot" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="NID" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="500" />
+          <Property Name="PassportNumber" Type="nvarchar" MaxLength="500" />
+          <Property Name="IDNo" Type="nvarchar" MaxLength="500" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="InActive" Type="bit" />
+          <Property Name="JobGroupMain" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroupMainCode" Type="varchar" MaxLength="500" />
+          <Property Name="JobGroupCode2" Type="varchar" MaxLength="500" />
+          <Property Name="RemainNDT" Type="int" />
+          <Property Name="RemainCAO" Type="int" />
+          <Property Name="RemainPassport" Type="int" />
+          <Property Name="RemainFirstAid" Type="int" />
+          <Property Name="RemainCMC" Type="int" />
+          <Property Name="RemainLicence" Type="int" />
+          <Property Name="RemainLicenceIR" Type="int" />
+          <Property Name="RemainProficiency" Type="int" />
+          <Property Name="RemainProficiencyOPC" Type="int" />
+          <Property Name="RemainLPR" Type="int" />
+          <Property Name="RemainMedical" Type="int" />
+          <Property Name="RemainSEPT" Type="int" />
+          <Property Name="RemainSEPTP" Type="int" />
+          <Property Name="RemainDG" Type="int" />
+          <Property Name="RemainCRM" Type="int" />
+          <Property Name="RemainCCRM" Type="int" />
+          <Property Name="RemainSMS" Type="int" />
+          <Property Name="RemainAvSec" Type="int" />
+          <Property Name="RemainUpsetRecoveryTraining" Type="int" />
+          <Property Name="RemainColdWeather" Type="int" />
+          <Property Name="RemainHotWeather" Type="int" />
+          <Property Name="RemainTRI" Type="int" />
+          <Property Name="RemainTRE" Type="int" />
+          <Property Name="RemainRecurrent" Type="int" />
+          <Property Name="RemainLine" Type="int" />
+          <Property Name="RemainEGPWS" Type="int" />
+          <Property Name="RemainRSP" Type="int" />
+          <Property Name="RemainLRC" Type="int" />
+          <Property Name="RemainTypeMD" Type="int" />
+          <Property Name="RemainType737" Type="int" />
+          <Property Name="RemainTypeAirbus" Type="int" />
+          <Property Name="RemainHF" Type="int" />
+          <Property Name="RemainASD" Type="int" />
+          <Property Name="RemainGOM" Type="int" />
+          <Property Name="RemainASF" Type="int" />
+          <Property Name="RemainCC" Type="int" />
+          <Property Name="RemainERP" Type="int" />
+          <Property Name="RemainMB" Type="int" />
+          <Property Name="RemainPS" Type="int" />
+          <Property Name="RemainANNEX" Type="int" />
+          <Property Name="RemainDRM" Type="int" />
+          <Property Name="RemainFMTD" Type="int" />
+          <Property Name="RemainMEL" Type="int" />
+          <Property Name="RemainMET" Type="int" />
+          <Property Name="RemainPER" Type="int" />
+          <Property Name="RemainLPCC1" Type="int" />
+          <Property Name="RemainLPCC2" Type="int" />
+          <Property Name="RemainLPCC3" Type="int" />
+          <Property Name="RemainLineC1" Type="int" />
+          <Property Name="RemainLineC2" Type="int" />
+          <Property Name="RemainLineC3" Type="int" />
+          <Property Name="RemainRamp" Type="int" />
+          <Property Name="RemainAC" Type="int" />
+          <Property Name="RemainUPRT" Type="int" />
+          <Property Name="RemainSFI" Type="int" />
+          <Property Name="RemainSFE" Type="int" />
+          <Property Name="RemainTRI2" Type="int" />
+          <Property Name="RemainTRE2" Type="int" />
+          <Property Name="RemainIRI" Type="int" />
+          <Property Name="RemainIRE" Type="int" />
+          <Property Name="RemainCRI" Type="int" />
+          <Property Name="RemainCRE" Type="int" />
+          <Property Name="RemainSFI2" Type="int" />
+          <Property Name="RemainSFE2" Type="int" />
+          <Property Name="RemainAirCrew" Type="int" />
+          <Property Name="RemainAirOps" Type="int" />
+          <Property Name="RemainSOP" Type="int" />
+          <Property Name="RemainDiff31" Type="int" />
+          <Property Name="RemainDiff34" Type="int" />
+          <Property Name="RemainOMA1" Type="int" />
+          <Property Name="RemainOMB1" Type="int" />
+          <Property Name="RemainOMC1" Type="int" />
+          <Property Name="RemainOMA2" Type="int" />
+          <Property Name="RemainOMB2" Type="int" />
+          <Property Name="RemainOMC2" Type="int" />
+          <Property Name="RemainOMA3" Type="int" />
+          <Property Name="RemainOMB3" Type="int" />
+          <Property Name="RemainOMC3" Type="int" />
+          <Property Name="RemainMap" Type="int" />
+          <Property Name="RemainComRes" Type="int" />
+          <Property Name="RemainOPCC1" Type="int" />
+          <Property Name="RemainOPCC2" Type="int" />
+          <Property Name="RemainOPCC3" Type="int" />
+          <Property Name="Remain1" Type="int" />
+          <Property Name="Remain2" Type="int" />
+          <Property Name="Remain3" Type="int" />
+          <Property Name="Remain4" Type="int" />
+          <Property Name="Remain5" Type="int" />
+          <Property Name="Remain6" Type="int" />
+          <Property Name="Remain7" Type="int" />
+          <Property Name="Remain8" Type="int" />
+          <Property Name="Remain9" Type="int" />
+          <Property Name="Remain10" Type="int" />
+        </EntityType>
+        <Association Name="FK_DF_DOC">
+          <End Role="Document" Type="Self.Document" Multiplicity="1" />
+          <End Role="PersonDocumentFile" Type="Self.PersonDocumentFile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonDocumentFile">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DF_PERSDOC">
+          <End Role="PersonDocument" Type="Self.PersonDocument" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PersonDocumentFile" Type="Self.PersonDocumentFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonDocumentFile">
+              <PropertyRef Name="PersonDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DOC_DOC">
+          <End Role="Document" Type="Self.Document" Multiplicity="0..1" />
+          <End Role="Document1" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Document1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLOCATION_EMPLOYEE">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EmployeeLocation" Type="Self.EmployeeLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLocation">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLOYEE_PERSONCUSTOMER">
+          <End Role="PersonCustomer" Type="Self.PersonCustomer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PersonCustomer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PD_PERS">
+          <End Role="Person" Type="Self.Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PersonDocument" Type="Self.PersonDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonDocument">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONCUSTOMER_PERSON">
+          <End Role="Person" Type="Self.Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PersonCustomer" Type="Self.PersonCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonCustomer">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UM_Type_Access_UM_Users">
+          <End Role="Person" Type="Self.Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PersonAircraftType" Type="Self.PersonAircraftType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonAircraftType">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="dbModelStoreContainer">
+          <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeLocation" EntityType="Self.EmployeeLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IdeaUnique" EntityType="Self.IdeaUnique" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonAircraftType" EntityType="Self.PersonAircraftType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonCustomer" EntityType="Self.PersonCustomer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonDocument" EntityType="Self.PersonDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonDocumentFile" EntityType="Self.PersonDocumentFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThirdPartySyncHistory" EntityType="Self.ThirdPartySyncHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ViewEmployeeLight" EntityType="Self.ViewEmployeeLight" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -440,8 +1003,30 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
     [ViewEmployeeLight].[IsPassportExpiring] AS [IsPassportExpiring], 
     [ViewEmployeeLight].[ScheduleName] AS [ScheduleName], 
     [ViewEmployeeLight].[InActive] AS [InActive], 
-    [ViewEmployeeLight].[BaseAirportId] AS [BaseAirportId]
+    [ViewEmployeeLight].[BaseAirportId] AS [BaseAirportId], 
+    [ViewEmployeeLight].[JobGroupCode2] AS [JobGroupCode2]
     FROM [dbo].[ViewEmployeeLight] AS [ViewEmployeeLight]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewEmployeeLocation" EntityType="Self.ViewEmployeeLocation" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewEmployeeLocation].[Id] AS [Id], 
+    [ViewEmployeeLocation].[EmployeeId] AS [EmployeeId], 
+    [ViewEmployeeLocation].[LocationId] AS [LocationId], 
+    [ViewEmployeeLocation].[IsMainLocation] AS [IsMainLocation], 
+    [ViewEmployeeLocation].[OrgRoleId] AS [OrgRoleId], 
+    [ViewEmployeeLocation].[DateActiveStartP] AS [DateActiveStartP], 
+    [ViewEmployeeLocation].[DateActiveEndP] AS [DateActiveEndP], 
+    [ViewEmployeeLocation].[DateActiveStart] AS [DateActiveStart], 
+    [ViewEmployeeLocation].[DateActiveEnd] AS [DateActiveEnd], 
+    [ViewEmployeeLocation].[Remark] AS [Remark], 
+    [ViewEmployeeLocation].[Phone] AS [Phone], 
+    [ViewEmployeeLocation].[OrgRole] AS [OrgRole], 
+    [ViewEmployeeLocation].[Title] AS [Title], 
+    [ViewEmployeeLocation].[FullCode] AS [FullCode], 
+    [ViewEmployeeLocation].[CustomerId] AS [CustomerId], 
+    [ViewEmployeeLocation].[Root2Code] AS [Root2Code], 
+    [ViewEmployeeLocation].[Root2Title] AS [Root2Title]
+    FROM [dbo].[ViewEmployeeLocation] AS [ViewEmployeeLocation]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewIdeaUniqueLast" EntityType="Self.ViewIdeaUniqueLast" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -473,6 +1058,201 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
     [ViewIdeaUniqueLast].[IsCabin] AS [IsCabin]
     FROM [dbo].[ViewIdeaUniqueLast] AS [ViewIdeaUniqueLast]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ViewPersonAircraftType" EntityType="Self.ViewPersonAircraftType" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewPersonAircraftType].[AircraftType] AS [AircraftType], 
+    [ViewPersonAircraftType].[ManufacturerId] AS [ManufacturerId], 
+    [ViewPersonAircraftType].[Manufacturer] AS [Manufacturer], 
+    [ViewPersonAircraftType].[Id] AS [Id], 
+    [ViewPersonAircraftType].[AircraftTypeId] AS [AircraftTypeId], 
+    [ViewPersonAircraftType].[PersonId] AS [PersonId], 
+    [ViewPersonAircraftType].[IsActive] AS [IsActive], 
+    [ViewPersonAircraftType].[DateLimitBegin] AS [DateLimitBegin], 
+    [ViewPersonAircraftType].[DateLimitEnd] AS [DateLimitEnd], 
+    [ViewPersonAircraftType].[Remark] AS [Remark], 
+    [ViewPersonAircraftType].[Remain] AS [Remain]
+    FROM [dbo].[ViewPersonAircraftType] AS [ViewPersonAircraftType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewPersonDocument" EntityType="Self.ViewPersonDocument" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewPersonDocument].[PersonId] AS [PersonId], 
+    [ViewPersonDocument].[Title] AS [Title], 
+    [ViewPersonDocument].[Remark] AS [Remark], 
+    [ViewPersonDocument].[DocumentTypeId] AS [DocumentTypeId], 
+    [ViewPersonDocument].[Id] AS [Id], 
+    [ViewPersonDocument].[DocumentType] AS [DocumentType]
+    FROM [dbo].[ViewPersonDocument] AS [ViewPersonDocument]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewPersonDocumentFile" EntityType="Self.ViewPersonDocumentFile" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewPersonDocumentFile].[PersonId] AS [PersonId], 
+    [ViewPersonDocumentFile].[Id] AS [Id], 
+    [ViewPersonDocumentFile].[DocumentTypeId] AS [DocumentTypeId], 
+    [ViewPersonDocumentFile].[FileTypeId] AS [FileTypeId], 
+    [ViewPersonDocumentFile].[FileUrl] AS [FileUrl], 
+    [ViewPersonDocumentFile].[Title] AS [Title], 
+    [ViewPersonDocumentFile].[SysUrl] AS [SysUrl], 
+    [ViewPersonDocumentFile].[FileType] AS [FileType], 
+    [ViewPersonDocumentFile].[PersonDocumentId] AS [PersonDocumentId]
+    FROM [dbo].[ViewPersonDocumentFile] AS [ViewPersonDocumentFile]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewProfile" EntityType="Self.ViewProfile" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewProfile].[Id] AS [Id], 
+    [ViewProfile].[PID] AS [PID], 
+    [ViewProfile].[IsActive] AS [IsActive], 
+    [ViewProfile].[IsDeleted] AS [IsDeleted], 
+    [ViewProfile].[CustomerId] AS [CustomerId], 
+    [ViewProfile].[GroupId] AS [GroupId], 
+    [ViewProfile].[C1GroupId] AS [C1GroupId], 
+    [ViewProfile].[JobGroupC1] AS [JobGroupC1], 
+    [ViewProfile].[JobGroupCodeC1] AS [JobGroupCodeC1], 
+    [ViewProfile].[C2GroupId] AS [C2GroupId], 
+    [ViewProfile].[JobGroupC2] AS [JobGroupC2], 
+    [ViewProfile].[JobGroupCodeC2] AS [JobGroupCodeC2], 
+    [ViewProfile].[C3GroupId] AS [C3GroupId], 
+    [ViewProfile].[JobGroup] AS [JobGroup], 
+    [ViewProfile].[JobGroupCode] AS [JobGroupCode], 
+    [ViewProfile].[JobGroupRoot] AS [JobGroupRoot], 
+    [ViewProfile].[NID] AS [NID], 
+    [ViewProfile].[FirstName] AS [FirstName], 
+    [ViewProfile].[LastName] AS [LastName], 
+    [ViewProfile].[Name] AS [Name], 
+    [ViewProfile].[Mobile] AS [Mobile], 
+    [ViewProfile].[PassportNumber] AS [PassportNumber], 
+    [ViewProfile].[IDNo] AS [IDNo], 
+    [ViewProfile].[PersonId] AS [PersonId], 
+    [ViewProfile].[InActive] AS [InActive], 
+    [ViewProfile].[JobGroupMain] AS [JobGroupMain], 
+    [ViewProfile].[JobGroupMainCode] AS [JobGroupMainCode], 
+    [ViewProfile].[JobGroupCode2] AS [JobGroupCode2], 
+    [ViewProfile].[RemainNDT] AS [RemainNDT], 
+    [ViewProfile].[RemainCAO] AS [RemainCAO], 
+    [ViewProfile].[RemainPassport] AS [RemainPassport], 
+    [ViewProfile].[RemainFirstAid] AS [RemainFirstAid], 
+    [ViewProfile].[RemainCMC] AS [RemainCMC], 
+    [ViewProfile].[RemainLicence] AS [RemainLicence], 
+    [ViewProfile].[RemainLicenceIR] AS [RemainLicenceIR], 
+    [ViewProfile].[RemainProficiency] AS [RemainProficiency], 
+    [ViewProfile].[RemainProficiencyOPC] AS [RemainProficiencyOPC], 
+    [ViewProfile].[RemainLPR] AS [RemainLPR], 
+    [ViewProfile].[RemainMedical] AS [RemainMedical], 
+    [ViewProfile].[RemainSEPT] AS [RemainSEPT], 
+    [ViewProfile].[RemainSEPTP] AS [RemainSEPTP], 
+    [ViewProfile].[RemainDG] AS [RemainDG], 
+    [ViewProfile].[RemainCRM] AS [RemainCRM], 
+    [ViewProfile].[RemainCCRM] AS [RemainCCRM], 
+    [ViewProfile].[RemainSMS] AS [RemainSMS], 
+    [ViewProfile].[RemainAvSec] AS [RemainAvSec], 
+    [ViewProfile].[RemainUpsetRecoveryTraining] AS [RemainUpsetRecoveryTraining], 
+    [ViewProfile].[RemainColdWeather] AS [RemainColdWeather], 
+    [ViewProfile].[RemainHotWeather] AS [RemainHotWeather], 
+    [ViewProfile].[RemainTRI] AS [RemainTRI], 
+    [ViewProfile].[RemainTRE] AS [RemainTRE], 
+    [ViewProfile].[RemainRecurrent] AS [RemainRecurrent], 
+    [ViewProfile].[RemainLine] AS [RemainLine], 
+    [ViewProfile].[RemainEGPWS] AS [RemainEGPWS], 
+    [ViewProfile].[RemainRSP] AS [RemainRSP], 
+    [ViewProfile].[RemainLRC] AS [RemainLRC], 
+    [ViewProfile].[RemainTypeMD] AS [RemainTypeMD], 
+    [ViewProfile].[RemainType737] AS [RemainType737], 
+    [ViewProfile].[RemainTypeAirbus] AS [RemainTypeAirbus], 
+    [ViewProfile].[RemainHF] AS [RemainHF], 
+    [ViewProfile].[RemainASD] AS [RemainASD], 
+    [ViewProfile].[RemainGOM] AS [RemainGOM], 
+    [ViewProfile].[RemainASF] AS [RemainASF], 
+    [ViewProfile].[RemainCC] AS [RemainCC], 
+    [ViewProfile].[RemainERP] AS [RemainERP], 
+    [ViewProfile].[RemainMB] AS [RemainMB], 
+    [ViewProfile].[RemainPS] AS [RemainPS], 
+    [ViewProfile].[RemainANNEX] AS [RemainANNEX], 
+    [ViewProfile].[RemainDRM] AS [RemainDRM], 
+    [ViewProfile].[RemainFMTD] AS [RemainFMTD], 
+    [ViewProfile].[RemainMEL] AS [RemainMEL], 
+    [ViewProfile].[RemainMET] AS [RemainMET], 
+    [ViewProfile].[RemainPER] AS [RemainPER], 
+    [ViewProfile].[RemainLPCC1] AS [RemainLPCC1], 
+    [ViewProfile].[RemainLPCC2] AS [RemainLPCC2], 
+    [ViewProfile].[RemainLPCC3] AS [RemainLPCC3], 
+    [ViewProfile].[RemainLineC1] AS [RemainLineC1], 
+    [ViewProfile].[RemainLineC2] AS [RemainLineC2], 
+    [ViewProfile].[RemainLineC3] AS [RemainLineC3], 
+    [ViewProfile].[RemainRamp] AS [RemainRamp], 
+    [ViewProfile].[RemainAC] AS [RemainAC], 
+    [ViewProfile].[RemainUPRT] AS [RemainUPRT], 
+    [ViewProfile].[RemainSFI] AS [RemainSFI], 
+    [ViewProfile].[RemainSFE] AS [RemainSFE], 
+    [ViewProfile].[RemainTRI2] AS [RemainTRI2], 
+    [ViewProfile].[RemainTRE2] AS [RemainTRE2], 
+    [ViewProfile].[RemainIRI] AS [RemainIRI], 
+    [ViewProfile].[RemainIRE] AS [RemainIRE], 
+    [ViewProfile].[RemainCRI] AS [RemainCRI], 
+    [ViewProfile].[RemainCRE] AS [RemainCRE], 
+    [ViewProfile].[RemainSFI2] AS [RemainSFI2], 
+    [ViewProfile].[RemainSFE2] AS [RemainSFE2], 
+    [ViewProfile].[RemainAirCrew] AS [RemainAirCrew], 
+    [ViewProfile].[RemainAirOps] AS [RemainAirOps], 
+    [ViewProfile].[RemainSOP] AS [RemainSOP], 
+    [ViewProfile].[RemainDiff31] AS [RemainDiff31], 
+    [ViewProfile].[RemainDiff34] AS [RemainDiff34], 
+    [ViewProfile].[RemainOMA1] AS [RemainOMA1], 
+    [ViewProfile].[RemainOMB1] AS [RemainOMB1], 
+    [ViewProfile].[RemainOMC1] AS [RemainOMC1], 
+    [ViewProfile].[RemainOMA2] AS [RemainOMA2], 
+    [ViewProfile].[RemainOMB2] AS [RemainOMB2], 
+    [ViewProfile].[RemainOMC2] AS [RemainOMC2], 
+    [ViewProfile].[RemainOMA3] AS [RemainOMA3], 
+    [ViewProfile].[RemainOMB3] AS [RemainOMB3], 
+    [ViewProfile].[RemainOMC3] AS [RemainOMC3], 
+    [ViewProfile].[RemainMap] AS [RemainMap], 
+    [ViewProfile].[RemainComRes] AS [RemainComRes], 
+    [ViewProfile].[RemainOPCC1] AS [RemainOPCC1], 
+    [ViewProfile].[RemainOPCC2] AS [RemainOPCC2], 
+    [ViewProfile].[RemainOPCC3] AS [RemainOPCC3], 
+    [ViewProfile].[Remain1] AS [Remain1], 
+    [ViewProfile].[Remain2] AS [Remain2], 
+    [ViewProfile].[Remain3] AS [Remain3], 
+    [ViewProfile].[Remain4] AS [Remain4], 
+    [ViewProfile].[Remain5] AS [Remain5], 
+    [ViewProfile].[Remain6] AS [Remain6], 
+    [ViewProfile].[Remain7] AS [Remain7], 
+    [ViewProfile].[Remain8] AS [Remain8], 
+    [ViewProfile].[Remain9] AS [Remain9], 
+    [ViewProfile].[Remain10] AS [Remain10]
+    FROM [dbo].[ViewProfile] AS [ViewProfile]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_DF_DOC" Association="Self.FK_DF_DOC">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="PersonDocumentFile" EntitySet="PersonDocumentFile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DF_PERSDOC" Association="Self.FK_DF_PERSDOC">
+            <End Role="PersonDocument" EntitySet="PersonDocument" />
+            <End Role="PersonDocumentFile" EntitySet="PersonDocumentFile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DOC_DOC" Association="Self.FK_DOC_DOC">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="Document1" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLOCATION_EMPLOYEE" Association="Self.FK_EMPLOCATION_EMPLOYEE">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeLocation" EntitySet="EmployeeLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLOYEE_PERSONCUSTOMER" Association="Self.FK_EMPLOYEE_PERSONCUSTOMER">
+            <End Role="PersonCustomer" EntitySet="PersonCustomer" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PD_PERS" Association="Self.FK_PD_PERS">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="PersonDocument" EntitySet="PersonDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONCUSTOMER_PERSON" Association="Self.FK_PERSONCUSTOMER_PERSON">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="PersonCustomer" EntitySet="PersonCustomer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UM_Type_Access_UM_Users" Association="Self.FK_UM_Type_Access_UM_Users">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="PersonAircraftType" EntitySet="PersonAircraftType" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -482,8 +1262,47 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
           <EntitySet Name="IdeaUniques" EntityType="dbModel.IdeaUnique" />
           <EntitySet Name="ViewEmployeeLights" EntityType="dbModel.ViewEmployeeLight" />
           <EntitySet Name="ViewIdeaUniqueLasts" EntityType="dbModel.ViewIdeaUniqueLast" />
-          <EntitySet Name="People" EntityType="dbModel.Person" />
           <EntitySet Name="ThirdPartySyncHistories" EntityType="dbModel.ThirdPartySyncHistory" />
+          <EntitySet Name="Employees" EntityType="dbModel.Employee" />
+          <EntitySet Name="EmployeeLocations" EntityType="dbModel.EmployeeLocation" />
+          <AssociationSet Name="FK_EMPLOCATION_EMPLOYEE" Association="dbModel.FK_EMPLOCATION_EMPLOYEE">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeLocation" EntitySet="EmployeeLocations" />
+          </AssociationSet>
+          <EntitySet Name="PersonAircraftTypes" EntityType="dbModel.PersonAircraftType" />
+          <EntitySet Name="PersonDocuments" EntityType="dbModel.PersonDocument" />
+          <EntitySet Name="Documents" EntityType="dbModel.Document" />
+          <EntitySet Name="ViewPersonDocuments" EntityType="dbModel.ViewPersonDocument" />
+          <AssociationSet Name="FK_DOC_DOC" Association="dbModel.FK_DOC_DOC">
+            <End Role="Document" EntitySet="Documents" />
+            <End Role="Document1" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="PersonDocumentFile" Association="dbModel.PersonDocumentFile">
+            <End Role="Document" EntitySet="Documents" />
+            <End Role="PersonDocument" EntitySet="PersonDocuments" />
+          </AssociationSet>
+          <EntitySet Name="ViewPersonDocumentFiles" EntityType="dbModel.ViewPersonDocumentFile" />
+          <EntitySet Name="ViewPersonAircraftTypes" EntityType="dbModel.ViewPersonAircraftType" />
+          <EntitySet Name="ViewEmployeeLocations" EntityType="dbModel.ViewEmployeeLocation" />
+          <EntitySet Name="People" EntityType="dbModel.Person" />
+          <AssociationSet Name="FK_PD_PERS" Association="dbModel.FK_PD_PERS">
+            <End Role="Person" EntitySet="People" />
+            <End Role="PersonDocument" EntitySet="PersonDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UM_Type_Access_UM_Users" Association="dbModel.FK_UM_Type_Access_UM_Users">
+            <End Role="Person" EntitySet="People" />
+            <End Role="PersonAircraftType" EntitySet="PersonAircraftTypes" />
+          </AssociationSet>
+          <EntitySet Name="PersonCustomers" EntityType="dbModel.PersonCustomer" />
+          <EntitySet Name="ViewProfiles" EntityType="dbModel.ViewProfile" />
+          <AssociationSet Name="FK_EMPLOYEE_PERSONCUSTOMER" Association="dbModel.FK_EMPLOYEE_PERSONCUSTOMER">
+            <End Role="PersonCustomer" EntitySet="PersonCustomers" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONCUSTOMER_PERSON" Association="dbModel.FK_PERSONCUSTOMER_PERSON">
+            <End Role="Person" EntitySet="People" />
+            <End Role="PersonCustomer" EntitySet="PersonCustomers" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="IdeaUnique">
           <Key>
@@ -626,6 +1445,7 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
           <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="InActive" Type="Boolean" />
           <Property Name="BaseAirportId" Type="Int32" />
+          <Property Name="JobGroupCode2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ViewIdeaUniqueLast">
           <Key>
@@ -657,6 +1477,197 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
           <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="IsCockpit" Type="Int32" />
           <Property Name="IsCabin" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ThirdPartySyncHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="App" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DateSync" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="PID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CurrentLocationAirport" Type="Int32" />
+          <Property Name="BaseAirportId" Type="Int32" />
+          <Property Name="DateInactiveBegin" Type="DateTime" Precision="3" />
+          <Property Name="DateInactiveEnd" Type="DateTime" Precision="3" />
+          <Property Name="FlightSum" Type="Double" />
+          <Property Name="FlightEarly" Type="Int32" />
+          <Property Name="FlightLate" Type="Int32" />
+          <Property Name="InActive" Type="Boolean" />
+          <NavigationProperty Name="EmployeeLocations" Relationship="dbModel.FK_EMPLOCATION_EMPLOYEE" FromRole="Employee" ToRole="EmployeeLocation" />
+          <NavigationProperty Name="PersonCustomer" Relationship="dbModel.FK_EMPLOYEE_PERSONCUSTOMER" FromRole="Employee" ToRole="PersonCustomer" />
+        </EntityType>
+        <EntityType Name="EmployeeLocation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="IsMainLocation" Type="Boolean" Nullable="false" />
+          <Property Name="OrgRoleId" Type="Int32" />
+          <Property Name="DateActiveStartP" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DateActiveEndP" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DateActiveStart" Type="DateTime" Precision="3" />
+          <Property Name="DateActiveEnd" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="dbModel.FK_EMPLOCATION_EMPLOYEE" FromRole="EmployeeLocation" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_EMPLOCATION_EMPLOYEE">
+          <End Type="dbModel.Employee" Role="Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.EmployeeLocation" Role="EmployeeLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLocation">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PersonAircraftType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AircraftTypeId" Type="Int32" Nullable="false" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="DateLimitBegin" Type="DateTime" Precision="3" />
+          <Property Name="DateLimitEnd" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Person" Relationship="dbModel.FK_UM_Type_Access_UM_Users" FromRole="PersonAircraftType" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="PersonDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Documents" Relationship="dbModel.PersonDocumentFile" FromRole="PersonDocument" ToRole="Document" />
+          <NavigationProperty Name="Person" Relationship="dbModel.FK_PD_PERS" FromRole="PersonDocument" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentTypeId" Type="Int32" />
+          <Property Name="FileTypeId" Type="Int32" />
+          <Property Name="FileUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="SysUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FileType" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Document1" Relationship="dbModel.FK_DOC_DOC" FromRole="Document" ToRole="Document1" />
+          <NavigationProperty Name="Document2" Relationship="dbModel.FK_DOC_DOC" FromRole="Document1" ToRole="Document" />
+          <NavigationProperty Name="PersonDocument" Relationship="dbModel.PersonDocumentFile" FromRole="Document" ToRole="PersonDocument" />
+        </EntityType>
+        <EntityType Name="ViewPersonDocument">
+          <Key>
+            <PropertyRef Name="PersonId" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentTypeId" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DocumentType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_DOC_DOC">
+          <End Type="dbModel.Document" Role="Document" Multiplicity="0..1" />
+          <End Type="dbModel.Document" Role="Document1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Document1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PersonDocumentFile">
+          <End Type="dbModel.Document" Role="Document" Multiplicity="*" />
+          <End Type="dbModel.PersonDocument" Role="PersonDocument" Multiplicity="0..1" />
+        </Association>
+        <EntityType Name="ViewPersonDocumentFile">
+          <Key>
+            <PropertyRef Name="PersonId" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="PersonDocumentId" />
+          </Key>
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DocumentTypeId" Type="Int32" />
+          <Property Name="FileTypeId" Type="Int32" />
+          <Property Name="FileUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SysUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FileType" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PersonDocumentId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewPersonAircraftType">
+          <Key>
+            <PropertyRef Name="AircraftType" />
+            <PropertyRef Name="ManufacturerId" />
+            <PropertyRef Name="Manufacturer" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="AircraftTypeId" />
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="AircraftType" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ManufacturerId" Type="Int32" Nullable="false" />
+          <Property Name="Manufacturer" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="AircraftTypeId" Type="Int32" Nullable="false" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="DateLimitBegin" Type="DateTime" Precision="3" />
+          <Property Name="DateLimitEnd" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Remain" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ViewEmployeeLocation">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="LocationId" />
+            <PropertyRef Name="IsMainLocation" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="IsMainLocation" Type="Boolean" Nullable="false" />
+          <Property Name="OrgRoleId" Type="Int32" />
+          <Property Name="DateActiveStartP" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DateActiveEndP" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DateActiveStart" Type="DateTime" Precision="3" />
+          <Property Name="DateActiveEnd" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrgRole" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FullCode" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="Root2Code" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Root2Title" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -716,7 +1727,7 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
           <Property Name="LicenceExpireDate" Type="DateTime" Precision="3" />
           <Property Name="SimulatorLastCheck" Type="DateTime" Precision="3" />
           <Property Name="SimulatorNextCheck" Type="DateTime" Precision="3" />
-          <Property Name="RampPassNo" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="RampPassNo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="RampPassExpireDate" Type="DateTime" Precision="3" />
           <Property Name="LanguageCourseExpireDate" Type="DateTime" Precision="3" />
           <Property Name="LicenceTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
@@ -785,10 +1796,10 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
           <Property Name="RecurrentExpireDate" Type="DateTime" Precision="3" />
           <Property Name="FMTIssueDate" Type="DateTime" Precision="3" />
           <Property Name="FMTExpireDate" Type="DateTime" Precision="3" />
-          <Property Name="OtherAirline" Type="Boolean" />
           <Property Name="PFirstName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="PLastName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MultiType" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="OtherAirline" Type="Boolean" />
           <Property Name="TypeMDIssueDate" Type="DateTime" Precision="7" />
           <Property Name="TypeMDExpireDate" Type="DateTime" Precision="7" />
           <Property Name="Type737IssueDate" Type="DateTime" Precision="7" />
@@ -806,16 +1817,355 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
           <Property Name="CTUExpireDate" Type="DateTime" Precision="7" />
           <Property Name="SAIssueDate" Type="DateTime" Precision="7" />
           <Property Name="SAExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="HFIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="HFExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="ASDIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="ASDExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="GOMIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="GOMExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="ASFIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="ASFExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="CCIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="CCExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="ERPIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="ERPExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="MBIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="MBExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="PSIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="PSExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="ANNEXIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="ANNEXExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="DRMIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="DRMExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="FMTDIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="FMTDExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="MELExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="MELIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="METIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="METExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="PERIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="PERExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="LPCC1ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="LPCC2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="LPCC3ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="LPCC1IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="LPCC2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="LPCC3IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OPCC1IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OPCC2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OPCC3IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="LineC1IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="LineC2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="LineC3IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="LineC1ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="LineC2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="LineC3ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="RampIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="RampExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="ACIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="ACExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="UPRTIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="UPRTExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="SFIIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="SFIExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="SFEIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="SFEExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="TRI2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="TRI2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="TRE2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="TRE2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="IRIIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="IRIExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="IREIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="IREExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="CRIIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="CRIExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="CREIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="CREExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="SFI2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="SFI2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="SFE2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="SFE2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="AirCrewIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="AirCrewExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="AirOpsIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="AirOpsExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="SOPIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="SOPExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="Diff31IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="Diff31ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="Diff34IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="Diff34ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OMA1IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OMA1ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OMB1IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OMB1ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OMC1IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OMC1ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OMA2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OMA2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OMB2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OMB2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OMC2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OMC2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OMA3IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OMA3ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OMB3IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OMB3ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OMC3IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="OMC3ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="MapIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="MapExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="ComResIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="ComResExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OPCC1ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OPCC2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="OPCC3ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate1" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate1" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate2" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate2" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate3" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate3" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate4" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate4" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate5" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate5" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate6" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate6" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate7" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate7" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate8" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate8" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate9" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate9" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate10" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate10" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="PersonDocuments" Relationship="dbModel.FK_PD_PERS" FromRole="Person" ToRole="PersonDocument" />
+          <NavigationProperty Name="PersonAircraftTypes" Relationship="dbModel.FK_UM_Type_Access_UM_Users" FromRole="Person" ToRole="PersonAircraftType" />
+          <NavigationProperty Name="PersonCustomers" Relationship="dbModel.FK_PERSONCUSTOMER_PERSON" FromRole="Person" ToRole="PersonCustomer" />
         </EntityType>
-        <EntityType Name="ThirdPartySyncHistory">
+        <Association Name="FK_PD_PERS">
+          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.PersonDocument" Role="PersonDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonDocument">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UM_Type_Access_UM_Users">
+          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.PersonAircraftType" Role="PersonAircraftType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonAircraftType">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PersonCustomer">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="App" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="DateSync" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="DateJoinCompany" Type="DateTime" Precision="0" />
+          <Property Name="DateJoinCompanyP" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="DateRegisterP" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="DateConfirmedP" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DateRegister" Type="DateTime" Precision="3" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="DateActiveStart" Type="DateTime" Precision="3" />
+          <Property Name="DateActiveEnd" Type="DateTime" Precision="3" />
+          <Property Name="DateLastLoginP" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DateLastLogin" Type="DateTime" Precision="3" />
+          <Property Name="Username" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="C1GroupId" Type="Int32" />
+          <Property Name="C2GroupId" Type="Int32" />
+          <Property Name="C3GroupId" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="dbModel.FK_EMPLOYEE_PERSONCUSTOMER" FromRole="PersonCustomer" ToRole="Employee" />
+          <NavigationProperty Name="Person" Relationship="dbModel.FK_PERSONCUSTOMER_PERSON" FromRole="PersonCustomer" ToRole="Person" />
         </EntityType>
+        <EntityType Name="ViewProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="PID" />
+            <PropertyRef Name="IsActive" />
+            <PropertyRef Name="IsDeleted" />
+            <PropertyRef Name="JobGroup" />
+            <PropertyRef Name="JobGroupCode" />
+            <PropertyRef Name="JobGroupRoot" />
+            <PropertyRef Name="NID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="PID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="C1GroupId" Type="Int32" />
+          <Property Name="JobGroupC1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupCodeC1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="C2GroupId" Type="Int32" />
+          <Property Name="JobGroupC2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupCodeC2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="C3GroupId" Type="Int32" />
+          <Property Name="JobGroup" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupCode" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PassportNumber" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IDNo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="InActive" Type="Boolean" />
+          <Property Name="JobGroupMain" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupMainCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroupCode2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RemainNDT" Type="Int32" />
+          <Property Name="RemainCAO" Type="Int32" />
+          <Property Name="RemainPassport" Type="Int32" />
+          <Property Name="RemainFirstAid" Type="Int32" />
+          <Property Name="RemainCMC" Type="Int32" />
+          <Property Name="RemainLicence" Type="Int32" />
+          <Property Name="RemainLicenceIR" Type="Int32" />
+          <Property Name="RemainProficiency" Type="Int32" />
+          <Property Name="RemainProficiencyOPC" Type="Int32" />
+          <Property Name="RemainLPR" Type="Int32" />
+          <Property Name="RemainMedical" Type="Int32" />
+          <Property Name="RemainSEPT" Type="Int32" />
+          <Property Name="RemainSEPTP" Type="Int32" />
+          <Property Name="RemainDG" Type="Int32" />
+          <Property Name="RemainCRM" Type="Int32" />
+          <Property Name="RemainCCRM" Type="Int32" />
+          <Property Name="RemainSMS" Type="Int32" />
+          <Property Name="RemainAvSec" Type="Int32" />
+          <Property Name="RemainUpsetRecoveryTraining" Type="Int32" />
+          <Property Name="RemainColdWeather" Type="Int32" />
+          <Property Name="RemainHotWeather" Type="Int32" />
+          <Property Name="RemainTRI" Type="Int32" />
+          <Property Name="RemainTRE" Type="Int32" />
+          <Property Name="RemainRecurrent" Type="Int32" />
+          <Property Name="RemainLine" Type="Int32" />
+          <Property Name="RemainEGPWS" Type="Int32" />
+          <Property Name="RemainRSP" Type="Int32" />
+          <Property Name="RemainLRC" Type="Int32" />
+          <Property Name="RemainTypeMD" Type="Int32" />
+          <Property Name="RemainType737" Type="Int32" />
+          <Property Name="RemainTypeAirbus" Type="Int32" />
+          <Property Name="RemainHF" Type="Int32" />
+          <Property Name="RemainASD" Type="Int32" />
+          <Property Name="RemainGOM" Type="Int32" />
+          <Property Name="RemainASF" Type="Int32" />
+          <Property Name="RemainCC" Type="Int32" />
+          <Property Name="RemainERP" Type="Int32" />
+          <Property Name="RemainMB" Type="Int32" />
+          <Property Name="RemainPS" Type="Int32" />
+          <Property Name="RemainANNEX" Type="Int32" />
+          <Property Name="RemainDRM" Type="Int32" />
+          <Property Name="RemainFMTD" Type="Int32" />
+          <Property Name="RemainMEL" Type="Int32" />
+          <Property Name="RemainMET" Type="Int32" />
+          <Property Name="RemainPER" Type="Int32" />
+          <Property Name="RemainLPCC1" Type="Int32" />
+          <Property Name="RemainLPCC2" Type="Int32" />
+          <Property Name="RemainLPCC3" Type="Int32" />
+          <Property Name="RemainLineC1" Type="Int32" />
+          <Property Name="RemainLineC2" Type="Int32" />
+          <Property Name="RemainLineC3" Type="Int32" />
+          <Property Name="RemainRamp" Type="Int32" />
+          <Property Name="RemainAC" Type="Int32" />
+          <Property Name="RemainUPRT" Type="Int32" />
+          <Property Name="RemainSFI" Type="Int32" />
+          <Property Name="RemainSFE" Type="Int32" />
+          <Property Name="RemainTRI2" Type="Int32" />
+          <Property Name="RemainTRE2" Type="Int32" />
+          <Property Name="RemainIRI" Type="Int32" />
+          <Property Name="RemainIRE" Type="Int32" />
+          <Property Name="RemainCRI" Type="Int32" />
+          <Property Name="RemainCRE" Type="Int32" />
+          <Property Name="RemainSFI2" Type="Int32" />
+          <Property Name="RemainSFE2" Type="Int32" />
+          <Property Name="RemainAirCrew" Type="Int32" />
+          <Property Name="RemainAirOps" Type="Int32" />
+          <Property Name="RemainSOP" Type="Int32" />
+          <Property Name="RemainDiff31" Type="Int32" />
+          <Property Name="RemainDiff34" Type="Int32" />
+          <Property Name="RemainOMA1" Type="Int32" />
+          <Property Name="RemainOMB1" Type="Int32" />
+          <Property Name="RemainOMC1" Type="Int32" />
+          <Property Name="RemainOMA2" Type="Int32" />
+          <Property Name="RemainOMB2" Type="Int32" />
+          <Property Name="RemainOMC2" Type="Int32" />
+          <Property Name="RemainOMA3" Type="Int32" />
+          <Property Name="RemainOMB3" Type="Int32" />
+          <Property Name="RemainOMC3" Type="Int32" />
+          <Property Name="RemainMap" Type="Int32" />
+          <Property Name="RemainComRes" Type="Int32" />
+          <Property Name="RemainOPCC1" Type="Int32" />
+          <Property Name="RemainOPCC2" Type="Int32" />
+          <Property Name="RemainOPCC3" Type="Int32" />
+          <Property Name="Remain1" Type="Int32" />
+          <Property Name="Remain2" Type="Int32" />
+          <Property Name="Remain3" Type="Int32" />
+          <Property Name="Remain4" Type="Int32" />
+          <Property Name="Remain5" Type="Int32" />
+          <Property Name="Remain6" Type="Int32" />
+          <Property Name="Remain7" Type="Int32" />
+          <Property Name="Remain8" Type="Int32" />
+          <Property Name="Remain9" Type="Int32" />
+          <Property Name="Remain10" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_EMPLOYEE_PERSONCUSTOMER">
+          <End Type="dbModel.PersonCustomer" Role="PersonCustomer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PersonCustomer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONCUSTOMER_PERSON">
+          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.PersonCustomer" Role="PersonCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonCustomer">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -844,6 +2194,7 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
           <EntitySetMapping Name="ViewEmployeeLights">
             <EntityTypeMapping TypeName="dbModel.ViewEmployeeLight">
               <MappingFragment StoreEntitySet="ViewEmployeeLight">
+                <ScalarProperty Name="JobGroupCode2" ColumnName="JobGroupCode2" />
                 <ScalarProperty Name="BaseAirportId" ColumnName="BaseAirportId" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
                 <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
@@ -974,9 +2325,291 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ThirdPartySyncHistories">
+            <EntityTypeMapping TypeName="dbModel.ThirdPartySyncHistory">
+              <MappingFragment StoreEntitySet="ThirdPartySyncHistory">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DateSync" ColumnName="DateSync" />
+                <ScalarProperty Name="App" ColumnName="App" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="dbModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="FlightLate" ColumnName="FlightLate" />
+                <ScalarProperty Name="FlightEarly" ColumnName="FlightEarly" />
+                <ScalarProperty Name="FlightSum" ColumnName="FlightSum" />
+                <ScalarProperty Name="DateInactiveEnd" ColumnName="DateInactiveEnd" />
+                <ScalarProperty Name="DateInactiveBegin" ColumnName="DateInactiveBegin" />
+                <ScalarProperty Name="BaseAirportId" ColumnName="BaseAirportId" />
+                <ScalarProperty Name="CurrentLocationAirport" ColumnName="CurrentLocationAirport" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeLocations">
+            <EntityTypeMapping TypeName="dbModel.EmployeeLocation">
+              <MappingFragment StoreEntitySet="EmployeeLocation">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DateActiveEnd" ColumnName="DateActiveEnd" />
+                <ScalarProperty Name="DateActiveStart" ColumnName="DateActiveStart" />
+                <ScalarProperty Name="DateActiveEndP" ColumnName="DateActiveEndP" />
+                <ScalarProperty Name="DateActiveStartP" ColumnName="DateActiveStartP" />
+                <ScalarProperty Name="OrgRoleId" ColumnName="OrgRoleId" />
+                <ScalarProperty Name="IsMainLocation" ColumnName="IsMainLocation" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonAircraftTypes">
+            <EntityTypeMapping TypeName="dbModel.PersonAircraftType">
+              <MappingFragment StoreEntitySet="PersonAircraftType">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DateLimitEnd" ColumnName="DateLimitEnd" />
+                <ScalarProperty Name="DateLimitBegin" ColumnName="DateLimitBegin" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="AircraftTypeId" ColumnName="AircraftTypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonDocuments">
+            <EntityTypeMapping TypeName="dbModel.PersonDocument">
+              <MappingFragment StoreEntitySet="PersonDocument">
+                <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="dbModel.Document">
+              <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="SysUrl" ColumnName="SysUrl" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+                <ScalarProperty Name="FileTypeId" ColumnName="FileTypeId" />
+                <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewPersonDocuments">
+            <EntityTypeMapping TypeName="dbModel.ViewPersonDocument">
+              <MappingFragment StoreEntitySet="ViewPersonDocument">
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="PersonDocumentFile" TypeName="dbModel.PersonDocumentFile" StoreEntitySet="PersonDocumentFile">
+            <EndProperty Name="PersonDocument">
+              <ScalarProperty Name="Id" ColumnName="PersonDocumentId" />
+            </EndProperty>
+            <EndProperty Name="Document">
+              <ScalarProperty Name="Id" ColumnName="DocumentId" />
+            </EndProperty>
+            <Condition ColumnName="PersonDocumentId" IsNull="false" />
+          </AssociationSetMapping>
+          <EntitySetMapping Name="ViewPersonDocumentFiles">
+            <EntityTypeMapping TypeName="dbModel.ViewPersonDocumentFile">
+              <MappingFragment StoreEntitySet="ViewPersonDocumentFile">
+                <ScalarProperty Name="PersonDocumentId" ColumnName="PersonDocumentId" />
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="SysUrl" ColumnName="SysUrl" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+                <ScalarProperty Name="FileTypeId" ColumnName="FileTypeId" />
+                <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewPersonAircraftTypes">
+            <EntityTypeMapping TypeName="dbModel.ViewPersonAircraftType">
+              <MappingFragment StoreEntitySet="ViewPersonAircraftType">
+                <ScalarProperty Name="Remain" ColumnName="Remain" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DateLimitEnd" ColumnName="DateLimitEnd" />
+                <ScalarProperty Name="DateLimitBegin" ColumnName="DateLimitBegin" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="AircraftTypeId" ColumnName="AircraftTypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
+                <ScalarProperty Name="ManufacturerId" ColumnName="ManufacturerId" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewEmployeeLocations">
+            <EntityTypeMapping TypeName="dbModel.ViewEmployeeLocation">
+              <MappingFragment StoreEntitySet="ViewEmployeeLocation">
+                <ScalarProperty Name="Root2Title" ColumnName="Root2Title" />
+                <ScalarProperty Name="Root2Code" ColumnName="Root2Code" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="FullCode" ColumnName="FullCode" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="OrgRole" ColumnName="OrgRole" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DateActiveEnd" ColumnName="DateActiveEnd" />
+                <ScalarProperty Name="DateActiveStart" ColumnName="DateActiveStart" />
+                <ScalarProperty Name="DateActiveEndP" ColumnName="DateActiveEndP" />
+                <ScalarProperty Name="DateActiveStartP" ColumnName="DateActiveStartP" />
+                <ScalarProperty Name="OrgRoleId" ColumnName="OrgRoleId" />
+                <ScalarProperty Name="IsMainLocation" ColumnName="IsMainLocation" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="dbModel.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="ExpireDate10" ColumnName="ExpireDate10" />
+                <ScalarProperty Name="IssueDate10" ColumnName="IssueDate10" />
+                <ScalarProperty Name="ExpireDate9" ColumnName="ExpireDate9" />
+                <ScalarProperty Name="IssueDate9" ColumnName="IssueDate9" />
+                <ScalarProperty Name="ExpireDate8" ColumnName="ExpireDate8" />
+                <ScalarProperty Name="IssueDate8" ColumnName="IssueDate8" />
+                <ScalarProperty Name="ExpireDate7" ColumnName="ExpireDate7" />
+                <ScalarProperty Name="IssueDate7" ColumnName="IssueDate7" />
+                <ScalarProperty Name="ExpireDate6" ColumnName="ExpireDate6" />
+                <ScalarProperty Name="IssueDate6" ColumnName="IssueDate6" />
+                <ScalarProperty Name="ExpireDate5" ColumnName="ExpireDate5" />
+                <ScalarProperty Name="IssueDate5" ColumnName="IssueDate5" />
+                <ScalarProperty Name="ExpireDate4" ColumnName="ExpireDate4" />
+                <ScalarProperty Name="IssueDate4" ColumnName="IssueDate4" />
+                <ScalarProperty Name="ExpireDate3" ColumnName="ExpireDate3" />
+                <ScalarProperty Name="IssueDate3" ColumnName="IssueDate3" />
+                <ScalarProperty Name="ExpireDate2" ColumnName="ExpireDate2" />
+                <ScalarProperty Name="IssueDate2" ColumnName="IssueDate2" />
+                <ScalarProperty Name="ExpireDate1" ColumnName="ExpireDate1" />
+                <ScalarProperty Name="IssueDate1" ColumnName="IssueDate1" />
+                <ScalarProperty Name="OPCC3ExpireDate" ColumnName="OPCC3ExpireDate" />
+                <ScalarProperty Name="OPCC2ExpireDate" ColumnName="OPCC2ExpireDate" />
+                <ScalarProperty Name="OPCC1ExpireDate" ColumnName="OPCC1ExpireDate" />
+                <ScalarProperty Name="ComResExpireDate" ColumnName="ComResExpireDate" />
+                <ScalarProperty Name="ComResIssueDate" ColumnName="ComResIssueDate" />
+                <ScalarProperty Name="MapExpireDate" ColumnName="MapExpireDate" />
+                <ScalarProperty Name="MapIssueDate" ColumnName="MapIssueDate" />
+                <ScalarProperty Name="OMC3ExpireDate" ColumnName="OMC3ExpireDate" />
+                <ScalarProperty Name="OMC3IssueDate" ColumnName="OMC3IssueDate" />
+                <ScalarProperty Name="OMB3ExpireDate" ColumnName="OMB3ExpireDate" />
+                <ScalarProperty Name="OMB3IssueDate" ColumnName="OMB3IssueDate" />
+                <ScalarProperty Name="OMA3ExpireDate" ColumnName="OMA3ExpireDate" />
+                <ScalarProperty Name="OMA3IssueDate" ColumnName="OMA3IssueDate" />
+                <ScalarProperty Name="OMC2ExpireDate" ColumnName="OMC2ExpireDate" />
+                <ScalarProperty Name="OMC2IssueDate" ColumnName="OMC2IssueDate" />
+                <ScalarProperty Name="OMB2ExpireDate" ColumnName="OMB2ExpireDate" />
+                <ScalarProperty Name="OMB2IssueDate" ColumnName="OMB2IssueDate" />
+                <ScalarProperty Name="OMA2ExpireDate" ColumnName="OMA2ExpireDate" />
+                <ScalarProperty Name="OMA2IssueDate" ColumnName="OMA2IssueDate" />
+                <ScalarProperty Name="OMC1ExpireDate" ColumnName="OMC1ExpireDate" />
+                <ScalarProperty Name="OMC1IssueDate" ColumnName="OMC1IssueDate" />
+                <ScalarProperty Name="OMB1ExpireDate" ColumnName="OMB1ExpireDate" />
+                <ScalarProperty Name="OMB1IssueDate" ColumnName="OMB1IssueDate" />
+                <ScalarProperty Name="OMA1ExpireDate" ColumnName="OMA1ExpireDate" />
+                <ScalarProperty Name="OMA1IssueDate" ColumnName="OMA1IssueDate" />
+                <ScalarProperty Name="Diff34ExpireDate" ColumnName="Diff34ExpireDate" />
+                <ScalarProperty Name="Diff34IssueDate" ColumnName="Diff34IssueDate" />
+                <ScalarProperty Name="Diff31ExpireDate" ColumnName="Diff31ExpireDate" />
+                <ScalarProperty Name="Diff31IssueDate" ColumnName="Diff31IssueDate" />
+                <ScalarProperty Name="SOPExpireDate" ColumnName="SOPExpireDate" />
+                <ScalarProperty Name="SOPIssueDate" ColumnName="SOPIssueDate" />
+                <ScalarProperty Name="AirOpsExpireDate" ColumnName="AirOpsExpireDate" />
+                <ScalarProperty Name="AirOpsIssueDate" ColumnName="AirOpsIssueDate" />
+                <ScalarProperty Name="AirCrewExpireDate" ColumnName="AirCrewExpireDate" />
+                <ScalarProperty Name="AirCrewIssueDate" ColumnName="AirCrewIssueDate" />
+                <ScalarProperty Name="SFE2ExpireDate" ColumnName="SFE2ExpireDate" />
+                <ScalarProperty Name="SFE2IssueDate" ColumnName="SFE2IssueDate" />
+                <ScalarProperty Name="SFI2ExpireDate" ColumnName="SFI2ExpireDate" />
+                <ScalarProperty Name="SFI2IssueDate" ColumnName="SFI2IssueDate" />
+                <ScalarProperty Name="CREExpireDate" ColumnName="CREExpireDate" />
+                <ScalarProperty Name="CREIssueDate" ColumnName="CREIssueDate" />
+                <ScalarProperty Name="CRIExpireDate" ColumnName="CRIExpireDate" />
+                <ScalarProperty Name="CRIIssueDate" ColumnName="CRIIssueDate" />
+                <ScalarProperty Name="IREExpireDate" ColumnName="IREExpireDate" />
+                <ScalarProperty Name="IREIssueDate" ColumnName="IREIssueDate" />
+                <ScalarProperty Name="IRIExpireDate" ColumnName="IRIExpireDate" />
+                <ScalarProperty Name="IRIIssueDate" ColumnName="IRIIssueDate" />
+                <ScalarProperty Name="TRE2ExpireDate" ColumnName="TRE2ExpireDate" />
+                <ScalarProperty Name="TRE2IssueDate" ColumnName="TRE2IssueDate" />
+                <ScalarProperty Name="TRI2ExpireDate" ColumnName="TRI2ExpireDate" />
+                <ScalarProperty Name="TRI2IssueDate" ColumnName="TRI2IssueDate" />
+                <ScalarProperty Name="SFEExpireDate" ColumnName="SFEExpireDate" />
+                <ScalarProperty Name="SFEIssueDate" ColumnName="SFEIssueDate" />
+                <ScalarProperty Name="SFIExpireDate" ColumnName="SFIExpireDate" />
+                <ScalarProperty Name="SFIIssueDate" ColumnName="SFIIssueDate" />
+                <ScalarProperty Name="UPRTExpireDate" ColumnName="UPRTExpireDate" />
+                <ScalarProperty Name="UPRTIssueDate" ColumnName="UPRTIssueDate" />
+                <ScalarProperty Name="ACExpireDate" ColumnName="ACExpireDate" />
+                <ScalarProperty Name="ACIssueDate" ColumnName="ACIssueDate" />
+                <ScalarProperty Name="RampExpireDate" ColumnName="RampExpireDate" />
+                <ScalarProperty Name="RampIssueDate" ColumnName="RampIssueDate" />
+                <ScalarProperty Name="LineC3ExpireDate" ColumnName="LineC3ExpireDate" />
+                <ScalarProperty Name="LineC2ExpireDate" ColumnName="LineC2ExpireDate" />
+                <ScalarProperty Name="LineC1ExpireDate" ColumnName="LineC1ExpireDate" />
+                <ScalarProperty Name="LineC3IssueDate" ColumnName="LineC3IssueDate" />
+                <ScalarProperty Name="LineC2IssueDate" ColumnName="LineC2IssueDate" />
+                <ScalarProperty Name="LineC1IssueDate" ColumnName="LineC1IssueDate" />
+                <ScalarProperty Name="OPCC3IssueDate" ColumnName="OPCC3IssueDate" />
+                <ScalarProperty Name="OPCC2IssueDate" ColumnName="OPCC2IssueDate" />
+                <ScalarProperty Name="OPCC1IssueDate" ColumnName="OPCC1IssueDate" />
+                <ScalarProperty Name="LPCC3IssueDate" ColumnName="LPCC3IssueDate" />
+                <ScalarProperty Name="LPCC2IssueDate" ColumnName="LPCC2IssueDate" />
+                <ScalarProperty Name="LPCC1IssueDate" ColumnName="LPCC1IssueDate" />
+                <ScalarProperty Name="LPCC3ExpireDate" ColumnName="LPCC3ExpireDate" />
+                <ScalarProperty Name="LPCC2ExpireDate" ColumnName="LPCC2ExpireDate" />
+                <ScalarProperty Name="LPCC1ExpireDate" ColumnName="LPCC1ExpireDate" />
+                <ScalarProperty Name="PERExpireDate" ColumnName="PERExpireDate" />
+                <ScalarProperty Name="PERIssueDate" ColumnName="PERIssueDate" />
+                <ScalarProperty Name="METExpireDate" ColumnName="METExpireDate" />
+                <ScalarProperty Name="METIssueDate" ColumnName="METIssueDate" />
+                <ScalarProperty Name="MELIssueDate" ColumnName="MELIssueDate" />
+                <ScalarProperty Name="MELExpireDate" ColumnName="MELExpireDate" />
+                <ScalarProperty Name="FMTDExpireDate" ColumnName="FMTDExpireDate" />
+                <ScalarProperty Name="FMTDIssueDate" ColumnName="FMTDIssueDate" />
+                <ScalarProperty Name="DRMExpireDate" ColumnName="DRMExpireDate" />
+                <ScalarProperty Name="DRMIssueDate" ColumnName="DRMIssueDate" />
+                <ScalarProperty Name="ANNEXExpireDate" ColumnName="ANNEXExpireDate" />
+                <ScalarProperty Name="ANNEXIssueDate" ColumnName="ANNEXIssueDate" />
+                <ScalarProperty Name="PSExpireDate" ColumnName="PSExpireDate" />
+                <ScalarProperty Name="PSIssueDate" ColumnName="PSIssueDate" />
+                <ScalarProperty Name="MBExpireDate" ColumnName="MBExpireDate" />
+                <ScalarProperty Name="MBIssueDate" ColumnName="MBIssueDate" />
+                <ScalarProperty Name="ERPExpireDate" ColumnName="ERPExpireDate" />
+                <ScalarProperty Name="ERPIssueDate" ColumnName="ERPIssueDate" />
+                <ScalarProperty Name="CCExpireDate" ColumnName="CCExpireDate" />
+                <ScalarProperty Name="CCIssueDate" ColumnName="CCIssueDate" />
+                <ScalarProperty Name="ASFExpireDate" ColumnName="ASFExpireDate" />
+                <ScalarProperty Name="ASFIssueDate" ColumnName="ASFIssueDate" />
+                <ScalarProperty Name="GOMExpireDate" ColumnName="GOMExpireDate" />
+                <ScalarProperty Name="GOMIssueDate" ColumnName="GOMIssueDate" />
+                <ScalarProperty Name="ASDExpireDate" ColumnName="ASDExpireDate" />
+                <ScalarProperty Name="ASDIssueDate" ColumnName="ASDIssueDate" />
+                <ScalarProperty Name="HFExpireDate" ColumnName="HFExpireDate" />
+                <ScalarProperty Name="HFIssueDate" ColumnName="HFIssueDate" />
                 <ScalarProperty Name="SAExpireDate" ColumnName="SAExpireDate" />
                 <ScalarProperty Name="SAIssueDate" ColumnName="SAIssueDate" />
                 <ScalarProperty Name="CTUExpireDate" ColumnName="CTUExpireDate" />
@@ -994,10 +2627,10 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
                 <ScalarProperty Name="Type737IssueDate" ColumnName="Type737IssueDate" />
                 <ScalarProperty Name="TypeMDExpireDate" ColumnName="TypeMDExpireDate" />
                 <ScalarProperty Name="TypeMDIssueDate" ColumnName="TypeMDIssueDate" />
+                <ScalarProperty Name="OtherAirline" ColumnName="OtherAirline" />
                 <ScalarProperty Name="MultiType" ColumnName="MultiType" />
                 <ScalarProperty Name="PLastName" ColumnName="PLastName" />
                 <ScalarProperty Name="PFirstName" ColumnName="PFirstName" />
-                <ScalarProperty Name="OtherAirline" ColumnName="OtherAirline" />
                 <ScalarProperty Name="FMTExpireDate" ColumnName="FMTExpireDate" />
                 <ScalarProperty Name="FMTIssueDate" ColumnName="FMTIssueDate" />
                 <ScalarProperty Name="RecurrentExpireDate" ColumnName="RecurrentExpireDate" />
@@ -1124,12 +2757,156 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewIdeaUniqueLast' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ThirdPartySyncHistories">
-            <EntityTypeMapping TypeName="dbModel.ThirdPartySyncHistory">
-              <MappingFragment StoreEntitySet="ThirdPartySyncHistory">
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="DateSync" ColumnName="DateSync" />
-                <ScalarProperty Name="App" ColumnName="App" />
+          <EntitySetMapping Name="PersonCustomers">
+            <EntityTypeMapping TypeName="dbModel.PersonCustomer">
+              <MappingFragment StoreEntitySet="PersonCustomer">
+                <ScalarProperty Name="C3GroupId" ColumnName="C3GroupId" />
+                <ScalarProperty Name="C2GroupId" ColumnName="C2GroupId" />
+                <ScalarProperty Name="C1GroupId" ColumnName="C1GroupId" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="DateLastLogin" ColumnName="DateLastLogin" />
+                <ScalarProperty Name="DateLastLoginP" ColumnName="DateLastLoginP" />
+                <ScalarProperty Name="DateActiveEnd" ColumnName="DateActiveEnd" />
+                <ScalarProperty Name="DateActiveStart" ColumnName="DateActiveStart" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="DateRegister" ColumnName="DateRegister" />
+                <ScalarProperty Name="DateConfirmedP" ColumnName="DateConfirmedP" />
+                <ScalarProperty Name="DateRegisterP" ColumnName="DateRegisterP" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DateJoinCompanyP" ColumnName="DateJoinCompanyP" />
+                <ScalarProperty Name="DateJoinCompany" ColumnName="DateJoinCompany" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewProfiles">
+            <EntityTypeMapping TypeName="dbModel.ViewProfile">
+              <MappingFragment StoreEntitySet="ViewProfile">
+                <ScalarProperty Name="Remain10" ColumnName="Remain10" />
+                <ScalarProperty Name="Remain9" ColumnName="Remain9" />
+                <ScalarProperty Name="Remain8" ColumnName="Remain8" />
+                <ScalarProperty Name="Remain7" ColumnName="Remain7" />
+                <ScalarProperty Name="Remain6" ColumnName="Remain6" />
+                <ScalarProperty Name="Remain5" ColumnName="Remain5" />
+                <ScalarProperty Name="Remain4" ColumnName="Remain4" />
+                <ScalarProperty Name="Remain3" ColumnName="Remain3" />
+                <ScalarProperty Name="Remain2" ColumnName="Remain2" />
+                <ScalarProperty Name="Remain1" ColumnName="Remain1" />
+                <ScalarProperty Name="RemainOPCC3" ColumnName="RemainOPCC3" />
+                <ScalarProperty Name="RemainOPCC2" ColumnName="RemainOPCC2" />
+                <ScalarProperty Name="RemainOPCC1" ColumnName="RemainOPCC1" />
+                <ScalarProperty Name="RemainComRes" ColumnName="RemainComRes" />
+                <ScalarProperty Name="RemainMap" ColumnName="RemainMap" />
+                <ScalarProperty Name="RemainOMC3" ColumnName="RemainOMC3" />
+                <ScalarProperty Name="RemainOMB3" ColumnName="RemainOMB3" />
+                <ScalarProperty Name="RemainOMA3" ColumnName="RemainOMA3" />
+                <ScalarProperty Name="RemainOMC2" ColumnName="RemainOMC2" />
+                <ScalarProperty Name="RemainOMB2" ColumnName="RemainOMB2" />
+                <ScalarProperty Name="RemainOMA2" ColumnName="RemainOMA2" />
+                <ScalarProperty Name="RemainOMC1" ColumnName="RemainOMC1" />
+                <ScalarProperty Name="RemainOMB1" ColumnName="RemainOMB1" />
+                <ScalarProperty Name="RemainOMA1" ColumnName="RemainOMA1" />
+                <ScalarProperty Name="RemainDiff34" ColumnName="RemainDiff34" />
+                <ScalarProperty Name="RemainDiff31" ColumnName="RemainDiff31" />
+                <ScalarProperty Name="RemainSOP" ColumnName="RemainSOP" />
+                <ScalarProperty Name="RemainAirOps" ColumnName="RemainAirOps" />
+                <ScalarProperty Name="RemainAirCrew" ColumnName="RemainAirCrew" />
+                <ScalarProperty Name="RemainSFE2" ColumnName="RemainSFE2" />
+                <ScalarProperty Name="RemainSFI2" ColumnName="RemainSFI2" />
+                <ScalarProperty Name="RemainCRE" ColumnName="RemainCRE" />
+                <ScalarProperty Name="RemainCRI" ColumnName="RemainCRI" />
+                <ScalarProperty Name="RemainIRE" ColumnName="RemainIRE" />
+                <ScalarProperty Name="RemainIRI" ColumnName="RemainIRI" />
+                <ScalarProperty Name="RemainTRE2" ColumnName="RemainTRE2" />
+                <ScalarProperty Name="RemainTRI2" ColumnName="RemainTRI2" />
+                <ScalarProperty Name="RemainSFE" ColumnName="RemainSFE" />
+                <ScalarProperty Name="RemainSFI" ColumnName="RemainSFI" />
+                <ScalarProperty Name="RemainUPRT" ColumnName="RemainUPRT" />
+                <ScalarProperty Name="RemainAC" ColumnName="RemainAC" />
+                <ScalarProperty Name="RemainRamp" ColumnName="RemainRamp" />
+                <ScalarProperty Name="RemainLineC3" ColumnName="RemainLineC3" />
+                <ScalarProperty Name="RemainLineC2" ColumnName="RemainLineC2" />
+                <ScalarProperty Name="RemainLineC1" ColumnName="RemainLineC1" />
+                <ScalarProperty Name="RemainLPCC3" ColumnName="RemainLPCC3" />
+                <ScalarProperty Name="RemainLPCC2" ColumnName="RemainLPCC2" />
+                <ScalarProperty Name="RemainLPCC1" ColumnName="RemainLPCC1" />
+                <ScalarProperty Name="RemainPER" ColumnName="RemainPER" />
+                <ScalarProperty Name="RemainMET" ColumnName="RemainMET" />
+                <ScalarProperty Name="RemainMEL" ColumnName="RemainMEL" />
+                <ScalarProperty Name="RemainFMTD" ColumnName="RemainFMTD" />
+                <ScalarProperty Name="RemainDRM" ColumnName="RemainDRM" />
+                <ScalarProperty Name="RemainANNEX" ColumnName="RemainANNEX" />
+                <ScalarProperty Name="RemainPS" ColumnName="RemainPS" />
+                <ScalarProperty Name="RemainMB" ColumnName="RemainMB" />
+                <ScalarProperty Name="RemainERP" ColumnName="RemainERP" />
+                <ScalarProperty Name="RemainCC" ColumnName="RemainCC" />
+                <ScalarProperty Name="RemainASF" ColumnName="RemainASF" />
+                <ScalarProperty Name="RemainGOM" ColumnName="RemainGOM" />
+                <ScalarProperty Name="RemainASD" ColumnName="RemainASD" />
+                <ScalarProperty Name="RemainHF" ColumnName="RemainHF" />
+                <ScalarProperty Name="RemainTypeAirbus" ColumnName="RemainTypeAirbus" />
+                <ScalarProperty Name="RemainType737" ColumnName="RemainType737" />
+                <ScalarProperty Name="RemainTypeMD" ColumnName="RemainTypeMD" />
+                <ScalarProperty Name="RemainLRC" ColumnName="RemainLRC" />
+                <ScalarProperty Name="RemainRSP" ColumnName="RemainRSP" />
+                <ScalarProperty Name="RemainEGPWS" ColumnName="RemainEGPWS" />
+                <ScalarProperty Name="RemainLine" ColumnName="RemainLine" />
+                <ScalarProperty Name="RemainRecurrent" ColumnName="RemainRecurrent" />
+                <ScalarProperty Name="RemainTRE" ColumnName="RemainTRE" />
+                <ScalarProperty Name="RemainTRI" ColumnName="RemainTRI" />
+                <ScalarProperty Name="RemainHotWeather" ColumnName="RemainHotWeather" />
+                <ScalarProperty Name="RemainColdWeather" ColumnName="RemainColdWeather" />
+                <ScalarProperty Name="RemainUpsetRecoveryTraining" ColumnName="RemainUpsetRecoveryTraining" />
+                <ScalarProperty Name="RemainAvSec" ColumnName="RemainAvSec" />
+                <ScalarProperty Name="RemainSMS" ColumnName="RemainSMS" />
+                <ScalarProperty Name="RemainCCRM" ColumnName="RemainCCRM" />
+                <ScalarProperty Name="RemainCRM" ColumnName="RemainCRM" />
+                <ScalarProperty Name="RemainDG" ColumnName="RemainDG" />
+                <ScalarProperty Name="RemainSEPTP" ColumnName="RemainSEPTP" />
+                <ScalarProperty Name="RemainSEPT" ColumnName="RemainSEPT" />
+                <ScalarProperty Name="RemainMedical" ColumnName="RemainMedical" />
+                <ScalarProperty Name="RemainLPR" ColumnName="RemainLPR" />
+                <ScalarProperty Name="RemainProficiencyOPC" ColumnName="RemainProficiencyOPC" />
+                <ScalarProperty Name="RemainProficiency" ColumnName="RemainProficiency" />
+                <ScalarProperty Name="RemainLicenceIR" ColumnName="RemainLicenceIR" />
+                <ScalarProperty Name="RemainLicence" ColumnName="RemainLicence" />
+                <ScalarProperty Name="RemainCMC" ColumnName="RemainCMC" />
+                <ScalarProperty Name="RemainFirstAid" ColumnName="RemainFirstAid" />
+                <ScalarProperty Name="RemainPassport" ColumnName="RemainPassport" />
+                <ScalarProperty Name="RemainCAO" ColumnName="RemainCAO" />
+                <ScalarProperty Name="RemainNDT" ColumnName="RemainNDT" />
+                <ScalarProperty Name="JobGroupCode2" ColumnName="JobGroupCode2" />
+                <ScalarProperty Name="JobGroupMainCode" ColumnName="JobGroupMainCode" />
+                <ScalarProperty Name="JobGroupMain" ColumnName="JobGroupMain" />
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="IDNo" ColumnName="IDNo" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="NID" ColumnName="NID" />
+                <ScalarProperty Name="JobGroupRoot" ColumnName="JobGroupRoot" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="C3GroupId" ColumnName="C3GroupId" />
+                <ScalarProperty Name="JobGroupCodeC2" ColumnName="JobGroupCodeC2" />
+                <ScalarProperty Name="JobGroupC2" ColumnName="JobGroupC2" />
+                <ScalarProperty Name="C2GroupId" ColumnName="C2GroupId" />
+                <ScalarProperty Name="JobGroupCodeC1" ColumnName="JobGroupCodeC1" />
+                <ScalarProperty Name="JobGroupC1" ColumnName="JobGroupC1" />
+                <ScalarProperty Name="C1GroupId" ColumnName="C1GroupId" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PID" ColumnName="PID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
