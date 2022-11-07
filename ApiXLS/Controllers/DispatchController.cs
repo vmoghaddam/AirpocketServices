@@ -265,8 +265,8 @@ namespace ApiXLS.Controllers
                               {
                                   FlightId = q.FlightId,
                                   FlightNumber = q.FlightNumber,
-                                  Dep = q.FromAirportIATA2,
-                                  Dest = q.ToAirportIATA2,
+                                  Dep = q.FromAirportIATA,  //FromAirportIATA2 changed to 1
+                                  Dest = q.ToAirportIATA, //ToAirportIATA2 changed to 1
                                   STD = q.STD,
                                   STDLocal = q.STDLocal,
                                   STA = q.STA,
