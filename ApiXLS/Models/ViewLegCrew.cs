@@ -26,7 +26,7 @@ namespace ApiXLS.Models
         public Nullable<int> GroupId { get; set; }
         public string JobGroup { get; set; }
         public string JobGroupCode { get; set; }
-        public Nullable<int> GroupOrder { get; set; }
+        public int GroupOrder { get; set; }
         public int IsCockpit { get; set; }
         public Nullable<int> FlightPlanId { get; set; }
         public Nullable<byte> BlockM { get; set; }

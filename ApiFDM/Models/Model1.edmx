@@ -5,26 +5,746 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FDM">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Severity" Type="varchar" MaxLength="255" />
+          <Property Name="EventName" Type="varchar" MaxLength="255" />
+          <Property Name="Value" Type="nvarchar" MaxLength="53" />
+          <Property Name="Minor" Type="float" />
+          <Property Name="Major" Type="float" />
+          <Property Name="Critical" Type="float" />
+          <Property Name="Duration" Type="float" />
+          <Property Name="TDDatetime" Type="datetime2" Precision="0" />
+          <Property Name="P1" Type="varchar" MaxLength="255" />
+          <Property Name="P2" Type="varchar" MaxLength="255" />
+          <Property Name="Phase" Type="varchar" MaxLength="255" />
+          <Property Name="StateName" Type="varchar" MaxLength="255" />
+          <Property Name="Context" Type="varchar" MaxLength="255" />
+          <Property Name="Type" Type="varchar" MaxLength="255" />
+          <Property Name="TODatetime" Type="datetime2" Precision="0" />
+          <Property Name="Units" Type="varchar" MaxLength="255" />
+          <Property Name="ValueName" Type="varchar" MaxLength="255" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="PFLR" Type="varchar" MaxLength="255" />
+          <Property Name="Limit" Type="varchar" MaxLength="53" />
+          <Property Name="Date" Type="datetime2" Precision="0" />
+          <Property Name="FileName" Type="varchar" MaxLength="255" />
+          <Property Name="P1Id" Type="int" />
+          <Property Name="P2Id" Type="int" />
+          <Property Name="RegisterId" Type="int" />
+          <Property Name="FromAirport" Type="int" />
+          <Property Name="ToAirport" Type="int" />
+          <Property Name="IP" Type="varchar" MaxLength="255" />
+          <Property Name="IPId" Type="int" />
+          <Property Name="FromAirportIATA" Type="varchar" MaxLength="255" />
+          <Property Name="ToAirportIATA" Type="varchar" MaxLength="255" />
+          <Property Name="Key" Type="varchar" MaxLength="255" />
+          <Property Name="AircraftType" Type="varchar" MaxLength="255" />
+          <Property Name="AircraftTypeId" Type="int" />
+          <Property Name="Removed" Type="bit" />
+        </EntityType>
+        <EntityType Name="FDMEventAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FDMId" Type="int" />
+          <Property Name="DateCreate" Type="datetime2" Precision="0" />
+          <Property Name="ActionTypeId" Type="int" />
+          <Property Name="StartDate" Type="datetime2" Precision="0" />
+          <Property Name="EndDate" Type="datetime2" Precision="0" />
+          <Property Name="PreActionId" Type="int" />
+          <Property Name="CrewId" Type="int" />
+          <Property Name="UserId" Type="varchar" MaxLength="255" />
+          <Property Name="ActionInfo" Type="varchar" MaxLength="2000" />
+          <Property Name="FDPId" Type="int" />
+          <Property Name="ClassId" Type="nvarchar" MaxLength="500" />
+          <Property Name="TrainingResult" Type="varchar" MaxLength="500" />
+          <Property Name="ActionType" Type="varchar" MaxLength="500" />
+          <Property Name="DateTrainingAction" Type="datetime2" Precision="7" />
+          <Property Name="DateTrainingVisit" Type="datetime2" Precision="7" />
+          <Property Name="CourseName" Type="varchar" MaxLength="500" />
+          <Property Name="CourseDuration" Type="int" />
+          <Property Name="DateCourseStart" Type="datetime2" Precision="7" />
+          <Property Name="DateCourseEnd" Type="datetime2" Precision="7" />
+          <Property Name="CourseInstructor" Type="varchar" MaxLength="500" />
+          <Property Name="CourseLocation" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="FDP">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CrewId" Type="int" />
+          <Property Name="ReportingTime" Type="datetime" />
+          <Property Name="DelayedReportingTime" Type="datetime" />
+          <Property Name="RevisedDelayedReportingTime" Type="datetime" />
+          <Property Name="FirstNotification" Type="datetime" />
+          <Property Name="NextNotification" Type="datetime" />
+          <Property Name="DelayAmount" Type="int" />
+          <Property Name="BoxId" Type="int" />
+          <Property Name="JobGroupId" Type="int" />
+          <Property Name="IsTemplate" Type="bit" Nullable="false" />
+          <Property Name="DutyType" Type="int" Nullable="false" />
+          <Property Name="DateContact" Type="datetime" />
+          <Property Name="FDPId" Type="int" />
+          <Property Name="DateStart" Type="datetime" />
+          <Property Name="DateEnd" Type="datetime" />
+          <Property Name="CityId" Type="int" />
+          <Property Name="TemplateId" Type="int" />
+          <Property Name="FDPReportingTime" Type="datetime" />
+          <Property Name="GUID" Type="uniqueidentifier" />
+          <Property Name="FirstFlightId" Type="int" />
+          <Property Name="LastFlightId" Type="int" />
+          <Property Name="UPD" Type="int" />
+          <Property Name="IsMain" Type="bit" />
+          <Property Name="Key" Type="varchar" MaxLength="500" />
+          <Property Name="CP" Type="bit" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="Remark" Type="varchar" MaxLength="1000" />
+          <Property Name="LocationId" Type="int" />
+          <Property Name="InitStart" Type="datetime" />
+          <Property Name="InitEnd" Type="datetime" />
+          <Property Name="InitRestTo" Type="datetime" />
+          <Property Name="InitFlts" Type="varchar" MaxLength="500" />
+          <Property Name="InitRoute" Type="varchar" MaxLength="500" />
+          <Property Name="InitFromIATA" Type="varchar" MaxLength="255" />
+          <Property Name="InitToIATA" Type="varchar" MaxLength="255" />
+          <Property Name="InitNo" Type="varchar" MaxLength="500" />
+          <Property Name="InitKey" Type="varchar" MaxLength="500" />
+          <Property Name="InitHomeBase" Type="int" />
+          <Property Name="InitRank" Type="varchar" MaxLength="255" />
+          <Property Name="InitIndex" Type="int" />
+          <Property Name="InitGroup" Type="varchar" MaxLength="255" />
+          <Property Name="InitScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="InitFlights" Type="varchar" MaxLength="2000" />
+          <Property Name="Remark2" Type="nvarchar" MaxLength="500" />
+          <Property Name="CanceledNo" Type="varchar" MaxLength="500" />
+          <Property Name="CanceledRoute" Type="varchar" MaxLength="500" />
+          <Property Name="Extension" Type="int" />
+          <Property Name="Split" Type="float" />
+          <Property Name="DateConfirmed" Type="datetime" />
+          <Property Name="ConfirmedBy" Type="varchar" MaxLength="500" />
+          <Property Name="UserName" Type="varchar" MaxLength="500" />
+          <Property Name="MaxFDP" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="BL" Type="int" />
+          <Property Name="FX" Type="int" />
+        </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_cspn.dbo.AppCrewFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_cspn.dbo.AppLeg' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_cspn.dbo.ViewLegCrew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'EPACSPN.dbo.ViewFDMEventAction' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewFDMEventAction">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FDMId" Type="int" />
+          <Property Name="DateCreate" Type="datetime2" Precision="0" />
+          <Property Name="ActionTypeId" Type="int" />
+          <Property Name="StartDate" Type="datetime2" Precision="0" />
+          <Property Name="EndDate" Type="datetime2" Precision="0" />
+          <Property Name="PreActionId" Type="int" />
+          <Property Name="CrewId" Type="int" />
+          <Property Name="UserId" Type="varchar" MaxLength="255" />
+          <Property Name="ActionInfo" Type="varchar" MaxLength="2000" />
+          <Property Name="FDPId" Type="int" />
+          <Property Name="ClassId" Type="nvarchar" MaxLength="500" />
+          <Property Name="TrainingResult" Type="varchar" MaxLength="500" />
+          <Property Name="ActionType" Type="varchar" MaxLength="500" />
+          <Property Name="DateTrainingAction" Type="datetime2" Precision="7" />
+          <Property Name="DateTrainingVisit" Type="datetime2" Precision="7" />
+          <Property Name="CourseName" Type="varchar" MaxLength="500" />
+          <Property Name="CourseDuration" Type="int" />
+          <Property Name="DateCourseStart" Type="datetime2" Precision="7" />
+          <Property Name="DateCourseEnd" Type="datetime2" Precision="7" />
+          <Property Name="CourseInstructor" Type="varchar" MaxLength="500" />
+          <Property Name="CourseLocation" Type="varchar" MaxLength="500" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="Context" Type="varchar" MaxLength="255" />
+          <Property Name="Critical" Type="float" />
+          <Property Name="Date" Type="datetime2" Precision="0" />
+          <Property Name="Duration" Type="float" />
+          <Property Name="EventName" Type="varchar" MaxLength="255" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="Limit" Type="varchar" MaxLength="53" />
+          <Property Name="Major" Type="float" />
+          <Property Name="Minor" Type="float" />
+          <Property Name="PFLR" Type="varchar" MaxLength="255" />
+          <Property Name="Severity" Type="varchar" MaxLength="255" />
+          <Property Name="Phase" Type="varchar" MaxLength="255" />
+          <Property Name="StateName" Type="varchar" MaxLength="255" />
+          <Property Name="TDDatetime" Type="datetime2" Precision="0" />
+          <Property Name="TODatetime" Type="datetime2" Precision="0" />
+          <Property Name="Type" Type="varchar" MaxLength="255" />
+          <Property Name="Units" Type="varchar" MaxLength="255" />
+          <Property Name="Value" Type="nvarchar" MaxLength="53" />
+          <Property Name="ValueName" Type="varchar" MaxLength="255" />
+          <Property Name="ToAirport" Type="int" />
+          <Property Name="FromAirport" Type="int" />
+          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="fk_action_fdp">
+          <End Role="FDP" Type="Self.FDP" Multiplicity="0..1" />
+          <End Role="FDMEventAction" Type="Self.FDMEventAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDP">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FDMEventAction">
+              <PropertyRef Name="FDPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fdm">
+          <End Role="FDM" Type="Self.FDM" Multiplicity="0..1" />
+          <End Role="FDMEventAction" Type="Self.FDMEventAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDM">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FDMEventAction">
+              <PropertyRef Name="FDMId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fdp_fdp">
+          <End Role="FDP" Type="Self.FDP" Multiplicity="0..1" />
+          <End Role="FDP1" Type="Self.FDP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDP">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FDP1">
+              <PropertyRef Name="FDPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="dbModelStoreContainer">
+          <EntitySet Name="FDM" EntityType="Self.FDM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FDMEventAction" EntityType="Self.FDMEventAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FDP" EntityType="Self.FDP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewFDMEventAction" EntityType="Self.ViewFDMEventAction" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewFDMEventAction].[Id] AS [Id], 
+    [ViewFDMEventAction].[FDMId] AS [FDMId], 
+    [ViewFDMEventAction].[DateCreate] AS [DateCreate], 
+    [ViewFDMEventAction].[ActionTypeId] AS [ActionTypeId], 
+    [ViewFDMEventAction].[StartDate] AS [StartDate], 
+    [ViewFDMEventAction].[EndDate] AS [EndDate], 
+    [ViewFDMEventAction].[PreActionId] AS [PreActionId], 
+    [ViewFDMEventAction].[CrewId] AS [CrewId], 
+    [ViewFDMEventAction].[UserId] AS [UserId], 
+    [ViewFDMEventAction].[ActionInfo] AS [ActionInfo], 
+    [ViewFDMEventAction].[FDPId] AS [FDPId], 
+    [ViewFDMEventAction].[ClassId] AS [ClassId], 
+    [ViewFDMEventAction].[TrainingResult] AS [TrainingResult], 
+    [ViewFDMEventAction].[ActionType] AS [ActionType], 
+    [ViewFDMEventAction].[DateTrainingAction] AS [DateTrainingAction], 
+    [ViewFDMEventAction].[DateTrainingVisit] AS [DateTrainingVisit], 
+    [ViewFDMEventAction].[CourseName] AS [CourseName], 
+    [ViewFDMEventAction].[CourseDuration] AS [CourseDuration], 
+    [ViewFDMEventAction].[DateCourseStart] AS [DateCourseStart], 
+    [ViewFDMEventAction].[DateCourseEnd] AS [DateCourseEnd], 
+    [ViewFDMEventAction].[CourseInstructor] AS [CourseInstructor], 
+    [ViewFDMEventAction].[CourseLocation] AS [CourseLocation], 
+    [ViewFDMEventAction].[FirstName] AS [FirstName], 
+    [ViewFDMEventAction].[LastName] AS [LastName], 
+    [ViewFDMEventAction].[JobGroup] AS [JobGroup], 
+    [ViewFDMEventAction].[Context] AS [Context], 
+    [ViewFDMEventAction].[Critical] AS [Critical], 
+    [ViewFDMEventAction].[Date] AS [Date], 
+    [ViewFDMEventAction].[Duration] AS [Duration], 
+    [ViewFDMEventAction].[EventName] AS [EventName], 
+    [ViewFDMEventAction].[FlightId] AS [FlightId], 
+    [ViewFDMEventAction].[Limit] AS [Limit], 
+    [ViewFDMEventAction].[Major] AS [Major], 
+    [ViewFDMEventAction].[Minor] AS [Minor], 
+    [ViewFDMEventAction].[PFLR] AS [PFLR], 
+    [ViewFDMEventAction].[Severity] AS [Severity], 
+    [ViewFDMEventAction].[Phase] AS [Phase], 
+    [ViewFDMEventAction].[StateName] AS [StateName], 
+    [ViewFDMEventAction].[TDDatetime] AS [TDDatetime], 
+    [ViewFDMEventAction].[TODatetime] AS [TODatetime], 
+    [ViewFDMEventAction].[Type] AS [Type], 
+    [ViewFDMEventAction].[Units] AS [Units], 
+    [ViewFDMEventAction].[Value] AS [Value], 
+    [ViewFDMEventAction].[ValueName] AS [ValueName], 
+    [ViewFDMEventAction].[ToAirport] AS [ToAirport], 
+    [ViewFDMEventAction].[FromAirport] AS [FromAirport], 
+    [ViewFDMEventAction].[ToAirportIATA] AS [ToAirportIATA], 
+    [ViewFDMEventAction].[FromAirportIATA] AS [FromAirportIATA], 
+    [ViewFDMEventAction].[Register] AS [Register], 
+    [ViewFDMEventAction].[RegisterID] AS [RegisterID], 
+    [ViewFDMEventAction].[FlightNumber] AS [FlightNumber]
+    FROM [dbo].[ViewFDMEventAction] AS [ViewFDMEventAction]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_action_fdp" Association="Self.fk_action_fdp">
+            <End Role="FDP" EntitySet="FDP" />
+            <End Role="FDMEventAction" EntitySet="FDMEventAction" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fdm" Association="Self.fk_fdm">
+            <End Role="FDM" EntitySet="FDM" />
+            <End Role="FDMEventAction" EntitySet="FDMEventAction" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fdp_fdp" Association="Self.fk_fdp_fdp">
+            <End Role="FDP" EntitySet="FDP" />
+            <End Role="FDP1" EntitySet="FDP" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FDMs" EntityType="dbModel.FDM" />
+          <EntitySet Name="FDMEventActions" EntityType="dbModel.FDMEventAction" />
+          <AssociationSet Name="fk_fdm" Association="dbModel.fk_fdm">
+            <End Role="FDM" EntitySet="FDMs" />
+            <End Role="FDMEventAction" EntitySet="FDMEventActions" />
+          </AssociationSet>
+          <EntitySet Name="FDPs" EntityType="dbModel.FDP" />
+          <AssociationSet Name="fk_action_fdp" Association="dbModel.fk_action_fdp">
+            <End Role="FDP" EntitySet="FDPs" />
+            <End Role="FDMEventAction" EntitySet="FDMEventActions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fdp_fdp" Association="dbModel.fk_fdp_fdp">
+            <End Role="FDP" EntitySet="FDPs" />
+            <End Role="FDP1" EntitySet="FDPs" />
+          </AssociationSet>
+          <EntitySet Name="ViewFDMEventActions" EntityType="dbModel.ViewFDMEventAction" />
         </EntityContainer>
+        <EntityType Name="FDM">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Severity" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="String" MaxLength="53" FixedLength="false" Unicode="true" />
+          <Property Name="Minor" Type="Double" />
+          <Property Name="Major" Type="Double" />
+          <Property Name="Critical" Type="Double" />
+          <Property Name="Duration" Type="Double" />
+          <Property Name="TDDatetime" Type="DateTime" Precision="0" />
+          <Property Name="P1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="P2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Phase" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StateName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Context" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TODatetime" Type="DateTime" Precision="0" />
+          <Property Name="Units" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ValueName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="PFLR" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Limit" Type="String" MaxLength="53" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="FileName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="P1Id" Type="Int32" />
+          <Property Name="P2Id" Type="Int32" />
+          <Property Name="RegisterId" Type="Int32" />
+          <Property Name="FromAirport" Type="Int32" />
+          <Property Name="ToAirport" Type="Int32" />
+          <Property Name="IP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IPId" Type="Int32" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Key" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AircraftType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AircraftTypeId" Type="Int32" />
+          <Property Name="Removed" Type="Boolean" />
+          <NavigationProperty Name="FDMEventActions" Relationship="dbModel.fk_fdm" FromRole="FDM" ToRole="FDMEventAction" />
+        </EntityType>
+        <EntityType Name="FDMEventAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FDMId" Type="Int32" />
+          <Property Name="DateCreate" Type="DateTime" Precision="0" />
+          <Property Name="ActionTypeId" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="PreActionId" Type="Int32" />
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="UserId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ActionInfo" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="FDPId" Type="Int32" />
+          <Property Name="ClassId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TrainingResult" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ActionType" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DateTrainingAction" Type="DateTime" Precision="7" />
+          <Property Name="DateTrainingVisit" Type="DateTime" Precision="7" />
+          <Property Name="CourseName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CourseDuration" Type="Int32" />
+          <Property Name="DateCourseStart" Type="DateTime" Precision="7" />
+          <Property Name="DateCourseEnd" Type="DateTime" Precision="7" />
+          <Property Name="CourseInstructor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CourseLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FDM" Relationship="dbModel.fk_fdm" FromRole="FDMEventAction" ToRole="FDM" />
+          <NavigationProperty Name="FDP" Relationship="dbModel.fk_action_fdp" FromRole="FDMEventAction" ToRole="FDP" />
+        </EntityType>
+        <Association Name="fk_fdm">
+          <End Type="dbModel.FDM" Role="FDM" Multiplicity="0..1" />
+          <End Type="dbModel.FDMEventAction" Role="FDMEventAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDM">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FDMEventAction">
+              <PropertyRef Name="FDMId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FDP">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="ReportingTime" Type="DateTime" Precision="3" />
+          <Property Name="DelayedReportingTime" Type="DateTime" Precision="3" />
+          <Property Name="RevisedDelayedReportingTime" Type="DateTime" Precision="3" />
+          <Property Name="FirstNotification" Type="DateTime" Precision="3" />
+          <Property Name="NextNotification" Type="DateTime" Precision="3" />
+          <Property Name="DelayAmount" Type="Int32" />
+          <Property Name="BoxId" Type="Int32" />
+          <Property Name="JobGroupId" Type="Int32" />
+          <Property Name="IsTemplate" Type="Boolean" Nullable="false" />
+          <Property Name="DutyType" Type="Int32" Nullable="false" />
+          <Property Name="DateContact" Type="DateTime" Precision="3" />
+          <Property Name="FDPId" Type="Int32" />
+          <Property Name="DateStart" Type="DateTime" Precision="3" />
+          <Property Name="DateEnd" Type="DateTime" Precision="3" />
+          <Property Name="CityId" Type="Int32" />
+          <Property Name="TemplateId" Type="Int32" />
+          <Property Name="FDPReportingTime" Type="DateTime" Precision="3" />
+          <Property Name="GUID" Type="Guid" />
+          <Property Name="FirstFlightId" Type="Int32" />
+          <Property Name="LastFlightId" Type="Int32" />
+          <Property Name="UPD" Type="Int32" />
+          <Property Name="IsMain" Type="Boolean" />
+          <Property Name="Key" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CP" Type="Boolean" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="LocationId" Type="Int32" />
+          <Property Name="InitStart" Type="DateTime" Precision="3" />
+          <Property Name="InitEnd" Type="DateTime" Precision="3" />
+          <Property Name="InitRestTo" Type="DateTime" Precision="3" />
+          <Property Name="InitFlts" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitRoute" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitFromIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitToIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitKey" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitHomeBase" Type="Int32" />
+          <Property Name="InitRank" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitIndex" Type="Int32" />
+          <Property Name="InitGroup" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitFlights" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="Remark2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CanceledNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CanceledRoute" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Extension" Type="Int32" />
+          <Property Name="Split" Type="Double" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MaxFDP" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="BL" Type="Int32" />
+          <Property Name="FX" Type="Int32" />
+          <NavigationProperty Name="FDMEventActions" Relationship="dbModel.fk_action_fdp" FromRole="FDP" ToRole="FDMEventAction" />
+          <NavigationProperty Name="FDP1" Relationship="dbModel.fk_fdp_fdp" FromRole="FDP" ToRole="FDP1" />
+          <NavigationProperty Name="FDP2" Relationship="dbModel.fk_fdp_fdp" FromRole="FDP1" ToRole="FDP" />
+        </EntityType>
+        <Association Name="fk_action_fdp">
+          <End Type="dbModel.FDP" Role="FDP" Multiplicity="0..1" />
+          <End Type="dbModel.FDMEventAction" Role="FDMEventAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDP">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FDMEventAction">
+              <PropertyRef Name="FDPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fdp_fdp">
+          <End Type="dbModel.FDP" Role="FDP" Multiplicity="0..1" />
+          <End Type="dbModel.FDP" Role="FDP1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDP">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FDP1">
+              <PropertyRef Name="FDPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ViewFDMEventAction">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FDMId" Type="Int32" />
+          <Property Name="DateCreate" Type="DateTime" Precision="0" />
+          <Property Name="ActionTypeId" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="PreActionId" Type="Int32" />
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="UserId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ActionInfo" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="FDPId" Type="Int32" />
+          <Property Name="ClassId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TrainingResult" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ActionType" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DateTrainingAction" Type="DateTime" Precision="7" />
+          <Property Name="DateTrainingVisit" Type="DateTime" Precision="7" />
+          <Property Name="CourseName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CourseDuration" Type="Int32" />
+          <Property Name="DateCourseStart" Type="DateTime" Precision="7" />
+          <Property Name="DateCourseEnd" Type="DateTime" Precision="7" />
+          <Property Name="CourseInstructor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CourseLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Context" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Critical" Type="Double" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Duration" Type="Double" />
+          <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="Limit" Type="String" MaxLength="53" FixedLength="false" Unicode="false" />
+          <Property Name="Major" Type="Double" />
+          <Property Name="Minor" Type="Double" />
+          <Property Name="PFLR" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Severity" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Phase" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StateName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TDDatetime" Type="DateTime" Precision="0" />
+          <Property Name="TODatetime" Type="DateTime" Precision="0" />
+          <Property Name="Type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Units" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="String" MaxLength="53" FixedLength="false" Unicode="true" />
+          <Property Name="ValueName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ToAirport" Type="Int32" />
+          <Property Name="FromAirport" Type="Int32" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="dbModelStoreContainer" CdmEntityContainer="dbEntities">
+          <EntitySetMapping Name="FDMs">
+            <EntityTypeMapping TypeName="dbModel.FDM">
+              <MappingFragment StoreEntitySet="FDM">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="AircraftTypeId" ColumnName="AircraftTypeId" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="ToAirportIATA" ColumnName="ToAirportIATA" />
+                <ScalarProperty Name="FromAirportIATA" ColumnName="FromAirportIATA" />
+                <ScalarProperty Name="IPId" ColumnName="IPId" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="ToAirport" ColumnName="ToAirport" />
+                <ScalarProperty Name="FromAirport" ColumnName="FromAirport" />
+                <ScalarProperty Name="RegisterId" ColumnName="RegisterId" />
+                <ScalarProperty Name="P2Id" ColumnName="P2Id" />
+                <ScalarProperty Name="P1Id" ColumnName="P1Id" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Limit" ColumnName="Limit" />
+                <ScalarProperty Name="PFLR" ColumnName="PFLR" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="ValueName" ColumnName="ValueName" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="TODatetime" ColumnName="TODatetime" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Context" ColumnName="Context" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="P2" ColumnName="P2" />
+                <ScalarProperty Name="P1" ColumnName="P1" />
+                <ScalarProperty Name="TDDatetime" ColumnName="TDDatetime" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Critical" ColumnName="Critical" />
+                <ScalarProperty Name="Major" ColumnName="Major" />
+                <ScalarProperty Name="Minor" ColumnName="Minor" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="Severity" ColumnName="Severity" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMEventActions">
+            <EntityTypeMapping TypeName="dbModel.FDMEventAction">
+              <MappingFragment StoreEntitySet="FDMEventAction">
+                <ScalarProperty Name="CourseLocation" ColumnName="CourseLocation" />
+                <ScalarProperty Name="CourseInstructor" ColumnName="CourseInstructor" />
+                <ScalarProperty Name="DateCourseEnd" ColumnName="DateCourseEnd" />
+                <ScalarProperty Name="DateCourseStart" ColumnName="DateCourseStart" />
+                <ScalarProperty Name="CourseDuration" ColumnName="CourseDuration" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="DateTrainingVisit" ColumnName="DateTrainingVisit" />
+                <ScalarProperty Name="DateTrainingAction" ColumnName="DateTrainingAction" />
+                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+                <ScalarProperty Name="TrainingResult" ColumnName="TrainingResult" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="ActionInfo" ColumnName="ActionInfo" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="PreActionId" ColumnName="PreActionId" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ActionTypeId" ColumnName="ActionTypeId" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="FDMId" ColumnName="FDMId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDPs">
+            <EntityTypeMapping TypeName="dbModel.FDP">
+              <MappingFragment StoreEntitySet="FDP">
+                <ScalarProperty Name="FX" ColumnName="FX" />
+                <ScalarProperty Name="BL" ColumnName="BL" />
+                <ScalarProperty Name="MaxFDP" ColumnName="MaxFDP" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ConfirmedBy" ColumnName="ConfirmedBy" />
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="Split" ColumnName="Split" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="CanceledRoute" ColumnName="CanceledRoute" />
+                <ScalarProperty Name="CanceledNo" ColumnName="CanceledNo" />
+                <ScalarProperty Name="Remark2" ColumnName="Remark2" />
+                <ScalarProperty Name="InitFlights" ColumnName="InitFlights" />
+                <ScalarProperty Name="InitScheduleName" ColumnName="InitScheduleName" />
+                <ScalarProperty Name="InitGroup" ColumnName="InitGroup" />
+                <ScalarProperty Name="InitIndex" ColumnName="InitIndex" />
+                <ScalarProperty Name="InitRank" ColumnName="InitRank" />
+                <ScalarProperty Name="InitHomeBase" ColumnName="InitHomeBase" />
+                <ScalarProperty Name="InitKey" ColumnName="InitKey" />
+                <ScalarProperty Name="InitNo" ColumnName="InitNo" />
+                <ScalarProperty Name="InitToIATA" ColumnName="InitToIATA" />
+                <ScalarProperty Name="InitFromIATA" ColumnName="InitFromIATA" />
+                <ScalarProperty Name="InitRoute" ColumnName="InitRoute" />
+                <ScalarProperty Name="InitFlts" ColumnName="InitFlts" />
+                <ScalarProperty Name="InitRestTo" ColumnName="InitRestTo" />
+                <ScalarProperty Name="InitEnd" ColumnName="InitEnd" />
+                <ScalarProperty Name="InitStart" ColumnName="InitStart" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="IsMain" ColumnName="IsMain" />
+                <ScalarProperty Name="UPD" ColumnName="UPD" />
+                <ScalarProperty Name="LastFlightId" ColumnName="LastFlightId" />
+                <ScalarProperty Name="FirstFlightId" ColumnName="FirstFlightId" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="FDPReportingTime" ColumnName="FDPReportingTime" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="DateContact" ColumnName="DateContact" />
+                <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+                <ScalarProperty Name="IsTemplate" ColumnName="IsTemplate" />
+                <ScalarProperty Name="JobGroupId" ColumnName="JobGroupId" />
+                <ScalarProperty Name="BoxId" ColumnName="BoxId" />
+                <ScalarProperty Name="DelayAmount" ColumnName="DelayAmount" />
+                <ScalarProperty Name="NextNotification" ColumnName="NextNotification" />
+                <ScalarProperty Name="FirstNotification" ColumnName="FirstNotification" />
+                <ScalarProperty Name="RevisedDelayedReportingTime" ColumnName="RevisedDelayedReportingTime" />
+                <ScalarProperty Name="DelayedReportingTime" ColumnName="DelayedReportingTime" />
+                <ScalarProperty Name="ReportingTime" ColumnName="ReportingTime" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewFDMEventActions">
+            <EntityTypeMapping TypeName="dbModel.ViewFDMEventAction">
+              <MappingFragment StoreEntitySet="ViewFDMEventAction">
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="FromAirportIATA" ColumnName="FromAirportIATA" />
+                <ScalarProperty Name="ToAirportIATA" ColumnName="ToAirportIATA" />
+                <ScalarProperty Name="FromAirport" ColumnName="FromAirport" />
+                <ScalarProperty Name="ToAirport" ColumnName="ToAirport" />
+                <ScalarProperty Name="ValueName" ColumnName="ValueName" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="TODatetime" ColumnName="TODatetime" />
+                <ScalarProperty Name="TDDatetime" ColumnName="TDDatetime" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="Severity" ColumnName="Severity" />
+                <ScalarProperty Name="PFLR" ColumnName="PFLR" />
+                <ScalarProperty Name="Minor" ColumnName="Minor" />
+                <ScalarProperty Name="Major" ColumnName="Major" />
+                <ScalarProperty Name="Limit" ColumnName="Limit" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Critical" ColumnName="Critical" />
+                <ScalarProperty Name="Context" ColumnName="Context" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="CourseLocation" ColumnName="CourseLocation" />
+                <ScalarProperty Name="CourseInstructor" ColumnName="CourseInstructor" />
+                <ScalarProperty Name="DateCourseEnd" ColumnName="DateCourseEnd" />
+                <ScalarProperty Name="DateCourseStart" ColumnName="DateCourseStart" />
+                <ScalarProperty Name="CourseDuration" ColumnName="CourseDuration" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="DateTrainingVisit" ColumnName="DateTrainingVisit" />
+                <ScalarProperty Name="DateTrainingAction" ColumnName="DateTrainingAction" />
+                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+                <ScalarProperty Name="TrainingResult" ColumnName="TrainingResult" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="ActionInfo" ColumnName="ActionInfo" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="PreActionId" ColumnName="PreActionId" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ActionTypeId" ColumnName="ActionTypeId" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="FDMId" ColumnName="FDMId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

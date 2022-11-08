@@ -12,18 +12,22 @@ namespace ApiFDM.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
+    
     public partial class dbEntities : DbContext
     {
         public dbEntities()
             : base("name=dbEntities")
         {
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-
+    
+        public virtual DbSet<FDM> FDMs { get; set; }
+        public virtual DbSet<FDMEventAction> FDMEventActions { get; set; }
+        public virtual DbSet<FDP> FDPs { get; set; }
+        public virtual DbSet<ViewFDMEventAction> ViewFDMEventActions { get; set; }
     }
 }

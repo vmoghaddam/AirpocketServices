@@ -5,6 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="18fa3a57b6a1461ea0ecbc61a4f670b4" Name="Diagram1" ZoomLevel="24">
+        <EntityTypeShape EntityType="dbModel.FDM" Width="1.5" PointX="0.75" PointY="1.25" />
+        <EntityTypeShape EntityType="dbModel.FDMEventAction" Width="1.5" PointX="3" PointY="2.625" />
+        <AssociationConnector Association="dbModel.fk_fdm" />
+        <EntityTypeShape EntityType="dbModel.FDP" Width="1.5" PointX="7.375" PointY="1.375" />
+        <AssociationConnector Association="dbModel.fk_action_fdp" />
+        <AssociationConnector Association="dbModel.fk_fdp_fdp" />
+        <EntityTypeShape EntityType="dbModel.ViewFDMEventAction" Width="1.5" PointX="9.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

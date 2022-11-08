@@ -150,5 +150,6 @@ namespace ApiXLS.Models
         public Nullable<decimal> FPTripFuel { get; set; }
         public string ATL { get; set; }
         public string ATCPlan { get; set; }
+        public Nullable<decimal> FuelPlanned { get; set; }
     }
 }
