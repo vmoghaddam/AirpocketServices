@@ -207,7 +207,7 @@ namespace ApiReportFlight.Controllers
                     whr += " AND status<>4";
 
                 cmd = cmd + " WHERE " + whr + " ORDER BY STD,Register";
-
+                    
                 var flts = context.ViewFlightDailies
                             .SqlQuery(cmd)
                             .ToList<ViewFlightDaily>();
