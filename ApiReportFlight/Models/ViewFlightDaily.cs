@@ -22,6 +22,7 @@ namespace ApiReportFlight.Models
         public Nullable<System.DateTime> STDLocal { get; set; }
         public Nullable<System.DateTime> STALocal { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
+        public Nullable<System.DateTime> DateLocal { get; set; }
         public Nullable<int> FlightStatusID { get; set; }
         public Nullable<int> RegisterID { get; set; }
         public Nullable<int> FlightTypeID { get; set; }
@@ -123,5 +124,8 @@ namespace ApiReportFlight.Models
         public string TotalRemark { get; set; }
         public string Route { get; set; }
         public string PDate { get; set; }
+        public int IsDepInt { get; set; }
+        public int IsArrInt { get; set; }
+        public string XRoute { get; set; }
     }
 }

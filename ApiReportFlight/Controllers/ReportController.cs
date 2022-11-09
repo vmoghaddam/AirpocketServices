@@ -115,6 +115,299 @@ namespace ApiReportFlight.Controllers
 
         }
 
+
+
+        [Route("api/flight/daily/twoway")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetFlightsDailyTwoWay(DateTime df, DateTime dt, string regs, string routes, string from, string to, string no
+           , string status
+           , string type2
+           , string idx
+           , string chr
+            ,int cnl
+           )
+        {
+            var cmd = "select * from viewflightdaily ";
+            try
+            {
+                var context = new ppa_Entities();
+
+
+                // var cmd = "select * from viewflightdaily ";
+                string whr = "  (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
+
+                if (!string.IsNullOrEmpty(status) && status != "-1")
+                {
+                    var _regs = status.Split('_').ToList();
+                    var col = _regs.Select(q => "status=" + q).ToList();
+                    var _whr = "(" + string.Join(" OR ", col) + ")";
+                    whr += " AND " + _whr;
+                }
+                if (!string.IsNullOrEmpty(type2) && type2 != "-1")
+                {
+                    var _regs = type2.Split('_').ToList();
+                    var col = _regs.Select(q => "FlightType2=N'" + q + "'").ToList();
+                    var _whr = "(" + string.Join(" OR ", col) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(idx) && idx != "-1")
+                {
+                    var _regs = idx.Split('_').ToList();
+                    var col = _regs.Select(q => "FlightIndex=N'" + q + "'").ToList();
+                    var _whr = "(" + string.Join(" OR ", col) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(chr) && chr != "-1")
+                {
+                    var _regs = chr.Split('_').ToList();
+                    var col = _regs.Select(q => "ChrTitle=N'" + q + "'").ToList();
+                    var _whr = "(" + string.Join(" OR ", col) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(regs) && regs != "-1")
+                {
+                    var _regs = regs.Split('_').ToList();
+                    var col = _regs.Select(q => "Register='" + q + "'").ToList();
+                    var _whr = "(" + string.Join(" OR ", col) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(from) && from != "-1")
+                {
+                    var _regs = from.Split('_').ToList();
+                    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "FromAirportIATA='" + q + "'").ToList()) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(to) && to != "-1")
+                {
+                    var _regs = to.Split('_').ToList();
+                    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "ToAirportIATA='" + q + "'").ToList()) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(no) && no != "-1")
+                {
+                    var _regs = no.Split('_').ToList();
+                    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "FlightNumber='" + q + "'").ToList()) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(routes) && routes != "-1")
+                {
+                    var _regs = routes.Split('_').ToList();
+                    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "Route like '%" + q + "%'").ToList()) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (cnl == 0)
+                    whr += " AND status<>4";
+
+                cmd = cmd + " WHERE " + whr + " ORDER BY STD,Register";
+
+                var flts = context.ViewFlightDailies
+                            .SqlQuery(cmd)
+                            .ToList<ViewFlightDaily>();
+
+
+                var grouped = (from x in flts
+                              group x by new { x.Register, x.RegisterID, x.STDDayLocal, x.PDate, x.PMonth, x.PDayName, x.FlightType2, x.XRoute } into grp
+                              select new TwoWayResult()
+                              {
+                                  Register= grp.Key.Register,
+                                  RegisterID=grp.Key.RegisterID,
+                                  STDDayLocal=grp.Key.STDDayLocal,
+                                  PDate=grp.Key.PDate,
+                                  PMonth=grp.Key.PMonth,
+                                  PDayName=grp.Key.PDayName,
+                                  FlightType2=grp.Key.FlightType2,
+                                  XRoute=grp.Key.XRoute,
+                                  Items=grp.OrderBy(q=>q.STD).ToList()
+
+                                  
+
+                              }).ToList();
+                foreach(var grp in grouped)
+                {
+                    if (grp.Items.Count > 1)
+                    {
+                        grp.Route = grp.XRoute + "-" + grp.XRoute.Split('-')[0];
+                    }
+                    grp.STD = grp.Items.First().STD;
+                    grp.STA = grp.Items.Last().STA;
+                    grp.BlockOff = grp.Items.First().BlockOff;
+                    grp.BlockOn = grp.Items.Last().BlockOn;
+                    grp.TakeOff = grp.Items.First().TakeOff;
+                    grp.Landing = grp.Items.Last().Landing;
+
+                    grp.STDLocal = grp.Items.First().STDLocal;
+                    grp.STALocal = grp.Items.Last().STALocal;
+                    grp.BlockOffLocal = grp.Items.First().BlockOffLocal;
+                    grp.BlockOnLocal = grp.Items.Last().BlockOnLocal;
+                    grp.TakeOffLocal = grp.Items.First().TakeOffLocal;
+                    grp.LandingLocal = grp.Items.Last().LandingLocal;
+
+                }
+
+                var result = grouped.Select(q => new
+                {
+                    q.Register,
+                    q.RegisterID,
+                    q.STDDayLocal,
+                    q.PDate,
+                    q.PMonth,
+                    q.PDayName,
+                    q.FlightType2,
+                    q.Route,
+                    q.XRoute,
+                    q.STD,
+                    q.STA,
+                    q.BlockOff,
+                    q.BlockOn,
+                    q.TakeOff,
+                    q.Landing,
+                    q.STDLocal,
+                    q.STALocal,
+                    q.BlockOffLocal,
+                    q.BlockOnLocal,
+                    q.TakeOffLocal,
+                    q.LandingLocal,
+                }).OrderBy(q=>q.STDDayLocal).ThenBy(q=>q.Register).ThenBy(q=>q.STD) .ToList();
+
+
+
+                //var result = await courseService.GetEmployeeCertificates(id);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Ok(cmd);
+            }
+
+        }
+
+        public class TwoWayResult
+        {
+            public int ID { get; set; }
+            public int FlightId { get; set; }
+            public Nullable<int> FlightPlanId { get; set; }
+            public Nullable<System.DateTime> STD { get; set; }
+            public Nullable<System.DateTime> STA { get; set; }
+            public Nullable<System.DateTime> STDLocal { get; set; }
+            public Nullable<System.DateTime> STALocal { get; set; }
+            public Nullable<System.DateTime> Date { get; set; }
+            public Nullable<System.DateTime> DateLocal { get; set; }
+            public Nullable<int> FlightStatusID { get; set; }
+            public Nullable<int> RegisterID { get; set; }
+            public Nullable<int> FlightTypeID { get; set; }
+            public string AircraftType { get; set; }
+            public Nullable<int> TypeId { get; set; }
+            public string FlightNumber { get; set; }
+            public Nullable<int> FromAirport { get; set; }
+            public string FromAirportICAO { get; set; }
+            public Nullable<int> ToAirport { get; set; }
+            public string ToAirportICAO { get; set; }
+            public Nullable<int> CustomerId { get; set; }
+            public string FromAirportIATA { get; set; }
+            public string ToAirportIATA { get; set; }
+            public string Register { get; set; }
+            public string FlightStatus { get; set; }
+            public string ArrivalRemark { get; set; }
+            public string DepartureRemark { get; set; }
+            public Nullable<System.DateTime> STDDay { get; set; }
+            public Nullable<System.DateTime> STDDayLocal { get; set; }
+            public Nullable<System.DateTime> STADay { get; set; }
+            public Nullable<int> DelayOffBlock { get; set; }
+            public Nullable<int> DelayTakeoff { get; set; }
+            public Nullable<System.DateTime> OSTA { get; set; }
+            public Nullable<int> OToAirportId { get; set; }
+            public string OToAirportIATA { get; set; }
+            public Nullable<int> FPFlightHH { get; set; }
+            public Nullable<int> FPFlightMM { get; set; }
+            public Nullable<System.DateTime> Departure { get; set; }
+            public Nullable<System.DateTime> Arrival { get; set; }
+            public Nullable<System.DateTime> BlockOff { get; set; }
+            public Nullable<System.DateTime> BlockOn { get; set; }
+            public Nullable<System.DateTime> TakeOff { get; set; }
+            public Nullable<System.DateTime> Landing { get; set; }
+            public Nullable<System.DateTime> BlockOffLocal { get; set; }
+            public Nullable<System.DateTime> BlockOnLocal { get; set; }
+            public Nullable<System.DateTime> TakeOffLocal { get; set; }
+            public Nullable<System.DateTime> LandingLocal { get; set; }
+            public Nullable<System.DateTime> DepartureLocal { get; set; }
+            public Nullable<System.DateTime> ArrivalLocal { get; set; }
+            public Nullable<int> BlockTime { get; set; }
+            public Nullable<int> ScheduledTime { get; set; }
+            public Nullable<int> FlightTime { get; set; }
+            public Nullable<int> status { get; set; }
+            public Nullable<System.DateTime> JLOffBlock { get; set; }
+            public Nullable<System.DateTime> JLOnBlock { get; set; }
+            public Nullable<System.DateTime> JLTakeOff { get; set; }
+            public Nullable<System.DateTime> JLLanding { get; set; }
+            public Nullable<int> PFLR { get; set; }
+            public int PaxChild { get; set; }
+            public int PaxInfant { get; set; }
+            public int PaxAdult { get; set; }
+            public Nullable<int> RevPax { get; set; }
+            public Nullable<int> TotalPax { get; set; }
+            public Nullable<int> FuelUnitID { get; set; }
+            public Nullable<decimal> FuelArrival { get; set; }
+            public Nullable<decimal> FuelDeparture { get; set; }
+            public Nullable<double> UpliftLtr { get; set; }
+            public Nullable<double> UpliftLbs { get; set; }
+            public Nullable<double> UpliftKg { get; set; }
+            public Nullable<decimal> UsedFuel { get; set; }
+            public Nullable<int> TotalSeat { get; set; }
+            public int BaggageWeight { get; set; }
+            public int CargoWeight { get; set; }
+            public Nullable<int> Freight { get; set; }
+            public Nullable<double> BaggageWeightLbs { get; set; }
+            public Nullable<double> BaggageWeightKg { get; set; }
+            public Nullable<double> CargoWeightLbs { get; set; }
+            public Nullable<double> CargoWeightKg { get; set; }
+            public Nullable<double> FreightLbs { get; set; }
+            public Nullable<double> FreightKg { get; set; }
+            public Nullable<System.DateTime> FlightDate { get; set; }
+            public Nullable<int> CargoCount { get; set; }
+            public Nullable<int> BaggageCount { get; set; }
+            public Nullable<int> JLBlockTime { get; set; }
+            public Nullable<int> JLFlightTime { get; set; }
+            public Nullable<decimal> FPFuel { get; set; }
+            public Nullable<decimal> FPTripFuel { get; set; }
+            public Nullable<int> MaxWeightTO { get; set; }
+            public Nullable<int> MaxWeightLND { get; set; }
+            public string MaxWeighUnit { get; set; }
+            public string ChrCode { get; set; }
+            public string ChrTitle { get; set; }
+            public Nullable<int> ChrCapacity { get; set; }
+            public Nullable<int> ChrAdult { get; set; }
+            public Nullable<int> ChrChild { get; set; }
+            public Nullable<int> ChrInfant { get; set; }
+            public Nullable<int> PMonth { get; set; }
+            public string PMonthName { get; set; }
+            public string PDayName { get; set; }
+            public string FlightType2 { get; set; }
+            public string FlightIndex { get; set; }
+            public Nullable<int> AirlineSold { get; set; }
+            public Nullable<int> CherterSold { get; set; }
+            public Nullable<int> OverSeat { get; set; }
+            public Nullable<int> EmptySeat { get; set; }
+            public string DelayReason { get; set; }
+            public Nullable<double> Distance { get; set; }
+            public Nullable<double> StationIncome { get; set; }
+            public string TotalRemark { get; set; }
+            public string Route { get; set; }
+            public string PDate { get; set; }
+            public int IsDepInt { get; set; }
+            public int IsArrInt { get; set; }
+            public string XRoute { get; set; }
+            public List<ViewFlightDaily> Items { get; set; }
+        }
+
         public class _filter
         {
             public string FromAirport { get; set; }
