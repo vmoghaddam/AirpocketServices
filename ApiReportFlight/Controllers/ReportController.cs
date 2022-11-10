@@ -254,6 +254,7 @@ namespace ApiReportFlight.Controllers
 
                 var result = grouped.Select(q => new
                 {
+                    legs=q.Items.Count(),
                     q.Register,
                     q.RegisterID,
                     q.STDDayLocal,
@@ -276,6 +277,9 @@ namespace ApiReportFlight.Controllers
                     q.TakeOffLocal,
                     q.LandingLocal,
                 }).OrderBy(q=>q.STDDayLocal).ThenBy(q=>q.Register).ThenBy(q=>q.STD) .ToList();
+
+                var oneway = result.Where(q => q.legs == 1).ToList();
+                var twoway = result.Where(q => q.legs == 2).ToList();
 
 
 
