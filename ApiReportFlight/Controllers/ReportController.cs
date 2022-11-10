@@ -212,74 +212,126 @@ namespace ApiReportFlight.Controllers
                             .SqlQuery(cmd)
                             .ToList<ViewFlightDaily>();
 
+                var tempflts = flts.ToList();
 
-                var grouped = (from x in flts
-                              group x by new { x.Register, x.RegisterID, x.STDDayLocal, x.PDate, x.PMonth, x.PDayName, x.FlightType2, x.XRoute } into grp
-                              select new TwoWayResult()
-                              {
-                                  Register= grp.Key.Register,
-                                  RegisterID=grp.Key.RegisterID,
-                                  STDDayLocal=grp.Key.STDDayLocal,
-                                  PDate=grp.Key.PDate,
-                                  PMonth=grp.Key.PMonth,
-                                  PDayName=grp.Key.PDayName,
-                                  FlightType2=grp.Key.FlightType2,
-                                  XRoute=grp.Key.XRoute,
-                                  Items=grp.OrderBy(q=>q.STD).ToList()
+                var grps= (from x in flts
+                           group x by new { x.Register, x.RegisterID, x.STDDayLocal } into grp
+                           select new  
+                           {
+                               grp.Key.Register,
+                               grp.Key.RegisterID,
+                               grp.Key.STDDayLocal,
+                               Items = grp.OrderBy(q => q.STD).ToList()
+
+
+
+                           }).ToList();
+                var output = new List<TwoWayResult>();
+
+                foreach (var g in grps)
+                {
+                    var rowflts = g.Items.OrderBy(q=>q.STD).ToList();
+                    while (rowflts.Count > 0)
+                    {
+                        var flt = rowflts.First();
+                        var rec = new TwoWayResult() { 
+                           Register=g.Register,
+                           RegisterID=g.RegisterID,
+                           STDDayLocal=g.STDDayLocal,
+                           FlightNumber=flt.FlightNumber,
+                           STD=flt.STD,
+                           STDLocal=flt.STD
+                        };
+                        output.Add(rec);
+
+                        var xflt = rowflts.Where(q => q.FlightId != flt.ID && reverseRoute(q.Route) == flt.Route).FirstOrDefault();
+                        if (xflt != null)
+                        {
+                            //var recx = new TwoWayResult()
+                            //{
+                            //    Register = g.Register,
+                            //    RegisterID = g.RegisterID,
+                            //    STDDayLocal = g.STDDayLocal,
+                            //    FlightNumber = xflt.FlightNumber,
+                            //};
+                            //output.Add(recx);
+                            rec.FlightNumber2 = xflt.FlightNumber;
+                            rowflts.Remove(xflt);
+                        }
+                        rowflts.Remove(flt);
+
+                    }
+                }
+
+                //var grouped = (from x in flts
+                //              group x by new { x.Register, x.RegisterID, x.STDDayLocal, x.PDate, x.PMonth, x.PDayName, x.FlightType2, x.XRoute } into grp
+                //              select new TwoWayResult()
+                //              {
+                //                  Register= grp.Key.Register,
+                //                  RegisterID=grp.Key.RegisterID,
+                //                  STDDayLocal=grp.Key.STDDayLocal,
+                //                  PDate=grp.Key.PDate,
+                //                  PMonth=grp.Key.PMonth,
+                //                  PDayName=grp.Key.PDayName,
+                //                  FlightType2=grp.Key.FlightType2,
+                //                  XRoute=grp.Key.XRoute,
+                //                  Items=grp.OrderBy(q=>q.STD).ToList()
 
                                   
 
-                              }).ToList();
-                foreach(var grp in grouped)
+                //              }).ToList();
+                //foreach(var grp in grouped)
+                //{
+                //    if (grp.Items.Count > 1)
+                //    {
+                //        grp.Route = grp.XRoute + "-" + grp.XRoute.Split('-')[0];
+                //    }
+                //    grp.STD = grp.Items.First().STD;
+                //    grp.STA = grp.Items.Last().STA;
+                //    grp.BlockOff = grp.Items.First().BlockOff;
+                //    grp.BlockOn = grp.Items.Last().BlockOn;
+                //    grp.TakeOff = grp.Items.First().TakeOff;
+                //    grp.Landing = grp.Items.Last().Landing;
+
+                //    grp.STDLocal = grp.Items.First().STDLocal;
+                //    grp.STALocal = grp.Items.Last().STALocal;
+                //    grp.BlockOffLocal = grp.Items.First().BlockOffLocal;
+                //    grp.BlockOnLocal = grp.Items.Last().BlockOnLocal;
+                //    grp.TakeOffLocal = grp.Items.First().TakeOffLocal;
+                //    grp.LandingLocal = grp.Items.Last().LandingLocal;
+
+                //}
+
+                var result = output.Select(q => new
                 {
-                    if (grp.Items.Count > 1)
-                    {
-                        grp.Route = grp.XRoute + "-" + grp.XRoute.Split('-')[0];
-                    }
-                    grp.STD = grp.Items.First().STD;
-                    grp.STA = grp.Items.Last().STA;
-                    grp.BlockOff = grp.Items.First().BlockOff;
-                    grp.BlockOn = grp.Items.Last().BlockOn;
-                    grp.TakeOff = grp.Items.First().TakeOff;
-                    grp.Landing = grp.Items.Last().Landing;
-
-                    grp.STDLocal = grp.Items.First().STDLocal;
-                    grp.STALocal = grp.Items.Last().STALocal;
-                    grp.BlockOffLocal = grp.Items.First().BlockOffLocal;
-                    grp.BlockOnLocal = grp.Items.Last().BlockOnLocal;
-                    grp.TakeOffLocal = grp.Items.First().TakeOffLocal;
-                    grp.LandingLocal = grp.Items.Last().LandingLocal;
-
-                }
-
-                var result = grouped.Select(q => new
-                {
-                    legs=q.Items.Count(),
+                    //legs=q.Items.Count(),
                     q.Register,
                     q.RegisterID,
                     q.STDDayLocal,
-                    q.PDate,
-                    q.PMonth,
-                    q.PDayName,
-                    q.FlightType2,
-                    q.Route,
-                    q.XRoute,
+                    q.FlightNumber,
+                    q.FlightNumber2,
+                    //q.PDate,
+                    //q.PMonth,
+                    //q.PDayName,
+                    //q.FlightType2,
+                    //q.Route,
+                    //q.XRoute,
                     q.STD,
-                    q.STA,
-                    q.BlockOff,
-                    q.BlockOn,
-                    q.TakeOff,
-                    q.Landing,
-                    q.STDLocal,
-                    q.STALocal,
-                    q.BlockOffLocal,
-                    q.BlockOnLocal,
-                    q.TakeOffLocal,
-                    q.LandingLocal,
+                    //q.STA,
+                    //q.BlockOff,
+                    //q.BlockOn,
+                    //q.TakeOff,
+                    //q.Landing,
+                    //q.STDLocal,
+                    //q.STALocal,
+                    //q.BlockOffLocal,
+                    //q.BlockOnLocal,
+                    //q.TakeOffLocal,
+                    //q.LandingLocal,
                 }).OrderBy(q=>q.STDDayLocal).ThenBy(q=>q.Register).ThenBy(q=>q.STD) .ToList();
 
-                var oneway = result.Where(q => q.legs == 1).ToList();
-                var twoway = result.Where(q => q.legs == 2).ToList();
+               // var oneway = result.Where(q => q.legs == 1).ToList();
+                //var twoway = result.Where(q => q.legs == 2).ToList();
 
 
 
@@ -298,6 +350,7 @@ namespace ApiReportFlight.Controllers
         {
             public int ID { get; set; }
             public int FlightId { get; set; }
+            public int FlightId2 { get; set; }
             public Nullable<int> FlightPlanId { get; set; }
             public Nullable<System.DateTime> STD { get; set; }
             public Nullable<System.DateTime> STA { get; set; }
@@ -311,6 +364,7 @@ namespace ApiReportFlight.Controllers
             public string AircraftType { get; set; }
             public Nullable<int> TypeId { get; set; }
             public string FlightNumber { get; set; }
+            public string FlightNumber2 { get; set; }
             public Nullable<int> FromAirport { get; set; }
             public string FromAirportICAO { get; set; }
             public Nullable<int> ToAirport { get; set; }
