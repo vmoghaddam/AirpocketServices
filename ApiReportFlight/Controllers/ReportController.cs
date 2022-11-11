@@ -357,7 +357,9 @@ namespace ApiReportFlight.Controllers
         //   , int cnl
         //  )
         public IHttpActionResult GetFlightsDailyStation(DateTime df, DateTime dt
-          //  , string regs, string routes, string from, string to, string no
+          //  , string regs
+          , string routes
+          //  , string from, string to, string no
           //, string status
           //, string type2
           //, string idx
@@ -434,12 +436,12 @@ namespace ApiReportFlight.Controllers
                 //    whr += " AND " + _whr;
                 //}
 
-                //if (!string.IsNullOrEmpty(routes) && routes != "-1")
-                //{
-                //    var _regs = routes.Split('_').ToList();
-                //    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "Route like '%" + q + "%'").ToList()) + ")";
-                //    whr += " AND " + _whr;
-                //}
+                if (!string.IsNullOrEmpty(routes) && routes != "-1")
+                {
+                    var _regs = routes.Split('_').ToList();
+                    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "Route like '%" + q + "%'").ToList()) + ")";
+                    whr += " AND " + _whr;
+                }
 
                 if (cnl == 0)
                     whr += " AND status<>4";
@@ -480,11 +482,24 @@ namespace ApiReportFlight.Controllers
                                 //out
                                 var rec = new TwoWayResult()
                                 {
+                                    Station=grp.Station,
                                     Register=grp.Register,
                                     RegisterID=grp.RegisterID,
                                     FromAirportIATA2=_flt.FromAirportIATA,
                                     ToAirportIATA2=_flt.ToAirportIATA,
                                     FlightNumber2=_flt.FlightNumber,
+                                    STD2=_flt.STD,
+                                    STA2=_flt.STA,
+                                    BlockOff2=_flt.BlockOff,
+                                    BlockOn2=_flt.BlockOn,
+                                    TakeOff2=_flt.TakeOff,
+                                    Landing2=_flt.Landing,
+                                    STDLocal2=_flt.STDLocal,
+                                    STALocal2=_flt.STALocal,
+                                    TakeOffLocal2=_flt.TakeOffLocal,
+                                    LandingLocal2=_flt.LandingLocal,
+                                    BlockOffLocal2=_flt.BlockOffLocal,
+                                    BlockOnLocal2=_flt.BlockOnLocal,
                                     STDX=_flt.STD,
                                 };
                                 output2.Add(rec);
@@ -495,21 +510,51 @@ namespace ApiReportFlight.Controllers
                                 //in
                                 var rec = new TwoWayResult()
                                 {
+                                    Station = grp.Station,
                                     Register = grp.Register,
                                     RegisterID = grp.RegisterID,
                                     FromAirportIATA = _flt.FromAirportIATA,
                                     ToAirportIATA = _flt.ToAirportIATA,
                                     FlightNumber = _flt.FlightNumber,
-                                    STDX=_flt.STD,
+                                    STD = _flt.STD,
+                                    STA = _flt.STA,
+                                    BlockOff = _flt.BlockOff,
+                                    BlockOn = _flt.BlockOn,
+                                    TakeOff = _flt.TakeOff,
+                                    Landing = _flt.Landing,
+                                    STDLocal = _flt.STDLocal,
+                                    STALocal = _flt.STALocal,
+                                    TakeOffLocal = _flt.TakeOffLocal,
+                                    LandingLocal = _flt.LandingLocal,
+                                    BlockOffLocal = _flt.BlockOffLocal,
+                                    BlockOnLocal = _flt.BlockOnLocal,
+                                    STDX =_flt.STD,
 
                                 };
                                 _flts.Remove(_flt);
-                                _flt = _flts.First();
-                                rec.FromAirportIATA2 = _flt.FromAirportIATA;
-                                rec.ToAirportIATA2 = _flt.ToAirportIATA;
-                                rec.FlightNumber = _flt.FlightNumber;
+                                if (_flts.Count() > 0)
+                                {
+                                    _flt = _flts.First();
+                                    rec.FromAirportIATA2 = _flt.FromAirportIATA;
+                                    rec.ToAirportIATA2 = _flt.ToAirportIATA;
+                                    rec.FlightNumber2 = _flt.FlightNumber;
+                                    rec.STD2 = _flt.STD;
+                                    rec.STA2 = _flt.STA;
+                                    rec.BlockOff2 = _flt.BlockOff;
+                                    rec.BlockOn2 = _flt.BlockOn;
+                                    rec.TakeOff2 = _flt.TakeOff;
+                                    rec.Landing2 = _flt.Landing;
+                                    rec.STDLocal2 = _flt.STDLocal;
+                                    rec.STALocal2 = _flt.STALocal;
+                                    rec.TakeOffLocal2 = _flt.TakeOffLocal;
+                                    rec.LandingLocal2 = _flt.LandingLocal;
+                                    rec.BlockOffLocal2 = _flt.BlockOffLocal;
+                                    rec.BlockOnLocal2 = _flt.BlockOnLocal;
+                                    _flts.Remove(_flt);
+                                }
+                               
                                 output2.Add(rec);
-                                _flts.Remove(_flt);
+                               
                             }
                         }
                     }
@@ -517,6 +562,12 @@ namespace ApiReportFlight.Controllers
 
                 }
 
+                if (routes != "-1")
+                {
+                    var _regs = routes.Split('_').ToList();
+                    output2 = output2.Where(q => _regs.Contains(q.Station)).ToList();
+                }
+                    
                 //var grps = (from x in flts
                 //            group x by new { x.Register, x.RegisterID, x.STDDayLocal } into grp
                 //            select new
@@ -611,7 +662,8 @@ namespace ApiReportFlight.Controllers
 
                 //}
 
-                var result = output2.Select(q => new
+                var result = output2
+                    /*.Select(q => new
                 {
                     //legs=q.Items.Count(),
                     q.Register,
@@ -642,7 +694,8 @@ namespace ApiReportFlight.Controllers
                     //q.BlockOnLocal,
                     //q.TakeOffLocal,
                     //q.LandingLocal,
-                }).OrderBy(q=>q.STDDayLocal).ThenBy(q=>q.Station).ThenBy(q=>q.Register).ThenBy(q => q.STDX).ToList();
+                })*/
+                    .OrderBy(q=>q.STDDayLocal).ThenBy(q=>q.Station).ThenBy(q=>q.Register).ThenBy(q => q.STDX).ToList();
                 //.OrderBy(q => q.STDDayLocal).ThenBy(q => q.Register).ThenBy(q => q.STD).ToList();
 
                 // var oneway = result.Where(q => q.legs == 1).ToList();
@@ -672,11 +725,15 @@ namespace ApiReportFlight.Controllers
             public Nullable<System.DateTime> STD2 { get; set; }
             public Nullable<System.DateTime> STDX { get; set; }
             public Nullable<System.DateTime> STA { get; set; }
+            public Nullable<System.DateTime> STA2 { get; set; }
             public Nullable<System.DateTime> STDLocal { get; set; }
             public Nullable<System.DateTime> STALocal { get; set; }
+            public Nullable<System.DateTime> STDLocal2 { get; set; }
+            public Nullable<System.DateTime> STALocal2 { get; set; }
             public Nullable<System.DateTime> Date { get; set; }
             public Nullable<System.DateTime> DateLocal { get; set; }
             public Nullable<int> FlightStatusID { get; set; }
+            public Nullable<int> FlightStatusID2 { get; set; }
             public Nullable<int> RegisterID { get; set; }
             public Nullable<int> FlightTypeID { get; set; }
             public string AircraftType { get; set; }
@@ -687,6 +744,10 @@ namespace ApiReportFlight.Controllers
             public string FromAirportICAO { get; set; }
             public Nullable<int> ToAirport { get; set; }
             public string ToAirportICAO { get; set; }
+            public Nullable<int> FromAirport2 { get; set; }
+            public string FromAirportICAO2 { get; set; }
+            public Nullable<int> ToAirport2 { get; set; }
+            public string ToAirportICAO2 { get; set; }
             public Nullable<int> CustomerId { get; set; }
             public string FromAirportIATA { get; set; }
             public string FromAirportIATA2 { get; set; }
@@ -694,6 +755,7 @@ namespace ApiReportFlight.Controllers
             public string ToAirportIATA2 { get; set; }
             public string Register { get; set; }
             public string FlightStatus { get; set; }
+            public string FlightStatus2 { get; set; }
             public string ArrivalRemark { get; set; }
             public string DepartureRemark { get; set; }
             public Nullable<System.DateTime> STDDay { get; set; }
@@ -708,16 +770,28 @@ namespace ApiReportFlight.Controllers
             public Nullable<int> FPFlightMM { get; set; }
             public Nullable<System.DateTime> Departure { get; set; }
             public Nullable<System.DateTime> Arrival { get; set; }
+            public Nullable<System.DateTime> Departure2 { get; set; }
+            public Nullable<System.DateTime> Arrival2 { get; set; }
             public Nullable<System.DateTime> BlockOff { get; set; }
             public Nullable<System.DateTime> BlockOn { get; set; }
             public Nullable<System.DateTime> TakeOff { get; set; }
             public Nullable<System.DateTime> Landing { get; set; }
+            public Nullable<System.DateTime> BlockOff2 { get; set; }
+            public Nullable<System.DateTime> BlockOn2 { get; set; }
+            public Nullable<System.DateTime> TakeOff2 { get; set; }
+            public Nullable<System.DateTime> Landing2 { get; set; }
             public Nullable<System.DateTime> BlockOffLocal { get; set; }
             public Nullable<System.DateTime> BlockOnLocal { get; set; }
             public Nullable<System.DateTime> TakeOffLocal { get; set; }
             public Nullable<System.DateTime> LandingLocal { get; set; }
             public Nullable<System.DateTime> DepartureLocal { get; set; }
             public Nullable<System.DateTime> ArrivalLocal { get; set; }
+            public Nullable<System.DateTime> BlockOffLocal2 { get; set; }
+            public Nullable<System.DateTime> BlockOnLocal2 { get; set; }
+            public Nullable<System.DateTime> TakeOffLocal2 { get; set; }
+            public Nullable<System.DateTime> LandingLocal2 { get; set; }
+            public Nullable<System.DateTime> DepartureLocal2 { get; set; }
+            public Nullable<System.DateTime> ArrivalLocal2 { get; set; }
             public Nullable<int> BlockTime { get; set; }
             public Nullable<int> ScheduledTime { get; set; }
             public Nullable<int> FlightTime { get; set; }
@@ -732,6 +806,11 @@ namespace ApiReportFlight.Controllers
             public int PaxAdult { get; set; }
             public Nullable<int> RevPax { get; set; }
             public Nullable<int> TotalPax { get; set; }
+            public int PaxChild2 { get; set; }
+            public int PaxInfant2 { get; set; }
+            public int PaxAdult2 { get; set; }
+            public Nullable<int> RevPax2 { get; set; }
+            public Nullable<int> TotalPax2 { get; set; }
             public Nullable<int> FuelUnitID { get; set; }
             public Nullable<decimal> FuelArrival { get; set; }
             public Nullable<decimal> FuelDeparture { get; set; }
@@ -742,6 +821,8 @@ namespace ApiReportFlight.Controllers
             public Nullable<int> TotalSeat { get; set; }
             public int BaggageWeight { get; set; }
             public int CargoWeight { get; set; }
+            public int BaggageWeight2 { get; set; }
+            public int CargoWeight2 { get; set; }
             public Nullable<int> Freight { get; set; }
             public Nullable<double> BaggageWeightLbs { get; set; }
             public Nullable<double> BaggageWeightKg { get; set; }
@@ -752,6 +833,8 @@ namespace ApiReportFlight.Controllers
             public Nullable<System.DateTime> FlightDate { get; set; }
             public Nullable<int> CargoCount { get; set; }
             public Nullable<int> BaggageCount { get; set; }
+            public Nullable<int> CargoCount2 { get; set; }
+            public Nullable<int> BaggageCount2 { get; set; }
             public Nullable<int> JLBlockTime { get; set; }
             public Nullable<int> JLFlightTime { get; set; }
             public Nullable<decimal> FPFuel { get; set; }
