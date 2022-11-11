@@ -500,6 +500,11 @@ namespace ApiReportFlight.Controllers
                                     LandingLocal2=_flt.LandingLocal,
                                     BlockOffLocal2=_flt.BlockOffLocal,
                                     BlockOnLocal2=_flt.BlockOnLocal,
+                                    PaxAdult2=_flt.PaxAdult,
+                                    PaxChild2=_flt.PaxChild,
+                                    PaxInfant2=_flt.PaxInfant,
+                                    RevPax2=_flt.RevPax,
+                                    TotalPax2=_flt.TotalPax,
                                     STDX=_flt.STD,
                                 };
                                 output2.Add(rec);
@@ -528,6 +533,11 @@ namespace ApiReportFlight.Controllers
                                     LandingLocal = _flt.LandingLocal,
                                     BlockOffLocal = _flt.BlockOffLocal,
                                     BlockOnLocal = _flt.BlockOnLocal,
+                                    PaxAdult = _flt.PaxAdult,
+                                    PaxChild = _flt.PaxChild,
+                                    PaxInfant = _flt.PaxInfant,
+                                    RevPax = _flt.RevPax,
+                                    TotalPax = _flt.TotalPax,
                                     STDX =_flt.STD,
 
                                 };
@@ -550,6 +560,11 @@ namespace ApiReportFlight.Controllers
                                     rec.LandingLocal2 = _flt.LandingLocal;
                                     rec.BlockOffLocal2 = _flt.BlockOffLocal;
                                     rec.BlockOnLocal2 = _flt.BlockOnLocal;
+                                    rec.PaxAdult2 = _flt.PaxAdult;
+                                    rec.PaxChild2 = _flt.PaxChild;
+                                    rec.PaxInfant2 = _flt.PaxInfant;
+                                    rec.RevPax2 = _flt.RevPax;
+                                    rec.TotalPax2 = _flt.TotalPax;
                                     _flts.Remove(_flt);
                                 }
                                
