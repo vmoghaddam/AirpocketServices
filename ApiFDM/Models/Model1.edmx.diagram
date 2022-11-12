@@ -4,14 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="18fa3a57b6a1461ea0ecbc61a4f670b4" Name="Diagram1" ZoomLevel="24">
-        <EntityTypeShape EntityType="dbModel.FDM" Width="1.5" PointX="0.75" PointY="1.25" />
-        <EntityTypeShape EntityType="dbModel.FDMEventAction" Width="1.5" PointX="3" PointY="2.625" />
-        <AssociationConnector Association="dbModel.fk_fdm" />
-        <EntityTypeShape EntityType="dbModel.FDP" Width="1.5" PointX="7.375" PointY="1.375" />
-        <AssociationConnector Association="dbModel.fk_action_fdp" />
-        <AssociationConnector Association="dbModel.fk_fdp_fdp" />
-        <EntityTypeShape EntityType="dbModel.ViewFDMEventAction" Width="1.5" PointX="9.375" PointY="0.75" />
+      <Diagram DiagramId="18fa3a57b6a1461ea0ecbc61a4f670b4" Name="Diagram1" ZoomLevel="59">
+        <EntityTypeShape EntityType="dbModel.CrewSecretCode" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.FlightInformation" Width="1.5" PointX="5.625" PointY="7.125" />
+        <EntityTypeShape EntityType="dbModel.Ac_MSN" Width="1.5" PointX="0.75" PointY="13.25" />
+        <AssociationConnector Association="dbModel.FK_FlightInformation_Ac_MSN" />
+        <EntityTypeShape EntityType="dbModel.Airport" Width="1.5" PointX="3.375" PointY="22.25" />
+        <AssociationConnector Association="dbModel.fk_flightinformation_fromairport" />
+        <AssociationConnector Association="dbModel.fk_flightinformation_toairport" />
+        <EntityTypeShape EntityType="dbModel.ViewLegTime" Width="1.5" PointX="12.375" PointY="9.75" />
+        <EntityTypeShape EntityType="dbModel.AppLeg" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.FDM" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.ViewFDM" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,127 +1,161 @@
-﻿using ApiFDM.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
+using System.Web;
+using ApiFDM.Objects;
+using ApiFDM.Models;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace ApiFDM.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class FDMController : ApiController
     {
-        [Route("api/fdm/action/save")]
-        [AcceptVerbs("POST")]
-        public IHttpActionResult  PostEmployee(FDMDto dto)
+        dbEntities context = new dbEntities();
+
+        [HttpGet]
+        [Route("api/get/fdm/{yf}/{yt}")]
+        public DataResponse GetFDM(int yf, int yt)
         {
-            var context = new Models.dbEntities();
-            var fdmAction = new Models.FDMEventAction();
-            fdmAction.FDMId = dto.eventId;
-            fdmAction.EndDate = ConvertToDate(dto.end);
-            fdmAction.StartDate = ConvertToDate(dto.start);
-            fdmAction.ActionInfo = dto.remark;
-            fdmAction.ActionType = dto.type;
-            fdmAction.CrewId = dto.crew;
-            fdmAction.DateCreate = DateTime.Now;
+            // var context = new dbEntities();
+            List<int> years = new List<int>();
+            List<ViewFDM> result = new List<ViewFDM>();
 
-            context.FDMEventActions.Add(fdmAction);
-
-            if (dto.type == "GROUND")
+            years.Add(yt);
+            for (int i = 0; yf != yt; i++)
             {
-                var fdp = new FDP();
-                fdmAction.FDP = fdp;
-                fdp.DutyType = 100000;
-                fdp.IsTemplate =false;
-                fdp.CrewId = dto.crew;
-                fdp.DateStart = ((DateTime)fdmAction.StartDate).AddMinutes(-210);
-                fdp.DateEnd = ((DateTime)fdmAction.EndDate).AddMinutes(-210);
-                fdp.CityId = -1;
-                fdp.GUID = Guid.NewGuid();
-                fdp.UPD = 1;
-                fdp.InitStart = fdp.DateStart;
-                fdp.InitEnd = fdp.DateEnd;
-                fdp.InitRestTo = fdp.DateEnd;
-                fdp.Remark = "FDM";
-               // context.FDPs.Add(fdp);
-
-
-
-            }
-            if (dto.type == "TRAINING")
-            {
-                var fdp = new FDP();
-                fdmAction.FDP = fdp;
-                fdp.DutyType  =5000;
-                fdp.IsTemplate = false;
-                fdp.CrewId = dto.crew;
-                fdp.DateStart = ((DateTime)fdmAction.StartDate).AddMinutes(-210);
-                fdp.DateEnd = ((DateTime)fdmAction.EndDate).AddMinutes(-210);
-                fdp.CityId = -1;
-                fdp.GUID = Guid.NewGuid();
-                fdp.UPD = 1;
-                fdp.InitStart = fdp.DateStart;
-                fdp.InitEnd = fdp.DateEnd;
-                fdp.InitRestTo = fdp.DateEnd;
-                fdp.Remark = dto.course;
-                // context.FDPs.Add(fdp);
-
-
-
+                years.Add(yf);
+                yf++;
             }
 
-            context.SaveChanges();
-            return Ok(fdmAction.Id);
+            foreach (var year in years)
+            {
+                result.AddRange(context.ViewFDMs.Where(q => q.Date.Value.Year == year).ToList());
+
+            };
+
+            var Boeing = result.Where(q => q.AircraftType.Contains("B")).ToList();
+            var MD = result.Where(q => q.AircraftType.Contains("MD")).ToList();
+            var newRecord = result.Where(q => q.Removed == false && q.Approved == false).ToList();
+            var confirmed = result.Where(q => q.Approved == true).ToList();
+            var removed = result.Where(q => q.Removed == true).ToList();
+
+
+            if (result != null)
+            {
+                return new DataResponse
+                {
+                    IsSuccess = true,
+                    Data = new
+                    {
+                        newRecord,
+                        confirmed,
+                        removed,
+                        Boeing,
+                        MD
+                    }
+                };
+            }
+            else
+            {
+                return new DataResponse
+                {
+                    IsSuccess = false,
+                    Data = null
+                };
+            }
         }
 
-        [Route("api/fdm/actions")]
-        public  IHttpActionResult  GetActions()
+        [HttpPost]
+        [Route("api/remove/fdm/{rowId}")]
+        public async Task<DataResponse> RemoveFDM(int rowId)
         {
-            var context = new Models.dbEntities();
-            var actions =   context.ViewFDMEventActions.OrderByDescending(q => q.DateCreate).ToList();
-            return Ok(actions);
+            try
+            {
+                var record = context.FDMs.Single(q => q.Id == rowId);
+                record.Removed = true;
+                record.Approved = false;
+                var result = context.ViewFDMs.Single(q => q.Id == rowId);
+                context.SaveChangesAsync();
+                return new DataResponse()
+                {
+                    IsSuccess = true,
+                    Data = result,
+
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return new DataResponse()
+                {
+                    IsSuccess = false,
+                    Data = null
+                };
+            }
 
         }
 
-        [Route("api/fdm/actions/crew/{id}")]
-        public IHttpActionResult GetActionsByCrew(int id)
+        [HttpPost]
+        [Route("api/confirm/fdm/{rowID}")]
+        public async Task<DataResponse> confirmFDM(int rowId)
         {
-            var context = new Models.dbEntities();
-            var actions = context.ViewFDMEventActions.Where(q=>q.CrewId==id).OrderByDescending(q => q.DateCreate).ToList();
-            return Ok(actions);
+            try
+            {
+                var record = context.FDMs.Single(q => q.Id == rowId);
+                record.Approved = true;
+                record.Removed = false;
+                var result = context.ViewFDMs.Single(q => q.Id == rowId);
+                context.SaveChangesAsync();
+                return new DataResponse()
+                {
+                    IsSuccess = true,
+                    Data = result
+                };
+
+            }
+            catch
+            {
+                return new DataResponse()
+                {
+                    IsSuccess = false,
+                    Data = null
+                };
+
+            }
 
         }
 
-        [Route("api/fdm/actions/event/{id}")]
-        public IHttpActionResult GetActionsByEvent(int id)
+        [HttpPost]
+        [Route("api/delete/fdm/{rowId}")]
+        public async Task<DataResponse> DeleteFDM(int rowId)
         {
-            var context = new Models.dbEntities();
-            var actions = context.ViewFDMEventActions.Where(q => q.FDMId == id).OrderByDescending(q => q.DateCreate).ToList();
-            return Ok(actions);
-
+            var viewRecord = context.ViewFDMs.Single(q => q.Id == rowId);
+            if (viewRecord.Status != "Removed" || viewRecord.Status != "Confirmed")
+            {
+                var record = context.FDMs.Single(q => q.Id == viewRecord.Id);
+                context.FDMs.Remove(record);
+                context.SaveChangesAsync();
+                return new DataResponse()
+                {
+                    IsSuccess = true,
+                    Data = viewRecord
+                };
+            }
+            else
+            {
+                return new DataResponse()
+                {
+                    IsSuccess = false,
+                    Data = viewRecord.Status
+                };
+            }
         }
 
-
-        DateTime ConvertToDate(string str)
-        {
-            var yy =Convert.ToInt32( str.Substring(0, 4));
-            var mm = Convert.ToInt32(str.Substring(4, 2));
-            var dd = Convert.ToInt32(str.Substring(6, 2));
-            return new DateTime(yy, mm, dd);
-        }
-
-        public class FDMDto
-        {
-            public int eventId { get; set; }
-            public string start { get; set; }
-            public string end { get; set; }
-            public string remark { get; set; }
-            public string type { get; set; }
-            public string course { get; set; }
-            public int crew { get; set; }
-        }
 
     }
 }

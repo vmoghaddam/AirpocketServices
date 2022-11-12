@@ -14,12 +14,6 @@ namespace ApiFDM.Models
     
     public partial class FDM
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public FDM()
-        {
-            this.FDMEventActions = new HashSet<FDMEventAction>();
-        }
-    
         public int Id { get; set; }
         public string Severity { get; set; }
         public string EventName { get; set; }
@@ -56,8 +50,14 @@ namespace ApiFDM.Models
         public string AircraftType { get; set; }
         public Nullable<int> AircraftTypeId { get; set; }
         public Nullable<bool> Removed { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FDMEventAction> FDMEventActions { get; set; }
+        public Nullable<System.DateTime> DateRemoved { get; set; }
+        public string RemovedBy { get; set; }
+        public Nullable<System.DateTime> DateCreate { get; set; }
+        public Nullable<bool> Published { get; set; }
+        public string PublishedBy { get; set; }
+        public Nullable<bool> Deleted { get; set; }
+        public Nullable<bool> Approved { get; set; }
+        public string ApprovedBy { get; set; }
+        public Nullable<System.DateTime> DateApproved { get; set; }
     }
 }
