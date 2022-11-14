@@ -168,6 +168,8 @@ namespace ApiFDM.Controllers
                         entity.ToAirportIATA = flight.ToAirportIATA;
                         entity.FlightId = flight.FlightId;
                         entity.AircraftTypeId = flight.TypeId;
+                        entity.Approved = false;
+                        entity.Removed = false;
                         context.FDMs.Add(entity);
 
                     }
@@ -303,6 +305,8 @@ namespace ApiFDM.Controllers
                         entity.FlightId = flight.FlightId;
                         entity.AircraftTypeId = flight.TypeId;
                         entity.Limit = y.limit;
+                        entity.Approved = false;
+                        entity.Removed = false;
                         context.FDMs.Add(entity);
 
                     }
