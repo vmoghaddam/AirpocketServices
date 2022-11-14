@@ -148,11 +148,11 @@ namespace ApiFDM.Models
             {
 
                 string result = null;
-                if (Severity.ToUpper().StartsWith("H"))
+                if (Severity == "High" || Severity == "high" ||  Severity == "Critical" || Severity == "critical")
                     result = "High";
-                else if (Severity.ToUpper().StartsWith("M"))
+                else if (Severity == "Medium" || Severity == "medium" || Severity == "Major" || Severity == "major")
                     result = "Medium";
-                else if (Severity.ToUpper().StartsWith("L"))
+                else if (Severity == "Low" || Severity == "low" || Severity == "Minor" || Severity == "minor")
                     result = "Low";
 
                 return result;
@@ -299,11 +299,11 @@ namespace ApiFDM.Models
             {
 
                 string result = null;
-                if (LimitLevel.ToUpper().StartsWith("H"))
+                if (LimitLevel == "High" || LimitLevel == "high" || LimitLevel == "Critical" || LimitLevel == "critical")
                     result = "High";
-                else if (LimitLevel.ToUpper().StartsWith("M"))
+                else if (LimitLevel == "Medium" || LimitLevel == "medium" || LimitLevel == "Major" || LimitLevel == "major")
                     result = "Medium";
-                else if (LimitLevel.ToUpper().StartsWith("L"))
+                else if (LimitLevel == "Low" || LimitLevel == "low" || LimitLevel == "Minor" || LimitLevel == "minor")
                     result = "Low";
 
                 return result;
