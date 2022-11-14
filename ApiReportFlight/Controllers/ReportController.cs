@@ -124,7 +124,7 @@ namespace ApiReportFlight.Controllers
            , string type2
            , string idx
            , string chr
-            ,int cnl
+            , int cnl
            )
         {
             var cmd = "select * from viewflightdaily ";
@@ -207,40 +207,41 @@ namespace ApiReportFlight.Controllers
                     whr += " AND status<>4";
 
                 cmd = cmd + " WHERE " + whr + " ORDER BY STD,Register";
-                    
+
                 var flts = context.ViewFlightDailies
                             .SqlQuery(cmd)
                             .ToList<ViewFlightDaily>();
 
                 var tempflts = flts.ToList();
 
-                var grps= (from x in flts
-                           group x by new { x.Register, x.RegisterID, x.STDDayLocal } into grp
-                           select new  
-                           {
-                               grp.Key.Register,
-                               grp.Key.RegisterID,
-                               grp.Key.STDDayLocal,
-                               Items = grp.OrderBy(q => q.STD).ToList()
+                var grps = (from x in flts
+                            group x by new { x.Register, x.RegisterID, x.STDDayLocal } into grp
+                            select new
+                            {
+                                grp.Key.Register,
+                                grp.Key.RegisterID,
+                                grp.Key.STDDayLocal,
+                                Items = grp.OrderBy(q => q.STD).ToList()
 
 
 
-                           }).ToList();
+                            }).ToList();
                 var output = new List<TwoWayResult>();
 
                 foreach (var g in grps)
                 {
-                    var rowflts = g.Items.OrderBy(q=>q.STD).ToList();
+                    var rowflts = g.Items.OrderBy(q => q.STD).ToList();
                     while (rowflts.Count > 0)
                     {
                         var flt = rowflts.First();
-                        var rec = new TwoWayResult() { 
-                           Register=g.Register,
-                           RegisterID=g.RegisterID,
-                           STDDayLocal=g.STDDayLocal,
-                           FlightNumber=flt.FlightNumber,
-                           STD=flt.STD,
-                           STDLocal=flt.STD
+                        var rec = new TwoWayResult()
+                        {
+                            Register = g.Register,
+                            RegisterID = g.RegisterID,
+                            STDDayLocal = g.STDDayLocal,
+                            FlightNumber = flt.FlightNumber,
+                            STD = flt.STD,
+                            STDLocal = flt.STD
                         };
                         output.Add(rec);
 
@@ -277,7 +278,7 @@ namespace ApiReportFlight.Controllers
                 //                  XRoute=grp.Key.XRoute,
                 //                  Items=grp.OrderBy(q=>q.STD).ToList()
 
-                                  
+
 
                 //              }).ToList();
                 //foreach(var grp in grouped)
@@ -328,9 +329,9 @@ namespace ApiReportFlight.Controllers
                     //q.BlockOnLocal,
                     //q.TakeOffLocal,
                     //q.LandingLocal,
-                }).OrderBy(q=>q.STDDayLocal).ThenBy(q=>q.Register).ThenBy(q=>q.STD) .ToList();
+                }).OrderBy(q => q.STDDayLocal).ThenBy(q => q.Register).ThenBy(q => q.STD).ToList();
 
-               // var oneway = result.Where(q => q.legs == 1).ToList();
+                // var oneway = result.Where(q => q.legs == 1).ToList();
                 //var twoway = result.Where(q => q.legs == 2).ToList();
 
 
@@ -357,14 +358,15 @@ namespace ApiReportFlight.Controllers
         //   , int cnl
         //  )
         public IHttpActionResult GetFlightsDailyStation(DateTime df, DateTime dt
-          //  , string regs
-          , string routes
-          //  , string from, string to, string no
-          //, string status
-          //, string type2
-          //, string idx
-          //, string chr
-            , int cnl
+            , string regs
+         // , string routes
+              , string from
+            //, string to, string no
+            , string status
+            , string type2
+            //, string idx
+            //, string chr
+             , int cnl
           )
         {
             var cmd = "select * from viewflightdaily ";
@@ -407,13 +409,13 @@ namespace ApiReportFlight.Controllers
                 //    whr += " AND " + _whr;
                 //}
 
-                //if (!string.IsNullOrEmpty(regs) && regs != "-1")
-                //{
-                //    var _regs = regs.Split('_').ToList();
-                //    var col = _regs.Select(q => "Register='" + q + "'").ToList();
-                //    var _whr = "(" + string.Join(" OR ", col) + ")";
-                //    whr += " AND " + _whr;
-                //}
+                if (!string.IsNullOrEmpty(regs) && regs != "-1")
+                {
+                    var _regs = regs.Split('_').ToList();
+                    var col = _regs.Select(q => "Register='" + q + "'").ToList();
+                    var _whr = "(" + string.Join(" OR ", col) + ")";
+                    whr += " AND " + _whr;
+                }
 
                 //if (!string.IsNullOrEmpty(from) && from != "-1")
                 //{
@@ -436,14 +438,14 @@ namespace ApiReportFlight.Controllers
                 //    whr += " AND " + _whr;
                 //}
 
-                if (!string.IsNullOrEmpty(routes) && routes != "-1")
-                {
-                    var _regs = routes.Split('_').ToList();
-                    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "Route like '%" + q + "%'").ToList()) + ")";
-                    whr += " AND " + _whr;
-                }
+                //if (!string.IsNullOrEmpty(routes) && routes != "-1")
+                //{
+                //    var _regs = routes.Split('_').ToList();
+                //    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "Route like '%" + q + "%'").ToList()) + ")";
+                //    whr += " AND " + _whr;
+                //}
 
-                if (cnl == 0)
+               if (cnl == 0)
                     whr += " AND status<>4";
 
                 cmd = cmd + " WHERE " + whr + " ORDER BY STD,Register";
@@ -457,56 +459,72 @@ namespace ApiReportFlight.Controllers
                 foreach (var stn in stations)
                 {
                     var stnflights = flts.Where(q => q.FromAirportIATA == stn || q.ToAirportIATA == stn).ToList();
-                    var regGroups=(from x in stnflights
-                                  group x by new {x.Register,x.RegisterID,x.STDDayLocal} into grp
-                                  select new
-                                  {
-                                      Station=stn,
-                                      grp.Key.Register,
-                                      grp.Key.RegisterID,
-                                      grp.Key.STDDayLocal,
-                                      Items = grp.OrderBy(q => q.STD).ToList()
+                    var regGroups = (from x in stnflights
+                                     group x by new { x.Register, x.RegisterID, x.STDDayLocal } into grp
+                                     select new
+                                     {
+                                         Station = stn,
+                                         grp.Key.Register,
+                                         grp.Key.RegisterID,
+                                         grp.Key.STDDayLocal,
+                                         Items = grp.OrderBy(q => q.STD).ToList()
 
 
 
-                                  }).ToList();
-                    foreach(var grp in regGroups)
+                                     }).ToList();
+                    foreach (var grp in regGroups)
                     {
                         var _flts = grp.Items.ToList();
                         while (_flts.Count() > 0)
                         {
                             var _flt = _flts.First();
-                            
+
                             if (_flt.FromAirportIATA == grp.Station)
                             {
                                 //out
                                 var rec = new TwoWayResult()
                                 {
-                                    Station=grp.Station,
-                                    Register=grp.Register,
-                                    RegisterID=grp.RegisterID,
-                                    FromAirportIATA2=_flt.FromAirportIATA,
-                                    ToAirportIATA2=_flt.ToAirportIATA,
-                                    FlightNumber2=_flt.FlightNumber,
-                                    STD2=_flt.STD,
-                                    STA2=_flt.STA,
-                                    BlockOff2=_flt.BlockOff,
-                                    BlockOn2=_flt.BlockOn,
-                                    TakeOff2=_flt.TakeOff,
-                                    Landing2=_flt.Landing,
-                                    STDLocal2=_flt.STDLocal,
-                                    STALocal2=_flt.STALocal,
-                                    TakeOffLocal2=_flt.TakeOffLocal,
-                                    LandingLocal2=_flt.LandingLocal,
-                                    BlockOffLocal2=_flt.BlockOffLocal,
-                                    BlockOnLocal2=_flt.BlockOnLocal,
-                                    PaxAdult2=_flt.PaxAdult,
-                                    PaxChild2=_flt.PaxChild,
-                                    PaxInfant2=_flt.PaxInfant,
-                                    RevPax2=_flt.RevPax,
-                                    TotalPax2=_flt.TotalPax,
-                                    STDX=_flt.STD,
+                                    Station = grp.Station,
+                                    FlightDate = _flt.FlightDate,
+                                    Date = _flt.Date,
+                                    DateLocal = _flt.DateLocal,
+                                    PDate = _flt.PDate,
+                                    PDayName = _flt.PDayName,
+                                    PMonth = _flt.PMonth,
+                                    PMonthName = _flt.PMonthName,
+                                    STDDay = _flt.STDDay,
+                                    STDDayLocal = _flt.STDDayLocal,
+                                    Register = grp.Register,
+                                    RegisterID = grp.RegisterID,
+                                    FromAirportIATA2 = _flt.FromAirportIATA,
+                                    FromAirportICAO2=_flt.FromAirportICAO,
+                                    ToAirportIATA2 = _flt.ToAirportIATA,
+                                    ToAirportICAO2=_flt.ToAirportICAO,
+                                    FlightNumber2 = _flt.FlightNumber,
+                                    STD2 = _flt.STD,
+                                    STA2 = _flt.STA,
+                                    BlockOff2 = _flt.BlockOff,
+                                    BlockOn2 = _flt.BlockOn,
+                                    TakeOff2 = _flt.TakeOff,
+                                    Landing2 = _flt.Landing,
+                                    STDLocal2 = _flt.STDLocal,
+                                    STALocal2 = _flt.STALocal,
+                                    TakeOffLocal2 = _flt.TakeOffLocal,
+                                    LandingLocal2 = _flt.LandingLocal,
+                                    BlockOffLocal2 = _flt.BlockOffLocal,
+                                    BlockOnLocal2 = _flt.BlockOnLocal,
+                                    PaxAdult2 = _flt.PaxAdult,
+                                    PaxChild2 = _flt.PaxChild,
+                                    PaxInfant2 = _flt.PaxInfant,
+                                    RevPax2 = _flt.RevPax,
+                                    TotalPax2 = _flt.TotalPax,
+                                    FlightStatus2 = _flt.FlightStatus,
+                                    IsArrInt2=_flt.IsArrInt,
+                                    IsDepInt2=_flt.IsDepInt,
+                                    STDX = _flt.STD,
+                                    RegFlightCount= grp.Items.Count(),
                                 };
+                                
                                 output2.Add(rec);
                                 _flts.Remove(_flt);
                             }
@@ -520,7 +538,18 @@ namespace ApiReportFlight.Controllers
                                     RegisterID = grp.RegisterID,
                                     FromAirportIATA = _flt.FromAirportIATA,
                                     ToAirportIATA = _flt.ToAirportIATA,
+                                    FromAirportICAO=_flt.FromAirportICAO,
+                                    ToAirportICAO=_flt.ToAirportICAO,
                                     FlightNumber = _flt.FlightNumber,
+                                    FlightDate = _flt.FlightDate,
+                                    Date = _flt.Date,
+                                    DateLocal = _flt.DateLocal,
+                                    PDate = _flt.PDate,
+                                    PDayName = _flt.PDayName,
+                                    PMonth = _flt.PMonth,
+                                    PMonthName = _flt.PMonthName,
+                                    STDDay = _flt.STDDay,
+                                    STDDayLocal = _flt.STDDayLocal,
                                     STD = _flt.STD,
                                     STA = _flt.STA,
                                     BlockOff = _flt.BlockOff,
@@ -538,7 +567,11 @@ namespace ApiReportFlight.Controllers
                                     PaxInfant = _flt.PaxInfant,
                                     RevPax = _flt.RevPax,
                                     TotalPax = _flt.TotalPax,
-                                    STDX =_flt.STD,
+                                    FlightStatus = _flt.FlightStatus,
+                                    IsArrInt = _flt.IsArrInt,
+                                    IsDepInt = _flt.IsDepInt,
+                                    STDX = _flt.STD,
+                                    RegFlightCount = grp.Items.Count(),
 
                                 };
                                 _flts.Remove(_flt);
@@ -547,7 +580,10 @@ namespace ApiReportFlight.Controllers
                                     _flt = _flts.First();
                                     rec.FromAirportIATA2 = _flt.FromAirportIATA;
                                     rec.ToAirportIATA2 = _flt.ToAirportIATA;
+                                    rec.ToAirportIATA2 = _flt.ToAirportIATA;
+                                    rec.ToAirportICAO2 = _flt.ToAirportICAO;
                                     rec.FlightNumber2 = _flt.FlightNumber;
+                                    rec.FromAirportICAO2 = _flt.FromAirportICAO;
                                     rec.STD2 = _flt.STD;
                                     rec.STA2 = _flt.STA;
                                     rec.BlockOff2 = _flt.BlockOff;
@@ -565,11 +601,14 @@ namespace ApiReportFlight.Controllers
                                     rec.PaxInfant2 = _flt.PaxInfant;
                                     rec.RevPax2 = _flt.RevPax;
                                     rec.TotalPax2 = _flt.TotalPax;
+                                    rec.FlightStatus2 = _flt.FlightStatus;
+                                    rec.IsArrInt2 = _flt.IsArrInt;
+                                    rec.IsDepInt2 = _flt.IsDepInt;
                                     _flts.Remove(_flt);
                                 }
-                               
+
                                 output2.Add(rec);
-                               
+
                             }
                         }
                     }
@@ -577,12 +616,21 @@ namespace ApiReportFlight.Controllers
 
                 }
 
-                if (routes != "-1")
+                foreach (var x in output2)
                 {
-                    var _regs = routes.Split('_').ToList();
+                    x.FlightType2 = (x.IsDepInt == 1 || x.IsDepInt2 == 1 || x.IsArrInt == 1 || x.IsArrInt2 == 1) ? "INT" : "DOM";
+                }
+
+                if (from != "-1")
+                {
+                    var _regs = from.Split('_').ToList();
                     output2 = output2.Where(q => _regs.Contains(q.Station)).ToList();
                 }
-                    
+                if (!string.IsNullOrEmpty(type2) && type2 != "-1")
+                {
+                    var _regs = type2.Split('_').ToList();
+                    output2 = output2.Where(q => _regs.Contains(q.FlightType2)).ToList();
+                }
                 //var grps = (from x in flts
                 //            group x by new { x.Register, x.RegisterID, x.STDDayLocal } into grp
                 //            select new
@@ -677,40 +725,52 @@ namespace ApiReportFlight.Controllers
 
                 //}
 
-                var result = output2
-                    /*.Select(q => new
+                var fc = (from x in output2 group x by new { x.Station } into grp select new { grp.Key.Station, cnt = grp.Count() }).ToList();
+                foreach (var x in output2)
                 {
-                    //legs=q.Items.Count(),
-                    q.Register,
-                    q.RegisterID,
-                    q.STDDayLocal,
-                    q.FlightNumber,
-                    q.FromAirportIATA,
-                    q.ToAirportIATA,
-                    q.FlightNumber2,
-                    q.FromAirportIATA2,
-                    q.ToAirportIATA2,
-                    q.Station,
-                    //q.PDate,
-                    //q.PMonth,
-                    //q.PDayName,
-                    //q.FlightType2,
-                    //q.Route,
-                    //q.XRoute,
-                     q.STDX,
-                    //q.STA,
-                    //q.BlockOff,
-                    //q.BlockOn,
-                    //q.TakeOff,
-                    //q.Landing,
-                    //q.STDLocal,
-                    //q.STALocal,
-                    //q.BlockOffLocal,
-                    //q.BlockOnLocal,
-                    //q.TakeOffLocal,
-                    //q.LandingLocal,
-                })*/
-                    .OrderBy(q=>q.STDDayLocal).ThenBy(q=>q.Station).ThenBy(q=>q.Register).ThenBy(q => q.STDX).ToList();
+                    var _fc = fc.FirstOrDefault(q => q.Station == x.Station);
+                    x.FlightCount = _fc == null ? 0 : _fc.cnt;
+                }
+
+
+                var result = new
+                {
+                    flts = output2.OrderBy(q => q.STDDayLocal).ThenByDescending(q => q.FlightCount).ThenBy(q => q.Station).ThenBy(q => q.Register).ThenBy(q => q.STDX).ToList(),
+                    stations = fc
+                };
+                /*.Select(q => new
+            {
+                //legs=q.Items.Count(),
+                q.Register,
+                q.RegisterID,
+                q.STDDayLocal,
+                q.FlightNumber,
+                q.FromAirportIATA,
+                q.ToAirportIATA,
+                q.FlightNumber2,
+                q.FromAirportIATA2,
+                q.ToAirportIATA2,
+                q.Station,
+                //q.PDate,
+                //q.PMonth,
+                //q.PDayName,
+                //q.FlightType2,
+                //q.Route,
+                //q.XRoute,
+                 q.STDX,
+                //q.STA,
+                //q.BlockOff,
+                //q.BlockOn,
+                //q.TakeOff,
+                //q.Landing,
+                //q.STDLocal,
+                //q.STALocal,
+                //q.BlockOffLocal,
+                //q.BlockOnLocal,
+                //q.TakeOffLocal,
+                //q.LandingLocal,
+            })*/
+
                 //.OrderBy(q => q.STDDayLocal).ThenBy(q => q.Register).ThenBy(q => q.STD).ToList();
 
                 // var oneway = result.Where(q => q.legs == 1).ToList();
@@ -735,6 +795,8 @@ namespace ApiReportFlight.Controllers
             public int FlightId { get; set; }
             public int FlightId2 { get; set; }
             public string Station { get; set; }
+            public int FlightCount { get; set; }
+            public int RegFlightCount { get; set; }
             public Nullable<int> FlightPlanId { get; set; }
             public Nullable<System.DateTime> STD { get; set; }
             public Nullable<System.DateTime> STD2 { get; set; }
@@ -880,6 +942,8 @@ namespace ApiReportFlight.Controllers
             public string PDate { get; set; }
             public int IsDepInt { get; set; }
             public int IsArrInt { get; set; }
+            public int IsDepInt2 { get; set; }
+            public int IsArrInt2 { get; set; }
             public string XRoute { get; set; }
             public List<ViewFlightDaily> Items { get; set; }
         }
@@ -1003,7 +1067,7 @@ namespace ApiReportFlight.Controllers
             if (dom == 0)
                 query = query.Where(q => q.IsDom == false);
 
-            var ds = query.ToList().OrderByDescending(q=>q.Legs).ThenBy(q => getRouteOrder(q.Route)).ToList();
+            var ds = query.ToList().OrderByDescending(q => q.Legs).ThenBy(q => getRouteOrder(q.Route)).ToList();
             var routes = ds.Select(q => q.Route).OrderBy(q => getRouteOrder(q)).ToList();
             var result = new List<ViewFinMonthlyRoute>();
             while (ds.Count > 0)
@@ -1019,61 +1083,61 @@ namespace ApiReportFlight.Controllers
                     ds.Remove(data_rev);
                 }
             }
-           /* while (routes.Count > 0)
-            { 
-                var rt = routes.First(); 
+            /* while (routes.Count > 0)
+             { 
+                 var rt = routes.First(); 
 
-                var data = ds.Where(q => q.Route == rt).FirstOrDefault();
+                 var data = ds.Where(q => q.Route == rt).FirstOrDefault();
 
-                var rec = new ViewFinMonthlyRoute()
-                {
-                    Adult = data.Adult,
-                    BaggageWeight = data.BaggageWeight,
-                    Route = data.Route,
-                    CargoWeight = data.CargoWeight,
-                    Child = data.Child,
-                    Delay = data.Delay,
-                    Freight = data.Freight,
-                    FromAirportIATA = data.FromAirportIATA,
-                    Infant = data.Infant,
-                    IsDom = data.IsDom,
-                    Legs = data.Legs,
-                    Month = data.Month,
-                    MonthName = data.MonthName,
-                    ToAirportIATA = data.ToAirportIATA,
-                    TotalPax = data.TotalPax,
-                    TotalSeat = data.TotalSeat,
-                    UpliftFuel = data.UpliftFuel,
-                    UsedFuel = data.UsedFuel,
-                    Year = data.Year,
-                    YearMonth = data.YearMonth,
-                    YearName = data.YearName,
-                };
-                var rev = reverseRoute(rt);
-                var data2 = ds.Where(q => q.Route == rev).FirstOrDefault();
-                if (data2 != null)
-                {
-                    rec.Route = rec.Route +"-"+ (rec.Route.Split('-')[0]);
-                    rec.Adult += data2.Adult;
-                    rec.BaggageWeight += data2.BaggageWeight;
-                    rec.CargoWeight += data2.CargoWeight;
-                    rec.Child += data2.Child;
-                    rec.Delay += data2.Delay;
-                    rec.Freight += data2.Freight;
-                    rec.Infant += data2.Infant;
-                    rec.Legs += data2.Legs;
-                    rec.TotalPax += data2.TotalPax;
-                    rec.TotalSeat += data2.TotalSeat;
-                    rec.UsedFuel += data2.UsedFuel;
-                    rec.UpliftFuel += data2.UpliftFuel;
-                }
+                 var rec = new ViewFinMonthlyRoute()
+                 {
+                     Adult = data.Adult,
+                     BaggageWeight = data.BaggageWeight,
+                     Route = data.Route,
+                     CargoWeight = data.CargoWeight,
+                     Child = data.Child,
+                     Delay = data.Delay,
+                     Freight = data.Freight,
+                     FromAirportIATA = data.FromAirportIATA,
+                     Infant = data.Infant,
+                     IsDom = data.IsDom,
+                     Legs = data.Legs,
+                     Month = data.Month,
+                     MonthName = data.MonthName,
+                     ToAirportIATA = data.ToAirportIATA,
+                     TotalPax = data.TotalPax,
+                     TotalSeat = data.TotalSeat,
+                     UpliftFuel = data.UpliftFuel,
+                     UsedFuel = data.UsedFuel,
+                     Year = data.Year,
+                     YearMonth = data.YearMonth,
+                     YearName = data.YearName,
+                 };
+                 var rev = reverseRoute(rt);
+                 var data2 = ds.Where(q => q.Route == rev).FirstOrDefault();
+                 if (data2 != null)
+                 {
+                     rec.Route = rec.Route +"-"+ (rec.Route.Split('-')[0]);
+                     rec.Adult += data2.Adult;
+                     rec.BaggageWeight += data2.BaggageWeight;
+                     rec.CargoWeight += data2.CargoWeight;
+                     rec.Child += data2.Child;
+                     rec.Delay += data2.Delay;
+                     rec.Freight += data2.Freight;
+                     rec.Infant += data2.Infant;
+                     rec.Legs += data2.Legs;
+                     rec.TotalPax += data2.TotalPax;
+                     rec.TotalSeat += data2.TotalSeat;
+                     rec.UsedFuel += data2.UsedFuel;
+                     rec.UpliftFuel += data2.UpliftFuel;
+                 }
 
-                routes.Remove(rt);
-                routes.Remove(reverseRoute(rt));
+                 routes.Remove(rt);
+                 routes.Remove(reverseRoute(rt));
 
-                result.Add(rec);
+                 result.Add(rec);
 
-            }*/
+             }*/
 
 
 

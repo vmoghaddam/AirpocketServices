@@ -266,10 +266,30 @@ namespace ApiProfile.ViewModels
         public DateTime? OPCC2ExpireDate { get; set; }
         public DateTime? OPCC3ExpireDate { get; set; }
 
+        public DateTime? IssueDate1 { get; set; }
+        public DateTime? ExpireDate1 { get; set; }
+        public DateTime? IssueDate2 { get; set; }
+        public DateTime? ExpireDate2 { get; set; }
+        public DateTime? IssueDate3 { get; set; }
+        public DateTime? ExpireDate3 { get; set; }
+        public DateTime? IssueDate4 { get; set; }
+        public DateTime? ExpireDate4 { get; set; }
+        public DateTime? IssueDate5 { get; set; }
+        public DateTime? ExpireDate5 { get; set; }
+        public DateTime? IssueDate6 { get; set; }
+        public DateTime? ExpireDate6 { get; set; }
+        public DateTime? IssueDate7 { get; set; }
+        public DateTime? ExpireDate7 { get; set; }
+        public DateTime? IssueDate8 { get; set; }
+        public DateTime? ExpireDate8 { get; set; }
+        public DateTime? IssueDate9 { get; set; }
+        public DateTime? ExpireDate9 { get; set; }
+        public DateTime? IssueDate10 { get; set; }
+        public DateTime? ExpireDate10 { get; set; }
 
-       
 
-        
+
+
 
         List<PersonAircraftType> aircraftTypes = null;
         public List<PersonAircraftType> AircraftTypes
@@ -601,6 +621,27 @@ namespace ApiProfile.ViewModels
             entity.OPCC2ExpireDate = person.OPCC2ExpireDate;
             entity.OPCC3ExpireDate = person.OPCC3ExpireDate;
 
+            entity.IssueDate1 = person.IssueDate1;
+            entity.ExpireDate1 = person.ExpireDate1;
+            entity.IssueDate2 = person.IssueDate2;
+            entity.ExpireDate2 = person.ExpireDate2;
+            entity.IssueDate3 = person.IssueDate3;
+            entity.ExpireDate3 = person.ExpireDate3;
+            entity.IssueDate4 = person.IssueDate4;
+            entity.ExpireDate4 = person.ExpireDate4;
+            entity.IssueDate5 = person.IssueDate5;
+            entity.ExpireDate5 = person.ExpireDate5;
+            entity.IssueDate6 = person.IssueDate6;
+            entity.ExpireDate6 = person.ExpireDate6;
+            entity.IssueDate7 = person.IssueDate7;
+            entity.ExpireDate7 = person.ExpireDate7;
+            entity.IssueDate8 = person.IssueDate8;
+            entity.ExpireDate8 = person.ExpireDate8;
+            entity.IssueDate9 = person.IssueDate9;
+            entity.ExpireDate9 = person.ExpireDate9;
+            entity.IssueDate10 = person.IssueDate10;
+            entity.ExpireDate10 = person.ExpireDate10;
+
 
             entity.OtherAirline = person.OtherAirline;
 
@@ -861,6 +902,28 @@ namespace ApiProfile.ViewModels
             person.OPCC1ExpireDate = entity.OPCC1ExpireDate;
             person.OPCC2ExpireDate = entity.OPCC2ExpireDate;
             person.OPCC3ExpireDate = entity.OPCC3ExpireDate;
+
+
+            person.IssueDate1 = entity.IssueDate1;
+            person.ExpireDate1 = entity.ExpireDate1;
+            person.IssueDate2 = entity.IssueDate2;
+            person.ExpireDate2 = entity.ExpireDate2;
+            person.IssueDate3 = entity.IssueDate3;
+            person.ExpireDate3 = entity.ExpireDate3;
+            person.IssueDate4 = entity.IssueDate4;
+            person.ExpireDate4 = entity.ExpireDate4;
+            person.IssueDate5 = entity.IssueDate5;
+            person.ExpireDate5 = entity.ExpireDate5;
+            person.IssueDate6 = entity.IssueDate6;
+            person.ExpireDate6 = entity.ExpireDate6;
+            person.IssueDate7 = entity.IssueDate7;
+            person.ExpireDate7 = entity.ExpireDate7;
+            person.IssueDate8 = entity.IssueDate8;
+            person.ExpireDate8 = entity.ExpireDate8;
+            person.IssueDate9 = entity.IssueDate9;
+            person.ExpireDate9 = entity.ExpireDate9;
+            person.IssueDate10 = entity.IssueDate10;
+            person.ExpireDate10 = entity.ExpireDate10;
 
 
             person.OtherAirline = entity.OtherAirline == null ? false : (bool)entity.OtherAirline;
