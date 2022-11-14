@@ -71,8 +71,14 @@ namespace ApiLog.Controllers
                     flight.SerialNo = dto.SerialNo;
                 if (dto.FuelDensity != null)
                     flight.FuelDensity = dto.FuelDensity;
-                //flight.FuelDeparture = dto.FuelDeparture;
-                // flight.FuelArrival = dto.FuelArrival;
+
+                flight.FuelDeparture = dto.FuelDeparture;
+                flight.FuelArrival = dto.FuelArrival;
+                flight.FPFuel = dto.FPFuel;
+                flight.Defuel = dto.Defuel;
+                flight.UsedFuel = dto.UsedFuel;
+                
+                
                 flight.PaxAdult = dto.PaxAdult;
                 flight.PaxInfant = dto.PaxInfant;
                 flight.PaxChild = dto.PaxChild;
@@ -822,156 +828,167 @@ namespace ApiLog.Controllers
         [AcceptVerbs("POST", "GET")]
         public async Task<IHttpActionResult> GetFlightsGanttByCustomerIdUTC(int cid, string from, string to, int tzoffset)
         {
-            DateTime dateFrom = Helper.BuildDateTimeFromYAFormat(from);
-            DateTime dateTo = Helper.BuildDateTimeFromYAFormat(to);
-
-            // var result = await unitOfWork.FlightRepository.GetFlightGanttFleet(cid, dateFrom, dateTo, tzoffset, null, null, 1);
-            //return Ok(result);
-            var context = new ppa_entities();
-
-            var flightsQuery = context.ViewFlightsGantts.Where(q => /*q.CustomerId == cid &&*/ q.RegisterID != null &&
-            (
-            (q.STDLocal >= dateFrom && q.STDLocal <= dateTo) || (q.DepartureLocal >= dateFrom && q.DepartureLocal <= dateTo)
-            || (q.STALocal >= dateFrom && q.STALocal <= dateTo) || (q.ArrivalLocal >= dateFrom && q.ArrivalLocal <= dateTo)
-            )
-            );
-            int utc = 1;
-            int? doUtc = utc;
-            if (cid != -1)
-                flightsQuery = flightsQuery.Where(q => q.CustomerId == cid);
-
-
-
-            var flights = await flightsQuery.ToListAsync();
-
-
-
-            var grounds = (from x in context.ViewRegisterGrounds
-                           where x.CustomerId == cid &&
-                           (
-                            (dateFrom >= x.DateFrom && dateTo <= x.DateEnd) ||
-                            (x.DateFrom >= dateFrom && x.DateEnd <= dateTo) ||
-
-                            (x.DateFrom >= dateFrom && x.DateFrom <= dateTo) ||
-                            (x.DateEnd >= dateFrom && x.DateEnd <= dateTo)
-                           )
-                           select x).ToList();
-
-            flights = flights.OrderBy(q => q.STD).ToList();
-
-
-            var groundRegs = new List<string>();
-
-            var flightsdto = new List<ViewModels.ViewFlightsGanttDto>();
-            foreach (var x in flights)
+            try
             {
-                ViewModels.ViewFlightsGanttDto dto = new ViewFlightsGanttDto();
-                ViewModels.ViewFlightsGanttDto.FillDto(x, dto, tzoffset, doUtc);
-                flightsdto.Add(dto);
-            }
+                DateTime dateFrom = Helper.BuildDateTimeFromYAFormat(from);
+                DateTime dateTo = Helper.BuildDateTimeFromYAFormat(to);
 
-            var resgroups = from x in flights
-                            group x by new { x.AircraftType, AircraftTypeId = x.TypeId }
-                            into grp
-                            select new { groupId = grp.Key.AircraftTypeId, Title = grp.Key.AircraftType };
+                // var result = await unitOfWork.FlightRepository.GetFlightGanttFleet(cid, dateFrom, dateTo, tzoffset, null, null, 1);
+                //return Ok(result);
+                var context = new ppa_entities();
 
-
-            //change other method
-            var ressq = (from x in flights
-                         group x by new { x.RegisterID, x.Register, x.TypeId }
-                     into grp
-                         //orderby grp.Key.TypeId, grp.Key.Register
-                         // orderby grp.Key.Register.Contains("CNL")?"ZZZZ": grp.Key.Register[grp.Key.Register.Length-1].ToString()
-                         orderby getOrderIndex(grp.Key.Register, groundRegs)
-                         select new { resourceId = grp.Key.RegisterID, resourceName = grp.Key.Register, groupId = grp.Key.TypeId }).ToList();
-            //var ress = ressq.OrderBy(q => q.TypeId).Select((q, i) => new { resourceName = q.Register, groupId = q.TypeId, resourceId = (q.RegisterID >= 0 ? q.RegisterID : -1 * (i + 1)) }).ToList();
-
-            foreach (var x in flightsdto)
-            {
-                //if (x.RegisterID >= 0)
-                x.resourceId.Add((int)x.RegisterID);
-                // else
-                //    x.resourceId.Add((int)ress.First(q => q.resourceName == x.Register).resourceId);
-            }
+                var flightsQuery = context.ViewFlightsGantts.Where(q => /*q.CustomerId == cid &&*/ q.RegisterID != null &&
+                (
+                (q.STDLocal >= dateFrom && q.STDLocal <= dateTo) || (q.DepartureLocal >= dateFrom && q.DepartureLocal <= dateTo)
+                || (q.STALocal >= dateFrom && q.STALocal <= dateTo) || (q.ArrivalLocal >= dateFrom && q.ArrivalLocal <= dateTo)
+                )
+                );
+                int utc = 1;
+                int? doUtc = utc;
+                if (cid != -1)
+                    flightsQuery = flightsQuery.Where(q => q.CustomerId == cid);
 
 
-            var fromAirport = (from x in flights
-                               group x by new { x.FromAirport, x.FromAirportIATA, x.FromAirportName } into g
-                               select new BaseSummary()
-                               {
-                                   BaseId = g.Key.FromAirport,
-                                   BaseIATA = g.Key.FromAirportIATA,
-                                   BaseName = g.Key.FromAirportName,
-                                   Total = g.Count(),
-                                   TakeOff = g.Where(q => q.Takeoff != null).Count(),
-                                   Landing = 0, //g.Where(q => q.Landing != null).Count(),
-                                   Canceled = g.Where(q => q.FlightStatusID == 4).Count(),
-                                   Redirected = g.Where(q => q.FlightStatusID == 17).Count(),
-                                   Diverted = g.Where(q => q.FlightStatusID == 7).Count(),
-                                   TotalDelays = g.Where(q => q.ChocksOut != null).Sum(q => q.DelayOffBlock),
-                                   DepartedPax = g.Where(q => q.Takeoff != null).Sum(q => q.TotalPax),
-                                   ArrivedPax = 0,// g.Where(q => q.Landing != null).Sum(q => q.TotalPax),
 
-                               }).ToList();
-            var toAirport = (from x in flights
-                             group x by new { x.ToAirport, x.ToAirportIATA, x.ToAirportName } into g
-                             select new BaseSummary()
-                             {
-                                 BaseId = g.Key.ToAirport,
-                                 BaseIATA = g.Key.ToAirportIATA,
-                                 BaseName = g.Key.ToAirportName,
-                                 Total = g.Count(),
-                                 TakeOff = 0,//g.Where(q => q.Takeoff != null).Count(),
-                                 Landing = g.Where(q => q.Landing != null).Count(),
-                                 Canceled = 0,//g.Where(q => q.FlightStatusID == 4).Count(),
-                                 Redirected = 0,// g.Where(q => q.FlightStatusID == 17).Count(),
-                                 Diverted = 0,// g.Where(q => q.FlightStatusID == 7).Count(),
-                                 TotalDelays = 0,// g.Where(q => q.ChocksOut != null).Sum(q => q.DelayOffBlock),
-                                 DepartedPax = 0,// g.Where(q => q.Takeoff != null).Sum(q => q.TotalPax),
-                                 ArrivedPax = g.Where(q => q.Landing != null).Sum(q => q.TotalPax),
+                var flights = await flightsQuery.ToListAsync();
 
-                             }).ToList();
 
-            var baseSum = new List<BaseSummary>();
-            foreach (var x in fromAirport)
-            {
-                var _to = toAirport.FirstOrDefault(q => q.BaseId == x.BaseId);
-                if (_to != null)
+
+                var grounds = (from x in context.ViewRegisterGrounds
+                               where x.CustomerId == cid &&
+                               (
+                                (dateFrom >= x.DateFrom && dateTo <= x.DateEnd) ||
+                                (x.DateFrom >= dateFrom && x.DateEnd <= dateTo) ||
+
+                                (x.DateFrom >= dateFrom && x.DateFrom <= dateTo) ||
+                                (x.DateEnd >= dateFrom && x.DateEnd <= dateTo)
+                               )
+                               select x).ToList();
+
+                flights = flights.OrderBy(q => q.STD).ToList();
+
+
+                var groundRegs = new List<string>();
+
+                var flightsdto = new List<ViewModels.ViewFlightsGanttDto>();
+                foreach (var x in flights)
                 {
-                    x.ArrivedPax += _to.ArrivedPax;
-                    x.Canceled += _to.Canceled;
-                    x.DepartedPax += _to.DepartedPax;
-                    x.Diverted += _to.Diverted;
-                    x.Landing += _to.Landing;
-                    x.Redirected += _to.Redirected;
-                    x.TakeOff += _to.TakeOff;
-                    x.Total += _to.Total;
-                    x.TotalDelays += _to.TotalDelays;
-
+                    ViewModels.ViewFlightsGanttDto dto = new ViewFlightsGanttDto();
+                    ViewModels.ViewFlightsGanttDto.FillDto(x, dto, tzoffset, doUtc);
+                    flightsdto.Add(dto);
                 }
 
-                baseSum.Add(x);
+                var resgroups = from x in flights
+                                group x by new { x.AircraftType, AircraftTypeId = x.TypeId }
+                                into grp
+                                select new { groupId = grp.Key.AircraftTypeId, Title = grp.Key.AircraftType };
+
+
+                //change other method
+                var ressq = (from x in flights
+                             group x by new { x.RegisterID, x.Register, x.TypeId }
+                         into grp
+                             //orderby grp.Key.TypeId, grp.Key.Register
+                             // orderby grp.Key.Register.Contains("CNL")?"ZZZZ": grp.Key.Register[grp.Key.Register.Length-1].ToString()
+                             orderby getOrderIndex(grp.Key.Register, groundRegs)
+                             select new { resourceId = grp.Key.RegisterID, resourceName = grp.Key.Register, groupId = grp.Key.TypeId }).ToList();
+                //var ress = ressq.OrderBy(q => q.TypeId).Select((q, i) => new { resourceName = q.Register, groupId = q.TypeId, resourceId = (q.RegisterID >= 0 ? q.RegisterID : -1 * (i + 1)) }).ToList();
+
+                foreach (var x in flightsdto)
+                {
+                    //if (x.RegisterID >= 0)
+                    x.resourceId.Add((int)x.RegisterID);
+                    // else
+                    //    x.resourceId.Add((int)ress.First(q => q.resourceName == x.Register).resourceId);
+                }
+
+
+                var fromAirport = (from x in flights
+                                   group x by new { x.FromAirport, x.FromAirportIATA, x.FromAirportName } into g
+                                   select new BaseSummary()
+                                   {
+                                       BaseId = g.Key.FromAirport,
+                                       BaseIATA = g.Key.FromAirportIATA,
+                                       BaseName = g.Key.FromAirportName,
+                                       Total = g.Count(),
+                                       TakeOff = g.Where(q => q.Takeoff != null).Count(),
+                                       Landing = 0, //g.Where(q => q.Landing != null).Count(),
+                                       Canceled = g.Where(q => q.FlightStatusID == 4).Count(),
+                                       Redirected = g.Where(q => q.FlightStatusID == 17).Count(),
+                                       Diverted = g.Where(q => q.FlightStatusID == 7).Count(),
+                                       TotalDelays = g.Where(q => q.ChocksOut != null).Sum(q => q.DelayOffBlock),
+                                       DepartedPax = g.Where(q => q.Takeoff != null).Sum(q => q.TotalPax),
+                                       ArrivedPax = 0,// g.Where(q => q.Landing != null).Sum(q => q.TotalPax),
+
+                                   }).ToList();
+                var toAirport = (from x in flights
+                                 group x by new { x.ToAirport, x.ToAirportIATA, x.ToAirportName } into g
+                                 select new BaseSummary()
+                                 {
+                                     BaseId = g.Key.ToAirport,
+                                     BaseIATA = g.Key.ToAirportIATA,
+                                     BaseName = g.Key.ToAirportName,
+                                     Total = g.Count(),
+                                     TakeOff = 0,//g.Where(q => q.Takeoff != null).Count(),
+                                     Landing = g.Where(q => q.Landing != null).Count(),
+                                     Canceled = 0,//g.Where(q => q.FlightStatusID == 4).Count(),
+                                     Redirected = 0,// g.Where(q => q.FlightStatusID == 17).Count(),
+                                     Diverted = 0,// g.Where(q => q.FlightStatusID == 7).Count(),
+                                     TotalDelays = 0,// g.Where(q => q.ChocksOut != null).Sum(q => q.DelayOffBlock),
+                                     DepartedPax = 0,// g.Where(q => q.Takeoff != null).Sum(q => q.TotalPax),
+                                     ArrivedPax = g.Where(q => q.Landing != null).Sum(q => q.TotalPax),
+
+                                 }).ToList();
+
+                var baseSum = new List<BaseSummary>();
+                foreach (var x in fromAirport)
+                {
+                    var _to = toAirport.FirstOrDefault(q => q.BaseId == x.BaseId);
+                    if (_to != null)
+                    {
+                        x.ArrivedPax += _to.ArrivedPax;
+                        x.Canceled += _to.Canceled;
+                        x.DepartedPax += _to.DepartedPax;
+                        x.Diverted += _to.Diverted;
+                        x.Landing += _to.Landing;
+                        x.Redirected += _to.Redirected;
+                        x.TakeOff += _to.TakeOff;
+                        x.Total += _to.Total;
+                        x.TotalDelays += _to.TotalDelays;
+
+                    }
+
+                    baseSum.Add(x);
+                }
+
+
+
+
+                var result = new
+                {
+                    flights = flightsdto,
+                    resourceGroups = resgroups.ToList(),
+                    resources = ressq,
+                    baseSummary = baseSum,
+                    grounds,
+                    // fltgroups,
+                    baseDate = DateTime.UtcNow,
+                };
+                return Ok(result);
+
+
+                ///////////////////////
+                ///////////////////////
+                //////////////////////
             }
-
-
-
-
-            var result = new
+            catch(Exception ex)
             {
-                flights = flightsdto,
-                resourceGroups = resgroups.ToList(),
-                resources = ressq,
-                baseSummary = baseSum,
-                grounds,
-                // fltgroups,
-                baseDate = DateTime.UtcNow,
-            };
-            return Ok(result);
-
-
-            ///////////////////////
-            ///////////////////////
-            //////////////////////
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   INNER:  " + ex.InnerException.Message;
+                return Ok(msg);
+            }
+            
         }
 
         [Route("api/plan/flights")]
@@ -1074,7 +1091,7 @@ namespace ApiLog.Controllers
                 var std = stdLocal.AddMinutes(stdOffset);
                 var sta = staLocal.AddMinutes(staOffset);
 
-                if (sta > std && (sta-std).TotalHours<12)
+                if (sta > std && (sta - std).TotalHours < 12)
                 {
                     flight.STD = std;
                     flight.ChocksOut = std;
@@ -1088,7 +1105,7 @@ namespace ApiLog.Controllers
 
                     context.FlightInformations.Add(flight);
                 }
-                
+
             }
 
             foreach (var rec in edited)
