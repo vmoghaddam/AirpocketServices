@@ -22,6 +22,7 @@ namespace ApiFDM.Controllers
         public DataResponse GetFDM(int yf, int yt)
         {
             // var context = new dbEntities();
+            //sdfsdf
             List<int> years = new List<int>();
             List<ViewFDM> result = new List<ViewFDM>();
 
@@ -80,7 +81,7 @@ namespace ApiFDM.Controllers
                 record.Removed = true;
                 record.Approved = false;
                 var result = context.ViewFDMs.Single(q => q.Id == rowId);
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
                 return new DataResponse()
                 {
                     IsSuccess = true,
