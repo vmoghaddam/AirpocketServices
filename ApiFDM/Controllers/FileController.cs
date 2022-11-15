@@ -68,7 +68,7 @@ namespace ApiFDM.Controllers
 
             try
             {
-                var query = from x in excelFile.UrlConnexion.WorksheetNoHeader("EVENTS")
+                var query = from x in excelFile.UrlConnexion.WorksheetNoHeader(0)
                             select x;
 
                 var rows = query.ToList();
@@ -231,7 +231,7 @@ namespace ApiFDM.Controllers
             {
 
 
-                var query = from x in excelFile.UrlConnexion.WorksheetNoHeader("EVENTS")
+                var query = from x in excelFile.UrlConnexion.WorksheetNoHeader(0)
                             select x;
 
                 var rows = query.ToList();
