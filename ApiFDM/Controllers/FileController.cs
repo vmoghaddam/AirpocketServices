@@ -93,7 +93,7 @@ namespace ApiFDM.Controllers
                     //flight.IP = row[11];
                     //flight.P1 = row[12];
                     //flight.P2 = row[13];
-                    flight.Aircraft = row[1];
+                    flight.Aircraft = row[11];
                     flight.FlightPhase = row[12];
                     flight.StateName = row[13];
                     flight.Context = row[14];
@@ -472,43 +472,43 @@ namespace ApiFDM.Controllers
 
 
 
-        [HttpGet]
-        [Route("api/import/excel/{fn}")]
-        public async Task<List<string>> importExcel(string fn)
-        {
+        //[HttpGet]
+        //[Route("api/import/excel/{fn}")]
+        //public async Task<List<string>> importExcel(string fn)
+        //{
 
-            string LData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiIHN0YW5kYWxvbmU9InllcyI/Pg0KPExpY2Vuc2UgS2V5PSJjcjhEWjdYSjJEeTFLNlFCQU5ET0lUS3ZaY082ZHpVaHdpbEhwZ1ZZbkN5NHF5R1dlekxWbmxSRnhQMTVNZklmZ1JnTVptV2hHTkFkRTRUamVmZ0NaL2xUdm9QZEl0SGw2V3Q1QTVpNU1YRW5xZEJ1TzFLYUZ6L0RRc2FHVkxoc3Y5ckhtcm50cUhJRURsSXhkcWFKTXBrS29Ba3dQN3dTek9NSjFZK21DZlU1VUZlekRML043dXpyeDNGNHdiNUhhK3dBNlRUOVRSd0swM3o5RUtNWkZsM1NZUi96NGFVN0xNMGRTWFk5alNGSmdnamZWc0RVS2lCclZubXdZY2l1cjlFa2JsOUN0WlkwM3RtcmZtNUJaZSs2Z2h0RU5uMG9oMzM4dFpSZXlqY3I3NEFrNzFoZ1lrbkxPQkMxNVZZZmpYc3F1QVVtdzJSNk1jVjJQT09icmNUUmJYQWd6b1FiT3lkOFNiRVpjd2hONzZLUHdXc1FRUzFKMHRpWUhVS3hPbTJ0NGZCVjBoUFZoYTlCOGNLMDRxSlFadDAwWjFjSkRhMHdiOFVsekVrOUJIVVcyZW5PZlQxNFJ5SENpK1lHZW1QS2NkQ1FyaDF6cllURjdJbW9MeDd4dTRldkRUWXNsc1dCa2xRSW94ODZyVnJFVWtTdHVxK0FDU1kvcVUzOS9WYXd2OUtBZlI1VGVFYnBrd0RoU2IwTkJBalQ4QXl0bERWZEdmaWcwcUtHM1ZZaVRwWEZ3NXB0TFZoK2JrZCtkZzd2eHR2cjQ1WlVXSmV5cnpHTkdIN2FGWWQ2cC8yTUcvWEpUbEd6L1NOUW8yQ1BMa2lPN0pYbjlOR2V4WjdwSG0wZGd6TVpiR0VYcVZkdmxtODEyYS9YTDFTcXhHVVkrbzVabFVDN1k1eGdnYUQrRmVQOXp6aHlKcUlFcHA5NzMvUnE0bXhtcEFmTHFTc08yUnh5U3EraXYxQ3NwMENybzA3ODhIcmwxbXlreHVUMHlkUllaQzZEU3g4TTIvTFkzZDlzbnd1NzZBZmI1QzlRdWRPWXNMM0RIdmhmZ3JjVUllL3FIZlRaOUFhemN6VGp5cjNkT0JBY3MwS2ZNdmNMVVM0Unh2Q3VtTTQ1cjQyZzFyd1BpbjdiQXJmL2ZzTE82bUt4NFlkaElETVpReld0Y25IRUkxeU1yemlPaXV4THRPMWpUQVdublNlS1QydHFyN05uNkJoOU1ERzY2WStpSWluMVdOU1ArTHQxWHV0ZGozSk8reG9RTVFQeWRaaGZCWGV6VTBIUTJ3dHhHcHc0TXM0UzE1SWxYNUxHV0d3V3lHWE1jY1Vnd29UQ3hURmJoMmRaNFZINzlWR0xFRUdSUVhGazU0QXZRS3RQaXVHMWNMOERaN1hKMkR5MUs2VFFlTkRPWHhZdjRTb3orQjBzQUtFcE1UazQrU2FqWDZLK0o5VDhYWVV0UzhPMFlmRlBWamZISGE2TkVkMjg3VXFJajJyZ0JRdW41Q1d4QnMxR1JuQWJndWdzMi9mUGpHMGZnUHpnUmM0eUN2TmxYOFdqSlJ5aHN1OVRUSk43dUdzTnZ6a1NiMmVpckJoRGhtb0NCamtMMmJzM09yNndqZzZwVDVaZjRoRHQxdEkwSTV6NWsrcUF1UmZ0YXdZZmpoV2JqTEtMSjk5VFZNZEQ2WkwrU3pzbUJDVjdOZWJveldEVE1oK0ZyT09vdkdPWW1JNW1qeEpndTFUVzZyNVdCVCtqMUowRTZiSG9rRDFqNFptQ1lEK3lQT1FtTzJtclEzRnQvY1ZmcEFpSXc5YkZIMGdRSG10OEJzbmZ0NjFVd3NYenErNmpDb2NYTjlDL0V2T25YU3M2blZTRkpFQS95dUJjSGs2cTlnampwZ0RtTUxHKzZacUdVY0VjM2RKdkx6bit6TU9Kd0wyOFlEMTdwS0lwVDZ3elhQRVRScFkvajR4aDJEL2hYSUVTR3E5NXk1ZmRPTDZsdUE9PSIgVmVyc2lvbj0iOS45Ij4NCiAgICA8VHlwZT5SdW50aW1lPC9UeXBlPg0KICAgIDxVc2VybmFtZT5Vc2VyTmFtZTwvVXNlcm5hbWU+DQogICAgPEVtYWlsPmVNYWlsQGhvc3QuY29tPC9FbWFpbD4NCiAgICA8T3JnYW5pemF0aW9uPk9yZ2FuaXphdGlvbjwvT3JnYW5pemF0aW9uPg0KICAgIDxMaWNlbnNlZERhdGU+MjAxNi0wMS0wMVQxMjowMDowMFo8L0xpY2Vuc2VkRGF0ZT4NCiAgICA8RXhwaXJlZERhdGU+MjA5OS0xMi0zMVQxMjowMDowMFo8L0V4cGlyZWREYXRlPg0KICAgIDxQcm9kdWN0cz4NCiAgICAgICAgPFByb2R1Y3Q+DQogICAgICAgICAgICA8TmFtZT5TcGlyZS5PZmZpY2UgUGxhdGludW08L05hbWU+DQogICAgICAgICAgICA8VmVyc2lvbj45Ljk5PC9WZXJzaW9uPg0KICAgICAgICAgICAgPFN1YnNjcmlwdGlvbj4NCiAgICAgICAgICAgICAgICA8TnVtYmVyT2ZQZXJtaXR0ZWREZXZlbG9wZXI+OTk5OTk8L051bWJlck9mUGVybWl0dGVkRGV2ZWxvcGVyPg0KICAgICAgICAgICAgICAgIDxOdW1iZXJPZlBlcm1pdHRlZFNpdGU+OTk5OTk8L051bWJlck9mUGVybWl0dGVkU2l0ZT4NCiAgICAgICAgICAgIDwvU3Vic2NyaXB0aW9uPg0KICAgICAgICA8L1Byb2R1Y3Q+DQogICAgPC9Qcm9kdWN0cz4NCiAgICA8SXNzdWVyPg0KICAgICAgICA8TmFtZT5Jc3N1ZXI8L05hbWU+DQogICAgICAgIDxFbWFpbD5pc3N1ZXJAaXNzdWVyLmNvbTwvRW1haWw+DQogICAgICAgIDxVcmw+aHR0cDovL3d3dy5pc3N1ZXIuY29tPC9Vcmw+DQogICAgPC9Jc3N1ZXI+DQo8L0xpY2Vuc2U+";
-            Spire.License.LicenseProvider.SetLicenseKey(LData);
-            var context = new dbEntities();
+        //    string LData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiIHN0YW5kYWxvbmU9InllcyI/Pg0KPExpY2Vuc2UgS2V5PSJjcjhEWjdYSjJEeTFLNlFCQU5ET0lUS3ZaY082ZHpVaHdpbEhwZ1ZZbkN5NHF5R1dlekxWbmxSRnhQMTVNZklmZ1JnTVptV2hHTkFkRTRUamVmZ0NaL2xUdm9QZEl0SGw2V3Q1QTVpNU1YRW5xZEJ1TzFLYUZ6L0RRc2FHVkxoc3Y5ckhtcm50cUhJRURsSXhkcWFKTXBrS29Ba3dQN3dTek9NSjFZK21DZlU1VUZlekRML043dXpyeDNGNHdiNUhhK3dBNlRUOVRSd0swM3o5RUtNWkZsM1NZUi96NGFVN0xNMGRTWFk5alNGSmdnamZWc0RVS2lCclZubXdZY2l1cjlFa2JsOUN0WlkwM3RtcmZtNUJaZSs2Z2h0RU5uMG9oMzM4dFpSZXlqY3I3NEFrNzFoZ1lrbkxPQkMxNVZZZmpYc3F1QVVtdzJSNk1jVjJQT09icmNUUmJYQWd6b1FiT3lkOFNiRVpjd2hONzZLUHdXc1FRUzFKMHRpWUhVS3hPbTJ0NGZCVjBoUFZoYTlCOGNLMDRxSlFadDAwWjFjSkRhMHdiOFVsekVrOUJIVVcyZW5PZlQxNFJ5SENpK1lHZW1QS2NkQ1FyaDF6cllURjdJbW9MeDd4dTRldkRUWXNsc1dCa2xRSW94ODZyVnJFVWtTdHVxK0FDU1kvcVUzOS9WYXd2OUtBZlI1VGVFYnBrd0RoU2IwTkJBalQ4QXl0bERWZEdmaWcwcUtHM1ZZaVRwWEZ3NXB0TFZoK2JrZCtkZzd2eHR2cjQ1WlVXSmV5cnpHTkdIN2FGWWQ2cC8yTUcvWEpUbEd6L1NOUW8yQ1BMa2lPN0pYbjlOR2V4WjdwSG0wZGd6TVpiR0VYcVZkdmxtODEyYS9YTDFTcXhHVVkrbzVabFVDN1k1eGdnYUQrRmVQOXp6aHlKcUlFcHA5NzMvUnE0bXhtcEFmTHFTc08yUnh5U3EraXYxQ3NwMENybzA3ODhIcmwxbXlreHVUMHlkUllaQzZEU3g4TTIvTFkzZDlzbnd1NzZBZmI1QzlRdWRPWXNMM0RIdmhmZ3JjVUllL3FIZlRaOUFhemN6VGp5cjNkT0JBY3MwS2ZNdmNMVVM0Unh2Q3VtTTQ1cjQyZzFyd1BpbjdiQXJmL2ZzTE82bUt4NFlkaElETVpReld0Y25IRUkxeU1yemlPaXV4THRPMWpUQVdublNlS1QydHFyN05uNkJoOU1ERzY2WStpSWluMVdOU1ArTHQxWHV0ZGozSk8reG9RTVFQeWRaaGZCWGV6VTBIUTJ3dHhHcHc0TXM0UzE1SWxYNUxHV0d3V3lHWE1jY1Vnd29UQ3hURmJoMmRaNFZINzlWR0xFRUdSUVhGazU0QXZRS3RQaXVHMWNMOERaN1hKMkR5MUs2VFFlTkRPWHhZdjRTb3orQjBzQUtFcE1UazQrU2FqWDZLK0o5VDhYWVV0UzhPMFlmRlBWamZISGE2TkVkMjg3VXFJajJyZ0JRdW41Q1d4QnMxR1JuQWJndWdzMi9mUGpHMGZnUHpnUmM0eUN2TmxYOFdqSlJ5aHN1OVRUSk43dUdzTnZ6a1NiMmVpckJoRGhtb0NCamtMMmJzM09yNndqZzZwVDVaZjRoRHQxdEkwSTV6NWsrcUF1UmZ0YXdZZmpoV2JqTEtMSjk5VFZNZEQ2WkwrU3pzbUJDVjdOZWJveldEVE1oK0ZyT09vdkdPWW1JNW1qeEpndTFUVzZyNVdCVCtqMUowRTZiSG9rRDFqNFptQ1lEK3lQT1FtTzJtclEzRnQvY1ZmcEFpSXc5YkZIMGdRSG10OEJzbmZ0NjFVd3NYenErNmpDb2NYTjlDL0V2T25YU3M2blZTRkpFQS95dUJjSGs2cTlnampwZ0RtTUxHKzZacUdVY0VjM2RKdkx6bit6TU9Kd0wyOFlEMTdwS0lwVDZ3elhQRVRScFkvajR4aDJEL2hYSUVTR3E5NXk1ZmRPTDZsdUE9PSIgVmVyc2lvbj0iOS45Ij4NCiAgICA8VHlwZT5SdW50aW1lPC9UeXBlPg0KICAgIDxVc2VybmFtZT5Vc2VyTmFtZTwvVXNlcm5hbWU+DQogICAgPEVtYWlsPmVNYWlsQGhvc3QuY29tPC9FbWFpbD4NCiAgICA8T3JnYW5pemF0aW9uPk9yZ2FuaXphdGlvbjwvT3JnYW5pemF0aW9uPg0KICAgIDxMaWNlbnNlZERhdGU+MjAxNi0wMS0wMVQxMjowMDowMFo8L0xpY2Vuc2VkRGF0ZT4NCiAgICA8RXhwaXJlZERhdGU+MjA5OS0xMi0zMVQxMjowMDowMFo8L0V4cGlyZWREYXRlPg0KICAgIDxQcm9kdWN0cz4NCiAgICAgICAgPFByb2R1Y3Q+DQogICAgICAgICAgICA8TmFtZT5TcGlyZS5PZmZpY2UgUGxhdGludW08L05hbWU+DQogICAgICAgICAgICA8VmVyc2lvbj45Ljk5PC9WZXJzaW9uPg0KICAgICAgICAgICAgPFN1YnNjcmlwdGlvbj4NCiAgICAgICAgICAgICAgICA8TnVtYmVyT2ZQZXJtaXR0ZWREZXZlbG9wZXI+OTk5OTk8L051bWJlck9mUGVybWl0dGVkRGV2ZWxvcGVyPg0KICAgICAgICAgICAgICAgIDxOdW1iZXJPZlBlcm1pdHRlZFNpdGU+OTk5OTk8L051bWJlck9mUGVybWl0dGVkU2l0ZT4NCiAgICAgICAgICAgIDwvU3Vic2NyaXB0aW9uPg0KICAgICAgICA8L1Byb2R1Y3Q+DQogICAgPC9Qcm9kdWN0cz4NCiAgICA8SXNzdWVyPg0KICAgICAgICA8TmFtZT5Jc3N1ZXI8L05hbWU+DQogICAgICAgIDxFbWFpbD5pc3N1ZXJAaXNzdWVyLmNvbTwvRW1haWw+DQogICAgICAgIDxVcmw+aHR0cDovL3d3dy5pc3N1ZXIuY29tPC9Vcmw+DQogICAgPC9Jc3N1ZXI+DQo8L0xpY2Vuc2U+";
+        //    Spire.License.LicenseProvider.SetLicenseKey(LData);
+        //    var context = new dbEntities();
 
-            var fileExist = context.FDMs.Where(q => q.FileName == fn).ToList();
-            foreach (var x in fileExist)
-            {
-                context.FDMs.Remove(x);
-            }
-            context.SaveChanges();
+        //    var fileExist = context.FDMs.Where(q => q.FileName == fn).ToList();
+        //    foreach (var x in fileExist)
+        //    {
+        //        context.FDMs.Remove(x);
+        //    }
+        //    context.SaveChanges();
 
-            List<string> eventName = new List<string>();
-            Workbook newBook = new Workbook();
-            Worksheet worksheet = newBook.Worksheets[0];
+        //    List<string> eventName = new List<string>();
+        //    Workbook newBook = new Workbook();
+        //    Worksheet worksheet = newBook.Worksheets[0];
 
-            Workbook workbook = new Workbook();
-            var path = HostingEnvironment.MapPath("~/upload");
-            var dir = Path.Combine(path, fn + ".xlsx");
-            workbook.LoadFromFile(dir);
+        //    Workbook workbook = new Workbook();
+        //    var path = HostingEnvironment.MapPath("~/upload");
+        //    var dir = Path.Combine(path, fn + ".xlsx");
+        //    workbook.LoadFromFile(dir);
 
-            Worksheet sheet = workbook.Worksheets[0];
+        //    Worksheet sheet = workbook.Worksheets[0];
 
-            for (int i = 1; i < sheet.Rows.Count(); i++)
-            {
-                for (int j = 1; j < sheet.Columns.Count(); j++)
-                {
-                    eventName.Add(sheet.Range[i, j].DisplayedText);
-                }
-            }
+        //    for (int i = 1; i < sheet.Rows.Count(); i++)
+        //    {
+        //        for (int j = 1; j < sheet.Columns.Count(); j++)
+        //        {
+        //            eventName.Add(sheet.Range[i, j].DisplayedText);
+        //        }
+        //    }
 
-            return eventName;
-        }
+        //    return eventName;
+        //}
 
         public string Trim(string x)
         {
