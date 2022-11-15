@@ -5,6 +5,20 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ppa_vareshModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BulkMsg">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="500" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="500" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="Mobile" Type="varchar" MaxLength="255" />
+          <Property Name="DateSent" Type="datetime2" Precision="7" />
+          <Property Name="RefId" Type="bigint" />
+          <Property Name="Message" Type="varchar" MaxLength="2000" />
+          <Property Name="Status" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="MVT">
           <Key>
             <PropertyRef Name="Id" />
@@ -255,6 +269,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
           <Property Name="DateLocal" Type="date" />
         </EntityType>
         <EntityContainer Name="ppa_vareshModelStoreContainer">
+          <EntitySet Name="BulkMsg" EntityType="Self.BulkMsg" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MVT" EntityType="Self.MVT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MVTAPI" EntityType="Self.MVTAPI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NiraHistory" EntityType="Self.NiraHistory" Schema="dbo" store:Type="Tables" />
@@ -605,6 +620,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
           <EntitySet Name="ViewFlightDelayCodes" EntityType="ppa_vareshModel.ViewFlightDelayCode" />
           <EntitySet Name="NiraHistories" EntityType="ppa_vareshModel.NiraHistory" />
           <EntitySet Name="ViewNiraFlights" EntityType="ppa_vareshModel.ViewNiraFlight" />
+          <EntitySet Name="BulkMsgs" EntityType="ppa_vareshModel.BulkMsg" />
         </EntityContainer>
         <EntityType Name="ViewFlightDelayCode">
           <Key>
@@ -668,6 +684,20 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
           <Property Name="ArrivalLocal" Type="DateTime" Precision="3" />
           <Property Name="DateUTC" Type="DateTime" Precision="0" />
           <Property Name="DateLocal" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="BulkMsg">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateSent" Type="DateTime" Precision="7" />
+          <Property Name="RefId" Type="Int64" />
+          <Property Name="Message" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -908,6 +938,21 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
                 <ScalarProperty Name="Register" ColumnName="Register" />
                 <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BulkMsgs">
+            <EntityTypeMapping TypeName="ppa_vareshModel.BulkMsg">
+              <MappingFragment StoreEntitySet="BulkMsg">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="RefId" ColumnName="RefId" />
+                <ScalarProperty Name="DateSent" ColumnName="DateSent" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

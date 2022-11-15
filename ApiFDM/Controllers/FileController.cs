@@ -196,10 +196,13 @@ namespace ApiFDM.Controllers
             }
             catch (Exception ex)
             {
-
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += " INNSER: " + ex.InnerException.Message;
                 var exist = new FailedItmes();
                 exist.Status = 500;
                 exist.FileName = fn;
+                exist.Message = msg;
                 var inner = ex.ToString();
                 failedItems.Add(exist);
                 return failedItems;

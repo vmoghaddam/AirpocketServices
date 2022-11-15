@@ -31,5 +31,6 @@ namespace ApiMSG.Models
         public virtual DbSet<ViewFlightDelayCode> ViewFlightDelayCodes { get; set; }
         public virtual DbSet<NiraHistory> NiraHistories { get; set; }
         public virtual DbSet<ViewNiraFlight> ViewNiraFlights { get; set; }
+        public virtual DbSet<BulkMsg> BulkMsgs { get; set; }
     }
 }
