@@ -132,7 +132,7 @@ namespace ApiFDM.Models
 
                 if (DateTime.TryParse(TODatetime, out DateTime y))
                 {
-                    result = y;
+                    result = y.Date;
                 }
                 else
                 {
@@ -148,7 +148,7 @@ namespace ApiFDM.Models
             {
 
                 string result = null;
-                if (Severity == "High" || Severity == "high" ||  Severity == "Critical" || Severity == "critical")
+                if (Severity == "High" || Severity == "high" || Severity == "Critical" || Severity == "critical")
                     result = "High";
                 else if (Severity == "Medium" || Severity == "medium" || Severity == "Major" || Severity == "major")
                     result = "Medium";
@@ -252,15 +252,60 @@ namespace ApiFDM.Models
 
 
                 //   var _date = Date.Length == 9 ? "20" + Date : Date;
-
-                if (DateTime.TryParse(Date, out DateTime y))
+                try
                 {
-                    result = y;
+                    var split = Date.Split('-');
+                    var month = 0;
+                    switch (split[1])
+                    {
+                        case "Jan":
+                            month = 1;
+                            break;
+                        case "Feb":
+                            month = 2;
+                            break;
+                        case "Mar":
+                            month = 3;
+                            break;
+                        case "Apr":
+                            month = 4;
+                            break;
+                        case "May":
+                            month = 5;
+                            break;
+                        case "Jun":
+                            month = 6;
+                            break;
+                        case "Jul":
+                            month = 7;
+                            break;
+                        case "Aug":
+                            month = 8;
+                            break;
+                        case "Sep":
+                            month = 9;
+                            break;
+                        case "Oct":
+                            month = 10;
+                            break;
+                        case "Nov":
+                            month = 11;
+                            break;
+                        case "Dec":
+                            month = 12;
+                            break;
+
+                    }
+
+                    result = new DateTime( 2000 + Int32.Parse(split[0]), month, Int32.Parse(split[2]));
+
                 }
-                else
+                catch (Exception ex)
                 {
                     result = null;
                 }
+
+
                 return result;
             }
         }
