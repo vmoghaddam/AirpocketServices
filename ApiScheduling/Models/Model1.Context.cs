@@ -26,5 +26,6 @@ namespace ApiScheduling.Models
         }
     
         public virtual DbSet<FDP> FDPs { get; set; }
+        public virtual DbSet<ViewFDPLog> ViewFDPLogs { get; set; }
     }
 }

@@ -66,11 +66,37 @@
           <Property Name="FX" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.AppCrewFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.AppLeg' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewFDPLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FDPId" Type="int" />
+          <Property Name="CrewId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="DutyType" Type="int" />
+          <Property Name="DateStart" Type="datetime" />
+          <Property Name="DateEnd" Type="datetime" />
+          <Property Name="InitStart" Type="datetime" />
+          <Property Name="InitEnd" Type="datetime" />
+          <Property Name="InitRestTo" Type="datetime" />
+          <Property Name="InitFlts" Type="varchar" MaxLength="500" />
+          <Property Name="InitRoute" Type="varchar" MaxLength="500" />
+          <Property Name="InitFromIATA" Type="varchar" MaxLength="500" />
+          <Property Name="InitToIATA" Type="varchar" MaxLength="500" />
+          <Property Name="InitNo" Type="varchar" MaxLength="500" />
+          <Property Name="InitKey" Type="varchar" MaxLength="500" />
+          <Property Name="InitRank" Type="varchar" MaxLength="500" />
+          <Property Name="InitFlights" Type="varchar" MaxLength="500" />
+          <Property Name="CanceledNo" Type="varchar" MaxLength="500" />
+          <Property Name="CanceledRoute" Type="varchar" MaxLength="255" />
+          <Property Name="DateConfirmed" Type="datetime" />
+          <Property Name="ConfirmedBy" Type="varchar" MaxLength="500" />
+          <Property Name="UserName" Type="varchar" MaxLength="500" />
+          <Property Name="Action" Type="varchar" MaxLength="255" />
+          <Property Name="DateAction" Type="datetime" />
+        </EntityType>
         <Association Name="fk_fdp_fdp">
           <End Role="FDP" Type="Self.FDP" Multiplicity="0..1" />
           <End Role="FDP1" Type="Self.FDP" Multiplicity="*" />
@@ -85,6 +111,35 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primar
         </Association>
         <EntityContainer Name="dbModelStoreContainer">
           <EntitySet Name="FDP" EntityType="Self.FDP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewFDPLog" EntityType="Self.ViewFDPLog" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewFDPLog].[Id] AS [Id], 
+    [ViewFDPLog].[FDPId] AS [FDPId], 
+    [ViewFDPLog].[CrewId] AS [CrewId], 
+    [ViewFDPLog].[Name] AS [Name], 
+    [ViewFDPLog].[DutyType] AS [DutyType], 
+    [ViewFDPLog].[DateStart] AS [DateStart], 
+    [ViewFDPLog].[DateEnd] AS [DateEnd], 
+    [ViewFDPLog].[InitStart] AS [InitStart], 
+    [ViewFDPLog].[InitEnd] AS [InitEnd], 
+    [ViewFDPLog].[InitRestTo] AS [InitRestTo], 
+    [ViewFDPLog].[InitFlts] AS [InitFlts], 
+    [ViewFDPLog].[InitRoute] AS [InitRoute], 
+    [ViewFDPLog].[InitFromIATA] AS [InitFromIATA], 
+    [ViewFDPLog].[InitToIATA] AS [InitToIATA], 
+    [ViewFDPLog].[InitNo] AS [InitNo], 
+    [ViewFDPLog].[InitKey] AS [InitKey], 
+    [ViewFDPLog].[InitRank] AS [InitRank], 
+    [ViewFDPLog].[InitFlights] AS [InitFlights], 
+    [ViewFDPLog].[CanceledNo] AS [CanceledNo], 
+    [ViewFDPLog].[CanceledRoute] AS [CanceledRoute], 
+    [ViewFDPLog].[DateConfirmed] AS [DateConfirmed], 
+    [ViewFDPLog].[ConfirmedBy] AS [ConfirmedBy], 
+    [ViewFDPLog].[UserName] AS [UserName], 
+    [ViewFDPLog].[Action] AS [Action], 
+    [ViewFDPLog].[DateAction] AS [DateAction]
+    FROM [dbo].[ViewFDPLog] AS [ViewFDPLog]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="fk_fdp_fdp" Association="Self.fk_fdp_fdp">
             <End Role="FDP" EntitySet="FDP" />
             <End Role="FDP1" EntitySet="FDP" />
@@ -100,6 +155,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primar
             <End Role="FDP" EntitySet="FDPs" />
             <End Role="FDP1" EntitySet="FDPs" />
           </AssociationSet>
+          <EntitySet Name="ViewFDPLogs" EntityType="dbModel.ViewFDPLog" />
         </EntityContainer>
         <EntityType Name="FDP">
           <Key>
@@ -175,6 +231,36 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ViewFDPLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FDPId" Type="Int32" />
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="DutyType" Type="Int32" />
+          <Property Name="DateStart" Type="DateTime" Precision="3" />
+          <Property Name="DateEnd" Type="DateTime" Precision="3" />
+          <Property Name="InitStart" Type="DateTime" Precision="3" />
+          <Property Name="InitEnd" Type="DateTime" Precision="3" />
+          <Property Name="InitRestTo" Type="DateTime" Precision="3" />
+          <Property Name="InitFlts" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitRoute" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitFromIATA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitToIATA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitKey" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitRank" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitFlights" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CanceledNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CanceledRoute" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Action" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateAction" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -238,6 +324,37 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primar
                 <ScalarProperty Name="DelayedReportingTime" ColumnName="DelayedReportingTime" />
                 <ScalarProperty Name="ReportingTime" ColumnName="ReportingTime" />
                 <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewFDPLogs">
+            <EntityTypeMapping TypeName="dbModel.ViewFDPLog">
+              <MappingFragment StoreEntitySet="ViewFDPLog">
+                <ScalarProperty Name="DateAction" ColumnName="DateAction" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ConfirmedBy" ColumnName="ConfirmedBy" />
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="CanceledRoute" ColumnName="CanceledRoute" />
+                <ScalarProperty Name="CanceledNo" ColumnName="CanceledNo" />
+                <ScalarProperty Name="InitFlights" ColumnName="InitFlights" />
+                <ScalarProperty Name="InitRank" ColumnName="InitRank" />
+                <ScalarProperty Name="InitKey" ColumnName="InitKey" />
+                <ScalarProperty Name="InitNo" ColumnName="InitNo" />
+                <ScalarProperty Name="InitToIATA" ColumnName="InitToIATA" />
+                <ScalarProperty Name="InitFromIATA" ColumnName="InitFromIATA" />
+                <ScalarProperty Name="InitRoute" ColumnName="InitRoute" />
+                <ScalarProperty Name="InitFlts" ColumnName="InitFlts" />
+                <ScalarProperty Name="InitRestTo" ColumnName="InitRestTo" />
+                <ScalarProperty Name="InitEnd" ColumnName="InitEnd" />
+                <ScalarProperty Name="InitStart" ColumnName="InitStart" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

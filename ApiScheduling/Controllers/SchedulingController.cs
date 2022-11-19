@@ -54,6 +54,24 @@ namespace ApiScheduling.Controllers
             // return new DataResponse() { IsSuccess = false };
         }
 
+        [Route("api/fdp/log")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetFDPLog(DateTime dt,DateTime df)
+        {
+            var _context = new Models.dbEntities();
+            var _dt = dt.Date.AddDays(1);
+            var _df = df.Date;
+
+            var query = from x in _context.ViewFDPLogs
+                        where x.DateAction>=_df && x.DateAction<=_dt
+                        select x;
+
+            var result =await query.OrderBy(q => q.DateAction).ToListAsync();
+            return Ok(result);
+
+            // return new DataResponse() { IsSuccess = false };
+        }
+
 
         [Route("api/event/group/save")]
         [AcceptVerbs("POST")]

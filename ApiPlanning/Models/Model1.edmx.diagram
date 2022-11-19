@@ -4,8 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="18fa3a57b6a1461ea0ecbc61a4f670b4" Name="Diagram1" ZoomLevel="24">
+      <Diagram DiagramId="18fa3a57b6a1461ea0ecbc61a4f670b4" Name="Diagram1" ZoomLevel="12">
         <EntityTypeShape EntityType="dbModel.FlightInformation" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.ViewFlightsGantt" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.ViewLegTime" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.ViewFlightInformation" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.FlightChangeHistory" Width="1.5" PointX="9.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

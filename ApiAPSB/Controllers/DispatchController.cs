@@ -116,6 +116,104 @@ namespace ApiAPSB.Controllers
 
         }
 
+        [Route("api/atc/text/get/{id}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetImportATCTextGET(int id)
+        {
+
+            var context = new Models.dbEntities();
+             
+
+            var flightObj = context.FlightInformations.FirstOrDefault(q => q.ID == id);
+
+
+            return Ok(flightObj.ATCPlan);
+        }
+
+
+        [Route("api/upload/atc/flightplan")]
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> UploadATCFLIGHPLAN()
+        {
+            try
+            {
+                IHttpActionResult outPut = Ok(200);
+
+                string key = string.Empty;
+                var httpRequest = HttpContext.Current.Request;
+                if (httpRequest.Files.Count > 0)
+                {
+                    var docfiles = new List<string>();
+                    foreach (string file in httpRequest.Files)
+                    {
+                        var postedFile = httpRequest.Files[file];
+                        var date = DateTime.Now;
+                        var ext = System.IO.Path.GetExtension(postedFile.FileName);
+                        key = "atc-" + date.Year.ToString() + date.Month.ToString() + date.Day.ToString() + date.Hour.ToString() + date.Minute.ToString() + date.Second.ToString() + ext;
+
+                        var filePath = ConfigurationManager.AppSettings["atc"] + key; //HttpContext.Current.Server.MapPath("~/upload/" + key);
+                        postedFile.SaveAs(filePath);
+                        docfiles.Add(filePath);
+                    }
+                    // outPut = (await ImportFlights2(key));
+                    // var ctrl = new FlightController();
+                    //  outPut = await ctrl.UploadFlights3(key);
+                    outPut = Ok(key);
+
+                }
+                else
+                {
+                    return Ok("error");
+                }
+                return outPut;
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message + "   IN    " + (ex.InnerException != null ? ex.InnerException.Message : ""));
+            }
+
+        }
+        [Route("api/flight/atc/update/{id}/{fn}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetATcUpdate(int id, string fn)
+        {
+            var context = new Models.dbEntities();
+            try
+            {
+                var flt = context.FlightInformations.FirstOrDefault(q => q.ID == id);
+                if (flt != null)
+                    flt.ATCPlan = fn.Split('X')[0] + "." + fn.Split('X')[1]; //".pdf";
+                context.SaveChanges();
+                return Ok("done");
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message + " IN:" + (ex.InnerException != null ? ex.InnerException.Message : "NO");
+                return Ok(msg);
+            }
+
+        }
+
+
+        [Route("api/atc/text/input")]
+        [AcceptVerbs("POST")]
+        public IHttpActionResult PostImportATCTextInput(dynamic dto)
+        {
+            string user = Convert.ToString(dto.user);
+            int fltId = Convert.ToInt32(dto.fltId);
+            var context = new Models.dbEntities();
+
+            var flight = context.ViewLegTimes.FirstOrDefault(q => q.ID == fltId);
+            var flightObj = context.FlightInformations.FirstOrDefault(q => q.ID == fltId);
+
+            string ftext = Convert.ToString(dto.text);
+            flightObj.ATCPlan = ftext;
+            context.SaveChanges();
+            return Ok(true);
+        }
+
+       
+
 
         [Route("api/dr/test1/{fltid}")]
         [AcceptVerbs("GET")]

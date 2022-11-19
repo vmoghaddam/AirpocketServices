@@ -72,7 +72,7 @@ namespace ApiFDM.Controllers
                 var event_sheet = names.Where(q => q.ToUpper().Contains("EVENT")).FirstOrDefault();
                 if (string.IsNullOrEmpty(event_sheet))
                     event_sheet = names.First();
-                var query = from x in excelFile.UrlConnexion.WorksheetNoHeader(0)
+                var query = from x in excelFile.UrlConnexion.WorksheetNoHeader(event_sheet)
                             select x;
 
                 var rows = query.ToList();

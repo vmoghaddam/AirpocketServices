@@ -26,5 +26,9 @@ namespace ApiPlanning.Models
         }
     
         public virtual DbSet<FlightInformation> FlightInformations { get; set; }
+        public virtual DbSet<ViewFlightsGantt> ViewFlightsGantts { get; set; }
+        public virtual DbSet<ViewLegTime> ViewLegTimes { get; set; }
+        public virtual DbSet<ViewFlightInformation> ViewFlightInformations { get; set; }
+        public virtual DbSet<FlightChangeHistory> FlightChangeHistories { get; set; }
     }
 }

@@ -282,5 +282,7 @@ namespace ApiPlanning.Models
         public Nullable<int> OLDReg { get; set; }
         public Nullable<int> NewReg { get; set; }
         public Nullable<int> NewTime { get; set; }
+        public Nullable<int> UTCSTD { get; set; }
+        public Nullable<int> UTCSTA { get; set; }
     }
 }

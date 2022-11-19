@@ -1422,11 +1422,11 @@ namespace AirpocketAPI.Controllers
 
 
                 string picPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "logo.png");
-                ExcelPicture picture = sheet.Pictures.Add(1, 1, picPath);
+                //ExcelPicture picture = sheet.Pictures.Add(1, 1, picPath);
                 sheet.Range[1, 1].ColumnWidth = 10;
                 sheet.Range[1, 1].RowHeight = 20;
-                picture.TopRowOffset =  5;
-                picture.LeftColumnOffset = 50;
+                //picture.TopRowOffset =  5;
+                //picture.LeftColumnOffset = 50;
 
                 sheet.Range["A1:A2"].Merge();
 
@@ -1434,7 +1434,7 @@ namespace AirpocketAPI.Controllers
                 //oopp
                 sheet.Range["B1:H1"].Merge();
                 //  sheet.Range[1, 2].Value = "TABAN AIRLINES FLIGHTS TIMETABLE";
-                sheet.Range[1, 2].Value = "VARESH AIRLINES FLIGHTS TIMETABLE";
+                sheet.Range[1, 2].Value = "FLIGHTS TIMETABLE"; //"VARESH AIRLINES FLIGHTS TIMETABLE";
                 sheet.Range[1, 2].RowHeight = 30;
                 sheet.Range[1, 2].Style.Font.Size = 14;
 
