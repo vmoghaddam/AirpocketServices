@@ -87,7 +87,6 @@
           <Property Name="Minor" Type="float" />
           <Property Name="Major" Type="float" />
           <Property Name="Critical" Type="float" />
-          <Property Name="Duration" Type="float" />
           <Property Name="TDDatetime" Type="datetime2" Precision="0" />
           <Property Name="P1" Type="varchar" MaxLength="255" />
           <Property Name="P2" Type="varchar" MaxLength="255" />
@@ -125,6 +124,7 @@
           <Property Name="Approved" Type="bit" />
           <Property Name="ApprovedBy" Type="nvarchar" MaxLength="255" />
           <Property Name="DateApproved" Type="datetime2" Precision="0" />
+          <Property Name="Duration" Type="time" Precision="7" />
         </EntityType>
         <EntityType Name="FlightInformation">
           <Key>
@@ -452,6 +452,643 @@ warning 6002: The table/view 'EPACSPN.dbo.AppLeg' does not have a primary key de
           <Property Name="FuelPlanned" Type="decimal" Precision="18" Scale="4" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMCptAll' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMCptAll">
+          <Key>
+            <PropertyRef Name="CptCode" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptName" />
+          </Key>
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="CptCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CptId" Type="int" Nullable="false" />
+          <Property Name="CptName" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="Score" Type="int" />
+          <Property Name="LowCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMCptAnnually' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMCptAnnually">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Year" Type="int" />
+          <Property Name="CptName" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="CptId" Type="int" Nullable="false" />
+          <Property Name="CptCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="incidentCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+          <Property Name="FaultPercentagePerFlight" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMCptDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMCptDaily">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Day" Type="date" />
+          <Property Name="CptName" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="CptId" Type="int" Nullable="false" />
+          <Property Name="CptCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="p1EventCount" Type="int" />
+          <Property Name="IPEventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="P1HighCount" Type="int" />
+          <Property Name="IPHighCount" Type="int" />
+          <Property Name="IPMediumCount" Type="int" />
+          <Property Name="P1MediumCount" Type="int" />
+          <Property Name="IPLowCount" Type="int" />
+          <Property Name="P1LowCount" Type="int" />
+          <Property Name="FOResEventsCount" Type="int" />
+          <Property Name="IPResEventsCount" Type="int" />
+          <Property Name="P1ResEventsCount" Type="int" />
+          <Property Name="IPSelfResEventsCount" Type="int" />
+          <Property Name="P1SelfResEventsCount" Type="int" />
+          <Property Name="IPOtherResEventsCount" Type="int" />
+          <Property Name="P1OtherResEventsCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMCptEventDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMCptEventDaily">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Day" Type="date" />
+          <Property Name="EventName" Type="varchar" MaxLength="255" />
+          <Property Name="CptName" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="CptId" Type="int" Nullable="false" />
+          <Property Name="CptCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMCptEventMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMCptEventMonthly">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="EventName" Type="varchar" MaxLength="255" />
+          <Property Name="CptName" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="CptId" Type="int" Nullable="false" />
+          <Property Name="CptCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMCptFoDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMCptFoDaily">
+          <Key>
+            <PropertyRef Name="P1Id" />
+          </Key>
+          <Property Name="Day" Type="date" />
+          <Property Name="P1Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P1Id" Type="int" Nullable="false" />
+          <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P2Id" Type="int" />
+          <Property Name="IPId" Type="int" />
+          <Property Name="IPName" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P1Code" Type="varchar" MaxLength="100" />
+          <Property Name="P2Code" Type="varchar" MaxLength="100" />
+          <Property Name="IpCode" Type="varchar" MaxLength="100" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMCptFoMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMCptFoMonthly">
+          <Key>
+            <PropertyRef Name="P1Id" />
+          </Key>
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="P1Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P1Id" Type="int" Nullable="false" />
+          <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P2Id" Type="int" />
+          <Property Name="IPId" Type="int" />
+          <Property Name="IPName" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P1Code" Type="varchar" MaxLength="100" />
+          <Property Name="P2Code" Type="varchar" MaxLength="100" />
+          <Property Name="IpCode" Type="varchar" MaxLength="100" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMCptIpDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMCptIpDaily">
+          <Key>
+            <PropertyRef Name="P1Code" />
+            <PropertyRef Name="IpCode" />
+          </Key>
+          <Property Name="Day" Type="date" />
+          <Property Name="P1Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P1Id" Type="int" />
+          <Property Name="IpName" Type="nvarchar" MaxLength="1001" />
+          <Property Name="IpId" Type="int" />
+          <Property Name="P1Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IpCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMCptIpMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMCptIpMonthly">
+          <Key>
+            <PropertyRef Name="P1Code" />
+            <PropertyRef Name="IpCode" />
+          </Key>
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="P1Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="p1Id" Type="int" />
+          <Property Name="IpName" Type="nvarchar" MaxLength="1001" />
+          <Property Name="IpId" Type="int" />
+          <Property Name="P1Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IpCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMCptMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMCptMonthly">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="CptName" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="CptId" Type="int" Nullable="false" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="CptCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="p1EventCount" Type="int" />
+          <Property Name="IPEventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+          <Property Name="FaultPercentagePerFlight" Type="int" />
+          <Property Name="IPHighCount" Type="int" />
+          <Property Name="P1HighCount" Type="int" />
+          <Property Name="IPMediumCount" Type="int" />
+          <Property Name="P1MediumCount" Type="int" />
+          <Property Name="IPLowCount" Type="int" />
+          <Property Name="P1LowCount" Type="int" />
+          <Property Name="FOResEventsCount" Type="int" />
+          <Property Name="IPResEventsCount" Type="int" />
+          <Property Name="P1ResEventsCount" Type="int" />
+          <Property Name="IPSelfResEventsCount" Type="int" />
+          <Property Name="P1SelfResEventsCount" Type="int" />
+          <Property Name="IPOtherResEventsCount" Type="int" />
+          <Property Name="P1OtherResEventsCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMDaily">
+          <Key>
+            <PropertyRef Name="FlightDate" />
+          </Key>
+          <Property Name="FlightDate" Type="date" Nullable="false" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+          <Property Name="ScorePerFlight" Type="int" />
+          <Property Name="EventPerFlight" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMEventDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMEventDaily">
+          <Key>
+            <PropertyRef Name="FlightDate" />
+          </Key>
+          <Property Name="FlightDate" Type="date" Nullable="false" />
+          <Property Name="EventName" Type="varchar" MaxLength="255" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMEventMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMEventMonthly">
+          <Key>
+            <PropertyRef Name="Year" />
+          </Key>
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="EventName" Type="varchar" MaxLength="255" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMFoDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMFoDaily">
+          <Key>
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Day" Type="date" />
+          <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P2Id" Type="int" />
+          <Property Name="P2Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+          <Property Name="scoresPerFlight" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMFoEventDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMFoEventDaily">
+          <Key>
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Day" Type="date" />
+          <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P2Id" Type="int" />
+          <Property Name="EventName" Type="varchar" MaxLength="255" />
+          <Property Name="P2Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMFoEventMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMFoEventMonthly">
+          <Key>
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P2Id" Type="int" />
+          <Property Name="EventName" Type="varchar" MaxLength="255" />
+          <Property Name="P2Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMFoMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMFoMonthly">
+          <Key>
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P2Id" Type="int" />
+          <Property Name="P2Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+          <Property Name="scoresPerFlight" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMPhaseMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMPhaseMonthly">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CrewId" />
+          </Key>
+          <Property Name="Phase" Type="varchar" MaxLength="255" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="CrewId" Type="int" Nullable="false" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMPhaseTypeMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMPhaseTypeMonthly">
+          <Key>
+            <PropertyRef Name="CrewId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Phase" Type="varchar" MaxLength="255" />
+          <Property Name="Severity" Type="varchar" MaxLength="255" />
+          <Property Name="CrewId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Score" Type="int" />
+          <Property Name="EventsCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMRegCptAnnually' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMRegCptAnnually">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Year" Type="int" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="CptName" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="CptId" Type="int" Nullable="false" />
+          <Property Name="CptCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMRegCptDaily ' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMRegCptDaily ">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Day" Type="date" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="CptName" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="CptId" Type="int" Nullable="false" />
+          <Property Name="CptCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMRegCptFoAnnully' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMRegCptFoAnnully">
+          <Key>
+            <PropertyRef Name="P1Id" />
+          </Key>
+          <Property Name="Year" Type="int" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="P1Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P1Id" Type="int" Nullable="false" />
+          <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P2Id" Type="int" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMRegCptFoDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMRegCptFoDaily">
+          <Key>
+            
+            <PropertyRef Name="P1Code" />
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Day" Type="date" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="P1Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P1Id" Type="int" Nullable="false" />
+          <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P2Id" Type="int" />
+          <Property Name="P1Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="P2Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMRegCptFoMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMRegCptFoMonthly">
+          <Key>
+            
+            <PropertyRef Name="P1Code" />
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="P1Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P1Id" Type="int" Nullable="false" />
+          <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="P2Id" Type="int" />
+          <Property Name="P1Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="P2Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMRegCptMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMRegCptMonthly">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="CptName" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="CptId" Type="int" Nullable="false" />
+          <Property Name="CptCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMRegDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMRegDaily">
+          <Key>
+            <PropertyRef Name="FlightDate" />
+          </Key>
+          <Property Name="FlightDate" Type="datetime" Nullable="false" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMRegEventDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMRegEventDaily">
+          <Key>
+            <PropertyRef Name="registerId" />
+          </Key>
+          <Property Name="Day" Type="date" />
+          <Property Name="EventName" Type="varchar" MaxLength="255" />
+          <Property Name="register" Type="nvarchar" MaxLength="50" />
+          <Property Name="registerId" Type="int" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMRegEventMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMRegEventMonthly">
+          <Key>
+            <PropertyRef Name="registerId" />
+          </Key>
+          <Property Name="Year" Type="int" />
+          <Property Name="YearMonthName" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Month" Type="int" />
+          <Property Name="MonthName" Type="nvarchar" MaxLength="4000" />
+          <Property Name="EventName" Type="varchar" MaxLength="255" />
+          <Property Name="register" Type="nvarchar" MaxLength="50" />
+          <Property Name="registerId" Type="int" Nullable="false" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMRegMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMRegMonthly">
+          <Key>
+            <PropertyRef Name="RegisterId" />
+          </Key>
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisterId" Type="int" Nullable="false" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMTypeAnnually' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMTypeAnnually">
+          <Key>
+            <PropertyRef Name="AircraftTypeId" />
+          </Key>
+          <Property Name="Year" Type="int" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="AircraftType" Type="nvarchar" MaxLength="255" />
+          <Property Name="AircraftTypeId" Type="int" Nullable="false" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMTypeDaily' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMTypeDaily">
+          <Key>
+            <PropertyRef Name="AircraftTypeId" />
+          </Key>
+          <Property Name="FlightDate" Type="datetime" />
+          <Property Name="AircraftTypeId" Type="int" Nullable="false" />
+          <Property Name="AircraftType" Type="nvarchar" MaxLength="255" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="flightcount" Type="int" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EPACSPN.dbo.FDMTypeMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FDMTypeMonthly">
+          <Key>
+            <PropertyRef Name="AircraftTypeId" />
+          </Key>
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="FlightCount" Type="int" />
+          <Property Name="EventCount" Type="int" />
+          <Property Name="AircraftType" Type="nvarchar" MaxLength="255" />
+          <Property Name="AircraftTypeId" Type="int" Nullable="false" />
+          <Property Name="HighCount" Type="int" />
+          <Property Name="MediumCount" Type="int" />
+          <Property Name="LowCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'EPACSPN.dbo.ViewFDM' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFDM">
           <Key>
@@ -488,7 +1125,7 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewFDM' does not have a primary key d
           <Property Name="Context" Type="varchar" MaxLength="255" />
           <Property Name="Critical" Type="float" />
           <Property Name="Date" Type="datetime2" Precision="0" />
-          <Property Name="Duration" Type="float" />
+          <Property Name="Duration" Type="time" Precision="7" />
           <Property Name="EventName" Type="varchar" MaxLength="255" />
           <Property Name="FlightId" Type="int" />
           <Property Name="Id" Type="int" Nullable="false" />
@@ -825,6 +1462,521 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewLegTime' does not have a primary k
     [AppLeg].[FuelPlanned] AS [FuelPlanned]
     FROM [dbo].[AppLeg] AS [AppLeg]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="FDMCptAll" EntityType="Self.FDMCptAll" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMCptAll].[Month] AS [Month], 
+    [FDMCptAll].[Year] AS [Year], 
+    [FDMCptAll].[CptCode] AS [CptCode], 
+    [FDMCptAll].[CptId] AS [CptId], 
+    [FDMCptAll].[CptName] AS [CptName], 
+    [FDMCptAll].[JobGroup] AS [JobGroup], 
+    [FDMCptAll].[FlightCount] AS [FlightCount], 
+    [FDMCptAll].[EventCount] AS [EventCount], 
+    [FDMCptAll].[HighCount] AS [HighCount], 
+    [FDMCptAll].[MediumCount] AS [MediumCount], 
+    [FDMCptAll].[Score] AS [Score], 
+    [FDMCptAll].[LowCount] AS [LowCount]
+    FROM [dbo].[FDMCptAll] AS [FDMCptAll]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMCptAnnually" EntityType="Self.FDMCptAnnually" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMCptAnnually].[Year] AS [Year], 
+    [FDMCptAnnually].[CptName] AS [CptName], 
+    [FDMCptAnnually].[CptId] AS [CptId], 
+    [FDMCptAnnually].[CptCode] AS [CptCode], 
+    [FDMCptAnnually].[FlightCount] AS [FlightCount], 
+    [FDMCptAnnually].[incidentCount] AS [incidentCount], 
+    [FDMCptAnnually].[HighCount] AS [HighCount], 
+    [FDMCptAnnually].[MediumCount] AS [MediumCount], 
+    [FDMCptAnnually].[LowCount] AS [LowCount], 
+    [FDMCptAnnually].[Score] AS [Score], 
+    [FDMCptAnnually].[FaultPercentagePerFlight] AS [FaultPercentagePerFlight]
+    FROM [dbo].[FDMCptAnnually] AS [FDMCptAnnually]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMCptDaily" EntityType="Self.FDMCptDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMCptDaily].[Day] AS [Day], 
+    [FDMCptDaily].[CptName] AS [CptName], 
+    [FDMCptDaily].[CptId] AS [CptId], 
+    [FDMCptDaily].[CptCode] AS [CptCode], 
+    [FDMCptDaily].[FlightCount] AS [FlightCount], 
+    [FDMCptDaily].[EventCount] AS [EventCount], 
+    [FDMCptDaily].[p1EventCount] AS [p1EventCount], 
+    [FDMCptDaily].[IPEventCount] AS [IPEventCount], 
+    [FDMCptDaily].[HighCount] AS [HighCount], 
+    [FDMCptDaily].[MediumCount] AS [MediumCount], 
+    [FDMCptDaily].[LowCount] AS [LowCount], 
+    [FDMCptDaily].[P1HighCount] AS [P1HighCount], 
+    [FDMCptDaily].[IPHighCount] AS [IPHighCount], 
+    [FDMCptDaily].[IPMediumCount] AS [IPMediumCount], 
+    [FDMCptDaily].[P1MediumCount] AS [P1MediumCount], 
+    [FDMCptDaily].[IPLowCount] AS [IPLowCount], 
+    [FDMCptDaily].[P1LowCount] AS [P1LowCount], 
+    [FDMCptDaily].[FOResEventsCount] AS [FOResEventsCount], 
+    [FDMCptDaily].[IPResEventsCount] AS [IPResEventsCount], 
+    [FDMCptDaily].[P1ResEventsCount] AS [P1ResEventsCount], 
+    [FDMCptDaily].[IPSelfResEventsCount] AS [IPSelfResEventsCount], 
+    [FDMCptDaily].[P1SelfResEventsCount] AS [P1SelfResEventsCount], 
+    [FDMCptDaily].[IPOtherResEventsCount] AS [IPOtherResEventsCount], 
+    [FDMCptDaily].[P1OtherResEventsCount] AS [P1OtherResEventsCount]
+    FROM [dbo].[FDMCptDaily] AS [FDMCptDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMCptEventDaily" EntityType="Self.FDMCptEventDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMCptEventDaily].[Day] AS [Day], 
+    [FDMCptEventDaily].[EventName] AS [EventName], 
+    [FDMCptEventDaily].[CptName] AS [CptName], 
+    [FDMCptEventDaily].[CptId] AS [CptId], 
+    [FDMCptEventDaily].[CptCode] AS [CptCode], 
+    [FDMCptEventDaily].[EventCount] AS [EventCount], 
+    [FDMCptEventDaily].[HighCount] AS [HighCount], 
+    [FDMCptEventDaily].[MediumCount] AS [MediumCount], 
+    [FDMCptEventDaily].[LowCount] AS [LowCount], 
+    [FDMCptEventDaily].[Score] AS [Score]
+    FROM [dbo].[FDMCptEventDaily] AS [FDMCptEventDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMCptEventMonthly" EntityType="Self.FDMCptEventMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMCptEventMonthly].[Month] AS [Month], 
+    [FDMCptEventMonthly].[Year] AS [Year], 
+    [FDMCptEventMonthly].[EventName] AS [EventName], 
+    [FDMCptEventMonthly].[CptName] AS [CptName], 
+    [FDMCptEventMonthly].[CptId] AS [CptId], 
+    [FDMCptEventMonthly].[CptCode] AS [CptCode], 
+    [FDMCptEventMonthly].[EventCount] AS [EventCount], 
+    [FDMCptEventMonthly].[HighCount] AS [HighCount], 
+    [FDMCptEventMonthly].[MediumCount] AS [MediumCount], 
+    [FDMCptEventMonthly].[LowCount] AS [LowCount], 
+    [FDMCptEventMonthly].[Score] AS [Score]
+    FROM [dbo].[FDMCptEventMonthly] AS [FDMCptEventMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMCptFoDaily" EntityType="Self.FDMCptFoDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMCptFoDaily].[Day] AS [Day], 
+    [FDMCptFoDaily].[P1Name] AS [P1Name], 
+    [FDMCptFoDaily].[P1Id] AS [P1Id], 
+    [FDMCptFoDaily].[P2Name] AS [P2Name], 
+    [FDMCptFoDaily].[P2Id] AS [P2Id], 
+    [FDMCptFoDaily].[IPId] AS [IPId], 
+    [FDMCptFoDaily].[IPName] AS [IPName], 
+    [FDMCptFoDaily].[P1Code] AS [P1Code], 
+    [FDMCptFoDaily].[P2Code] AS [P2Code], 
+    [FDMCptFoDaily].[IpCode] AS [IpCode], 
+    [FDMCptFoDaily].[FlightCount] AS [FlightCount], 
+    [FDMCptFoDaily].[EventCount] AS [EventCount], 
+    [FDMCptFoDaily].[HighCount] AS [HighCount], 
+    [FDMCptFoDaily].[MediumCount] AS [MediumCount], 
+    [FDMCptFoDaily].[LowCount] AS [LowCount], 
+    [FDMCptFoDaily].[Score] AS [Score]
+    FROM [dbo].[FDMCptFoDaily] AS [FDMCptFoDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMCptFoMonthly" EntityType="Self.FDMCptFoMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMCptFoMonthly].[Year] AS [Year], 
+    [FDMCptFoMonthly].[Month] AS [Month], 
+    [FDMCptFoMonthly].[P1Name] AS [P1Name], 
+    [FDMCptFoMonthly].[P1Id] AS [P1Id], 
+    [FDMCptFoMonthly].[P2Name] AS [P2Name], 
+    [FDMCptFoMonthly].[P2Id] AS [P2Id], 
+    [FDMCptFoMonthly].[IPId] AS [IPId], 
+    [FDMCptFoMonthly].[IPName] AS [IPName], 
+    [FDMCptFoMonthly].[P1Code] AS [P1Code], 
+    [FDMCptFoMonthly].[P2Code] AS [P2Code], 
+    [FDMCptFoMonthly].[IpCode] AS [IpCode], 
+    [FDMCptFoMonthly].[FlightCount] AS [FlightCount], 
+    [FDMCptFoMonthly].[EventCount] AS [EventCount], 
+    [FDMCptFoMonthly].[HighCount] AS [HighCount], 
+    [FDMCptFoMonthly].[MediumCount] AS [MediumCount], 
+    [FDMCptFoMonthly].[LowCount] AS [LowCount], 
+    [FDMCptFoMonthly].[Score] AS [Score]
+    FROM [dbo].[FDMCptFoMonthly] AS [FDMCptFoMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMCptIpDaily" EntityType="Self.FDMCptIpDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMCptIpDaily].[Day] AS [Day], 
+    [FDMCptIpDaily].[P1Name] AS [P1Name], 
+    [FDMCptIpDaily].[P1Id] AS [P1Id], 
+    [FDMCptIpDaily].[IpName] AS [IpName], 
+    [FDMCptIpDaily].[IpId] AS [IpId], 
+    [FDMCptIpDaily].[P1Code] AS [P1Code], 
+    [FDMCptIpDaily].[IpCode] AS [IpCode], 
+    [FDMCptIpDaily].[FlightCount] AS [FlightCount], 
+    [FDMCptIpDaily].[EventCount] AS [EventCount], 
+    [FDMCptIpDaily].[HighCount] AS [HighCount], 
+    [FDMCptIpDaily].[MediumCount] AS [MediumCount], 
+    [FDMCptIpDaily].[LowCount] AS [LowCount], 
+    [FDMCptIpDaily].[Score] AS [Score]
+    FROM [dbo].[FDMCptIpDaily] AS [FDMCptIpDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMCptIpMonthly" EntityType="Self.FDMCptIpMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMCptIpMonthly].[Year] AS [Year], 
+    [FDMCptIpMonthly].[Month] AS [Month], 
+    [FDMCptIpMonthly].[P1Name] AS [P1Name], 
+    [FDMCptIpMonthly].[p1Id] AS [p1Id], 
+    [FDMCptIpMonthly].[IpName] AS [IpName], 
+    [FDMCptIpMonthly].[IpId] AS [IpId], 
+    [FDMCptIpMonthly].[P1Code] AS [P1Code], 
+    [FDMCptIpMonthly].[IpCode] AS [IpCode], 
+    [FDMCptIpMonthly].[FlightCount] AS [FlightCount], 
+    [FDMCptIpMonthly].[EventCount] AS [EventCount], 
+    [FDMCptIpMonthly].[HighCount] AS [HighCount], 
+    [FDMCptIpMonthly].[MediumCount] AS [MediumCount], 
+    [FDMCptIpMonthly].[LowCount] AS [LowCount], 
+    [FDMCptIpMonthly].[Score] AS [Score]
+    FROM [dbo].[FDMCptIpMonthly] AS [FDMCptIpMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMCptMonthly" EntityType="Self.FDMCptMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMCptMonthly].[Month] AS [Month], 
+    [FDMCptMonthly].[Year] AS [Year], 
+    [FDMCptMonthly].[CptName] AS [CptName], 
+    [FDMCptMonthly].[CptId] AS [CptId], 
+    [FDMCptMonthly].[JobGroup] AS [JobGroup], 
+    [FDMCptMonthly].[CptCode] AS [CptCode], 
+    [FDMCptMonthly].[FlightCount] AS [FlightCount], 
+    [FDMCptMonthly].[EventCount] AS [EventCount], 
+    [FDMCptMonthly].[p1EventCount] AS [p1EventCount], 
+    [FDMCptMonthly].[IPEventCount] AS [IPEventCount], 
+    [FDMCptMonthly].[HighCount] AS [HighCount], 
+    [FDMCptMonthly].[MediumCount] AS [MediumCount], 
+    [FDMCptMonthly].[LowCount] AS [LowCount], 
+    [FDMCptMonthly].[Score] AS [Score], 
+    [FDMCptMonthly].[FaultPercentagePerFlight] AS [FaultPercentagePerFlight], 
+    [FDMCptMonthly].[IPHighCount] AS [IPHighCount], 
+    [FDMCptMonthly].[P1HighCount] AS [P1HighCount], 
+    [FDMCptMonthly].[IPMediumCount] AS [IPMediumCount], 
+    [FDMCptMonthly].[P1MediumCount] AS [P1MediumCount], 
+    [FDMCptMonthly].[IPLowCount] AS [IPLowCount], 
+    [FDMCptMonthly].[P1LowCount] AS [P1LowCount], 
+    [FDMCptMonthly].[FOResEventsCount] AS [FOResEventsCount], 
+    [FDMCptMonthly].[IPResEventsCount] AS [IPResEventsCount], 
+    [FDMCptMonthly].[P1ResEventsCount] AS [P1ResEventsCount], 
+    [FDMCptMonthly].[IPSelfResEventsCount] AS [IPSelfResEventsCount], 
+    [FDMCptMonthly].[P1SelfResEventsCount] AS [P1SelfResEventsCount], 
+    [FDMCptMonthly].[IPOtherResEventsCount] AS [IPOtherResEventsCount], 
+    [FDMCptMonthly].[P1OtherResEventsCount] AS [P1OtherResEventsCount]
+    FROM [dbo].[FDMCptMonthly] AS [FDMCptMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMDaily" EntityType="Self.FDMDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMDaily].[FlightDate] AS [FlightDate], 
+    [FDMDaily].[EventCount] AS [EventCount], 
+    [FDMDaily].[FlightCount] AS [FlightCount], 
+    [FDMDaily].[HighCount] AS [HighCount], 
+    [FDMDaily].[MediumCount] AS [MediumCount], 
+    [FDMDaily].[LowCount] AS [LowCount], 
+    [FDMDaily].[Score] AS [Score], 
+    [FDMDaily].[ScorePerFlight] AS [ScorePerFlight], 
+    [FDMDaily].[EventPerFlight] AS [EventPerFlight]
+    FROM [dbo].[FDMDaily] AS [FDMDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMEventDaily" EntityType="Self.FDMEventDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMEventDaily].[FlightDate] AS [FlightDate], 
+    [FDMEventDaily].[EventName] AS [EventName], 
+    [FDMEventDaily].[EventCount] AS [EventCount], 
+    [FDMEventDaily].[HighCount] AS [HighCount], 
+    [FDMEventDaily].[MediumCount] AS [MediumCount], 
+    [FDMEventDaily].[LowCount] AS [LowCount]
+    FROM [dbo].[FDMEventDaily] AS [FDMEventDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMEventMonthly" EntityType="Self.FDMEventMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMEventMonthly].[Month] AS [Month], 
+    [FDMEventMonthly].[Year] AS [Year], 
+    [FDMEventMonthly].[EventName] AS [EventName], 
+    [FDMEventMonthly].[EventCount] AS [EventCount], 
+    [FDMEventMonthly].[HighCount] AS [HighCount], 
+    [FDMEventMonthly].[MediumCount] AS [MediumCount], 
+    [FDMEventMonthly].[LowCount] AS [LowCount]
+    FROM [dbo].[FDMEventMonthly] AS [FDMEventMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMFoDaily" EntityType="Self.FDMFoDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMFoDaily].[Day] AS [Day], 
+    [FDMFoDaily].[P2Name] AS [P2Name], 
+    [FDMFoDaily].[P2Id] AS [P2Id], 
+    [FDMFoDaily].[P2Code] AS [P2Code], 
+    [FDMFoDaily].[FlightCount] AS [FlightCount], 
+    [FDMFoDaily].[EventCount] AS [EventCount], 
+    [FDMFoDaily].[HighCount] AS [HighCount], 
+    [FDMFoDaily].[MediumCount] AS [MediumCount], 
+    [FDMFoDaily].[LowCount] AS [LowCount], 
+    [FDMFoDaily].[Score] AS [Score], 
+    [FDMFoDaily].[scoresPerFlight] AS [scoresPerFlight]
+    FROM [dbo].[FDMFoDaily] AS [FDMFoDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMFoEventDaily" EntityType="Self.FDMFoEventDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMFoEventDaily].[Day] AS [Day], 
+    [FDMFoEventDaily].[P2Name] AS [P2Name], 
+    [FDMFoEventDaily].[P2Id] AS [P2Id], 
+    [FDMFoEventDaily].[EventName] AS [EventName], 
+    [FDMFoEventDaily].[P2Code] AS [P2Code], 
+    [FDMFoEventDaily].[EventCount] AS [EventCount], 
+    [FDMFoEventDaily].[HighCount] AS [HighCount], 
+    [FDMFoEventDaily].[MediumCount] AS [MediumCount], 
+    [FDMFoEventDaily].[LowCount] AS [LowCount], 
+    [FDMFoEventDaily].[Score] AS [Score]
+    FROM [dbo].[FDMFoEventDaily] AS [FDMFoEventDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMFoEventMonthly" EntityType="Self.FDMFoEventMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMFoEventMonthly].[Month] AS [Month], 
+    [FDMFoEventMonthly].[Year] AS [Year], 
+    [FDMFoEventMonthly].[P2Name] AS [P2Name], 
+    [FDMFoEventMonthly].[P2Id] AS [P2Id], 
+    [FDMFoEventMonthly].[EventName] AS [EventName], 
+    [FDMFoEventMonthly].[P2Code] AS [P2Code], 
+    [FDMFoEventMonthly].[EventCount] AS [EventCount], 
+    [FDMFoEventMonthly].[HighCount] AS [HighCount], 
+    [FDMFoEventMonthly].[MediumCount] AS [MediumCount], 
+    [FDMFoEventMonthly].[LowCount] AS [LowCount], 
+    [FDMFoEventMonthly].[Score] AS [Score]
+    FROM [dbo].[FDMFoEventMonthly] AS [FDMFoEventMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMFoMonthly" EntityType="Self.FDMFoMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMFoMonthly].[Month] AS [Month], 
+    [FDMFoMonthly].[Year] AS [Year], 
+    [FDMFoMonthly].[P2Name] AS [P2Name], 
+    [FDMFoMonthly].[P2Id] AS [P2Id], 
+    [FDMFoMonthly].[P2Code] AS [P2Code], 
+    [FDMFoMonthly].[FlightCount] AS [FlightCount], 
+    [FDMFoMonthly].[EventCount] AS [EventCount], 
+    [FDMFoMonthly].[HighCount] AS [HighCount], 
+    [FDMFoMonthly].[MediumCount] AS [MediumCount], 
+    [FDMFoMonthly].[LowCount] AS [LowCount], 
+    [FDMFoMonthly].[Score] AS [Score], 
+    [FDMFoMonthly].[scoresPerFlight] AS [scoresPerFlight]
+    FROM [dbo].[FDMFoMonthly] AS [FDMFoMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMPhaseMonthly" EntityType="Self.FDMPhaseMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMPhaseMonthly].[Phase] AS [Phase], 
+    [FDMPhaseMonthly].[Month] AS [Month], 
+    [FDMPhaseMonthly].[Year] AS [Year], 
+    [FDMPhaseMonthly].[Name] AS [Name], 
+    [FDMPhaseMonthly].[CrewId] AS [CrewId], 
+    [FDMPhaseMonthly].[JobGroup] AS [JobGroup], 
+    [FDMPhaseMonthly].[EventCount] AS [EventCount], 
+    [FDMPhaseMonthly].[Score] AS [Score]
+    FROM [dbo].[FDMPhaseMonthly] AS [FDMPhaseMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMPhaseTypeMonthly" EntityType="Self.FDMPhaseTypeMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMPhaseTypeMonthly].[Phase] AS [Phase], 
+    [FDMPhaseTypeMonthly].[Severity] AS [Severity], 
+    [FDMPhaseTypeMonthly].[CrewId] AS [CrewId], 
+    [FDMPhaseTypeMonthly].[Name] AS [Name], 
+    [FDMPhaseTypeMonthly].[JobGroup] AS [JobGroup], 
+    [FDMPhaseTypeMonthly].[Month] AS [Month], 
+    [FDMPhaseTypeMonthly].[Year] AS [Year], 
+    [FDMPhaseTypeMonthly].[Score] AS [Score], 
+    [FDMPhaseTypeMonthly].[EventsCount] AS [EventsCount]
+    FROM [dbo].[FDMPhaseTypeMonthly] AS [FDMPhaseTypeMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMRegCptAnnually" EntityType="Self.FDMRegCptAnnually" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMRegCptAnnually].[Year] AS [Year], 
+    [FDMRegCptAnnually].[Register] AS [Register], 
+    [FDMRegCptAnnually].[RegisterID] AS [RegisterID], 
+    [FDMRegCptAnnually].[CptName] AS [CptName], 
+    [FDMRegCptAnnually].[CptId] AS [CptId], 
+    [FDMRegCptAnnually].[CptCode] AS [CptCode], 
+    [FDMRegCptAnnually].[FlightCount] AS [FlightCount], 
+    [FDMRegCptAnnually].[EventCount] AS [EventCount], 
+    [FDMRegCptAnnually].[HighCount] AS [HighCount], 
+    [FDMRegCptAnnually].[MediumCount] AS [MediumCount], 
+    [FDMRegCptAnnually].[LowCount] AS [LowCount], 
+    [FDMRegCptAnnually].[Score] AS [Score]
+    FROM [dbo].[FDMRegCptAnnually] AS [FDMRegCptAnnually]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMRegCptDaily " EntityType="Self.FDMRegCptDaily " store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMRegCptDaily ].[Day] AS [Day], 
+    [FDMRegCptDaily ].[Register] AS [Register], 
+    [FDMRegCptDaily ].[RegisterID] AS [RegisterID], 
+    [FDMRegCptDaily ].[CptName] AS [CptName], 
+    [FDMRegCptDaily ].[CptId] AS [CptId], 
+    [FDMRegCptDaily ].[CptCode] AS [CptCode], 
+    [FDMRegCptDaily ].[FlightCount] AS [FlightCount], 
+    [FDMRegCptDaily ].[EventCount] AS [EventCount], 
+    [FDMRegCptDaily ].[HighCount] AS [HighCount], 
+    [FDMRegCptDaily ].[MediumCount] AS [MediumCount], 
+    [FDMRegCptDaily ].[LowCount] AS [LowCount], 
+    [FDMRegCptDaily ].[Score] AS [Score]
+    FROM [dbo].[FDMRegCptDaily ] AS [FDMRegCptDaily ]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMRegCptFoAnnully" EntityType="Self.FDMRegCptFoAnnully" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMRegCptFoAnnully].[Year] AS [Year], 
+    [FDMRegCptFoAnnully].[Register] AS [Register], 
+    [FDMRegCptFoAnnully].[RegisterID] AS [RegisterID], 
+    [FDMRegCptFoAnnully].[P1Name] AS [P1Name], 
+    [FDMRegCptFoAnnully].[P1Id] AS [P1Id], 
+    [FDMRegCptFoAnnully].[P2Name] AS [P2Name], 
+    [FDMRegCptFoAnnully].[P2Id] AS [P2Id], 
+    [FDMRegCptFoAnnully].[FlightCount] AS [FlightCount], 
+    [FDMRegCptFoAnnully].[EventCount] AS [EventCount], 
+    [FDMRegCptFoAnnully].[HighCount] AS [HighCount], 
+    [FDMRegCptFoAnnully].[MediumCount] AS [MediumCount], 
+    [FDMRegCptFoAnnully].[LowCount] AS [LowCount], 
+    [FDMRegCptFoAnnully].[Score] AS [Score]
+    FROM [dbo].[FDMRegCptFoAnnully] AS [FDMRegCptFoAnnully]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMRegCptFoDaily" EntityType="Self.FDMRegCptFoDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMRegCptFoDaily].[Day] AS [Day], 
+    [FDMRegCptFoDaily].[Register] AS [Register], 
+    [FDMRegCptFoDaily].[RegisterID] AS [RegisterID], 
+    [FDMRegCptFoDaily].[P1Name] AS [P1Name], 
+    [FDMRegCptFoDaily].[P1Id] AS [P1Id], 
+    [FDMRegCptFoDaily].[P2Name] AS [P2Name], 
+    [FDMRegCptFoDaily].[P2Id] AS [P2Id], 
+    [FDMRegCptFoDaily].[P1Code] AS [P1Code], 
+    [FDMRegCptFoDaily].[P2Code] AS [P2Code], 
+    [FDMRegCptFoDaily].[FlightCount] AS [FlightCount], 
+    [FDMRegCptFoDaily].[EventCount] AS [EventCount], 
+    [FDMRegCptFoDaily].[HighCount] AS [HighCount], 
+    [FDMRegCptFoDaily].[MediumCount] AS [MediumCount], 
+    [FDMRegCptFoDaily].[LowCount] AS [LowCount], 
+    [FDMRegCptFoDaily].[Score] AS [Score]
+    FROM [dbo].[FDMRegCptFoDaily] AS [FDMRegCptFoDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMRegCptFoMonthly" EntityType="Self.FDMRegCptFoMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMRegCptFoMonthly].[Year] AS [Year], 
+    [FDMRegCptFoMonthly].[Month] AS [Month], 
+    [FDMRegCptFoMonthly].[Register] AS [Register], 
+    [FDMRegCptFoMonthly].[RegisterID] AS [RegisterID], 
+    [FDMRegCptFoMonthly].[P1Name] AS [P1Name], 
+    [FDMRegCptFoMonthly].[P1Id] AS [P1Id], 
+    [FDMRegCptFoMonthly].[P2Name] AS [P2Name], 
+    [FDMRegCptFoMonthly].[P2Id] AS [P2Id], 
+    [FDMRegCptFoMonthly].[P1Code] AS [P1Code], 
+    [FDMRegCptFoMonthly].[P2Code] AS [P2Code], 
+    [FDMRegCptFoMonthly].[FlightCount] AS [FlightCount], 
+    [FDMRegCptFoMonthly].[EventCount] AS [EventCount], 
+    [FDMRegCptFoMonthly].[HighCount] AS [HighCount], 
+    [FDMRegCptFoMonthly].[MediumCount] AS [MediumCount], 
+    [FDMRegCptFoMonthly].[LowCount] AS [LowCount], 
+    [FDMRegCptFoMonthly].[Score] AS [Score]
+    FROM [dbo].[FDMRegCptFoMonthly] AS [FDMRegCptFoMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMRegCptMonthly" EntityType="Self.FDMRegCptMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMRegCptMonthly].[Month] AS [Month], 
+    [FDMRegCptMonthly].[Year] AS [Year], 
+    [FDMRegCptMonthly].[Register] AS [Register], 
+    [FDMRegCptMonthly].[RegisterID] AS [RegisterID], 
+    [FDMRegCptMonthly].[CptName] AS [CptName], 
+    [FDMRegCptMonthly].[CptId] AS [CptId], 
+    [FDMRegCptMonthly].[CptCode] AS [CptCode], 
+    [FDMRegCptMonthly].[FlightCount] AS [FlightCount], 
+    [FDMRegCptMonthly].[EventCount] AS [EventCount], 
+    [FDMRegCptMonthly].[HighCount] AS [HighCount], 
+    [FDMRegCptMonthly].[MediumCount] AS [MediumCount], 
+    [FDMRegCptMonthly].[LowCount] AS [LowCount], 
+    [FDMRegCptMonthly].[Score] AS [Score]
+    FROM [dbo].[FDMRegCptMonthly] AS [FDMRegCptMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMRegDaily" EntityType="Self.FDMRegDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMRegDaily].[FlightDate] AS [FlightDate], 
+    [FDMRegDaily].[Register] AS [Register], 
+    [FDMRegDaily].[RegisterID] AS [RegisterID], 
+    [FDMRegDaily].[EventCount] AS [EventCount], 
+    [FDMRegDaily].[FlightCount] AS [FlightCount], 
+    [FDMRegDaily].[HighCount] AS [HighCount], 
+    [FDMRegDaily].[MediumCount] AS [MediumCount], 
+    [FDMRegDaily].[LowCount] AS [LowCount], 
+    [FDMRegDaily].[Score] AS [Score]
+    FROM [dbo].[FDMRegDaily] AS [FDMRegDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMRegEventDaily" EntityType="Self.FDMRegEventDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMRegEventDaily].[Day] AS [Day], 
+    [FDMRegEventDaily].[EventName] AS [EventName], 
+    [FDMRegEventDaily].[register] AS [register], 
+    [FDMRegEventDaily].[registerId] AS [registerId], 
+    [FDMRegEventDaily].[FlightCount] AS [FlightCount], 
+    [FDMRegEventDaily].[EventCount] AS [EventCount], 
+    [FDMRegEventDaily].[HighCount] AS [HighCount], 
+    [FDMRegEventDaily].[MediumCount] AS [MediumCount], 
+    [FDMRegEventDaily].[LowCount] AS [LowCount], 
+    [FDMRegEventDaily].[Score] AS [Score]
+    FROM [dbo].[FDMRegEventDaily] AS [FDMRegEventDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMRegEventMonthly" EntityType="Self.FDMRegEventMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMRegEventMonthly].[Year] AS [Year], 
+    [FDMRegEventMonthly].[YearMonthName] AS [YearMonthName], 
+    [FDMRegEventMonthly].[Month] AS [Month], 
+    [FDMRegEventMonthly].[MonthName] AS [MonthName], 
+    [FDMRegEventMonthly].[EventName] AS [EventName], 
+    [FDMRegEventMonthly].[register] AS [register], 
+    [FDMRegEventMonthly].[registerId] AS [registerId], 
+    [FDMRegEventMonthly].[FlightCount] AS [FlightCount], 
+    [FDMRegEventMonthly].[EventCount] AS [EventCount], 
+    [FDMRegEventMonthly].[HighCount] AS [HighCount], 
+    [FDMRegEventMonthly].[MediumCount] AS [MediumCount], 
+    [FDMRegEventMonthly].[LowCount] AS [LowCount], 
+    [FDMRegEventMonthly].[Score] AS [Score]
+    FROM [dbo].[FDMRegEventMonthly] AS [FDMRegEventMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMRegMonthly" EntityType="Self.FDMRegMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMRegMonthly].[Year] AS [Year], 
+    [FDMRegMonthly].[Month] AS [Month], 
+    [FDMRegMonthly].[Register] AS [Register], 
+    [FDMRegMonthly].[RegisterId] AS [RegisterId], 
+    [FDMRegMonthly].[EventCount] AS [EventCount], 
+    [FDMRegMonthly].[FlightCount] AS [FlightCount], 
+    [FDMRegMonthly].[HighCount] AS [HighCount], 
+    [FDMRegMonthly].[MediumCount] AS [MediumCount], 
+    [FDMRegMonthly].[LowCount] AS [LowCount], 
+    [FDMRegMonthly].[Score] AS [Score]
+    FROM [dbo].[FDMRegMonthly] AS [FDMRegMonthly]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMTypeAnnually" EntityType="Self.FDMTypeAnnually" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMTypeAnnually].[Year] AS [Year], 
+    [FDMTypeAnnually].[FlightCount] AS [FlightCount], 
+    [FDMTypeAnnually].[EventCount] AS [EventCount], 
+    [FDMTypeAnnually].[AircraftType] AS [AircraftType], 
+    [FDMTypeAnnually].[AircraftTypeId] AS [AircraftTypeId], 
+    [FDMTypeAnnually].[HighCount] AS [HighCount], 
+    [FDMTypeAnnually].[MediumCount] AS [MediumCount], 
+    [FDMTypeAnnually].[LowCount] AS [LowCount]
+    FROM [dbo].[FDMTypeAnnually] AS [FDMTypeAnnually]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMTypeDaily" EntityType="Self.FDMTypeDaily" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMTypeDaily].[FlightDate] AS [FlightDate], 
+    [FDMTypeDaily].[AircraftTypeId] AS [AircraftTypeId], 
+    [FDMTypeDaily].[AircraftType] AS [AircraftType], 
+    [FDMTypeDaily].[EventCount] AS [EventCount], 
+    [FDMTypeDaily].[flightcount] AS [flightcount], 
+    [FDMTypeDaily].[HighCount] AS [HighCount], 
+    [FDMTypeDaily].[MediumCount] AS [MediumCount], 
+    [FDMTypeDaily].[LowCount] AS [LowCount]
+    FROM [dbo].[FDMTypeDaily] AS [FDMTypeDaily]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FDMTypeMonthly" EntityType="Self.FDMTypeMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FDMTypeMonthly].[Month] AS [Month], 
+    [FDMTypeMonthly].[Year] AS [Year], 
+    [FDMTypeMonthly].[FlightCount] AS [FlightCount], 
+    [FDMTypeMonthly].[EventCount] AS [EventCount], 
+    [FDMTypeMonthly].[AircraftType] AS [AircraftType], 
+    [FDMTypeMonthly].[AircraftTypeId] AS [AircraftTypeId], 
+    [FDMTypeMonthly].[HighCount] AS [HighCount], 
+    [FDMTypeMonthly].[MediumCount] AS [MediumCount], 
+    [FDMTypeMonthly].[LowCount] AS [LowCount]
+    FROM [dbo].[FDMTypeMonthly] AS [FDMTypeMonthly]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewFDM" EntityType="Self.ViewFDM" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewFDM].[ToAirport] AS [ToAirport], 
@@ -1037,6 +2189,38 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewLegTime' does not have a primary k
           </AssociationSet>
           <EntitySet Name="ViewLegTimes" EntityType="dbModel.ViewLegTime" />
           <EntitySet Name="AppLegs" EntityType="dbModel.AppLeg" />
+          <EntitySet Name="FDMCptAlls" EntityType="dbModel.FDMCptAll" />
+          <EntitySet Name="FDMCptAnnuallies" EntityType="dbModel.FDMCptAnnually" />
+          <EntitySet Name="FDMCptDailies" EntityType="dbModel.FDMCptDaily" />
+          <EntitySet Name="FDMCptEventDailies" EntityType="dbModel.FDMCptEventDaily" />
+          <EntitySet Name="FDMCptEventMonthlies" EntityType="dbModel.FDMCptEventMonthly" />
+          <EntitySet Name="FDMCptIpDailies" EntityType="dbModel.FDMCptIpDaily" />
+          <EntitySet Name="FDMCptIpMonthlies" EntityType="dbModel.FDMCptIpMonthly" />
+          <EntitySet Name="FDMCptMonthlies" EntityType="dbModel.FDMCptMonthly" />
+          <EntitySet Name="FDMFoDailies" EntityType="dbModel.FDMFoDaily" />
+          <EntitySet Name="FDMFoEventDailies" EntityType="dbModel.FDMFoEventDaily" />
+          <EntitySet Name="FDMFoEventMonthlies" EntityType="dbModel.FDMFoEventMonthly" />
+          <EntitySet Name="FDMFoMonthlies" EntityType="dbModel.FDMFoMonthly" />
+          <EntitySet Name="FDMPhaseMonthlies" EntityType="dbModel.FDMPhaseMonthly" />
+          <EntitySet Name="FDMPhaseTypeMonthlies" EntityType="dbModel.FDMPhaseTypeMonthly" />
+          <EntitySet Name="FDMRegCptAnnuallies" EntityType="dbModel.FDMRegCptAnnually" />
+          <EntitySet Name="FDMRegCptDaily_" EntityType="dbModel.FDMRegCptDaily_" />
+          <EntitySet Name="FDMRegCptFoDailies" EntityType="dbModel.FDMRegCptFoDaily" />
+          <EntitySet Name="FDMRegCptFoMonthlies" EntityType="dbModel.FDMRegCptFoMonthly" />
+          <EntitySet Name="FDMRegCptMonthlies" EntityType="dbModel.FDMRegCptMonthly" />
+          <EntitySet Name="FDMDailies" EntityType="dbModel.FDMDaily" />
+          <EntitySet Name="FDMCptFoDailies" EntityType="dbModel.FDMCptFoDaily" />
+          <EntitySet Name="FDMCptFoMonthlies" EntityType="dbModel.FDMCptFoMonthly" />
+          <EntitySet Name="FDMEventDailies" EntityType="dbModel.FDMEventDaily" />
+          <EntitySet Name="FDMEventMonthlies" EntityType="dbModel.FDMEventMonthly" />
+          <EntitySet Name="FDMRegCptFoAnnullies" EntityType="dbModel.FDMRegCptFoAnnully" />
+          <EntitySet Name="FDMRegDailies" EntityType="dbModel.FDMRegDaily" />
+          <EntitySet Name="FDMRegEventDailies" EntityType="dbModel.FDMRegEventDaily" />
+          <EntitySet Name="FDMRegEventMonthlies" EntityType="dbModel.FDMRegEventMonthly" />
+          <EntitySet Name="FDMRegMonthlies" EntityType="dbModel.FDMRegMonthly" />
+          <EntitySet Name="FDMTypeAnnuallies" EntityType="dbModel.FDMTypeAnnually" />
+          <EntitySet Name="FDMTypeDailies" EntityType="dbModel.FDMTypeDaily" />
+          <EntitySet Name="FDMTypeMonthlies" EntityType="dbModel.FDMTypeMonthly" />
           <EntitySet Name="FDMs" EntityType="dbModel.FDM" />
           <EntitySet Name="ViewFDMs" EntityType="dbModel.ViewFDM" />
         </EntityContainer>
@@ -1601,6 +2785,577 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewLegTime' does not have a primary k
           <Property Name="ChocksIn" Type="DateTime" Precision="3" />
           <Property Name="FuelPlanned" Type="Decimal" Precision="18" Scale="4" />
         </EntityType>
+        <EntityType Name="FDMCptAll">
+          <Key>
+            <PropertyRef Name="CptCode" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptName" />
+          </Key>
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="CptCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CptId" Type="Int32" Nullable="false" />
+          <Property Name="CptName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMCptAnnually">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Year" Type="Int32" />
+          <Property Name="CptName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="CptId" Type="Int32" Nullable="false" />
+          <Property Name="CptCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="incidentCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+          <Property Name="FaultPercentagePerFlight" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMCptDaily">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Day" Type="DateTime" Precision="0" />
+          <Property Name="CptName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="CptId" Type="Int32" Nullable="false" />
+          <Property Name="CptCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="p1EventCount" Type="Int32" />
+          <Property Name="IPEventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="P1HighCount" Type="Int32" />
+          <Property Name="IPHighCount" Type="Int32" />
+          <Property Name="IPMediumCount" Type="Int32" />
+          <Property Name="P1MediumCount" Type="Int32" />
+          <Property Name="IPLowCount" Type="Int32" />
+          <Property Name="P1LowCount" Type="Int32" />
+          <Property Name="FOResEventsCount" Type="Int32" />
+          <Property Name="IPResEventsCount" Type="Int32" />
+          <Property Name="P1ResEventsCount" Type="Int32" />
+          <Property Name="IPSelfResEventsCount" Type="Int32" />
+          <Property Name="P1SelfResEventsCount" Type="Int32" />
+          <Property Name="IPOtherResEventsCount" Type="Int32" />
+          <Property Name="P1OtherResEventsCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMCptEventDaily">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Day" Type="DateTime" Precision="0" />
+          <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CptName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="CptId" Type="Int32" Nullable="false" />
+          <Property Name="CptCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMCptEventMonthly">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CptName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="CptId" Type="Int32" Nullable="false" />
+          <Property Name="CptCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMCptIpDaily">
+          <Key>
+            <PropertyRef Name="P1Code" />
+            <PropertyRef Name="IpCode" />
+          </Key>
+          <Property Name="Day" Type="DateTime" Precision="0" />
+          <Property Name="P1Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P1Id" Type="Int32" />
+          <Property Name="IpName" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="IpId" Type="Int32" />
+          <Property Name="P1Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IpCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMCptIpMonthly">
+          <Key>
+            <PropertyRef Name="P1Code" />
+            <PropertyRef Name="IpCode" />
+          </Key>
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="P1Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="p1Id" Type="Int32" />
+          <Property Name="IpName" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="IpId" Type="Int32" />
+          <Property Name="P1Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IpCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMCptMonthly">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="CptName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="CptId" Type="Int32" Nullable="false" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CptCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="p1EventCount" Type="Int32" />
+          <Property Name="IPEventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+          <Property Name="FaultPercentagePerFlight" Type="Int32" />
+          <Property Name="IPHighCount" Type="Int32" />
+          <Property Name="P1HighCount" Type="Int32" />
+          <Property Name="IPMediumCount" Type="Int32" />
+          <Property Name="P1MediumCount" Type="Int32" />
+          <Property Name="IPLowCount" Type="Int32" />
+          <Property Name="P1LowCount" Type="Int32" />
+          <Property Name="FOResEventsCount" Type="Int32" />
+          <Property Name="IPResEventsCount" Type="Int32" />
+          <Property Name="P1ResEventsCount" Type="Int32" />
+          <Property Name="IPSelfResEventsCount" Type="Int32" />
+          <Property Name="P1SelfResEventsCount" Type="Int32" />
+          <Property Name="IPOtherResEventsCount" Type="Int32" />
+          <Property Name="P1OtherResEventsCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMFoDaily">
+          <Key>
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Day" Type="DateTime" Precision="0" />
+          <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P2Id" Type="Int32" />
+          <Property Name="P2Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+          <Property Name="scoresPerFlight" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMFoEventDaily">
+          <Key>
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Day" Type="DateTime" Precision="0" />
+          <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P2Id" Type="Int32" />
+          <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="P2Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMFoEventMonthly">
+          <Key>
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P2Id" Type="Int32" />
+          <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="P2Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMFoMonthly">
+          <Key>
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P2Id" Type="Int32" />
+          <Property Name="P2Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+          <Property Name="scoresPerFlight" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMPhaseMonthly">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CrewId" />
+          </Key>
+          <Property Name="Phase" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="CrewId" Type="Int32" Nullable="false" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMPhaseTypeMonthly">
+          <Key>
+            <PropertyRef Name="CrewId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Phase" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Severity" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CrewId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+          <Property Name="EventsCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMRegCptAnnually">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="CptName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="CptId" Type="Int32" Nullable="false" />
+          <Property Name="CptCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMRegCptDaily_">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Day" Type="DateTime" Precision="0" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="CptName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="CptId" Type="Int32" Nullable="false" />
+          <Property Name="CptCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMRegCptFoDaily">
+          <Key>
+            <PropertyRef Name="P1Code" />
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Day" Type="DateTime" Precision="0" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="P1Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P1Id" Type="Int32" Nullable="false" />
+          <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P2Id" Type="Int32" />
+          <Property Name="P1Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="P2Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMRegCptFoMonthly">
+          <Key>
+            <PropertyRef Name="P1Code" />
+            <PropertyRef Name="P2Code" />
+          </Key>
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="P1Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P1Id" Type="Int32" Nullable="false" />
+          <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P2Id" Type="Int32" />
+          <Property Name="P1Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="P2Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMRegCptMonthly">
+          <Key>
+            <PropertyRef Name="CptName" />
+            <PropertyRef Name="CptId" />
+            <PropertyRef Name="CptCode" />
+          </Key>
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="CptName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="CptId" Type="Int32" Nullable="false" />
+          <Property Name="CptCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMDaily">
+          <Key>
+            <PropertyRef Name="FlightDate" />
+          </Key>
+          <Property Name="FlightDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+          <Property Name="ScorePerFlight" Type="Int32" />
+          <Property Name="EventPerFlight" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMCptFoDaily">
+          <Key>
+            <PropertyRef Name="P1Id" />
+          </Key>
+          <Property Name="Day" Type="DateTime" Precision="0" />
+          <Property Name="P1Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P1Id" Type="Int32" Nullable="false" />
+          <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P2Id" Type="Int32" />
+          <Property Name="IPId" Type="Int32" />
+          <Property Name="IPName" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P1Code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="P2Code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IpCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMCptFoMonthly">
+          <Key>
+            <PropertyRef Name="P1Id" />
+          </Key>
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="P1Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P1Id" Type="Int32" Nullable="false" />
+          <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P2Id" Type="Int32" />
+          <Property Name="IPId" Type="Int32" />
+          <Property Name="IPName" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P1Code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="P2Code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IpCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMEventDaily">
+          <Key>
+            <PropertyRef Name="FlightDate" />
+          </Key>
+          <Property Name="FlightDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMEventMonthly">
+          <Key>
+            <PropertyRef Name="Year" />
+          </Key>
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMRegCptFoAnnully">
+          <Key>
+            <PropertyRef Name="P1Id" />
+          </Key>
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="P1Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P1Id" Type="Int32" Nullable="false" />
+          <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="P2Id" Type="Int32" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMRegDaily">
+          <Key>
+            <PropertyRef Name="FlightDate" />
+          </Key>
+          <Property Name="FlightDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMRegEventDaily">
+          <Key>
+            <PropertyRef Name="registerId" />
+          </Key>
+          <Property Name="Day" Type="DateTime" Precision="0" />
+          <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="registerId" Type="Int32" Nullable="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMRegEventMonthly">
+          <Key>
+            <PropertyRef Name="registerId" />
+          </Key>
+          <Property Name="Year" Type="Int32" />
+          <Property Name="YearMonthName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="MonthName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="registerId" Type="Int32" Nullable="false" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMRegMonthly">
+          <Key>
+            <PropertyRef Name="RegisterId" />
+          </Key>
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterId" Type="Int32" Nullable="false" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+          <Property Name="Score" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMTypeAnnually">
+          <Key>
+            <PropertyRef Name="AircraftTypeId" />
+          </Key>
+          <Property Name="Year" Type="Int32" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="AircraftType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AircraftTypeId" Type="Int32" Nullable="false" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMTypeDaily">
+          <Key>
+            <PropertyRef Name="AircraftTypeId" />
+          </Key>
+          <Property Name="FlightDate" Type="DateTime" Precision="3" />
+          <Property Name="AircraftTypeId" Type="Int32" Nullable="false" />
+          <Property Name="AircraftType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="flightcount" Type="Int32" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FDMTypeMonthly">
+          <Key>
+            <PropertyRef Name="AircraftTypeId" />
+          </Key>
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="FlightCount" Type="Int32" />
+          <Property Name="EventCount" Type="Int32" />
+          <Property Name="AircraftType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AircraftTypeId" Type="Int32" Nullable="false" />
+          <Property Name="HighCount" Type="Int32" />
+          <Property Name="MediumCount" Type="Int32" />
+          <Property Name="LowCount" Type="Int32" />
+        </EntityType>
         <EntityType Name="FDM">
           <Key>
             <PropertyRef Name="Id" />
@@ -1612,7 +3367,6 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewLegTime' does not have a primary k
           <Property Name="Minor" Type="Double" />
           <Property Name="Major" Type="Double" />
           <Property Name="Critical" Type="Double" />
-          <Property Name="Duration" Type="Double" />
           <Property Name="TDDatetime" Type="DateTime" Precision="0" />
           <Property Name="P1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="P2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -1650,6 +3404,7 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewLegTime' does not have a primary k
           <Property Name="Approved" Type="Boolean" />
           <Property Name="ApprovedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="DateApproved" Type="DateTime" Precision="0" />
+          <Property Name="Duration" Type="Time" Precision="7" />
         </EntityType>
         <EntityType Name="ViewFDM">
           <Key>
@@ -1686,7 +3441,7 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewLegTime' does not have a primary k
           <Property Name="Context" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Critical" Type="Double" />
           <Property Name="Date" Type="DateTime" Precision="0" />
-          <Property Name="Duration" Type="Double" />
+          <Property Name="Duration" Type="Time" Precision="7" />
           <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="FlightId" Type="Int32" />
           <Property Name="Id" Type="Int32" Nullable="false" />
@@ -2227,9 +3982,589 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewLegTime' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="FDMCptAlls">
+            <EntityTypeMapping TypeName="dbModel.FDMCptAll">
+              <MappingFragment StoreEntitySet="FDMCptAll">
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="CptName" ColumnName="CptName" />
+                <ScalarProperty Name="CptId" ColumnName="CptId" />
+                <ScalarProperty Name="CptCode" ColumnName="CptCode" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMCptAnnuallies">
+            <EntityTypeMapping TypeName="dbModel.FDMCptAnnually">
+              <MappingFragment StoreEntitySet="FDMCptAnnually">
+                <ScalarProperty Name="FaultPercentagePerFlight" ColumnName="FaultPercentagePerFlight" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="incidentCount" ColumnName="incidentCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="CptCode" ColumnName="CptCode" />
+                <ScalarProperty Name="CptId" ColumnName="CptId" />
+                <ScalarProperty Name="CptName" ColumnName="CptName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMCptDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMCptDaily">
+              <MappingFragment StoreEntitySet="FDMCptDaily">
+                <ScalarProperty Name="P1OtherResEventsCount" ColumnName="P1OtherResEventsCount" />
+                <ScalarProperty Name="IPOtherResEventsCount" ColumnName="IPOtherResEventsCount" />
+                <ScalarProperty Name="P1SelfResEventsCount" ColumnName="P1SelfResEventsCount" />
+                <ScalarProperty Name="IPSelfResEventsCount" ColumnName="IPSelfResEventsCount" />
+                <ScalarProperty Name="P1ResEventsCount" ColumnName="P1ResEventsCount" />
+                <ScalarProperty Name="IPResEventsCount" ColumnName="IPResEventsCount" />
+                <ScalarProperty Name="FOResEventsCount" ColumnName="FOResEventsCount" />
+                <ScalarProperty Name="P1LowCount" ColumnName="P1LowCount" />
+                <ScalarProperty Name="IPLowCount" ColumnName="IPLowCount" />
+                <ScalarProperty Name="P1MediumCount" ColumnName="P1MediumCount" />
+                <ScalarProperty Name="IPMediumCount" ColumnName="IPMediumCount" />
+                <ScalarProperty Name="IPHighCount" ColumnName="IPHighCount" />
+                <ScalarProperty Name="P1HighCount" ColumnName="P1HighCount" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="IPEventCount" ColumnName="IPEventCount" />
+                <ScalarProperty Name="p1EventCount" ColumnName="p1EventCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="CptCode" ColumnName="CptCode" />
+                <ScalarProperty Name="CptId" ColumnName="CptId" />
+                <ScalarProperty Name="CptName" ColumnName="CptName" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMCptEventDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMCptEventDaily">
+              <MappingFragment StoreEntitySet="FDMCptEventDaily">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="CptCode" ColumnName="CptCode" />
+                <ScalarProperty Name="CptId" ColumnName="CptId" />
+                <ScalarProperty Name="CptName" ColumnName="CptName" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMCptEventMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMCptEventMonthly">
+              <MappingFragment StoreEntitySet="FDMCptEventMonthly">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="CptCode" ColumnName="CptCode" />
+                <ScalarProperty Name="CptId" ColumnName="CptId" />
+                <ScalarProperty Name="CptName" ColumnName="CptName" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMCptIpDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMCptIpDaily">
+              <MappingFragment StoreEntitySet="FDMCptIpDaily">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="IpCode" ColumnName="IpCode" />
+                <ScalarProperty Name="P1Code" ColumnName="P1Code" />
+                <ScalarProperty Name="IpId" ColumnName="IpId" />
+                <ScalarProperty Name="IpName" ColumnName="IpName" />
+                <ScalarProperty Name="P1Id" ColumnName="P1Id" />
+                <ScalarProperty Name="P1Name" ColumnName="P1Name" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMCptIpMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMCptIpMonthly">
+              <MappingFragment StoreEntitySet="FDMCptIpMonthly">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="IpCode" ColumnName="IpCode" />
+                <ScalarProperty Name="P1Code" ColumnName="P1Code" />
+                <ScalarProperty Name="IpId" ColumnName="IpId" />
+                <ScalarProperty Name="IpName" ColumnName="IpName" />
+                <ScalarProperty Name="p1Id" ColumnName="p1Id" />
+                <ScalarProperty Name="P1Name" ColumnName="P1Name" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMCptMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMCptMonthly">
+              <MappingFragment StoreEntitySet="FDMCptMonthly">
+                <ScalarProperty Name="P1OtherResEventsCount" ColumnName="P1OtherResEventsCount" />
+                <ScalarProperty Name="IPOtherResEventsCount" ColumnName="IPOtherResEventsCount" />
+                <ScalarProperty Name="P1SelfResEventsCount" ColumnName="P1SelfResEventsCount" />
+                <ScalarProperty Name="IPSelfResEventsCount" ColumnName="IPSelfResEventsCount" />
+                <ScalarProperty Name="P1ResEventsCount" ColumnName="P1ResEventsCount" />
+                <ScalarProperty Name="IPResEventsCount" ColumnName="IPResEventsCount" />
+                <ScalarProperty Name="FOResEventsCount" ColumnName="FOResEventsCount" />
+                <ScalarProperty Name="P1LowCount" ColumnName="P1LowCount" />
+                <ScalarProperty Name="IPLowCount" ColumnName="IPLowCount" />
+                <ScalarProperty Name="P1MediumCount" ColumnName="P1MediumCount" />
+                <ScalarProperty Name="IPMediumCount" ColumnName="IPMediumCount" />
+                <ScalarProperty Name="P1HighCount" ColumnName="P1HighCount" />
+                <ScalarProperty Name="IPHighCount" ColumnName="IPHighCount" />
+                <ScalarProperty Name="FaultPercentagePerFlight" ColumnName="FaultPercentagePerFlight" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="IPEventCount" ColumnName="IPEventCount" />
+                <ScalarProperty Name="p1EventCount" ColumnName="p1EventCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="CptCode" ColumnName="CptCode" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="CptId" ColumnName="CptId" />
+                <ScalarProperty Name="CptName" ColumnName="CptName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMFoDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMFoDaily">
+              <MappingFragment StoreEntitySet="FDMFoDaily">
+                <ScalarProperty Name="scoresPerFlight" ColumnName="scoresPerFlight" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="P2Code" ColumnName="P2Code" />
+                <ScalarProperty Name="P2Id" ColumnName="P2Id" />
+                <ScalarProperty Name="P2Name" ColumnName="P2Name" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMFoEventDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMFoEventDaily">
+              <MappingFragment StoreEntitySet="FDMFoEventDaily">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="P2Code" ColumnName="P2Code" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="P2Id" ColumnName="P2Id" />
+                <ScalarProperty Name="P2Name" ColumnName="P2Name" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMFoEventMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMFoEventMonthly">
+              <MappingFragment StoreEntitySet="FDMFoEventMonthly">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="P2Code" ColumnName="P2Code" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="P2Id" ColumnName="P2Id" />
+                <ScalarProperty Name="P2Name" ColumnName="P2Name" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMFoMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMFoMonthly">
+              <MappingFragment StoreEntitySet="FDMFoMonthly">
+                <ScalarProperty Name="scoresPerFlight" ColumnName="scoresPerFlight" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="P2Code" ColumnName="P2Code" />
+                <ScalarProperty Name="P2Id" ColumnName="P2Id" />
+                <ScalarProperty Name="P2Name" ColumnName="P2Name" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMPhaseMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMPhaseMonthly">
+              <MappingFragment StoreEntitySet="FDMPhaseMonthly">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMPhaseTypeMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMPhaseTypeMonthly">
+              <MappingFragment StoreEntitySet="FDMPhaseTypeMonthly">
+                <ScalarProperty Name="EventsCount" ColumnName="EventsCount" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Severity" ColumnName="Severity" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMRegCptAnnuallies">
+            <EntityTypeMapping TypeName="dbModel.FDMRegCptAnnually">
+              <MappingFragment StoreEntitySet="FDMRegCptAnnually">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="CptCode" ColumnName="CptCode" />
+                <ScalarProperty Name="CptId" ColumnName="CptId" />
+                <ScalarProperty Name="CptName" ColumnName="CptName" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMRegCptDaily_">
+            <EntityTypeMapping TypeName="dbModel.FDMRegCptDaily_">
+              <MappingFragment StoreEntitySet="FDMRegCptDaily ">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="CptCode" ColumnName="CptCode" />
+                <ScalarProperty Name="CptId" ColumnName="CptId" />
+                <ScalarProperty Name="CptName" ColumnName="CptName" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMRegCptFoDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMRegCptFoDaily">
+              <MappingFragment StoreEntitySet="FDMRegCptFoDaily">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="P2Code" ColumnName="P2Code" />
+                <ScalarProperty Name="P1Code" ColumnName="P1Code" />
+                <ScalarProperty Name="P2Id" ColumnName="P2Id" />
+                <ScalarProperty Name="P2Name" ColumnName="P2Name" />
+                <ScalarProperty Name="P1Id" ColumnName="P1Id" />
+                <ScalarProperty Name="P1Name" ColumnName="P1Name" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMRegCptFoMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMRegCptFoMonthly">
+              <MappingFragment StoreEntitySet="FDMRegCptFoMonthly">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="P2Code" ColumnName="P2Code" />
+                <ScalarProperty Name="P1Code" ColumnName="P1Code" />
+                <ScalarProperty Name="P2Id" ColumnName="P2Id" />
+                <ScalarProperty Name="P2Name" ColumnName="P2Name" />
+                <ScalarProperty Name="P1Id" ColumnName="P1Id" />
+                <ScalarProperty Name="P1Name" ColumnName="P1Name" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMRegCptMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMRegCptMonthly">
+              <MappingFragment StoreEntitySet="FDMRegCptMonthly">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="CptCode" ColumnName="CptCode" />
+                <ScalarProperty Name="CptId" ColumnName="CptId" />
+                <ScalarProperty Name="CptName" ColumnName="CptName" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMDaily">
+              <MappingFragment StoreEntitySet="FDMDaily">
+                <ScalarProperty Name="EventPerFlight" ColumnName="EventPerFlight" />
+                <ScalarProperty Name="ScorePerFlight" ColumnName="ScorePerFlight" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightDate" ColumnName="FlightDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMCptFoDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMCptFoDaily">
+              <MappingFragment StoreEntitySet="FDMCptFoDaily">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="IpCode" ColumnName="IpCode" />
+                <ScalarProperty Name="P2Code" ColumnName="P2Code" />
+                <ScalarProperty Name="P1Code" ColumnName="P1Code" />
+                <ScalarProperty Name="IPName" ColumnName="IPName" />
+                <ScalarProperty Name="IPId" ColumnName="IPId" />
+                <ScalarProperty Name="P2Id" ColumnName="P2Id" />
+                <ScalarProperty Name="P2Name" ColumnName="P2Name" />
+                <ScalarProperty Name="P1Id" ColumnName="P1Id" />
+                <ScalarProperty Name="P1Name" ColumnName="P1Name" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMCptFoMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMCptFoMonthly">
+              <MappingFragment StoreEntitySet="FDMCptFoMonthly">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="IpCode" ColumnName="IpCode" />
+                <ScalarProperty Name="P2Code" ColumnName="P2Code" />
+                <ScalarProperty Name="P1Code" ColumnName="P1Code" />
+                <ScalarProperty Name="IPName" ColumnName="IPName" />
+                <ScalarProperty Name="IPId" ColumnName="IPId" />
+                <ScalarProperty Name="P2Id" ColumnName="P2Id" />
+                <ScalarProperty Name="P2Name" ColumnName="P2Name" />
+                <ScalarProperty Name="P1Id" ColumnName="P1Id" />
+                <ScalarProperty Name="P1Name" ColumnName="P1Name" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMEventDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMEventDaily">
+              <MappingFragment StoreEntitySet="FDMEventDaily">
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="FlightDate" ColumnName="FlightDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMEventMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMEventMonthly">
+              <MappingFragment StoreEntitySet="FDMEventMonthly">
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMRegCptFoAnnullies">
+            <EntityTypeMapping TypeName="dbModel.FDMRegCptFoAnnully">
+              <MappingFragment StoreEntitySet="FDMRegCptFoAnnully">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="P2Id" ColumnName="P2Id" />
+                <ScalarProperty Name="P2Name" ColumnName="P2Name" />
+                <ScalarProperty Name="P1Id" ColumnName="P1Id" />
+                <ScalarProperty Name="P1Name" ColumnName="P1Name" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMRegDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMRegDaily">
+              <MappingFragment StoreEntitySet="FDMRegDaily">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="FlightDate" ColumnName="FlightDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMRegEventDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMRegEventDaily">
+              <MappingFragment StoreEntitySet="FDMRegEventDaily">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="registerId" ColumnName="registerId" />
+                <ScalarProperty Name="register" ColumnName="register" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMRegEventMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMRegEventMonthly">
+              <MappingFragment StoreEntitySet="FDMRegEventMonthly">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="registerId" ColumnName="registerId" />
+                <ScalarProperty Name="register" ColumnName="register" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="MonthName" ColumnName="MonthName" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="YearMonthName" ColumnName="YearMonthName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMRegMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMRegMonthly">
+              <MappingFragment StoreEntitySet="FDMRegMonthly">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="RegisterId" ColumnName="RegisterId" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMTypeAnnuallies">
+            <EntityTypeMapping TypeName="dbModel.FDMTypeAnnually">
+              <MappingFragment StoreEntitySet="FDMTypeAnnually">
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="AircraftTypeId" ColumnName="AircraftTypeId" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMTypeDailies">
+            <EntityTypeMapping TypeName="dbModel.FDMTypeDaily">
+              <MappingFragment StoreEntitySet="FDMTypeDaily">
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="flightcount" ColumnName="flightcount" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="AircraftTypeId" ColumnName="AircraftTypeId" />
+                <ScalarProperty Name="FlightDate" ColumnName="FlightDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDMTypeMonthlies">
+            <EntityTypeMapping TypeName="dbModel.FDMTypeMonthly">
+              <MappingFragment StoreEntitySet="FDMTypeMonthly">
+                <ScalarProperty Name="LowCount" ColumnName="LowCount" />
+                <ScalarProperty Name="MediumCount" ColumnName="MediumCount" />
+                <ScalarProperty Name="HighCount" ColumnName="HighCount" />
+                <ScalarProperty Name="AircraftTypeId" ColumnName="AircraftTypeId" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="EventCount" ColumnName="EventCount" />
+                <ScalarProperty Name="FlightCount" ColumnName="FlightCount" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="FDMs">
             <EntityTypeMapping TypeName="dbModel.FDM">
               <MappingFragment StoreEntitySet="FDM">
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
                 <ScalarProperty Name="DateApproved" ColumnName="DateApproved" />
                 <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
@@ -2267,7 +4602,6 @@ warning 6002: The table/view 'EPACSPN.dbo.ViewLegTime' does not have a primary k
                 <ScalarProperty Name="P2" ColumnName="P2" />
                 <ScalarProperty Name="P1" ColumnName="P1" />
                 <ScalarProperty Name="TDDatetime" ColumnName="TDDatetime" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
                 <ScalarProperty Name="Critical" ColumnName="Critical" />
                 <ScalarProperty Name="Major" ColumnName="Major" />
                 <ScalarProperty Name="Minor" ColumnName="Minor" />
