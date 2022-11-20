@@ -1077,7 +1077,7 @@ namespace ApiReportFlight.Controllers
                 var data_rev = ds.Where(q => q.Route == rev).FirstOrDefault();
                 result.Add(data);
                 ds.Remove(data);
-                if (data_rev != null)
+                if (data_rev != null && rev!=data.Route)
                 {
                     result.Add(data_rev);
                     ds.Remove(data_rev);
