@@ -18,7 +18,7 @@ namespace ApiFDM.Models
         public string Minor { get; set; }
         public string Major { get; set; }
         public string Critical { get; set; }
-        public string Duration { get; set; }
+        public TimeSpan Duration { get; set; }
         public string Aircraft { get; set; }
         public string TOAirport { get; set; }
         public string TDAirport { get; set; }
@@ -106,23 +106,23 @@ namespace ApiFDM.Models
             }
         }
 
-        public float? DurationX
-        {
-            get
-            {
-                float? result = 0;
+        //public float? DurationX
+        //{
+        //    get
+        //    {
+        //        float? result = 0;
 
-                if (float.TryParse(Duration, out float x))
-                {
-                    result = float.Parse(Duration);
-                }
-                else
-                {
-                    result = null;
-                }
-                return result;
-            }
-        }
+        //        if (float.TryParse(Duration, out float x))
+        //        {
+        //            result = x;
+        //        }
+        //        else
+        //        {
+        //            result = null;
+        //        }
+        //        return result;
+        //    }
+        //}
 
         public DateTime? DateX
         {
@@ -178,7 +178,7 @@ namespace ApiFDM.Models
         {
             get
             {
-                if (this.DateX == null || this.EventName == null || this.SeverityX == null)
+                if (this.DateX == null || this.EventName == null || this.SeverityX == null || this.Duration == null)
                     return false;
                 return true;
             }
@@ -207,7 +207,7 @@ namespace ApiFDM.Models
         public string IP { get; set; }
 
         public string PFLR { get; set; }
-        public string Duration { get; set; }
+        public float Duration { get; set; }
         public int RegisterId { get; set; }
         public string FileName { get; set; }
         public int recordNum { get; set; }
@@ -226,23 +226,23 @@ namespace ApiFDM.Models
             }
         }
 
-        public float? DurationX
-        {
-            get
-            {
-                float? result = 0;
+        //public float? DurationX
+        //{
+        //    get
+        //    {
+        //        float? result = 0;
 
-                if (float.TryParse(Duration, out float flt))
-                {
-                    result = float.Parse(Duration);
-                }
-                else
-                {
-                    result = null;
-                }
-                return result;
-            }
-        }
+        //        if (float.TryParse(Duration, out float flt))
+        //        {
+        //            result = float.Parse(Duration);
+        //        }
+        //        else
+        //        {
+        //            result = null;
+        //        }
+        //        return result;
+        //    }
+        //}
 
         public DateTime? DateX
         {
@@ -370,7 +370,7 @@ namespace ApiFDM.Models
         public string FileName { get; set; }
         public float? Value { get; set; }
         public int? Status { get; set; }
-        public float? Duration { get; set; }
+        public TimeSpan Duration { get; set; }
         public string Message { get; set; }
     }
 

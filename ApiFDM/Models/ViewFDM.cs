@@ -44,7 +44,7 @@ namespace ApiFDM.Models
         public string Context { get; set; }
         public Nullable<double> Critical { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<double> Duration { get; set; }
+        public Nullable<System.TimeSpan> Duration { get; set; }
         public string EventName { get; set; }
         public Nullable<int> FlightId { get; set; }
         public int Id { get; set; }

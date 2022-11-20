@@ -21,7 +21,6 @@ namespace ApiFDM.Models
         public Nullable<double> Minor { get; set; }
         public Nullable<double> Major { get; set; }
         public Nullable<double> Critical { get; set; }
-        public Nullable<double> Duration { get; set; }
         public Nullable<System.DateTime> TDDatetime { get; set; }
         public string P1 { get; set; }
         public string P2 { get; set; }
@@ -59,5 +58,6 @@ namespace ApiFDM.Models
         public Nullable<bool> Approved { get; set; }
         public string ApprovedBy { get; set; }
         public Nullable<System.DateTime> DateApproved { get; set; }
+        public Nullable<System.TimeSpan> Duration { get; set; }
     }
 }

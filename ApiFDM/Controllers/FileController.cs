@@ -74,8 +74,6 @@ namespace ApiFDM.Controllers
                     event_sheet = names.First();
                 var query = from x in excelFile.UrlConnexion.WorksheetNoHeader(event_sheet)
                             select x;
-                //var query = from x in excelFile.UrlConnexion.WorksheetNoHeader(0)
-                //            select x;
 
                 var rows = query.ToList();
 
@@ -91,7 +89,7 @@ namespace ApiFDM.Controllers
                     flight.Minor = row[3];
                     flight.Major = row[4];
                     flight.Critical = row[5];
-                    flight.Duration = row[6];
+                    flight.Duration = TimeSpan.Parse(row[6]);
                     flight.TOAirport = row[7];
                     flight.TDAirport = row[8];
                     flight.RecdFltNum = row[9];
@@ -146,7 +144,7 @@ namespace ApiFDM.Controllers
                         entity.Severity = y.SeverityX;
                         entity.Date = y.DateX;
                         entity.EventName = y.EventName;
-                        entity.Duration = y.DurationX;
+                        entity.Duration = y.Duration;
                         //entity.P1 = y.P1;
                         //entity.P1Id = PilotsId.Where(q => q.Code == y.P1).Select(w => (int?)w.CrewId).DefaultIfEmpty().First();
                         //entity.P2 = y.P2;
@@ -197,7 +195,7 @@ namespace ApiFDM.Controllers
                         failedItem.P2 = y.P2;
                         failedItem.FileName = fn;
                         failedItem.Value = y.ValueX;
-                        failedItem.Duration = y.DurationX;
+                        failedItem.Duration = y.Duration;
                         failedItem.flightNo = y.FlightNumber;
                         failedItem.Message = flight != null ? string.Empty : "Flight record not found";
                         failedItems.Add(failedItem);
@@ -256,7 +254,7 @@ namespace ApiFDM.Controllers
 
                     flight.LimitLevel = row[0];
                     flight.description = row[1];
-                    flight.Duration = row[2];
+                    flight.Duration = float.Parse(row[2]);
                     flight.LevelsValue = row[3];
                     flight.limit = row[4];
                     flight.Date = row[5];
@@ -305,7 +303,7 @@ namespace ApiFDM.Controllers
                         entity.Severity = y.LimitLevelX;
                         entity.Date = y.DateX;
                         entity.EventName = y.description;
-                        entity.Duration = y.DurationX;
+                        entity.Duration = TimeSpan.FromSeconds((double)new decimal(y.Duration));
                         entity.Value = y.LevelsValue;
                         //entity.P1 = y.P1;
                         //entity.P1Id = PilotsId.Where(q => q.Code == y.P1).Select(w => (int?)w.CrewId).DefaultIfEmpty().First();
@@ -347,7 +345,7 @@ namespace ApiFDM.Controllers
                         failedItem.P2 = y.P2;
                         failedItem.Value = y.ValueX;
                         failedItem.FileName = fn;
-                        failedItem.Duration = y.DurationX;
+                        failedItem.Duration = TimeSpan.FromSeconds((double)new decimal(y.Duration));
                         failedItem.flightNo = y.FlightNo;
                         failedItem.Message = flight != null ? string.Empty : "Flight record not found";
                         failedItems.Add(failedItem);
