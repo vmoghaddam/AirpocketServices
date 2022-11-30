@@ -1,6 +1,8 @@
 ﻿using ApiReportFlight.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -1206,16 +1208,96 @@ namespace ApiReportFlight.Controllers
                     return 1000;
             }
         }
+        string GETUrl(string url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            try
+            {
+                WebResponse response = request.GetResponse();
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(responseStream, System.Text.Encoding.UTF8);
+                    return reader.ReadToEnd();
+                }
+            }
+            catch (WebException ex)
+            {
+                WebResponse errorResponse = ex.Response;
+                using (Stream responseStream = errorResponse.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(responseStream, System.Text.Encoding.GetEncoding("utf-8"));
+                    String errorText = reader.ReadToEnd();
+                    // log errorText
+                }
+                throw;
+            }
+        }
         [Route("api/crew/flights/{grp}")]
         [AcceptVerbs("GET")]
         public IHttpActionResult GetCrewFlightTimes(string grp, DateTime df, DateTime dt)
         {
+
+
+            List<FlightTimeDto> external_list = new List<FlightTimeDto>();
+            try
+            {
+                var ids = "4325_4287_4289";
+                var dfStr = df.ToString("yyyy-MM-dd");
+                var dtStr = dt.ToString("yyyy-MM-dd");
+                var extStr = GETUrl("https://apireportflight.varesh.click/api/crew/flights/ids/"+ids+"?df="+ dfStr + "&dt="+ dtStr);
+                external_list=JsonConvert.DeserializeObject<List<FlightTimeDto>>(extStr);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
             var ctx = new ppa_Entities();
             var _df = df.Date;
             var _dt = dt.Date.AddDays(1);
             var _query = (
                            from x in ctx.ViewLegCrews
                            where x.STDLocal >= df && x.STDLocal < dt && x.FlightStatusID != 4
+                           group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name } into _grp
+                           select new FlightTimeDto()
+                           {
+                               CrewId = _grp.Key.CrewId,
+                               ScheduleName = _grp.Key.ScheduleName,
+                               JobGroup = _grp.Key.JobGroup,
+                               JobGropCode = _grp.Key.JobGroupCode,
+                               Name = _grp.Key.Name,
+
+                               Legs = _grp.Where(q => q.IsPositioning == false).Count(),
+                               DH = _grp.Where(q => q.IsPositioning == true).Count(),
+                               FlightTime = _grp.Sum(q => q.FlightTime),
+                               BlockTime = _grp.Sum(q => q.BlockTime),
+                               JLFlightTime = _grp.Sum(q => q.JL_FlightTime),
+                               JLBlockTime = _grp.Sum(q => q.JL_BlockTime),
+                               FixTime = _grp.Sum(q => q.FixTime),
+                           }
+                          ).ToList();
+            foreach (var x in _query)
+                x.GroupOrder = getOrder(x.JobGroup);
+            if (external_list.Count > 0)
+                _query = _query.Concat(external_list).ToList();
+
+            _query = _query.OrderBy(q => q.GroupOrder).ThenByDescending(q => q.FixTime).ToList();
+            return Ok(_query);
+        }
+
+        [Route("api/crew/flights/ids/{ids}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetCrewFlightTimesByIds(string ids, DateTime df, DateTime dt)
+        {
+
+            var _ids = ids.Split('_').Select(q =>(Nullable<int>) Convert.ToInt32(q)).ToList();
+
+            var ctx = new ppa_Entities();
+            var _df = df.Date;
+            var _dt = dt.Date.AddDays(1);
+            var _query = (
+                           from x in ctx.ViewLegCrews
+                           where x.STDLocal >= df && x.STDLocal < dt && x.FlightStatusID != 4 && _ids.Contains(x.CrewId)
                            group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name } into _grp
                            select new FlightTimeDto()
                            {
@@ -1255,8 +1337,30 @@ namespace ApiReportFlight.Controllers
 
                           ).ToList();
 
+            List<ViewLegCrew> external_list = new List<ViewLegCrew>();
+            var _ids = new List<int>() { 4235, 4287, 4289 };
+            if (_ids.IndexOf(id) != -1)
+            {
+                try
+                {
+                    var ids = "4325_4287_4289";
+                    var dfStr = df.ToString("yyyy-MM-dd");
+                    var dtStr = dt.ToString("yyyy-MM-dd");
+                    var extStr = GETUrl("https://apireportflight.varesh.click/api/crew/flights/detail/" + id + "?df=" + dfStr + "&dt=" + dtStr);
+                    external_list = JsonConvert.DeserializeObject<List<ViewLegCrew>>(extStr);
+                }
+                catch (Exception ex)
+                {
+
+                }
+                if (external_list.Count > 0)
+                    _query = _query.Concat(external_list).OrderBy(q => q.STD).ToList();
+            }
+
+
             return Ok(_query);
         }
+         
 
 
 

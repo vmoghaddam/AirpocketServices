@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7ce0ebbda85146a38970d782ed66ad27" Name="Diagram1" ZoomLevel="31">
+      <Diagram DiagramId="7ce0ebbda85146a38970d782ed66ad27" Name="Diagram1" ZoomLevel="30">
         <EntityTypeShape EntityType="ModelEntities.RptFuelOFP" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="ModelEntities.ViewLegCrew" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="ModelEntities.RptFlightRVSM" Width="1.5" PointX="7.375" PointY="0.75" />

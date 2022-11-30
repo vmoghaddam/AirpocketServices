@@ -183,6 +183,9 @@
     <Compile Include="Models\FDPItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FlightDocument.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FlightInformation.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

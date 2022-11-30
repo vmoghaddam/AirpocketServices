@@ -19,6 +19,16 @@
           <Property Name="Message" Type="varchar" MaxLength="2000" />
           <Property Name="Status" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="BulkMsgUsername">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="LastName" Type="nvarchar" MaxLength="255" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Group" Type="nvarchar" MaxLength="255" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="255" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <EntityType Name="MVT">
           <Key>
             <PropertyRef Name="Id" />
@@ -270,6 +280,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
         </EntityType>
         <EntityContainer Name="ppa_vareshModelStoreContainer">
           <EntitySet Name="BulkMsg" EntityType="Self.BulkMsg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BulkMsgUsername" EntityType="Self.BulkMsgUsername" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MVT" EntityType="Self.MVT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MVTAPI" EntityType="Self.MVTAPI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NiraHistory" EntityType="Self.NiraHistory" Schema="dbo" store:Type="Tables" />
@@ -621,6 +632,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
           <EntitySet Name="NiraHistories" EntityType="ppa_vareshModel.NiraHistory" />
           <EntitySet Name="ViewNiraFlights" EntityType="ppa_vareshModel.ViewNiraFlight" />
           <EntitySet Name="BulkMsgs" EntityType="ppa_vareshModel.BulkMsg" />
+          <EntitySet Name="BulkMsgUsernames" EntityType="ppa_vareshModel.BulkMsgUsername" />
         </EntityContainer>
         <EntityType Name="ViewFlightDelayCode">
           <Key>
@@ -698,6 +710,16 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
           <Property Name="RefId" Type="Int64" />
           <Property Name="Message" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="BulkMsgUsername">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Group" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -953,6 +975,17 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BulkMsgUsernames">
+            <EntityTypeMapping TypeName="ppa_vareshModel.BulkMsgUsername">
+              <MappingFragment StoreEntitySet="BulkMsgUsername">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
