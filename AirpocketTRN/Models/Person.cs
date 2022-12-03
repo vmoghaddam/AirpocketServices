@@ -17,9 +17,9 @@ namespace AirpocketTRN.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Person()
         {
+            this.CoursePeoples = new HashSet<CoursePeople>();
             this.CourseSessionPresences = new HashSet<CourseSessionPresence>();
             this.CourseSessionPresenceDetails = new HashSet<CourseSessionPresenceDetail>();
-            this.CoursePeoples = new HashSet<CoursePeople>();
         }
     
         public int Id { get; set; }
@@ -145,17 +145,158 @@ namespace AirpocketTRN.Models
         public Nullable<System.DateTime> RecurrentExpireDate { get; set; }
         public Nullable<System.DateTime> FMTIssueDate { get; set; }
         public Nullable<System.DateTime> FMTExpireDate { get; set; }
-        public Nullable<bool> OtherAirline { get; set; }
         public string PFirstName { get; set; }
         public string PLastName { get; set; }
         public string MultiType { get; set; }
+        public Nullable<bool> OtherAirline { get; set; }
+        public Nullable<System.DateTime> TypeMDIssueDate { get; set; }
+        public Nullable<System.DateTime> TypeMDExpireDate { get; set; }
+        public Nullable<System.DateTime> Type737IssueDate { get; set; }
+        public Nullable<System.DateTime> Type737ExpireDate { get; set; }
+        public Nullable<System.DateTime> TypeAirbusIssueDate { get; set; }
+        public Nullable<System.DateTime> TypeAirbusExpireDate { get; set; }
+        public Nullable<System.DateTime> TypeMDConversionIssueDate { get; set; }
+        public Nullable<System.DateTime> Type737ConversionIssueDate { get; set; }
+        public Nullable<System.DateTime> TypeAirbusConversionIssueDate { get; set; }
+        public Nullable<System.DateTime> LRCIssueDate { get; set; }
+        public Nullable<System.DateTime> LRCExpireDate { get; set; }
+        public Nullable<System.DateTime> RSPIssueDate { get; set; }
+        public Nullable<System.DateTime> RSPExpireDate { get; set; }
+        public Nullable<System.DateTime> CTUIssueDate { get; set; }
+        public Nullable<System.DateTime> CTUExpireDate { get; set; }
+        public Nullable<System.DateTime> SAIssueDate { get; set; }
+        public Nullable<System.DateTime> SAExpireDate { get; set; }
+        public Nullable<System.DateTime> HFIssueDate { get; set; }
+        public Nullable<System.DateTime> HFExpireDate { get; set; }
+        public Nullable<System.DateTime> ASDIssueDate { get; set; }
+        public Nullable<System.DateTime> ASDExpireDate { get; set; }
+        public Nullable<System.DateTime> GOMIssueDate { get; set; }
+        public Nullable<System.DateTime> GOMExpireDate { get; set; }
+        public Nullable<System.DateTime> ASFIssueDate { get; set; }
+        public Nullable<System.DateTime> ASFExpireDate { get; set; }
+        public Nullable<System.DateTime> CCIssueDate { get; set; }
+        public Nullable<System.DateTime> CCExpireDate { get; set; }
+        public Nullable<System.DateTime> ERPIssueDate { get; set; }
+        public Nullable<System.DateTime> ERPExpireDate { get; set; }
+        public Nullable<System.DateTime> MBIssueDate { get; set; }
+        public Nullable<System.DateTime> MBExpireDate { get; set; }
+        public Nullable<System.DateTime> PSIssueDate { get; set; }
+        public Nullable<System.DateTime> PSExpireDate { get; set; }
+        public Nullable<System.DateTime> ANNEXIssueDate { get; set; }
+        public Nullable<System.DateTime> ANNEXExpireDate { get; set; }
+        public Nullable<System.DateTime> DRMIssueDate { get; set; }
+        public Nullable<System.DateTime> DRMExpireDate { get; set; }
+        public Nullable<System.DateTime> FMTDIssueDate { get; set; }
+        public Nullable<System.DateTime> FMTDExpireDate { get; set; }
+        public Nullable<System.DateTime> MELExpireDate { get; set; }
+        public Nullable<System.DateTime> MELIssueDate { get; set; }
+        public Nullable<System.DateTime> METIssueDate { get; set; }
+        public Nullable<System.DateTime> METExpireDate { get; set; }
+        public Nullable<System.DateTime> PERIssueDate { get; set; }
+        public Nullable<System.DateTime> PERExpireDate { get; set; }
+        public Nullable<System.DateTime> LPCC1ExpireDate { get; set; }
+        public Nullable<System.DateTime> LPCC2ExpireDate { get; set; }
+        public Nullable<System.DateTime> LPCC3ExpireDate { get; set; }
+        public Nullable<System.DateTime> LPCC1IssueDate { get; set; }
+        public Nullable<System.DateTime> LPCC2IssueDate { get; set; }
+        public Nullable<System.DateTime> LPCC3IssueDate { get; set; }
+        public Nullable<System.DateTime> OPCC1IssueDate { get; set; }
+        public Nullable<System.DateTime> OPCC2IssueDate { get; set; }
+        public Nullable<System.DateTime> OPCC3IssueDate { get; set; }
+        public Nullable<System.DateTime> LineC1IssueDate { get; set; }
+        public Nullable<System.DateTime> LineC2IssueDate { get; set; }
+        public Nullable<System.DateTime> LineC3IssueDate { get; set; }
+        public Nullable<System.DateTime> LineC1ExpireDate { get; set; }
+        public Nullable<System.DateTime> LineC2ExpireDate { get; set; }
+        public Nullable<System.DateTime> LineC3ExpireDate { get; set; }
+        public Nullable<System.DateTime> RampIssueDate { get; set; }
+        public Nullable<System.DateTime> RampExpireDate { get; set; }
+        public Nullable<System.DateTime> ACIssueDate { get; set; }
+        public Nullable<System.DateTime> ACExpireDate { get; set; }
+        public Nullable<System.DateTime> UPRTIssueDate { get; set; }
+        public Nullable<System.DateTime> UPRTExpireDate { get; set; }
+        public Nullable<System.DateTime> SFIIssueDate { get; set; }
+        public Nullable<System.DateTime> SFIExpireDate { get; set; }
+        public Nullable<System.DateTime> SFEIssueDate { get; set; }
+        public Nullable<System.DateTime> SFEExpireDate { get; set; }
+        public Nullable<System.DateTime> TRI2IssueDate { get; set; }
+        public Nullable<System.DateTime> TRI2ExpireDate { get; set; }
+        public Nullable<System.DateTime> TRE2IssueDate { get; set; }
+        public Nullable<System.DateTime> TRE2ExpireDate { get; set; }
+        public Nullable<System.DateTime> IRIIssueDate { get; set; }
+        public Nullable<System.DateTime> IRIExpireDate { get; set; }
+        public Nullable<System.DateTime> IREIssueDate { get; set; }
+        public Nullable<System.DateTime> IREExpireDate { get; set; }
+        public Nullable<System.DateTime> CRIIssueDate { get; set; }
+        public Nullable<System.DateTime> CRIExpireDate { get; set; }
+        public Nullable<System.DateTime> CREIssueDate { get; set; }
+        public Nullable<System.DateTime> CREExpireDate { get; set; }
+        public Nullable<System.DateTime> SFI2IssueDate { get; set; }
+        public Nullable<System.DateTime> SFI2ExpireDate { get; set; }
+        public Nullable<System.DateTime> SFE2IssueDate { get; set; }
+        public Nullable<System.DateTime> SFE2ExpireDate { get; set; }
+        public Nullable<System.DateTime> AirCrewIssueDate { get; set; }
+        public Nullable<System.DateTime> AirCrewExpireDate { get; set; }
+        public Nullable<System.DateTime> AirOpsIssueDate { get; set; }
+        public Nullable<System.DateTime> AirOpsExpireDate { get; set; }
+        public Nullable<System.DateTime> SOPIssueDate { get; set; }
+        public Nullable<System.DateTime> SOPExpireDate { get; set; }
+        public Nullable<System.DateTime> Diff31IssueDate { get; set; }
+        public Nullable<System.DateTime> Diff31ExpireDate { get; set; }
+        public Nullable<System.DateTime> Diff34IssueDate { get; set; }
+        public Nullable<System.DateTime> Diff34ExpireDate { get; set; }
+        public Nullable<System.DateTime> OMA1IssueDate { get; set; }
+        public Nullable<System.DateTime> OMA1ExpireDate { get; set; }
+        public Nullable<System.DateTime> OMB1IssueDate { get; set; }
+        public Nullable<System.DateTime> OMB1ExpireDate { get; set; }
+        public Nullable<System.DateTime> OMC1IssueDate { get; set; }
+        public Nullable<System.DateTime> OMC1ExpireDate { get; set; }
+        public Nullable<System.DateTime> OMA2IssueDate { get; set; }
+        public Nullable<System.DateTime> OMA2ExpireDate { get; set; }
+        public Nullable<System.DateTime> OMB2IssueDate { get; set; }
+        public Nullable<System.DateTime> OMB2ExpireDate { get; set; }
+        public Nullable<System.DateTime> OMC2IssueDate { get; set; }
+        public Nullable<System.DateTime> OMC2ExpireDate { get; set; }
+        public Nullable<System.DateTime> OMA3IssueDate { get; set; }
+        public Nullable<System.DateTime> OMA3ExpireDate { get; set; }
+        public Nullable<System.DateTime> OMB3IssueDate { get; set; }
+        public Nullable<System.DateTime> OMB3ExpireDate { get; set; }
+        public Nullable<System.DateTime> OMC3IssueDate { get; set; }
+        public Nullable<System.DateTime> OMC3ExpireDate { get; set; }
+        public Nullable<System.DateTime> MapIssueDate { get; set; }
+        public Nullable<System.DateTime> MapExpireDate { get; set; }
+        public Nullable<System.DateTime> ComResIssueDate { get; set; }
+        public Nullable<System.DateTime> ComResExpireDate { get; set; }
+        public Nullable<System.DateTime> OPCC1ExpireDate { get; set; }
+        public Nullable<System.DateTime> OPCC2ExpireDate { get; set; }
+        public Nullable<System.DateTime> OPCC3ExpireDate { get; set; }
+        public Nullable<System.DateTime> IssueDate1 { get; set; }
+        public Nullable<System.DateTime> ExpireDate1 { get; set; }
+        public Nullable<System.DateTime> IssueDate2 { get; set; }
+        public Nullable<System.DateTime> ExpireDate2 { get; set; }
+        public Nullable<System.DateTime> IssueDate3 { get; set; }
+        public Nullable<System.DateTime> ExpireDate3 { get; set; }
+        public Nullable<System.DateTime> IssueDate4 { get; set; }
+        public Nullable<System.DateTime> ExpireDate4 { get; set; }
+        public Nullable<System.DateTime> IssueDate5 { get; set; }
+        public Nullable<System.DateTime> ExpireDate5 { get; set; }
+        public Nullable<System.DateTime> IssueDate6 { get; set; }
+        public Nullable<System.DateTime> ExpireDate6 { get; set; }
+        public Nullable<System.DateTime> IssueDate7 { get; set; }
+        public Nullable<System.DateTime> ExpireDate7 { get; set; }
+        public Nullable<System.DateTime> IssueDate8 { get; set; }
+        public Nullable<System.DateTime> ExpireDate8 { get; set; }
+        public Nullable<System.DateTime> IssueDate9 { get; set; }
+        public Nullable<System.DateTime> ExpireDate9 { get; set; }
+        public Nullable<System.DateTime> IssueDate10 { get; set; }
+        public Nullable<System.DateTime> ExpireDate10 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CoursePeople> CoursePeoples { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseSessionPresence> CourseSessionPresences { get; set; }
-        public virtual Teacher Teacher { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseSessionPresenceDetail> CourseSessionPresenceDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CoursePeople> CoursePeoples { get; set; }
+        public virtual Teacher Teacher { get; set; }
     }
 }

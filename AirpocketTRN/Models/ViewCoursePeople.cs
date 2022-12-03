@@ -78,5 +78,6 @@ namespace AirpocketTRN.Models
         public Nullable<int> Instructor1Id { get; set; }
         public Nullable<bool> Continual { get; set; }
         public Nullable<bool> InActive { get; set; }
+        public string JobGroupCode2 { get; set; }
     }
 }

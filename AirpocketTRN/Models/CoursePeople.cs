@@ -26,7 +26,7 @@ namespace AirpocketTRN.Models
         public string CertificateNo { get; set; }
         public string ImgUrl { get; set; }
     
-        public virtual Person Person { get; set; }
         public virtual Course Course { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

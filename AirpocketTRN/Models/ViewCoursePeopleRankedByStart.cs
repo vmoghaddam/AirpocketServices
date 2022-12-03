@@ -41,7 +41,7 @@ namespace AirpocketTRN.Models
         public string CalendarType { get; set; }
         public string Organization { get; set; }
         public string PID { get; set; }
-        public Nullable<int> CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public Nullable<int> GroupId { get; set; }
         public string JobGroup { get; set; }
         public string JobGroupCode { get; set; }
