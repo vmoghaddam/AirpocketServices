@@ -8,11 +8,11 @@ namespace AirpocketTRN
 {
     public class Magfa
     {
-        public string username =  "flypersia_48000";
-        public  string password = "YYDWMU5BAJQQHCuG";
+        public string username = "varesh_85972"; // "flypersia_48000";
+        public  string password = "oJTyaWoLnQycrfdX"; //"YYDWMU5BAJQQHCuG";
         public string domain = "magfa";
-        public string senderNumber =  "300048000";
-        public long[] _enqueue(int count, String recipientNumber, String text)
+        public string senderNumber = "300085972"; //"300048000";
+        public long[] enqueue(int count, String recipientNumber, String text)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace AirpocketTRN
 
         }
 
-        public long[] enqueue(int count, String recipientNumber, String text)
+        public long[] _enqueue(int count, String recipientNumber, String text)
         {
             try
             {

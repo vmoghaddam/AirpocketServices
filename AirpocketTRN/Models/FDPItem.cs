@@ -25,6 +25,7 @@ namespace AirpocketTRN.Models
         public Nullable<int> PositionId { get; set; }
         public Nullable<int> RosterPositionId { get; set; }
         public Nullable<System.DateTime> Pickup { get; set; }
+        public string Remark { get; set; }
     
         public virtual FDP FDP { get; set; }
     }

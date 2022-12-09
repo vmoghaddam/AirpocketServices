@@ -154,6 +154,20 @@
           <Property Name="Pickup" Type="datetime" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="FlightDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
+          <Property Name="DocumentType" Type="varchar" MaxLength="500" />
+          <Property Name="DocumentUrl" Type="varchar" MaxLength="500" />
+          <Property Name="Remark" Type="varchar" MaxLength="2000" />
+          <Property Name="DateCreate" Type="datetime2" Precision="7" />
+          <Property Name="DateVisite" Type="datetime2" Precision="7" />
+          <Property Name="VisitedBy" Type="varchar" MaxLength="255" />
+          <Property Name="Title" Type="varchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="FlightInformation">
           <Key>
             <PropertyRef Name="ID" />
@@ -1067,6 +1081,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.XAppLeg' does not have a primary ke
         <EntityContainer Name="dbModelStoreContainer">
           <EntitySet Name="EFBDSPRelease" EntityType="Self.EFBDSPRelease" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FDPItem" EntityType="Self.FDPItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlightDocument" EntityType="Self.FlightDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlightInformation" EntityType="Self.FlightInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OFPImport" EntityType="Self.OFPImport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OFPImportProp" EntityType="Self.OFPImportProp" Schema="dbo" store:Type="Tables" />
@@ -1605,6 +1620,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.XAppLeg' does not have a primary ke
             <End Role="OFPImport" EntitySet="OFPImports" />
           </AssociationSet>
           <EntitySet Name="ViewLegTimes" EntityType="dbModel.ViewLegTime" />
+          <EntitySet Name="FlightDocuments" EntityType="dbModel.FlightDocument" />
         </EntityContainer>
         <EntityType Name="ViewLegCrew">
           <Key>
@@ -2645,6 +2661,20 @@ warning 6002: The table/view 'ppa_varesh.dbo.XAppLeg' does not have a primary ke
           <Property Name="DepCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ArrCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="FlightDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentType" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreate" Type="DateTime" Precision="7" />
+          <Property Name="DateVisite" Type="DateTime" Precision="7" />
+          <Property Name="VisitedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3624,6 +3654,21 @@ warning 6002: The table/view 'ppa_varesh.dbo.XAppLeg' does not have a primary ke
                 <ScalarProperty Name="FlightPlanId" ColumnName="FlightPlanId" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlightDocuments">
+            <EntityTypeMapping TypeName="dbModel.FlightDocument">
+              <MappingFragment StoreEntitySet="FlightDocument">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="VisitedBy" ColumnName="VisitedBy" />
+                <ScalarProperty Name="DateVisite" ColumnName="DateVisite" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DocumentUrl" ColumnName="DocumentUrl" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

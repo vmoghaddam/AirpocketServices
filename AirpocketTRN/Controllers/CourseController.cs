@@ -53,13 +53,29 @@ namespace AirpocketTRN.Controllers
             return Ok(result);
         }
 
+        string build_exception_message(Exception ex)
+        {
+            var msg = ex.Message;
+            if (ex.InnerException != null)
+                msg += " INNER: " + ex.InnerException.Message;
+            return msg;
+        }
+
         [Route("api/course/types")]
         [AcceptVerbs("GET")]
         public async Task<IHttpActionResult> GetCourseTypes()
         {
-            var result =await courseService.GetCourseTypes();
-            
-            return Ok(result);
+            try
+            {
+                var result = await courseService.GetCourseTypes();
+
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                return Ok(build_exception_message(ex));
+            }
+           
         }
         //GetCourseTypeJobGroups
         [Route("api/course/type/groups/{cid}")]
@@ -595,6 +611,43 @@ namespace AirpocketTRN.Controllers
             else
             {
                 outPut =Ok( "-1");
+            }
+            return outPut;
+        }
+
+
+        [Route("api/upload/pf")]
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> UploadPF()
+        {
+            IHttpActionResult outPut = Ok(200);
+
+            
+            string key = string.Empty;
+            var httpRequest = HttpContext.Current.Request;
+            string folder = ConfigurationManager.AppSettings["files_certificates"];
+            if (httpRequest.Files.Count > 0)
+            {
+                var docfiles = new List<string>();
+                foreach (string file in httpRequest.Files)
+                {
+                    var postedFile = httpRequest.Files[file];
+                    var date = DateTime.Now;
+                    var ext = System.IO.Path.GetExtension(postedFile.FileName);
+                    key = date.Year.ToString() + date.Month.ToString() + date.Day.ToString() + date.Hour.ToString() + date.Minute.ToString() + date.Second.ToString() + ext;
+                   
+                    key = "PF-" + key;
+                    var filePath2 = folder + key;
+                    postedFile.SaveAs(filePath2);
+                    
+                    outPut = Ok(key);
+                }
+
+
+            }
+            else
+            {
+                outPut = Ok("-1");
             }
             return outPut;
         }

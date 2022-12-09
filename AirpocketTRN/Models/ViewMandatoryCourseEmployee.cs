@@ -63,5 +63,6 @@ namespace AirpocketTRN.Models
         public int ValidStatus { get; set; }
         public Nullable<int> Mandatory { get; set; }
         public string ImgUrl { get; set; }
+        public Nullable<bool> inactive { get; set; }
     }
 }

@@ -43,12 +43,13 @@ namespace ApiAPSB.Controllers
     {
         [Route("api/dr/test/{fltid}")]
         [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> GetDR(int fltid) {
-            var x=Environment.GetEnvironmentVariable("cnn_string", EnvironmentVariableTarget.User);
+        public async Task<IHttpActionResult> GetDR(int fltid)
+        {
+            var x = Environment.GetEnvironmentVariable("cnn_string", EnvironmentVariableTarget.User);
             var _context = new Models.dbEntities();
 
             var appleg = await _context.XAppLegs.OrderByDescending(q => q.ID).Select(q => q.FlightId).FirstOrDefaultAsync();
-           
+
             return Ok(appleg);
 
             // return new DataResponse() { IsSuccess = false };
@@ -93,7 +94,7 @@ namespace ApiAPSB.Controllers
                     ofp.JLDatePICApproved,
 
 
-                    
+
                     ofp.DOW,
                     ofp.FLL,
                     ofp.MCI,
@@ -101,7 +102,7 @@ namespace ApiAPSB.Controllers
                     ofp.JAPlan2,
                     ofp.JPlan,
                     ofp.JFuel,
-                    
+
                     ofp.JWTDRF,
                     ofp.JCSTBL,
                     ofp.JALDRF,
@@ -120,14 +121,24 @@ namespace ApiAPSB.Controllers
         [AcceptVerbs("GET")]
         public IHttpActionResult GetImportATCTextGET(int id)
         {
-
-            var context = new Models.dbEntities();
-             
-
-            var flightObj = context.FlightInformations.FirstOrDefault(q => q.ID == id);
+            try
+            {
+                var context = new Models.dbEntities();
 
 
-            return Ok(flightObj.ATCPlan);
+                var flightObj = context.FlightInformations.FirstOrDefault(q => q.ID == id);
+
+
+                return Ok(flightObj.ATCPlan);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += ex.InnerException.Message;
+                return Ok(msg);
+            }
+
         }
 
 
@@ -199,20 +210,146 @@ namespace ApiAPSB.Controllers
         [AcceptVerbs("POST")]
         public IHttpActionResult PostImportATCTextInput(dynamic dto)
         {
-            string user = Convert.ToString(dto.user);
-            int fltId = Convert.ToInt32(dto.fltId);
-            var context = new Models.dbEntities();
+            try
+            {
+                string user = Convert.ToString(dto.user);
+                int fltId = Convert.ToInt32(dto.fltId);
+                var context = new Models.dbEntities();
 
-            var flight = context.ViewLegTimes.FirstOrDefault(q => q.ID == fltId);
-            var flightObj = context.FlightInformations.FirstOrDefault(q => q.ID == fltId);
+                var flight = context.ViewLegTimes.FirstOrDefault(q => q.ID == fltId);
+                var flightObj = context.FlightInformations.FirstOrDefault(q => q.ID == fltId);
 
-            string ftext = Convert.ToString(dto.text);
-            flightObj.ATCPlan = ftext;
-            context.SaveChanges();
-            return Ok(true);
+                string ftext = Convert.ToString(dto.text);
+                flightObj.ATCPlan = ftext;
+                context.SaveChanges();
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message + " IN:" + (ex.InnerException != null ? ex.InnerException.Message : "NO");
+                return Ok(msg);
+            }
+
         }
 
-       
+
+        [Route("api/upload/flight/doc")]
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> UploadFlightDoc()
+        {
+            try
+            {
+                IHttpActionResult outPut = Ok(200);
+
+                string key = string.Empty;
+                var httpRequest = HttpContext.Current.Request;
+                if (httpRequest.Files.Count > 0)
+                {
+                    var docfiles = new List<string>();
+                    foreach (string file in httpRequest.Files)
+                    {
+                        var postedFile = httpRequest.Files[file];
+                        var date = DateTime.Now;
+                        var ext = System.IO.Path.GetExtension(postedFile.FileName);
+                        key = "doc-" + date.Year.ToString() + date.Month.ToString() + date.Day.ToString() + date.Hour.ToString() + date.Minute.ToString() + date.Second.ToString() + ext;
+
+                        var filePath = ConfigurationManager.AppSettings["atc"] + key; //HttpContext.Current.Server.MapPath("~/upload/" + key);
+                        postedFile.SaveAs(filePath);
+                        docfiles.Add(filePath);
+                    }
+                    // outPut = (await ImportFlights2(key));
+                    // var ctrl = new FlightController();
+                    //  outPut = await ctrl.UploadFlights3(key);
+                    outPut = Ok(key);
+
+                }
+                else
+                {
+                    return Ok("error");
+                }
+                return outPut;
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message + "   IN    " + (ex.InnerException != null ? ex.InnerException.Message : ""));
+            }
+
+        }
+
+
+        [Route("api/flight/doc/save/")]
+        [AcceptVerbs("POST")]
+        public IHttpActionResult PostFlightDoc(FlightDocDto dto)
+        {
+            var context = new Models.dbEntities();
+            try
+            {
+                var doc = context.FlightDocuments.Where(q => q.Id == dto.Id).FirstOrDefault();
+                if (doc == null)
+                {
+                    doc = new FlightDocument();
+                    context.FlightDocuments.Add(doc);
+                }
+                doc.FlightId = dto.FlightId;
+                doc.Remark = dto.Remark;
+                doc.DateCreate = DateTime.UtcNow;
+                doc.DocumentUrl = dto.DocumentUrl;
+                doc.DocumentType = dto.DocumentType;
+                
+                context.SaveChanges();
+                return Ok(doc);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message + " IN:" + (ex.InnerException != null ? ex.InnerException.Message : "NO");
+                return Ok(msg);
+            }
+
+        }
+        [Route("api/flight/docs/{id}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetFlightsDocs(int id)
+        {
+            var context = new Models.dbEntities();
+            try
+            {
+                var docs = context.FlightDocuments.Where(q => q.FlightId == id).OrderBy(q => q.DateCreate).ToList();
+                return Ok(docs);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message + " IN:" + (ex.InnerException != null ? ex.InnerException.Message : "NO");
+                return Ok(msg);
+            }
+
+        }
+        [Route("api/flight/doc/{id}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetFlightsDoc(int id)
+        {
+            var context = new Models.dbEntities();
+            try
+            {
+                var docs = context.FlightDocuments.Where(q => q.Id == id).FirstOrDefault();
+                return Ok(docs);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message + " IN:" + (ex.InnerException != null ? ex.InnerException.Message : "NO");
+                return Ok(msg);
+            }
+
+        }
+
+        public class FlightDocDto
+        {
+            public int Id { get; set; }
+
+            public int FlightId { get; set; }
+            public string DocumentType { get; set; }
+            public string DocumentUrl { get; set; }
+            public string Remark { get; set; }
+        }
 
 
         [Route("api/dr/test1/{fltid}")]
@@ -222,7 +359,7 @@ namespace ApiAPSB.Controllers
             var _context = new Models.dbEntities();
 
             var appleg = await _context.XAppLegs.FirstOrDefaultAsync(q => q.FlightId == fltid);
-             var appcrewflight = await _context.AppCrewFlights.Where(q => q.FlightId == appleg.FlightId && q.CrewId == appleg.PICId).FirstOrDefaultAsync();
+            var appcrewflight = await _context.AppCrewFlights.Where(q => q.FlightId == appleg.FlightId && q.CrewId == appleg.PICId).FirstOrDefaultAsync();
             // var fdpitems = await _context.FDPItems.Where(q => q.FDPId == appcrewflight.FDPId).ToListAsync();
             //var fltIds = fdpitems.Select(q => q.FlightId).ToList();
 
@@ -238,7 +375,7 @@ namespace ApiAPSB.Controllers
 
             var appleg = await _context.XAppLegs.FirstOrDefaultAsync(q => q.FlightId == fltid);
             var appcrewflight = await _context.AppCrewFlights.Where(q => q.FlightId == appleg.FlightId && q.CrewId == appleg.PICId).FirstOrDefaultAsync();
-             var fdpitems = await _context.FDPItems.Where(q => q.FDPId == appcrewflight.FDPId).ToListAsync();
+            var fdpitems = await _context.FDPItems.Where(q => q.FDPId == appcrewflight.FDPId).ToListAsync();
             //var fltIds = fdpitems.Select(q => q.FlightId).ToList();
 
             return Ok(fdpitems);

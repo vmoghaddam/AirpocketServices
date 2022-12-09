@@ -104,8 +104,59 @@ namespace ApiMSG.Controllers
 
             return Ok(reslt);
         }
+        [Route("api/magfa/bulk/username")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult SendUp()
+        {
+            var context = new ppa_vareshEntities();
+            var rows = context.BulkMsgUsernames .ToList();
+             
+
+            foreach (var crew in rows)
+            {
+
+                
+
+               // if (user != null)
+                {
+                    var strs = new List<string>();
+                    strs.Add("Dear " + (crew.FirstName + " " + crew.LastName).ToUpper() + ", ");
+                    strs.Add("Please visit your CrewPocket account To see your roster, notifications, etc.");
+                    strs.Add("You have to change your password after first login.");
+                    strs.Add("https://fms.airpocket.click");
+                    strs.Add("https://fms.kishair.aero/cp");
+
+                    strs.Add("Username: " + crew.UserName);
+                    // strs.Add("Password: " + /*(string.IsNullOrEmpty(crew.Telegram) ?*/ "1234@aA" /*: crew.Telegram*/));
+                    strs.Add("Password: 123456");
+                    strs.Add("Flight Operation Department");
+                    var text = String.Join("\n", strs);
+                    // SendSMS(crew.Mobile, text, crew.Name);
+                    // SendSMS(/*crew.Mobile*/"09122007720", text, crew.Name);
+                    // SendSMS(/*crew.Mobile*/"09123938451", text, crew.Name);
+                    Magfa m = new Magfa();
+                    Magfa m2 = new Magfa();
+
+                    var smsResult = m.enqueue(1, crew.Mobile, text)[0];
+                    if (crew.Group == "P1")
+                    {
+
+                        var smsResult2 = m2.enqueue(1, "09124449584", text + "   MOBILE:" + smsResult.ToString())[0];
+                    }
+                  
 
 
+                }
+                //else
+                //{
+                //    Magfa m2 = new Magfa();
+                //    var smsResult2 = m2.enqueue(1, "09124449584", crew.PersonId + "  " + crew.Name + "  null")[0];
+                //}
+
+            }
+
+            return Ok(true);
+        }
 
 
 

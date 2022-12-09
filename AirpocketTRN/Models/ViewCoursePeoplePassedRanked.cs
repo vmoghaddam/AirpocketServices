@@ -72,5 +72,6 @@ namespace AirpocketTRN.Models
         public string ImgUrl { get; set; }
         public Nullable<int> Remaining { get; set; }
         public Nullable<bool> InActive { get; set; }
+        public Nullable<bool> Continual { get; set; }
     }
 }

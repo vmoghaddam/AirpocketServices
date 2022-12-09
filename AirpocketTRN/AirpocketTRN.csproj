@@ -205,6 +205,9 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="filehandler.ashx.cs">
+      <DependentUpon>filehandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -482,6 +485,7 @@
     </Content>
     <None Include="Connected Services\FatehService\Service.wsdl" />
     <Content Include="Properties\DataSources\System.Data.DataTable.datasource" />
+    <Content Include="filehandler.ashx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

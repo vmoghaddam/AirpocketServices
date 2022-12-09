@@ -20,9 +20,9 @@ namespace AirpocketTRN.Models
         public string BaseAirport { get; set; }
         public Nullable<int> CurrentLocationAirport { get; set; }
         public string CurrentLocationCity { get; set; }
-        public Nullable<int> CurrentLocationCityId { get; set; }
+        public int CurrentLocationCityId { get; set; }
         public Nullable<System.DateTime> DateJoinCompany { get; set; }
-        public Nullable<int> ExpCompany { get; set; }
+        public int ExpCompany { get; set; }
         public bool IsActive { get; set; }
         public Nullable<System.DateTime> DateRegister { get; set; }
         public Nullable<System.DateTime> DateConfirmed { get; set; }
@@ -51,7 +51,7 @@ namespace AirpocketTRN.Models
         public Nullable<System.DateTime> DatePassportExpire { get; set; }
         public string Address { get; set; }
         public Nullable<System.DateTime> DateJoinAvation { get; set; }
-        public Nullable<int> Exp { get; set; }
+        public int Exp { get; set; }
         public Nullable<System.DateTime> DateLastCheckUP { get; set; }
         public Nullable<System.DateTime> DateNextCheckUP { get; set; }
         public Nullable<System.DateTime> DateYearOfExperience { get; set; }
@@ -76,7 +76,7 @@ namespace AirpocketTRN.Models
         public string UserId { get; set; }
         public string ImageUrl { get; set; }
         public Nullable<int> CustomerCreatorId { get; set; }
-        public Nullable<int> Age { get; set; }
+        public int Age { get; set; }
         public int LocationId { get; set; }
         public Nullable<int> OrgRoleId { get; set; }
         public string LocationPhone { get; set; }
@@ -86,9 +86,9 @@ namespace AirpocketTRN.Models
         public string CaoIntervalCalanderType { get; set; }
         public string NDTIntervalCalanderType { get; set; }
         public string City { get; set; }
-        public Nullable<int> StateId { get; set; }
+        public int StateId { get; set; }
         public string State { get; set; }
-        public Nullable<int> CountryId { get; set; }
+        public int CountryId { get; set; }
         public string Country { get; set; }
         public string CityFullName { get; set; }
         public string Customer { get; set; }
@@ -109,8 +109,8 @@ namespace AirpocketTRN.Models
         public int IsPassportExpired { get; set; }
         public int IsPassportExpiring { get; set; }
         public Nullable<System.DateTime> DateExpireNDT { get; set; }
-        public Nullable<int> CriticalCertificatesCount { get; set; }
-        public Nullable<int> BookAlert { get; set; }
+        public int CriticalCertificatesCount { get; set; }
+        public int BookAlert { get; set; }
         public string Types { get; set; }
         public Nullable<System.DateTime> ProficiencyExpireDate { get; set; }
         public Nullable<System.DateTime> CrewMemberCertificateExpireDate { get; set; }
@@ -234,5 +234,70 @@ namespace AirpocketTRN.Models
         public string JobGroupMainCode { get; set; }
         public string JobGroupCode2 { get; set; }
         public Nullable<int> RemainEGPWS { get; set; }
+        public Nullable<int> C1GroupId { get; set; }
+        public string JobGroupC1 { get; set; }
+        public string JobGroupCodeC1 { get; set; }
+        public Nullable<int> C2GroupId { get; set; }
+        public string JobGroupC2 { get; set; }
+        public string JobGroupCodeC2 { get; set; }
+        public Nullable<int> C3GroupId { get; set; }
+        public Nullable<int> RemainRSP { get; set; }
+        public Nullable<int> RemainLRC { get; set; }
+        public string CodeX { get; set; }
+        public Nullable<int> RemainTypeMD { get; set; }
+        public Nullable<int> RemainType737 { get; set; }
+        public Nullable<int> RemainTypeAirbus { get; set; }
+        public Nullable<int> RemainHF { get; set; }
+        public Nullable<int> RemainASD { get; set; }
+        public Nullable<int> RemainGOM { get; set; }
+        public Nullable<int> RemainASF { get; set; }
+        public Nullable<int> RemainCC { get; set; }
+        public Nullable<int> RemainERP { get; set; }
+        public Nullable<int> RemainMB { get; set; }
+        public Nullable<int> RemainPS { get; set; }
+        public Nullable<int> RemainANNEX { get; set; }
+        public Nullable<int> RemainDRM { get; set; }
+        public Nullable<int> RemainFMTD { get; set; }
+        public Nullable<int> RemainMEL { get; set; }
+        public Nullable<int> RemainMET { get; set; }
+        public Nullable<int> RemainPER { get; set; }
+        public Nullable<int> RemainLPCC1 { get; set; }
+        public Nullable<int> RemainLPCC2 { get; set; }
+        public Nullable<int> RemainLPCC3 { get; set; }
+        public Nullable<int> RemainLineC1 { get; set; }
+        public Nullable<int> RemainLineC2 { get; set; }
+        public Nullable<int> RemainLineC3 { get; set; }
+        public Nullable<int> RemainRamp { get; set; }
+        public Nullable<int> RemainAC { get; set; }
+        public Nullable<int> RemainUPRT { get; set; }
+        public Nullable<int> RemainSFI { get; set; }
+        public Nullable<int> RemainSFE { get; set; }
+        public Nullable<int> RemainTRI2 { get; set; }
+        public Nullable<int> RemainTRE2 { get; set; }
+        public Nullable<int> RemainIRI { get; set; }
+        public Nullable<int> RemainIRE { get; set; }
+        public Nullable<int> RemainCRI { get; set; }
+        public Nullable<int> RemainCRE { get; set; }
+        public Nullable<int> RemainSFI2 { get; set; }
+        public Nullable<int> RemainSFE2 { get; set; }
+        public Nullable<int> RemainAirCrew { get; set; }
+        public Nullable<int> RemainAirOps { get; set; }
+        public Nullable<int> RemainSOP { get; set; }
+        public Nullable<int> RemainDiff31 { get; set; }
+        public Nullable<int> RemainDiff34 { get; set; }
+        public Nullable<int> RemainOMA1 { get; set; }
+        public Nullable<int> RemainOMB1 { get; set; }
+        public Nullable<int> RemainOMC1 { get; set; }
+        public Nullable<int> RemainOMA2 { get; set; }
+        public Nullable<int> RemainOMB2 { get; set; }
+        public Nullable<int> RemainOMC2 { get; set; }
+        public Nullable<int> RemainOMA3 { get; set; }
+        public Nullable<int> RemainOMB3 { get; set; }
+        public Nullable<int> RemainOMC3 { get; set; }
+        public Nullable<int> RemainMap { get; set; }
+        public Nullable<int> RemainComRes { get; set; }
+        public Nullable<int> RemainOPCC1 { get; set; }
+        public Nullable<int> RemainOPCC2 { get; set; }
+        public Nullable<int> RemainOPCC3 { get; set; }
     }
 }
