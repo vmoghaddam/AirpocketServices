@@ -360,8 +360,8 @@ namespace ApiFDM.Controllers
         [Route("api/fdm/dashboard/cpt/tops/{count}/{df}/{dt}")]
         public async Task<DataResponse> GetTopCpt(int count, DateTime df, DateTime dt)
         {
-            var query = from x in context.FDMRegCptDaily_
-                        where x.Day <= dt.Date && x.Day >= df.Date
+            var query = from x in context.FDMCptAlls
+                        where x.Month >= df.Month && x.Month <= dt.Month && x.Year >= df.Year && x.Year <= dt.Year
                         group x by new { x.CptName, x.CptId, x.CptCode } into grp
                         select new
                         {
@@ -379,7 +379,7 @@ namespace ApiFDM.Controllers
                         };
 
 
-            var result = query.OrderByDescending(q => q.Scores).Take(count).ToList();
+            var result = query.ToList().OrderByDescending(q => q.Scores).Take(10);
 
 
             return new DataResponse()
@@ -507,6 +507,9 @@ namespace ApiFDM.Controllers
                 TotalEventsCount = ds.Sum(q => q.EventsCount),
                 TotalScores = ds.Sum(q => q.Scores),
                 EventPerFlight = ds.Sum(q => q.FlightCount) != 0 ? ds.Sum(q => q.EventsCount) * 1.0 / ds.Sum(q => q.FlightCount) : 0,
+                TotalHighCount = ds.Sum(q => q.HighLevelCount),
+                TotalMediumCount = ds.Sum(q => q.MediumLevelCount),
+                TotalLowCount = ds.Sum(q => q.LowLevelCount),
             };
 
 
@@ -1323,13 +1326,13 @@ namespace ApiFDM.Controllers
                             ).ToList();
                 var result = (from x in query
 
-                              group x by new { x.CptId, x.CptName, x.JobGroup } into grp
+                              group x by new { x.CptId, x.CptName, x.JobGroup} into grp
                               select new
                               {
                                   CptName = grp.Key.CptName,
                                   CptId = grp.Key.CptId,
                                   Items = grp.OrderBy(q => q.Month).ToList(),
-                                  EventsCount = grp.Sum(q => q.EventCount),
+                                  EventsCount = grp.Sum(q =>q.EventCount),
                                   Flights = grp.Sum(q => q.FlightCount),
                                   Scores = grp.Sum(q => q.Score),
                                   ScorePerFlight = grp.Sum(q => q.Score) * 1.0 / grp.Sum(q => q.FlightCount) * 100.0,
@@ -1424,47 +1427,47 @@ namespace ApiFDM.Controllers
         [HttpGet]
         [Route("api/get/fdm/all/cpt/{yf}/{yt}/{mf}/{mt}")]
         public async Task<DataResponse> GetAllCpt(int yf, int yt, int mf, int mt)
+        {
+            var query = (from x in context.FDMCptAlls
+                         where x.Month >= (mf + 1) && x.Month <= (mt + 1) && x.Year >= yf && x.Year <= yt
+                         select x).ToList();
+            var result = (from x in query
+                          group x by new { x.HighCount, x.MediumCount, x.LowCount } into grp
+                          select new
+                          {
+                              HighCount = grp.Sum(q => q.HighCount),
+                              MediumCount = grp.Sum(q => q.MediumCount),
+                              LowCount = grp.Sum(q => q.LowCount),
+                              FlightCount = grp.Sum(q => q.FlightCount),
+                              IncidentCount = grp.Sum(q => q.EventCount),
+                              Scores = grp.Sum(q => q.HighCount) * 4 + grp.Sum(q => q.MediumCount) * 2 + grp.Sum(q => q.LowCount),
+                              ScorePercentage = grp.Sum(q => q.FlightCount) == 0 ? 0 : (grp.Sum(q => q.HighCount) * 4 + grp.Sum(q => q.MediumCount) * 2 + grp.Sum(q => q.LowCount)) * 1.0 / grp.Sum(q => q.FlightCount) * 100,
+
+                          });
+
+            var result2 = new
             {
-                var query = (from x in context.FDMCptAlls
-                             where x.Month >= (mf + 1) && x.Month <= (mt + 1) && x.Year >= yf && x.Year <= yt
-                             select x).ToList();
-                var result = (from x in query
-                              group x by new { x.HighCount, x.MediumCount, x.LowCount } into grp
-                              select new
-                              {
-                                  HighCount = grp.Sum(q => q.HighCount),
-                                  MediumCount = grp.Sum(q => q.MediumCount),
-                                  LowCount = grp.Sum(q => q.LowCount),
-                                  FlightCount = grp.Sum(q => q.FlightCount),
-                                  IncidentCount = grp.Sum(q => q.EventCount),
-                                  Scores = grp.Sum(q => q.HighCount) * 4 + grp.Sum(q => q.MediumCount) * 2 + grp.Sum(q => q.LowCount),
-                                  ScorePercentage = grp.Sum(q => q.FlightCount) == 0 ? 0 : (grp.Sum(q => q.HighCount) * 4 + grp.Sum(q => q.MediumCount) * 2 + grp.Sum(q => q.LowCount)) * 1.0 / grp.Sum(q => q.FlightCount) * 100,
+                data = result,
+                TotalFlights = result.Sum(q => q.FlightCount),
+                TotalHighLevel = result.Sum(q => q.HighCount),
+                TotalMediumLevel = result.Sum(q => q.MediumCount),
+                TotalLowLevel = result.Sum(q => q.LowCount),
+                TotalEvents = result.Sum(q => q.IncidentCount),
+                TotalScore = result.Sum(q => q.Scores),
 
-                              });
-
-                var result2 = new
-                {
-                    data = result,
-                    TotalFlights = result.Sum(q => q.FlightCount),
-                    TotalHighLevel = result.Sum(q => q.HighCount),
-                    TotalMediumLevel = result.Sum(q => q.MediumCount),
-                    TotalLowLevel = result.Sum(q => q.LowCount),
-                    TotalEvents = result.Sum(q => q.IncidentCount),
-                    TotalScore = result.Sum(q => q.Scores),
-
-                };
+            };
 
 
 
-                return new DataResponse()
-                {
-                    IsSuccess = true,
-                    Data = result2
-                };
-            }
-
-
-
-
+            return new DataResponse()
+            {
+                IsSuccess = true,
+                Data = result2
+            };
         }
+
+
+
+
     }
+}

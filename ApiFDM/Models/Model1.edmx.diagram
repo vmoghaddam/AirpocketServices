@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="18fa3a57b6a1461ea0ecbc61a4f670b4" Name="Diagram1" ZoomLevel="60">
+      <Diagram DiagramId="18fa3a57b6a1461ea0ecbc61a4f670b4" Name="Diagram1" ZoomLevel="101">
         <EntityTypeShape EntityType="dbModel.CrewSecretCode" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.FlightInformation" Width="1.5" PointX="5.625" PointY="7.125" />
         <EntityTypeShape EntityType="dbModel.Ac_MSN" Width="1.5" PointX="0.75" PointY="13.25" />
@@ -14,7 +14,6 @@
         <AssociationConnector Association="dbModel.fk_flightinformation_toairport" />
         <EntityTypeShape EntityType="dbModel.ViewLegTime" Width="1.5" PointX="12.375" PointY="9.75" />
         <EntityTypeShape EntityType="dbModel.AppLeg" Width="1.5" PointX="8.375" PointY="0.75" />
-        <EntityTypeShape EntityType="dbModel.FDMCptAll" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.FDMCptAnnually" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.FDMCptDaily" Width="1.5" PointX="14.375" PointY="11.75" />
         <EntityTypeShape EntityType="dbModel.FDMCptEventDaily" Width="1.5" PointX="10.375" PointY="4.75" />
@@ -26,7 +25,6 @@
         <EntityTypeShape EntityType="dbModel.FDMFoEventDaily" Width="1.5" PointX="18.375" PointY="4.75" />
         <EntityTypeShape EntityType="dbModel.FDMFoEventMonthly" Width="1.5" PointX="18.375" PointY="8.75" />
         <EntityTypeShape EntityType="dbModel.FDMFoMonthly" Width="1.5" PointX="18.375" PointY="12.75" />
-        <EntityTypeShape EntityType="dbModel.FDMPhaseMonthly" Width="1.5" PointX="18.375" PointY="17.75" />
         <EntityTypeShape EntityType="dbModel.FDMPhaseTypeMonthly" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.FDMRegCptAnnually" Width="1.5" PointX="20.375" PointY="4.75" />
         <EntityTypeShape EntityType="dbModel.FDMRegCptDaily_" Width="1.5" PointX="20.375" PointY="9.75" />
@@ -48,6 +46,8 @@
         <EntityTypeShape EntityType="dbModel.FDMTypeMonthly" Width="1.5" PointX="25.375" PointY="17.75" />
         <EntityTypeShape EntityType="dbModel.FDM" Width="1.5" PointX="26.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.ViewFDM" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.FDMPhaseMonthly" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.FDMCptAll" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

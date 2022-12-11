@@ -31,7 +31,6 @@ namespace ApiFDM.Models
         public virtual DbSet<Airport> Airports { get; set; }
         public virtual DbSet<ViewLegTime> ViewLegTimes { get; set; }
         public virtual DbSet<AppLeg> AppLegs { get; set; }
-        public virtual DbSet<FDMCptAll> FDMCptAlls { get; set; }
         public virtual DbSet<FDMCptAnnually> FDMCptAnnuallies { get; set; }
         public virtual DbSet<FDMCptDaily> FDMCptDailies { get; set; }
         public virtual DbSet<FDMCptEventDaily> FDMCptEventDailies { get; set; }
@@ -43,7 +42,6 @@ namespace ApiFDM.Models
         public virtual DbSet<FDMFoEventDaily> FDMFoEventDailies { get; set; }
         public virtual DbSet<FDMFoEventMonthly> FDMFoEventMonthlies { get; set; }
         public virtual DbSet<FDMFoMonthly> FDMFoMonthlies { get; set; }
-        public virtual DbSet<FDMPhaseMonthly> FDMPhaseMonthlies { get; set; }
         public virtual DbSet<FDMPhaseTypeMonthly> FDMPhaseTypeMonthlies { get; set; }
         public virtual DbSet<FDMRegCptAnnually> FDMRegCptAnnuallies { get; set; }
         public virtual DbSet<FDMRegCptDaily_> FDMRegCptDaily_ { get; set; }
@@ -65,5 +63,7 @@ namespace ApiFDM.Models
         public virtual DbSet<FDMTypeMonthly> FDMTypeMonthlies { get; set; }
         public virtual DbSet<FDM> FDMs { get; set; }
         public virtual DbSet<ViewFDM> ViewFDMs { get; set; }
+        public virtual DbSet<FDMPhaseMonthly> FDMPhaseMonthlies { get; set; }
+        public virtual DbSet<FDMCptAll> FDMCptAlls { get; set; }
     }
 }
