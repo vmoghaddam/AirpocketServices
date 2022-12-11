@@ -66,6 +66,110 @@
           <Property Name="FX" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewValidFTL' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewCrewValidFTL">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="SexId" />
+            <PropertyRef Name="PID" />
+            <PropertyRef Name="PersonId" />
+            <PropertyRef Name="Position" />
+            <PropertyRef Name="PositionId" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="ValidationMessage" />
+            <PropertyRef Name="Flight" />
+            <PropertyRef Name="GroupOrder" />
+            <PropertyRef Name="DateInactiveBegin" />
+            <PropertyRef Name="DateInactiveEnd" />
+            <PropertyRef Name="FlightSum" />
+            <PropertyRef Name="FlightEarly" />
+            <PropertyRef Name="FlightLate" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="SexId" Type="int" Nullable="false" />
+          <Property Name="PID" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
+          <Property Name="Position" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="PositionId" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="500" />
+          <Property Name="Address" Type="nvarchar" MaxLength="2000" />
+          <Property Name="CurrentLocationAirportId" Type="int" />
+          <Property Name="CurrentLocationAirporIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="CurrentLocationCity" Type="nvarchar" MaxLength="500" />
+          <Property Name="CurrentLocationCityId" Type="int" />
+          <Property Name="LastLocationId" Type="int" />
+          <Property Name="LastLocation" Type="nvarchar" MaxLength="255" />
+          <Property Name="ScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="Code" Type="varchar" MaxLength="500" />
+          <Property Name="ValidationMessage" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Flight" Type="int" Nullable="false" />
+          <Property Name="GroupOrder" Type="int" Nullable="false" />
+          <Property Name="DateInactiveBegin" Type="datetime" Nullable="false" />
+          <Property Name="DateInactiveEnd" Type="datetime" Nullable="false" />
+          <Property Name="StandById" Type="int" />
+          <Property Name="Duty1" Type="float" />
+          <Property Name="Duty7" Type="float" />
+          <Property Name="Duty14" Type="float" />
+          <Property Name="Duty28" Type="float" />
+          <Property Name="Flight1" Type="float" />
+          <Property Name="Flight28" Type="float" />
+          <Property Name="FlightYear" Type="float" />
+          <Property Name="FlightCYear" Type="float" />
+          <Property Name="BaseAirportId" Type="int" />
+          <Property Name="AircraftTypeId" Type="int" />
+          <Property Name="DateTypeIssue" Type="datetime" />
+          <Property Name="DateTypeExpire" Type="datetime" />
+          <Property Name="ValidTypes" Type="nvarchar(max)" />
+          <Property Name="FlightSum" Type="float" Nullable="false" />
+          <Property Name="FlightEarly" Type="int" Nullable="false" />
+          <Property Name="FlightLate" Type="int" Nullable="false" />
+          <Property Name="MedicalExpired" Type="date" />
+          <Property Name="MedicalIssued" Type="date" />
+          <Property Name="CMCExpired" Type="datetime" />
+          <Property Name="SEPTExpired" Type="datetime" />
+          <Property Name="SEPTIssued" Type="datetime" />
+          <Property Name="SEPTPIssued" Type="datetime" />
+          <Property Name="SEPTPExpired" Type="datetime" />
+          <Property Name="DGExpired" Type="datetime" />
+          <Property Name="DGIssued" Type="datetime" />
+          <Property Name="CCRMExpired" Type="datetime" />
+          <Property Name="CCRMIssued" Type="datetime" />
+          <Property Name="CRMIssued" Type="datetime" />
+          <Property Name="CRMExpired" Type="datetime" />
+          <Property Name="SMSExpired" Type="datetime" />
+          <Property Name="SMSIssued" Type="datetime" />
+          <Property Name="AvSecExpired" Type="datetime" />
+          <Property Name="AvSecIssued" Type="datetime" />
+          <Property Name="ColdWXIssued" Type="datetime" />
+          <Property Name="HotWXIssued" Type="datetime" />
+          <Property Name="ColdWXExpired" Type="datetime" />
+          <Property Name="HotWXExpired" Type="datetime" />
+          <Property Name="LineIssued" Type="datetime" />
+          <Property Name="LineExpired" Type="datetime" />
+          <Property Name="RecurrentIssued" Type="datetime" />
+          <Property Name="RecurrentExpired" Type="datetime" />
+          <Property Name="LPCExpired" Type="datetime" />
+          <Property Name="LPCIssued" Type="datetime" />
+          <Property Name="OPCIssued" Type="datetime" />
+          <Property Name="OPCExpired" Type="datetime" />
+          <Property Name="LPRExpired" Type="datetime" />
+          <Property Name="FirstAidExpired" Type="date" />
+          <Property Name="FirstAidIssued" Type="date" />
+          <Property Name="LicenceExpired" Type="datetime" />
+          <Property Name="LicenceIssued" Type="datetime" />
+          <Property Name="TREExpired" Type="datetime" />
+          <Property Name="TRIExpired" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFDPLog">
           <Key>
@@ -111,6 +215,91 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary
         </Association>
         <EntityContainer Name="dbModelStoreContainer">
           <EntitySet Name="FDP" EntityType="Self.FDP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewCrewValidFTL" EntityType="Self.ViewCrewValidFTL" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewCrewValidFTL].[Id] AS [Id], 
+    [ViewCrewValidFTL].[SexId] AS [SexId], 
+    [ViewCrewValidFTL].[PID] AS [PID], 
+    [ViewCrewValidFTL].[PersonId] AS [PersonId], 
+    [ViewCrewValidFTL].[CustomerId] AS [CustomerId], 
+    [ViewCrewValidFTL].[GroupId] AS [GroupId], 
+    [ViewCrewValidFTL].[JobGroup] AS [JobGroup], 
+    [ViewCrewValidFTL].[JobGroupCode] AS [JobGroupCode], 
+    [ViewCrewValidFTL].[Position] AS [Position], 
+    [ViewCrewValidFTL].[PositionId] AS [PositionId], 
+    [ViewCrewValidFTL].[FirstName] AS [FirstName], 
+    [ViewCrewValidFTL].[LastName] AS [LastName], 
+    [ViewCrewValidFTL].[Name] AS [Name], 
+    [ViewCrewValidFTL].[Mobile] AS [Mobile], 
+    [ViewCrewValidFTL].[Address] AS [Address], 
+    [ViewCrewValidFTL].[CurrentLocationAirportId] AS [CurrentLocationAirportId], 
+    [ViewCrewValidFTL].[CurrentLocationAirporIATA] AS [CurrentLocationAirporIATA], 
+    [ViewCrewValidFTL].[CurrentLocationCity] AS [CurrentLocationCity], 
+    [ViewCrewValidFTL].[CurrentLocationCityId] AS [CurrentLocationCityId], 
+    [ViewCrewValidFTL].[LastLocationId] AS [LastLocationId], 
+    [ViewCrewValidFTL].[LastLocation] AS [LastLocation], 
+    [ViewCrewValidFTL].[ScheduleName] AS [ScheduleName], 
+    [ViewCrewValidFTL].[Code] AS [Code], 
+    [ViewCrewValidFTL].[ValidationMessage] AS [ValidationMessage], 
+    [ViewCrewValidFTL].[Flight] AS [Flight], 
+    [ViewCrewValidFTL].[GroupOrder] AS [GroupOrder], 
+    [ViewCrewValidFTL].[DateInactiveBegin] AS [DateInactiveBegin], 
+    [ViewCrewValidFTL].[DateInactiveEnd] AS [DateInactiveEnd], 
+    [ViewCrewValidFTL].[StandById] AS [StandById], 
+    [ViewCrewValidFTL].[Duty1] AS [Duty1], 
+    [ViewCrewValidFTL].[Duty7] AS [Duty7], 
+    [ViewCrewValidFTL].[Duty14] AS [Duty14], 
+    [ViewCrewValidFTL].[Duty28] AS [Duty28], 
+    [ViewCrewValidFTL].[Flight1] AS [Flight1], 
+    [ViewCrewValidFTL].[Flight28] AS [Flight28], 
+    [ViewCrewValidFTL].[FlightYear] AS [FlightYear], 
+    [ViewCrewValidFTL].[FlightCYear] AS [FlightCYear], 
+    [ViewCrewValidFTL].[BaseAirportId] AS [BaseAirportId], 
+    [ViewCrewValidFTL].[AircraftTypeId] AS [AircraftTypeId], 
+    [ViewCrewValidFTL].[DateTypeIssue] AS [DateTypeIssue], 
+    [ViewCrewValidFTL].[DateTypeExpire] AS [DateTypeExpire], 
+    [ViewCrewValidFTL].[ValidTypes] AS [ValidTypes], 
+    [ViewCrewValidFTL].[FlightSum] AS [FlightSum], 
+    [ViewCrewValidFTL].[FlightEarly] AS [FlightEarly], 
+    [ViewCrewValidFTL].[FlightLate] AS [FlightLate], 
+    [ViewCrewValidFTL].[MedicalExpired] AS [MedicalExpired], 
+    [ViewCrewValidFTL].[MedicalIssued] AS [MedicalIssued], 
+    [ViewCrewValidFTL].[CMCExpired] AS [CMCExpired], 
+    [ViewCrewValidFTL].[SEPTExpired] AS [SEPTExpired], 
+    [ViewCrewValidFTL].[SEPTIssued] AS [SEPTIssued], 
+    [ViewCrewValidFTL].[SEPTPIssued] AS [SEPTPIssued], 
+    [ViewCrewValidFTL].[SEPTPExpired] AS [SEPTPExpired], 
+    [ViewCrewValidFTL].[DGExpired] AS [DGExpired], 
+    [ViewCrewValidFTL].[DGIssued] AS [DGIssued], 
+    [ViewCrewValidFTL].[CCRMExpired] AS [CCRMExpired], 
+    [ViewCrewValidFTL].[CCRMIssued] AS [CCRMIssued], 
+    [ViewCrewValidFTL].[CRMIssued] AS [CRMIssued], 
+    [ViewCrewValidFTL].[CRMExpired] AS [CRMExpired], 
+    [ViewCrewValidFTL].[SMSExpired] AS [SMSExpired], 
+    [ViewCrewValidFTL].[SMSIssued] AS [SMSIssued], 
+    [ViewCrewValidFTL].[AvSecExpired] AS [AvSecExpired], 
+    [ViewCrewValidFTL].[AvSecIssued] AS [AvSecIssued], 
+    [ViewCrewValidFTL].[ColdWXIssued] AS [ColdWXIssued], 
+    [ViewCrewValidFTL].[HotWXIssued] AS [HotWXIssued], 
+    [ViewCrewValidFTL].[ColdWXExpired] AS [ColdWXExpired], 
+    [ViewCrewValidFTL].[HotWXExpired] AS [HotWXExpired], 
+    [ViewCrewValidFTL].[LineIssued] AS [LineIssued], 
+    [ViewCrewValidFTL].[LineExpired] AS [LineExpired], 
+    [ViewCrewValidFTL].[RecurrentIssued] AS [RecurrentIssued], 
+    [ViewCrewValidFTL].[RecurrentExpired] AS [RecurrentExpired], 
+    [ViewCrewValidFTL].[LPCExpired] AS [LPCExpired], 
+    [ViewCrewValidFTL].[LPCIssued] AS [LPCIssued], 
+    [ViewCrewValidFTL].[OPCIssued] AS [OPCIssued], 
+    [ViewCrewValidFTL].[OPCExpired] AS [OPCExpired], 
+    [ViewCrewValidFTL].[LPRExpired] AS [LPRExpired], 
+    [ViewCrewValidFTL].[FirstAidExpired] AS [FirstAidExpired], 
+    [ViewCrewValidFTL].[FirstAidIssued] AS [FirstAidIssued], 
+    [ViewCrewValidFTL].[LicenceExpired] AS [LicenceExpired], 
+    [ViewCrewValidFTL].[LicenceIssued] AS [LicenceIssued], 
+    [ViewCrewValidFTL].[TREExpired] AS [TREExpired], 
+    [ViewCrewValidFTL].[TRIExpired] AS [TRIExpired]
+    FROM [dbo].[ViewCrewValidFTL] AS [ViewCrewValidFTL]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewFDPLog" EntityType="Self.ViewFDPLog" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewFDPLog].[Id] AS [Id], 
@@ -156,6 +345,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary
             <End Role="FDP1" EntitySet="FDPs" />
           </AssociationSet>
           <EntitySet Name="ViewFDPLogs" EntityType="dbModel.ViewFDPLog" />
+          <EntitySet Name="ViewCrewValidFTLs" EntityType="dbModel.ViewCrewValidFTL" />
         </EntityContainer>
         <EntityType Name="FDP">
           <Key>
@@ -261,6 +451,108 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary
           <Property Name="Action" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="DateAction" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="ViewCrewValidFTL">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="SexId" />
+            <PropertyRef Name="PID" />
+            <PropertyRef Name="PersonId" />
+            <PropertyRef Name="Position" />
+            <PropertyRef Name="PositionId" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="ValidationMessage" />
+            <PropertyRef Name="Flight" />
+            <PropertyRef Name="GroupOrder" />
+            <PropertyRef Name="DateInactiveBegin" />
+            <PropertyRef Name="DateInactiveEnd" />
+            <PropertyRef Name="FlightSum" />
+            <PropertyRef Name="FlightEarly" />
+            <PropertyRef Name="FlightLate" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="SexId" Type="Int32" Nullable="false" />
+          <Property Name="PID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Position" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PositionId" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="CurrentLocationAirportId" Type="Int32" />
+          <Property Name="CurrentLocationAirporIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CurrentLocationCity" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CurrentLocationCityId" Type="Int32" />
+          <Property Name="LastLocationId" Type="Int32" />
+          <Property Name="LastLocation" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ValidationMessage" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Flight" Type="Int32" Nullable="false" />
+          <Property Name="GroupOrder" Type="Int32" Nullable="false" />
+          <Property Name="DateInactiveBegin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateInactiveEnd" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StandById" Type="Int32" />
+          <Property Name="Duty1" Type="Double" />
+          <Property Name="Duty7" Type="Double" />
+          <Property Name="Duty14" Type="Double" />
+          <Property Name="Duty28" Type="Double" />
+          <Property Name="Flight1" Type="Double" />
+          <Property Name="Flight28" Type="Double" />
+          <Property Name="FlightYear" Type="Double" />
+          <Property Name="FlightCYear" Type="Double" />
+          <Property Name="BaseAirportId" Type="Int32" />
+          <Property Name="AircraftTypeId" Type="Int32" />
+          <Property Name="DateTypeIssue" Type="DateTime" Precision="3" />
+          <Property Name="DateTypeExpire" Type="DateTime" Precision="3" />
+          <Property Name="ValidTypes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FlightSum" Type="Double" Nullable="false" />
+          <Property Name="FlightEarly" Type="Int32" Nullable="false" />
+          <Property Name="FlightLate" Type="Int32" Nullable="false" />
+          <Property Name="MedicalExpired" Type="DateTime" Precision="0" />
+          <Property Name="MedicalIssued" Type="DateTime" Precision="0" />
+          <Property Name="CMCExpired" Type="DateTime" Precision="3" />
+          <Property Name="SEPTExpired" Type="DateTime" Precision="3" />
+          <Property Name="SEPTIssued" Type="DateTime" Precision="3" />
+          <Property Name="SEPTPIssued" Type="DateTime" Precision="3" />
+          <Property Name="SEPTPExpired" Type="DateTime" Precision="3" />
+          <Property Name="DGExpired" Type="DateTime" Precision="3" />
+          <Property Name="DGIssued" Type="DateTime" Precision="3" />
+          <Property Name="CCRMExpired" Type="DateTime" Precision="3" />
+          <Property Name="CCRMIssued" Type="DateTime" Precision="3" />
+          <Property Name="CRMIssued" Type="DateTime" Precision="3" />
+          <Property Name="CRMExpired" Type="DateTime" Precision="3" />
+          <Property Name="SMSExpired" Type="DateTime" Precision="3" />
+          <Property Name="SMSIssued" Type="DateTime" Precision="3" />
+          <Property Name="AvSecExpired" Type="DateTime" Precision="3" />
+          <Property Name="AvSecIssued" Type="DateTime" Precision="3" />
+          <Property Name="ColdWXIssued" Type="DateTime" Precision="3" />
+          <Property Name="HotWXIssued" Type="DateTime" Precision="3" />
+          <Property Name="ColdWXExpired" Type="DateTime" Precision="3" />
+          <Property Name="HotWXExpired" Type="DateTime" Precision="3" />
+          <Property Name="LineIssued" Type="DateTime" Precision="3" />
+          <Property Name="LineExpired" Type="DateTime" Precision="3" />
+          <Property Name="RecurrentIssued" Type="DateTime" Precision="3" />
+          <Property Name="RecurrentExpired" Type="DateTime" Precision="3" />
+          <Property Name="LPCExpired" Type="DateTime" Precision="3" />
+          <Property Name="LPCIssued" Type="DateTime" Precision="3" />
+          <Property Name="OPCIssued" Type="DateTime" Precision="3" />
+          <Property Name="OPCExpired" Type="DateTime" Precision="3" />
+          <Property Name="LPRExpired" Type="DateTime" Precision="3" />
+          <Property Name="FirstAidExpired" Type="DateTime" Precision="0" />
+          <Property Name="FirstAidIssued" Type="DateTime" Precision="0" />
+          <Property Name="LicenceExpired" Type="DateTime" Precision="3" />
+          <Property Name="LicenceIssued" Type="DateTime" Precision="3" />
+          <Property Name="TREExpired" Type="DateTime" Precision="3" />
+          <Property Name="TRIExpired" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -355,6 +647,93 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CrewId" ColumnName="CrewId" />
                 <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewCrewValidFTLs">
+            <EntityTypeMapping TypeName="dbModel.ViewCrewValidFTL">
+              <MappingFragment StoreEntitySet="ViewCrewValidFTL">
+                <ScalarProperty Name="TRIExpired" ColumnName="TRIExpired" />
+                <ScalarProperty Name="TREExpired" ColumnName="TREExpired" />
+                <ScalarProperty Name="LicenceIssued" ColumnName="LicenceIssued" />
+                <ScalarProperty Name="LicenceExpired" ColumnName="LicenceExpired" />
+                <ScalarProperty Name="FirstAidIssued" ColumnName="FirstAidIssued" />
+                <ScalarProperty Name="FirstAidExpired" ColumnName="FirstAidExpired" />
+                <ScalarProperty Name="LPRExpired" ColumnName="LPRExpired" />
+                <ScalarProperty Name="OPCExpired" ColumnName="OPCExpired" />
+                <ScalarProperty Name="OPCIssued" ColumnName="OPCIssued" />
+                <ScalarProperty Name="LPCIssued" ColumnName="LPCIssued" />
+                <ScalarProperty Name="LPCExpired" ColumnName="LPCExpired" />
+                <ScalarProperty Name="RecurrentExpired" ColumnName="RecurrentExpired" />
+                <ScalarProperty Name="RecurrentIssued" ColumnName="RecurrentIssued" />
+                <ScalarProperty Name="LineExpired" ColumnName="LineExpired" />
+                <ScalarProperty Name="LineIssued" ColumnName="LineIssued" />
+                <ScalarProperty Name="HotWXExpired" ColumnName="HotWXExpired" />
+                <ScalarProperty Name="ColdWXExpired" ColumnName="ColdWXExpired" />
+                <ScalarProperty Name="HotWXIssued" ColumnName="HotWXIssued" />
+                <ScalarProperty Name="ColdWXIssued" ColumnName="ColdWXIssued" />
+                <ScalarProperty Name="AvSecIssued" ColumnName="AvSecIssued" />
+                <ScalarProperty Name="AvSecExpired" ColumnName="AvSecExpired" />
+                <ScalarProperty Name="SMSIssued" ColumnName="SMSIssued" />
+                <ScalarProperty Name="SMSExpired" ColumnName="SMSExpired" />
+                <ScalarProperty Name="CRMExpired" ColumnName="CRMExpired" />
+                <ScalarProperty Name="CRMIssued" ColumnName="CRMIssued" />
+                <ScalarProperty Name="CCRMIssued" ColumnName="CCRMIssued" />
+                <ScalarProperty Name="CCRMExpired" ColumnName="CCRMExpired" />
+                <ScalarProperty Name="DGIssued" ColumnName="DGIssued" />
+                <ScalarProperty Name="DGExpired" ColumnName="DGExpired" />
+                <ScalarProperty Name="SEPTPExpired" ColumnName="SEPTPExpired" />
+                <ScalarProperty Name="SEPTPIssued" ColumnName="SEPTPIssued" />
+                <ScalarProperty Name="SEPTIssued" ColumnName="SEPTIssued" />
+                <ScalarProperty Name="SEPTExpired" ColumnName="SEPTExpired" />
+                <ScalarProperty Name="CMCExpired" ColumnName="CMCExpired" />
+                <ScalarProperty Name="MedicalIssued" ColumnName="MedicalIssued" />
+                <ScalarProperty Name="MedicalExpired" ColumnName="MedicalExpired" />
+                <ScalarProperty Name="FlightLate" ColumnName="FlightLate" />
+                <ScalarProperty Name="FlightEarly" ColumnName="FlightEarly" />
+                <ScalarProperty Name="FlightSum" ColumnName="FlightSum" />
+                <ScalarProperty Name="ValidTypes" ColumnName="ValidTypes" />
+                <ScalarProperty Name="DateTypeExpire" ColumnName="DateTypeExpire" />
+                <ScalarProperty Name="DateTypeIssue" ColumnName="DateTypeIssue" />
+                <ScalarProperty Name="AircraftTypeId" ColumnName="AircraftTypeId" />
+                <ScalarProperty Name="BaseAirportId" ColumnName="BaseAirportId" />
+                <ScalarProperty Name="FlightCYear" ColumnName="FlightCYear" />
+                <ScalarProperty Name="FlightYear" ColumnName="FlightYear" />
+                <ScalarProperty Name="Flight28" ColumnName="Flight28" />
+                <ScalarProperty Name="Flight1" ColumnName="Flight1" />
+                <ScalarProperty Name="Duty28" ColumnName="Duty28" />
+                <ScalarProperty Name="Duty14" ColumnName="Duty14" />
+                <ScalarProperty Name="Duty7" ColumnName="Duty7" />
+                <ScalarProperty Name="Duty1" ColumnName="Duty1" />
+                <ScalarProperty Name="StandById" ColumnName="StandById" />
+                <ScalarProperty Name="DateInactiveEnd" ColumnName="DateInactiveEnd" />
+                <ScalarProperty Name="DateInactiveBegin" ColumnName="DateInactiveBegin" />
+                <ScalarProperty Name="GroupOrder" ColumnName="GroupOrder" />
+                <ScalarProperty Name="Flight" ColumnName="Flight" />
+                <ScalarProperty Name="ValidationMessage" ColumnName="ValidationMessage" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+                <ScalarProperty Name="LastLocation" ColumnName="LastLocation" />
+                <ScalarProperty Name="LastLocationId" ColumnName="LastLocationId" />
+                <ScalarProperty Name="CurrentLocationCityId" ColumnName="CurrentLocationCityId" />
+                <ScalarProperty Name="CurrentLocationCity" ColumnName="CurrentLocationCity" />
+                <ScalarProperty Name="CurrentLocationAirporIATA" ColumnName="CurrentLocationAirporIATA" />
+                <ScalarProperty Name="CurrentLocationAirportId" ColumnName="CurrentLocationAirportId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="SexId" ColumnName="SexId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -78,12 +78,13 @@ namespace ApiXLS.Controllers
 
 
             var grouped = (from x in query
-                           group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name,x.Position,x.PositionId } into _grp
+                           group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name,x.Position,x.PositionId,x.PID } into _grp
                            select new
                            {
                                _grp.Key.CrewId,
                                _grp.Key.ScheduleName,
                                _grp.Key.JobGroup,
+                               _grp.Key.PID,
                                Sheet= _grp.Key.JobGroup=="TRE" || _grp.Key.JobGroup=="TRI"?"IP": _grp.Key.JobGroup,
                                _grp.Key.JobGroupCode,
                                _grp.Key.Name,
@@ -126,45 +127,53 @@ namespace ApiXLS.Controllers
 
                     sheet.Range[ln, 2].Text = crew.JobGroup;
                     sheet.Range[ln, 3].Text = crew.JobGroupCode;
-                    sheet.Range[ln, 4].Text = crew.ScheduleName;
-                    sheet.Range[ln, 5].Text = crew.Position;
+                    sheet.Range[ln, 4].Text = crew.PID;
+
+
+
+                    sheet.Range[ln, 5].Text = crew.ScheduleName;
+                    sheet.Range[ln, 6].Text = crew.Position;
                     //f/l
-                    sheet.Range[ln, 6].Text = toHHMM(crew.FlightTime).ToString();
+                    sheet.Range[ln, 7].Text = toHHMM(crew.FlightTime).ToString();
                     //b/l
-                    sheet.Range[ln, 7].Text = toHHMM(crew.BlockTime).ToString();
+                    sheet.Range[ln, 8].Text = toHHMM(crew.BlockTime).ToString();
 
                     //f/l jl
-                    sheet.Range[ln, 8].Text = toHHMM(crew.JLFlightTime).ToString();
+                    sheet.Range[ln, 9].Text = toHHMM(crew.JLFlightTime).ToString();
                     //b/l jl
-                    sheet.Range[ln, 9].Text = toHHMM(crew.JLBlockTime).ToString();
+                    sheet.Range[ln, 10].Text = toHHMM(crew.JLBlockTime).ToString();
 
                     //fix
-                    sheet.Range[ln, 10].Text = toHHMM(crew.FixTime).ToString();
+                    sheet.Range[ln, 11].Text = toHHMM(crew.FixTime).ToString();
 
-                    sheet.Range[ln, 6].Style.Font.IsBold = true;
                     sheet.Range[ln, 7].Style.Font.IsBold = true;
                     sheet.Range[ln, 8].Style.Font.IsBold = true;
                     sheet.Range[ln, 9].Style.Font.IsBold = true;
+                    sheet.Range[ln, 10].Style.Font.IsBold = true;
 
 
 
 
 
 
-                    sheet.Range[ln, 2, ln, 21].BorderInside(LineStyleType.Thin);
-                    sheet.Range[ln, 2, ln, 21].BorderAround(LineStyleType.Thin);
+                    sheet.Range[ln, 2, ln, 22].BorderInside(LineStyleType.Thin);
+                    sheet.Range[ln, 2, ln, 22].BorderAround(LineStyleType.Thin);
                     //sheet.Rows[ln - 1].Style.Color = Color.FromArgb(230, 243, 255);
-                    sheet.Range[ln, 2, ln, 21].Style.Color = Color.FromArgb(179, 230, 255);
-                    sheet.Range[ln, 6, ln, 7].Style.Color = Color.FromArgb(217, 217, 217);
-                    sheet.Range[ln, 8, ln, 9].Style.Color = Color.FromArgb(179, 255, 179);
+                    sheet.Range[ln, 2, ln, 22].Style.Color = Color.FromArgb(179, 230, 255);
+                    sheet.Range[ln, 7, ln, 8].Style.Color = Color.FromArgb(217, 217, 217);
+                    sheet.Range[ln, 9, ln, 10].Style.Color = Color.FromArgb(179, 255, 179);
                     //sheet.Range[ln, 10].Style.Color = Color.FromArgb(255, 179, 102);
                     var row = ln + 1;
                     foreach (var flt in crew.Flights)
                     {
                         sheet.Range[row, 2].Text = crew.JobGroup;
                         sheet.Range[row, 3].Text = crew.JobGroupCode;
-                        sheet.Range[row, 4].Text = crew.ScheduleName;
-                        sheet.Range[row, 5].Text = crew.Position;
+                        sheet.Range[row, 4].Text = crew.PID;
+
+
+                        sheet.Range[row, 5].Text = crew.ScheduleName;
+
+                        sheet.Range[row, 6].Text = crew.Position;
 
                         // sheet.Range[row,2].Style.Color= Color.FromArgb(230, 247, 255);
                         // sheet.Range[row, 3].Style.Color = Color.FromArgb(230, 247, 255);
@@ -173,35 +182,35 @@ namespace ApiXLS.Controllers
 
 
                         //f/l
-                        sheet.Range[row, 6].Text = toHHMM(flt.FlightTime).ToString();
+                        sheet.Range[row, 7].Text = toHHMM(flt.FlightTime).ToString();
                         //b/l
-                        sheet.Range[row, 7].Text = toHHMM(flt.BlockTime).ToString();
+                        sheet.Range[row, 8].Text = toHHMM(flt.BlockTime).ToString();
                         //f/l jl
-                        sheet.Range[row, 8].Text = toHHMM(flt.JL_FlightTime).ToString();
+                        sheet.Range[row, 9].Text = toHHMM(flt.JL_FlightTime).ToString();
                         //b/l jl
-                        sheet.Range[row, 9].Text = toHHMM(flt.JL_BlockTime).ToString();
+                        sheet.Range[row, 10].Text = toHHMM(flt.JL_BlockTime).ToString();
                         //fix
-                        sheet.Range[row, 10].Text = toHHMM(flt.FixTime).ToString();
+                        sheet.Range[row, 11].Text = toHHMM(flt.FixTime).ToString();
 
-                        sheet.Range[row, 6, row, 7].Style.Color = Color.FromArgb(242, 242, 242);
-                        sheet.Range[row, 8, row, 9].Style.Color = Color.FromArgb(230, 255, 230);
+                        sheet.Range[row, 7, row, 8].Style.Color = Color.FromArgb(242, 242, 242);
+                        sheet.Range[row, 9, row, 10].Style.Color = Color.FromArgb(230, 255, 230);
                         //sheet.Range[row, 10,row,10].Style.Color = Color.FromArgb(255, 179, 102);
 
-                        sheet.Range[row, 11].Text = ((DateTime)flt.STDLocal).Date.ToString("yyyy-MM-dd");
-                        sheet.Range[row, 12].Text = flt.Register;
+                        sheet.Range[row, 12].Text = ((DateTime)flt.STDLocal).Date.ToString("yyyy-MM-dd");
+                        sheet.Range[row, 13].Text = flt.Register;
 
-                        sheet.Range[row, 13].Text = flt.FlightNumber;
-                        sheet.Range[row, 14].Text = flt.FromAirportIATA;
-                        sheet.Range[row, 15].Text = flt.ToAirportIATA;
+                        sheet.Range[row, 14].Text = flt.FlightNumber;
+                        sheet.Range[row, 15].Text = flt.FromAirportIATA;
+                        sheet.Range[row, 16].Text = flt.ToAirportIATA;
 
-                        sheet.Range[row, 16].Text = ((DateTime)flt.STDLocal).ToString("HH:mm");
-                        sheet.Range[row, 17].Text = ((DateTime)flt.STALocal).ToString("HH:mm");
+                        sheet.Range[row, 17].Text = ((DateTime)flt.STDLocal).ToString("HH:mm");
+                        sheet.Range[row, 18].Text = ((DateTime)flt.STALocal).ToString("HH:mm");
 
 
-                        sheet.Range[row, 18].Text = flt.JL_OffBlockLocal != null ? ((DateTime)flt.JL_OffBlockLocal).ToString("HH:mm") : "";
-                        sheet.Range[row, 19].Text = flt.JL_TakeOffLocal != null ? ((DateTime)flt.JL_TakeOffLocal).ToString("HH:mm") : "";
-                        sheet.Range[row, 20].Text = flt.JL_LandingLocal != null ? ((DateTime)flt.JL_LandingLocal).ToString("HH:mm") : "";
-                        sheet.Range[row, 21].Text = flt.JL_OnBlockLocal != null ? ((DateTime)flt.JL_OnBlockLocal).ToString("HH:mm") : "";
+                        sheet.Range[row, 19].Text = flt.JL_OffBlockLocal != null ? ((DateTime)flt.JL_OffBlockLocal).ToString("HH:mm") : "";
+                        sheet.Range[row, 20].Text = flt.JL_TakeOffLocal != null ? ((DateTime)flt.JL_TakeOffLocal).ToString("HH:mm") : "";
+                        sheet.Range[row, 21].Text = flt.JL_LandingLocal != null ? ((DateTime)flt.JL_LandingLocal).ToString("HH:mm") : "";
+                        sheet.Range[row, 22].Text = flt.JL_OnBlockLocal != null ? ((DateTime)flt.JL_OnBlockLocal).ToString("HH:mm") : "";
 
                         // sheet.Range[row, 16].Text = ((DateTime)flt.ch).Date.ToString("HH:mm");
 
@@ -851,6 +860,342 @@ namespace ApiXLS.Controllers
             else
                 return 1;
         }
+
+
+
+        [Route("api/flight/daily/export")]
+        [AcceptVerbs("GET")]
+        public HttpResponseMessage GetFlightsDailyExport(DateTime df, DateTime dt, string regs, string routes, string from, string to, string no, string status
+           , string type2
+           , string idx
+           , string chr
+           , string time
+           , string fuel
+           , string weight)
+        {
+
+            var context = new Models.dbEntities();
+            var cmd = "select * from viewflightdaily ";
+            //string whr = "FlightStatusId<>4  and (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
+            string whr = " (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
+
+            if (!string.IsNullOrEmpty(status) && status != "-1")
+            {
+                var _regs = status.Split('_').ToList();
+                var col = _regs.Select(q => "status=" + q).ToList();
+                var _whr = "(" + string.Join(" OR ", col) + ")";
+                whr += " AND " + _whr;
+            }
+            if (!string.IsNullOrEmpty(type2) && type2 != "-1")
+            {
+                var _regs = type2.Split('_').ToList();
+                var col = _regs.Select(q => "FlightType2=N'" + q + "'").ToList();
+                var _whr = "(" + string.Join(" OR ", col) + ")";
+                whr += " AND " + _whr;
+            }
+
+            if (!string.IsNullOrEmpty(idx) && idx != "-1")
+            {
+                var _regs = idx.Split('_').ToList();
+                var col = _regs.Select(q => "FlightIndex=N'" + q + "'").ToList();
+                var _whr = "(" + string.Join(" OR ", col) + ")";
+                whr += " AND " + _whr;
+            }
+
+            if (!string.IsNullOrEmpty(chr) && chr != "-1")
+            {
+                var _regs = chr.Split('_').ToList();
+                var col = _regs.Select(q => "ChrTitle=N'" + q + "'").ToList();
+                var _whr = "(" + string.Join(" OR ", col) + ")";
+                whr += " AND " + _whr;
+            }
+
+
+            if (!string.IsNullOrEmpty(regs) && regs != "-1")
+            {
+                var _regs = regs.Split('_').ToList();
+                var col = _regs.Select(q => "Register='" + q + "'").ToList();
+                var _whr = "(" + string.Join(" OR ", col) + ")";
+                whr += " AND " + _whr;
+            }
+
+            if (!string.IsNullOrEmpty(from) && from != "-1")
+            {
+                var _regs = from.Split('_').ToList();
+                var _whr = "(" + string.Join(" OR ", _regs.Select(q => "FromAirportIATA='" + q + "'").ToList()) + ")";
+                whr += " AND " + _whr;
+            }
+
+            if (!string.IsNullOrEmpty(to) && to != "-1")
+            {
+                var _regs = to.Split('_').ToList();
+                var _whr = "(" + string.Join(" OR ", _regs.Select(q => "ToAirportIATA='" + q + "'").ToList()) + ")";
+                whr += " AND " + _whr;
+            }
+
+            if (!string.IsNullOrEmpty(no) && no != "-1")
+            {
+                var _regs = no.Split('_').ToList();
+                var _whr = "(" + string.Join(" OR ", _regs.Select(q => "FlightNumber='" + q + "'").ToList()) + ")";
+                whr += " AND " + _whr;
+            }
+
+            if (!string.IsNullOrEmpty(routes) && routes != "-1")
+            {
+                var _regs = routes.Split('_').ToList();
+                var _whr = "(" + string.Join(" OR ", _regs.Select(q => "Route like '%" + q + "%'").ToList()) + ")";
+                whr += " AND " + _whr;
+            }
+
+            cmd = cmd + " WHERE " + whr + " ORDER BY  STDDay,AircraftType,Register,STD";
+
+            var flts = context.ViewFlightDailies
+                        .SqlQuery(cmd)
+                        .ToList<ViewFlightDaily>();
+
+            //var result = await courseService.GetEmployeeCertificates(id);
+
+            string LData = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8TGljZW5zZSBLZXk9ImNyOERaN1hKMkR5MUs2UUJBTkRPSVRLdlpjTzZkelVod2lsSHBnVlluQ3k0cXlHV2V6TFZubFJGeFAxNU1mSWZnUmdNWm1XaEdOQWRFNFRqZWZnQ1ovbFR2b1BkSXRIbDZXdDVBNWk1TVhFbnFkQnVPMUthRnovRFFzYUdWTGhzdjlySG1ybnRxSElFRGxJeGRxYUpNcGtLb0Frd1A3d1N6T01KMVkrbUNmVTVVRmV6REwvTjd1enJ4M0Y0d2I1SGErd0E2VFQ5VFJ3SzAzejlFS01aRmwzU1lSL3o0YVU3TE0wZFNYWTlqU0ZKZ2dqZlZzRFVLaUJyVm5td1ljaXVyOUVrYmw5Q3RaWTAzdG1yZm01QlplKzZnaHRFTm4wb2gzMzh0WlJleWpjcjc0QWs3MWhnWWtuTE9CQzE1VllmalhzcXVBVW13MlI2TWNWMlBPT2JyY1RSYlhBZ3pvUWJPeWQ4U2JFWmN3aE43NktQd1dzUVFTMUowdGlZSFVLeE9tMnQ0ZkJWMGhQVmhhOUI4Y0swNHFKUVp0MDBaMWNKRGEwd2I4VWx6RWs5QkhVVzJlbk9mVDE0UnlIQ2krWUdlbVBLY2RDUXJoMXpyWVRGN0ltb0x4N3h1NGV2RFRZc2xzV0JrbFFJb3g4NnJWckVVa1N0dXErQUNTWS9xVTM5L1Zhd3Y5S0FmUjVUZUVicGt3RGhTYjBOQkFqVDhBeXRsRFZkR2ZpZzBxS0czVllpVHBYRnc1cHRMVmgrYmtkK2RnN3Z4dHZyNDVaVVdKZXlyekdOR0g3YUZZZDZwLzJNRy9YSlRsR3ovU05RbzJDUExraU83SlhuOU5HZXhaN3BIbTBkZ3pNWmJHRVhxVmR2bG04MTJhL1hMMVNxeEdVWStvNVpsVUM3WTV4Z2dhRCtGZVA5enpoeUpxSUVwcDk3My9ScTRteG1wQWZMcVNzTzJSeHlTcStpdjFDc3AwQ3JvMDc4OEhybDFteWt4dVQweWRSWVpDNkRTeDhNMi9MWTNkOXNud3U3NkFmYjVDOVF1ZE9Zc0wzREh2aGZncmNVSWUvcUhmVFo5QWF6Y3pUanlyM2RPQkFjczBLZk12Y0xVUzRSeHZDdW1NNDVyNDJnMXJ3UGluN2JBcmYvZnNMTzZtS3g0WWRoSURNWlF6V3RjbkhFSTF5TXJ6aU9pdXhMdE8xalRBV25uU2VLVDJ0cXI3Tm42Qmg5TURHNjZZK2lJaW4xV05TUCtMdDFYdXRkajNKTyt4b1FNUVB5ZFpoZkJYZXpVMEhRMnd0eEdwdzRNczRTMTVJbFg1TEdXR3dXeUdYTWNjVWd3b1RDeFRGYmgyZFo0Vkg3OVZHTEVFR1JRWEZrNTRBdlFLdFBpdUcxY0w4RFo3WEoyRHkxSzZUUWVORE9YeFl2NFNveitCMHNBS0VwTVRrNCtTYWpYNksrSjlUOFhZVXRTOE8wWWZGUFZqZkhIYTZORWQyODdVcUlqMnJnQlF1bjVDV3hCczFHUm5BYmd1Z3MyL2ZQakcwZmdQemdSYzR5Q3ZObFg4V2pKUnloc3U5VFRKTjd1R3NOdnprU2IyZWlyQmhEaG1vQ0Jqa0wyYnMzT3I2d2pnNnBUNVpmNGhEdDF0STBJNXo1aytxQXVSZnRhd1lmamhXYmpMS0xKOTlUVk1kRDZaTCtTenNtQkNWN05lYm96V0RUTWgrRnJPT292R09ZbUk1bWp4Smd1MVRXNnI1V0JUK2oxSjBFNmJIb2tEMWo0Wm1DWUQreVBPUW1PMm1yUTNGdC9jVmZwQWlJdzliRkgwZ1FIbXQ4QnNuZnQ2MVV3c1h6cSs2akNvY1hOOUMvRXZPblhTczZuVlNGSkVBL3l1QmNIazZxOWdqanBnRG1NTEcrNlpxR1VjRWMzZEp2THpuK3pNT0p3TDI4WUQxN3BLSXBUNnd6WFBFVFJwWS9qNHhoMkQvaFhJRVNHcTk1eTVmZE9MNmx1QT09IiBWZXJzaW9uPSI5LjkiPgogICAgPFR5cGU+UnVudGltZTwvVHlwZT4KICAgIDxVc2VybmFtZT5Vc2VyTmFtZTwvVXNlcm5hbWU+CiAgICA8RW1haWw+ZU1haWxAaG9zdC5jb208L0VtYWlsPgogICAgPE9yZ2FuaXphdGlvbj5Pcmdhbml6YXRpb248L09yZ2FuaXphdGlvbj4KICAgIDxMaWNlbnNlZERhdGU+MjAxNi0wMS0wMVQxMjowMDowMFo8L0xpY2Vuc2VkRGF0ZT4KICAgIDxFeHBpcmVkRGF0ZT4yMDk5LTEyLTMxVDEyOjAwOjAwWjwvRXhwaXJlZERhdGU+CiAgICA8UHJvZHVjdHM+CiAgICAgICAgPFByb2R1Y3Q+CiAgICAgICAgICAgIDxOYW1lPlNwaXJlLk9mZmljZSBQbGF0aW51bTwvTmFtZT4KICAgICAgICAgICAgPFZlcnNpb24+OS45OTwvVmVyc2lvbj4KICAgICAgICAgICAgPFN1YnNjcmlwdGlvbj4KICAgICAgICAgICAgICAgIDxOdW1iZXJPZlBlcm1pdHRlZERldmVsb3Blcj45OTk5OTwvTnVtYmVyT2ZQZXJtaXR0ZWREZXZlbG9wZXI+CiAgICAgICAgICAgICAgICA8TnVtYmVyT2ZQZXJtaXR0ZWRTaXRlPjk5OTk5PC9OdW1iZXJPZlBlcm1pdHRlZFNpdGU+CiAgICAgICAgICAgIDwvU3Vic2NyaXB0aW9uPgogICAgICAgIDwvUHJvZHVjdD4KICAgIDwvUHJvZHVjdHM+CiAgICA8SXNzdWVyPgogICAgICAgIDxOYW1lPklzc3VlcjwvTmFtZT4KICAgICAgICA8RW1haWw+aXNzdWVyQGlzc3Vlci5jb208L0VtYWlsPgogICAgICAgIDxVcmw+aHR0cDovL3d3dy5pc3N1ZXIuY29tPC9Vcmw+CiAgICA8L0lzc3Vlcj4KPC9MaWNlbnNlPg==";
+
+            Spire.License.LicenseProvider.SetLicenseKey(LData);
+            Workbook workbook = new Workbook();
+            //1
+            var mappedPathSource = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "fltdaily" + ".xlsx");
+            workbook.LoadFromFile(mappedPathSource);
+            Worksheet sheet = workbook.Worksheets[0];
+
+            sheet.Range[6, 21].Text = weight == "kg" ? "CARGO (KG)" : "CARGO (LBS)";
+            sheet.Range[6, 20].Text = weight == "kg" ? "BAGGAGES (KG)" : "BAGGAGES (LBS)";
+            sheet.Range[6, 36].Text = "FUEL (LTR)";
+            if (fuel == "lbs")
+            {
+
+                sheet.Range[6, 36].Text = "FUEL (LBS)";
+            }
+
+            if (fuel == "kg")
+            {
+
+                sheet.Range[6, 36].Text = "FUEL (KG)";
+            }
+
+            var ln = 8;
+            foreach (var flt in flts)
+            {
+                sheet.InsertRow(ln);
+                sheet.Range[ln, 1].Text = flt.PMonthName;
+                sheet.Range[ln, 2].Text = flt.FlightType2;
+                sheet.Range[ln, 3].Text = flt.FlightIndex;
+                sheet.Range[ln, 4].Value2 = flt.FlightStatus;
+                sheet.Range[ln, 5].Text = flt.PDayName;
+                sheet.Range[ln, 6].Value2 = flt.STDDay;
+                sheet.Range[ln, 6].NumberFormat = "yyyy-mm-dd";
+                sheet.Range[ln, 7].Text = flt.PDate;
+
+                var isFlightNumeric = int.TryParse(flt.FlightNumber, out int flightNumberTemp);
+
+                if (isFlightNumeric)
+                    sheet.Range[ln, 8].NumberValue = flightNumberTemp;
+                else
+                    sheet.Range[ln, 8].Text = flt.FlightNumber;
+
+                sheet.Range[ln, 9].Text = flt.AircraftType;
+                sheet.Range[ln, 10].Text = flt.Register;
+                sheet.Range[ln, 11].Text = flt.FromAirportIATA;
+                sheet.Range[ln, 12].Text = flt.ToAirportIATA;
+
+                sheet.Range[ln, 13].Value2 = flt.PaxAdult;
+                sheet.Range[ln, 13].NumberFormat = "0";
+                sheet.Range[ln, 14].Value2 = flt.PaxChild;
+                sheet.Range[ln, 14].NumberFormat = "0";
+                sheet.Range[ln, 15].Value2 = flt.PaxInfant;
+                sheet.Range[ln, 15].NumberFormat = "0";
+                sheet.Range[ln, 16].Formula = "=SUM(Sheet2!$M$" + ln + ":N$" + ln + ")";
+                // sheet.Range[ln, 15].Value2 = flt.RevPax;
+                sheet.Range[ln, 16].NumberFormat = "0";
+                //  sheet.Range[ln, 16].Value2 = flt.TotalPax;
+                sheet.Range[ln, 17].Formula = "=SUM(Sheet2!$M$" + ln + ":O$" + ln + ")";
+                sheet.Range[ln, 17].NumberFormat = "0";
+
+                sheet.Range[ln, 18].Value2 = null;
+                sheet.Range[ln, 18].NumberFormat = "0";
+                sheet.Range[ln, 19].Value2 = null;
+                sheet.Range[ln, 19].NumberFormat = "0";
+
+
+
+                sheet.Range[ln, 20].Value2 = weight == "kg" ? flt.BaggageWeightKg : flt.BaggageWeightLbs;
+                sheet.Range[ln, 20].NumberFormat = "0";
+
+
+                sheet.Range[ln, 21].Value2 = weight == "kg" ? flt.CargoWeightKg : flt.CargoWeightLbs;
+                sheet.Range[ln, 21].NumberFormat = "0";
+
+                sheet.Range[ln, 22].Value2 = flt.TotalSeat;
+                sheet.Range[ln, 22].NumberFormat = "0";
+
+                sheet.Range[ln, 23].Value2 = flt.EmptySeat;
+                sheet.Range[ln, 23].NumberFormat = "0";
+
+
+                sheet.Range[ln, 24].Value2 = null;
+                sheet.Range[ln, 24].NumberFormat = "0";
+
+                var _std = time == "lcl" ? ((DateTime)flt.STDLocal) : ((DateTime)flt.STD);
+                //var _stdHour = _std.Hour; //(_std.Hour > 12 ? _std.Hour - 12 : _std.Hour);
+                var _sta = time == "lcl" ? ((DateTime)flt.STALocal) : ((DateTime)flt.STA);
+                //var _staHour = _sta.Hour; //(_sta.Hour > 12 ? _sta.Hour - 12 : _sta.Hour);
+
+                sheet.Range[ln, 25].TimeSpanValue = _std.TimeOfDay;
+                sheet.Range[ln, 25].NumberFormat = "hh:MM";
+
+                sheet.Range[ln, 26].TimeSpanValue = _sta.TimeOfDay;
+                sheet.Range[ln, 26].NumberFormat = "hh:MM";
+
+                //sheet.Range[ln, 24].Cells[0].Text = _stdHour.ToString().PadLeft(2, '0') + ":" + _std.Minute.ToString().PadLeft(2, '0'); /*+ (_std.Hour<12?" AM":" PM")*/; //flt.STDLocal;
+                //sheet.Range[ln, 25].Cells[0].Text = _staHour.ToString().PadLeft(2, '0') + ":" + _sta.Minute.ToString().PadLeft(2, '0');   /*+(_sta.Hour < 12 ? " AM" : " PM")*/; //flt.STALocal;
+
+                sheet.Range[ln, 27].Formula = "IF(Z" + ln + ">=Y" + ln + ",Z" + ln + "-Y" + ln + ",Z" + ln + "-Y" + ln + "+1)";
+                sheet.Range[ln, 27].NumberFormat = "hh:MM";
+
+                var _takeoff = time == "lcl" ? ((DateTime)flt.TakeOffLocal) : ((DateTime)flt.TakeOff);
+                var _landing = time == "lcl" ? ((DateTime)flt.LandingLocal) : ((DateTime)flt.Landing);
+
+
+                sheet.Range[ln, 28].TimeSpanValue = _takeoff.TimeOfDay;
+                sheet.Range[ln, 28].NumberFormat = "hh:MM";
+                sheet.Range[ln, 29].TimeSpanValue = _landing.TimeOfDay;
+                sheet.Range[ln, 29].NumberFormat = "hh:MM";
+                sheet.Range[ln, 30].Formula = "IF(AC" + ln + ">=AB" + ln + ",AC" + ln + "-AB" + ln + ",AC" + ln + "-AB" + ln + "+1)";
+                sheet.Range[ln, 30].NumberFormat = "hh:MM";
+
+                var _offblock = time == "lcl" ? ((DateTime)flt.BlockOffLocal) : ((DateTime)flt.BlockOff);
+                var _onblock = time == "lcl" ? ((DateTime)flt.BlockOnLocal) : ((DateTime)flt.BlockOn);
+
+                sheet.Range[ln, 31].TimeSpanValue = _offblock.TimeOfDay;
+                sheet.Range[ln, 32].TimeSpanValue = _onblock.TimeOfDay;
+                sheet.Range[ln, 33].Formula = "IF(AF" + ln + ">=AE" + ln + ",AF" + ln + "-AE" + ln + ",AF" + ln + "-AE" + ln + "+1)";
+
+                sheet.Range[ln, 31].NumberFormat = "hh:MM";
+                sheet.Range[ln, 32].NumberFormat = "hh:MM";
+                sheet.Range[ln, 33].NumberFormat = "hh:MM";
+
+                sheet.Range[ln, 34].Formula = "IF(AE" + ln + ">=Y" + ln + ",IF(AE" + ln + "==Y" + ln + ",0,AE" + ln + "-Y" + ln + "),AE" + ln + "-Y" + ln + "+1)";
+                sheet.Range[ln, 34].NumberFormat = "hh:MM";
+
+                //DelayReason
+                sheet.Range[ln, 35].Value2 = flt.DelayReason;
+                //UsedFuel
+                var _fuel = flt.UpliftLtr;
+
+                if (fuel == "lbs")
+                {
+                    _fuel = flt.UpliftLbs;
+
+                }
+
+                if (fuel == "kg")
+                {
+                    _fuel = flt.UpliftKg;
+
+                }
+
+
+                sheet.Range[ln, 36].Value2 = _fuel;
+                sheet.Range[ln, 36].NumberFormat = "0";
+                //Distance
+                sheet.Range[ln, 37].Value2 = flt.Distance;
+                sheet.Range[ln, 37].NumberFormat = "0";
+                //ChrTitle
+                sheet.Range[ln, 38].Value2 = flt.ChrTitle;
+                //StationIncome
+                sheet.Range[ln, 39].Value2 = flt.StationIncome;
+                sheet.Range[ln, 39].NumberFormat = "0";
+                //--agancies
+
+                //Remark
+                sheet.Range[ln, 54].Value2 = flt.TotalRemark;
+
+
+                //sheet.Range[r, 11].Borders[BordersLineType.EdgeRight].LineStyle = LineStyleType.Thin;
+                //sheet.Rows[ln-1].Borders.LineStyle = LineStyleType.Thin;
+                sheet.Rows[ln - 1].BorderInside(LineStyleType.Double);
+                sheet.Rows[ln - 1].BorderAround(LineStyleType.Double);
+
+                sheet.Rows[ln - 1].Style.Font.IsBold = true;
+                ln++;
+            }
+
+            sheet.InsertRow(ln);
+            var frm_paxadult = "=SUM(Sheet2!$M$8:M$" + (ln - 1) + ")";
+            sheet.Range[ln, 13].Formula = frm_paxadult;
+
+            var frm_paxchild = "=SUM(Sheet2!$N$8:N$" + (ln - 1) + ")";
+            sheet.Range[ln, 14].Formula = frm_paxchild;
+
+            var frm_paxinfant = "=SUM(Sheet2!$O$8:O$" + (ln - 1) + ")";
+            sheet.Range[ln, 15].Formula = frm_paxinfant;
+
+            sheet.Range[ln, 16].Formula = "=SUM(Sheet2!$P$8:P$" + (ln - 1) + ")";
+            sheet.Range[ln, 17].Formula = "=SUM(Sheet2!$Q$8:Q$" + (ln - 1) + ")";
+            sheet.Range[ln, 18].Formula = "=SUM(Sheet2!$R$8:R$" + (ln - 1) + ")";
+            sheet.Range[ln, 19].Formula = "=SUM(Sheet2!$S$8:S$" + (ln - 1) + ")";
+            sheet.Range[ln, 20].Formula = "=SUM(Sheet2!$T$8:T$" + (ln - 1) + ")";
+            sheet.Range[ln, 21].Formula = "=SUM(Sheet2!$U$8:U$" + (ln - 1) + ")";
+
+            //fixtime
+            //Spire.Xls.CellFormatType.Unknown
+            sheet.Range[ln, 27].Formula = "=SUM(Sheet2!$AA$8:AA$" + (ln - 1) + ")";
+            sheet.Range[ln, 27].Style.NumberFormat = "[h]:mm;@";// .NumberFormat = "[h]:mm;@";
+
+            //  sheet.Range[ln, 26].Style.NumberFormatSettings
+            //sheet.Range[ln, 26].DateTimeValue = System.DateTime.Today;
+
+
+
+            sheet.Range[ln, 30].Formula = "=SUM(Sheet2!$AD$8:AD$" + (ln - 1) + ")";
+            sheet.Range[ln, 30].Style.NumberFormat = "[h]:mm;@";
+            sheet.Range[ln, 33].Formula = "=SUM(Sheet2!$AG$8:AG$" + (ln - 1) + ")";
+            sheet.Range[ln, 33].Style.NumberFormat = "[h]:mm;@";
+
+            sheet.Range[ln, 34].Formula = "=SUM(Sheet2!$AH$8:AH$" + (ln - 1) + ")";
+            sheet.Range[ln, 34].Style.NumberFormat = "[h]:mm;@";
+
+            sheet.Range[ln, 36].Formula = "=SUM(Sheet2!$AJ$8:AJ$" + (ln - 1) + ")";
+            sheet.Range[ln, 37].Formula = "=SUM(Sheet2!$AK$8:AK$" + (ln - 1) + ")";
+
+            sheet.Range[ln, 39].Formula = "=SUM(Sheet2!$AM$8:AM$" + (ln - 1) + ")";
+
+
+
+            sheet.Rows[ln - 1].BorderInside(LineStyleType.Double);
+            sheet.Rows[ln - 1].BorderAround(LineStyleType.Double);
+            sheet.Rows[ln - 1].Style.Font.IsBold = true;
+
+
+            var name = "daily-" + ((DateTime)df).ToString("yyyy-MMM-dd");
+            var mappedPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + name + ".xlsx");
+
+
+
+            workbook.SaveToFile(mappedPath, ExcelVersion.Version2016);
+
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(new FileStream(mappedPath, FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = name + ".xlsx";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+
+            return response;
+        }
+
+
+
+
+
+
+
         public class ShiftFlight
         {
             public int? FlightId { get; set; }

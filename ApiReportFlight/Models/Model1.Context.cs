@@ -26,7 +26,6 @@ namespace ApiReportFlight.Models
         }
     
         public virtual DbSet<RptFuelOFP> RptFuelOFPs { get; set; }
-        public virtual DbSet<ViewLegCrew> ViewLegCrews { get; set; }
         public virtual DbSet<RptFlightRVSM> RptFlightRVSMs { get; set; }
         public virtual DbSet<ViewFormB> ViewFormBs { get; set; }
         public virtual DbSet<ViewFormC> ViewFormCs { get; set; }
@@ -35,5 +34,7 @@ namespace ApiReportFlight.Models
         public virtual DbSet<ViewFlightDaily> ViewFlightDailies { get; set; }
         public virtual DbSet<ViewDelayedFlight> ViewDelayedFlights { get; set; }
         public virtual DbSet<ViewFlightDelay> ViewFlightDelays { get; set; }
+        public virtual DbSet<ViewLegCrew> ViewLegCrews { get; set; }
+        public virtual DbSet<ViewFlightCockpit> ViewFlightCockpits { get; set; }
     }
 }

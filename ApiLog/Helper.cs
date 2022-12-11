@@ -66,11 +66,26 @@ namespace ApiLog
             return dt;
         }
 
+
+        public static int GetTimeOffset(DateTime dt,string zone,decimal def)
+        {
+            var tz = TimeZoneInfo.GetSystemTimeZones().Where(q => q.DisplayName.ToUpper().Contains(zone.ToUpper())).FirstOrDefault();
+            if (tz == null)
+                return Convert.ToInt32(def);
+            else
+                return Convert.ToInt32(Math.Round(tz.GetUtcOffset(dt).TotalMinutes));
+        }
+
         public static int GetTimeOffset(DateTime dt)
         {
-
+            
             try
             {
+                //var tz1 = TimeZoneInfo.GetSystemTimeZones().ToList();
+               // var tz = TimeZoneInfo.GetSystemTimeZones().Where(q => q.DisplayName.ToUpper().Contains("TEHRAN")).FirstOrDefault();
+               // var a1 = tz.GetUtcOffset(new DateTime(2022, 12, 6));
+                //var a2 = tz.GetUtcOffset(new DateTime(2022, 4, 6));
+                //tzList.First().GetUtcOffset
                 return Convert.ToInt32(Math.Round(TimeZoneInfo.Local.GetUtcOffset(dt).TotalMinutes));
             }
             catch (Exception ex)

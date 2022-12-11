@@ -614,15 +614,30 @@ namespace ApiPlanning.ViewModels
             viewflightinformation.GWTO = entity.GWTO;
             viewflightinformation.BlockM = entity.BlockM;
             viewflightinformation.BlockH = entity.BlockH;
-            if (entity.FromAirportIATA == "NJF" || entity.FromAirportIATA == "BSR")
-                viewflightinformation.GWLand = 180;
-            else
-                viewflightinformation.GWLand = tzoffset2;
 
-            if (entity.ToAirportIATA == "NJF" || entity.ToAirportIATA == "BSR")
-                viewflightinformation.GWTO = 180;
+            //if (entity.FromAirportIATA == "NJF" || entity.FromAirportIATA == "BSR")
+            //    viewflightinformation.GWLand = 180;
+            //else
+            //    viewflightinformation.GWLand = tzoffset2;
+
+            //if (entity.ToAirportIATA == "NJF" || entity.ToAirportIATA == "BSR")
+            //    viewflightinformation.GWTO = 180;
+            //else
+            //    viewflightinformation.GWTO = tzoffset2;
+            if (entity.GWLand != entity.FlightHPlanned && !string.IsNullOrEmpty(entity.FromAirportName))
+            {
+                viewflightinformation.GWLand = Helper.GetTimeOffset((DateTime)entity.STD, entity.FromAirportName, (decimal)entity.GWLand);
+            }
             else
-                viewflightinformation.GWTO = tzoffset2;
+                viewflightinformation.GWLand = entity.GWLand;
+
+            ////////////////////////
+            if (entity.GWTO != entity.FlightMPlanned && !string.IsNullOrEmpty(entity.ToAirportName))
+            {
+                viewflightinformation.GWTO = Helper.GetTimeOffset((DateTime)entity.STA, entity.ToAirportName, (decimal)entity.GWTO);
+            }
+            else
+                viewflightinformation.GWTO = entity.GWTO;
 
 
             viewflightinformation.FlightH = entity.FlightH;

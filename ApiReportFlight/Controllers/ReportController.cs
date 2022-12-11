@@ -1272,6 +1272,7 @@ namespace ApiReportFlight.Controllers
             public int? JLFlightTime { get; set; }
             public int? JLBlockTime { get; set; }
             public int? FixTime { get; set; }
+            public string PID { get; set; }
         }
 
         int getOrder(string group)
@@ -1320,25 +1321,96 @@ namespace ApiReportFlight.Controllers
                 throw;
             }
         }
+
+        [Route("api/report/flights")]
+        
+        //nookp
+        public IHttpActionResult GetFlightCockpit(DateTime? df, DateTime? dt, int? ip, int? cpt, int? status)
+        {
+            //nooz
+            //this.context.Database.CommandTimeout = 160;
+            var ctx = new ppa_Entities();
+            df = df != null ? ((DateTime)df).Date : DateTime.MinValue.Date;
+            dt = dt != null ? ((DateTime)dt).Date : DateTime.MaxValue.Date;
+            var query = from x in ctx.ViewFlightCockpits
+                            // where x.FlightStatusID != 1 && x.FlightStatusID != 4
+                        select x;
+            query = query.Where(q => q.STDDayLocal >= df && q.STDDayLocal <= dt);
+            if (ip != null)
+                query = query.Where(q => q.IPId == ip);
+            if (cpt != null)
+                query = query.Where(q => q.CaptainId == cpt);
+            if (status != null)
+            {
+                //       { Id: 1, Title: 'Done' },
+                //{ Id: 2, Title: 'Scheduled' },
+                //{ Id: 3, Title: 'Canceled' },
+                //{ Id: 4, Title: 'Starting' },
+                // { Id: 5, Title: 'All' },
+                List<int> sts = new List<int>();
+                switch ((int)status)
+                {
+                    case 1:
+                        sts.Add(15);
+                        sts.Add(3);
+                        query = query.Where(q => sts.Contains(q.FlightStatusID));
+                        break;
+                    case 2:
+                        sts.Add(1);
+                        query = query.Where(q => sts.Contains(q.FlightStatusID));
+                        break;
+                    case 3:
+                        sts.Add(4);
+                        query = query.Where(q => sts.Contains(q.FlightStatusID));
+                        break;
+                    case 4:
+                        sts.Add(20);
+                        sts.Add(21);
+                        sts.Add(22);
+                        sts.Add(4);
+                        sts.Add(2);
+                        sts.Add(23);
+                        sts.Add(24);
+                        sts.Add(25);
+                        query = query.Where(q => sts.Contains(q.FlightStatusID));
+
+                        break;
+                    case 5:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            var result = query.OrderBy(q => q.STD).ToList();
+
+            // return result.OrderBy(q => q.STD);
+            return Ok( result);
+
+        }
+
+
+
+
+
         [Route("api/crew/flights/{grp}")]
         [AcceptVerbs("GET")]
         public IHttpActionResult GetCrewFlightTimes(string grp, DateTime df, DateTime dt)
         {
 
 
-            List<FlightTimeDto> external_list = new List<FlightTimeDto>();
-            try
-            {
-                var ids = "4325_4287_4289";
-                var dfStr = df.ToString("yyyy-MM-dd");
-                var dtStr = dt.ToString("yyyy-MM-dd");
-                var extStr = GETUrl("https://apireportflight.varesh.click/api/crew/flights/ids/" + ids + "?df=" + dfStr + "&dt=" + dtStr);
-                external_list = JsonConvert.DeserializeObject<List<FlightTimeDto>>(extStr);
-            }
-            catch (Exception ex)
-            {
+            //List<FlightTimeDto> external_list = new List<FlightTimeDto>();
+            //try
+            //{
+            //    var ids = "4325_4287_4289";
+            //    var dfStr = df.ToString("yyyy-MM-dd");
+            //    var dtStr = dt.ToString("yyyy-MM-dd");
+            //    var extStr = GETUrl("https://apireportflight.varesh.click/api/crew/flights/ids/" + ids + "?df=" + dfStr + "&dt=" + dtStr);
+            //    external_list = JsonConvert.DeserializeObject<List<FlightTimeDto>>(extStr);
+            //}
+            //catch (Exception ex)
+            //{
 
-            }
+            //}
 
             var ctx = new ppa_Entities();
             var _df = df.Date;
@@ -1346,7 +1418,7 @@ namespace ApiReportFlight.Controllers
             var _query = (
                            from x in ctx.ViewLegCrews
                            where x.STDLocal >= df && x.STDLocal < dt && x.FlightStatusID != 4
-                           group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name } into _grp
+                           group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name ,x.PID} into _grp
                            select new FlightTimeDto()
                            {
                                CrewId = _grp.Key.CrewId,
@@ -1354,6 +1426,7 @@ namespace ApiReportFlight.Controllers
                                JobGroup = _grp.Key.JobGroup,
                                JobGropCode = _grp.Key.JobGroupCode,
                                Name = _grp.Key.Name,
+                               PID=_grp.Key.PID,
 
                                Legs = _grp.Where(q => q.IsPositioning == false).Count(),
                                DH = _grp.Where(q => q.IsPositioning == true).Count(),
@@ -1366,8 +1439,8 @@ namespace ApiReportFlight.Controllers
                           ).ToList();
             foreach (var x in _query)
                 x.GroupOrder = getOrder(x.JobGroup);
-            if (external_list.Count > 0)
-                _query = _query.Concat(external_list).ToList();
+           // if (external_list.Count > 0)
+           //     _query = _query.Concat(external_list).ToList();
 
             _query = _query.OrderBy(q => q.GroupOrder).ThenByDescending(q => q.FixTime).ToList();
             return Ok(_query);

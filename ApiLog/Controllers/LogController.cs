@@ -837,12 +837,22 @@ namespace ApiLog.Controllers
                 //return Ok(result);
                 var context = new ppa_entities();
 
+                //var flightsQuery = context.ViewFlightsGantts.Where(q => /*q.CustomerId == cid &&*/ q.RegisterID != null &&
+                //(
+                //(q.STDLocal >= dateFrom && q.STDLocal <= dateTo) || (q.DepartureLocal >= dateFrom && q.DepartureLocal <= dateTo)
+                //|| (q.STALocal >= dateFrom && q.STALocal <= dateTo) || (q.ArrivalLocal >= dateFrom && q.ArrivalLocal <= dateTo)
+                //)
+                //);
+
+
                 var flightsQuery = context.ViewFlightsGantts.Where(q => /*q.CustomerId == cid &&*/ q.RegisterID != null &&
-                (
-                (q.STDLocal >= dateFrom && q.STDLocal <= dateTo) || (q.DepartureLocal >= dateFrom && q.DepartureLocal <= dateTo)
-                || (q.STALocal >= dateFrom && q.STALocal <= dateTo) || (q.ArrivalLocal >= dateFrom && q.ArrivalLocal <= dateTo)
-                )
-                );
+               (
+               (q.STD >= dateFrom && q.STD <= dateTo) || (q.Departure >= dateFrom && q.Departure <= dateTo)
+               || (q.STA >= dateFrom && q.STA <= dateTo) || (q.Arrival >= dateFrom && q.Arrival <= dateTo)
+               )
+               );
+
+
                 int utc = 1;
                 int? doUtc = utc;
                 if (cid != -1)

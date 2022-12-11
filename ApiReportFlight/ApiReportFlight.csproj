@@ -201,6 +201,9 @@
     <Compile Include="Models\ViewFinMonthlyRoute.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewFlightCockpit.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewFlightDaily.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

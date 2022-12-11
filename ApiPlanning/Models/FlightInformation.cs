@@ -14,6 +14,13 @@ namespace ApiPlanning.Models
     
     public partial class FlightInformation
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public FlightInformation()
+        {
+            this.FlightStatusLogs = new HashSet<FlightStatusLog>();
+            this.FDPItems = new HashSet<FDPItem>();
+        }
+    
         public int ID { get; set; }
         public Nullable<int> TypeID { get; set; }
         public Nullable<int> RegisterID { get; set; }
@@ -284,5 +291,10 @@ namespace ApiPlanning.Models
         public Nullable<int> NewTime { get; set; }
         public Nullable<int> UTCSTD { get; set; }
         public Nullable<int> UTCSTA { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FlightStatusLog> FlightStatusLogs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FDPItem> FDPItems { get; set; }
     }
 }

@@ -319,6 +319,103 @@
           <Property Name="ODSec" Type="int" />
           <Property Name="MAXZFW" Type="int" />
           <Property Name="MAXLNW" Type="int" />
+          <Property Name="Ready" Type="datetime" />
+          <Property Name="Start" Type="datetime" />
+          <Property Name="CargoPieces" Type="int" />
+          <Property Name="FreeAWBCount" Type="int" />
+          <Property Name="FreeAWBPieces" Type="int" />
+          <Property Name="FreeAWBWeight" Type="int" />
+          <Property Name="NoShowCount" Type="int" />
+          <Property Name="NoShowPieces" Type="int" />
+          <Property Name="NoGoCount" Type="int" />
+          <Property Name="NoGoPieces" Type="int" />
+          <Property Name="DSBreakfast" Type="int" />
+          <Property Name="DSWarmFood" Type="int" />
+          <Property Name="DSColdFood" Type="int" />
+          <Property Name="DSRefreshment" Type="int" />
+          <Property Name="YClass" Type="int" />
+          <Property Name="CClass" Type="int" />
+          <Property Name="PaxAdult50" Type="int" />
+          <Property Name="PaxChild50" Type="int" />
+          <Property Name="PaxInfant50" Type="int" />
+          <Property Name="PaxAdult100" Type="int" />
+          <Property Name="PaxChild100" Type="int" />
+          <Property Name="PaxInfant100" Type="int" />
+          <Property Name="PaxVIP" Type="int" />
+          <Property Name="PaxCIP" Type="int" />
+          <Property Name="PaxHUM" Type="int" />
+          <Property Name="PaxUM" Type="int" />
+          <Property Name="PaxAVI" Type="int" />
+          <Property Name="PaxWCHR" Type="int" />
+          <Property Name="PaxSTRC" Type="int" />
+          <Property Name="PaxPIRLost" Type="int" />
+          <Property Name="PaxPIRDamage" Type="int" />
+          <Property Name="PaxPIRFound" Type="int" />
+          <Property Name="CargoPIRLost" Type="int" />
+          <Property Name="CargoPIRDamage" Type="int" />
+          <Property Name="CargoPIRFound" Type="int" />
+          <Property Name="LimitTag" Type="int" />
+          <Property Name="RushTag" Type="int" />
+          <Property Name="CLCheckIn" Type="datetime" />
+          <Property Name="CLPark" Type="datetime" />
+          <Property Name="CLAddTools" Type="datetime" />
+          <Property Name="CLBusReady" Type="datetime" />
+          <Property Name="CLPaxOut" Type="datetime" />
+          <Property Name="CLDepoOut" Type="datetime" />
+          <Property Name="CLServicePresence" Type="datetime" />
+          <Property Name="CLCleaningStart" Type="datetime" />
+          <Property Name="CLTechReady" Type="datetime" />
+          <Property Name="CLBagSent" Type="datetime" />
+          <Property Name="CLCateringLoad" Type="datetime" />
+          <Property Name="CLFuelStart" Type="datetime" />
+          <Property Name="CLFuelEnd" Type="datetime" />
+          <Property Name="CLCleaningEnd" Type="datetime" />
+          <Property Name="CLBoardingStart" Type="datetime" />
+          <Property Name="CLBoardingEnd" Type="datetime" />
+          <Property Name="CLLoadSheetStart" Type="datetime" />
+          <Property Name="CLGateClosed" Type="datetime" />
+          <Property Name="CLTrafficCrew" Type="datetime" />
+          <Property Name="CLLoadCrew" Type="datetime" />
+          <Property Name="CLForbiddenObj" Type="datetime" />
+          <Property Name="CLLoadSheetSign" Type="datetime" />
+          <Property Name="CLLoadingEnd" Type="datetime" />
+          <Property Name="CLDoorClosed" Type="datetime" />
+          <Property Name="CLEqDC" Type="datetime" />
+          <Property Name="CLMotorStart" Type="datetime" />
+          <Property Name="CLMovingStart" Type="datetime" />
+          <Property Name="CLACStart" Type="datetime" />
+          <Property Name="CLACEnd" Type="datetime" />
+          <Property Name="CLGPUStart" Type="datetime" />
+          <Property Name="CLGPUEnd" Type="datetime" />
+          <Property Name="CLDepStairs" Type="int" />
+          <Property Name="CLDepGPU" Type="int" />
+          <Property Name="CLDepCrewCar" Type="int" />
+          <Property Name="CLDepCrewCarCount" Type="int" />
+          <Property Name="CLDepCabinService" Type="int" />
+          <Property Name="CLDepCateringCar" Type="int" />
+          <Property Name="CLDepPatientCar" Type="int" />
+          <Property Name="CLDepPaxCar" Type="int" />
+          <Property Name="CLDepPaxCarCount" Type="int" />
+          <Property Name="CLDepPushback" Type="int" />
+          <Property Name="CLDepWaterService" Type="int" />
+          <Property Name="CLDepAC" Type="int" />
+          <Property Name="CLDepDeIce" Type="int" />
+          <Property Name="CLDepEqRemark" Type="varchar" MaxLength="500" />
+          <Property Name="CLArrStairs" Type="int" />
+          <Property Name="CLArrGPU" Type="int" />
+          <Property Name="CLArrCrewCar" Type="int" />
+          <Property Name="CLArrCrewCarCount" Type="int" />
+          <Property Name="CLArrCabinService" Type="int" />
+          <Property Name="CLArrPatientCar" Type="int" />
+          <Property Name="CLArrPaxCar" Type="int" />
+          <Property Name="CLArrPaxCarCount" Type="int" />
+          <Property Name="CLArrToiletService" Type="int" />
+          <Property Name="CLArrEqRemark" Type="varchar" MaxLength="500" />
+          <Property Name="WLCount" Type="int" />
+          <Property Name="WLCost" Type="bigint" />
+          <Property Name="ExBagWeight" Type="int" />
+          <Property Name="ExBagCost" Type="bigint" />
+          <Property Name="TotalTrafficLoad" Type="int" />
         </EntityType>
         <EntityType Name="OFPImport">
           <Key>
@@ -355,6 +452,19 @@
           <Property Name="JCSTBL" Type="varchar(max)" />
           <Property Name="JALDRF" Type="nvarchar(max)" />
           <Property Name="JWTDRF" Type="varchar(max)" />
+          <Property Name="THM" Type="varchar" MaxLength="500" />
+          <Property Name="UNT" Type="varchar" MaxLength="500" />
+          <Property Name="CRW" Type="varchar" MaxLength="500" />
+          <Property Name="RTM" Type="varchar" MaxLength="2000" />
+          <Property Name="RTA" Type="varchar" MaxLength="2000" />
+          <Property Name="RTB" Type="varchar" MaxLength="2000" />
+          <Property Name="RTT" Type="varchar" MaxLength="2000" />
+          <Property Name="PLD" Type="varchar" MaxLength="500" />
+          <Property Name="EZFW" Type="varchar" MaxLength="500" />
+          <Property Name="ETOW" Type="varchar" MaxLength="500" />
+          <Property Name="ELDW" Type="varchar" MaxLength="500" />
+          <Property Name="ETD" Type="varchar" MaxLength="500" />
+          <Property Name="ETA" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="OFPImportItem">
           <Key>
@@ -863,7 +973,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
             <End Role="OFPImport" EntitySet="OFPImports" />
             <End Role="OFPImportProp" EntitySet="OFPImportProps" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="OFPSkyPuter">
           <Key>
             <PropertyRef Name="Id" />
@@ -1219,6 +1329,103 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <NavigationProperty Name="EFBDSPReleases" Relationship="ppa_tabanModel.fk_EFB_FI" FromRole="FlightInformation" ToRole="EFBDSPRelease" />
           <Property Name="MAXZFW" Type="Int32" />
           <Property Name="MAXLNW" Type="Int32" />
+          <Property Name="Ready" Type="DateTime" Precision="3" />
+          <Property Name="Start" Type="DateTime" Precision="3" />
+          <Property Name="CargoPieces" Type="Int32" />
+          <Property Name="FreeAWBCount" Type="Int32" />
+          <Property Name="FreeAWBPieces" Type="Int32" />
+          <Property Name="FreeAWBWeight" Type="Int32" />
+          <Property Name="NoShowCount" Type="Int32" />
+          <Property Name="NoShowPieces" Type="Int32" />
+          <Property Name="NoGoCount" Type="Int32" />
+          <Property Name="NoGoPieces" Type="Int32" />
+          <Property Name="DSBreakfast" Type="Int32" />
+          <Property Name="DSWarmFood" Type="Int32" />
+          <Property Name="DSColdFood" Type="Int32" />
+          <Property Name="DSRefreshment" Type="Int32" />
+          <Property Name="YClass" Type="Int32" />
+          <Property Name="CClass" Type="Int32" />
+          <Property Name="PaxAdult50" Type="Int32" />
+          <Property Name="PaxChild50" Type="Int32" />
+          <Property Name="PaxInfant50" Type="Int32" />
+          <Property Name="PaxAdult100" Type="Int32" />
+          <Property Name="PaxChild100" Type="Int32" />
+          <Property Name="PaxInfant100" Type="Int32" />
+          <Property Name="PaxVIP" Type="Int32" />
+          <Property Name="PaxCIP" Type="Int32" />
+          <Property Name="PaxHUM" Type="Int32" />
+          <Property Name="PaxUM" Type="Int32" />
+          <Property Name="PaxAVI" Type="Int32" />
+          <Property Name="PaxWCHR" Type="Int32" />
+          <Property Name="PaxSTRC" Type="Int32" />
+          <Property Name="PaxPIRLost" Type="Int32" />
+          <Property Name="PaxPIRDamage" Type="Int32" />
+          <Property Name="PaxPIRFound" Type="Int32" />
+          <Property Name="CargoPIRLost" Type="Int32" />
+          <Property Name="CargoPIRDamage" Type="Int32" />
+          <Property Name="CargoPIRFound" Type="Int32" />
+          <Property Name="LimitTag" Type="Int32" />
+          <Property Name="RushTag" Type="Int32" />
+          <Property Name="CLCheckIn" Type="DateTime" Precision="3" />
+          <Property Name="CLPark" Type="DateTime" Precision="3" />
+          <Property Name="CLAddTools" Type="DateTime" Precision="3" />
+          <Property Name="CLBusReady" Type="DateTime" Precision="3" />
+          <Property Name="CLPaxOut" Type="DateTime" Precision="3" />
+          <Property Name="CLDepoOut" Type="DateTime" Precision="3" />
+          <Property Name="CLServicePresence" Type="DateTime" Precision="3" />
+          <Property Name="CLCleaningStart" Type="DateTime" Precision="3" />
+          <Property Name="CLTechReady" Type="DateTime" Precision="3" />
+          <Property Name="CLBagSent" Type="DateTime" Precision="3" />
+          <Property Name="CLCateringLoad" Type="DateTime" Precision="3" />
+          <Property Name="CLFuelStart" Type="DateTime" Precision="3" />
+          <Property Name="CLFuelEnd" Type="DateTime" Precision="3" />
+          <Property Name="CLCleaningEnd" Type="DateTime" Precision="3" />
+          <Property Name="CLBoardingStart" Type="DateTime" Precision="3" />
+          <Property Name="CLBoardingEnd" Type="DateTime" Precision="3" />
+          <Property Name="CLLoadSheetStart" Type="DateTime" Precision="3" />
+          <Property Name="CLGateClosed" Type="DateTime" Precision="3" />
+          <Property Name="CLTrafficCrew" Type="DateTime" Precision="3" />
+          <Property Name="CLLoadCrew" Type="DateTime" Precision="3" />
+          <Property Name="CLForbiddenObj" Type="DateTime" Precision="3" />
+          <Property Name="CLLoadSheetSign" Type="DateTime" Precision="3" />
+          <Property Name="CLLoadingEnd" Type="DateTime" Precision="3" />
+          <Property Name="CLDoorClosed" Type="DateTime" Precision="3" />
+          <Property Name="CLEqDC" Type="DateTime" Precision="3" />
+          <Property Name="CLMotorStart" Type="DateTime" Precision="3" />
+          <Property Name="CLMovingStart" Type="DateTime" Precision="3" />
+          <Property Name="CLACStart" Type="DateTime" Precision="3" />
+          <Property Name="CLACEnd" Type="DateTime" Precision="3" />
+          <Property Name="CLGPUStart" Type="DateTime" Precision="3" />
+          <Property Name="CLGPUEnd" Type="DateTime" Precision="3" />
+          <Property Name="CLDepStairs" Type="Int32" />
+          <Property Name="CLDepGPU" Type="Int32" />
+          <Property Name="CLDepCrewCar" Type="Int32" />
+          <Property Name="CLDepCrewCarCount" Type="Int32" />
+          <Property Name="CLDepCabinService" Type="Int32" />
+          <Property Name="CLDepCateringCar" Type="Int32" />
+          <Property Name="CLDepPatientCar" Type="Int32" />
+          <Property Name="CLDepPaxCar" Type="Int32" />
+          <Property Name="CLDepPaxCarCount" Type="Int32" />
+          <Property Name="CLDepPushback" Type="Int32" />
+          <Property Name="CLDepWaterService" Type="Int32" />
+          <Property Name="CLDepAC" Type="Int32" />
+          <Property Name="CLDepDeIce" Type="Int32" />
+          <Property Name="CLDepEqRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CLArrStairs" Type="Int32" />
+          <Property Name="CLArrGPU" Type="Int32" />
+          <Property Name="CLArrCrewCar" Type="Int32" />
+          <Property Name="CLArrCrewCarCount" Type="Int32" />
+          <Property Name="CLArrCabinService" Type="Int32" />
+          <Property Name="CLArrPatientCar" Type="Int32" />
+          <Property Name="CLArrPaxCar" Type="Int32" />
+          <Property Name="CLArrPaxCarCount" Type="Int32" />
+          <Property Name="CLArrToiletService" Type="Int32" />
+          <Property Name="CLArrEqRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="WLCount" Type="Int32" />
+          <Property Name="WLCost" Type="Int64" />
+          <Property Name="ExBagWeight" Type="Int32" />
+          <Property Name="ExBagCost" Type="Int64" />
+          <Property Name="TotalTrafficLoad" Type="Int32" />
           <NavigationProperty Name="OFPImports" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="FlightInformation" ToRole="OFPImport" />
         </EntityType>
         <Association Name="fk_EFB_FI">
@@ -1268,6 +1475,19 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="JCSTBL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="JALDRF" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="JWTDRF" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="THM" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UNT" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CRW" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RTM" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="RTA" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="RTB" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="RTT" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="PLD" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="EZFW" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ETOW" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ELDW" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ETD" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ETA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FlightInformation" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="OFPImport" ToRole="FlightInformation" />
           <NavigationProperty Name="OFPImportItems" Relationship="ppa_tabanModel.fk_ofpl_ofp" FromRole="OFPImport" ToRole="OFPImportItem" />
           <NavigationProperty Name="OFPImportProps" Relationship="ppa_tabanModel.fk_ofpp_ofp" FromRole="OFPImport" ToRole="OFPImportProp" />
@@ -1312,7 +1532,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1625,6 +1845,103 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="FlightInformations">
             <EntityTypeMapping TypeName="ppa_tabanModel.FlightInformation">
               <MappingFragment StoreEntitySet="FlightInformation">
+                <ScalarProperty Name="TotalTrafficLoad" ColumnName="TotalTrafficLoad" />
+                <ScalarProperty Name="ExBagCost" ColumnName="ExBagCost" />
+                <ScalarProperty Name="ExBagWeight" ColumnName="ExBagWeight" />
+                <ScalarProperty Name="WLCost" ColumnName="WLCost" />
+                <ScalarProperty Name="WLCount" ColumnName="WLCount" />
+                <ScalarProperty Name="CLArrEqRemark" ColumnName="CLArrEqRemark" />
+                <ScalarProperty Name="CLArrToiletService" ColumnName="CLArrToiletService" />
+                <ScalarProperty Name="CLArrPaxCarCount" ColumnName="CLArrPaxCarCount" />
+                <ScalarProperty Name="CLArrPaxCar" ColumnName="CLArrPaxCar" />
+                <ScalarProperty Name="CLArrPatientCar" ColumnName="CLArrPatientCar" />
+                <ScalarProperty Name="CLArrCabinService" ColumnName="CLArrCabinService" />
+                <ScalarProperty Name="CLArrCrewCarCount" ColumnName="CLArrCrewCarCount" />
+                <ScalarProperty Name="CLArrCrewCar" ColumnName="CLArrCrewCar" />
+                <ScalarProperty Name="CLArrGPU" ColumnName="CLArrGPU" />
+                <ScalarProperty Name="CLArrStairs" ColumnName="CLArrStairs" />
+                <ScalarProperty Name="CLDepEqRemark" ColumnName="CLDepEqRemark" />
+                <ScalarProperty Name="CLDepDeIce" ColumnName="CLDepDeIce" />
+                <ScalarProperty Name="CLDepAC" ColumnName="CLDepAC" />
+                <ScalarProperty Name="CLDepWaterService" ColumnName="CLDepWaterService" />
+                <ScalarProperty Name="CLDepPushback" ColumnName="CLDepPushback" />
+                <ScalarProperty Name="CLDepPaxCarCount" ColumnName="CLDepPaxCarCount" />
+                <ScalarProperty Name="CLDepPaxCar" ColumnName="CLDepPaxCar" />
+                <ScalarProperty Name="CLDepPatientCar" ColumnName="CLDepPatientCar" />
+                <ScalarProperty Name="CLDepCateringCar" ColumnName="CLDepCateringCar" />
+                <ScalarProperty Name="CLDepCabinService" ColumnName="CLDepCabinService" />
+                <ScalarProperty Name="CLDepCrewCarCount" ColumnName="CLDepCrewCarCount" />
+                <ScalarProperty Name="CLDepCrewCar" ColumnName="CLDepCrewCar" />
+                <ScalarProperty Name="CLDepGPU" ColumnName="CLDepGPU" />
+                <ScalarProperty Name="CLDepStairs" ColumnName="CLDepStairs" />
+                <ScalarProperty Name="CLGPUEnd" ColumnName="CLGPUEnd" />
+                <ScalarProperty Name="CLGPUStart" ColumnName="CLGPUStart" />
+                <ScalarProperty Name="CLACEnd" ColumnName="CLACEnd" />
+                <ScalarProperty Name="CLACStart" ColumnName="CLACStart" />
+                <ScalarProperty Name="CLMovingStart" ColumnName="CLMovingStart" />
+                <ScalarProperty Name="CLMotorStart" ColumnName="CLMotorStart" />
+                <ScalarProperty Name="CLEqDC" ColumnName="CLEqDC" />
+                <ScalarProperty Name="CLDoorClosed" ColumnName="CLDoorClosed" />
+                <ScalarProperty Name="CLLoadingEnd" ColumnName="CLLoadingEnd" />
+                <ScalarProperty Name="CLLoadSheetSign" ColumnName="CLLoadSheetSign" />
+                <ScalarProperty Name="CLForbiddenObj" ColumnName="CLForbiddenObj" />
+                <ScalarProperty Name="CLLoadCrew" ColumnName="CLLoadCrew" />
+                <ScalarProperty Name="CLTrafficCrew" ColumnName="CLTrafficCrew" />
+                <ScalarProperty Name="CLGateClosed" ColumnName="CLGateClosed" />
+                <ScalarProperty Name="CLLoadSheetStart" ColumnName="CLLoadSheetStart" />
+                <ScalarProperty Name="CLBoardingEnd" ColumnName="CLBoardingEnd" />
+                <ScalarProperty Name="CLBoardingStart" ColumnName="CLBoardingStart" />
+                <ScalarProperty Name="CLCleaningEnd" ColumnName="CLCleaningEnd" />
+                <ScalarProperty Name="CLFuelEnd" ColumnName="CLFuelEnd" />
+                <ScalarProperty Name="CLFuelStart" ColumnName="CLFuelStart" />
+                <ScalarProperty Name="CLCateringLoad" ColumnName="CLCateringLoad" />
+                <ScalarProperty Name="CLBagSent" ColumnName="CLBagSent" />
+                <ScalarProperty Name="CLTechReady" ColumnName="CLTechReady" />
+                <ScalarProperty Name="CLCleaningStart" ColumnName="CLCleaningStart" />
+                <ScalarProperty Name="CLServicePresence" ColumnName="CLServicePresence" />
+                <ScalarProperty Name="CLDepoOut" ColumnName="CLDepoOut" />
+                <ScalarProperty Name="CLPaxOut" ColumnName="CLPaxOut" />
+                <ScalarProperty Name="CLBusReady" ColumnName="CLBusReady" />
+                <ScalarProperty Name="CLAddTools" ColumnName="CLAddTools" />
+                <ScalarProperty Name="CLPark" ColumnName="CLPark" />
+                <ScalarProperty Name="CLCheckIn" ColumnName="CLCheckIn" />
+                <ScalarProperty Name="RushTag" ColumnName="RushTag" />
+                <ScalarProperty Name="LimitTag" ColumnName="LimitTag" />
+                <ScalarProperty Name="CargoPIRFound" ColumnName="CargoPIRFound" />
+                <ScalarProperty Name="CargoPIRDamage" ColumnName="CargoPIRDamage" />
+                <ScalarProperty Name="CargoPIRLost" ColumnName="CargoPIRLost" />
+                <ScalarProperty Name="PaxPIRFound" ColumnName="PaxPIRFound" />
+                <ScalarProperty Name="PaxPIRDamage" ColumnName="PaxPIRDamage" />
+                <ScalarProperty Name="PaxPIRLost" ColumnName="PaxPIRLost" />
+                <ScalarProperty Name="PaxSTRC" ColumnName="PaxSTRC" />
+                <ScalarProperty Name="PaxWCHR" ColumnName="PaxWCHR" />
+                <ScalarProperty Name="PaxAVI" ColumnName="PaxAVI" />
+                <ScalarProperty Name="PaxUM" ColumnName="PaxUM" />
+                <ScalarProperty Name="PaxHUM" ColumnName="PaxHUM" />
+                <ScalarProperty Name="PaxCIP" ColumnName="PaxCIP" />
+                <ScalarProperty Name="PaxVIP" ColumnName="PaxVIP" />
+                <ScalarProperty Name="PaxInfant100" ColumnName="PaxInfant100" />
+                <ScalarProperty Name="PaxChild100" ColumnName="PaxChild100" />
+                <ScalarProperty Name="PaxAdult100" ColumnName="PaxAdult100" />
+                <ScalarProperty Name="PaxInfant50" ColumnName="PaxInfant50" />
+                <ScalarProperty Name="PaxChild50" ColumnName="PaxChild50" />
+                <ScalarProperty Name="PaxAdult50" ColumnName="PaxAdult50" />
+                <ScalarProperty Name="CClass" ColumnName="CClass" />
+                <ScalarProperty Name="YClass" ColumnName="YClass" />
+                <ScalarProperty Name="DSRefreshment" ColumnName="DSRefreshment" />
+                <ScalarProperty Name="DSColdFood" ColumnName="DSColdFood" />
+                <ScalarProperty Name="DSWarmFood" ColumnName="DSWarmFood" />
+                <ScalarProperty Name="DSBreakfast" ColumnName="DSBreakfast" />
+                <ScalarProperty Name="NoGoPieces" ColumnName="NoGoPieces" />
+                <ScalarProperty Name="NoGoCount" ColumnName="NoGoCount" />
+                <ScalarProperty Name="NoShowPieces" ColumnName="NoShowPieces" />
+                <ScalarProperty Name="NoShowCount" ColumnName="NoShowCount" />
+                <ScalarProperty Name="FreeAWBWeight" ColumnName="FreeAWBWeight" />
+                <ScalarProperty Name="FreeAWBPieces" ColumnName="FreeAWBPieces" />
+                <ScalarProperty Name="FreeAWBCount" ColumnName="FreeAWBCount" />
+                <ScalarProperty Name="CargoPieces" ColumnName="CargoPieces" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="Ready" ColumnName="Ready" />
                 <ScalarProperty Name="MAXLNW" ColumnName="MAXLNW" />
                 <ScalarProperty Name="MAXZFW" ColumnName="MAXZFW" />
                 <ScalarProperty Name="ODSec" ColumnName="ODSec" />
@@ -1797,6 +2114,19 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="OFPImports">
             <EntityTypeMapping TypeName="ppa_tabanModel.OFPImport">
               <MappingFragment StoreEntitySet="OFPImport">
+                <ScalarProperty Name="ETA" ColumnName="ETA" />
+                <ScalarProperty Name="ETD" ColumnName="ETD" />
+                <ScalarProperty Name="ELDW" ColumnName="ELDW" />
+                <ScalarProperty Name="ETOW" ColumnName="ETOW" />
+                <ScalarProperty Name="EZFW" ColumnName="EZFW" />
+                <ScalarProperty Name="PLD" ColumnName="PLD" />
+                <ScalarProperty Name="RTT" ColumnName="RTT" />
+                <ScalarProperty Name="RTB" ColumnName="RTB" />
+                <ScalarProperty Name="RTA" ColumnName="RTA" />
+                <ScalarProperty Name="RTM" ColumnName="RTM" />
+                <ScalarProperty Name="CRW" ColumnName="CRW" />
+                <ScalarProperty Name="UNT" ColumnName="UNT" />
+                <ScalarProperty Name="THM" ColumnName="THM" />
                 <ScalarProperty Name="JWTDRF" ColumnName="JWTDRF" />
                 <ScalarProperty Name="JALDRF" ColumnName="JALDRF" />
                 <ScalarProperty Name="JCSTBL" ColumnName="JCSTBL" />

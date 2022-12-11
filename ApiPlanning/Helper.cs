@@ -65,7 +65,14 @@ namespace ApiPlanning
 
             return dt;
         }
-
+        public static int GetTimeOffset(DateTime dt, string zone, decimal def)
+        {
+            var tz = TimeZoneInfo.GetSystemTimeZones().Where(q => q.DisplayName.ToUpper().Contains(zone.ToUpper())).FirstOrDefault();
+            if (tz == null)
+                return Convert.ToInt32(def);
+            else
+                return Convert.ToInt32(Math.Round(tz.GetUtcOffset(dt).TotalMinutes));
+        }
         public static int GetTimeOffset(DateTime dt)
         {
 

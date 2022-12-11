@@ -52,6 +52,19 @@ namespace XAPI.Models
         public string JCSTBL { get; set; }
         public string JALDRF { get; set; }
         public string JWTDRF { get; set; }
+        public string THM { get; set; }
+        public string UNT { get; set; }
+        public string CRW { get; set; }
+        public string RTM { get; set; }
+        public string RTA { get; set; }
+        public string RTB { get; set; }
+        public string RTT { get; set; }
+        public string PLD { get; set; }
+        public string EZFW { get; set; }
+        public string ETOW { get; set; }
+        public string ELDW { get; set; }
+        public string ETD { get; set; }
+        public string ETA { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

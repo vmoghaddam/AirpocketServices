@@ -14,8 +14,8 @@ namespace ApiXLS.Models
     
     public partial class ViewLegCrew
     {
-        public Nullable<int> CrewId { get; set; }
-        public Nullable<int> FlightId { get; set; }
+        public int CrewId { get; set; }
+        public int FlightId { get; set; }
         public int FDPId { get; set; }
         public int FDPItemId { get; set; }
         public Nullable<bool> IsPositioning { get; set; }
@@ -105,5 +105,6 @@ namespace ApiXLS.Models
         public Nullable<int> JL_FlightTime { get; set; }
         public Nullable<int> JL_BlockTime { get; set; }
         public Nullable<System.DateTime> Takeoff { get; set; }
+        public string PID { get; set; }
     }
 }

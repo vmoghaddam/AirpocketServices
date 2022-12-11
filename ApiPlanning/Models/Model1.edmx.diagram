@@ -10,6 +10,15 @@
         <EntityTypeShape EntityType="dbModel.ViewLegTime" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.ViewFlightInformation" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.FlightChangeHistory" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.ViewFlightCrewNew" Width="1.5" PointX="9.375" PointY="7.75" />
+        <EntityTypeShape EntityType="dbModel.FlightStatusLog" Width="1.5" PointX="3" PointY="56.125" />
+        <AssociationConnector Association="dbModel.FK_FlightStatusLog_FlightInformation" />
+        <EntityTypeShape EntityType="dbModel.FDP" Width="1.5" PointX="11.375" PointY="1.375" />
+        <EntityTypeShape EntityType="dbModel.FDPItem" Width="1.5" PointX="13.625" PointY="25.5" />
+        <EntityTypeShape EntityType="dbModel.ViewFDPItem" Width="1.5" PointX="13.375" PointY="0.75" />
+        <AssociationConnector Association="dbModel.fk_fdp_fdp" />
+        <AssociationConnector Association="dbModel.fk_fdpitem_fdp" />
+        <AssociationConnector Association="dbModel.fk_fdpitem_flight" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

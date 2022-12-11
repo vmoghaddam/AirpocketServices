@@ -278,7 +278,7 @@ namespace XAPI.Controllers
             return Ok(result);
 
         }
-
+        //https://xpi.sbvaresh.ir/api/skyputer
         [Route("api/skyputer")]
         [AcceptVerbs("POST")]
         public  IHttpActionResult PostSkyputer(skyputer dto)
@@ -477,14 +477,28 @@ namespace XAPI.Controllers
                 var info = parts.FirstOrDefault(q => q.StartsWith("binfo:|")).Replace("binfo:|", "");
                 var infoRows = info.Split(';').ToList();
                 //binfo:|OPT=VARESH AIRLINE;FLN=VAR5820;DTE=6/24/2022 12:00:00 AM;ETD=02:35;REG=;MCI=78;FLL=330;DOW=43742
-                var opt = infoRows.FirstOrDefault(q => q.StartsWith("OPT")).Split('=')[1];
-                var fln = infoRows.FirstOrDefault(q => q.StartsWith("FLN")).Split('=')[1];
-                var dte = infoRows.FirstOrDefault(q => q.StartsWith("DTE")).Split('=')[1];
-                var etd = infoRows.FirstOrDefault(q => q.StartsWith("ETD")).Split('=')[1];
-                var reg = infoRows.FirstOrDefault(q => q.StartsWith("REG")).Split('=')[1];
-                var mci = infoRows.FirstOrDefault(q => q.StartsWith("MCI")).Split('=')[1];
-                var fll = infoRows.FirstOrDefault(q => q.StartsWith("FLL")).Split('=')[1];
-                var dow = infoRows.FirstOrDefault(q => q.StartsWith("DOW")).Split('=')[1];
+                var opt = infoRows.FirstOrDefault(q => q.StartsWith("OPT"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("OPT")).Split('=')[1];
+                var fln = infoRows.FirstOrDefault(q => q.StartsWith("FLN"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("FLN")).Split('=')[1];
+                var dte = infoRows.FirstOrDefault(q => q.StartsWith("DTE"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("DTE")).Split('=')[1];
+                var etd = infoRows.FirstOrDefault(q => q.StartsWith("ETD"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("ETD")).Split('=')[1];
+                
+                var reg = infoRows.FirstOrDefault(q => q.StartsWith("REG"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("REG")).Split('=')[1];
+                var mci = infoRows.FirstOrDefault(q => q.StartsWith("MCI"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("MCI")).Split('=')[1];
+                var fll = infoRows.FirstOrDefault(q => q.StartsWith("FLL"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("FLL")).Split('=')[1];
+                var dow = infoRows.FirstOrDefault(q => q.StartsWith("DOW"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("DOW")).Split('=')[1];
+
+                var rtm= infoRows.FirstOrDefault(q => q.StartsWith("RTM"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("RTM")).Split('=')[1];
+                var rta = infoRows.FirstOrDefault(q => q.StartsWith("RTA"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("RTA")).Split('=')[1];
+                var rtb = infoRows.FirstOrDefault(q => q.StartsWith("RTB"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("RTB")).Split('=')[1];
+                var rtt = infoRows.FirstOrDefault(q => q.StartsWith("RTT"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("RTT")).Split('=')[1];
+                var thm = infoRows.FirstOrDefault(q => q.StartsWith("THM"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("THM")).Split('=')[1];
+                var unt = infoRows.FirstOrDefault(q => q.StartsWith("UNT"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("UNT")).Split('=')[1];
+                var crw = infoRows.FirstOrDefault(q => q.StartsWith("CRW"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("CRW")).Split('=')[1];
+                var pld = infoRows.FirstOrDefault(q => q.StartsWith("PLD"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("PLD")).Split('=')[1];
+                var ezfw = infoRows.FirstOrDefault(q => q.StartsWith("EZFW"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("EZFW")).Split('=')[1];
+                var etow = infoRows.FirstOrDefault(q => q.StartsWith("ETOW"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("ETOW")).Split('=')[1];
+                var eldw = infoRows.FirstOrDefault(q => q.StartsWith("ELDW"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("ELDW")).Split('=')[1];
+                var eta = infoRows.FirstOrDefault(q => q.StartsWith("ETA"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("ETA")).Split('=')[1];
 
                 var flightDate = DateTime.Parse(dte);
                 var no =fln.Contains(" ")? fln.Substring(4) : fln.Substring(3);
@@ -515,6 +529,50 @@ namespace XAPI.Controllers
                     plan.FLL = Convert.ToDecimal(fll);
                 if (!string.IsNullOrEmpty(mci))
                     plan.MCI = Convert.ToDecimal(mci);
+
+
+               
+                
+                if (!string.IsNullOrEmpty(rtm))
+                    plan.RTM = rtm ;
+                //var rta = infoRows.FirstOrDefault(q => q.StartsWith("RTA")).Split('=')[1];
+                if (!string.IsNullOrEmpty(rta))
+                    plan.RTA = rta;
+                //var rtb = infoRows.FirstOrDefault(q => q.StartsWith("RTB")).Split('=')[1];
+                if (!string.IsNullOrEmpty(rtb))
+                    plan.RTB = rtb;
+               // var rtt = infoRows.FirstOrDefault(q => q.StartsWith("RTT")).Split('=')[1];
+                if (!string.IsNullOrEmpty(rtt))
+                    plan.RTT = rtt;
+               // var thm = infoRows.FirstOrDefault(q => q.StartsWith("THM")).Split('=')[1];
+                if (!string.IsNullOrEmpty(thm))
+                    plan.THM = thm;
+               // var unt = infoRows.FirstOrDefault(q => q.StartsWith("UNT")).Split('=')[1];
+                if (!string.IsNullOrEmpty(unt))
+                    plan.UNT = unt;
+                //var crw = infoRows.FirstOrDefault(q => q.StartsWith("CRW")).Split('=')[1];
+                if (!string.IsNullOrEmpty(crw))
+                    plan.CRW = crw;
+            //    var pld = infoRows.FirstOrDefault(q => q.StartsWith("PLD")).Split('=')[1];
+                if (!string.IsNullOrEmpty(pld))
+                    plan.PLD = pld;
+                // var ezfw = infoRows.FirstOrDefault(q => q.StartsWith("EZFW")).Split('=')[1];
+                if (!string.IsNullOrEmpty(ezfw))
+                    plan.EZFW = ezfw;
+                // var etow = infoRows.FirstOrDefault(q => q.StartsWith("ETOW")).Split('=')[1];
+                if (!string.IsNullOrEmpty(etow))
+                    plan.ETOW = etow;
+                //  var eldw = infoRows.FirstOrDefault(q => q.StartsWith("ELDW")).Split('=')[1];
+                if (!string.IsNullOrEmpty(eldw))
+                    plan.ELDW = eldw;
+                // var eta = infoRows.FirstOrDefault(q => q.StartsWith("ETA")).Split('=')[1];
+                if (!string.IsNullOrEmpty(eta))
+                    plan.ETA = eta;
+
+                if (!string.IsNullOrEmpty(etd))
+                    plan.ETD = etd;
+
+
                 plan.Source = "SkyPuter";
 
                 if (flight != null)
@@ -533,7 +591,7 @@ namespace XAPI.Controllers
                     var prts = _r.Split(';');
                     foreach (var x in prts)
                     {
-                        var str = x.Replace("\"", "^").Replace("'", "#");
+                        var str = x.Replace("\"", "^").Replace("'", "#").Replace("GEO","COR");
                         var substr = str.Split('=')[0] + ":'" + str.Split('=')[1] + "'";
 
                         procStr += substr;
@@ -791,20 +849,50 @@ namespace XAPI.Controllers
                 props.Add("prop_fl");
                 other.Add(new fuelPrm() { prm = "DOW", value = dow });
                 props.Add("prop_dow");
-                other.Add(new fuelPrm() { prm = "PLD", value = "" });
+                other.Add(new fuelPrm() { prm = "PLD", value = pld });
                 props.Add("prop_pld");
-                other.Add(new fuelPrm() { prm = "EZFW", value = "" });
+                other.Add(new fuelPrm() { prm = "EZFW", value = ezfw });
                 props.Add("prop_ezfw");
-                other.Add(new fuelPrm() { prm = "ETOW", value = "" });
+
+                other.Add(new fuelPrm() { prm = "ETOW", value = etow });
                 props.Add("prop_etow");
-                other.Add(new fuelPrm() { prm = "ELDW", value = "" });
+
+                other.Add(new fuelPrm() { prm = "ELDW", value = eldw });
                 props.Add("prop_eldw");
-                other.Add(new fuelPrm() { prm = "CREW1", value = "2" });
+
+                other.Add(new fuelPrm() { prm = "CREW1", value =crw.Contains("-")? crw.Split('-')[0]:"0" });
                 props.Add("prop_crew1");
-                other.Add(new fuelPrm() { prm = "CREW2", value = "4" });
+                other.Add(new fuelPrm() { prm = "CREW2", value = crw.Contains("-") ? crw.Split('-')[1]:"0" });
                 props.Add("prop_crew2");
+
                 other.Add(new fuelPrm() { prm = "CREW3", value = "" });
                 props.Add("prop_crew3");
+
+
+                other.Add(new fuelPrm() { prm = "ETD", value = etd });
+                props.Add("prop_etd");
+
+                other.Add(new fuelPrm() { prm = "ETA", value = eta });
+                props.Add("prop_eta");
+
+                other.Add(new fuelPrm() { prm = "RTM", value = rtm });
+                props.Add("prop_rtm");
+
+                other.Add(new fuelPrm() { prm = "RTA", value = rta });
+                props.Add("prop_rta");
+                other.Add(new fuelPrm() { prm = "RTB", value = rtb });
+                props.Add("prop_rtb");
+                other.Add(new fuelPrm() { prm = "RTT", value = rtt });
+                props.Add("prop_rtt");
+
+                other.Add(new fuelPrm() { prm = "THM", value = thm });
+                props.Add("prop_thm");
+
+                other.Add(new fuelPrm() { prm = "UNT", value = unt });
+                props.Add("prop_unt");
+
+                other.Add(new fuelPrm() { prm = "CRW", value = crw });
+                props.Add("prop_crw");
 
                 other.Add(new fuelPrm() { prm = "PAX_ADULT", value = "" });
                 props.Add("prop_pax_adult");
