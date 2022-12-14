@@ -43,6 +43,8 @@ namespace ApiXLS.Models
         public Nullable<System.DateTime> STDDay { get; set; }
         public Nullable<System.DateTime> STDDayLocal { get; set; }
         public Nullable<System.DateTime> STADay { get; set; }
+        public Nullable<System.DateTime> TakeOffDay { get; set; }
+        public Nullable<System.DateTime> TakeOffDayLocal { get; set; }
         public Nullable<int> DelayOffBlock { get; set; }
         public Nullable<int> DelayTakeoff { get; set; }
         public Nullable<System.DateTime> OSTA { get; set; }
@@ -112,6 +114,9 @@ namespace ApiXLS.Models
         public Nullable<int> PMonth { get; set; }
         public string PMonthName { get; set; }
         public string PDayName { get; set; }
+        public Nullable<int> PMonthTakeOff { get; set; }
+        public string PMonthNameTakeOff { get; set; }
+        public string PDayNameTakeOff { get; set; }
         public string FlightType2 { get; set; }
         public string FlightIndex { get; set; }
         public Nullable<int> AirlineSold { get; set; }
@@ -124,8 +129,10 @@ namespace ApiXLS.Models
         public string TotalRemark { get; set; }
         public string Route { get; set; }
         public string PDate { get; set; }
+        public string PDateTakeOff { get; set; }
         public int IsDepInt { get; set; }
         public int IsArrInt { get; set; }
         public string XRoute { get; set; }
+        public int FixTime { get; set; }
     }
 }

@@ -5153,6 +5153,282 @@ namespace AirpocketAPI.Controllers
             return response;
         }
 
+        [Route("api/xls/roster/sec/daily")]
+        [AcceptVerbs("GET")]
+        public HttpResponseMessage GetXLSRosterSecDaily(DateTime df)
+        {
+            //bolan
+            var context = new AirpocketAPI.Models.FLYEntities();
+            context.Database.CommandTimeout = 500;
+            df = ((DateTime)df).Date;
+            var dt = df.AddDays(1);
+            var fdps = (from x in context.ViewFDPRests
+                        where x.DutyType == 1165 && x.STDLocal >= df && x.STDLocal < dt
+                        select x.Id).ToList();
+            var fdpitems = (from x in context.FDPItems
+                            where fdps.Contains(x.FDPId)
+                            select x.FlightId).ToList();
+            var query = from x in context.ReportRosters
+                            //where x.STDDay == df
+                        where fdpitems.Contains(x.ID)
+                        orderby x.Register, x.STDx
+                        select x;
+
+            var result = query.ToList();
+            var main = result.Select(q => new
+            {
+                q.ID,
+                q.FlightNumber,
+                q.Register,
+                q.FromAirportIATA,
+                Base = q.FromAirportIATA == "IKA" ? "THR" : q.FromAirportIATA,
+                q.ToAirportIATA,
+                DepLocal = q.STDLOC,
+                ArrLocal = q.STALOC,
+                Dep = q.STD,
+                Arr = q.STA,
+                q.STDx,
+                q.STAx,
+                q.STDLocal,
+                q.STALocal,
+                q.IP,
+                q.CPT,
+                q.FO,
+                q.SAFETY,
+                q.CHECK,
+                q.OBS,
+                q.ISCCM,
+                q.SCCM,
+                q.CCM,
+                q.CHECKC,
+                q.OBSC,
+                q.FM,
+                q.POSITIONING,
+                q.POSITIONINGCABIN,
+                q.POSITIONINGCOCKPIT
+            }).ToList();
+            var regs = (from x in main
+
+                        group x by new { x.Register } into grp
+                        select new
+                        {
+                            grp.Key.Register,
+                            Items = grp.OrderBy(q => q.STDx).ToList(),
+                            Base = grp.OrderBy(q => q.STDx).First().Base
+                        }
+                       ).OrderByDescending(q => q.Base).ToList();
+           // var dqs = context.ViewCrewDuties.Where(x => (df >= x.DateLocal && df <= x.DateLocal2)).ToList();
+
+            var dutiesQuery = new List<ViewCrewDuty>(); /*(from x in  dqs
+                               where (df >= x.DateLocal && df <= x.DateLocal2) && (x.DutyType == 1167 || x.DutyType == 1168 || x.DutyType == 1170 || x.DutyType == 5000 || x.DutyType == 5001
+                               || x.DutyType == 100001
+                               || x.DutyType == 100003
+                               || x.DutyType == 1166
+                               || x.DutyType == 10000
+                                || x.DutyType == 10001
+                                 || x.DutyType == 100007
+
+                                 || x.DutyType == 300009
+
+                                 || x.DutyType == 1169
+
+                                 || x.DutyType == 100002
+
+                                   || x.DutyType == 100000
+
+                                    || x.DutyType == 5000
+
+                                    || x.DutyType == 100003
+
+                               )
+                               select x).ToList();*/
+
+            var off = dutiesQuery.Where(q => (q.DutyType == 1166 || q.DutyType == 10000 || q.DutyType == 10001 || q.DutyType == 100007) && q.IsCockpit == 1).ToList();
+            var off_mhd = off.Where(q => q.BaseAirportId == 140870).ToList();
+            var off_thr = off.Where(q => q.BaseAirportId == 135502).ToList();
+            var rest = dutiesQuery.Where(q => q.DutyType == 300009 && q.IsCockpit == 1).ToList();
+            var rest_mhd = rest.Where(q => q.BaseAirportId == 140870).ToList();
+            var rest_thr = rest.Where(q => q.BaseAirportId == 135502).ToList();
+            var rsv = dutiesQuery.Where(q => q.DutyType == 1170 && q.IsCockpit == 1).ToList();
+            var rsv_mhd = rsv.Where(q => q.BaseAirportId == 140870).ToList();
+            var rsv_thr = rsv.Where(q => q.BaseAirportId == 135502).ToList();
+            var vac = dutiesQuery.Where(q => q.DutyType == 1169 && q.IsCockpit == 1).ToList();
+            var sick = dutiesQuery.Where(q => q.DutyType == 100002 && q.IsCockpit == 1).ToList();
+            var ground = dutiesQuery.Where(q => q.DutyType == 100000 && q.IsCockpit == 1).ToList();
+            var trn = dutiesQuery.Where(q => q.DutyType == 5000 && q.IsCockpit == 1).ToList();
+            var sim = dutiesQuery.Where(q => q.DutyType == 100003 && q.IsCockpit == 1).ToList();
+            var office = dutiesQuery.Where(q => q.DutyType == 5001 && q.IsCockpit == 1).ToList();
+            //140870
+            var stbyam_thr = from x in dutiesQuery
+                             where x.DutyType == 1168 //&& x.BaseAirportId == 135502
+                             orderby x.OrderIndex, x.ScheduleName
+                             select x;
+            /*var stbyam_mhd = from x in dutiesQuery
+                             where x.DutyType == 1168 && x.BaseAirportId == 140870
+                             orderby x.OrderIndex, x.ScheduleName
+                             select x;*/
+
+            var stbypm_thr = from x in dutiesQuery
+                             where x.DutyType == 1167 //&& x.BaseAirportId == 135502
+                             orderby x.OrderIndex, x.ScheduleName
+                             select x;
+            /* var stbypm_mhd = from x in dutiesQuery
+                              where x.DutyType == 1167 && x.BaseAirportId == 140870
+                              orderby x.OrderIndex, x.ScheduleName
+                              select x;*/
+
+            var am_cockpit = stbyam_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").ToList();
+            //  var am_sccm_mhd = stbyam_mhd/*.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1")*/.ToList();
+            var pm_cockpit = stbypm_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").ToList();
+            // var pm_sccm_mhd = stbypm_mhd/*.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1")*/.ToList();
+
+
+            //  var am_ccm_thr = stbyam_thr.Where(q => q.JobGroup == "P2").ToList();
+            // var am_ccm_mhd = stbyam_mhd.Where(q => q.JobGroup == "P2").ToList();
+            //var pm_ccm_thr = stbypm_thr.Where(q => q.JobGroup == "P2").ToList();
+            // var pm_ccm_mhd = stbypm_mhd.Where(q => q.JobGroup == "P2").ToList();
+            var am_cabin = stbyam_thr.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").ToList();
+            var pm_cabin = stbypm_thr.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").ToList();
+
+            Workbook workbook = new Workbook();
+            var mappedPathSource = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "drsec" + ".xlsx");
+            workbook.LoadFromFile(mappedPathSource);
+            Worksheet sheet = workbook.Worksheets[0];
+
+            sheet.Range[2, 9].Text = ((DateTime)df).ToString("yyyy-MMM-dd");
+            sheet.Range[3, 9].Text = ((DateTime)df).ToString("dddd");
+
+            var regcnt = 0;
+            var ln = 8;
+            foreach (var line in regs)
+            {
+                foreach (var flt in line.Items)
+                {
+                    sheet.InsertRow(ln);
+                    var rowHeight = sheet.Rows[ln - 1].RowHeight;
+                    var rh = 25;
+                    sheet.Rows[ln - 1].RowHeight = rh;
+                    sheet.Rows[ln - 1].Style.Font.Size = 14;
+                    sheet.Rows[ln - 1].Style.VerticalAlignment = VerticalAlignType.Center;
+                    sheet.Range[ln, 2].Text = flt.FlightNumber;
+
+
+                    sheet.Range[ln, 3].Text = flt.Register;
+
+                    sheet.Range[ln, 4].Text = flt.FromAirportIATA;
+                    sheet.Range[ln, 5].Text = flt.ToAirportIATA;
+
+                    sheet.Range[ln, 6].Text = flt.DepLocal;
+                    sheet.Range[ln, 7].Text = flt.ArrLocal;
+                    sheet.Range[ln, 8].Text = flt.Dep;
+
+                    sheet.Range[ln, 9].Text = flt.Arr;
+
+
+                    sheet.Range[ln, 10].Text = string.IsNullOrEmpty(flt.IP) ? "" : flt.IP;
+
+                    sheet.Range[ln, 11].Text = string.IsNullOrEmpty(flt.CPT) ? "" : flt.CPT;
+
+                    sheet.Range[ln, 12].Text = string.IsNullOrEmpty(flt.FO) ? "" : flt.FO;
+
+                    sheet.Range[ln, 13].Text = string.IsNullOrEmpty(flt.SAFETY) ? "" : flt.SAFETY;
+                    sheet.Range[ln, 13].AutoFitColumns();
+
+                    sheet.Range[ln, 14].Text = string.IsNullOrEmpty(flt.CHECK) ? "" : flt.CHECK;
+                    sheet.Range[ln, 14].AutoFitColumns();
+
+                    sheet.Range[ln, 15].Text = string.IsNullOrEmpty(flt.OBS) ? "" : flt.OBS;
+                    sheet.Range[ln, 15].AutoFitColumns();
+
+                    //16 IFP
+                    sheet.Range[ln, 16].Text = string.IsNullOrEmpty(flt.ISCCM) ? "" : flt.ISCCM;
+                    sheet.Range[ln, 16].AutoFitColumns();
+                    //17 FP
+                    sheet.Range[ln, 17].Text = string.IsNullOrEmpty(flt.SCCM) ? "" : flt.SCCM;
+                    //18 FA
+                    sheet.Range[ln, 18].Text = string.IsNullOrEmpty(flt.CCM) ? "" : flt.CCM;
+                    sheet.Range[ln, 18].AutoFitColumns();
+                    //19 check
+                    //20 obsc
+                    sheet.Range[ln, 19].Text = string.IsNullOrEmpty(flt.OBSC) ? "" : flt.OBSC;
+                    sheet.Range[ln, 19].AutoFitColumns();
+                    // sheet.Range[ln, 16].Text = string.IsNullOrEmpty(flt.POSITIONINGCOCKPIT) ? "" : flt.POSITIONINGCOCKPIT;
+
+
+
+
+                    sheet.Range["B" + ln + ":U" + ln].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range["B" + ln + ":U" + ln].BorderInside(LineStyleType.Thin, Color.Black);
+                    sheet.Range["B" + ln + ":U" + ln].BorderAround(LineStyleType.Thin, Color.Black);
+                    ln++;
+
+                }
+
+                if (regcnt != regs.Count - 1)
+                {
+                    sheet.InsertRow(ln);
+
+                    sheet.Range["B" + (ln) + ":U" + ln].Style.Color = Color.Silver;
+                }
+
+                ln++;
+                regcnt++;
+            }
+
+
+            //sheet.Range[ln, 3].Text = string.Join(", ", trn.Select(q => q.ScheduleName));
+            //ln = ln + 2;
+
+
+            //sheet.Range[ln, 5].Text = string.Join(", ", am_cockpit.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", pm_cockpit.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", am_cabin.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", pm_cabin.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", rsv.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", off.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", rest.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            //ln++;
+            
+            //sheet.Range[ln, 5].Text = string.Join(", ", ground.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", sick.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", vac.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", sim.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", office.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            // sheet.Range["B5:N" + ln].BorderInside(LineStyleType.Thin, Color.Black);
+            //sheet.Range["B5:N" + ln].BorderAround(LineStyleType.Medium, Color.Black);
+            var name = "drsec-" + ((DateTime)df).ToString("yyyy-MMM-dd");
+            var mappedPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + name + ".xlsx");
+
+
+
+            workbook.SaveToFile(mappedPath, ExcelVersion.Version2016);
+
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(new FileStream(mappedPath, FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = name + ".xlsx";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+
+            return response;
+        }
+
 
         [Route("api/flight/daily/xls")]
         [AcceptVerbs("GET")]

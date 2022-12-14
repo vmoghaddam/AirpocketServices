@@ -65,6 +65,11 @@ namespace XAPI.Models
         public string ELDW { get; set; }
         public string ETD { get; set; }
         public string ETA { get; set; }
+        public string ALT1 { get; set; }
+        public string ALT2 { get; set; }
+        public string TALT1 { get; set; }
+        public string TALT2 { get; set; }
+        public string FPF { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

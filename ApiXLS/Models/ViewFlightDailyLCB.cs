@@ -7,12 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ApiReportFlight.Models
+namespace ApiXLS.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class ViewFlightDaily
+    public partial class ViewFlightDailyLCB
     {
         public int ID { get; set; }
         public int FlightId { get; set; }

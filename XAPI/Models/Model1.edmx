@@ -416,6 +416,13 @@
           <Property Name="ExBagWeight" Type="int" />
           <Property Name="ExBagCost" Type="bigint" />
           <Property Name="TotalTrafficLoad" Type="int" />
+          <Property Name="OLDSTD" Type="datetime" />
+          <Property Name="OLDSTA" Type="datetime" />
+          <Property Name="OLDReg" Type="int" />
+          <Property Name="NewReg" Type="int" />
+          <Property Name="NewTime" Type="int" />
+          <Property Name="UTCSTD" Type="int" />
+          <Property Name="UTCSTA" Type="int" />
         </EntityType>
         <EntityType Name="OFPImport">
           <Key>
@@ -465,6 +472,11 @@
           <Property Name="ELDW" Type="varchar" MaxLength="500" />
           <Property Name="ETD" Type="varchar" MaxLength="500" />
           <Property Name="ETA" Type="varchar" MaxLength="500" />
+          <Property Name="ALT1" Type="varchar" MaxLength="255" />
+          <Property Name="ALT2" Type="varchar" MaxLength="255" />
+          <Property Name="TALT1" Type="varchar" MaxLength="255" />
+          <Property Name="TALT2" Type="varchar" MaxLength="255" />
+          <Property Name="FPF" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="OFPImportItem">
           <Key>
@@ -627,6 +639,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ChrChild" Type="int" />
           <Property Name="ChrInfant" Type="int" />
           <Property Name="CargoCost" Type="bigint" />
+          <Property Name="CPRegister" Type="varchar" MaxLength="500" />
+          <Property Name="DepCountry" Type="varchar" MaxLength="255" />
+          <Property Name="ArrCountry" Type="varchar" MaxLength="255" />
         </EntityType>
         <Association Name="fk_EFB_FI">
           <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="0..1" />
@@ -801,7 +816,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
     [ViewLegTime].[ChrAdult] AS [ChrAdult], 
     [ViewLegTime].[ChrChild] AS [ChrChild], 
     [ViewLegTime].[ChrInfant] AS [ChrInfant], 
-    [ViewLegTime].[CargoCost] AS [CargoCost]
+    [ViewLegTime].[CargoCost] AS [CargoCost], 
+    [ViewLegTime].[CPRegister] AS [CPRegister], 
+    [ViewLegTime].[DepCountry] AS [DepCountry], 
+    [ViewLegTime].[ArrCountry] AS [ArrCountry]
     FROM [dbo].[ViewLegTime] AS [ViewLegTime]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="fk_EFB_FI" Association="Self.fk_EFB_FI">
@@ -947,6 +965,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ChrChild" Type="Int32" />
           <Property Name="ChrInfant" Type="Int32" />
           <Property Name="CargoCost" Type="Int64" />
+          <Property Name="CPRegister" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DepCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ArrCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="PPAEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ViewLegTimes" EntityType="Self.ViewLegTime" />
@@ -1426,6 +1447,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ExBagWeight" Type="Int32" />
           <Property Name="ExBagCost" Type="Int64" />
           <Property Name="TotalTrafficLoad" Type="Int32" />
+          <Property Name="OLDSTD" Type="DateTime" Precision="3" />
+          <Property Name="OLDSTA" Type="DateTime" Precision="3" />
+          <Property Name="OLDReg" Type="Int32" />
+          <Property Name="NewReg" Type="Int32" />
+          <Property Name="NewTime" Type="Int32" />
+          <Property Name="UTCSTD" Type="Int32" />
+          <Property Name="UTCSTA" Type="Int32" />
           <NavigationProperty Name="OFPImports" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="FlightInformation" ToRole="OFPImport" />
         </EntityType>
         <Association Name="fk_EFB_FI">
@@ -1488,6 +1516,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ELDW" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="ETD" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="ETA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ALT1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ALT2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TALT1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TALT2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FPF" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FlightInformation" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="OFPImport" ToRole="FlightInformation" />
           <NavigationProperty Name="OFPImportItems" Relationship="ppa_tabanModel.fk_ofpl_ofp" FromRole="OFPImport" ToRole="OFPImportItem" />
           <NavigationProperty Name="OFPImportProps" Relationship="ppa_tabanModel.fk_ofpp_ofp" FromRole="OFPImport" ToRole="OFPImportProp" />
@@ -1541,6 +1574,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="ViewLegTimes">
             <EntityTypeMapping TypeName="ppa_tabanModel.ViewLegTime">
               <MappingFragment StoreEntitySet="ViewLegTime">
+                <ScalarProperty Name="ArrCountry" ColumnName="ArrCountry" />
+                <ScalarProperty Name="DepCountry" ColumnName="DepCountry" />
+                <ScalarProperty Name="CPRegister" ColumnName="CPRegister" />
                 <ScalarProperty Name="CargoCost" ColumnName="CargoCost" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
@@ -1845,6 +1881,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="FlightInformations">
             <EntityTypeMapping TypeName="ppa_tabanModel.FlightInformation">
               <MappingFragment StoreEntitySet="FlightInformation">
+                <ScalarProperty Name="UTCSTA" ColumnName="UTCSTA" />
+                <ScalarProperty Name="UTCSTD" ColumnName="UTCSTD" />
+                <ScalarProperty Name="NewTime" ColumnName="NewTime" />
+                <ScalarProperty Name="NewReg" ColumnName="NewReg" />
+                <ScalarProperty Name="OLDReg" ColumnName="OLDReg" />
+                <ScalarProperty Name="OLDSTA" ColumnName="OLDSTA" />
+                <ScalarProperty Name="OLDSTD" ColumnName="OLDSTD" />
                 <ScalarProperty Name="TotalTrafficLoad" ColumnName="TotalTrafficLoad" />
                 <ScalarProperty Name="ExBagCost" ColumnName="ExBagCost" />
                 <ScalarProperty Name="ExBagWeight" ColumnName="ExBagWeight" />
@@ -2114,6 +2157,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="OFPImports">
             <EntityTypeMapping TypeName="ppa_tabanModel.OFPImport">
               <MappingFragment StoreEntitySet="OFPImport">
+                <ScalarProperty Name="FPF" ColumnName="FPF" />
+                <ScalarProperty Name="TALT2" ColumnName="TALT2" />
+                <ScalarProperty Name="TALT1" ColumnName="TALT1" />
+                <ScalarProperty Name="ALT2" ColumnName="ALT2" />
+                <ScalarProperty Name="ALT1" ColumnName="ALT1" />
                 <ScalarProperty Name="ETA" ColumnName="ETA" />
                 <ScalarProperty Name="ETD" ColumnName="ETD" />
                 <ScalarProperty Name="ELDW" ColumnName="ELDW" />

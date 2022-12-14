@@ -871,13 +871,17 @@ namespace ApiXLS.Controllers
            , string chr
            , string time
            , string fuel
-           , string weight)
+           , string weight
+            ,string dateref)
         {
 
             var context = new Models.dbEntities();
-            var cmd = "select * from viewflightdaily ";
+
+            var dayprm = dateref == "std" ? "STDDayLocal" : "TakeOffDayLocal";
+
+            var cmd = "select * from viewflightdailylcb ";
             //string whr = "FlightStatusId<>4  and (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
-            string whr = " (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
+            string whr = " ("+ dayprm +">= '" + df.ToString("yyyy-MM-dd") + "' and "+ dayprm +"<= '" + dt.ToString("yyyy-MM-dd") + "')";
 
             if (!string.IsNullOrEmpty(status) && status != "-1")
             {
@@ -949,9 +953,9 @@ namespace ApiXLS.Controllers
 
             cmd = cmd + " WHERE " + whr + " ORDER BY  STDDay,AircraftType,Register,STD";
 
-            var flts = context.ViewFlightDailies
+            var flts = context.ViewFlightDailyLCBs
                         .SqlQuery(cmd)
-                        .ToList<ViewFlightDaily>();
+                        .ToList<ViewFlightDailyLCB>();
 
             //var result = await courseService.GetEmployeeCertificates(id);
 
@@ -983,14 +987,14 @@ namespace ApiXLS.Controllers
             foreach (var flt in flts)
             {
                 sheet.InsertRow(ln);
-                sheet.Range[ln, 1].Text = flt.PMonthName;
+                sheet.Range[ln, 1].Text = dateref == "std"? flt.PMonthName:flt.PMonthNameTakeOff;
                 sheet.Range[ln, 2].Text = flt.FlightType2;
                 sheet.Range[ln, 3].Text = flt.FlightIndex;
                 sheet.Range[ln, 4].Value2 = flt.FlightStatus;
-                sheet.Range[ln, 5].Text = flt.PDayName;
-                sheet.Range[ln, 6].Value2 = flt.STDDay;
+                sheet.Range[ln, 5].Text = dateref == "std"? flt.PDayName:flt.PDayNameTakeOff;
+                sheet.Range[ln, 6].Value2 = dateref == "std"? flt.STDDayLocal :flt.TakeOffDayLocal;
                 sheet.Range[ln, 6].NumberFormat = "yyyy-mm-dd";
-                sheet.Range[ln, 7].Text = flt.PDate;
+                sheet.Range[ln, 7].Text = dateref == "std"? flt.PDate:flt.PDateTakeOff;
 
                 var isFlightNumeric = int.TryParse(flt.FlightNumber, out int flightNumberTemp);
 
@@ -1080,7 +1084,8 @@ namespace ApiXLS.Controllers
                 sheet.Range[ln, 32].NumberFormat = "hh:MM";
                 sheet.Range[ln, 33].NumberFormat = "hh:MM";
 
-                sheet.Range[ln, 34].Formula = "IF(AE" + ln + ">=Y" + ln + ",IF(AE" + ln + "==Y" + ln + ",0,AE" + ln + "-Y" + ln + "),AE" + ln + "-Y" + ln + "+1)";
+                //sheet.Range[ln, 34].Formula = "IF(AE" + ln + ">=Y" + ln + ",IF(AE" + ln + "==Y" + ln + ",0,AE" + ln + "-Y" + ln + "),AE" + ln + "-Y" + ln + "+1)";
+                sheet.Range[ln, 34].Formula = "IF(AE" + ln + ">=Y" + ln + ",IF(AE" + ln + "==Y" + ln + ",0,AE" + ln + "-Y" + ln + "),IF(AND(AF"+ln+"<Y"+ln+",AB"+ln+"<Y"+ln+",AC"+ln+"<Y"+ln+"),AE" + ln + "-Y" + ln + "+1,0))";
                 sheet.Range[ln, 34].NumberFormat = "hh:MM";
 
                 //DelayReason

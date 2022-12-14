@@ -283,6 +283,7 @@ namespace XAPI.Controllers
         [AcceptVerbs("POST")]
         public  IHttpActionResult PostSkyputer(skyputer dto)
         {
+            var result = "GNRL";
             try
             {
                 if (string.IsNullOrEmpty(dto.key))
@@ -292,8 +293,9 @@ namespace XAPI.Controllers
                 if (dto.key != "Skyputer@1359#")
                     return Ok("Authorization key is wrong.");
 
-                if (dto.plan.Contains("FlyPersia"))
+                if (dto.plan.Contains("FlyPersia") || dto.plan.Contains("FLYPERSIA"))
                 {
+                    result = "FLY";
                     var entity = new OFPSkyPuter()
                     {
                         OFP = dto.plan,
@@ -319,13 +321,15 @@ namespace XAPI.Controllers
                     //var response =  await client.PostAsync ("https://fleet.flypersia.aero/xpi/api/skyputer", content);
 
                     //var responseString = await response.Content.ReadAsStringAsync();
+                    string responsebody = "NO";
                     using (WebClient client = new WebClient())
                     {
                         var reqparm = new System.Collections.Specialized.NameValueCollection();
                         reqparm.Add("key", dto.key);
                         reqparm.Add("plan", dto.plan);
                         byte[] responsebytes = client.UploadValues("https://fleet.flypersia.aero/xpi/api/skyputer/flypersia", "POST", reqparm);
-                        string responsebody = Encoding.UTF8.GetString(responsebytes);
+                          responsebody = Encoding.UTF8.GetString(responsebytes);
+
                     }
                     return Ok(true);
                 }
@@ -354,7 +358,10 @@ namespace XAPI.Controllers
             }
             catch (Exception ex)
             {
-                return Ok(true);
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += " INNER:" + ex.InnerException.Message;
+                return Ok(false);
             }
 
         }
@@ -500,6 +507,9 @@ namespace XAPI.Controllers
                 var eldw = infoRows.FirstOrDefault(q => q.StartsWith("ELDW"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("ELDW")).Split('=')[1];
                 var eta = infoRows.FirstOrDefault(q => q.StartsWith("ETA"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("ETA")).Split('=')[1];
 
+                var fpf = infoRows.FirstOrDefault(q => q.StartsWith("FPF")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("FPF")).Split('=')[1];
+                string alt1 = "";
+                string alt2 = "";
                 var flightDate = DateTime.Parse(dte);
                 var no =fln.Contains(" ")? fln.Substring(4) : fln.Substring(3);
 
@@ -572,6 +582,9 @@ namespace XAPI.Controllers
                 if (!string.IsNullOrEmpty(etd))
                     plan.ETD = etd;
 
+                if (!string.IsNullOrEmpty(fpf))
+                    plan.FPF = fpf;
+
 
                 plan.Source = "SkyPuter";
 
@@ -629,7 +642,8 @@ namespace XAPI.Controllers
                         var prts = _r.Split(';');
                         foreach (var x in prts)
                         {
-                            var str = x.Replace("\"", "^").Replace("'", "#");
+                           // var str = x.Replace("\"", "^").Replace("'", "#");
+                            var str = x.Replace("\"", "^").Replace("'", "#").Replace("GEO", "COR");
                             var substr = str.Split('=')[0] + ":'" + str.Split('=')[1] + "'";
 
                             procStr += substr;
@@ -646,6 +660,8 @@ namespace XAPI.Controllers
                         props.Add("prop_" + _key + "_rem_" + idx);
                         props.Add("prop_" + _key + "_usd_" + idx);
                         apln1Json.Add(jsonObj);
+                        if (r == apln1Rows.Last())
+                            alt1 = jsonObj.GetValue("WAP").ToString().Replace(" ", "").ToUpper();
                         idx++;
 
                     }
@@ -653,6 +669,46 @@ namespace XAPI.Controllers
                     plan.JAPlan1 = "[" + string.Join(",", apln1Json) + "]";
                 }
 
+                string apln2 = parts.Where(q => q.StartsWith("apln:|")).Count()>1? parts.Where(q => q.StartsWith("apln:|")).ToList()[1]:null;
+                if (apln2 != null)
+                {
+                    apln2 = apln2.Replace("apln:|", "");
+                    var apln2Rows = apln2.Split('|').ToList();
+                    List<JObject> apln2Json = new List<JObject>();
+                    idx = 0;
+                    foreach (var r in apln2Rows)
+                    {
+                        var procStr = "";
+                        var _r = r.Replace("=;", "= ;");
+                        var prts = _r.Split(';');
+                        foreach (var x in prts)
+                        {
+                            // var str = x.Replace("\"", "^").Replace("'", "#");
+                            var str = x.Replace("\"", "^").Replace("'", "#").Replace("GEO", "COR");
+                            var substr = str.Split('=')[0] + ":'" + str.Split('=')[1] + "'";
+
+                            procStr += substr;
+                            if (x != prts.Last())
+                                procStr += ",";
+                        }
+                        procStr = "{" + procStr + "}";
+
+                        var jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                        var _key = ("apln_WAP_" + jsonObj.GetValue("WAP").ToString()).Replace(" ", "").ToLower();
+                        jsonObj.Add("_key", _key);
+                        props.Add("prop_" + _key + "_eta_" + idx);
+                        props.Add("prop_" + _key + "_ata_" + idx);
+                        props.Add("prop_" + _key + "_rem_" + idx);
+                        props.Add("prop_" + _key + "_usd_" + idx);
+                        apln2Json.Add(jsonObj);
+                        if (r == apln2Rows.Last())
+                            alt2 = jsonObj.GetValue("WAP").ToString().Replace(" ", "").ToUpper();
+                        idx++;
+
+                    }
+
+                    plan.JAPlan2 = "[" + string.Join(",", apln2Json) + "]";
+                }
 
 
                 var cstbl = parts.FirstOrDefault(q => q.StartsWith("cstbl:|"));
@@ -843,6 +899,10 @@ namespace XAPI.Controllers
                 props.Add("prop_fuel_" + "req");
 
                 var other = new List<fuelPrm>();
+
+                other.Add(new fuelPrm() { prm = "FPF", value = fpf });
+                props.Add("prop_fpf");
+
                 other.Add(new fuelPrm() { prm = "MACH", value = mci });
                 props.Add("prop_mach");
                 other.Add(new fuelPrm() { prm = "FL", value = fll });
@@ -1073,6 +1133,12 @@ namespace XAPI.Controllers
 
 
 
+
+                plan.ALT1 = alt1;
+                plan.ALT2 = alt2;
+
+                fltobj.ALT1 = alt1;
+                fltobj.ALT2 = alt2;
 
 
                 plan.TextOutput = JsonConvert.SerializeObject(other);

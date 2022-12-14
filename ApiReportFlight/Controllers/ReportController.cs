@@ -22,16 +22,17 @@ namespace ApiReportFlight.Controllers
             , string type2
             , string idx
             , string chr
+            , string dateref
             )
         {
             var cmd = "select * from viewflightdaily ";
             try
             {
                 var context = new ppa_Entities();
-
+                var dayprm = dateref == "std" ? "STDDayLocal" : "TakeOffDayLocal";
 
                 // var cmd = "select * from viewflightdaily ";
-                string whr = "  (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
+                string whr = "  ("+ dayprm +">= '" + df.ToString("yyyy-MM-dd") + "' and "+ dayprm + "<='" + dt.ToString("yyyy-MM-dd") + "')";
 
                 if (!string.IsNullOrEmpty(status) && status != "-1")
                 {
@@ -60,6 +61,110 @@ namespace ApiReportFlight.Controllers
                 {
                     var _regs = chr.Split('_').ToList();
                     var col = _regs.Select(q => "ChrTitle=N'" + q + "'").ToList();
+                    var _whr = "(" + string.Join(" OR ", col) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(regs) && regs != "-1")
+                {
+                    var _regs = regs.Split('_').ToList();
+                    var col = _regs.Select(q => "Register='" + q + "'").ToList();
+                    var _whr = "(" + string.Join(" OR ", col) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(from) && from != "-1")
+                {
+                    var _regs = from.Split('_').ToList();
+                    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "FromAirportIATA='" + q + "'").ToList()) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(to) && to != "-1")
+                {
+                    var _regs = to.Split('_').ToList();
+                    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "ToAirportIATA='" + q + "'").ToList()) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(no) && no != "-1")
+                {
+                    var _regs = no.Split('_').ToList();
+                    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "FlightNumber='" + q + "'").ToList()) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(routes) && routes != "-1")
+                {
+                    var _regs = routes.Split('_').ToList();
+                    var _whr = "(" + string.Join(" OR ", _regs.Select(q => "Route like '%" + q + "%'").ToList()) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                cmd = cmd + " WHERE " + whr + " ORDER BY STD,Register";
+
+                var flts = context.ViewFlightDailies
+                            .SqlQuery(cmd)
+                            .ToList<ViewFlightDaily>();
+
+                //var result = await courseService.GetEmployeeCertificates(id);
+
+                return Ok(flts);
+            }
+            catch (Exception ex)
+            {
+                return Ok(cmd);
+            }
+
+        }
+
+
+        [Route("api/flight/daily/int")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetFlightsDailyINT(DateTime df, DateTime dt, string regs, string routes, string from, string to, string no
+            , string status
+            , string type2
+            , string idx
+            , string chr
+            , string dateref
+            )
+        {
+            var cmd = "select * from viewflightdaily ";
+            try
+            {
+                var context = new ppa_Entities();
+                var dayprm = dateref == "std" ? "STDDayLocal" : "TakeOffDayLocal";
+
+                // var cmd = "select * from viewflightdaily ";
+                string whr = "  (" + dayprm + ">= '" + df.ToString("yyyy-MM-dd") + "' and " + dayprm + "<='" + dt.ToString("yyyy-MM-dd") + "')";
+
+                if (!string.IsNullOrEmpty(status) && status != "-1")
+                {
+                    var _regs = status.Split('_').ToList();
+                    var col = _regs.Select(q => "status=" + q).ToList();
+                    var _whr = "(" + string.Join(" OR ", col) + ")";
+                    whr += " AND " + _whr;
+                }
+                if (!string.IsNullOrEmpty(type2) && type2 != "-1")
+                {
+                    var _regs = type2.Split('_').ToList();
+                    var col = _regs.Select(q => "FlightType2='" + q + "'").ToList();
+                    var _whr = "(" + string.Join(" OR ", col) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(idx) && idx != "-1")
+                {
+                    var _regs = idx.Split('_').ToList();
+                    var col = _regs.Select(q => "FlightIndex='" + q + "'").ToList();
+                    var _whr = "(" + string.Join(" OR ", col) + ")";
+                    whr += " AND " + _whr;
+                }
+
+                if (!string.IsNullOrEmpty(chr) && chr != "-1")
+                {
+                    var _regs = chr.Split('_').ToList();
+                    var col = _regs.Select(q => "ChrTitle='" + q + "'").ToList();
                     var _whr = "(" + string.Join(" OR ", col) + ")";
                     whr += " AND " + _whr;
                 }

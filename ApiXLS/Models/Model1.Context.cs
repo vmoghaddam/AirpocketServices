@@ -30,5 +30,6 @@ namespace ApiXLS.Models
         public virtual DbSet<AppCrewFlight> AppCrewFlights { get; set; }
         public virtual DbSet<ViewLegCrew> ViewLegCrews { get; set; }
         public virtual DbSet<ViewFlightDaily> ViewFlightDailies { get; set; }
+        public virtual DbSet<ViewFlightDailyLCB> ViewFlightDailyLCBs { get; set; }
     }
 }

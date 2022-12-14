@@ -284,6 +284,13 @@ namespace XAPI.Models
         public Nullable<int> ExBagWeight { get; set; }
         public Nullable<long> ExBagCost { get; set; }
         public Nullable<int> TotalTrafficLoad { get; set; }
+        public Nullable<System.DateTime> OLDSTD { get; set; }
+        public Nullable<System.DateTime> OLDSTA { get; set; }
+        public Nullable<int> OLDReg { get; set; }
+        public Nullable<int> NewReg { get; set; }
+        public Nullable<int> NewTime { get; set; }
+        public Nullable<int> UTCSTD { get; set; }
+        public Nullable<int> UTCSTA { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EFBDSPRelease> EFBDSPReleases { get; set; }
