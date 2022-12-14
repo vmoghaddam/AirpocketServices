@@ -2966,7 +2966,8 @@ namespace AirpocketAPI.Controllers
                                FlightId = x.FlightId,
                                PID = x.PID,
                                Mobile = x.Mobile,
-                               Address = x.Address
+                               Address = x.Address,
+                               
 
                            }).ToList();
             var _gcrews = (from x in _crews2
@@ -3073,6 +3074,173 @@ namespace AirpocketAPI.Controllers
             }
 
             var name = "gd-" + result.route + "-" + result.no2;
+            var mappedPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + name + ".xlsx");
+
+
+
+            workbook.SaveToFile(mappedPath, ExcelVersion.Version2016);
+
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(new FileStream(mappedPath, FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = name + ".xlsx";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+
+            return response;
+
+
+
+        }
+
+
+        [Route("api/xls/sec")]
+        [AcceptVerbs("GET")]
+        public HttpResponseMessage GetXLSec(string flts)
+        {
+            // var flightIds = new List<int?>();
+            var flightIds = flts.Split('_').Select(q => (Nullable<int>)Convert.ToInt32(q)).ToList();
+            var context = new AirpocketAPI.Models.FLYEntities();
+            var vflights = context.ViewFlightInformations.Where(q => flightIds.Contains(q.ID)).OrderBy(q => q.STD).Select(q => new { q.Register, q.AircraftType, q.ID, q.STD, q.FlightNumber, q.FromAirportIATA, q.ToAirportIATA, q.DepartureLocal, q.STA, q.ArrivalLocal }).ToList();
+
+            //TOKO
+
+            var _crews2 = (from x in
+                                    //this.context.ViewFlightCrewNews
+                                    context.ViewCrewLists
+                               //where x.FlightId == flightId
+
+                           where flightIds.Contains(x.FlightId) //&& x.IsPositioning != true
+                           orderby x.IsPositioning, x.GroupOrder
+                               , x.RosterPositionId, x.Name
+
+                           select new CLJLData()
+                           {
+                               CrewId = x.CrewId,
+                               IsPositioning = x.IsPositioning,
+                               PositionId = x.RosterPositionId,
+                               Position = x.Position,
+                               Name = x.Name,
+                               GroupId = x.GroupId,
+                               JobGroup = x.JobGroup,
+                               JobGroupCode = x.JobGroupCode,
+                               GroupOrder = x.GroupOrder,
+                               IsCockpit = x.IsCockpit,
+                               FlightId = x.FlightId,
+                               PID = x.PID,
+                               Mobile = x.Mobile,
+                               Address = x.Address,
+                               NID= x.Sex
+
+
+                           }).ToList();
+            var _gcrews = (from x in _crews2
+                           group x by new
+                           {
+                               x.CrewId,
+                               x.IsPositioning,
+                               x.PositionId,
+                               x.Position,
+                               x.Name,
+                               x.GroupId,
+                               x.JobGroup,
+                               x.JobGroupCode,
+                               x.GroupOrder,
+                               x.IsCockpit,
+                               x.PID,
+                               x.Mobile,
+                               x.Address,
+                               x.NID
+                           } into grp
+                           select grp).ToList();
+            var query = (from x in _gcrews
+                         let xfids = x.Select(q => Convert.ToInt32(q.FlightId)).ToList()
+                         select new CLJLData()
+                         {
+                             CrewId = x.Key.CrewId,
+                             IsPositioning = x.Key.IsPositioning,
+                             PositionId = x.Key.PositionId,
+                             Position = x.Key.Position,
+                             Name = x.Key.Name,
+                             GroupId = x.Key.GroupId,
+                             JobGroup = x.Key.JobGroup,
+                             JobGroupCode = x.Key.JobGroupCode,
+                             GroupOrder = x.Key.GroupOrder,
+                             PID = x.Key.PID,
+                             NID=x.Key.NID,
+                             Mobile = x.Key.Mobile,
+                             Address = x.Key.Address,
+                             IsCockpit = x.Key.IsCockpit,
+                             Legs = vflights.Where(q => xfids.Contains((int)q.ID)).OrderBy(q => q.DepartureLocal).Select(q => q.FlightNumber).Distinct().ToList(),
+                             LegsStr = string.Join("-", vflights.Where(q => xfids.Contains((int)q.ID)).OrderBy(q => q.DepartureLocal).Select(q => q.FlightNumber).Distinct().ToList()),
+
+                         }).ToList();
+
+
+            foreach (var x in query)
+            {
+                if (x.Legs.Count == flightIds.Count)
+                    x.LegsStr = "";
+            }
+
+            //select DISTINCT CrewId,IsPositioning,PositionId,[Position],Name,GroupId,JobGroup,JobGroupCode,GroupOrder,IsCockpit 
+            var _route = new List<string>();
+            var _flightNo = new List<string>();
+            var _regs = new List<string>();
+            var _types = new List<string>();
+            foreach (var x in vflights)
+            {
+                _route.Add(x.FromAirportIATA);
+                _flightNo.Add(x.FlightNumber);
+                _regs.Add("EP-" + x.Register);
+                _types.Add(x.AircraftType);
+
+
+            }
+            _route.Add(vflights.Last().ToAirportIATA);
+            _regs = _regs.Distinct().ToList();
+            _types = _types.Distinct().ToList();
+
+            var result = new
+            {
+                flights = vflights,
+                crew = query, //_crews,
+                route = string.Join("-", _route),
+                no = string.Join(",", _flightNo),
+                no2 = string.Join("-", _flightNo),
+                actype = string.Join(",", _types),
+                regs = string.Join(",", _regs),
+                std = vflights.First().STD,
+                sta = vflights.Last().STA,
+                stdLocal = vflights.First().DepartureLocal,
+                staLocal = vflights.First().ArrivalLocal,
+            };
+
+            Workbook workbook = new Workbook();
+            var mappedPathSource = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "_sec" + ".xlsx");
+            workbook.LoadFromFile(mappedPathSource);
+            Worksheet sheet = workbook.Worksheets[0];
+
+            sheet.Range[2, 6].Text = result.no2;
+            if (result.flights.Count > 1)
+                sheet.Range[2, 6].Text = result.no2 + " (" + result.route + ")";
+            sheet.Range[2, 8].Text = ((DateTime)result.stdLocal).ToString("yyyy-MM-dd");
+            sheet.Range[3, 1].Value = "Register:" + result.regs;
+
+            sheet.Range[3, 6].Text = result.flights.First().FromAirportIATA + " - " + ((DateTime)result.flights.First().DepartureLocal).ToString("HH:mm");
+            sheet.Range[3, 8].Text = result.flights.Last().ToAirportIATA + " - " + ((DateTime)result.flights.Last().ArrivalLocal).ToString("HH:mm");
+
+            var r = 5;
+            foreach (var cr in result.crew)
+            {
+
+                sheet.Range[r, 2].Text = cr.Position;
+                sheet.Range[r, 3].Text = cr.Name;
+                sheet.Range[r, 4].Text = cr.NID;
+                r++;
+            }
+
+            var name = "sec-" + result.route + "-" + result.no2;
             var mappedPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + name + ".xlsx");
 
 
@@ -11587,6 +11755,7 @@ new JsonSerializerSettings
 
         public string Mobile { get; set; }
         public string Address { get; set; }
+        public string NID { get; set; }
 
     }
 
