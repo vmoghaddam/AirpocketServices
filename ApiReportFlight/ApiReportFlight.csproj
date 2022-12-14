@@ -195,6 +195,9 @@
     <Compile Include="Models\RptFuelOFP.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewCrew.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewDelayedFlight.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

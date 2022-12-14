@@ -14,6 +14,72 @@ namespace ApiReportFlight.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ReportController : ApiController
     {
+        [Route("api/crew/flight/summary")]
+        public IHttpActionResult GetCrewFlightSummary(DateTime df,DateTime dt)
+        {
+            var result = new List<CrewSummaryDto>();
+            
+            var context = new ppa_Entities();
+
+            var _df = df.Date;
+            var _dt = dt.Date.AddDays(1);
+
+
+
+            var crew_grps = new List<string>() {"TRE","TRI","P1","P2","ISCCM","SCCM","CCM" };
+            var qry_crew = from x in context.ViewCrews
+                           where crew_grps.Contains(x.JobGroup)
+                           select x;
+            var ds_crew = qry_crew.ToList();
+
+            var qry_flights = from x in context.ViewLegCrews
+                              where x.STDLocal >= df && x.STDLocal < dt && x.FlightStatusID != 4
+                              select x;
+
+            var ds_flights =(from x in qry_flights
+                         
+                           group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name, x.PID } into _grp
+                           select new CrewSummaryDto()
+                           {
+                               CrewId = _grp.Key.CrewId,
+                               ScheduleName = _grp.Key.ScheduleName,
+                               JobGroup = _grp.Key.JobGroup,
+                               JobGropCode = _grp.Key.JobGroupCode,
+                               Name = _grp.Key.Name,
+                               PID = _grp.Key.PID,
+
+                               Legs = _grp.Where(q => q.IsPositioning == false).Count(),
+                               DH = _grp.Where(q => q.IsPositioning == true).Count(),
+                               FlightTime = _grp.Sum(q => q.FlightTime),
+                               BlockTime = _grp.Sum(q => q.BlockTime),
+                               JLFlightTime = _grp.Sum(q => q.JL_FlightTime),
+                               JLBlockTime = _grp.Sum(q => q.JL_BlockTime),
+                               FixTime = _grp.Sum(q => q.FixTime),
+                           }
+                          ).ToList();
+
+            foreach(var c in ds_crew)
+            {
+                var obj = new CrewSummaryDto() {CrewId=c.Id,ScheduleName=c.ScheduleName,JobGropCode=c.JobGroupCode,JobGroup=c.JobGroup,Name=c.Name,PID=c.PID };
+                var flt = ds_flights.Where(q => q.CrewId == c.Id).FirstOrDefault();
+                if (flt != null)
+                {
+                    obj.Legs = flt.Legs;
+                    obj.DH = flt.DH;
+                    obj.FlightTime=flt.FlightTime;
+                    obj.BlockTime=flt.BlockTime;
+                    obj.JLFlightTime = flt.FlightTime;
+                    obj.JLBlockTime = flt.BlockTime;
+                    obj.FixTime = flt.FixTime;
+                }
+
+                result.Add(obj);
+            }
+
+            return Ok(result);
+            
+
+        }
         //api/flight/daily
         [Route("api/flight/daily")]
         [AcceptVerbs("GET")]
@@ -1363,6 +1429,24 @@ namespace ApiReportFlight.Controllers
         }
 
         public class FlightTimeDto
+        {
+            public int? CrewId { get; set; }
+            public string ScheduleName { get; set; }
+            public string JobGroup { get; set; }
+            public string JobGropCode { get; set; }
+            public string Name { get; set; }
+            public int GroupOrder { get; set; }
+            public int Legs { get; set; }
+            public int DH { get; set; }
+            public int? FlightTime { get; set; }
+            public int? BlockTime { get; set; }
+            public int? JLFlightTime { get; set; }
+            public int? JLBlockTime { get; set; }
+            public int? FixTime { get; set; }
+            public string PID { get; set; }
+        }
+
+        public class CrewSummaryDto
         {
             public int? CrewId { get; set; }
             public string ScheduleName { get; set; }

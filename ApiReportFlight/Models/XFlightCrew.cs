@@ -30,5 +30,7 @@ namespace ApiReportFlight.Models
         public int GroupOrder { get; set; }
         public int IsCockpit { get; set; }
         public string Code { get; set; }
+        public Nullable<System.DateTime> DateConfirmed { get; set; }
+        public Nullable<bool> IsConfirmed { get; set; }
     }
 }
