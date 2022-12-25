@@ -1168,11 +1168,11 @@ namespace ApiFDM.Controllers
         }
 
         [HttpGet]
-        [Route("api/fdm/register/monthly/{year}/{mf}/{mt}/{reg}")]
-        public async Task<DataResponse> GetRegMonthly(int year, int mf, int mt, string reg)
+        [Route("api/fdm/register/monthly/{yf}/{yt}/{mf}/{mt}/{reg}")]
+        public async Task<DataResponse> GetRegMonthly(int yf, int yt, int mf, int mt, string reg)
         {
             var query = from x in context.FDMRegMonthlies
-                        where x.Month >= mf && x.Month <= mt && x.Register == reg && x.Year == year
+                        where x.Month >= mf && x.Month <= mt && x.Register == reg && x.Year >= yf && x.Year <= yt
                         group x by new { x.Month } into grp
                         select new
                         {
@@ -1237,11 +1237,11 @@ namespace ApiFDM.Controllers
         }
 
         [HttpGet]
-        [Route("api/fdm/register/cpt/monthly/{year}/{mf}/{mt}/{reg}")]
-        public async Task<DataResponse> GetRegCptMonthly(int year, int mf, int mt, string reg)
+        [Route("api/fdm/register/cpt/monthly/{yf}/{yt}/{mf}/{mt}/{reg}")]
+        public async Task<DataResponse> GetRegCptMonthly(int yf, int yt, int mf, int mt, string reg)
         {
             var query = from x in context.FDMRegCptMonthlies
-                        where x.Month >= (mf + 1) && x.Month <= (mt + 1) && x.Register == reg && x.Year == year
+                        where x.Month >= (mf + 1) && x.Month <= (mt + 1) && x.Register == reg && x.Year >= yf && x.Year <= yt
                         group x by new { x.CptCode } into grp
                         select new
                         {
@@ -1289,11 +1289,11 @@ namespace ApiFDM.Controllers
         }
 
         [HttpGet]
-        [Route("api/fdm/register/events/monthly/{year}/{mf}/{mt}/{reg}")]
-        public async Task<DataResponse> GetRegEventsNameMonthly(int year, int mf, int mt, string reg)
+        [Route("api/fdm/register/events/monthly/{yf}/{yt}/{mf}/{mt}/{reg}")]
+        public async Task<DataResponse> GetRegEventsNameMonthly(int yf, int yt, int mf, int mt, string reg)
         {
             var query = from x in context.FDMRegEventMonthlies
-                        where x.Month >= mf && x.Month <= mt && x.Year == year && x.register == reg
+                        where x.Month >= mf && x.Month <= mt && x.Year == yf && x.Year <= yt && x.register == reg
                         group x by new { x.EventName } into grp
                         select new
                         {
@@ -1348,6 +1348,7 @@ namespace ApiFDM.Controllers
             catch (Exception ex)
             {
                 int jjj = 0;
+                var test = ex.InnerException;
                 return new DataResponse()
                 {
                     IsSuccess = true,
@@ -1385,6 +1386,8 @@ namespace ApiFDM.Controllers
         [Route("api/get/fdm/top/cpt/{yf}/{yt}/{mf}/{mt}")]
         public async Task<DataResponse> GetTopCpt(int yf, int yt, int mf, int mt)
         {
+            //amitis
+
             //var query = (from x in context.FDMCptAll
             //             where x.Month >= (mf + 1) && x.Month <= (mt + 1) && x.Year >= yf && x.Year <= yt
             //             select x).ToList();
@@ -1403,6 +1406,7 @@ namespace ApiFDM.Controllers
             //    IsSuccess = true,
             //    Data = result.OrderByDescending(q => q.Score).Take(10)
             //};
+
 
             var query = from x in context.FDMCptAlls
                         where x.Month >= (mf + 1) && x.Month <= (mt + 1) && x.Year >= yf && x.Year <= yt
