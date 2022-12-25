@@ -114,8 +114,15 @@ namespace AirpocketTRN.ViewModels
 
         public bool? Certificate { get; set; }
         public List<CourseDoc> Documents { get; set; }
+        public List<SyllabusDto> Syllabi { get; set; }
 
 
+    }
+    public class SyllabusDto
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public int Duration { get; set; }
     }
     public class CourseDoc
     {

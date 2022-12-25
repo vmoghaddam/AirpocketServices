@@ -14,71 +14,297 @@ namespace ApiReportFlight.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ReportController : ApiController
     {
+        int IsHoliday (DateTime? dt,string dayname)
+        {
+            if (dayname == "FRI")
+                return 1;
+            return 0;
+        }
         [Route("api/crew/flight/summary")]
-        public IHttpActionResult GetCrewFlightSummary(DateTime df,DateTime dt)
+        public IHttpActionResult GetCrewFlightSummary(DateTime df, DateTime dt,string grps,string cid="-1")
         {
             var result = new List<CrewSummaryDto>();
-            
+
             var context = new ppa_Entities();
 
-            var _df = df.Date;
-            var _dt = dt.Date.AddDays(1);
+            df = df.Date;
+            dt = dt.Date.AddDays(1);
 
 
 
-            var crew_grps = new List<string>() {"TRE","TRI","P1","P2","ISCCM","SCCM","CCM" };
+            var crew_grps =grps=="-1"? new List<string>() { "TRE", "TRI", "P1", "P2", "ISCCM", "SCCM", "CCM" }
+            : grps.Split('_').ToList();
             var qry_crew = from x in context.ViewCrews
-                           where crew_grps.Contains(x.JobGroup)
+                           where crew_grps.Contains(x.JobGroup)  
                            select x;
-            var ds_crew = qry_crew.ToList();
-
-            var qry_flights = from x in context.ViewLegCrews
-                              where x.STDLocal >= df && x.STDLocal < dt && x.FlightStatusID != 4
-                              select x;
-
-            var ds_flights =(from x in qry_flights
-                         
-                           group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name, x.PID } into _grp
-                           select new CrewSummaryDto()
-                           {
-                               CrewId = _grp.Key.CrewId,
-                               ScheduleName = _grp.Key.ScheduleName,
-                               JobGroup = _grp.Key.JobGroup,
-                               JobGropCode = _grp.Key.JobGroupCode,
-                               Name = _grp.Key.Name,
-                               PID = _grp.Key.PID,
-
-                               Legs = _grp.Where(q => q.IsPositioning == false).Count(),
-                               DH = _grp.Where(q => q.IsPositioning == true).Count(),
-                               FlightTime = _grp.Sum(q => q.FlightTime),
-                               BlockTime = _grp.Sum(q => q.BlockTime),
-                               JLFlightTime = _grp.Sum(q => q.JL_FlightTime),
-                               JLBlockTime = _grp.Sum(q => q.JL_BlockTime),
-                               FixTime = _grp.Sum(q => q.FixTime),
-                           }
-                          ).ToList();
-
-            foreach(var c in ds_crew)
+            var _cid = Convert.ToInt32(cid);
+            if (_cid != -1)
+                qry_crew = qry_crew.Where(q => q.Id == _cid);
+            var ds_crew = qry_crew.Select(q => new RptFDPGRP()
             {
-                var obj = new CrewSummaryDto() {CrewId=c.Id,ScheduleName=c.ScheduleName,JobGropCode=c.JobGroupCode,JobGroup=c.JobGroup,Name=c.Name,PID=c.PID };
-                var flt = ds_flights.Where(q => q.CrewId == c.Id).FirstOrDefault();
-                if (flt != null)
+                CrewId = q.Id,
+                ScheduleName = q.ScheduleName,
+                FirstName = q.FirstName,
+                LastName = q.LastName,
+                JobGroup = q.JobGroup,
+                JobGroupCode = q.JobGroupCode,
+                //GroupOrder = getOrder(q.JobGroup),
+
+            }).ToList();
+
+            var crew_ids = ds_crew.Select(q => q.CrewId).ToList();
+           
+
+            var qry_fdps = from x in context.RptFDP2
+                           where x.STDDay >= df && x.STDDay < dt && crew_ids.Contains(x.CrewId)  
+                           select x;
+
+            var ds_fdps = qry_fdps.ToList();
+
+            var ds_fdps_total = (from x in ds_fdps
+                                 group x by new { x.CrewId, x.Name, x.ScheduleName, x.FirstName, x.LastName, x.JobGroup, x.JobGroupCode, x.JobGroupRoot } into grp
+                                 select new RptFDPGRP()
+                                 {
+                                     CrewId = grp.Key.CrewId,
+                                     ScheduleName = grp.Key.ScheduleName,
+                                     Name = grp.Key.Name,
+                                     FirstName = grp.Key.FirstName,
+                                     LastName = grp.Key.LastName,
+                                     JobGroup = grp.Key.JobGroup,
+                                     JobGroupCode = grp.Key.JobGroupCode,
+                                     JobGroupRoot = grp.Key.JobGroupRoot,
+                                     BlockTime = grp.Sum(q => q.BlockTime) ?? 0,
+                                     FlightTime = grp.Sum(q => q.FlightTime) ?? 0,
+                                     FixedFlightTime = grp.Sum(q => q.FixedFlightTime) ?? 0,
+                                     ScheduledTime = grp.Sum(q => q.ScheduledTime) ?? 0,
+                                     Legs = grp.Sum(q => q.Legs) ?? 0,
+                                     Leg1 = grp.Sum(q => q.Leg1),
+                                     Leg2 = grp.Sum(q => q.Leg2),
+                                     Leg3 = grp.Sum(q => q.Leg3),
+                                     Leg4 = grp.Sum(q => q.Leg4),
+                                     Leg5 = grp.Sum(q => q.Leg5),
+                                     Leg6 = grp.Sum(q => q.Leg6),
+                                     Leg7 = grp.Sum(q => q.Leg7),
+                                     Leg8 = grp.Sum(q => q.Leg8),
+                                     Positioning=grp.Sum(q=>q.Positioning) ?? 0,
+                                     Canceled=grp.Sum(q=>q.Canceled) ?? 0,
+                                     PositioningFixTime=grp.Sum(q=>q.PositioningFixTime) ?? 0,
+                                     CanceledFixTime=grp.Sum(q=>q.CanceledFixTime) ?? 0,
+
+                                     //DeadHead=grp.Sum(q=>q.)
+                                     EarlyDeparture = grp.Sum(q => q.EarlyDeparture),
+                                     LateArrival = grp.Sum(q => q.LateArrival),
+                                     HolidayDeparture = grp.Sum(q => IsHoliday(q.STDDay,q.DayName)),
+                                     WOCLDuration = grp.Sum(q => q.WOCLDuration) ?? 0,
+                                     WOCLLND = grp.Sum(q => q.WOCLLND) ?? 0,
+                                     WOCLTO = grp.Sum(q => q.WOCLTO) ?? 0,
+                                     XAirportLND = grp.Sum(q => q.XAirportLND) ?? 0,
+                                     XAirportTO = grp.Sum(q => q.XAirportTO) ?? 0,
+                                     FDPs = grp.OrderBy(q => q.STD).ToList(),
+                                     
+                                 }).OrderBy(q => q.GroupOrder).ThenByDescending(q => q.FixedFlightTime).ThenBy(q => q.LastName).ToList();
+
+            var qry_nofdp = from x in context.RptNoFDPs
+                            where x.Date >= df && x.Date < dt && crew_ids.Contains(x.CrewId)
+                            select x;
+            var ds_nofdp = qry_nofdp.ToList();
+
+            var ds_nofdp_total = (from x in ds_nofdp
+                                  group x by new { x.CrewId, x.DutyTypeTitle, x.DutyType } into grp
+                                  select new
+                                  {
+                                      grp.Key.CrewId,
+                                      grp.Key.DutyType,
+                                      grp.Key.DutyTypeTitle,
+                                      Duration = grp.Sum(q => q.Duration ?? 0),
+                                      Count = grp.Count(),
+                                      FX = grp.Sum(q => q.FX ?? 0),
+
+                                  }).ToList();
+
+            foreach (var crew in ds_crew)
+            {
+                crew.GroupOrder =  getOrder(crew.JobGroup);
+                var nofdps = ds_nofdp_total.Where(q => q.CrewId == crew.CrewId).ToList();
+                foreach (var rec in nofdps)
                 {
-                    obj.Legs = flt.Legs;
-                    obj.DH = flt.DH;
-                    obj.FlightTime=flt.FlightTime;
-                    obj.BlockTime=flt.BlockTime;
-                    obj.JLFlightTime = flt.FlightTime;
-                    obj.JLBlockTime = flt.BlockTime;
-                    obj.FixTime = flt.FixTime;
+                    if (rec.DutyTypeTitle == "StandBy")
+                        crew.Standby += rec.Count;
+                    if (rec.DutyTypeTitle == "Mission") { crew.Mission += rec.Duration;  }
+                    if (rec.DutyType == 300002) { crew.FX300002 += rec.Duration;  }
+                    if (rec.DutyType == 300003) { crew.FX300003 += rec.Duration;  }
+                    if (rec.DutyType == 300004) { crew.FX300004 += rec.Duration;   }
+                    if (rec.DutyType == 300005) { crew.FX300005 += rec.Duration;   }
+                    if (rec.DutyType == 300006) { crew.FX300006 += rec.Duration;   }
+                    if (rec.DutyType == 300007) { crew.FX300007 += rec.Duration;  }
+
+
                 }
 
-                result.Add(obj);
+                var fdp = ds_fdps_total.Where(q => q.CrewId == crew.CrewId).FirstOrDefault();
+                if (fdp != null)
+                {
+                    crew.BlockTime = fdp.BlockTime;
+                    crew.FlightTime = fdp.FlightTime;
+                    crew.FixedFlightTime = fdp.FixedFlightTime;
+                    crew.ScheduledTime = fdp.ScheduledTime;
+                    crew.Leg1 = fdp.Leg1;
+                    crew.Leg2 = fdp.Leg2;
+                    crew.Leg3 = fdp.Leg3;
+                    crew.Leg4 = fdp.Leg4;
+                    crew.Leg5 = fdp.Leg5;
+                    crew.Leg6 = fdp.Leg6;
+                    crew.Leg7 = fdp.Leg7;
+                    crew.Leg8 = fdp.Leg8;
+                    crew.Legs = fdp.Legs;
+                    crew.Positioning = fdp.Positioning;
+                    crew.Canceled = fdp.Canceled;
+                    crew.PositioningFixTime = fdp.PositioningFixTime;
+                    crew.CanceledFixTime = fdp.CanceledFixTime;
+                    crew.EarlyDeparture = fdp.EarlyDeparture;
+                    crew.LateArrival = fdp.LateArrival;
+                    crew.HolidayDeparture = fdp.HolidayDeparture;
+                    crew.WOCLDuration = fdp.WOCLDuration;
+                    crew.WOCLLND = fdp.WOCLLND;
+                    crew.WOCLTO = fdp.WOCLTO;
+                    crew.XAirportLND = fdp.XAirportLND;
+                    crew.XAirportTO = fdp.XAirportTO;
+                    crew.FDPs = fdp.FDPs.ToList();
+                    //crew.FixTimeTotal += fdp.FixedFlightTime;
+                }
             }
 
-            return Ok(result);
-            
+            //var qry_flights = from x in context.ViewLegCrews
+            //                  where x.STDLocal >= df && x.STDLocal < dt && x.FlightStatusID != 4
+            //                  select x;
 
+            //var ds_flights =(from x in qry_flights
+
+            //               group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name, x.PID } into _grp
+            //               select new CrewSummaryDto()
+            //               {
+            //                   CrewId = _grp.Key.CrewId,
+            //                   ScheduleName = _grp.Key.ScheduleName,
+            //                   JobGroup = _grp.Key.JobGroup,
+            //                   JobGropCode = _grp.Key.JobGroupCode,
+            //                   Name = _grp.Key.Name,
+            //                   PID = _grp.Key.PID,
+
+            //                   Legs = _grp.Where(q => q.IsPositioning == false).Count(),
+            //                   DH = _grp.Where(q => q.IsPositioning == true).Count(),
+            //                   FlightTime = _grp.Sum(q => q.FlightTime),
+            //                   BlockTime = _grp.Sum(q => q.BlockTime),
+            //                   JLFlightTime = _grp.Sum(q => q.JL_FlightTime),
+            //                   JLBlockTime = _grp.Sum(q => q.JL_BlockTime),
+            //                   FixTime = _grp.Sum(q => q.FixTime),
+            //               }
+            //              ).ToList();
+
+            //foreach(var c in ds_crew)
+            //{
+            //    var obj = new CrewSummaryDto() {CrewId=c.Id,ScheduleName=c.ScheduleName,JobGropCode=c.JobGroupCode,JobGroup=c.JobGroup,Name=c.Name,PID=c.PID };
+            //    var flt = ds_flights.Where(q => q.CrewId == c.Id).FirstOrDefault();
+            //    if (flt != null)
+            //    {
+            //        obj.Legs = flt.Legs;
+            //        obj.DH = flt.DH;
+            //        obj.FlightTime=flt.FlightTime;
+            //        obj.BlockTime=flt.BlockTime;
+            //        obj.JLFlightTime = flt.FlightTime;
+            //        obj.JLBlockTime = flt.BlockTime;
+            //        obj.FixTime = flt.FixTime;
+            //    }
+
+            //    result.Add(obj);
+            //}
+
+            return Ok(ds_crew.OrderBy(q=>q.GroupOrder).ThenByDescending(q=>q.FixTimeTotal).ThenBy(q=>q.LastName).ToList());
+
+
+        }
+
+
+
+        public partial class RptFDPGRP
+        {
+            //  public int FDPId { get; set; }
+            //  public int FDPId { get; set; }
+            public Nullable<int> CrewId { get; set; }
+            public string Name { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string ScheduleName { get; set; }
+            public string JobGroup { get; set; }
+            public string JobGroupCode { get; set; }
+            public string JobGroupRoot { get; set; }
+            // public Nullable<System.DateTime> STDDay { get; set; }
+            // public Nullable<System.DateTime> STDDayUTC { get; set; }
+            // public Nullable<System.DateTime> STDLocal { get; set; }
+            // public Nullable<System.DateTime> STD { get; set; }
+            // public Nullable<System.DateTime> STALocal { get; set; }
+            // public Nullable<System.DateTime> STA { get; set; }
+            public int EarlyDeparture { get; set; }
+            public int LateArrival { get; set; }
+            public int WOCLTO { get; set; }
+            public int WOCLLND { get; set; }
+            public int WOCLDuration { get; set; }
+            public int XAirportTO { get; set; }
+            public int XAirportLND { get; set; }
+            public int HolidayDeparture { get; set; }
+            // public string Flights { get; set; }
+            // public string Route { get; set; }
+            public int Legs { get; set; }
+            public int FlightTime { get; set; }
+            public int FixedFlightTime { get; set; }
+            public int BlockTime { get; set; }
+            public int ScheduledTime { get; set; }
+            public int Leg1 { get; set; }
+            public int Leg2 { get; set; }
+            public int Leg3 { get; set; }
+            public int Leg4 { get; set; }
+            public int Leg5 { get; set; }
+            public int Leg6 { get; set; }
+            public int Leg7 { get; set; }
+            public int Leg8 { get; set; }
+
+            public int Standby { get; set; }
+            public int StandbyFixTime { get; set; }
+
+            public int Canceled { get; set; }
+            public int CanceledFixTime { get; set; }
+
+            public int Positioning { get; set; }
+            public int PositioningFixTime { get; set; }
+
+
+
+            public int Mission { get; set; }
+
+            public int FX300002 { get; set; }
+            public int FX300003 { get; set; }
+            public int FX300004 { get; set; }
+            public int FX300005 { get; set; }
+            public int FX300006 { get; set; }
+            public int FX300007 { get; set; }
+            public int FixTimeTotal
+            {
+                get
+                {
+                    return this.FX300002 + this.FX300003 + this.FX300004 + this.FX300005 + this.FX300006 + this.FX300007
+                           + this.Mission
+                           + this.FixedFlightTime
+                           + this.StandbyFixTime
+                           + this.CanceledFixTime
+                           + this.PositioningFixTime;
+                }
+            }
+            // public string DayName { get; set; }
+            // public Nullable<int> Year { get; set; }
+            // public string MonthName { get; set; }
+            // public Nullable<int> Month { get; set; }
+            public List<RptFDP2> FDPs { get; set; }
+
+            public int GroupOrder { get; set; }
         }
         //api/flight/daily
         [Route("api/flight/daily")]
@@ -98,7 +324,7 @@ namespace ApiReportFlight.Controllers
                 var dayprm = dateref == "std" ? "STDDayLocal" : "TakeOffDayLocal";
 
                 // var cmd = "select * from viewflightdaily ";
-                string whr = "  ("+ dayprm +">= '" + df.ToString("yyyy-MM-dd") + "' and "+ dayprm + "<='" + dt.ToString("yyyy-MM-dd") + "')";
+                string whr = "  (" + dayprm + ">= '" + df.ToString("yyyy-MM-dd") + "' and " + dayprm + "<='" + dt.ToString("yyyy-MM-dd") + "')";
 
                 if (!string.IsNullOrEmpty(status) && status != "-1")
                 {
@@ -1512,7 +1738,7 @@ namespace ApiReportFlight.Controllers
         }
 
         [Route("api/report/flights")]
-        
+
         //nookp
         public IHttpActionResult GetFlightCockpit(DateTime? df, DateTime? dt, int? ip, int? cpt, int? status)
         {
@@ -1573,7 +1799,7 @@ namespace ApiReportFlight.Controllers
             var result = query.OrderBy(q => q.STD).ToList();
 
             // return result.OrderBy(q => q.STD);
-            return Ok( result);
+            return Ok(result);
 
         }
 
@@ -1587,19 +1813,19 @@ namespace ApiReportFlight.Controllers
         {
 
 
-            //List<FlightTimeDto> external_list = new List<FlightTimeDto>();
-            //try
-            //{
-            //    var ids = "4325_4287_4289";
-            //    var dfStr = df.ToString("yyyy-MM-dd");
-            //    var dtStr = dt.ToString("yyyy-MM-dd");
-            //    var extStr = GETUrl("https://apireportflight.varesh.click/api/crew/flights/ids/" + ids + "?df=" + dfStr + "&dt=" + dtStr);
-            //    external_list = JsonConvert.DeserializeObject<List<FlightTimeDto>>(extStr);
-            //}
-            //catch (Exception ex)
-            //{
+            List<FlightTimeDto> external_list = new List<FlightTimeDto>();
+            try
+            {
+                var ids = "4325_4287_4289";
+                var dfStr = df.ToString("yyyy-MM-dd");
+                var dtStr = dt.ToString("yyyy-MM-dd");
+                var extStr = GETUrl("https://apireportflight.apvaresh.com/api/crew/flights/ids/" + ids + "?df=" + dfStr + "&dt=" + dtStr);
+                external_list = JsonConvert.DeserializeObject<List<FlightTimeDto>>(extStr);
+            }
+            catch (Exception ex)
+            {
 
-            //}
+            }
 
             var ctx = new ppa_Entities();
             var _df = df.Date;
@@ -1607,7 +1833,7 @@ namespace ApiReportFlight.Controllers
             var _query = (
                            from x in ctx.ViewLegCrews
                            where x.STDLocal >= df && x.STDLocal < dt && x.FlightStatusID != 4
-                           group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name ,x.PID} into _grp
+                           group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.JobGroupCode, x.Name, x.PID } into _grp
                            select new FlightTimeDto()
                            {
                                CrewId = _grp.Key.CrewId,
@@ -1615,7 +1841,7 @@ namespace ApiReportFlight.Controllers
                                JobGroup = _grp.Key.JobGroup,
                                JobGropCode = _grp.Key.JobGroupCode,
                                Name = _grp.Key.Name,
-                               PID=_grp.Key.PID,
+                               PID = _grp.Key.PID,
 
                                Legs = _grp.Where(q => q.IsPositioning == false).Count(),
                                DH = _grp.Where(q => q.IsPositioning == true).Count(),
@@ -1628,8 +1854,8 @@ namespace ApiReportFlight.Controllers
                           ).ToList();
             foreach (var x in _query)
                 x.GroupOrder = getOrder(x.JobGroup);
-           // if (external_list.Count > 0)
-           //     _query = _query.Concat(external_list).ToList();
+            if (external_list.Count > 0)
+                _query = _query.Concat(external_list).ToList();
 
             _query = _query.OrderBy(q => q.GroupOrder).ThenByDescending(q => q.FixTime).ToList();
             return Ok(_query);
@@ -1688,7 +1914,7 @@ namespace ApiReportFlight.Controllers
                           ).ToList();
 
             List<ViewLegCrew> external_list = new List<ViewLegCrew>();
-            var _ids = new List<int>() { 4235, 4287, 4289 };
+            var _ids = new List<int>() { 4325, 4287, 4289 };
             if (_ids.IndexOf(id) != -1)
             {
                 try
@@ -1696,7 +1922,7 @@ namespace ApiReportFlight.Controllers
                     var ids = "4325_4287_4289";
                     var dfStr = df.ToString("yyyy-MM-dd");
                     var dtStr = dt.ToString("yyyy-MM-dd");
-                    var extStr = GETUrl("https://apireportflight.varesh.click/api/crew/flights/detail/" + id + "?df=" + dfStr + "&dt=" + dtStr);
+                    var extStr = GETUrl("https://apireportflight.apvaresh.com/api/crew/flights/detail/" + id + "?df=" + dfStr + "&dt=" + dtStr);
                     external_list = JsonConvert.DeserializeObject<List<ViewLegCrew>>(extStr);
                 }
                 catch (Exception ex)

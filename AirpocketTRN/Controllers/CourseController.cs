@@ -477,6 +477,14 @@ namespace AirpocketTRN.Controllers
 
             return Ok(result);
         }
+        [Route("api/certificate/atlas/save")]
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> PostCertificateAtlas(ViewModels.CertificateViewModel dto)
+        {
+            var result = await courseService.SaveCertificateAtlas(dto);
+
+            return Ok(result);
+        }
 
         [Route("api/course/people/save")]
         [AcceptVerbs("POST")]
@@ -497,12 +505,30 @@ namespace AirpocketTRN.Controllers
             return Ok(result);
         }
 
+        [Route("api/course/syllabus/save")]
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> PostCourseSyllabus(dynamic dto)
+        {
+            var result = await courseService.SaveSyllabus(dto);
+
+            return Ok(result);
+        }
+
         //UpdateCoursePeopleStatus(CoursePeopleStatusViewModel dto)
         [Route("api/course/people/status/save")]
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> PostUpdateCoursePeopleStatus(CoursePeopleStatusViewModel dto)
         {
             var result = await courseService.UpdateCoursePeopleStatus(dto);
+
+            return Ok(result);
+        }
+
+        [Route("api/course/people/status/atlas/save")]
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> PostUpdateCoursePeopleStatusAtlas(CoursePeopleStatusViewModel dto)
+        {
+            var result = await courseService.UpdateCoursePeopleStatusAtlas(dto);
 
             return Ok(result);
         }

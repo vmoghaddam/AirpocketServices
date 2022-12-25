@@ -37,5 +37,8 @@ namespace ApiReportFlight.Models
         public virtual DbSet<ViewFlightCockpit> ViewFlightCockpits { get; set; }
         public virtual DbSet<ViewFlightDaily> ViewFlightDailies { get; set; }
         public virtual DbSet<ViewCrew> ViewCrews { get; set; }
+        public virtual DbSet<RptFDPItem> RptFDPItems { get; set; }
+        public virtual DbSet<RptNoFDP> RptNoFDPs { get; set; }
+        public virtual DbSet<RptFDP2> RptFDP2 { get; set; }
     }
 }

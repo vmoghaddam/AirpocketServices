@@ -85,6 +85,9 @@
         <AssociationConnector Association="FLYModel.fk_crs_t" />
         <EntityTypeShape EntityType="FLYModel.ViewMandatoryCourse" Width="1.5" PointX="21.375" PointY="8.75" />
         <EntityTypeShape EntityType="FLYModel.ViewMandatoryCourseEmployee" Width="1.5" PointX="29.375" PointY="0.75" />
+        <EntityTypeShape EntityType="FLYModel.CourseSyllabu" Width="1.5" PointX="30.125" PointY="22.125" />
+        <AssociationConnector Association="FLYModel.fk_syl_crs" />
+        <EntityTypeShape EntityType="FLYModel.ViewSyllabu" Width="1.5" PointX="29.375" PointY="12.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

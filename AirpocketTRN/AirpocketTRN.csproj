@@ -252,6 +252,9 @@
     <Compile Include="Models\CourseSMSHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CourseSyllabu.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CourseType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -397,6 +400,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewPersonDocumentFileX.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewSyllabu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewTeacher.cs">

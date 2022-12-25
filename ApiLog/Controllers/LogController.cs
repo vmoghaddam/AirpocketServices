@@ -249,10 +249,11 @@ namespace ApiLog.Controllers
                     flight.OToAirportIATA = null;
 
                 }
-                if (flight.FlightStatusID == 9)
+                if (flight.FlightStatusID == 9 || dto.RampReasonId!=null)
                 {
                     flight.RampDate = dto.RampDate;
                     flight.RampReasonId = dto.RampReasonId;
+                    flight.RampRemark = dto.RampRemark;
                 }
 
                 if (flight.ChocksIn != null && flight.FlightStatusID == 15)

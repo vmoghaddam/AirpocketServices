@@ -83,5 +83,7 @@ namespace AirpocketTRN.Models
         public virtual DbSet<ViewCourseRemaining> ViewCourseRemainings { get; set; }
         public virtual DbSet<ViewMandatoryCourse> ViewMandatoryCourses { get; set; }
         public virtual DbSet<ViewMandatoryCourseEmployee> ViewMandatoryCourseEmployees { get; set; }
+        public virtual DbSet<CourseSyllabu> CourseSyllabus { get; set; }
+        public virtual DbSet<ViewSyllabu> ViewSyllabus { get; set; }
     }
 }

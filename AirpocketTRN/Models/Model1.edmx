@@ -201,6 +201,21 @@
           <Property Name="Statu" Type="varchar" MaxLength="500" />
           <Property Name="TypeId" Type="int" />
         </EntityType>
+        <EntityType Name="CourseSyllabus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseId" Type="int" Nullable="false" />
+          <Property Name="SessionKey" Type="varchar" MaxLength="255" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="InstructorId" Type="int" />
+          <Property Name="InstructorId2" Type="int" />
+          <Property Name="Title" Type="varchar" MaxLength="1000" />
+          <Property Name="Remark" Type="varchar" MaxLength="1000" />
+          <Property Name="DurationActual" Type="int" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
         <EntityType Name="CourseType">
           <Key>
             <PropertyRef Name="Id" />
@@ -2424,6 +2439,28 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewPersonDocumentFileX' does not h
           <Property Name="PersonDocumentId" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewSyllabus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewSyllabus">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CourseId" Type="int" Nullable="false" />
+          <Property Name="SessionKey" Type="varchar" MaxLength="255" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="InstructorId" Type="int" />
+          <Property Name="InstructorId2" Type="int" />
+          <Property Name="Title" Type="varchar" MaxLength="1000" />
+          <Property Name="Remark" Type="varchar" MaxLength="1000" />
+          <Property Name="DurationActual" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="SessionStart" Type="datetime" />
+          <Property Name="SessionEnd" Type="datetime" />
+          <Property Name="Instructor2" Type="nvarchar" MaxLength="1001" />
+          <Property Name="Instructor" Type="nvarchar" MaxLength="1001" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacher' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewTeacher">
           <Key>
@@ -2824,6 +2861,20 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_syl_crs">
+          <End Role="Course" Type="Self.Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CourseSyllabus" Type="Self.CourseSyllabus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseSyllabus">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_td_t">
           <End Role="Teacher" Type="Self.Teacher" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2865,6 +2916,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <EntitySet Name="CourseSessionPresence" EntityType="Self.CourseSessionPresence" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseSessionPresenceDetail" EntityType="Self.CourseSessionPresenceDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseSMSHistory" EntityType="Self.CourseSMSHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CourseSyllabus" EntityType="Self.CourseSyllabus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseType" EntityType="Self.CourseType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseTypeJobGroup" EntityType="Self.CourseTypeJobGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
@@ -4301,6 +4353,24 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
     [ViewPersonDocumentFileX].[PersonDocumentId] AS [PersonDocumentId]
     FROM [dbo].[ViewPersonDocumentFileX] AS [ViewPersonDocumentFileX]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ViewSyllabus" EntityType="Self.ViewSyllabus" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewSyllabus].[Id] AS [Id], 
+    [ViewSyllabus].[CourseId] AS [CourseId], 
+    [ViewSyllabus].[SessionKey] AS [SessionKey], 
+    [ViewSyllabus].[Duration] AS [Duration], 
+    [ViewSyllabus].[InstructorId] AS [InstructorId], 
+    [ViewSyllabus].[InstructorId2] AS [InstructorId2], 
+    [ViewSyllabus].[Title] AS [Title], 
+    [ViewSyllabus].[Remark] AS [Remark], 
+    [ViewSyllabus].[DurationActual] AS [DurationActual], 
+    [ViewSyllabus].[Status] AS [Status], 
+    [ViewSyllabus].[SessionStart] AS [SessionStart], 
+    [ViewSyllabus].[SessionEnd] AS [SessionEnd], 
+    [ViewSyllabus].[Instructor2] AS [Instructor2], 
+    [ViewSyllabus].[Instructor] AS [Instructor]
+    FROM [dbo].[ViewSyllabus] AS [ViewSyllabus]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewTeacher" EntityType="Self.ViewTeacher" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewTeacher].[Id] AS [Id], 
@@ -4475,6 +4545,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
             <End Role="Course" EntitySet="Course" />
             <End Role="CourseSession" EntitySet="CourseSession" />
           </AssociationSet>
+          <AssociationSet Name="fk_syl_crs" Association="Self.fk_syl_crs">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="CourseSyllabus" EntitySet="CourseSyllabus" />
+          </AssociationSet>
           <AssociationSet Name="fk_td_t" Association="Self.fk_td_t">
             <End Role="Teacher" EntitySet="Teacher" />
             <End Role="TeacherDocument" EntitySet="TeacherDocument" />
@@ -4643,6 +4717,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           </AssociationSet>
           <EntitySet Name="ViewMandatoryCourses" EntityType="FLYModel.ViewMandatoryCourse" />
           <EntitySet Name="ViewMandatoryCourseEmployees" EntityType="FLYModel.ViewMandatoryCourseEmployee" />
+          <EntitySet Name="CourseSyllabus" EntityType="FLYModel.CourseSyllabu" />
+          <AssociationSet Name="fk_syl_crs" Association="FLYModel.fk_syl_crs">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="CourseSyllabu" EntitySet="CourseSyllabus" />
+          </AssociationSet>
+          <EntitySet Name="ViewSyllabus" EntityType="FLYModel.ViewSyllabu" />
           </EntityContainer>
         <EntityType Name="ViewLegTime">
           <Key>
@@ -6639,6 +6719,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <NavigationProperty Name="CourseSessionPresenceDetails" Relationship="FLYModel.fk_pscod_course" FromRole="Course" ToRole="CourseSessionPresenceDetail" />
           <NavigationProperty Name="CourseSessions" Relationship="FLYModel.fk_session_course" FromRole="Course" ToRole="CourseSession" />
           <NavigationProperty Name="CourseDocuments" Relationship="FLYModel.fk_crs_t" FromRole="Course" ToRole="CourseDocument" />
+          <NavigationProperty Name="CourseSyllabus" Relationship="FLYModel.fk_syl_crs" FromRole="Course" ToRole="CourseSyllabu" />
         </EntityType>
         <Association Name="fk_course_instructor">
           <End Type="FLYModel.Teacher" Role="Teacher" Multiplicity="0..1" />
@@ -7446,6 +7527,56 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="Mandatory" Type="Int32" />
           <Property Name="ImgUrl" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="inactive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="CourseSyllabu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseId" Type="Int32" Nullable="false" />
+          <Property Name="SessionKey" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="InstructorId" Type="Int32" />
+          <Property Name="InstructorId2" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="DurationActual" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="Course" Relationship="FLYModel.fk_syl_crs" FromRole="CourseSyllabu" ToRole="Course" />
+        </EntityType>
+        <Association Name="fk_syl_crs">
+          <End Type="FLYModel.Course" Role="Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FLYModel.CourseSyllabu" Role="CourseSyllabu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseSyllabu">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ViewSyllabu">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CourseId" Type="Int32" Nullable="false" />
+          <Property Name="SessionKey" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="InstructorId" Type="Int32" />
+          <Property Name="InstructorId2" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="DurationActual" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="SessionStart" Type="DateTime" Precision="3" />
+          <Property Name="SessionEnd" Type="DateTime" Precision="3" />
+          <Property Name="Instructor2" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="Instructor" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9686,6 +9817,42 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
                 <ScalarProperty Name="PID" ColumnName="PID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseSyllabus">
+            <EntityTypeMapping TypeName="FLYModel.CourseSyllabu">
+              <MappingFragment StoreEntitySet="CourseSyllabus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DurationActual" ColumnName="DurationActual" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="InstructorId2" ColumnName="InstructorId2" />
+                <ScalarProperty Name="InstructorId" ColumnName="InstructorId" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="SessionKey" ColumnName="SessionKey" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewSyllabus">
+            <EntityTypeMapping TypeName="FLYModel.ViewSyllabu">
+              <MappingFragment StoreEntitySet="ViewSyllabus">
+                <ScalarProperty Name="Instructor" ColumnName="Instructor" />
+                <ScalarProperty Name="Instructor2" ColumnName="Instructor2" />
+                <ScalarProperty Name="SessionEnd" ColumnName="SessionEnd" />
+                <ScalarProperty Name="SessionStart" ColumnName="SessionStart" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DurationActual" ColumnName="DurationActual" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="InstructorId2" ColumnName="InstructorId2" />
+                <ScalarProperty Name="InstructorId" ColumnName="InstructorId" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="SessionKey" ColumnName="SessionKey" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

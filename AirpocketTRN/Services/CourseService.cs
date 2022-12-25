@@ -253,13 +253,15 @@ namespace AirpocketTRN.Services
         {
             var course = await context.ViewCourseNews.Where(q => q.Id == cid).FirstOrDefaultAsync();
             var sessions = await context.CourseSessions.Where(q => q.CourseId == cid).OrderBy(q => q.DateStart).ToListAsync();
+            var syllabi = await context.CourseSyllabus.Where(q => q.CourseId == cid).ToListAsync();
 
             return new DataResponse()
             {
                 Data = new
                 {
                     course,
-                    sessions
+                    sessions,
+                    syllabi
 
                 },
                 IsSuccess = true,
@@ -295,7 +297,7 @@ namespace AirpocketTRN.Services
             var result = await context.ViewCoursePeoplePassedRankeds.Where(q => q.PersonId == pid && q.RankLast == 1).OrderBy(q => q.DateExpire).ToListAsync();
             var trg02 = result.Where(q => q.CourseType == "AVSEC-TRG-02").FirstOrDefault();
             var ds = new List<ViewCoursePeoplePassedRanked>();
-            if (employee.JobGroup=="TRE" || employee.JobGroup=="TRI" || employee.JobGroup=="LTC" || employee.JobGroup=="P1" || employee.JobGroup == "P2")
+            if (employee.JobGroup == "TRE" || employee.JobGroup == "TRI" || employee.JobGroup == "LTC" || employee.JobGroup == "P1" || employee.JobGroup == "P2")
             {
                 ds.Add(new ViewCoursePeoplePassedRanked()
                 {
@@ -622,7 +624,7 @@ namespace AirpocketTRN.Services
                 });
 
             }
-           
+
 
 
 
@@ -972,9 +974,34 @@ namespace AirpocketTRN.Services
                         });
                     }
                 }
+
+                if (dto.Syllabi.Count > 0)
+                {
+                    foreach (var x in dto.Syllabi)
+                    {
+                        entity.CourseSyllabus.Add(new CourseSyllabu()
+                        {
+                            Duration = x.Duration,
+                            Title = x.Title,
+                        });
+                    }
+                }
             }
             else
             {
+                var _syllabi = await context.CourseSyllabus.Where(q => q.CourseId == dto.Id).ToListAsync();
+                var _syllabiIds = _syllabi.Select(q => q.Id).ToList();
+                var _dtoIds = dto.Syllabi.Select(q => q.Id).ToList();
+                var _deletedSyl = _syllabi.Where(q => !_dtoIds.Contains(q.Id)).ToList();
+                context.CourseSyllabus.RemoveRange(_deletedSyl);
+
+                var newSyllabi = dto.Syllabi.Where(q => q.Id < 0).ToList();
+                foreach(var x in newSyllabi)
+                {
+                    entity.CourseSyllabus.Add(new CourseSyllabu() { Duration=x.Duration, Title=x.Title });
+                }
+
+
                 var _sessions = await context.CourseSessions.Where(q => q.CourseId == dto.Id).ToListAsync();
                 var _sessionKeys = _sessions.Select(q => q.Key).ToList();
 
@@ -1007,20 +1034,20 @@ namespace AirpocketTRN.Services
             }
 
             //pasco
-           /* var docs = await context.CourseDocuments.Where(q => q.CourseId == dto.Id).ToListAsync();
-            var docids = dto.Documents.Where(q => q.Id > 0).Select(q => q.Id).ToList();
-            var deleted = docs.Where(q => !docids.Contains(q.Id)).ToList();
-            context.CourseDocuments.RemoveRange(deleted);
+            /* var docs = await context.CourseDocuments.Where(q => q.CourseId == dto.Id).ToListAsync();
+             var docids = dto.Documents.Where(q => q.Id > 0).Select(q => q.Id).ToList();
+             var deleted = docs.Where(q => !docids.Contains(q.Id)).ToList();
+             context.CourseDocuments.RemoveRange(deleted);
 
-            var newdocs = dto.Documents.Where(q => q.Id < 0).ToList();
+             var newdocs = dto.Documents.Where(q => q.Id < 0).ToList();
 
-            foreach (var x in newdocs)
-                entity.CourseDocuments.Add(new CourseDocument()
-                {
-                    FileUrl = x.FileUrl,
-                    Remark = x.Remark,
-                    TypeId = x.TypeId,
-                });*/
+             foreach (var x in newdocs)
+                 entity.CourseDocuments.Add(new CourseDocument()
+                 {
+                     FileUrl = x.FileUrl,
+                     Remark = x.Remark,
+                     TypeId = x.TypeId,
+                 });*/
             /////////////////////////////////////////
 
 
@@ -1541,6 +1568,31 @@ namespace AirpocketTRN.Services
                 Data = dto,
             };
         }
+       
+    public async Task<DataResponse> SaveSyllabus(dynamic dto)
+        {
+            int Id = Convert.ToInt32(dto.Id);
+            string Remark = Convert.ToString(dto.Remark);
+            int Done = Convert.ToInt32(dto.Done);
+            int Instructor = Convert.ToInt32(dto.Instructor);
+            string Session = Convert.ToString(dto.Session);
+            var syllabus = await context.CourseSyllabus.Where(q => q.Id == Id).FirstOrDefaultAsync();
+            syllabus.Remark = Remark;
+            syllabus.Status = Done;
+            syllabus.InstructorId = Instructor;
+            syllabus.SessionKey = Session;
+
+        
+
+            await context.SaveChangesAsync();
+            var syll = await context.ViewSyllabus .Where(q => q.Id == Id).FirstOrDefaultAsync();
+            return new DataResponse()
+            {
+                IsSuccess = true,
+                Data = syll,
+            };
+        }
+
 
         public async Task<DataResponse> SaveCourseSessionPresence(dynamic dto)
         {
@@ -1619,7 +1671,7 @@ namespace AirpocketTRN.Services
                 switch (course.CertificateType)
                 {
 
-                     
+
                     //CYBER SECURITY
                     case "CYBER SECURITY":
                         if ((DateTime)cp.DateExpire > person.ExpireDate2 || person.ExpireDate2 == null)
@@ -1936,6 +1988,1080 @@ namespace AirpocketTRN.Services
         }
 
 
+
+        public async Task<DataResponse> SaveCertificateAtlas(ViewModels.CertificateViewModel dto)
+        {
+            var _dateStart = (DateTime)DateObject.ConvertToDate(dto.DateStart).Date;
+            var _dateEnd = (DateTime)DateObject.ConvertToDate(dto.DateEnd).Date;
+
+            Course entity = await context.Courses.Where(q => q.DateStart == _dateStart && q.DateEnd == _dateEnd && q.CourseTypeId == dto.CourseTypeId
+            && q.OrganizationId == dto.OrganizationId).FirstOrDefaultAsync();
+
+            if (entity == null)
+            {
+                entity = new Course();
+                context.Courses.Add(entity);
+                entity.CourseTypeId = dto.CourseTypeId;
+                entity.DateStart = (DateTime)DateObject.ConvertToDate(dto.DateStart).Date;
+                entity.DateEnd = (DateTime)DateObject.ConvertToDate(dto.DateEnd).Date;
+                entity.Instructor = dto.Instructor;
+                entity.Location = dto.Location;
+                entity.OrganizationId = dto.OrganizationId;
+                entity.Duration = dto.Duration;
+                entity.DurationUnitId = dto.DurationUnitId;
+                entity.Remark = dto.Remark;
+                entity.TrainingDirector = dto.TrainingDirector;
+                entity.Title = dto.Title;
+                entity.Recurrent = dto.Recurrent;
+                entity.Interval = dto.Interval;
+                entity.CalanderTypeId = dto.CalanderTypeId;
+                entity.IsGeneral = dto.IsGeneral;
+                entity.CustomerId = dto.CustomerId;
+                entity.No = dto.No;
+                entity.IsNotificationEnabled = dto.IsNotificationEnabled;
+                entity.StatusId = 3;
+            }
+            if (dto.PersonId != null)
+            {
+                var cp = await context.CoursePeoples.Where(q => q.PersonId == dto.PersonId && q.CourseId == entity.Id).FirstOrDefaultAsync();
+                if (cp == null)
+                {
+                    cp = new CoursePeople()
+                    {
+                        PersonId = dto.PersonId,
+                        StatusId = 1,
+                        DateStatus = DateTime.Now,
+                        DateExpire = (DateTime)DateObject.ConvertToDate(dto.DateExpire).Date,
+                        DateIssue = (DateTime)DateObject.ConvertToDate(dto.DateIssue).Date,
+                        CertificateNo = dto.CertificateNo,
+                    };
+                    entity.CoursePeoples.Add(cp);
+                }
+                else
+                {
+                    cp.DateExpire = (DateTime)DateObject.ConvertToDate(dto.DateExpire).Date;
+                    cp.DateIssue = (DateTime)DateObject.ConvertToDate(dto.DateIssue).Date;
+                    cp.CertificateNo = dto.CertificateNo;
+                    cp.StatusId = 1;
+                }
+                //////////////////////////
+                var person = await context.People.Where(q => q.Id == cp.PersonId).FirstOrDefaultAsync();
+                var ct = await context.ViewCourseTypes.Where(q => q.Id == dto.CourseTypeId).FirstOrDefaultAsync();
+                //12-03
+                if (ct != null)
+                {
+                    switch (ct.CertificateType)
+                    {
+
+
+                        //CYBER SECURITY
+                        case "RECURRENT":
+                            if ((DateTime)cp.DateExpire > person.ExpireDate2 || person.ExpireDate2 == null)
+                            {
+                                person.ExpireDate2 = cp.DateExpire;
+                                person.IssueDate2 = cp.DateIssue;
+                            }
+                            break;
+
+                        case "OM-A":
+                            if ((DateTime)cp.DateExpire > person.OMA1ExpireDate || person.OMA1ExpireDate == null)
+                            {
+                                person.OMA1ExpireDate = cp.DateExpire;
+                                person.OMA1IssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //OM-B AN-26
+                        case "OM-B AN-26":
+                            if ((DateTime)cp.DateExpire > person.OMB1ExpireDate || person.OMB1ExpireDate == null)
+                            {
+                                person.OMB1ExpireDate = cp.DateExpire;
+                                person.OMB1IssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //OM-C AN-26
+                        case "OM-C AN-26":
+                            if ((DateTime)cp.DateExpire > person.OMC1ExpireDate || person.OMC1ExpireDate == null)
+                            {
+                                person.OMC1ExpireDate = cp.DateExpire;
+                                person.OMC1IssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case "OM-C MEP":
+                            if ((DateTime)cp.DateExpire > person.OMC2ExpireDate || person.OMC2ExpireDate == null)
+                            {
+                                person.OMC2ExpireDate = cp.DateExpire;
+                                person.OMC2IssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case "OM-C":
+                            if ((DateTime)cp.DateExpire > person.OMC1ExpireDate || person.OMC1ExpireDate == null)
+                            {
+                                person.OMC1ExpireDate = cp.DateExpire;
+                                person.OMC1IssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case "UPRT":
+                            if ((DateTime)cp.DateExpire > person.UPRTExpireDate || person.UPRTExpireDate == null)
+                            {
+                                person.UPRTExpireDate = cp.DateExpire;
+                                person.UPRTIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case "RAMP INSPECTION":
+                            if ((DateTime)cp.DateExpire > person.RampExpireDate || person.RampExpireDate == null)
+                            {
+                                person.RampExpireDate = cp.DateExpire;
+                                person.RampIssueDate = cp.DateIssue;
+                            }
+                            break;
+
+                        case "A/C SYSTEM REVIEW MEP":
+                            if ((DateTime)cp.DateExpire > person.ACExpireDate || person.ACExpireDate == null)
+                            {
+                                person.ACExpireDate = cp.DateExpire;
+                                person.ACIssueDate = cp.DateIssue;
+                            }
+                            break;
+
+                        case "AIR CREW REGULATION":
+                            if ((DateTime)cp.DateExpire > person.AirCrewExpireDate || person.AirCrewExpireDate == null)
+                            {
+                                person.AirCrewExpireDate = cp.DateExpire;
+                                person.AirCrewIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case "AIROPS REGULATION":
+                            if ((DateTime)cp.DateExpire > person.AirOpsExpireDate || person.AirOpsExpireDate == null)
+                            {
+                                person.AirOpsExpireDate = cp.DateExpire;
+                                person.AirOpsIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case "SOP MEP":
+                            if ((DateTime)cp.DateExpire > person.SOPExpireDate || person.SOPExpireDate == null)
+                            {
+                                person.SOPExpireDate = cp.DateExpire;
+                                person.SOPIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case "DIFF TRAINING PA31":
+                            if ((DateTime)cp.DateExpire > person.Diff31ExpireDate || person.Diff31ExpireDate == null)
+                            {
+                                person.Diff31ExpireDate = cp.DateExpire;
+                                person.Diff31IssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case "DIFF TRAINING PA34":
+                            if ((DateTime)cp.DateExpire > person.Diff34ExpireDate || person.Diff34ExpireDate == null)
+                            {
+                                person.Diff34ExpireDate = cp.DateExpire;
+                                person.Diff34IssueDate = cp.DateIssue;
+                            }
+                            break;
+
+                        case "AERIAL MAPPING":
+                            if ((DateTime)cp.DateExpire > person.MapExpireDate || person.MapExpireDate == null)
+                            {
+                                person.MapExpireDate = cp.DateExpire;
+                                person.MapIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case "COM RES":
+                            if ((DateTime)cp.DateExpire > person.ComResExpireDate || person.ComResExpireDate == null)
+                            {
+                                person.ComResExpireDate = cp.DateExpire;
+                                person.ComResIssueDate = cp.DateIssue;
+                            }
+                            break;
+
+                        case "MEL":
+                            if ((DateTime)cp.DateExpire > person.MELExpireDate || person.MELExpireDate == null)
+                            {
+                                person.MELExpireDate = cp.DateExpire;
+                                person.MELIssueDate = cp.DateIssue;
+                            }
+                            break;
+
+                        //ERP
+                        case "ERP":
+                            if ((DateTime)cp.DateExpire > person.ERPExpireDate || person.ERPExpireDate == null)
+                            {
+                                person.ERPExpireDate = cp.DateExpire;
+                                person.ERPIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //HF
+                        case "HF":
+                            if ((DateTime)cp.DateExpire > person.HFExpireDate || person.HFExpireDate == null)
+                            {
+                                person.HFExpireDate = cp.DateExpire;
+                                person.HFIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //MEL/CDL
+                        case "MEL/CDL":
+                            if ((DateTime)cp.DateExpire > person.MELExpireDate || person.MELExpireDate == null)
+                            {
+                                person.MELExpireDate = cp.DateExpire;
+                                person.MELIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //METEOROLOGY
+                        case "METEOROLOGY":
+                            if ((DateTime)cp.DateExpire > person.METExpireDate || person.METExpireDate == null)
+                            {
+                                person.METExpireDate = cp.DateExpire;
+                                person.METIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //PERFORMANCE
+                        case "PERFORMANCE":
+                            if ((DateTime)cp.DateExpire > person.PERExpireDate || person.PERExpireDate == null)
+                            {
+                                person.PERExpireDate = cp.DateExpire;
+                                person.PERIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //RADIO COMMUNICATION
+                        case "RADIO COMMUNICATION":
+                            if ((DateTime)cp.DateExpire > person.LRCExpireDate || person.LRCExpireDate == null)
+                            {
+                                person.LRCExpireDate = cp.DateExpire;
+                                person.LRCIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //SITA
+                        case "SITA":
+                            if ((DateTime)cp.DateExpire > person.RSPExpireDate || person.RSPExpireDate == null)
+                            {
+                                person.RSPExpireDate = cp.DateExpire;
+                                person.RSPIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //WEIGHT AND BALANCE
+                        case "WEIGHT AND BALANCE":
+                            if ((DateTime)cp.DateExpire > person.MBExpireDate || person.MBExpireDate == null)
+                            {
+                                person.MBExpireDate = cp.DateExpire;
+                                person.MBIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //AIRSIDE SAFETY AND DRIVING
+                        case "AIRSIDE SAFETY AND DRIVING":
+                            if ((DateTime)cp.DateExpire > person.ASDExpireDate || person.ASDExpireDate == null)
+                            {
+                                person.ASDExpireDate = cp.DateExpire;
+                                person.ASDIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //EFB
+                        case "EFB":
+                            if ((DateTime)cp.DateExpire > person.ExpireDate1 || person.ExpireDate1 == null)
+                            {
+                                person.ExpireDate1 = cp.DateExpire;
+                                person.IssueDate1 = cp.DateIssue;
+                            }
+                            break;
+                        //GOM
+                        case "GOM":
+                            if ((DateTime)cp.DateExpire > person.GOMExpireDate || person.GOMExpireDate == null)
+                            {
+                                person.GOMExpireDate = cp.DateExpire;
+                                person.GOMIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //AIRPORT SERVICE FAMILIARIZATION
+                        case "AIRPORT SERVICE FAMILIARIZATION":
+                            if ((DateTime)cp.DateExpire > person.ASFExpireDate || person.ASFExpireDate == null)
+                            {
+                                person.ASFExpireDate = cp.DateExpire;
+                                person.ASFIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //CUSTOMER CARE
+                        case "CUSTOMER CARE":
+                            if ((DateTime)cp.DateExpire > person.CCExpireDate || person.CCExpireDate == null)
+                            {
+                                person.CCExpireDate = cp.DateExpire;
+                                person.CCIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //LOAD SHEET
+                        case "LOAD SHEET":
+                            if ((DateTime)cp.DateExpire > person.MBExpireDate || person.MBExpireDate == null)
+                            {
+                                person.MBExpireDate = cp.DateExpire;
+                                person.MBIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //PASSENGER SERVICE
+                        case "PASSENGER SERVICE":
+                            if ((DateTime)cp.DateExpire > person.PSExpireDate || person.PSExpireDate == null)
+                            {
+                                person.PSExpireDate = cp.DateExpire;
+                                person.PSIssueDate = cp.DateIssue;
+                            }
+                            break;
+
+                        //DRM
+                        case "DRM":
+                            if ((DateTime)cp.DateExpire > person.DRMExpireDate || person.DRMExpireDate == null)
+                            {
+                                person.DRMExpireDate = cp.DateExpire;
+                                person.DRMIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //ANNEX
+                        case "ANNEX":
+                            if ((DateTime)cp.DateExpire > person.ANNEXExpireDate || person.ANNEXExpireDate == null)
+                            {
+                                person.ANNEXExpireDate = cp.DateExpire;
+                                person.ANNEXIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //FRMS
+                        case "FRMS":
+                            if ((DateTime)cp.DateExpire > person.TypeAirbusExpireDate || person.TypeAirbusExpireDate == null)
+                            {
+                                person.TypeAirbusExpireDate = cp.DateExpire;
+                                person.TypeAirbusIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //DANGEROUS GOODS
+                        case "DANGEROUS GOODS":
+                            if ((DateTime)cp.DateExpire > person.DangerousGoodsExpireDate || person.DangerousGoodsExpireDate == null)
+                            {
+                                person.DangerousGoodsExpireDate = cp.DateExpire;
+                                person.DangerousGoodsIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //1	SEPT-P
+                        case "SEPT":
+                            if ((DateTime)cp.DateExpire > person.SEPTPExpireDate || person.SEPTPExpireDate == null)
+                            {
+                                person.SEPTPExpireDate = cp.DateExpire;
+                                person.SEPTPIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //2   SEPT - T
+                        case "ANNUAL SEPT":
+                            if ((DateTime)cp.DateExpire > person.SEPTExpireDate || person.SEPTExpireDate == null)
+                            {
+                                person.SEPTExpireDate = cp.DateExpire;
+                                person.SEPTIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //4	CRM
+                        case "CRM":
+                            if ((DateTime)cp.DateExpire > person.UpsetRecoveryTrainingExpireDate || person.UpsetRecoveryTrainingExpireDate == null)
+                            {
+                                person.UpsetRecoveryTrainingExpireDate = cp.DateExpire;
+                                person.UpsetRecoveryTrainingIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //5	CCRM
+                        case "CCRM":
+                            if ((DateTime)cp.DateExpire > person.CCRMExpireDate || person.CCRMExpireDate == null)
+                            {
+                                person.CCRMExpireDate = cp.DateExpire;
+                                person.CCRMIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //6	SMS
+                        case "SMS":
+                            if ((DateTime)cp.DateExpire > person.SMSExpireDate || person.SMSExpireDate == null)
+                            {
+                                person.SMSExpireDate = cp.DateExpire;
+                                person.SMSIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //7	AV-SEC
+                        case "AVIATION SECURITY":
+                            if ((DateTime)cp.DateExpire > person.AviationSecurityExpireDate || person.AviationSecurityExpireDate == null)
+                            {
+                                person.AviationSecurityExpireDate = cp.DateExpire;
+                                person.AviationSecurityIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //8	COLD-WX
+                        case "COLD WEATHER OPERATION":
+                            if ((DateTime)cp.DateExpire > person.ColdWeatherOperationExpireDate || person.ColdWeatherOperationExpireDate == null)
+                            {
+                                person.ColdWeatherOperationExpireDate = cp.DateExpire;
+                                person.ColdWeatherOperationIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //9	HOT-WX
+                        case "HOT WEATHER OPERATION":
+                            if ((DateTime)cp.DateExpire > person.HotWeatherOperationExpireDate || person.HotWeatherOperationExpireDate == null)
+                            {
+                                person.HotWeatherOperationExpireDate = cp.DateExpire;
+                                person.HotWeatherOperationIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //10	FIRSTAID
+                        case "FIRST AID":
+                            if ((DateTime)cp.DateExpire > person.FirstAidExpireDate || person.FirstAidExpireDate == null)
+                            {
+                                person.FirstAidExpireDate = cp.DateExpire;
+                                person.FirstAidIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        ////lpc
+                        //case 100:
+                        //    if ((DateTime)cp.DateExpire > person.ProficiencyValidUntil || person.ProficiencyValidUntil == null)
+                        //    {
+                        //        person.ProficiencyValidUntil = cp.DateExpire;
+                        //        person.ProficiencyCheckDate = cp.DateIssue;
+                        //    }
+                        //    break;
+                        ////opc
+                        //case 101:
+                        //    if ((DateTime)cp.DateExpire > person.ProficiencyValidUntilOPC || person.ProficiencyValidUntilOPC == null)
+                        //    {
+                        //        person.ProficiencyValidUntilOPC = cp.DateExpire;
+                        //        person.ProficiencyCheckDateOPC = cp.DateIssue;
+                        //    }
+                        //    break;
+                        ////lpr
+                        //case 102:
+                        //    if ((DateTime)cp.DateExpire > person.ICAOLPRValidUntil || person.ICAOLPRValidUntil == null)
+                        //    {
+                        //        person.ICAOLPRValidUntil = cp.DateExpire;
+                        //        // person.ProficiencyCheckDateOPC = cp.DateIssue;
+                        //    }
+                        //    break;
+
+                        //grt
+                        case "GRT":
+                            if ((DateTime)cp.DateExpire > person.DateCaoCardExpire || person.DateCaoCardExpire == null)
+                            {
+                                person.DateCaoCardExpire = cp.DateExpire;
+                                person.DateCaoCardIssue = cp.DateIssue;
+                            }
+                            break;
+                        //recurrent
+                        case "RECURRENT 737":
+                            if ((DateTime)cp.DateExpire > person.Type737ExpireDate || person.Type737ExpireDate == null)
+                            {
+                                person.Type737ExpireDate = cp.DateExpire;
+                                person.Type737IssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //fmt
+                        case "FMT":
+                            if ((DateTime)cp.DateExpire > person.EGPWSExpireDate || person.EGPWSExpireDate == null)
+                            {
+                                person.EGPWSExpireDate = cp.DateExpire;
+                                person.EGPWSIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case "FMTD":
+                            if ((DateTime)cp.DateExpire > person.FMTDExpireDate || person.FMTDExpireDate == null)
+                            {
+                                person.FMTDExpireDate = cp.DateExpire;
+                                person.FMTDIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case "LINE":
+                            if ((DateTime)cp.DateExpire > person.LineExpireDate || person.LineExpireDate == null)
+                            {
+                                person.LineExpireDate = cp.DateExpire;
+                                person.LineIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    /*switch (ct.CertificateTypeId)
+                    {
+                        //dg
+                        case 3:
+                            if ((DateTime)cp.DateExpire > person.DangerousGoodsExpireDate)
+                            {
+                                person.DangerousGoodsExpireDate = cp.DateExpire;
+                                person.DangerousGoodsIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //1	SEPT-P
+                        case 1:
+                            if ((DateTime)cp.DateExpire > person.SEPTPExpireDate)
+                            {
+                                person.SEPTPExpireDate = cp.DateExpire;
+                                person.SEPTPIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //2   SEPT - T
+                        case 2:
+                            if ((DateTime)cp.DateExpire > person.SEPTExpireDate)
+                            {
+                                person.SEPTExpireDate = cp.DateExpire;
+                                person.SEPTIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //4	CRM
+                        case 4:
+                            if ((DateTime)cp.DateExpire > person.UpsetRecoveryTrainingExpireDate)
+                            {
+                                person.UpsetRecoveryTrainingExpireDate = cp.DateExpire;
+                                person.UpsetRecoveryTrainingIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //5	CCRM
+                        case 5:
+                            if ((DateTime)cp.DateExpire > person.CCRMExpireDate)
+                            {
+                                person.CCRMExpireDate = cp.DateExpire;
+                                person.CCRMIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //6	SMS
+                        case 6:
+                            if ((DateTime)cp.DateExpire > person.SMSExpireDate)
+                            {
+                                person.SMSExpireDate = cp.DateExpire;
+                                person.SMSIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //7	AV-SEC
+                        case 7:
+                            if ((DateTime)cp.DateExpire > person.AviationSecurityExpireDate)
+                            {
+                                person.AviationSecurityExpireDate = cp.DateExpire;
+                                person.AviationSecurityIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //8	COLD-WX
+                        case 8:
+                            if ((DateTime)cp.DateExpire > person.ColdWeatherOperationExpireDate)
+                            {
+                                person.ColdWeatherOperationExpireDate = cp.DateExpire;
+                                person.ColdWeatherOperationIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //9	HOT-WX
+                        case 9:
+                            if ((DateTime)cp.DateExpire > person.HotWeatherOperationExpireDate)
+                            {
+                                person.HotWeatherOperationExpireDate = cp.DateExpire;
+                                person.HotWeatherOperationIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        //10	FIRSTAID
+                        case 10:
+                            if ((DateTime)cp.DateExpire > person.FirstAidExpireDate)
+                            {
+                                person.FirstAidExpireDate = cp.DateExpire;
+                                person.FirstAidIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        case 105:
+                            if ((DateTime)cp.DateExpire > person.LineExpireDate)
+                            {
+                                person.LineExpireDate = cp.DateExpire;
+                                person.LineIssueDate = cp.DateIssue;
+                            }
+                            break;
+                        default:
+                            break;
+                    }*/
+                }
+
+
+                /////////////////////////
+
+
+            }
+
+
+
+
+            await context.SaveChangesAsync();
+            dto.Id = entity.Id;
+            var result = await context.ViewCoursePeopleRankeds.Where(q => q.PersonId == dto.PersonId && q.CourseId == entity.Id).FirstOrDefaultAsync();
+            return new DataResponse()
+            {
+                IsSuccess = true,
+                Data = result,
+            };
+        }
+        public async Task<DataResponse> UpdateCoursePeopleStatusAtlas(CoursePeopleStatusViewModel dto)
+        {
+            CoursePeople cp = null;
+
+            if (dto.Id != -1)
+                cp = await context.CoursePeoples.Where(q => q.Id == dto.Id).FirstOrDefaultAsync();
+            else
+                cp = await context.CoursePeoples.Where(q => q.PersonId == dto.PersonId && q.CourseId == dto.CourseId).FirstOrDefaultAsync();
+            if (dto.StatusId != cp.StatusId)
+                cp.DateStatus = DateTime.Now;
+
+            //-1: UnKnown 0:Failed 1:Passed
+            if (dto.StatusId != 1)
+            {
+                cp.DateIssue = null;
+                cp.DateExpire = null;
+                cp.CertificateNo = null;
+
+
+            }
+            else
+            {
+                cp.DateExpire = string.IsNullOrEmpty(dto.Expire) ? null : DateObject.ConvertToDate(dto.Expire).Date;
+                cp.DateIssue = string.IsNullOrEmpty(dto.Issue) ? null : DateObject.ConvertToDate(dto.Issue).Date;
+                cp.CertificateNo = dto.No;
+                if (string.IsNullOrEmpty(cp.CertificateNo))
+                    cp.CertificateNo = "FPC-" + cp.Id;
+
+            }
+
+            cp.StatusId = dto.StatusId;
+            cp.StatusRemark = dto.Remark;
+
+            if (dto.StatusId == 1 && cp.DateIssue != null && cp.DateExpire != null && !string.IsNullOrEmpty(cp.CertificateNo))
+            {
+
+                var person = await context.People.Where(q => q.Id == cp.PersonId).FirstOrDefaultAsync();
+                var course = await context.ViewCourseNews.Where(q => q.Id == cp.CourseId).FirstOrDefaultAsync();
+                switch (course.CertificateType)
+                {
+
+
+                    //CYBER SECURITY
+                    case "RECURRENT":
+                        if ((DateTime)cp.DateExpire > person.ExpireDate2 || person.ExpireDate2 == null)
+                        {
+                            person.ExpireDate2 = cp.DateExpire;
+                            person.IssueDate2 = cp.DateIssue;
+                        }
+                        break;
+
+                    case "OM-A":
+                        if ((DateTime)cp.DateExpire > person.OMA1ExpireDate || person.OMA1ExpireDate == null)
+                        {
+                            person.OMA1ExpireDate = cp.DateExpire;
+                            person.OMA1IssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //OM-B AN-26
+                    case "OM-B AN-26":
+                        if ((DateTime)cp.DateExpire > person.OMB1ExpireDate || person.OMB1ExpireDate == null)
+                        {
+                            person.OMB1ExpireDate = cp.DateExpire;
+                            person.OMB1IssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //OM-C AN-26
+                    case "OM-C AN-26":
+                        if ((DateTime)cp.DateExpire > person.OMC1ExpireDate || person.OMC1ExpireDate == null)
+                        {
+                            person.OMC1ExpireDate = cp.DateExpire;
+                            person.OMC1IssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case "OM-C MEP":
+                        if ((DateTime)cp.DateExpire > person.OMC2ExpireDate || person.OMC2ExpireDate == null)
+                        {
+                            person.OMC2ExpireDate = cp.DateExpire;
+                            person.OMC2IssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case "OM-C":
+                        if ((DateTime)cp.DateExpire > person.OMC1ExpireDate || person.OMC1ExpireDate == null)
+                        {
+                            person.OMC1ExpireDate = cp.DateExpire;
+                            person.OMC1IssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case "UPRT":
+                        if ((DateTime)cp.DateExpire > person.UPRTExpireDate || person.UPRTExpireDate == null)
+                        {
+                            person.UPRTExpireDate = cp.DateExpire;
+                            person.UPRTIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case "RAMP INSPECTION":
+                        if ((DateTime)cp.DateExpire > person.RampExpireDate || person.RampExpireDate == null)
+                        {
+                            person.RampExpireDate = cp.DateExpire;
+                            person.RampIssueDate = cp.DateIssue;
+                        }
+                        break;
+
+                    case "A/C SYSTEM REVIEW MEP":
+                        if ((DateTime)cp.DateExpire > person.ACExpireDate || person.ACExpireDate == null)
+                        {
+                            person.ACExpireDate = cp.DateExpire;
+                            person.ACIssueDate = cp.DateIssue;
+                        }
+                        break;
+
+                    case "AIR CREW REGULATION":
+                        if ((DateTime)cp.DateExpire > person.AirCrewExpireDate || person.AirCrewExpireDate == null)
+                        {
+                            person.AirCrewExpireDate = cp.DateExpire;
+                            person.AirCrewIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case "AIROPS REGULATION":
+                        if ((DateTime)cp.DateExpire > person.AirOpsExpireDate || person.AirOpsExpireDate == null)
+                        {
+                            person.AirOpsExpireDate = cp.DateExpire;
+                            person.AirOpsIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case "SOP MEP":
+                        if ((DateTime)cp.DateExpire > person.SOPExpireDate || person.SOPExpireDate == null)
+                        {
+                            person.SOPExpireDate = cp.DateExpire;
+                            person.SOPIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case "DIFF TRAINING PA31":
+                        if ((DateTime)cp.DateExpire > person.Diff31ExpireDate || person.Diff31ExpireDate == null)
+                        {
+                            person.Diff31ExpireDate = cp.DateExpire;
+                            person.Diff31IssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case "DIFF TRAINING PA34":
+                        if ((DateTime)cp.DateExpire > person.Diff34ExpireDate || person.Diff34ExpireDate == null)
+                        {
+                            person.Diff34ExpireDate = cp.DateExpire;
+                            person.Diff34IssueDate = cp.DateIssue;
+                        }
+                        break;
+
+                    case "AERIAL MAPPING":
+                        if ((DateTime)cp.DateExpire > person.MapExpireDate || person.MapExpireDate == null)
+                        {
+                            person.MapExpireDate = cp.DateExpire;
+                            person.MapIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case "COM RES":
+                        if ((DateTime)cp.DateExpire > person.ComResExpireDate || person.ComResExpireDate == null)
+                        {
+                            person.ComResExpireDate = cp.DateExpire;
+                            person.ComResIssueDate = cp.DateIssue;
+                        }
+                        break;
+
+                    case "MEL":
+                        if ((DateTime)cp.DateExpire > person.MELExpireDate || person.MELExpireDate == null)
+                        {
+                            person.MELExpireDate = cp.DateExpire;
+                            person.MELIssueDate = cp.DateIssue;
+                        }
+                        break;
+
+                    //ERP
+                    case "ERP":
+                        if ((DateTime)cp.DateExpire > person.ERPExpireDate || person.ERPExpireDate == null)
+                        {
+                            person.ERPExpireDate = cp.DateExpire;
+                            person.ERPIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //HF
+                    case "HF":
+                        if ((DateTime)cp.DateExpire > person.HFExpireDate || person.HFExpireDate == null)
+                        {
+                            person.HFExpireDate = cp.DateExpire;
+                            person.HFIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //MEL/CDL
+                    case "MEL/CDL":
+                        if ((DateTime)cp.DateExpire > person.MELExpireDate || person.MELExpireDate == null)
+                        {
+                            person.MELExpireDate = cp.DateExpire;
+                            person.MELIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //METEOROLOGY
+                    case "METEOROLOGY":
+                        if ((DateTime)cp.DateExpire > person.METExpireDate || person.METExpireDate == null)
+                        {
+                            person.METExpireDate = cp.DateExpire;
+                            person.METIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //PERFORMANCE
+                    case "PERFORMANCE":
+                        if ((DateTime)cp.DateExpire > person.PERExpireDate || person.PERExpireDate == null)
+                        {
+                            person.PERExpireDate = cp.DateExpire;
+                            person.PERIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //RADIO COMMUNICATION
+                    case "RADIO COMMUNICATION":
+                        if ((DateTime)cp.DateExpire > person.LRCExpireDate || person.LRCExpireDate == null)
+                        {
+                            person.LRCExpireDate = cp.DateExpire;
+                            person.LRCIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //SITA
+                    case "SITA":
+                        if ((DateTime)cp.DateExpire > person.RSPExpireDate || person.RSPExpireDate == null)
+                        {
+                            person.RSPExpireDate = cp.DateExpire;
+                            person.RSPIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //WEIGHT AND BALANCE
+                    case "WEIGHT AND BALANCE":
+                        if ((DateTime)cp.DateExpire > person.MBExpireDate || person.MBExpireDate == null)
+                        {
+                            person.MBExpireDate = cp.DateExpire;
+                            person.MBIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //AIRSIDE SAFETY AND DRIVING
+                    case "AIRSIDE SAFETY AND DRIVING":
+                        if ((DateTime)cp.DateExpire > person.ASDExpireDate || person.ASDExpireDate == null)
+                        {
+                            person.ASDExpireDate = cp.DateExpire;
+                            person.ASDIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //EFB
+                    case "EFB":
+                        if ((DateTime)cp.DateExpire > person.ExpireDate1 || person.ExpireDate1 == null)
+                        {
+                            person.ExpireDate1 = cp.DateExpire;
+                            person.IssueDate1 = cp.DateIssue;
+                        }
+                        break;
+                    //GOM
+                    case "GOM":
+                        if ((DateTime)cp.DateExpire > person.GOMExpireDate || person.GOMExpireDate == null)
+                        {
+                            person.GOMExpireDate = cp.DateExpire;
+                            person.GOMIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //AIRPORT SERVICE FAMILIARIZATION
+                    case "AIRPORT SERVICE FAMILIARIZATION":
+                        if ((DateTime)cp.DateExpire > person.ASFExpireDate || person.ASFExpireDate == null)
+                        {
+                            person.ASFExpireDate = cp.DateExpire;
+                            person.ASFIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //CUSTOMER CARE
+                    case "CUSTOMER CARE":
+                        if ((DateTime)cp.DateExpire > person.CCExpireDate || person.CCExpireDate == null)
+                        {
+                            person.CCExpireDate = cp.DateExpire;
+                            person.CCIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //LOAD SHEET
+                    case "LOAD SHEET":
+                        if ((DateTime)cp.DateExpire > person.MBExpireDate || person.MBExpireDate == null)
+                        {
+                            person.MBExpireDate = cp.DateExpire;
+                            person.MBIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //PASSENGER SERVICE
+                    case "PASSENGER SERVICE":
+                        if ((DateTime)cp.DateExpire > person.PSExpireDate || person.PSExpireDate == null)
+                        {
+                            person.PSExpireDate = cp.DateExpire;
+                            person.PSIssueDate = cp.DateIssue;
+                        }
+                        break;
+
+                    //DRM
+                    case "DRM":
+                        if ((DateTime)cp.DateExpire > person.DRMExpireDate || person.DRMExpireDate == null)
+                        {
+                            person.DRMExpireDate = cp.DateExpire;
+                            person.DRMIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //ANNEX
+                    case "ANNEX":
+                        if ((DateTime)cp.DateExpire > person.ANNEXExpireDate || person.ANNEXExpireDate == null)
+                        {
+                            person.ANNEXExpireDate = cp.DateExpire;
+                            person.ANNEXIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //FRMS
+                    case "FRMS":
+                        if ((DateTime)cp.DateExpire > person.TypeAirbusExpireDate || person.TypeAirbusExpireDate == null)
+                        {
+                            person.TypeAirbusExpireDate = cp.DateExpire;
+                            person.TypeAirbusIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //DANGEROUS GOODS
+                    case "DANGEROUS GOODS":
+                        if ((DateTime)cp.DateExpire > person.DangerousGoodsExpireDate || person.DangerousGoodsExpireDate == null)
+                        {
+                            person.DangerousGoodsExpireDate = cp.DateExpire;
+                            person.DangerousGoodsIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //1	SEPT-P
+                    case "SEPT":
+                        if ((DateTime)cp.DateExpire > person.SEPTPExpireDate || person.SEPTPExpireDate == null)
+                        {
+                            person.SEPTPExpireDate = cp.DateExpire;
+                            person.SEPTPIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //2   SEPT - T
+                    case "ANNUAL SEPT":
+                        if ((DateTime)cp.DateExpire > person.SEPTExpireDate || person.SEPTExpireDate == null)
+                        {
+                            person.SEPTExpireDate = cp.DateExpire;
+                            person.SEPTIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //4	CRM
+                    case "CRM":
+                        if ((DateTime)cp.DateExpire > person.UpsetRecoveryTrainingExpireDate || person.UpsetRecoveryTrainingExpireDate == null)
+                        {
+                            person.UpsetRecoveryTrainingExpireDate = cp.DateExpire;
+                            person.UpsetRecoveryTrainingIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //5	CCRM
+                    case "CCRM":
+                        if ((DateTime)cp.DateExpire > person.CCRMExpireDate || person.CCRMExpireDate == null)
+                        {
+                            person.CCRMExpireDate = cp.DateExpire;
+                            person.CCRMIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //6	SMS
+                    case "SMS":
+                        if ((DateTime)cp.DateExpire > person.SMSExpireDate || person.SMSExpireDate == null)
+                        {
+                            person.SMSExpireDate = cp.DateExpire;
+                            person.SMSIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //7	AV-SEC
+                    case "AVIATION SECURITY":
+                        if ((DateTime)cp.DateExpire > person.AviationSecurityExpireDate || person.AviationSecurityExpireDate == null)
+                        {
+                            person.AviationSecurityExpireDate = cp.DateExpire;
+                            person.AviationSecurityIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //8	COLD-WX
+                    case "COLD WEATHER OPERATION":
+                        if ((DateTime)cp.DateExpire > person.ColdWeatherOperationExpireDate || person.ColdWeatherOperationExpireDate == null)
+                        {
+                            person.ColdWeatherOperationExpireDate = cp.DateExpire;
+                            person.ColdWeatherOperationIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //9	HOT-WX
+                    case "HOT WEATHER OPERATION":
+                        if ((DateTime)cp.DateExpire > person.HotWeatherOperationExpireDate || person.HotWeatherOperationExpireDate == null)
+                        {
+                            person.HotWeatherOperationExpireDate = cp.DateExpire;
+                            person.HotWeatherOperationIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //10	FIRSTAID
+                    case "FIRST AID":
+                        if ((DateTime)cp.DateExpire > person.FirstAidExpireDate || person.FirstAidExpireDate == null)
+                        {
+                            person.FirstAidExpireDate = cp.DateExpire;
+                            person.FirstAidIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    ////lpc
+                    //case 100:
+                    //    if ((DateTime)cp.DateExpire > person.ProficiencyValidUntil || person.ProficiencyValidUntil == null)
+                    //    {
+                    //        person.ProficiencyValidUntil = cp.DateExpire;
+                    //        person.ProficiencyCheckDate = cp.DateIssue;
+                    //    }
+                    //    break;
+                    ////opc
+                    //case 101:
+                    //    if ((DateTime)cp.DateExpire > person.ProficiencyValidUntilOPC || person.ProficiencyValidUntilOPC == null)
+                    //    {
+                    //        person.ProficiencyValidUntilOPC = cp.DateExpire;
+                    //        person.ProficiencyCheckDateOPC = cp.DateIssue;
+                    //    }
+                    //    break;
+                    ////lpr
+                    //case 102:
+                    //    if ((DateTime)cp.DateExpire > person.ICAOLPRValidUntil || person.ICAOLPRValidUntil == null)
+                    //    {
+                    //        person.ICAOLPRValidUntil = cp.DateExpire;
+                    //        // person.ProficiencyCheckDateOPC = cp.DateIssue;
+                    //    }
+                    //    break;
+
+                    //grt
+                    case "GRT":
+                        if ((DateTime)cp.DateExpire > person.DateCaoCardExpire || person.DateCaoCardExpire == null)
+                        {
+                            person.DateCaoCardExpire = cp.DateExpire;
+                            person.DateCaoCardIssue = cp.DateIssue;
+                        }
+                        break;
+                    //recurrent
+                    case "RECURRENT 737":
+                        if ((DateTime)cp.DateExpire > person.Type737ExpireDate || person.Type737ExpireDate == null)
+                        {
+                            person.Type737ExpireDate = cp.DateExpire;
+                            person.Type737IssueDate = cp.DateIssue;
+                        }
+                        break;
+                    //fmt
+                    case "FMT":
+                        if ((DateTime)cp.DateExpire > person.EGPWSExpireDate || person.EGPWSExpireDate == null)
+                        {
+                            person.EGPWSExpireDate = cp.DateExpire;
+                            person.EGPWSIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case "FMTD":
+                        if ((DateTime)cp.DateExpire > person.FMTDExpireDate || person.FMTDExpireDate == null)
+                        {
+                            person.FMTDExpireDate = cp.DateExpire;
+                            person.FMTDIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    case "LINE":
+                        if ((DateTime)cp.DateExpire > person.LineExpireDate || person.LineExpireDate == null)
+                        {
+                            person.LineExpireDate = cp.DateExpire;
+                            person.LineIssueDate = cp.DateIssue;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+
+
+
+            await context.SaveChangesAsync();
+
+            return new DataResponse()
+            {
+                IsSuccess = true,
+                Data = dto,
+            };
+        }
+
+
         public IQueryable<CertificateType> GetCertificateTypesQuery()
         {
             IQueryable<CertificateType> query = context.Set<CertificateType>().AsNoTracking();
@@ -1977,6 +3103,8 @@ namespace AirpocketTRN.Services
             var people = await context.ViewCoursePeoples.Where(q => q.CourseId == cid).OrderBy(q => q.DateStart).ToListAsync();
             //var press = await context.CourseSessionPresences.Where(q => q.CourseId == cid).ToListAsync();
             var press = await context.ViewCourseSessionPresences.Where(q => q.CourseId == cid).ToListAsync();
+            var syllabi = await context.ViewSyllabus.Where(q => q.CourseId == cid).ToListAsync();
+            
 
             return new DataResponse()
             {
@@ -1984,7 +3112,8 @@ namespace AirpocketTRN.Services
                 {
                     sessions,
                     people,
-                    press
+                    press,
+                    syllabi
                 },
                 IsSuccess = true,
             };
