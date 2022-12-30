@@ -146,13 +146,14 @@ namespace ApiFDM.Models
         {
             get
             {
+                var severity = this.Severity.ToLower();
 
                 string result = null;
-                if (Severity == "High" || Severity == "high" || Severity == "Critical" || Severity == "critical")
+                if (severity == "high" || severity == "critical")
                     result = "High";
-                else if (Severity == "Medium" || Severity == "medium" || Severity == "Major" || Severity == "major")
+                else if ( severity == "medium"  || severity == "major")
                     result = "Medium";
-                else if (Severity == "Low" || Severity == "low" || Severity == "Minor" || Severity == "minor")
+                else if (severity == "low" || severity == "minor")
                     result = "Low";
 
                 return result;
@@ -297,7 +298,7 @@ namespace ApiFDM.Models
 
                     }
 
-                    result = new DateTime( 2000 + Int32.Parse(split[0]), month, Int32.Parse(split[2]));
+                    result = new DateTime(2000 + Int32.Parse(split[0]), month, Int32.Parse(split[2]));
 
                 }
                 catch (Exception ex)
@@ -342,16 +343,16 @@ namespace ApiFDM.Models
         {
             get
             {
+                var limitLevel = this.LimitLevel.ToLower();
 
                 string result = null;
-                if (LimitLevel == "High" || LimitLevel == "high" || LimitLevel == "Critical" || LimitLevel == "critical")
+                if (limitLevel == "high" || limitLevel == "critical")
                     result = "High";
-                else if (LimitLevel == "Medium" || LimitLevel == "medium" || LimitLevel == "Major" || LimitLevel == "major")
+                else if (limitLevel == "medium" || limitLevel == "major")
                     result = "Medium";
-                else if (LimitLevel == "Low" || LimitLevel == "low" || LimitLevel == "Minor" || LimitLevel == "minor")
+                else if (limitLevel == "low" || limitLevel == "minor")
                     result = "Low";
 
-                return result;
 
                 return result;
 
