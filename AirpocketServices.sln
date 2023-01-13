@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiFDM", "ApiFDM\ApiFDM.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiLogUTC", "ApiLogUTC\ApiLogUTC.csproj", "{4687558F-C297-4CAA-A362-364FA9BA881D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiSBTBN", "ApiSBTBN\ApiSBTBN.csproj", "{10A67A2C-41C4-4F00-978A-250DFFD10A26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -161,6 +163,14 @@ Global
 		{4687558F-C297-4CAA-A362-364FA9BA881D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4687558F-C297-4CAA-A362-364FA9BA881D}.Release|x64.ActiveCfg = Release|Any CPU
 		{4687558F-C297-4CAA-A362-364FA9BA881D}.Release|x64.Build.0 = Release|Any CPU
+		{10A67A2C-41C4-4F00-978A-250DFFD10A26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10A67A2C-41C4-4F00-978A-250DFFD10A26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10A67A2C-41C4-4F00-978A-250DFFD10A26}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{10A67A2C-41C4-4F00-978A-250DFFD10A26}.Debug|x64.Build.0 = Debug|Any CPU
+		{10A67A2C-41C4-4F00-978A-250DFFD10A26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10A67A2C-41C4-4F00-978A-250DFFD10A26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10A67A2C-41C4-4F00-978A-250DFFD10A26}.Release|x64.ActiveCfg = Release|Any CPU
+		{10A67A2C-41C4-4F00-978A-250DFFD10A26}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

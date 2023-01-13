@@ -4851,21 +4851,21 @@ namespace AirpocketAPI.Controllers
                                )
                                select x).ToList();
 
-            var off = dutiesQuery.Where(q => (q.DutyType == 1166 || q.DutyType == 10000 || q.DutyType == 10001 || q.DutyType == 100007) && q.IsCockpit == 1).ToList();
+            var off = dutiesQuery.Where(q => (q.DutyType == 1166 || q.DutyType == 10000 || q.DutyType == 10001 || q.DutyType == 100007) ).ToList();
             var off_mhd = off.Where(q => q.SMSId == 140857).ToList();
             var off_thr = off.Where(q => q.SMSId == 135502).ToList();
-            var rest = dutiesQuery.Where(q => q.DutyType == 300009 && q.IsCockpit == 1).ToList();
+            var rest = dutiesQuery.Where(q => q.DutyType == 300009  ).ToList();
             var rest_mhd = rest.Where(q => q.SMSId == 140857).ToList();
             var rest_thr = rest.Where(q => q.SMSId == 135502).ToList();
-            var rsv = dutiesQuery.Where(q => q.DutyType == 1170 && q.IsCockpit == 1).ToList();
+            var rsv = dutiesQuery.Where(q => q.DutyType == 1170  ).ToList();
             var rsv_mhd = rsv.Where(q => q.SMSId == 140857).ToList();
             var rsv_thr = rsv.Where(q => q.SMSId == 135502).ToList();
-            var vac = dutiesQuery.Where(q => q.DutyType == 1169 && q.IsCockpit == 1).ToList();
-            var sick = dutiesQuery.Where(q => q.DutyType == 100002 && q.IsCockpit == 1).ToList();
-            var ground = dutiesQuery.Where(q => q.DutyType == 100000 && q.IsCockpit == 1).ToList();
-            var trn = dutiesQuery.Where(q => q.DutyType == 5000 && q.IsCockpit == 1).ToList();
-            var sim = dutiesQuery.Where(q => q.DutyType == 100003 && q.IsCockpit == 1).ToList();
-            var office = dutiesQuery.Where(q => q.DutyType == 5001 && q.IsCockpit == 1).ToList();
+            var vac = dutiesQuery.Where(q => q.DutyType == 1169 ).ToList();
+            var sick = dutiesQuery.Where(q => q.DutyType == 100002  ).ToList();
+            var ground = dutiesQuery.Where(q => q.DutyType == 100000  ).ToList();
+            var trn = dutiesQuery.Where(q => q.DutyType == 5000 ).ToList();
+            var sim = dutiesQuery.Where(q => q.DutyType == 100003  ).ToList();
+            var office = dutiesQuery.Where(q => q.DutyType == 5001  ).ToList();
             //140870
             var stbyam_thr = from x in dutiesQuery
                              where x.DutyType == 1168 && x.SMSId == 135502
@@ -4884,21 +4884,34 @@ namespace AirpocketAPI.Controllers
                              where x.DutyType == 1167 && x.SMSId == 140857
                              orderby x.OrderIndex, x.ScheduleName
                              select x;
+            //12-26
+            var am_cockpit_thr = stbyam_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").OrderBy(q=> getOrder(q.JobGroup)).ToList();
+            var am_cockpit_mhd = stbyam_mhd.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").OrderBy(q => getOrder(q.JobGroup)).ToList();
+            var pm_cockpit_thr = stbypm_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").OrderBy(q => getOrder(q.JobGroup)).ToList();
+            var pm_cockpit_mhd = stbypm_mhd.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").OrderBy(q => getOrder(q.JobGroup)).ToList();
 
-            var am_sccm_thr = stbyam_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1").ToList();
-            var am_sccm_mhd = stbyam_mhd.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1").ToList();
-            var pm_sccm_thr = stbypm_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1").ToList();
-            var pm_sccm_mhd = stbypm_mhd.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1").ToList();
+
+           // var am_p2_thr = stbyam_thr.Where(q => q.JobGroup == "P2").ToList();
+          //  var am_p2_mhd = stbyam_mhd.Where(q => q.JobGroup == "P2").ToList();
+          //  var pm_p2_thr = stbypm_thr.Where(q => q.JobGroup == "P2").ToList();
+          //  var pm_p2_mhd = stbypm_mhd.Where(q => q.JobGroup == "P2").ToList();
 
 
-            var am_ccm_thr = stbyam_thr.Where(q => q.JobGroup == "P2").ToList();
-            var am_ccm_mhd = stbyam_mhd.Where(q => q.JobGroup == "P2").ToList();
-            var pm_ccm_thr = stbypm_thr.Where(q => q.JobGroup == "P2").ToList();
-            var pm_ccm_mhd = stbypm_mhd.Where(q => q.JobGroup == "P2").ToList();
+
+            var am_cabin_thr = stbyam_thr.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").OrderBy(q => getOrder(q.JobGroup)).ToList();
+            var am_cabin_mhd = stbyam_mhd.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").OrderBy(q => getOrder(q.JobGroup)).ToList();
+            var pm_cabin_thr = stbypm_thr.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").OrderBy(q => getOrder(q.JobGroup)).ToList();
+            var pm_cabin_mhd = stbypm_mhd.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").OrderBy(q => getOrder(q.JobGroup)).ToList();
+
+
+          //  var am_ccm_thr = stbyam_thr.Where(q => q.JobGroup == "CCM").ToList();
+          //  var am_ccm_mhd = stbyam_mhd.Where(q => q.JobGroup == "CCM").ToList();
+          //  var pm_ccm_thr = stbypm_thr.Where(q => q.JobGroup == "CCM").ToList();
+          //  var pm_ccm_mhd = stbypm_mhd.Where(q => q.JobGroup == "CCM").ToList();
 
 
             Workbook workbook = new Workbook();
-            var mappedPathSource = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "drcnew" + ".xlsx");
+            var mappedPathSource = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "drcnewkih" + ".xlsx");
             workbook.LoadFromFile(mappedPathSource);
             Worksheet sheet = workbook.Worksheets[0];
 
@@ -4943,12 +4956,26 @@ namespace AirpocketAPI.Controllers
                     sheet.Range[ln, 14].Text = string.IsNullOrEmpty(flt.CHECK) ? "" : flt.CHECK;
 
                     sheet.Range[ln, 15].Text = string.IsNullOrEmpty(flt.OBS) ? "" : flt.OBS;
-                    sheet.Range[ln, 16].Text = string.IsNullOrEmpty(flt.POSITIONINGCOCKPIT) ? "" : flt.POSITIONINGCOCKPIT;
+
+                    sheet.Range[ln, 16].Text = string.IsNullOrEmpty(flt.ISCCM) ? "" : flt.ISCCM;
+
+                    sheet.Range[ln, 17].Text = string.IsNullOrEmpty(flt.SCCM) ? "" : flt.SCCM;
+
+                    sheet.Range[ln, 18].Text = string.IsNullOrEmpty(flt.CCM) ? "" : flt.CCM;
+                    sheet.Range[ln, 19].Text = string.IsNullOrEmpty(flt.OBSC) ? "" : flt.OBSC;
+
+                    var _pos = new List<string>();
+                    if (!string.IsNullOrEmpty(flt.POSITIONINGCOCKPIT))
+                        _pos.Add(flt.POSITIONINGCOCKPIT);
+                    if (!string.IsNullOrEmpty(flt.POSITIONINGCABIN))
+                        _pos.Add(flt.POSITIONINGCABIN);
+
+                    sheet.Range[ln, 20].Text = _pos.Count==0 ? "" : string.Join(",",_pos);
 
 
-                    sheet.Range["B" + ln + ":P" + ln].Style.HorizontalAlignment = HorizontalAlignType.Center;
-                    sheet.Range["B" + ln + ":P" + ln].BorderInside(LineStyleType.Thin, Color.Black);
-                    sheet.Range["B" + ln + ":P" + ln].BorderAround(LineStyleType.Thin, Color.Black);
+                    sheet.Range["B" + ln + ":T" + ln].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range["B" + ln + ":T" + ln].BorderInside(LineStyleType.Thin, Color.Black);
+                    sheet.Range["B" + ln + ":T" + ln].BorderAround(LineStyleType.Thin, Color.Black);
                     ln++;
 
                 }
@@ -4957,29 +4984,45 @@ namespace AirpocketAPI.Controllers
                 {
                     sheet.InsertRow(ln);
 
-                    sheet.Range["B" + (ln) + ":P" + ln].Style.Color = Color.Silver;
+                    sheet.Range["B" + (ln) + ":T" + ln].Style.Color = Color.Silver;
                 }
 
                 ln++;
                 regcnt++;
             }
-            sheet.Range[ln, 3].Text = string.Join(", ", trn.Select(q => q.ScheduleName));
+            sheet.Range[ln, 3].Text = string.Join(", ", trn.OrderBy(q => getOrder(q.JobGroup)).Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
             ln = ln + 2;
 
 
-            sheet.Range[ln, 5].Text = string.Join(", ", am_sccm_thr.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = string.Join(", ", am_cockpit_thr.Select(q => q.ScheduleName+"("+q.JobGroup+")"));
             ln++;
-            sheet.Range[ln, 5].Text = string.Join(", ", pm_sccm_thr.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = string.Join(", ", am_cabin_thr.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
             ln++;
-            sheet.Range[ln, 5].Text = string.Join(", ", am_ccm_thr.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = string.Join(", ", pm_cockpit_thr.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
             ln++;
-            sheet.Range[ln, 5].Text = string.Join(", ", pm_ccm_thr.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = string.Join(", ", pm_cabin_thr.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
             ln++;
-            sheet.Range[ln, 5].Text = string.Join(", ", rsv_thr.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = string.Join(", ", rsv_thr.OrderBy(q => getOrder(q.JobGroup)).Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
             ln++;
-            sheet.Range[ln, 5].Text = string.Join(", ", off_thr.Select(q => q.ScheduleName));
+
+
+            sheet.Range[ln, 6].Text = string.Join(", ", am_cockpit_mhd.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
             ln++;
-            sheet.Range[ln, 5].Text = string.Join(", ", rest_thr.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = string.Join(", ", am_cabin_mhd.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            ln++;
+            sheet.Range[ln, 6].Text = string.Join(", ", pm_cockpit_mhd.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            ln++;
+            sheet.Range[ln, 6].Text = string.Join(", ", pm_cabin_mhd.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            ln++;
+            sheet.Range[ln, 6].Text = string.Join(", ", rsv_mhd.OrderBy(q => getOrder(q.JobGroup)).Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            ln++;
+
+
+
+
+            sheet.Range[ln, 6].Text ="N/A" ;//string.Join(", ", off_thr.Select(q => q.ScheduleName));
+            ln++;
+            sheet.Range[ln, 6].Text ="N/A" ;//string.Join(", ", rest_thr.Select(q => q.ScheduleName));
 
             ln++;
             //sheet.Range[ln, 5].Text = string.Join(", ", am_sccm_mhd.Select(q => q.ScheduleName));
@@ -4998,19 +5041,19 @@ namespace AirpocketAPI.Controllers
 
             //ln++;
             //  ln = ln + 7;
-            sheet.Range[ln, 5].Text = string.Join(", ", ground.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = string.Join(", ", ground.OrderBy(q => getOrder(q.JobGroup)).Select(q => q.ScheduleName));
 
             ln++;
-            sheet.Range[ln, 5].Text = string.Join(", ", sick.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = string.Join(", ", sick.OrderBy(q => getOrder(q.JobGroup)).Select(q => q.ScheduleName));
 
             ln++;
-            sheet.Range[ln, 5].Text = string.Join(", ", vac.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = string.Join(", ", vac.OrderBy(q => getOrder(q.JobGroup)).Select(q => q.ScheduleName));
 
             ln++;
-            sheet.Range[ln, 5].Text = string.Join(", ", sim.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = string.Join(", ", sim.OrderBy(q => getOrder(q.JobGroup)).Select(q => q.ScheduleName));
 
             ln++;
-            sheet.Range[ln, 5].Text = string.Join(", ", office.Select(q => q.ScheduleName));
+            sheet.Range[ln,6].Text = string.Join(", ", office.OrderBy(q => getOrder(q.JobGroup)).Select(q => q.ScheduleName));
 
             // sheet.Range["B5:N" + ln].BorderInside(LineStyleType.Thin, Color.Black);
             //sheet.Range["B5:N" + ln].BorderAround(LineStyleType.Medium, Color.Black);

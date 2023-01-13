@@ -21,7 +21,7 @@ namespace ApiReportFlight.Controllers
             return 0;
         }
         [Route("api/crew/flight/summary")]
-        public IHttpActionResult GetCrewFlightSummary(DateTime df, DateTime dt,string grps,string cid="-1")
+        public IHttpActionResult GetCrewFlightSummary(DateTime df, DateTime dt,string grps="All",string actype="All",string cid="-1")
         {
             var result = new List<CrewSummaryDto>();
 
@@ -29,14 +29,41 @@ namespace ApiReportFlight.Controllers
 
             df = df.Date;
             dt = dt.Date.AddDays(1);
+            // dataSource: ['All', 'Cockpit', 'Cabin', 'IP', 'P1', 'P2', 'SCCM', 'CCM', 'ISCCM'],
+            var crew_grps = new List<string>() { "TRE", "TRI", "P1", "P2", "ISCCM", "SCCM", "CCM" };
+            if (grps=="Cockpit")
+                crew_grps = new List<string>() { "TRE", "TRI", "P1", "P2" };
+            else if (grps == "Cabin")
+                crew_grps = new List<string>() { "ISCCM", "SCCM", "CCM" };
+            else if (grps == "IP")
+                crew_grps = new List<string>() { "TRE", "TRI" };
+            else if (grps == "P1")
+                crew_grps = new List<string>() { "P1" };
+            else if (grps == "P2")
+                crew_grps = new List<string>() { "P2" };
+            else if (grps == "ISCCM")
+                crew_grps = new List<string>() { "ISCCM" };
+            else if (grps == "SCCM")
+                crew_grps = new List<string>() { "SCCM" };
+            else if (grps == "CCM")
+                crew_grps = new List<string>() { "CCM" };
+
+            string crew_types = "";// "21,22,26" ;
+            if (actype=="AIRBUS")
+                crew_types =   "26" ;
+            if (actype == "MD")
+                crew_types =  "21" ;
+            if (actype == "FOKKER")
+                crew_types = "22" ;
 
 
-
-            var crew_grps =grps=="-1"? new List<string>() { "TRE", "TRI", "P1", "P2", "ISCCM", "SCCM", "CCM" }
-            : grps.Split('_').ToList();
             var qry_crew = from x in context.ViewCrews
                            where crew_grps.Contains(x.JobGroup)  
                            select x;
+            if (!string.IsNullOrEmpty( crew_types))
+            {
+                 qry_crew = qry_crew.Where(q => q.ValidTypes.Contains(crew_types));
+            }
             var _cid = Convert.ToInt32(cid);
             if (_cid != -1)
                 qry_crew = qry_crew.Where(q => q.Id == _cid);

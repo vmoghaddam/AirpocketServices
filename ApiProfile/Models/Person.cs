@@ -18,8 +18,8 @@ namespace ApiProfile.Models
         public Person()
         {
             this.PersonDocuments = new HashSet<PersonDocument>();
-            this.PersonAircraftTypes = new HashSet<PersonAircraftType>();
             this.PersonCustomers = new HashSet<PersonCustomer>();
+            this.PersonAircraftTypes = new HashSet<PersonAircraftType>();
         }
     
         public int Id { get; set; }
@@ -145,10 +145,10 @@ namespace ApiProfile.Models
         public Nullable<System.DateTime> RecurrentExpireDate { get; set; }
         public Nullable<System.DateTime> FMTIssueDate { get; set; }
         public Nullable<System.DateTime> FMTExpireDate { get; set; }
+        public Nullable<bool> OtherAirline { get; set; }
         public string PFirstName { get; set; }
         public string PLastName { get; set; }
         public string MultiType { get; set; }
-        public Nullable<bool> OtherAirline { get; set; }
         public Nullable<System.DateTime> TypeMDIssueDate { get; set; }
         public Nullable<System.DateTime> TypeMDExpireDate { get; set; }
         public Nullable<System.DateTime> Type737IssueDate { get; set; }
@@ -290,12 +290,15 @@ namespace ApiProfile.Models
         public Nullable<System.DateTime> ExpireDate9 { get; set; }
         public Nullable<System.DateTime> IssueDate10 { get; set; }
         public Nullable<System.DateTime> ExpireDate10 { get; set; }
+        public string JobGroup { get; set; }
+        public string Name { get; set; }
+        public Nullable<int> CrewId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonDocument> PersonDocuments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersonAircraftType> PersonAircraftTypes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonCustomer> PersonCustomers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonAircraftType> PersonAircraftTypes { get; set; }
     }
 }

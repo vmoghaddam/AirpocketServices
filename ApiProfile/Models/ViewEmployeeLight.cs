@@ -109,6 +109,5 @@ namespace ApiProfile.Models
         public string ScheduleName { get; set; }
         public Nullable<bool> InActive { get; set; }
         public Nullable<int> BaseAirportId { get; set; }
-        public string JobGroupCode2 { get; set; }
     }
 }

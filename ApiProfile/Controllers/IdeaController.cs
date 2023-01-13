@@ -86,6 +86,20 @@ namespace ApiProfile.Controllers
             return Ok(responseJson);
         }
 
+        DateTime getExp2 (DateTime? _issue1,DateTime? _exp1,DateTime? _exp_old)
+        {
+            DateTime issue1 = (DateTime)_issue1;
+            DateTime exp1 = (DateTime)_exp1;
+            DateTime exp_old = (DateTime)_exp_old;
+            var interval = (exp1 - issue1).TotalDays ;
+            var exp2 = exp_old.AddDays(interval);
+            if (exp2 > exp1)
+                return exp2;
+            else
+                return exp1;
+
+        }
+
         [Route("api/trn/airpocket/certificates/update2/{user}/{password}/{type}/{grp}/{nid}")]
         [AcceptVerbs("GET")]
         public IHttpActionResult GetUpdateAirpocketCertificates(string user, string password, string type, string grp, string nid)
@@ -122,57 +136,57 @@ namespace ApiProfile.Controllers
                         if (rec.CourseType == "CRM")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
-                            if (person != null && (person.UpsetRecoveryTrainingExpireDate==null || rec.DateExpire > person.UpsetRecoveryTrainingExpireDate))
+                            if (person != null && (person.UpsetRecoveryTrainingExpireDate == null || rec.DateExpire > person.UpsetRecoveryTrainingExpireDate))
                             {
                                 person.UpsetRecoveryTrainingIssueDate = rec.DateEnd;
-                                person.UpsetRecoveryTrainingExpireDate = rec.DateExpire;
+                                person.UpsetRecoveryTrainingExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.UpsetRecoveryTrainingExpireDate);
                             }
                         }
                         if (rec.CourseType == "CCRM")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
-                            if (person != null && (person.CCRMExpireDate==null || rec.DateExpire > person.CCRMExpireDate))
+                            if (person != null && (person.CCRMExpireDate == null || rec.DateExpire > person.CCRMExpireDate))
                             {
                                 person.CCRMIssueDate = rec.DateEnd;
-                                person.CCRMExpireDate = rec.DateExpire;
+                                person.CCRMExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.CCRMExpireDate);
                             }
                         }
                         if (rec.CourseType == "SMS")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
-                            if (person != null && (person.SMSExpireDate==null || rec.DateExpire > person.SMSExpireDate))
+                            if (person != null && (person.SMSExpireDate == null || rec.DateExpire > person.SMSExpireDate))
                             {
                                 person.SMSIssueDate = rec.DateEnd;
-                                person.SMSExpireDate = rec.DateExpire;
+                                person.SMSExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.SMSExpireDate);
                             }
                         }
                         if (rec.CourseType == "FIRSTAID")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
-                            if (person != null && (person.FirstAidExpireDate==null || rec.DateExpire > person.FirstAidExpireDate))
+                            if (person != null && (person.FirstAidExpireDate == null || rec.DateExpire > person.FirstAidExpireDate))
                             {
                                 person.FirstAidIssueDate = rec.DateEnd;
-                                person.FirstAidExpireDate = rec.DateExpire;
+                                person.FirstAidExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.FirstAidExpireDate);
                             }
                         }
 
                         if (rec.CourseType == "HOT-WX")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
-                            if (person != null && (person.HotWeatherOperationExpireDate==null || rec.DateExpire > person.HotWeatherOperationExpireDate))
+                            if (person != null && (person.HotWeatherOperationExpireDate == null || rec.DateExpire > person.HotWeatherOperationExpireDate))
                             {
                                 person.HotWeatherOperationIssueDate = rec.DateEnd;
-                                person.HotWeatherOperationExpireDate = rec.DateExpire;
+                                person.HotWeatherOperationExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.HotWeatherOperationExpireDate);
                             }
                         }
 
                         if (rec.CourseType == "COLD-WX")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
-                            if (person != null && (person.ColdWeatherOperationExpireDate==null || rec.DateExpire > person.ColdWeatherOperationExpireDate))
+                            if (person != null && (person.ColdWeatherOperationExpireDate == null || rec.DateExpire > person.ColdWeatherOperationExpireDate))
                             {
                                 person.ColdWeatherOperationIssueDate = rec.DateEnd;
-                                person.ColdWeatherOperationExpireDate = rec.DateExpire;
+                                person.ColdWeatherOperationExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.ColdWeatherOperationExpireDate);
                             }
                         }
 
@@ -180,10 +194,10 @@ namespace ApiProfile.Controllers
                         if (rec.CourseType == "SEPT")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
-                            if (person != null && (person.SEPTPExpireDate==null || rec.DateExpire > person.SEPTPExpireDate))
+                            if (person != null && (person.SEPTPExpireDate == null || rec.DateExpire > person.SEPTPExpireDate))
                             {
                                 person.SEPTPIssueDate = rec.DateEnd;
-                                person.SEPTPExpireDate = rec.DateExpire;
+                                person.SEPTPExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.SEPTPExpireDate);
                             }
                         }
                         if (rec.CourseType == "SEPT-TEORY")
@@ -192,25 +206,25 @@ namespace ApiProfile.Controllers
                             if (person != null && (person.SEPTExpireDate == null || rec.DateExpire > person.SEPTExpireDate))
                             {
                                 person.SEPTIssueDate = rec.DateEnd;
-                                person.SEPTExpireDate = rec.DateExpire;
+                                person.SEPTExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.SEPTExpireDate);
                             }
                         }
                         if (rec.CourseType == "AVSEC")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
-                            if (person != null && (person.AviationSecurityExpireDate==null || rec.DateExpire > person.AviationSecurityExpireDate))
+                            if (person != null && (person.AviationSecurityExpireDate == null || rec.DateExpire > person.AviationSecurityExpireDate))
                             {
                                 person.AviationSecurityIssueDate = rec.DateEnd;
-                                person.AviationSecurityExpireDate = rec.DateExpire;
+                                person.AviationSecurityExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.AviationSecurityExpireDate);
                             }
                         }
                         if (rec.CourseType == "DG")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
-                            if (person != null && (person.DangerousGoodsExpireDate==null || rec.DateExpire > person.DangerousGoodsExpireDate))
+                            if (person != null && (person.DangerousGoodsExpireDate == null || rec.DateExpire > person.DangerousGoodsExpireDate))
                             {
                                 person.DangerousGoodsIssueDate = rec.DateEnd;
-                                person.DangerousGoodsExpireDate = rec.DateExpire;
+                                person.DangerousGoodsExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.DangerousGoodsExpireDate);
                             }
                         }
 
@@ -218,33 +232,33 @@ namespace ApiProfile.Controllers
                         if (rec.CourseType == "RE-TRAIN")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
-                            if (person != null && (person.RecurrentExpireDate==null || rec.DateExpire > person.RecurrentExpireDate))
+                            if (person != null && (person.RecurrentExpireDate == null || rec.DateExpire > person.RecurrentExpireDate))
                             {
 
                                 person.RecurrentIssueDate = rec.DateBegin != null ? rec.DateBegin : rec.DateEnd;
-                                person.RecurrentExpireDate = rec.DateExpire;
+                                person.RecurrentExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.RecurrentExpireDate);
 
                                 person.FirstAidIssueDate = rec.DateBegin != null ? rec.DateBegin : rec.DateEnd;
-                                person.FirstAidExpireDate = rec.DateExpire;
+                                person.FirstAidExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.FirstAidExpireDate);
 
                                 person.UpsetRecoveryTrainingIssueDate = rec.DateBegin != null ? rec.DateBegin : rec.DateEnd;
-                                person.UpsetRecoveryTrainingExpireDate = rec.DateExpire;
+                                person.UpsetRecoveryTrainingExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.UpsetRecoveryTrainingExpireDate);
 
                                 person.SEPTIssueDate = rec.DateBegin != null ? rec.DateBegin : rec.DateEnd;
-                                person.SEPTExpireDate = rec.DateExpire;
+                                person.SEPTExpireDate = getExp2(rec.DateEnd, rec.DateExpire, person.SEPTExpireDate);
 
 
 
                             }
                         }
 
-                        if (rec.CourseType == "FMT")
+                        if (rec.CourseType == "FMT" || rec.CourseType == "FRM")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
                             if (person != null && (person.DateIssueNDT==null || rec.DateEnd > person.DateIssueNDT))
                             {
                                 person.DateIssueNDT = rec.DateEnd;
-                                person.DateExpireNDT = rec.DateExpire;
+                                person.DateExpireNDT = getExp2(rec.DateEnd, rec.DateExpire, person.DateExpireNDT);
                             }
                         }
 
@@ -254,7 +268,7 @@ namespace ApiProfile.Controllers
                             if (person != null && (person.DateCaoCardIssue==null || rec.DateEnd > person.DateCaoCardIssue))
                             {
                                 person.DateCaoCardIssue = rec.DateEnd;
-                                person.DateCaoCardExpire = rec.DateExpire;
+                                person.DateCaoCardExpire = getExp2(rec.DateEnd, rec.DateExpire, person.DateCaoCardExpire);
                             }
                         }
 

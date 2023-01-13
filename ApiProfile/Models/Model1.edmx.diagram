@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="18fa3a57b6a1461ea0ecbc61a4f670b4" Name="Diagram1" ZoomLevel="24">
         <EntityTypeShape EntityType="dbModel.IdeaUnique" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="dbModel.ViewEmployeeLight" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.ViewIdeaUniqueLast" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.ThirdPartySyncHistory" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.Employee" Width="1.5" PointX="5.25" PointY="28.5" />
@@ -21,13 +20,14 @@
         <EntityTypeShape EntityType="dbModel.ViewPersonDocumentFile" Width="1.5" PointX="7.375" PointY="8.75" />
         <EntityTypeShape EntityType="dbModel.ViewPersonAircraftType" Width="1.5" PointX="9.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.ViewEmployeeLocation" Width="1.5" PointX="9.375" PointY="4.75" />
-        <EntityTypeShape EntityType="dbModel.Person" Width="1.5" PointX="0.75" PointY="5.375" />
-        <AssociationConnector Association="dbModel.FK_PD_PERS" />
-        <AssociationConnector Association="dbModel.FK_UM_Type_Access_UM_Users" />
         <EntityTypeShape EntityType="dbModel.PersonCustomer" Width="1.5" PointX="3" PointY="27.25" />
         <EntityTypeShape EntityType="dbModel.ViewProfile" Width="1.5" PointX="10.375" PointY="10.75" />
         <AssociationConnector Association="dbModel.FK_EMPLOYEE_PERSONCUSTOMER" />
+        <EntityTypeShape EntityType="dbModel.Person" Width="1.5" PointX="0.75" PointY="5.125" />
+        <EntityTypeShape EntityType="dbModel.ViewEmployeeLight" Width="1.5" PointX="12.375" PointY="0.75" />
+        <AssociationConnector Association="dbModel.FK_PD_PERS" />
         <AssociationConnector Association="dbModel.FK_PERSONCUSTOMER_PERSON" />
+        <AssociationConnector Association="dbModel.FK_UM_Type_Access_UM_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
