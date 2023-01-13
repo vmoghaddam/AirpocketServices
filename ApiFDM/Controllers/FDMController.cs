@@ -379,7 +379,7 @@ namespace ApiFDM.Controllers
                         };
 
 
-            var result = query.ToList().OrderByDescending(q => q.Scores).Take(10);
+            var result = query.OrderByDescending(q => q.Scores).Take(10).ToList();
 
 
             return new DataResponse()
@@ -1326,13 +1326,13 @@ namespace ApiFDM.Controllers
                             ).ToList();
                 var result = (from x in query
 
-                              group x by new { x.CptId, x.CptName, x.JobGroup} into grp
+                              group x by new { x.CptId, x.CptName, x.JobGroup } into grp
                               select new
                               {
                                   CptName = grp.Key.CptName,
                                   CptId = grp.Key.CptId,
                                   Items = grp.OrderBy(q => q.Month).ToList(),
-                                  EventsCount = grp.Sum(q =>q.EventCount),
+                                  EventsCount = grp.Sum(q => q.EventCount),
                                   Flights = grp.Sum(q => q.FlightCount),
                                   Scores = grp.Sum(q => q.Score),
                                   ScorePerFlight = grp.Sum(q => q.Score) * 1.0 / grp.Sum(q => q.FlightCount) * 100.0,
@@ -1386,7 +1386,6 @@ namespace ApiFDM.Controllers
         [Route("api/get/fdm/top/cpt/{yf}/{yt}/{mf}/{mt}")]
         public async Task<DataResponse> GetTopCpt(int yf, int yt, int mf, int mt)
         {
-            //amitis
 
             //var query = (from x in context.FDMCptAll
             //             where x.Month >= (mf + 1) && x.Month <= (mt + 1) && x.Year >= yf && x.Year <= yt
@@ -1416,10 +1415,17 @@ namespace ApiFDM.Controllers
                             grp.Key.CptCode,
                             grp.Key.CptId,
                             grp.Key.CptName,
-                            Score = grp.Sum(q => q.Score)
+                            HighLevelCount = grp.Sum(q => q.HighCount),
+                            LowLevelCount = grp.Sum(q => q.LowCount),
+                            MediumLevelCount = grp.Sum(q => q.MediumCount),
+                            FlightCount = grp.Sum(q => q.FlightCount),
+                            Score = grp.Sum(q => q.Score),
+                            ScorePerFlight = grp.Sum(q => q.Score) * 100 / grp.Sum(q => q.FlightCount),
+                            EventPerFlight = grp.Sum(q => q.EventCount) * 1.0 / grp.Sum(q => q.FlightCount),
+                            EventsCount = grp.Sum(q => q.EventCount),
                         };
 
-            var result = query.ToList().OrderByDescending(q => q.Score).Take(10);
+            var result = query.OrderByDescending(q => q.ScorePerFlight).Take(10).ToList();
             return new DataResponse()
             {
                 IsSuccess = true,
@@ -1470,7 +1476,57 @@ namespace ApiFDM.Controllers
             };
         }
 
+        [HttpGet]
+        [Route("api/fdm/dashboard/monthly/{year}/{month}")]
+        public async Task<DataResponse> fdmdashboardMonthly(int year, int month)
+        {
+            var query = from x in context.FDMDailies
+                        where x.FlightDate.Year == year
+                        group x by new { x.FlightDate.Month } into grp
+                        select new
+                        {
+                            grp.Key.Month,
+                            HighCount = grp.Sum(q => q.HighCount),
+                            MediumCount = grp.Sum(q => q.MediumCount),
+                            LowCount = grp.Sum(q => q.LowCount),
+                            FlightCount = grp.Sum(q => q.FlightCount),
+                            Score = grp.Sum(q => q.Score),
+                            ScorePerFlight = grp.Sum(q => q.ScorePerFlight),
+                            EventsCount = grp.Sum(q => q.HighCount) + grp.Sum(q => q.MediumCount) + grp.Sum(q => q.LowCount),
+                            EventPerFlight = grp.Sum(q => q.EventCount) * 1.0 / grp.Sum(q => q.FlightCount)
+                        };
+            var result = query.ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true
+            };
 
+        }
+
+        [HttpGet]
+        [Route("api/fdm/delete/event/{id}")]
+        public async Task<DataResponse> DeleteEvent(int id)
+        {
+            try
+            {
+                var item = context.FDMs.Single(q => q.Id == id);
+                context.FDMs.Remove(item);
+                context.SaveChanges();
+                return new DataResponse()
+                {
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DataResponse()
+                {
+                    IsSuccess = false,
+                    Data = ex
+                };
+            }
+        }
 
 
     }
