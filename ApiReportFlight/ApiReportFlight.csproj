@@ -204,6 +204,9 @@
     <Compile Include="Models\RptNoFDP.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RptRefuse.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewCrew.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

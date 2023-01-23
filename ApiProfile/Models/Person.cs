@@ -145,10 +145,10 @@ namespace ApiProfile.Models
         public Nullable<System.DateTime> RecurrentExpireDate { get; set; }
         public Nullable<System.DateTime> FMTIssueDate { get; set; }
         public Nullable<System.DateTime> FMTExpireDate { get; set; }
-        public Nullable<bool> OtherAirline { get; set; }
         public string PFirstName { get; set; }
         public string PLastName { get; set; }
         public string MultiType { get; set; }
+        public Nullable<bool> OtherAirline { get; set; }
         public Nullable<System.DateTime> TypeMDIssueDate { get; set; }
         public Nullable<System.DateTime> TypeMDExpireDate { get; set; }
         public Nullable<System.DateTime> Type737IssueDate { get; set; }
@@ -290,9 +290,44 @@ namespace ApiProfile.Models
         public Nullable<System.DateTime> ExpireDate9 { get; set; }
         public Nullable<System.DateTime> IssueDate10 { get; set; }
         public Nullable<System.DateTime> ExpireDate10 { get; set; }
-        public string JobGroup { get; set; }
-        public string Name { get; set; }
-        public Nullable<int> CrewId { get; set; }
+        public Nullable<System.DateTime> IssueDate11 { get; set; }
+        public Nullable<System.DateTime> ExpireDate11 { get; set; }
+        public Nullable<System.DateTime> IssueDate12 { get; set; }
+        public Nullable<System.DateTime> ExpireDate12 { get; set; }
+        public Nullable<System.DateTime> IssueDate13 { get; set; }
+        public Nullable<System.DateTime> ExpireDate13 { get; set; }
+        public Nullable<System.DateTime> IssueDate14 { get; set; }
+        public Nullable<System.DateTime> ExpireDate14 { get; set; }
+        public Nullable<System.DateTime> IssueDate15 { get; set; }
+        public Nullable<System.DateTime> ExpireDate15 { get; set; }
+        public Nullable<System.DateTime> IssueDate16 { get; set; }
+        public Nullable<System.DateTime> ExpireDate16 { get; set; }
+        public Nullable<System.DateTime> IssueDate17 { get; set; }
+        public Nullable<System.DateTime> ExpireDate17 { get; set; }
+        public Nullable<System.DateTime> IssueDate18 { get; set; }
+        public Nullable<System.DateTime> ExpireDate18 { get; set; }
+        public Nullable<System.DateTime> IssueDate19 { get; set; }
+        public Nullable<System.DateTime> ExpireDate19 { get; set; }
+        public Nullable<System.DateTime> IssueDate20 { get; set; }
+        public Nullable<System.DateTime> ExpireDate20 { get; set; }
+        public Nullable<System.DateTime> IssueDate21 { get; set; }
+        public Nullable<System.DateTime> ExpireDate21 { get; set; }
+        public Nullable<System.DateTime> IssueDate22 { get; set; }
+        public Nullable<System.DateTime> ExpireDate22 { get; set; }
+        public Nullable<System.DateTime> IssueDate23 { get; set; }
+        public Nullable<System.DateTime> ExpireDate23 { get; set; }
+        public Nullable<System.DateTime> IssueDate24 { get; set; }
+        public Nullable<System.DateTime> ExpireDate24 { get; set; }
+        public Nullable<System.DateTime> IssueDate25 { get; set; }
+        public Nullable<System.DateTime> ExpireDate25 { get; set; }
+        public Nullable<System.DateTime> IssueDate26 { get; set; }
+        public Nullable<System.DateTime> ExpireDate26 { get; set; }
+        public Nullable<System.DateTime> IssueDate27 { get; set; }
+        public Nullable<System.DateTime> ExpireDate27 { get; set; }
+        public Nullable<bool> IsType737 { get; set; }
+        public Nullable<bool> IsTypeMD { get; set; }
+        public Nullable<bool> IsTypeAirbus { get; set; }
+        public Nullable<bool> IsTypeFokker { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonDocument> PersonDocuments { get; set; }

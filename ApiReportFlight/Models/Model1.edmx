@@ -269,9 +269,44 @@ warning 6002: The table/view 'ppa_varesh.dbo.RptNoFDP' does not have a primary k
           <Property Name="DutyType" Type="int" Nullable="false" />
           <Property Name="DutyTypeTitle" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="PDate" Type="nvarchar" MaxLength="500" />
-          <Property Name="PeriodFixTime" Type="nvarchar" MaxLength="500" />
+          <Property Name="PeriodFixTime" Type="varchar" MaxLength="201" />
           <Property Name="PYear" Type="int" />
           <Property Name="Date" Type="date" />
+          <Property Name="DateStart" Type="datetime" />
+          <Property Name="DateEnd" Type="datetime" />
+          <Property Name="Remark" Type="varchar" MaxLength="1000" />
+          <Property Name="CrewId" Type="int" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1001" Nullable="false" />
+          <Property Name="ScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
+          <Property Name="JobGroupRoot" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="FX" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.RptRefuse' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RptRefuse">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="DutyType" />
+            <PropertyRef Name="DutyTypeTitle" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="JobGroupRoot" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DutyType" Type="int" Nullable="false" />
+          <Property Name="DutyTypeTitle" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="PDate" Type="nvarchar" MaxLength="500" />
+          <Property Name="PeriodFixTime" Type="varchar" MaxLength="201" />
+          <Property Name="PYear" Type="int" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Sick" Type="int" />
           <Property Name="DateStart" Type="datetime" />
           <Property Name="DateEnd" Type="datetime" />
           <Property Name="Remark" Type="varchar" MaxLength="1000" />
@@ -1450,6 +1485,32 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
     [RptNoFDP].[FX] AS [FX]
     FROM [dbo].[RptNoFDP] AS [RptNoFDP]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="RptRefuse" EntityType="Self.RptRefuse" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RptRefuse].[Id] AS [Id], 
+    [RptRefuse].[DutyType] AS [DutyType], 
+    [RptRefuse].[DutyTypeTitle] AS [DutyTypeTitle], 
+    [RptRefuse].[PDate] AS [PDate], 
+    [RptRefuse].[PeriodFixTime] AS [PeriodFixTime], 
+    [RptRefuse].[PYear] AS [PYear], 
+    [RptRefuse].[Date] AS [Date], 
+    [RptRefuse].[Sick] AS [Sick], 
+    [RptRefuse].[DateStart] AS [DateStart], 
+    [RptRefuse].[DateEnd] AS [DateEnd], 
+    [RptRefuse].[Remark] AS [Remark], 
+    [RptRefuse].[CrewId] AS [CrewId], 
+    [RptRefuse].[FirstName] AS [FirstName], 
+    [RptRefuse].[LastName] AS [LastName], 
+    [RptRefuse].[Name] AS [Name], 
+    [RptRefuse].[ScheduleName] AS [ScheduleName], 
+    [RptRefuse].[JobGroup] AS [JobGroup], 
+    [RptRefuse].[GroupId] AS [GroupId], 
+    [RptRefuse].[JobGroupCode] AS [JobGroupCode], 
+    [RptRefuse].[JobGroupRoot] AS [JobGroupRoot], 
+    [RptRefuse].[Duration] AS [Duration], 
+    [RptRefuse].[FX] AS [FX]
+    FROM [dbo].[RptRefuse] AS [RptRefuse]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewCrew" EntityType="Self.ViewCrew" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewCrew].[Id] AS [Id], 
@@ -2209,6 +2270,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <EntitySet Name="RptFDPItems" EntityType="ModelEntities.RptFDPItem" />
           <EntitySet Name="RptNoFDPs" EntityType="ModelEntities.RptNoFDP" />
           <EntitySet Name="RptFDP2" EntityType="ModelEntities.RptFDP2" />
+          <EntitySet Name="RptRefuses" EntityType="ModelEntities.RptRefuse" />
         </EntityContainer>
         <EntityType Name="RptFuelOFP">
           <Key>
@@ -3268,7 +3330,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <Property Name="DutyType" Type="Int32" Nullable="false" />
           <Property Name="DutyTypeTitle" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="PDate" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PeriodFixTime" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PeriodFixTime" Type="String" MaxLength="201" FixedLength="false" Unicode="false" />
           <Property Name="PYear" Type="Int32" />
           <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="DateStart" Type="DateTime" Precision="3" />
@@ -3351,6 +3413,39 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <Property Name="Year" Type="Int32" />
           <Property Name="MonthName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RptRefuse">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="DutyType" />
+            <PropertyRef Name="DutyTypeTitle" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="JobGroupRoot" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DutyType" Type="Int32" Nullable="false" />
+          <Property Name="DutyTypeTitle" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PDate" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PeriodFixTime" Type="String" MaxLength="201" FixedLength="false" Unicode="false" />
+          <Property Name="PYear" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Sick" Type="Int32" />
+          <Property Name="DateStart" Type="DateTime" Precision="3" />
+          <Property Name="DateEnd" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="FX" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -4359,6 +4454,34 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CrewId" ColumnName="CrewId" />
                 <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RptRefuses">
+            <EntityTypeMapping TypeName="ModelEntities.RptRefuse">
+              <MappingFragment StoreEntitySet="RptRefuse">
+                <ScalarProperty Name="FX" ColumnName="FX" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="JobGroupRoot" ColumnName="JobGroupRoot" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="Sick" ColumnName="Sick" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="PYear" ColumnName="PYear" />
+                <ScalarProperty Name="PeriodFixTime" ColumnName="PeriodFixTime" />
+                <ScalarProperty Name="PDate" ColumnName="PDate" />
+                <ScalarProperty Name="DutyTypeTitle" ColumnName="DutyTypeTitle" />
+                <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

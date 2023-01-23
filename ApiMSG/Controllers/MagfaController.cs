@@ -46,12 +46,12 @@ namespace ApiMSG.Controllers
         public IHttpActionResult GetMagfaTest()
         {
             Magfa m = new Magfa();
-            var smsResult= m.enqueue(1, "09306678047", "HELO APIMSG")[0];
+            var smsResult= m.enqueue(1, "09124449584", "HELO APIMSG")[0];
             var refids = new List<Int64>() { smsResult };
             System.Threading.Thread.Sleep(5000);
-            var status = m.getStatus(refids);
+            //var status = m.getStatus(refids);
 
-            return Ok(status);
+            return Ok(refids);
         }
 
 

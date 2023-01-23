@@ -253,7 +253,7 @@ namespace ApiAPSB.Controllers
                         var ext = System.IO.Path.GetExtension(postedFile.FileName);
                         key = "doc-" + date.Year.ToString() + date.Month.ToString() + date.Day.ToString() + date.Hour.ToString() + date.Minute.ToString() + date.Second.ToString() + ext;
 
-                        var filePath = ConfigurationManager.AppSettings["atc"] + key; //HttpContext.Current.Server.MapPath("~/upload/" + key);
+                        var filePath = ConfigurationManager.AppSettings["fltdoc"] + key; //HttpContext.Current.Server.MapPath("~/upload/" + key);
                         postedFile.SaveAs(filePath);
                         docfiles.Add(filePath);
                     }
@@ -284,7 +284,7 @@ namespace ApiAPSB.Controllers
             var context = new Models.dbEntities();
             try
             {
-                var doc = context.FlightDocuments.Where(q => q.Id == dto.Id).FirstOrDefault();
+                var doc = context.FlightDocuments.Where(q => q.FlightId==dto.FlightId && q.DocumentType==dto.DocumentType).FirstOrDefault();
                 if (doc == null)
                 {
                     doc = new FlightDocument();
@@ -295,7 +295,29 @@ namespace ApiAPSB.Controllers
                 doc.DateCreate = DateTime.UtcNow;
                 doc.DocumentUrl = dto.DocumentUrl;
                 doc.DocumentType = dto.DocumentType;
-                
+                var flight = context.FlightInformations.Where(q => q.ID == dto.FlightId).FirstOrDefault();
+                switch (dto.DocumentType)
+                {
+                    case "ddl":
+                        flight.CPInstructor = doc.DocumentUrl;
+                        break;
+                    case "packinglist":
+                        flight.CPP1 = doc.DocumentUrl;
+                        break;
+                    case "spwx":
+                        flight.CPP2 = doc.DocumentUrl;
+                        break;
+                    case "notam":
+                        flight.CPISCCM = doc.DocumentUrl;
+                        break;
+                    case "other":
+                        flight.CPSCCM = doc.DocumentUrl;
+                        break;
+
+                    default:
+                        break;
+                }
+
                 context.SaveChanges();
                 return Ok(doc);
             }
@@ -323,6 +345,10 @@ namespace ApiAPSB.Controllers
             }
 
         }
+
+
+        
+
         [Route("api/flight/doc/{id}")]
         [AcceptVerbs("GET")]
         public IHttpActionResult GetFlightsDoc(int id)
@@ -331,6 +357,24 @@ namespace ApiAPSB.Controllers
             try
             {
                 var docs = context.FlightDocuments.Where(q => q.Id == id).FirstOrDefault();
+                return Ok(docs);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message + " IN:" + (ex.InnerException != null ? ex.InnerException.Message : "NO");
+                return Ok(msg);
+            }
+
+        }
+
+        [Route("api/flight/doc/type/{id}/{type}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetFlightsDoc(int id,string type)
+        {
+            var context = new Models.dbEntities();
+            try
+            {
+                var docs = context.FlightDocuments.Where(q => q.FlightId == id && q.DocumentType==type).FirstOrDefault();
                 return Ok(docs);
             }
             catch (Exception ex)

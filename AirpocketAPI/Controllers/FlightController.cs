@@ -188,8 +188,8 @@ namespace AirpocketAPI.Controllers
             {
                 var context = new AirpocketAPI.Models.FLYEntities();
                 // var cmd = "select * from viewflightdaily ";
-                string whr = " (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
-
+                // string whr = " (STDDayLocal>='" + df.ToString("yyyy-MM-dd") + "' and STDDayLocal<='" + dt.ToString("yyyy-MM-dd") + "')";
+                string whr = "  (TAKEOFFDAYLOCAL>='" + df.ToString("yyyy-MM-dd") + "' and TAKEOFFDAYLOCAL<='" + dt.ToString("yyyy-MM-dd") + "')";
                 if (!string.IsNullOrEmpty(status) && status != "-1")
                 {
                     var _regs = status.Split('_').ToList();
@@ -11857,7 +11857,7 @@ new JsonSerializerSettings
     public class xmlDelayItemSingle
     {
         public xmlDelayItem Item { get; set; }
-
+        
     }
     public class xmlDelay
     {

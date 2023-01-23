@@ -17,7 +17,7 @@ namespace ApiProfile.Models
         public int Id { get; set; }
         public string PID { get; set; }
         public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
         public Nullable<int> CustomerId { get; set; }
         public Nullable<int> GroupId { get; set; }
         public Nullable<int> C1GroupId { get; set; }
@@ -135,5 +135,27 @@ namespace ApiProfile.Models
         public Nullable<int> Remain8 { get; set; }
         public Nullable<int> Remain9 { get; set; }
         public Nullable<int> Remain10 { get; set; }
+        public Nullable<int> Remain11 { get; set; }
+        public Nullable<int> Remain12 { get; set; }
+        public Nullable<int> Remain13 { get; set; }
+        public Nullable<int> Remain14 { get; set; }
+        public Nullable<int> Remain15 { get; set; }
+        public Nullable<int> Remain16 { get; set; }
+        public Nullable<int> Remain17 { get; set; }
+        public Nullable<int> Remain18 { get; set; }
+        public Nullable<int> Remain19 { get; set; }
+        public Nullable<int> Remain20 { get; set; }
+        public Nullable<int> Remain21 { get; set; }
+        public Nullable<int> Remain22 { get; set; }
+        public Nullable<int> Remain23 { get; set; }
+        public Nullable<int> Remain24 { get; set; }
+        public Nullable<int> Remain25 { get; set; }
+        public Nullable<int> Remain26 { get; set; }
+        public Nullable<int> Remain27 { get; set; }
+        public string HomeBase { get; set; }
+        public Nullable<bool> IsType737 { get; set; }
+        public Nullable<bool> IsTypeMD { get; set; }
+        public Nullable<bool> IsTypeAirbus { get; set; }
+        public Nullable<bool> IsTypeFokker { get; set; }
     }
 }

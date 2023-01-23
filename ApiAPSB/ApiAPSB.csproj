@@ -345,7 +345,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>22554</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:22554/</IISUrl>
+          <IISUrl>http://localhost:22600/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:22600/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

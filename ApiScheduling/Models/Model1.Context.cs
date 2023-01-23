@@ -28,5 +28,10 @@ namespace ApiScheduling.Models
         public virtual DbSet<FDP> FDPs { get; set; }
         public virtual DbSet<ViewFDPLog> ViewFDPLogs { get; set; }
         public virtual DbSet<ViewCrewValidFTL> ViewCrewValidFTLs { get; set; }
+        public virtual DbSet<AppFTL> AppFTLs { get; set; }
+        public virtual DbSet<FDPExtra> FDPExtras { get; set; }
+        public virtual DbSet<ExtensionHistory> ExtensionHistories { get; set; }
+        public virtual DbSet<FDPItem> FDPItems { get; set; }
+        public virtual DbSet<SchFlight> SchFlights { get; set; }
     }
 }

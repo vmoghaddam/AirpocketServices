@@ -7,18 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ApiProfile.Models
+namespace ApiScheduling.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class ViewPersonDocument
+    public partial class ExtensionHistory
     {
-        public int PersonId { get; set; }
-        public string Title { get; set; }
-        public string Remark { get; set; }
-        public Nullable<int> DocumentTypeId { get; set; }
         public int Id { get; set; }
-        public string DocumentType { get; set; }
+        public int FDPId { get; set; }
+        public int CrewId { get; set; }
+        public Nullable<int> Extension { get; set; }
+        public Nullable<System.DateTime> DutyStart { get; set; }
+        public Nullable<int> Sectors { get; set; }
+        public string Remark { get; set; }
+    
+        public virtual FDP FDP { get; set; }
     }
 }

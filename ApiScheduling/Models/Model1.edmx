@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ExtensionHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FDPId" Type="int" Nullable="false" />
+          <Property Name="CrewId" Type="int" Nullable="false" />
+          <Property Name="Extension" Type="int" />
+          <Property Name="DutyStart" Type="datetime" />
+          <Property Name="Sectors" Type="int" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="FDP">
           <Key>
             <PropertyRef Name="Id" />
@@ -64,6 +76,99 @@
           <Property Name="MaxFDP" Type="decimal" Precision="18" Scale="4" />
           <Property Name="BL" Type="int" />
           <Property Name="FX" Type="int" />
+        </EntityType>
+        <EntityType Name="FDPExtra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FDPId" Type="int" Nullable="false" />
+          <Property Name="MaxFDP" Type="decimal" Precision="10" Scale="5" />
+        </EntityType>
+        <EntityType Name="FDPItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FDPId" Type="int" Nullable="false" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="IsSector" Type="bit" Nullable="false" />
+          <Property Name="SplitDutyPairId" Type="int" />
+          <Property Name="SplitDuty" Type="bit" />
+          <Property Name="IsPositioning" Type="bit" />
+          <Property Name="IsOff" Type="bit" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="RosterPositionId" Type="int" />
+          <Property Name="Pickup" Type="datetime" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.AppFTL' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AppFTL">
+          <Key>
+            <PropertyRef Name="CDate" />
+            <PropertyRef Name="CrewId" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="NID" />
+            <PropertyRef Name="IsCockpit" />
+          </Key>
+          <Property Name="CDate" Type="date" Nullable="false" />
+          <Property Name="CrewId" Type="int" Nullable="false" />
+          <Property Name="Duty7" Type="float" />
+          <Property Name="Duty7Remain" Type="float" />
+          <Property Name="Duty14" Type="float" />
+          <Property Name="Duty14Remain" Type="float" />
+          <Property Name="Duty28" Type="float" />
+          <Property Name="Duty28Remain" Type="float" />
+          <Property Name="Flight28" Type="float" />
+          <Property Name="Flight28Remain" Type="float" />
+          <Property Name="FlightYear" Type="float" />
+          <Property Name="FlightYearRemain" Type="float" />
+          <Property Name="FlightCYear" Type="float" />
+          <Property Name="FlightCYearRemain" Type="float" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="NID" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="500" />
+          <Property Name="ScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
+          <Property Name="IsCockpit" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.SchFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SchFlight">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Register" />
+            <PropertyRef Name="ACType" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="Takeoff" Type="datetime" />
+          <Property Name="Landing" Type="datetime" />
+          <Property Name="ChocksIn" Type="datetime" />
+          <Property Name="ChocksOut" Type="datetime" />
+          <Property Name="STDLocal" Type="datetime" />
+          <Property Name="STALocal" Type="datetime" />
+          <Property Name="TakeoffLocal" Type="datetime" />
+          <Property Name="LandingLocal" Type="datetime" />
+          <Property Name="ChocksInLocal" Type="datetime" />
+          <Property Name="ChocksOutLocal" Type="datetime" />
+          <Property Name="FlightStatusID" Type="int" />
+          <Property Name="FromAirportId" Type="int" />
+          <Property Name="ToAirportId" Type="int" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ACTypeId" Type="int" />
+          <Property Name="ACType" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewValidFTL' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -201,6 +306,20 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary
           <Property Name="Action" Type="varchar" MaxLength="255" />
           <Property Name="DateAction" Type="datetime" />
         </EntityType>
+        <Association Name="fk_exh_fdp">
+          <End Role="FDP" Type="Self.FDP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ExtensionHistory" Type="Self.ExtensionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDP">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExtensionHistory">
+              <PropertyRef Name="FDPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_fdp_fdp">
           <End Role="FDP" Type="Self.FDP" Multiplicity="0..1" />
           <End Role="FDP1" Type="Self.FDP" Multiplicity="*" />
@@ -213,8 +332,93 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_fdpextra_fdp">
+          <End Role="FDP" Type="Self.FDP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FDPExtra" Type="Self.FDPExtra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDP">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FDPExtra">
+              <PropertyRef Name="FDPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fdpitem_fdp">
+          <End Role="FDP" Type="Self.FDP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FDPItem" Type="Self.FDPItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDP">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FDPItem">
+              <PropertyRef Name="FDPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="dbModelStoreContainer">
+          <EntitySet Name="ExtensionHistory" EntityType="Self.ExtensionHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FDP" EntityType="Self.FDP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FDPExtra" EntityType="Self.FDPExtra" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FDPItem" EntityType="Self.FDPItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AppFTL" EntityType="Self.AppFTL" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AppFTL].[CDate] AS [CDate], 
+    [AppFTL].[CrewId] AS [CrewId], 
+    [AppFTL].[Duty7] AS [Duty7], 
+    [AppFTL].[Duty7Remain] AS [Duty7Remain], 
+    [AppFTL].[Duty14] AS [Duty14], 
+    [AppFTL].[Duty14Remain] AS [Duty14Remain], 
+    [AppFTL].[Duty28] AS [Duty28], 
+    [AppFTL].[Duty28Remain] AS [Duty28Remain], 
+    [AppFTL].[Flight28] AS [Flight28], 
+    [AppFTL].[Flight28Remain] AS [Flight28Remain], 
+    [AppFTL].[FlightYear] AS [FlightYear], 
+    [AppFTL].[FlightYearRemain] AS [FlightYearRemain], 
+    [AppFTL].[FlightCYear] AS [FlightCYear], 
+    [AppFTL].[FlightCYearRemain] AS [FlightCYearRemain], 
+    [AppFTL].[FirstName] AS [FirstName], 
+    [AppFTL].[LastName] AS [LastName], 
+    [AppFTL].[Name] AS [Name], 
+    [AppFTL].[NID] AS [NID], 
+    [AppFTL].[Mobile] AS [Mobile], 
+    [AppFTL].[ScheduleName] AS [ScheduleName], 
+    [AppFTL].[JobGroup] AS [JobGroup], 
+    [AppFTL].[JobGroupCode] AS [JobGroupCode], 
+    [AppFTL].[IsCockpit] AS [IsCockpit]
+    FROM [dbo].[AppFTL] AS [AppFTL]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SchFlight" EntityType="Self.SchFlight" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SchFlight].[ID] AS [ID], 
+    [SchFlight].[STD] AS [STD], 
+    [SchFlight].[STA] AS [STA], 
+    [SchFlight].[Takeoff] AS [Takeoff], 
+    [SchFlight].[Landing] AS [Landing], 
+    [SchFlight].[ChocksIn] AS [ChocksIn], 
+    [SchFlight].[ChocksOut] AS [ChocksOut], 
+    [SchFlight].[STDLocal] AS [STDLocal], 
+    [SchFlight].[STALocal] AS [STALocal], 
+    [SchFlight].[TakeoffLocal] AS [TakeoffLocal], 
+    [SchFlight].[LandingLocal] AS [LandingLocal], 
+    [SchFlight].[ChocksInLocal] AS [ChocksInLocal], 
+    [SchFlight].[ChocksOutLocal] AS [ChocksOutLocal], 
+    [SchFlight].[FlightStatusID] AS [FlightStatusID], 
+    [SchFlight].[FromAirportId] AS [FromAirportId], 
+    [SchFlight].[ToAirportId] AS [ToAirportId], 
+    [SchFlight].[FlightNumber] AS [FlightNumber], 
+    [SchFlight].[FromAirportIATA] AS [FromAirportIATA], 
+    [SchFlight].[ToAirportIATA] AS [ToAirportIATA], 
+    [SchFlight].[RegisterID] AS [RegisterID], 
+    [SchFlight].[Register] AS [Register], 
+    [SchFlight].[ACTypeId] AS [ACTypeId], 
+    [SchFlight].[ACType] AS [ACType]
+    FROM [dbo].[SchFlight] AS [SchFlight]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewCrewValidFTL" EntityType="Self.ViewCrewValidFTL" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewCrewValidFTL].[Id] AS [Id], 
@@ -329,9 +533,21 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary
     [ViewFDPLog].[DateAction] AS [DateAction]
     FROM [dbo].[ViewFDPLog] AS [ViewFDPLog]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="fk_exh_fdp" Association="Self.fk_exh_fdp">
+            <End Role="FDP" EntitySet="FDP" />
+            <End Role="ExtensionHistory" EntitySet="ExtensionHistory" />
+          </AssociationSet>
           <AssociationSet Name="fk_fdp_fdp" Association="Self.fk_fdp_fdp">
             <End Role="FDP" EntitySet="FDP" />
             <End Role="FDP1" EntitySet="FDP" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fdpextra_fdp" Association="Self.fk_fdpextra_fdp">
+            <End Role="FDP" EntitySet="FDP" />
+            <End Role="FDPExtra" EntitySet="FDPExtra" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fdpitem_fdp" Association="Self.fk_fdpitem_fdp">
+            <End Role="FDP" EntitySet="FDP" />
+            <End Role="FDPItem" EntitySet="FDPItem" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -346,6 +562,23 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary
           </AssociationSet>
           <EntitySet Name="ViewFDPLogs" EntityType="dbModel.ViewFDPLog" />
           <EntitySet Name="ViewCrewValidFTLs" EntityType="dbModel.ViewCrewValidFTL" />
+          <EntitySet Name="AppFTLs" EntityType="dbModel.AppFTL" />
+          <EntitySet Name="FDPExtras" EntityType="dbModel.FDPExtra" />
+          <AssociationSet Name="fk_fdpextra_fdp" Association="dbModel.fk_fdpextra_fdp">
+            <End Role="FDP" EntitySet="FDPs" />
+            <End Role="FDPExtra" EntitySet="FDPExtras" />
+          </AssociationSet>
+          <EntitySet Name="ExtensionHistories" EntityType="dbModel.ExtensionHistory" />
+          <AssociationSet Name="fk_exh_fdp" Association="dbModel.fk_exh_fdp">
+            <End Role="FDP" EntitySet="FDPs" />
+            <End Role="ExtensionHistory" EntitySet="ExtensionHistories" />
+          </AssociationSet>
+          <EntitySet Name="FDPItems" EntityType="dbModel.FDPItem" />
+          <AssociationSet Name="fk_fdpitem_fdp" Association="dbModel.fk_fdpitem_fdp">
+            <End Role="FDP" EntitySet="FDPs" />
+            <End Role="FDPItem" EntitySet="FDPItems" />
+          </AssociationSet>
+          <EntitySet Name="SchFlights" EntityType="dbModel.SchFlight" />
         </EntityContainer>
         <EntityType Name="FDP">
           <Key>
@@ -408,6 +641,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary
           <Property Name="FX" Type="Int32" />
           <NavigationProperty Name="FDP1" Relationship="dbModel.fk_fdp_fdp" FromRole="FDP" ToRole="FDP1" />
           <NavigationProperty Name="FDP2" Relationship="dbModel.fk_fdp_fdp" FromRole="FDP1" ToRole="FDP" />
+          <NavigationProperty Name="FDPExtras" Relationship="dbModel.fk_fdpextra_fdp" FromRole="FDP" ToRole="FDPExtra" />
+          <NavigationProperty Name="ExtensionHistories" Relationship="dbModel.fk_exh_fdp" FromRole="FDP" ToRole="ExtensionHistory" />
+          <NavigationProperty Name="FDPItems" Relationship="dbModel.fk_fdpitem_fdp" FromRole="FDP" ToRole="FDPItem" />
         </EntityType>
         <Association Name="fk_fdp_fdp">
           <End Type="dbModel.FDP" Role="FDP" Multiplicity="0..1" />
@@ -552,6 +788,152 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary
           <Property Name="LicenceIssued" Type="DateTime" Precision="3" />
           <Property Name="TREExpired" Type="DateTime" Precision="3" />
           <Property Name="TRIExpired" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="AppFTL">
+          <Key>
+            <PropertyRef Name="CDate" />
+            <PropertyRef Name="CrewId" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="NID" />
+            <PropertyRef Name="IsCockpit" />
+          </Key>
+          <Property Name="CDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CrewId" Type="Int32" Nullable="false" />
+          <Property Name="Duty7" Type="Double" />
+          <Property Name="Duty7Remain" Type="Double" />
+          <Property Name="Duty14" Type="Double" />
+          <Property Name="Duty14Remain" Type="Double" />
+          <Property Name="Duty28" Type="Double" />
+          <Property Name="Duty28Remain" Type="Double" />
+          <Property Name="Flight28" Type="Double" />
+          <Property Name="Flight28Remain" Type="Double" />
+          <Property Name="FlightYear" Type="Double" />
+          <Property Name="FlightYearRemain" Type="Double" />
+          <Property Name="FlightCYear" Type="Double" />
+          <Property Name="FlightCYearRemain" Type="Double" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsCockpit" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FDPExtra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FDPId" Type="Int32" Nullable="false" />
+          <Property Name="MaxFDP" Type="Decimal" Precision="10" Scale="5" />
+          <NavigationProperty Name="FDP" Relationship="dbModel.fk_fdpextra_fdp" FromRole="FDPExtra" ToRole="FDP" />
+        </EntityType>
+        <Association Name="fk_fdpextra_fdp">
+          <End Type="dbModel.FDP" Role="FDP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.FDPExtra" Role="FDPExtra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDP">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FDPExtra">
+              <PropertyRef Name="FDPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ExtensionHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FDPId" Type="Int32" Nullable="false" />
+          <Property Name="CrewId" Type="Int32" Nullable="false" />
+          <Property Name="Extension" Type="Int32" />
+          <Property Name="DutyStart" Type="DateTime" Precision="3" />
+          <Property Name="Sectors" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FDP" Relationship="dbModel.fk_exh_fdp" FromRole="ExtensionHistory" ToRole="FDP" />
+        </EntityType>
+        <Association Name="fk_exh_fdp">
+          <End Type="dbModel.FDP" Role="FDP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.ExtensionHistory" Role="ExtensionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDP">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExtensionHistory">
+              <PropertyRef Name="FDPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FDPItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FDPId" Type="Int32" Nullable="false" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="IsSector" Type="Boolean" Nullable="false" />
+          <Property Name="SplitDutyPairId" Type="Int32" />
+          <Property Name="SplitDuty" Type="Boolean" />
+          <Property Name="IsPositioning" Type="Boolean" />
+          <Property Name="IsOff" Type="Boolean" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="RosterPositionId" Type="Int32" />
+          <Property Name="Pickup" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FDP" Relationship="dbModel.fk_fdpitem_fdp" FromRole="FDPItem" ToRole="FDP" />
+        </EntityType>
+        <Association Name="fk_fdpitem_fdp">
+          <End Type="dbModel.FDP" Role="FDP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.FDPItem" Role="FDPItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FDP">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FDPItem">
+              <PropertyRef Name="FDPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SchFlight">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Register" />
+            <PropertyRef Name="ACType" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="Takeoff" Type="DateTime" Precision="3" />
+          <Property Name="Landing" Type="DateTime" Precision="3" />
+          <Property Name="ChocksIn" Type="DateTime" Precision="3" />
+          <Property Name="ChocksOut" Type="DateTime" Precision="3" />
+          <Property Name="STDLocal" Type="DateTime" Precision="3" />
+          <Property Name="STALocal" Type="DateTime" Precision="3" />
+          <Property Name="TakeoffLocal" Type="DateTime" Precision="3" />
+          <Property Name="LandingLocal" Type="DateTime" Precision="3" />
+          <Property Name="ChocksInLocal" Type="DateTime" Precision="3" />
+          <Property Name="ChocksOutLocal" Type="DateTime" Precision="3" />
+          <Property Name="FlightStatusID" Type="Int32" />
+          <Property Name="FromAirportId" Type="Int32" />
+          <Property Name="ToAirportId" Type="Int32" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="Register" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ACTypeId" Type="Int32" />
+          <Property Name="ACType" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -735,6 +1117,104 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary
                 <ScalarProperty Name="PID" ColumnName="PID" />
                 <ScalarProperty Name="SexId" ColumnName="SexId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppFTLs">
+            <EntityTypeMapping TypeName="dbModel.AppFTL">
+              <MappingFragment StoreEntitySet="AppFTL">
+                <ScalarProperty Name="IsCockpit" ColumnName="IsCockpit" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="NID" ColumnName="NID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="FlightCYearRemain" ColumnName="FlightCYearRemain" />
+                <ScalarProperty Name="FlightCYear" ColumnName="FlightCYear" />
+                <ScalarProperty Name="FlightYearRemain" ColumnName="FlightYearRemain" />
+                <ScalarProperty Name="FlightYear" ColumnName="FlightYear" />
+                <ScalarProperty Name="Flight28Remain" ColumnName="Flight28Remain" />
+                <ScalarProperty Name="Flight28" ColumnName="Flight28" />
+                <ScalarProperty Name="Duty28Remain" ColumnName="Duty28Remain" />
+                <ScalarProperty Name="Duty28" ColumnName="Duty28" />
+                <ScalarProperty Name="Duty14Remain" ColumnName="Duty14Remain" />
+                <ScalarProperty Name="Duty14" ColumnName="Duty14" />
+                <ScalarProperty Name="Duty7Remain" ColumnName="Duty7Remain" />
+                <ScalarProperty Name="Duty7" ColumnName="Duty7" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDPExtras">
+            <EntityTypeMapping TypeName="dbModel.FDPExtra">
+              <MappingFragment StoreEntitySet="FDPExtra">
+                <ScalarProperty Name="MaxFDP" ColumnName="MaxFDP" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExtensionHistories">
+            <EntityTypeMapping TypeName="dbModel.ExtensionHistory">
+              <MappingFragment StoreEntitySet="ExtensionHistory">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Sectors" ColumnName="Sectors" />
+                <ScalarProperty Name="DutyStart" ColumnName="DutyStart" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FDPItems">
+            <EntityTypeMapping TypeName="dbModel.FDPItem">
+              <MappingFragment StoreEntitySet="FDPItem">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Pickup" ColumnName="Pickup" />
+                <ScalarProperty Name="RosterPositionId" ColumnName="RosterPositionId" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="IsOff" ColumnName="IsOff" />
+                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
+                <ScalarProperty Name="SplitDuty" ColumnName="SplitDuty" />
+                <ScalarProperty Name="SplitDutyPairId" ColumnName="SplitDutyPairId" />
+                <ScalarProperty Name="IsSector" ColumnName="IsSector" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SchFlights">
+            <EntityTypeMapping TypeName="dbModel.SchFlight">
+              <MappingFragment StoreEntitySet="SchFlight">
+                <ScalarProperty Name="ACType" ColumnName="ACType" />
+                <ScalarProperty Name="ACTypeId" ColumnName="ACTypeId" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="ToAirportIATA" ColumnName="ToAirportIATA" />
+                <ScalarProperty Name="FromAirportIATA" ColumnName="FromAirportIATA" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="ToAirportId" ColumnName="ToAirportId" />
+                <ScalarProperty Name="FromAirportId" ColumnName="FromAirportId" />
+                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
+                <ScalarProperty Name="ChocksOutLocal" ColumnName="ChocksOutLocal" />
+                <ScalarProperty Name="ChocksInLocal" ColumnName="ChocksInLocal" />
+                <ScalarProperty Name="LandingLocal" ColumnName="LandingLocal" />
+                <ScalarProperty Name="TakeoffLocal" ColumnName="TakeoffLocal" />
+                <ScalarProperty Name="STALocal" ColumnName="STALocal" />
+                <ScalarProperty Name="STDLocal" ColumnName="STDLocal" />
+                <ScalarProperty Name="ChocksOut" ColumnName="ChocksOut" />
+                <ScalarProperty Name="ChocksIn" ColumnName="ChocksIn" />
+                <ScalarProperty Name="Landing" ColumnName="Landing" />
+                <ScalarProperty Name="Takeoff" ColumnName="Takeoff" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

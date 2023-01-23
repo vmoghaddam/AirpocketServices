@@ -40,5 +40,6 @@ namespace ApiReportFlight.Models
         public virtual DbSet<RptFDPItem> RptFDPItems { get; set; }
         public virtual DbSet<RptNoFDP> RptNoFDPs { get; set; }
         public virtual DbSet<RptFDP2> RptFDP2 { get; set; }
+        public virtual DbSet<RptRefuse> RptRefuses { get; set; }
     }
 }

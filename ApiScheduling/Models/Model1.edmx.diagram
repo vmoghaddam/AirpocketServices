@@ -9,6 +9,14 @@
         <AssociationConnector Association="dbModel.fk_fdp_fdp" />
         <EntityTypeShape EntityType="dbModel.ViewFDPLog" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.ViewCrewValidFTL" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.AppFTL" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="dbModel.FDPExtra" Width="1.5" PointX="9.625" PointY="6" />
+        <AssociationConnector Association="dbModel.fk_fdpextra_fdp" />
+        <EntityTypeShape EntityType="dbModel.ExtensionHistory" Width="1.5" PointX="9.625" PointY="8.625" />
+        <AssociationConnector Association="dbModel.fk_exh_fdp" />
+        <EntityTypeShape EntityType="dbModel.FDPItem" Width="1.5" PointX="9.625" PointY="1.25" />
+        <AssociationConnector Association="dbModel.fk_fdpitem_fdp" />
+        <EntityTypeShape EntityType="dbModel.SchFlight" Width="1.5" PointX="12.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

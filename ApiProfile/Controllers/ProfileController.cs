@@ -138,6 +138,241 @@ namespace ApiProfile.Controllers
             return Ok(employee);
         }
 
+        public class UpdTrnDto
+        {
+            public List<int> ids { get; set; }
+            public DateTime issue { get; set; }
+            public DateTime expire { get; set; }
+            public string type { get; set; }
+        }
+        [Route("api/upd/trn")]
+        [AcceptVerbs("POST")]
+        public IHttpActionResult PostUpdTrn(UpdTrnDto dto)
+        {
+            var context = new Models.dbEntities();
+            var people = context.People.Where(q => dto.ids.Contains(q.Id)).ToList();
+
+            foreach (var person in people)
+            {
+                switch (dto.type)
+                {
+                    //dg
+                    case "DG":
+                    case "DIS-DG":
+
+                        person.DangerousGoodsExpireDate = dto.expire;
+                        person.DangerousGoodsIssueDate = dto.issue;
+
+                        break;
+                    //1	SEPT-P
+                    case "SEPTP":
+
+                        person.SEPTPExpireDate = dto.expire;
+                        person.SEPTPIssueDate = dto.issue;
+
+                        break;
+                    //2   SEPT - T
+                    case "SEPTT":
+
+                        person.SEPTExpireDate = dto.expire;
+                        person.SEPTIssueDate = dto.issue;
+
+                        break;
+                    //4	CRM
+                    case "CRM":
+
+                        person.UpsetRecoveryTrainingExpireDate = dto.expire;
+                        person.UpsetRecoveryTrainingIssueDate = dto.issue;
+
+                        break;
+                    //5	CCRM
+                    case "CCRM":
+
+                        person.CCRMExpireDate = dto.expire;
+                        person.CCRMIssueDate = dto.issue;
+
+                        break;
+                    //6	SMS
+                    case "SMS":
+                    case "DIS-SMS":
+
+                        person.SMSExpireDate = dto.expire;
+                        person.SMSIssueDate = dto.issue;
+
+                        break;
+                    //7	AV-SEC
+                    case "AVSEC":
+                    case "DIS-AVSEC":
+
+                        person.AviationSecurityExpireDate = dto.expire;
+                        person.AviationSecurityIssueDate = dto.issue;
+
+                        break;
+                    //8	COLD-WX
+                    case "COLDWX":
+
+                        person.ColdWeatherOperationExpireDate = dto.expire;
+                        person.ColdWeatherOperationIssueDate = dto.issue;
+
+                        break;
+                    //9	HOT-WX
+                    case "HOTWX":
+
+                        person.HotWeatherOperationExpireDate = dto.expire;
+                        person.HotWeatherOperationIssueDate = dto.issue;
+
+                        break;
+                    //10	FIRSTAID
+                    case "FIRSTAID":
+
+                        person.FirstAidExpireDate = dto.expire;
+                        person.FirstAidIssueDate = dto.issue;
+
+                        break;
+                    //lpc
+                    case "LINE":
+
+                        person.LineExpireDate = dto.expire;
+                        person.LineIssueDate = dto.issue;
+
+                        break;
+
+                    //lpr
+                    case "TYPEMD":
+
+                        person.TypeMDExpireDate = dto.expire;
+                        person.TypeMDIssueDate = dto.issue;
+                        // person.ProficiencyCheckDateOPC = cp.DateIssue;
+
+                        break;
+                    case "TYPE737":
+
+                        person.Type737ExpireDate = dto.expire;
+                        person.Type737IssueDate = dto.issue;
+                        break;
+                    case "TYPEAIRBUS":
+
+                        person.TypeAirbusExpireDate = dto.expire;
+                        person.TypeAirbusIssueDate = dto.issue;
+
+                        break;
+                    //grt
+
+                    //recurrent
+                    case "RECURRENT":
+
+                        person.RecurrentExpireDate = dto.expire;
+                        person.RecurrentIssueDate = dto.issue;
+
+                        break;
+                    //fmt
+                    case "FMT":
+
+                        person.FMTExpireDate = dto.expire;
+                        person.FMTIssueDate = dto.issue;
+
+                        break;
+                    //                      { type: 'DIS-AT', title: 'AIR TRAFFIC', REC: 3 },
+                    case "DIS-AT":
+
+                        person.ExpireDate5 = dto.expire;
+                        person.IssueDate5 = dto.issue;
+
+                        break;
+                    //{ type: 'DIS-AI', title: 'AV. INTRODUCTION', REC: 3 },
+                    case "DIS-AI":
+
+                        person.ExpireDate7 = dto.expire;
+                        person.IssueDate7 = dto.issue;
+
+                        break;
+                    //{ type: 'DIS-RC', title: 'COMMUNICATION', REC: 3 },
+                    case "DIS-RC":
+
+                        person.LRCExpireDate = dto.expire;
+                        person.LRCIssueDate = dto.issue;
+
+                        break;
+
+                    //{ type: 'DIS-FM', title: 'FLIGHT MONITORING', REC: 3 },
+                    case "DIS-FM":
+
+                        person.ExpireDate4 = dto.expire;
+                        person.IssueDate4 = dto.issue;
+
+                        break;
+                    //{ type: 'DIS-ERP', title: 'ERP', REC: 3 },
+                    case "DIS-ERP":
+
+                        person.ERPExpireDate = dto.expire;
+                        person.ERPIssueDate = dto.issue;
+
+                        break;
+                    //{ type: 'DIS-MEL', title: 'MEL', REC: 3 },
+                    case "DIS-MEL":
+
+                        person.MELExpireDate = dto.expire;
+                        person.MELIssueDate = dto.issue;
+
+                        break;
+                    //{ type: 'DIS-NAV', title: 'NAVIGATION', REC: 3 },
+                    case "DIS-NAV":
+
+                        person.ExpireDate6 = dto.expire;
+                        person.IssueDate6 = dto.issue;
+
+                        break;
+                    //{ type: 'DIS-MET', title: 'METEOROLOGY', REC: 3 },
+                    case "DIS-MET":
+
+                        person.METExpireDate = dto.expire;
+                        person.METIssueDate = dto.issue;
+
+                        break;
+                    //{ type: 'DIS-MB', title: 'M & B', REC: 3 },
+                    case "DIS-MB":
+
+                        person.MBExpireDate = dto.expire;
+                        person.MBIssueDate = dto.issue;
+
+                        break;
+                    //{ type: 'DIS-AIRLAW', title: 'AIR LAW', REC: 3 },
+                    case "DIS-AIRLAW":
+
+                        person.ExpireDate8 = dto.expire;
+                        person.IssueDate8 = dto.issue;
+
+                        break;
+                    //{ type: 'DIS-FP', title: 'FLIGHT PLAN', REC: 3 },
+                    case "DIS-FP":
+
+                        person.RSPExpireDate = dto.expire;
+                        person.RSPIssueDate = dto.issue;
+
+                        break;
+                    //{ type: 'DIS-DRM', title: 'DRM', REC: 3 },
+                    case "DIS-DRM":
+
+                        person.DRMExpireDate = dto.expire;
+                        person.DRMIssueDate = dto.issue;
+
+                        break;
+                    //{ type: 'DIS-PER', title: 'PERFORMANCE', REC: 3 },
+                    case "DIS-PER":
+
+                        person.PERExpireDate = dto.expire;
+                        person.PERIssueDate = dto.issue;
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+            var result = context.SaveChanges();
+            return Ok(result);
+        }
+
+
         [Route("api/profiles/main/{cid}/{active}/{grp}")]
 
         public async Task<IHttpActionResult> GetProfilesByCustomerId(int cid,int active,string grp)
