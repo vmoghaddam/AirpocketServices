@@ -180,6 +180,9 @@
     <Compile Include="Models\EFBDSPRelease.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EFBValue.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FDPItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

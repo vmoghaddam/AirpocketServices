@@ -605,11 +605,70 @@ namespace ApiAPSB.Controllers
             });
         }
 
+        DateTime ParseDate(string str)
+        {
+            var _y =Convert.ToInt32( str.Substring(0, 4));
+            var _m = Convert.ToInt32(str.Substring(4, 2));
+            var _d = Convert.ToInt32(str.Substring(6, 2));
+            var _h = Convert.ToInt32(str.Substring(8, 2));
+            var _mm = Convert.ToInt32(str.Substring(10, 2));
+            var _s = Convert.ToInt32(str.Substring(12, 2));
+
+            var dt = new DateTime(_y, _m, _d, _h, _mm, _s);
+
+            return dt;
+        }
+
+        [Route("api/efb/value/save")]
+
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> PostEFBValue(EFBValues dto)
+        {
+            var _context = new Models.dbEntities();
+
+            foreach(var rec in dto.Values)
+            {
+                var dbrec = new EFBValue();
+                dbrec.UserName = rec.UserName;
+                dbrec.FieldName = rec.FieldName;
+                dbrec.FieldValue = rec.FieldValue;
+                dbrec.TableName = rec.TableName;
+                dbrec.FlightId = rec.FlightId;
+                dbrec.DateCreate = ParseDate(rec.DateCreate);
+
+                _context.EFBValues.Add(dbrec);
+            }
+            var saveResult = await _context.SaveChangesAsync();
+ 
+            return Ok(new DataResponse() { IsSuccess = true });
+
+
+
+            // return new DataResponse() { IsSuccess = false };
+        }
+
         public class DataResponse
         {
             public bool IsSuccess { get; set; }
             public object Data { get; set; }
             public List<string> Errors { get; set; }
+        }
+
+        public class EFBValueObj
+        {
+            public int id { get; set; }
+            public int FlightId { get; set; }
+            public string DateCreate { get; set; }
+            public string FieldName { get; set; }
+            public string FieldValue { get; set; }
+            public string TableName { get; set; }
+            public string UserName { get; set; }
+
+
+        }
+        public class EFBValues
+        {
+            public List<EFBValueObj> Values { get; set; }
         }
 
         public class DSPReleaseViewModel

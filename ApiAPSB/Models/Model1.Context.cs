@@ -36,5 +36,6 @@ namespace ApiAPSB.Models
         public virtual DbSet<FlightInformation> FlightInformations { get; set; }
         public virtual DbSet<ViewLegTime> ViewLegTimes { get; set; }
         public virtual DbSet<FlightDocument> FlightDocuments { get; set; }
+        public virtual DbSet<EFBValue> EFBValues { get; set; }
     }
 }

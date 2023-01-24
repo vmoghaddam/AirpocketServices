@@ -5,6 +5,24 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EFBValue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TableName" Type="varchar" MaxLength="500" />
+          <Property Name="FieldName" Type="varchar" MaxLength="500" />
+          <Property Name="FieldValue" Type="nvarchar" MaxLength="2000" />
+          <Property Name="FieldValueDate" Type="datetime2" Precision="7" />
+          <Property Name="DateCreate" Type="datetime2" Precision="7" />
+          <Property Name="UserName" Type="varchar" MaxLength="255" />
+          <Property Name="Remark" Type="varchar" MaxLength="500" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="TableKey" Type="varchar" MaxLength="255" />
+          <Property Name="TableKeyValueInt" Type="int" />
+          <Property Name="TableKey2" Type="varchar" MaxLength="255" />
+          <Property Name="TableKey2Value" Type="varchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="TOLNDCard">
           <Key>
             <PropertyRef Name="Id" />
@@ -58,6 +76,7 @@
           <Property Name="VCLEAN" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityContainer Name="dbModelStoreContainer">
+          <EntitySet Name="EFBValue" EntityType="Self.EFBValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TOLNDCard" EntityType="Self.TOLNDCard" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -66,6 +85,7 @@
       <Schema Namespace="dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="dbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TOLNDCards" EntityType="dbModel.TOLNDCard" />
+          <EntitySet Name="EFBValues" EntityType="dbModel.EFBValue" />
         </EntityContainer>
         <EntityType Name="TOLNDCard">
           <Key>
@@ -118,6 +138,24 @@
           <Property Name="VFLAP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VSLAT" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VCLEAN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EFBValue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TableName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FieldName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FieldValue" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="FieldValueDate" Type="DateTime" Precision="7" />
+          <Property Name="DateCreate" Type="DateTime" Precision="7" />
+          <Property Name="UserName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="TableKey" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TableKeyValueInt" Type="Int32" />
+          <Property Name="TableKey2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TableKey2Value" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -174,6 +212,25 @@
                 <ScalarProperty Name="RW" ColumnName="RW" />
                 <ScalarProperty Name="Information" ColumnName="Information" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EFBValues">
+            <EntityTypeMapping TypeName="dbModel.EFBValue">
+              <MappingFragment StoreEntitySet="EFBValue">
+                <ScalarProperty Name="TableKey2Value" ColumnName="TableKey2Value" />
+                <ScalarProperty Name="TableKey2" ColumnName="TableKey2" />
+                <ScalarProperty Name="TableKeyValueInt" ColumnName="TableKeyValueInt" />
+                <ScalarProperty Name="TableKey" ColumnName="TableKey" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="FieldValueDate" ColumnName="FieldValueDate" />
+                <ScalarProperty Name="FieldValue" ColumnName="FieldValue" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
