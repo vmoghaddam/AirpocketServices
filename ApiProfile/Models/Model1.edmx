@@ -68,6 +68,17 @@
           <Property Name="Remark" Type="varchar" MaxLength="1000" />
           <Property Name="DateCreate" Type="datetime" />
         </EntityType>
+        <EntityType Name="LoginInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User" Type="varchar" MaxLength="500" />
+          <Property Name="DateCreate" Type="datetime" />
+          <Property Name="Info" Type="varchar(max)" />
+          <Property Name="IP" Type="varchar" MaxLength="500" />
+          <Property Name="LocationCity" Type="varchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="Person">
           <Key>
             <PropertyRef Name="Id" />
@@ -960,6 +971,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeLocation" EntityType="Self.EmployeeLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IdeaUnique" EntityType="Self.IdeaUnique" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoginInfo" EntityType="Self.LoginInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonAircraftType" EntityType="Self.PersonAircraftType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonCustomer" EntityType="Self.PersonCustomer" Schema="dbo" store:Type="Tables" />
@@ -1384,6 +1396,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
             <End Role="Person" EntitySet="People" />
             <End Role="PersonAircraftType" EntitySet="PersonAircraftTypes" />
           </AssociationSet>
+          <EntitySet Name="LoginInfoes" EntityType="dbModel.LoginInfo" />
           </EntityContainer>
         <EntityType Name="IdeaUnique">
           <Key>
@@ -2306,6 +2319,17 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LoginInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreate" Type="DateTime" Precision="3" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IP" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LocationCity" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3107,6 +3131,18 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoginInfoes">
+            <EntityTypeMapping TypeName="dbModel.LoginInfo">
+              <MappingFragment StoreEntitySet="LoginInfo">
+                <ScalarProperty Name="LocationCity" ColumnName="LocationCity" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="User" ColumnName="User" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

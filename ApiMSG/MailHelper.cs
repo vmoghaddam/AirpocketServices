@@ -1134,7 +1134,10 @@ namespace ApiMSG
 
 
     }
-
+    public class ippanel
+    {
+        
+    }
     public class Magfa
     {
         string username = "atlas_82173";// "varesh_85972"; //ConfigurationManager.AppSettings["magfa_user"];/* "taban";*/ //ConfigurationManager.AppSettings["magfa_user"]; //"caspianline"; //"flypersia_48000";

@@ -309,18 +309,7 @@ namespace XAPI.Controllers
                     ctx.OFPSkyPuters.Add(entity);
                     ctx.SaveChanges();
 
-                    //HttpClient client = new HttpClient();
-                    //var values = new Dictionary<string, string>
-                    //             {
-                    //                  { "key", dto.key },
-                    //                  { "plan", dto.plan }
-                    //             };
-
-                    //var content = new FormUrlEncodedContent(values);
-
-                    //var response =  await client.PostAsync ("https://fleet.flypersia.aero/xpi/api/skyputer", content);
-
-                    //var responseString = await response.Content.ReadAsStringAsync();
+                   
                     string responsebody = "NO";
                     using (WebClient client = new WebClient())
                     {
@@ -329,6 +318,35 @@ namespace XAPI.Controllers
                         reqparm.Add("plan", dto.plan);
                         byte[] responsebytes = client.UploadValues("https://fleet.flypersia.aero/xpi/api/skyputer/flypersia", "POST", reqparm);
                           responsebody = Encoding.UTF8.GetString(responsebytes);
+
+                    }
+                    return Ok(true);
+                }
+                else if (dto.plan.Contains("CHABAHAR") || dto.plan.Contains("Chabahar"))
+                {
+                    result = "CHB";
+                    var entity = new OFPSkyPuter()
+                    {
+                        OFP = dto.plan,
+                        DateCreate = DateTime.Now,
+                        UploadStatus = 0,
+
+
+                    };
+                    var ctx = new PPAEntities();
+                    ctx.Database.CommandTimeout = 1000;
+                    ctx.OFPSkyPuters.Add(entity);
+                    ctx.SaveChanges();
+
+
+                    string responsebody = "NO";
+                    using (WebClient client = new WebClient())
+                    {
+                        var reqparm = new System.Collections.Specialized.NameValueCollection();
+                        reqparm.Add("key", dto.key);
+                        reqparm.Add("plan", dto.plan);
+                        byte[] responsebytes = client.UploadValues("https://xpi.chb.skybag.click/api/skyputer/chb", "POST", reqparm);
+                        responsebody = Encoding.UTF8.GetString(responsebytes);
 
                     }
                     return Ok(true);
@@ -406,6 +424,52 @@ namespace XAPI.Controllers
             catch (Exception ex)
             {
                 return Ok(true);
+            }
+
+        }
+
+        [Route("api/skyputer/chb")]
+        [AcceptVerbs("POST")]
+        public IHttpActionResult PostSkyputerCHB(skyputer dto)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(dto.key))
+                    return Ok("Authorization key not found.");
+                if (string.IsNullOrEmpty(dto.plan))
+                    return Ok("Plan cannot be empty.");
+                if (dto.key != "Skyputer@1359#")
+                    return Ok("Authorization key is wrong.");
+
+
+
+                var entity = new OFPSkyPuter()
+                {
+                    OFP = dto.plan,
+                    DateCreate = DateTime.Now,
+                    UploadStatus = 0,
+
+
+                };
+                var ctx = new PPAEntities();
+                ctx.Database.CommandTimeout = 1000;
+                ctx.OFPSkyPuters.Add(entity);
+                ctx.SaveChanges();
+                new Thread(async () =>
+                {
+                    GetSkyputerImport(entity.Id);
+                }).Start();
+                return Ok(true);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += " Inner: " + ex.InnerException.Message;
+                return Ok(msg);
             }
 
         }
@@ -838,17 +902,23 @@ namespace XAPI.Controllers
                     jsonObj.Add("_key", _key);
                     wtdrfJson.Add(jsonObj);
 
-                    procStr = "{IDX:'7',X:'+6',FUEL:'" + aldrfRows[13].Replace(" ", "") + "'}";
-                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
-                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
-                    jsonObj.Add("_key", _key);
-                    wtdrfJson.Add(jsonObj);
+                    try {
+                        procStr = "{IDX:'7',X:'+6',FUEL:'" + aldrfRows[13].Replace(" ", "") + "'}";
+                        jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                        _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                        jsonObj.Add("_key", _key);
+                        wtdrfJson.Add(jsonObj);
+                    } catch (Exception ex) { }
+                    
 
-                    procStr = "{IDX:'8',X:'+8',FUEL:'" + aldrfRows[15].Replace(" ", "") + "'}";
-                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
-                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
-                    jsonObj.Add("_key", _key);
-                    wtdrfJson.Add(jsonObj);
+                   
+                    try {
+                        procStr = "{IDX:'8',X:'+8',FUEL:'" + aldrfRows[15].Replace(" ", "") + "'}";
+                        jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                        _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                        jsonObj.Add("_key", _key);
+                        wtdrfJson.Add(jsonObj);
+                    } catch (Exception ex) { }
 
                     plan.JWTDRF = "[" + string.Join(",", wtdrfJson) + "]";
 
@@ -882,9 +952,38 @@ namespace XAPI.Controllers
                     }
                     if (prm == "TOF")
                     {
-
+                        plan.FuelTOF= Convert.ToInt32(val);
                         fltobj.FPFuel = Convert.ToDecimal(val);
                     }
+                    if (prm == "MIN TOF")
+                    {
+                        plan.FuelMINTOF = Convert.ToInt32(val);
+                    }
+                    if (prm == "CONT[5%]")
+                    {
+                        plan.FuelCONT = Convert.ToInt32(val);
+                    }
+                    if (prm == "ALT 1")
+                    {
+                        plan.FuelALT1 = Convert.ToInt32(val);
+                    }
+                    if (prm == "ALT 2")
+                    {
+                        plan.FuelALT2 = Convert.ToInt32(val);
+                    }
+                    if (prm == "FINAL RES")
+                    {
+                        plan.FuelFINALRES = Convert.ToInt32(val);
+                    }
+                    if (prm == "TAXI")
+                    {
+                        plan.FuelTAXI = Convert.ToInt32(val);
+                    }
+                    if (prm == "OFF BLK")
+                    {
+                        plan.FuelOFFBLOCK = Convert.ToInt32(val);
+                    }
+
 
 
                     props.Add("prop_" + _key);

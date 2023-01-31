@@ -397,6 +397,34 @@ namespace ApiProfile.Controllers
 
         }
 
+
+        [Route("api/login/info")]
+
+        public async Task<IHttpActionResult> GetLoginInfo(DateTime df,DateTime dt,string user,string city)
+        {
+            try
+            {
+                var context = new Models.dbEntities();
+                dt = dt.AddDays(1).Date;
+                var _qry = from x in context.LoginInfoes
+                           where x.DateCreate >= df && x.DateCreate < dt
+                           select x;
+                if (user != "-1")
+                    _qry = _qry.Where(q => q.User == user);
+                if (city != "-1")
+                    _qry = _qry.Where(q => q.LocationCity == city);
+                var query =await context.LoginInfoes.ToListAsync();
+                 
+
+                return Ok(query);
+            }
+            catch (Exception ex)
+            {
+               return  Ok(ex.Message);
+            }
+
+        }
+
         public void FillEmployeeLocations(dbEntities context, Models. Employee employee, ViewModels.Employee dto)
         {
             var exists =  context.EmployeeLocations.Where(q => q.EmployeeId == employee.Id).ToList();

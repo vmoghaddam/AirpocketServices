@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EFBAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="500" />
+          <Property Name="DateCreate" Type="datetime2" Precision="7" />
+          <Property Name="ActionName" Type="varchar" MaxLength="1000" />
+          <Property Name="OldValue" Type="varchar" MaxLength="4000" />
+          <Property Name="NewValue" Type="varchar" MaxLength="4000" />
+        </EntityType>
         <EntityType Name="EFBValue">
           <Key>
             <PropertyRef Name="Id" />
@@ -76,6 +87,7 @@
           <Property Name="VCLEAN" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityContainer Name="dbModelStoreContainer">
+          <EntitySet Name="EFBAction" EntityType="Self.EFBAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EFBValue" EntityType="Self.EFBValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TOLNDCard" EntityType="Self.TOLNDCard" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -86,6 +98,7 @@
         <EntityContainer Name="dbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TOLNDCards" EntityType="dbModel.TOLNDCard" />
           <EntitySet Name="EFBValues" EntityType="dbModel.EFBValue" />
+          <EntitySet Name="EFBActions" EntityType="dbModel.EFBAction" />
         </EntityContainer>
         <EntityType Name="TOLNDCard">
           <Key>
@@ -156,6 +169,17 @@
           <Property Name="TableKeyValueInt" Type="Int32" />
           <Property Name="TableKey2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TableKey2Value" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EFBAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreate" Type="DateTime" Precision="7" />
+          <Property Name="ActionName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="OldValue" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="NewValue" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -231,6 +255,18 @@
                 <ScalarProperty Name="FieldValue" ColumnName="FieldValue" />
                 <ScalarProperty Name="FieldName" ColumnName="FieldName" />
                 <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EFBActions">
+            <EntityTypeMapping TypeName="dbModel.EFBAction">
+              <MappingFragment StoreEntitySet="EFBAction">
+                <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+                <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -32,5 +32,15 @@ namespace ApiMSG.Properties {
                 return ((string)(this["ApiMSG_com_magfa_sms_SoapSmsQueuableImplementationService"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ippanel.com/class/sms/wsdlservice/server.php")]
+        public string ApiMSG_com_ippanel_smsserver {
+            get {
+                return ((string)(this["ApiMSG_com_ippanel_smsserver"]));
+            }
+        }
     }
 }

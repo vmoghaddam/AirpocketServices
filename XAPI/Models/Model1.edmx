@@ -476,6 +476,14 @@
           <Property Name="ALT2" Type="varchar" MaxLength="255" />
           <Property Name="TALT1" Type="varchar" MaxLength="255" />
           <Property Name="TALT2" Type="varchar" MaxLength="255" />
+          <Property Name="FuelALT1" Type="int" />
+          <Property Name="FuelALT2" Type="int" />
+          <Property Name="FuelTOF" Type="int" />
+          <Property Name="FuelTAXI" Type="int" />
+          <Property Name="FuelOFFBLOCK" Type="int" />
+          <Property Name="FuelCONT" Type="int" />
+          <Property Name="FuelMINTOF" Type="int" />
+          <Property Name="FuelFINALRES" Type="int" />
           <Property Name="FPF" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="OFPImportItem">
@@ -1520,6 +1528,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ALT2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TALT1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TALT2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FuelALT1" Type="Int32" />
+          <Property Name="FuelALT2" Type="Int32" />
+          <Property Name="FuelTOF" Type="Int32" />
+          <Property Name="FuelTAXI" Type="Int32" />
+          <Property Name="FuelOFFBLOCK" Type="Int32" />
+          <Property Name="FuelCONT" Type="Int32" />
+          <Property Name="FuelMINTOF" Type="Int32" />
+          <Property Name="FuelFINALRES" Type="Int32" />
           <Property Name="FPF" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FlightInformation" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="OFPImport" ToRole="FlightInformation" />
           <NavigationProperty Name="OFPImportItems" Relationship="ppa_tabanModel.fk_ofpl_ofp" FromRole="OFPImport" ToRole="OFPImportItem" />
@@ -2158,6 +2174,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
             <EntityTypeMapping TypeName="ppa_tabanModel.OFPImport">
               <MappingFragment StoreEntitySet="OFPImport">
                 <ScalarProperty Name="FPF" ColumnName="FPF" />
+                <ScalarProperty Name="FuelFINALRES" ColumnName="FuelFINALRES" />
+                <ScalarProperty Name="FuelMINTOF" ColumnName="FuelMINTOF" />
+                <ScalarProperty Name="FuelCONT" ColumnName="FuelCONT" />
+                <ScalarProperty Name="FuelOFFBLOCK" ColumnName="FuelOFFBLOCK" />
+                <ScalarProperty Name="FuelTAXI" ColumnName="FuelTAXI" />
+                <ScalarProperty Name="FuelTOF" ColumnName="FuelTOF" />
+                <ScalarProperty Name="FuelALT2" ColumnName="FuelALT2" />
+                <ScalarProperty Name="FuelALT1" ColumnName="FuelALT1" />
                 <ScalarProperty Name="TALT2" ColumnName="TALT2" />
                 <ScalarProperty Name="TALT1" ColumnName="TALT1" />
                 <ScalarProperty Name="ALT2" ColumnName="ALT2" />

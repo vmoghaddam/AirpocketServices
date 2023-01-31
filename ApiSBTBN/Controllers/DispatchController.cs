@@ -68,12 +68,12 @@ namespace ApiSBTBN.Controllers
             {
                 var result = new List<TOLNDCard>();
                 var _context = new Models.dbEntities();
-                if(objs==null)
+                if (objs == null)
                     return Ok(new DataResponse()
                     {
                         IsSuccess = false,
-                        Errors =new List<string>() { "objs is null" }
-                 
+                        Errors = new List<string>() { "objs is null" }
+
                     });
                 //var flihgtIds = objs.Select(q => q.FlightId).ToList();
                 foreach (var dto in objs)
@@ -85,8 +85,8 @@ namespace ApiSBTBN.Controllers
                         entity = new TOLNDCard();
                         _context.TOLNDCards.Add(entity);
                     }
-                    
-                    
+
+
                     entity.User = dto.User;
                     entity.DateUpdate = DateTime.UtcNow.ToString("yyyyMMddHHmm");
 
@@ -210,28 +210,30 @@ namespace ApiSBTBN.Controllers
 
                 _context.SaveChanges();
 
-                return Ok(new DataResponse() { 
-                 IsSuccess=true,
-                 Data=result
+                return Ok(new DataResponse()
+                {
+                    IsSuccess = true,
+                    Data = result
                 });
 
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return Ok(new DataResponse() { 
-                 IsSuccess=false,
-                 Errors=new List<string>() { 
+                return Ok(new DataResponse()
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>() {
                   ex.Message+" Inner "+(ex.InnerException==null?"":ex.InnerException.Message)
-                 } 
+                 }
                 });
             }
-            
 
 
 
 
-            
+
+
         }
 
         DateTime ParseDate2(string str)
@@ -276,8 +278,36 @@ namespace ApiSBTBN.Controllers
             // return new DataResponse() { IsSuccess = false };
         }
 
+        [Route("api/efb/action/save")]
+
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> PostEFBValue(EFBActionObj dto)
+        {
+            var _context = new Models.dbEntities();
+
+            var action = new Models.EFBAction()
+            {
+                ActionName = dto.ActionName,
+
+                DateCreate = DateTime.Now,
+                UserName = dto.UserName,
+                NewValue = dto.NewValue,
+                OldValue = dto.OldValue
+            };
+            _context.EFBActions.Add(action);
+            var saveResult = await _context.SaveChangesAsync();
+
+            return Ok(new DataResponse() { IsSuccess = true });
+
+
+
+            // return new DataResponse() { IsSuccess = false };
+        }
+
+
+
     }
-   
+
 
     public class DataResponse
     {
@@ -285,7 +315,13 @@ namespace ApiSBTBN.Controllers
         public object Data { get; set; }
         public List<string> Errors { get; set; }
     }
-
+    public class EFBActionObj
+    {
+        public string UserName { get; set; }
+        public string ActionName { get; set; }
+        public string OldValue { get; set; }
+        public string NewValue { get; set; }
+    }
     public class EFBValueObj
     {
         public int id { get; set; }

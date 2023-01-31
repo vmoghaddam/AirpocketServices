@@ -262,7 +262,7 @@ namespace ApiProfile.Controllers
                             }
                         }
 
-                        if (rec.CourseType == "GRT")
+                        if (rec.CourseType == "GRT" || rec.CourseType == "G&RT")
                         {
                             var person = people.FirstOrDefault(q => q.NID == rec.NID);
                             if (person != null && (person.DateCaoCardIssue==null || rec.DateEnd > person.DateCaoCardIssue))

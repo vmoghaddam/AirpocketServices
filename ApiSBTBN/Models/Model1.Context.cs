@@ -27,5 +27,6 @@ namespace ApiSBTBN.Models
     
         public virtual DbSet<TOLNDCard> TOLNDCards { get; set; }
         public virtual DbSet<EFBValue> EFBValues { get; set; }
+        public virtual DbSet<EFBAction> EFBActions { get; set; }
     }
 }
