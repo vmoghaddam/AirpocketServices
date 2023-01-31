@@ -404,6 +404,7 @@ namespace ApiProfile.Controllers
         {
             try
             {
+                city = city.ToLower();
                 var context = new Models.dbEntities();
                 dt = dt.AddDays(1).Date;
                 var _qry = from x in context.LoginInfoes
@@ -412,8 +413,8 @@ namespace ApiProfile.Controllers
                 if (user != "-1")
                     _qry = _qry.Where(q => q.User == user);
                 if (city != "-1")
-                    _qry = _qry.Where(q => q.LocationCity == city);
-                var query =await context.LoginInfoes.ToListAsync();
+                    _qry = _qry.Where(q => q.LocationCity.ToLower() == city);
+                var query =await _qry.Select(q=> new {q.Id,q.IP,q.LocationCity,q.User,q.DateCreate,q.Info }).ToListAsync();
                  
 
                 return Ok(query);
