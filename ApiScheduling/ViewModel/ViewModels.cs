@@ -237,6 +237,29 @@ namespace ApiScheduling.ViewModel
             }
             return result;
         }
+
+        public static List<string> getFlightsStrs(List<Models.SchFlight> flts, List<int?> dhs)
+        {
+            var result = new List<string>();
+            //fdp.flights.push(flt.ID + '_' + _d.dh + '_' + $scope.DatetoStr(new Date(flt.ChocksOut)) + '_' + $scope.DatetoStr(new Date(flt.ChocksIn))
+            //+ '_' + flt.FlightNumber + '_' + flt.FromAirportIATA + '_' + flt.ToAirportIATA);
+            // \"flights\":[\"542235_0_202301200735_202301200905_5822_THR_KIH\",\"542237_0_202301200950_202301201135_5823_KIH_THR\"],
+            //\"key2\":\"542235*0_542237*0\",
+            foreach (var x in flts)
+            {
+                var dh = dhs.FirstOrDefault(q => q == x.ID);
+                var prts = new List<string>();
+                prts.Add(x.ID.ToString());
+                prts.Add(dh==null?"0":"1");
+                prts.Add(((DateTime)x.ChocksOutLocal).ToString("yyyyMMddHHmm"));
+                prts.Add(((DateTime)x.ChocksInLocal).ToString("yyyyMMddHHmm"));
+                prts.Add(x.FlightNumber);
+                prts.Add(x.FromAirportIATA);
+                prts.Add(x.ToAirportIATA);
+                result.Add(string.Join("_", prts));
+            }
+            return result;
+        }
         public static List<RosterFDPDtoItem> getItemsX(List<Models.SchFlight> flts, List<RosterFDPId> ids)
         {
             //oooo

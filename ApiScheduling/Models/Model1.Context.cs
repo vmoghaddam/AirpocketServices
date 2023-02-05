@@ -25,7 +25,6 @@ namespace ApiScheduling.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<FDP> FDPs { get; set; }
         public virtual DbSet<ViewFDPLog> ViewFDPLogs { get; set; }
         public virtual DbSet<ViewCrewValidFTL> ViewCrewValidFTLs { get; set; }
         public virtual DbSet<AppFTL> AppFTLs { get; set; }
@@ -33,5 +32,11 @@ namespace ApiScheduling.Models
         public virtual DbSet<ExtensionHistory> ExtensionHistories { get; set; }
         public virtual DbSet<FDPItem> FDPItems { get; set; }
         public virtual DbSet<SchFlight> SchFlights { get; set; }
+        public virtual DbSet<TableDutyFDP> TableDutyFDPs { get; set; }
+        public virtual DbSet<TableFlightFDP> TableFlightFDPs { get; set; }
+        public virtual DbSet<ViewLegTime> ViewLegTimes { get; set; }
+        public virtual DbSet<FDPMaxDaily> FDPMaxDailies { get; set; }
+        public virtual DbSet<Extension> Extensions { get; set; }
+        public virtual DbSet<FDP> FDPs { get; set; }
     }
 }

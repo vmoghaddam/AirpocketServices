@@ -10187,14 +10187,23 @@ new JsonSerializerSettings
 
             public string _key { get; set; }
         }
-
+        public class phpdto
+        {
+            public string text { get; set; }
+            public string user { get; set; }
+            public string fltId { get; set; }
+        }
         [Route("api/ofp/parse/text/input/varesh")]
         [AcceptVerbs("POST")]
-        public IHttpActionResult PostImportOFPInputVaresh(dynamic dto)
+        public IHttpActionResult PostImportOFPInputVaresh(phpdto dto)
         {
             //kool
             try
             {
+                string ftext = Convert.ToString(dto.text);
+                if (ftext.StartsWith("PLAN"))
+                    return PostImportOFPInputVareshAIRBUS(dto);
+
                 string user = Convert.ToString(dto.user);
                 int fltId = Convert.ToInt32(dto.fltId);
                 //var fn = "FlightPlan_2021.09.01.OIAW.OIII.013.txt";
@@ -10206,7 +10215,7 @@ new JsonSerializerSettings
                 flightObj.ALT2 = "";
 
 
-                string ftext = Convert.ToString(dto.text);
+                
                 ftext = ftext.Replace("..............", "....");
                 ftext = ftext.Replace(".............", "....");
                 ftext = ftext.Replace("............", "....");
@@ -10842,6 +10851,800 @@ new JsonSerializerSettings
             }
 
         }
+
+
+        [Route("api/ofp/parse/text/input/varesh/airbus")]
+        [AcceptVerbs("POST")]
+        public IHttpActionResult PostImportOFPInputVareshAIRBUS(dynamic dto)
+        {
+            //kool
+            try
+            {
+                string user = Convert.ToString(dto.user);
+                int fltId = Convert.ToInt32(dto.fltId);
+                //var fn = "FlightPlan_2021.09.01.OIAW.OIII.013.txt";
+                var context = new AirpocketAPI.Models.FLYEntities();
+
+                var flight = context.ViewLegTimes.FirstOrDefault(q => q.ID == fltId);
+                var flightObj = context.FlightInformations.FirstOrDefault(q => q.ID == fltId);
+                flightObj.ALT1 = "";
+                flightObj.ALT2 = "";
+
+
+                string ftext = Convert.ToString(dto.text);
+                ftext = ftext.Replace("DISPATCHER: ....", "DISPATCHER: ");
+                ftext = ftext.Replace("CAPTAIN: ....", "CAPTAIN: ");
+
+                var __lines = ftext.Split(new[] { '\r', '\n' }).ToList();
+                var __newlines = new List<string>();
+                var __c = 0;
+                foreach(var str in __lines)
+                {
+                    if (str.Contains("TAXI") || str.Contains("DEST")
+                        || str.Contains("CONT") || str.Contains("ALTN")
+                        || str.Contains("FINL") || str.Contains("ADDI")
+                        || str.Contains("REQD") || str.Contains("XTRA")
+                        || str.Contains("TOTL")
+                        )
+                        __newlines.Add(str.Replace(".......", "       "));
+                    else
+                    if (str.Contains("ENG FAIL PROC"))
+                        __newlines.Add("ENG FAIL PROC:****");
+                    //:  CHECK    :TIME(UTC) :   ALT 1  :   ALT 2   :    SBY    :
+                    else if (str.Contains(": GROUND    :    H    Z:          :           :           :"))
+                        __newlines.Add(": GROUND    :$gndtime:$gnd1:$gnd2:$gndsby:");
+                    else if (str.Contains(":BEFORE RVSM:    H    Z:          :           :           :"))
+                        __newlines.Add(":BEFORE RVSM:$rvsmtime:$rvsm1:$rvsm2:$rvsmsby:");
+                    else if (str.Contains(":   TOC     :    H    Z:          :           :           :"))
+                        __newlines.Add(":   TOC     :$toctime:$toc1:$toc2:$tocsby:");
+                    else if (str.Contains(":   01H00   :    H    Z:          :           :           :"))
+                        __newlines.Add(":   01H00   :$01time:$011:$012:$01sby:");
+                    else if (str.Contains(":   02H00   :    H    Z:          :           :           :"))
+                        __newlines.Add(":   02H00   :$02time:$021:$022:$02sby:");
+                    else if (str.Contains(":   03H00   :    H    Z:          :           :           :"))
+                        __newlines.Add(":   03H00   :$03time:$031:$032:$03sby:");
+                    else if (str.Contains(":   04H00   :    H    Z:          :           :           :"))
+                        __newlines.Add(":   04H00   :$04time:$041:$042:$04sby:");
+                    else if (str.Contains(":   05H00   :    H    Z:          :           :           :"))
+                        __newlines.Add(":   05H00   :$05time:$051:$052:$05sby:");
+
+
+                    else
+                        __newlines.Add(str);
+
+                    __c++;
+                }
+
+                ftext = string.Join("\r", __newlines);
+                ftext = ftext.Replace("**************************************", "======================================");
+                ftext = ftext.Replace("********************", "====================");
+                ftext = ftext.Replace("********************", "====================");
+
+
+                ftext = ftext.Replace("* ", "= ");
+                ftext = ftext.Replace(" *", " =");
+                ftext = ftext.Replace("..............", "....");
+                ftext = ftext.Replace(".............", "....");
+                ftext = ftext.Replace("............", "....");
+                ftext = ftext.Replace("...........", "....");
+                ftext = ftext.Replace("..........", "....");
+                ftext = ftext.Replace("........", "....");
+                ftext = ftext.Replace(".......", "....");
+                ftext = ftext.Replace("/...", "/....");
+                 
+
+                //ftext = ftext.Replace("Ground ..... ..... ..... .....", "Ground");
+                //ftext = ftext.Replace("..... ..... ..... ..... .....", "****");
+                ftext = ftext.Replace(".....", "....");
+
+
+                ftext = ftext.Replace(".../.../...", "..../..../....");
+
+
+                var lines = ftext.Split(new[] { '\r', '\n' }).ToList();
+               // lines.Add("ENRATIS1");
+               // lines.Add("ENRATIS2");
+               // lines.Add("ENRATIS3");
+               // lines.Add("ENRATIS4");
+                var linesNoSpace = lines.Select(q => q.Replace(" ", "")).ToList();
+                var linesTrimStart = lines.Select(q => q.TrimStart()).ToList();
+
+
+
+                var cplan = context.OFPImports.FirstOrDefault(q => q.FlightId == fltId);
+                if (cplan != null)
+                    context.OFPImports.Remove(cplan);
+                List<string> props = new List<string>();
+                var plan = new OFPImport()
+                {
+                    DateCreate = DateTime.Now,
+                    DateFlight = flight.STDDay,
+                    FileName = "",
+                    FlightNo = flight.FlightNumber,
+                    Origin = flight.FromAirportICAO,
+                    Destination = flight.ToAirportICAO,
+                    User = user,
+                    Text = ftext,
+
+
+                };
+                if (flight != null)
+                    plan.FlightId = flight.ID;
+                context.OFPImports.Add(plan);
+
+
+
+                var propIndex = 1;
+                var linesProccessed = new List<string>();
+                double? fuelTrip = null;
+                double? fuelTotal = null;
+
+                var _olines = new List<string>();
+                var cln = 0;
+                //foreach(var ln in lines)
+                while (cln < lines.Count)
+                {
+                    var ln = lines[cln];
+                    //10-17
+                    if (ln.Contains("RVSM ALTIMETER CHECKS"))
+                    {
+                        _olines.Add(ln);
+
+                        _olines.Add("PHASE          CPT              STBY              FO               TIME");
+                        _olines.Add("                      ");
+
+                        _olines.Add("Ground         $cptgnd      $stbygnd      $fognd      $timegnd");
+                        _olines.Add("                      ");
+                        _olines.Add("Flight         $cptflt28      $stbyflt28      $foflt28      $timeflt28");
+                        _olines.Add("                      ");
+                        _olines.Add("Flight         $cptfltfl      $stbyfltfl      $fofltfl      $timefltfl");
+                        _olines.Add("                      ");
+                        cln = cln + 7;
+
+                    }
+                    else if (ln.Contains("N") && ln.Contains(" E") && ln.Contains("/"))
+                    {
+
+
+                        try
+                        {
+                            _olines.Add(ln);
+                            cln++;
+                            var _fl = "                                                                             xxxx";
+                            var _pln = lines[cln - 2];
+                            if (_pln.Last() != ' ')
+                                _pln += " ";
+                            var _plnParts = _pln.Split(' ');
+                            var _plnf = _plnParts[_plnParts.Length - 2];
+                            var _fvalue = Convert.ToDouble(_plnf);
+                            _fl += _fvalue.ToString();
+                            _olines.Add(_fl);
+                            // cln++;
+
+                        }
+                        catch (Exception _ex2)
+                        {
+                            _olines.Add(ln);
+                            cln++;
+                        }
+
+                    }
+                    else
+                    {
+                        _olines.Add(ln);
+                        if (ln.Replace(" ", "").ToUpper().Contains("TOTAL"))
+                        {
+                            _olines.Add(" REQUESTED ");
+                        }
+                        if (ln.Replace(" ", "").ToUpper().Contains("TAKEOFF:"))
+                        {
+
+                            _olines.Add("                                                 TAKE OFF FUEL: ");
+                        }
+
+                        cln++;
+                    }
+
+
+                }
+
+                lines = _olines.ToList();
+
+
+                for (int cnt = 0; cnt < lines.Count; cnt++)
+                {
+                    var ln = lines[cnt];
+                    var preLnFuel = "";
+
+                    if (ln.Contains("N") && ln.Contains(" E") && ln.Contains("/"))
+                    {
+                        // ln += "....  ....";
+                        //"                        ....  ....       ";
+                        ln = ln.TrimEnd(new Char[] { ' ' });
+                        //ln+= "                        ....  ....       ";
+                        ln += "                                                 ....  ";
+                        //ln += "                                                 xxxx  ";
+
+                    }
+                    try
+                    {
+                        if (ln.Contains("$gndtime"))
+                        {
+                            var str = ln;
+                            //$cptgnd      $stbygnd      $fognd      $timegnd
+                            str = str.Replace("$gnd1", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop ' id='prop_gnd1'></input>");
+                            props.Add("prop_gnd1");
+
+                            str = str.Replace("$gnd2", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop ' id='prop_gnd2'></input>");
+                            props.Add("prop_gnd2");
+
+                            str = str.Replace("$gndsby", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop ' id='prop_gndsby'></input>");
+                            props.Add("prop_gndsby");
+
+                            str = str.Replace("$gndtime", "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_gndtime'></input>");
+                            props.Add("prop_gndtime");
+                            ln = str;
+
+
+                        }
+                        if (ln.Contains("$toctime"))
+                        {
+                            var str = ln;
+                            //$cptgnd      $stbygnd      $fognd      $timegnd
+                            str = str.Replace("$toc1", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_toc1'></input>");
+                            props.Add("prop_toc1");
+
+                            str = str.Replace("$toc2", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_toc2'></input>");
+                            props.Add("prop_toc2");
+
+                            str = str.Replace("$tocsby", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_tocsby'></input>");
+                            props.Add("prop_tocsby");
+
+                            str = str.Replace("$toctime", "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_toctime'></input>");
+                            props.Add("prop_toctime");
+
+                            ln = str;
+                        }
+                        if (ln.Contains("$01time"))
+                        {
+                            var str = ln;
+                            //$cptgnd      $stbygnd      $fognd      $timegnd
+                            str = str.Replace("$011", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_011'></input>");
+                            props.Add("prop_011");
+
+                            str = str.Replace("$012", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_012'></input>");
+                            props.Add("prop_012");
+
+                            str = str.Replace("$01sby", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_01sby'></input>");
+                            props.Add("prop_01sby");
+
+                            str = str.Replace("$01time", "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_01time'></input>");
+                            props.Add("prop_01time");
+
+                            ln = str;
+                        }
+                        if (ln.Contains("$02time"))
+                        {
+                            var str = ln;
+                            //$cptgnd      $stbygnd      $fognd      $timegnd
+                            str = str.Replace("$021", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_021'></input>");
+                            props.Add("prop_021");
+
+                            str = str.Replace("$022", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_022'></input>");
+                            props.Add("prop_022");
+
+                            str = str.Replace("$02sby", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_02sby'></input>");
+                            props.Add("prop_02sby");
+
+                            str = str.Replace("$02time", "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_02time'></input>");
+                            props.Add("prop_02time");
+
+                            ln = str;
+                        }
+                        if (ln.Contains("$03time"))
+                        {
+                            var str = ln;
+                            //$cptgnd      $stbygnd      $fognd      $timegnd
+                            str = str.Replace("$031", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_031'></input>");
+                            props.Add("prop_031");
+
+                            str = str.Replace("$032", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_032'></input>");
+                            props.Add("prop_032");
+
+                            str = str.Replace("$03sby", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_03sby'></input>");
+                            props.Add("prop_03sby");
+
+                            str = str.Replace("$03time", "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_03time'></input>");
+                            props.Add("prop_03time");
+
+                            ln = str;
+                        }
+                        if (ln.Contains("$04time"))
+                        {
+                            var str = ln;
+                            //$cptgnd      $stbygnd      $fognd      $timegnd
+                            str = str.Replace("$041", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_041'></input>");
+                            props.Add("prop_041");
+
+                            str = str.Replace("$042", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_042'></input>");
+                            props.Add("prop_042");
+
+                            str = str.Replace("$04sby", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_04sby'></input>");
+                            props.Add("prop_04sby");
+
+                            str = str.Replace("$04time", "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_04time'></input>");
+                            props.Add("prop_04time");
+
+                            ln = str;
+                        }
+
+                        if (ln.Contains("$05time"))
+                        {
+                            var str = ln;
+                            //$cptgnd      $stbygnd      $fognd      $timegnd
+                            str = str.Replace("$051", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_051'></input>");
+                            props.Add("prop_051");
+
+                            str = str.Replace("$052", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_052'></input>");
+                            props.Add("prop_052");
+
+                            str = str.Replace("$05sby", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_05sby'></input>");
+                            props.Add("prop_05sby");
+
+                            str = str.Replace("$05time", "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_05time'></input>");
+                            props.Add("prop_05time");
+
+                            ln = str;
+                        }
+                        if (ln/*.Replace(" ", "")*/.ToUpper().Contains("DEST"))
+                        {
+                            //ln.Split(new string[] { "TAKE OFF" }, StringSplitOptions.None)
+                            var _sprts = ln.Split(' ');
+                            var _nos = new List<double>();
+                            foreach (var _p in _sprts)
+                            {
+                                double _n = -1;
+                                bool isNumeric = double.TryParse(_p, out _n);
+                                if (isNumeric) _nos.Add(_n);
+
+                            }
+                            if (_nos.Count > 0)
+                                fuelTrip = _nos.First();
+
+                        }
+                        if (ln.Replace(" ", "").ToUpper().Contains("TOTL"))
+                        {
+                            var _sprts = ln.Split(' ');
+                            var _nos = new List<double>();
+                            foreach (var _p in _sprts)
+                            {
+                                double _n = -1;
+                                bool isNumeric = double.TryParse(_p, out _n);
+                                if (isNumeric) _nos.Add(_n);
+
+                            }
+                            if (_nos.Count > 0)
+                                fuelTotal = _nos.First();
+
+                        }
+                    }
+                    catch (Exception fexp)
+                    {
+
+                    }
+                    if (ln.Replace(" ", "").ToUpper().Contains("CREW"))
+                    {
+                        var crewLine = " CREW  : ";
+                        crewLine += "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_" + propIndex + "'>" + "" + "</input>";
+                        crewLine += "/";
+                        props.Add("prop_" + propIndex);
+                        propIndex++;
+                        crewLine += "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_" + propIndex + "'>" + "" + "</input>";
+                        crewLine += "/";
+                        props.Add("prop_" + propIndex);
+                        propIndex++;
+                        crewLine += "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_" + propIndex + "'>" + "" + "</input>";
+                        props.Add("prop_" + propIndex);
+                        propIndex++;
+
+                        linesProccessed.Add(crewLine);
+                        linesProccessed.Add("<br/>");
+
+                        var paxLine = " PAX   : ";
+                        paxLine += "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop noborder' id='prop_pax_adult'>" + "" + "</input>";
+                        paxLine += "/";
+                        props.Add("prop_pax_adult");
+                        paxLine += "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop noborder' id='prop_pax_child'>" + "" + "</input>";
+                        paxLine += "/";
+                        props.Add("prop_pax_child");
+                        paxLine += "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop noborder' id='prop_pax_infant'>" + "" + "</input>";
+                        props.Add("prop_pax_infant");
+                        linesProccessed.Add(paxLine);
+                        linesProccessed.Add("<br/>");
+
+                        var sobLine = " S.O.B : ";
+                        sobLine += "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_" + propIndex + "'>" + "" + "</input>";
+                        props.Add("prop_" + propIndex);
+                        propIndex++;
+                        linesProccessed.Add(sobLine);
+
+                        ln = " ";
+
+
+                    }
+                    else
+                    {
+                        var alt1 = ln.Split(new string[] { "ALTERNATE - 1" }, StringSplitOptions.None).ToList();
+                        if (alt1.Count() > 1 && alt1[1].Length > 20)
+                        {
+                            if (!string.IsNullOrEmpty(alt1.Last().Replace(" ", "").Trim()))
+                            {
+                                var _alt1 = alt1.Last().Trim().Split(' ').ToList().FirstOrDefault();
+                                flightObj.ALT1 = _alt1;
+                            }
+
+
+                        }
+                        var alt2 = ln.Split(new string[] { "ALTERNATE - 2" }, StringSplitOptions.None).ToList();
+                        if (alt2.Count() > 1)
+                        {
+                            if (!string.IsNullOrEmpty(alt2.Last().Replace(" ", "").Trim()))
+                            {
+                                var _alt2 = alt2.Last().Trim().Split(' ').ToList().FirstOrDefault();
+                                flightObj.ALT2 = _alt2;
+                            }
+
+
+                        }
+                        var clr = ln.Split(new string[] { "CLEARANCE" }, StringSplitOptions.None).ToList();
+                        if (clr.Count() > 1)
+                        {
+                            ln = clr[0] + "CLEARANCE: " + "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_clearance_" + propIndex + "'>" + "" + "</input>";
+                            props.Add("prop_clearance_" + propIndex);
+                            propIndex++;
+                        }
+                        var offblk = ln.Split(new string[] { "OFF BLK" }, StringSplitOptions.None).ToList();
+                        if (offblk.Count() > 1)
+                        {
+                            ln = offblk[0] + "OFF BLK : " + "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop noborder alignleft' id='prop_offblock" + "'>" + "" + "</input>";
+                            props.Add("prop_offblock");
+                            //propIndex++;
+                        }
+
+                        var takeoff = ln.Split(new string[] { "TAKE OFF:" }, StringSplitOptions.None).ToList();
+                        if (!ln.Replace(" ", "").ToUpper().Contains("ALTN") && takeoff.Count() > 1)
+                        {
+                            ln = takeoff[0] + "TAKE OFF: " + "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop noborder alignleft' id='prop_takeoff" + "'>" + "" + "</input>";
+                            props.Add("prop_takeoff");
+                            //propIndex++;
+                        }
+                        var lnd = ln.Split(new string[] { "ON RUNWAY" }, StringSplitOptions.None).ToList();
+                        if (lnd.Count() > 1)
+                        {
+                            ln = lnd[0] + "ON RUNWAY  : " + "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop noborder alignleft' id='prop_landing" + "'>" + "" + "</input>";
+                            props.Add("prop_landing");
+                            //propIndex++;
+                        }
+                        var tofuel = ln.Split(new string[] { "TAKE OFF FUEL:" }, StringSplitOptions.None).ToList();
+                        if (tofuel.Count() > 1)
+                        {
+                            ln = tofuel[0] + "TAKE OFF FUEL: " + "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_tofuel" + "'>" + "" + "</input>";
+                            props.Add("prop_tofuel");
+                            //propIndex++;
+                        }
+                        //var reqfuel = ln.Split(new string[] { "REQUESTED" }, StringSplitOptions.None).ToList();
+                       // if (reqfuel.Count() > 1)
+                       // {
+                        //    ln = reqfuel[0] + "REQUESTED: " + "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop  noborder alignleft' id='prop_reqfuel" + "'>" + "" + "</input>";
+                        //    props.Add("prop_reqfuel");
+                            //propIndex++;
+                       // }
+                        var onblock = ln.Split(new string[] { "ON BLK" }, StringSplitOptions.None).ToList();
+                        if (!ln.Replace(" ", "").ToUpper().Contains("FUEL") && onblock.Count() > 1)
+                        {
+                            ln = onblock[0] + "ON BLK     : " + "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop noborder alignleft' id='prop_onblock" + "'>" + "" + "</input>";
+                            props.Add("prop_onblock");
+                            //propIndex++;
+                        }
+                        //ON BLK FUEL
+                        var onblockfuel = ln.Split(new string[] { "ON BLK FUEL" }, StringSplitOptions.None).ToList();
+                        if (onblockfuel.Count() > 1)
+                        {
+                            // ln = onblock[0] + "ON BLK FUEL: " + "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop noborder alignleft' id='prop_onblock" + "'>" + "" + "</input>";
+                            // props.Add("prop_onblock");
+                            ln = onblockfuel[0] + "ON BLK FUEL: " + "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_" + propIndex + "'>" + "" + "</input>"; // "@prop_" + propIndex;
+                            props.Add("prop_" + propIndex);
+                            propIndex++;
+                        }
+                        if (ln.Replace(" ", "").ToUpper().Contains("FLIGHTDISPATCHER"))
+                        {
+                            try
+                            {
+                                var picIndex = ln.IndexOf("CAPTAIN");
+                                var dispIndex = ln.IndexOf("FLIGHT DISPATCHER");
+                                var dispStr = ln.Substring(0, ln.Length - (picIndex + 3));
+                                var _disps = dispStr.Replace(":", " ").Split(new string[] { "FLIGHT DISPATCHER" }, StringSplitOptions.None).ToList();
+                                var dispatcher = _disps[1].Replace(" ", "");
+
+                                var picStr = ln.Substring(picIndex);
+                                var _pics = picStr.Replace(":", " ").Split(new string[] { "CAPTAIN" }, StringSplitOptions.None).ToList();
+                                var pic = _pics[1].Replace(" ", "").Replace(".", ". ");
+
+
+                                ln = "<div class='z5000 h70'> " + "<span  id='sig_disp' data-info='_null_' class='sig'><span  class='sig_name'>FLIGHT DISPATCHER : " + dispatcher + "</span><img id='sig_disp_img' class='sig_img'  /></span>" + "          " + "<span type='text' id='sig_pic' data-info='_null_' class='sig left80'><span type='text' data-info='_null_' class='sig_name'>" + "CAPTAIN : " + pic + "</span><img id='sig_pic_img' class='sig_img' /></span></div>";
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+
+                        }
+
+                        var sign = ln.Split(new string[] { "SIGNATURE  :" }, StringSplitOptions.None).ToList();
+                        if (sign.Count() > 1)
+                        {
+
+                            ln = "";
+                        }
+
+
+                        if (ln.Replace(" ", "").ToUpper().Contains("OFPFILLED"))
+                        {
+
+                            ln = " OFP FILLED By CAPT: " + "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_ofbcpt_" + propIndex + "'>" + "" + "</input>";
+                            props.Add("prop_ofbcpt_" + propIndex);
+                            propIndex++;
+                            ln += "      FO: " + "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_ofbfo_" + propIndex + "'>" + "" + "</input>";
+                            props.Add("prop_ofbfo_" + propIndex);
+                            propIndex++;
+                        }
+                        if (ln.Replace(" ", "").ToUpper().Contains("ENRATIS1"))
+                        {
+
+
+                            ln = " ENR ATIS 1 : " + "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_clearance_" + propIndex + "'>" + "" + "</input>";
+                            props.Add("prop_clearance_" + propIndex);
+                            propIndex++;
+                        }
+                        if (ln.Replace(" ", "").ToUpper().Contains("ENRATIS2"))
+                        {
+
+
+                            ln = " ENR ATIS 2 : " + "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_clearance_" + propIndex + "'>" + "" + "</input>";
+                            props.Add("prop_clearance_" + propIndex);
+                            propIndex++;
+                        }
+                        if (ln.Replace(" ", "").ToUpper().Contains("ENRATIS3"))
+                        {
+
+
+                            ln = " ENR ATIS 3 : " + "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_clearance_" + propIndex + "'>" + "" + "</input>";
+                            props.Add("prop_clearance_" + propIndex);
+                            propIndex++;
+                        }
+                        if (ln.Replace(" ", "").ToUpper().Contains("ENRATIS4"))
+                        {
+
+
+                            ln = " ENR ATIS 4 : " + "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_" + propIndex + "'>" + "" + "</input>";
+                            props.Add("prop_" + propIndex);
+                            propIndex++;
+                        }
+
+
+
+                        List<string> prts = new List<string>();
+                        var dots = "";
+                        bool dot8 = false;
+                        var r4 = false;
+                        if (ln.EndsWith(".... .... "))
+                        {
+                            ln = ln + ".";
+                            r4 = true;
+                        }
+
+                        var prtsgrnd = ln.Split(new string[] { "****" }, StringSplitOptions.None).ToList();
+                        if (prtsgrnd.Count > 1)
+                        {
+                            var str = "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_" + propIndex + "' style='width:606px'>" + "" + "</input>"; // "@prop_" + propIndex;
+                            props.Add("prop_" + propIndex);
+                            propIndex++;
+                            ln = str;
+                        }
+                        var prts4 = ln.Split(new string[] { "...." }, StringSplitOptions.None).ToList();
+
+                        if (prts4.Count > 1)
+                        {
+
+                            var chrs = ln.ToCharArray();
+                            var str = "";
+                            int _xd = 0;
+                            foreach (var x in prts4)
+                            {
+                                if (_xd == 0 && r4)
+                                {
+                                    str += x.Substring(0, x.Length - 5);
+                                }
+                                else
+                                    str += x;
+
+                                if (x != prts4.Last())
+                                {
+
+                                    //if (!string.IsNullOrEmpty(x.Trim().Replace(" ", "")))
+                                    //    str += "  ";
+                                    var style = "";
+                                    var xtraclass = "";
+                                    var actfuel = "";
+                                    if (ln.Contains("N") && ln.Contains(" E") && ln.Contains("/"))
+                                        actfuel += " actfuel";
+                                    if (ln.Replace(" ", "").ToUpper().Contains("XTR"))
+                                    { style = "-"; xtraclass = "due"; }
+                                    if (ln.Replace(" ", "").ToUpper().Contains("REQUESTED"))
+                                    { xtraclass = "requestedfuel"; }
+                                    str += "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop " + xtraclass + actfuel + "' id='prop_" + propIndex + "' " + (string.IsNullOrEmpty(style) ? "" : "style='width:250px !important'") + ">" + "" + "</input>"; // "@prop_" + propIndex;
+                                    props.Add("prop_" + propIndex);
+                                    propIndex++;
+                                }
+                                //else if (ln.EndsWith(".... .... "))
+                                //{
+                                //    str += "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_" + propIndex + "'>" + "" + "</input>"; // "@prop_" + propIndex;
+                                //    props.Add("prop_" + propIndex);
+                                //    propIndex++;
+
+                                //}
+                                _xd++;
+                            }
+                            //linesProccessed.Add(str);
+                            ln = str;
+                        }
+
+
+                        var prtsx = ln.Split(new string[] { "xxxx" }, StringSplitOptions.None).ToList();
+
+                        if (prtsx.Count > 1)
+                        {
+
+                            var str = prtsx[0];
+                            str += "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop " + "diff noborder" + "' data-fuel='" + prtsx[1] + "' id='prop_" + propIndex + "' " + "" + ">" + "" + "</input>"; // "@prop_" + propIndex;
+                            props.Add("prop_" + propIndex);
+                            propIndex++;
+
+
+                            ln = str;
+                        }
+
+                        var prts8 = ln.Split(new string[] { "........" }, StringSplitOptions.None).ToList();
+                        if (prts8.Count > 1)
+                        {
+                            var chrs = ln.ToCharArray();
+                            var str = "";
+                            foreach (var x in prts8)
+                            {
+                                str += x;
+                                if (x != prts8.Last())
+                                {
+
+                                    //if (!string.IsNullOrEmpty(x.Trim().Replace(" ", "")))
+                                    //    str += "  ";
+                                    str += "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_" + propIndex + "'>" + "" + "</input>"; // "@prop_" + propIndex;
+                                    props.Add("prop_" + propIndex);
+                                    propIndex++;
+                                }
+
+                            }
+                            //linesProccessed.Add(str);
+                            ln = str;
+                        }
+                        var prts7 = ln.Split(new string[] { "......." }, StringSplitOptions.None).ToList();
+                        if (prts7.Count > 1)
+                        {
+                            var chrs = ln.ToCharArray();
+                            var str = "";
+                            foreach (var x in prts7)
+                            {
+                                str += x;
+                                if (x != prts7.Last())
+                                {
+
+                                    //if (!string.IsNullOrEmpty(x.Trim().Replace(" ", "")))
+                                    //    str += "  ";
+                                    str += "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_" + propIndex + "'>" + "" + "</input>"; // "@prop_" + propIndex;
+                                    props.Add("prop_" + propIndex);
+                                    propIndex++;
+                                }
+
+                            }
+                            //linesProccessed.Add(str);
+                            ln = str;
+                        }
+
+
+                        linesProccessed.Add(ln);
+                    }
+
+                }
+
+
+                var finalResult = new List<string>();
+                //finalResult.Add("<pre>");
+                var proOn = false;
+                var _f = 0;
+                for (int i = 0; i < linesProccessed.Count(); i++)
+                {
+
+                    var pln = linesProccessed[i];
+                    if (pln.ToUpper().Contains("SCHD DEP"))
+                        proOn = true;
+                    if (pln.ToUpper().Contains("SCHD ARR"))
+                        proOn = false;
+
+                    if (proOn)
+                    {
+                        if (pln.Contains("-- -- -- --"))
+                        {
+                            _f++;
+                            if (_f > 1)
+                            {
+                                var next = linesProccessed[i + 1];
+                                var spanIndex = next.IndexOf("<input type='text'");
+                                var str = next.Substring(0, spanIndex).Trim();
+                                var prts = str.Split(' ').ToList();
+                                var timeStr = prts[prts.Count() - 2].Split('.');
+                                var mins = Convert.ToInt32(timeStr[0]) * 60 + Convert.ToInt32(timeStr[1]);
+                                var infoIndex = next.IndexOf("_null_");
+                                var fin = next.Substring(0, infoIndex) + "time_" + i + "_" + mins + next.Substring(infoIndex + 6);
+                                linesProccessed[i + 1] = fin;
+
+                            }
+                        }
+
+                    }
+                }
+                foreach (var x in linesProccessed)
+                //finalResult.Add("<div>" + /*Regex.Replace(x, @"\s+", "&nbsp;")*/ReplaceWhitespace(x, "&nbsp;") + " </div>") ;
+                {
+                    finalResult.Add(x);
+                    plan.OFPImportItems.Add(new OFPImportItem()
+                    {
+                        Line = x
+                    });
+                }
+                var _text = "<pre>" + string.Join("<br/>", finalResult) + "</pre>";
+                plan.TextOutput = _text;
+                var dtupd = DateTime.UtcNow.ToString("yyyyMMddHHmm");
+                foreach (var p in props)
+                {
+                    plan.OFPImportProps.Add(new OFPImportProp()
+                    {
+                        DateUpdate = dtupd,
+                        PropName = p,
+                        PropValue = "",
+                        User = user,
+
+                    });
+                }
+                plan.FPFuel = Convert.ToDecimal(fuelTotal);
+                plan.FPTripFuel = Convert.ToDecimal(fuelTrip);
+
+                flightObj.FPFuel = Convert.ToDecimal(fuelTotal);
+                flightObj.FPTripFuel = Convert.ToDecimal(fuelTrip);
+
+                context.SaveChanges();
+                //context.SaveChangesAsync();
+                //finalResult.Add("</pre>");
+                return Ok(_text);
+            }
+            catch (Exception ex)
+            {
+                return Ok("-1");
+
+            }
+
+        }
+
         [Route("api/ofp/parse/text/input")]
         [AcceptVerbs("POST")]
         public IHttpActionResult PostImportOFPInput(dynamic dto)

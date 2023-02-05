@@ -719,10 +719,10 @@ namespace XAPI.Controllers
                         var jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
                         var _key = ("apln_WAP_" + jsonObj.GetValue("WAP").ToString()).Replace(" ", "").ToLower();
                         jsonObj.Add("_key", _key);
-                        props.Add("prop_" + _key + "_eta_" + idx);
-                        props.Add("prop_" + _key + "_ata_" + idx);
-                        props.Add("prop_" + _key + "_rem_" + idx);
-                        props.Add("prop_" + _key + "_usd_" + idx);
+                        props.Add("prop_" + _key + "_a1eta_" + idx);
+                        props.Add("prop_" + _key + "_a1ata_" + idx);
+                        props.Add("prop_" + _key + "_a1rem_" + idx);
+                        props.Add("prop_" + _key + "_a1usd_" + idx);
                         apln1Json.Add(jsonObj);
                         if (r == apln1Rows.Last())
                             alt1 = jsonObj.GetValue("WAP").ToString().Replace(" ", "").ToUpper();
@@ -760,10 +760,10 @@ namespace XAPI.Controllers
                         var jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
                         var _key = ("apln_WAP_" + jsonObj.GetValue("WAP").ToString()).Replace(" ", "").ToLower();
                         jsonObj.Add("_key", _key);
-                        props.Add("prop_" + _key + "_eta_" + idx);
-                        props.Add("prop_" + _key + "_ata_" + idx);
-                        props.Add("prop_" + _key + "_rem_" + idx);
-                        props.Add("prop_" + _key + "_usd_" + idx);
+                        props.Add("prop_" + _key + "_a2eta_" + idx);
+                        props.Add("prop_" + _key + "_a2ata_" + idx);
+                        props.Add("prop_" + _key + "_a2rem_" + idx);
+                        props.Add("prop_" + _key + "_a2usd_" + idx);
                         apln2Json.Add(jsonObj);
                         if (r == apln2Rows.Last())
                             alt2 = jsonObj.GetValue("WAP").ToString().Replace(" ", "").ToUpper();

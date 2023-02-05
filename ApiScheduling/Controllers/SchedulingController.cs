@@ -246,6 +246,157 @@ namespace ApiScheduling.Controllers
                     return "Unknown";
             }
         }
+        [Route("api/roster/fdp/delete")]
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> DeleteFDP(dynamic dto)
+        {
+            var context = new Models.dbEntities();
+            int fdpId = Convert.ToInt32(dto.Id);
+            var fdp = await context.FDPs.FirstOrDefaultAsync(q => q.Id == fdpId);
+            double total = 0;
+            if (!string.IsNullOrEmpty(fdp.InitFlights))
+            {
+                var parts = fdp.InitFlights.Split('*').ToList();
+
+                foreach (var x in parts)
+                {
+                    var _std = x.Split('_')[2];
+                    var _sta = x.Split('_')[3];
+                    var std = DateTime.ParseExact(_std, "yyyyMMddHHmm", CultureInfo.InvariantCulture);
+                    var sta = DateTime.ParseExact(_sta, "yyyyMMddHHmm", CultureInfo.InvariantCulture);
+                    total += (sta - std).TotalMinutes;
+                }
+                //this.context.Database.ExecuteSqlCommand("update employee set flightsum=isnull(flightsum,0)-" + total + ",FlightEarly=isnull(FlightEarly,0)+" + early + ",FlightLate=isnull(FlightLate,0)+" + late + "  where id=" + dto.crewId);
+                context.Database.ExecuteSqlCommand("update employee set flightsum=isnull(flightsum,0)-" + total + "  where id=" + fdp.CrewId);
+
+            }
+            var related = await context.FDPs.Where(q => q.FDPId == fdpId).FirstOrDefaultAsync();
+            if (related != null)
+            {
+                related.FDPId = null;
+                related.FDPReportingTime = null;
+                related.UPD = related.UPD != null ? related.UPD + 1 : 1;
+            }
+
+            if (fdp.FDPId != null)
+            {
+                var stby = await context.FDPs.FirstOrDefaultAsync(q => q.Id == fdp.FDPId);
+                if (stby != null)
+                {
+                    stby.FDPId = null;
+                    stby.FDPReportingTime = null;
+                    stby.UPD = stby.UPD == null ? 1 : ((int)stby.UPD) + 1;
+                }
+            }
+
+
+            var templateId = fdp.TemplateId;
+            context.FDPs.Remove(fdp);
+            context.Database.ExecuteSqlCommand("Delete from TableDutyFDP where FDPId=" + fdp.Id);
+            context.Database.ExecuteSqlCommand("Delete from TableFlightFDP where FDPId=" + fdp.Id);
+
+            var saveResult = await context.SaveAsync();
+            if (saveResult.Code != HttpStatusCode.OK)
+                return saveResult;
+
+
+            return Ok(total);
+        }
+
+
+        [Route("api/update/fdp/flight/{id}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> UpdateFDPByFlight(int id)
+        {   //02-05
+
+            //*********************
+            //UPDATE FOR ALL DH
+            //***********************
+            double default_reporting = 75;
+            var context = new Models.dbEntities();
+            var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
+            var fdps =await (from x in context.FDPItems
+                        join y in context.FDPs on x.FDPId equals y.Id
+                        where x.FlightId == id && y.CrewId !=null
+                        select y).ToListAsync();
+            var fdpIds = fdps.Select(q => q.Id).ToList();
+            var fdpitems =await context.FDPItems.Where(q => fdpIds.Contains(q.FDPId)).ToListAsync();
+            var fltIds = fdpitems.Select(q => q.FlightId).ToList();
+            var flts = await context.SchFlights.Where(q => fltIds.Contains(q.ID)).ToListAsync();
+
+            foreach(var fdp in fdps)
+            {
+                var items = fdpitems.Where(q => q.FDPId == fdp.Id).ToList();
+                var notSectorIds = items.Where(q => q.IsPositioning == true || q.IsSector == false || q.IsOff == true).Select(q=>q.FlightId).ToList();
+                var flt_ids = items.Select(q => q.FlightId).ToList();
+                var sectors = items.Where(q => q.IsPositioning != true && q.IsSector != false && q.IsOff != true).Count();
+                var flights = flts.Where(q => flt_ids.Contains(q.ID)).OrderBy(q => q.ChocksOut).ToList();
+                var reporting = fdp.ReportingTime == null ? fdp.DateStart : fdp.ReportingTime;
+                if (fdp.STD == flights.First().STD)
+                {
+                    //the reporting time does not change
+
+                    reporting = ((DateTime)reporting).AddMinutes(utcdiff);
+
+
+                }
+                else
+                {
+                    //reporting time changes
+                    reporting = ((DateTime)flights.First().ChocksOut).AddMinutes(-default_reporting);
+                    fdp.ReportingTime = reporting;
+                    fdp.DateStart = reporting;
+                    fdp.InitStart = reporting;
+
+                    reporting = ((DateTime)reporting).AddMinutes(utcdiff);
+                }
+               
+               
+                var maxFdp = GetMaxFDP2((DateTime)reporting, sectors);
+                fdp.MaxFDP = maxFdp;
+                var fdp_duration = ((DateTime)flights.Last().ChocksIn - (DateTime)reporting).TotalMinutes;
+                if (fdp_duration > maxFdp)
+                    fdp.IsOver = true;
+                //initflts 5824,5825
+                //initroute THR,KIH,THR
+                var rts = flights.Select(q => q.FromAirportIATA).ToList();
+                rts.Add(flights.Last().ToAirportIATA);
+                fdp.InitRoute = string.Join(",", rts);
+                //initfromiata
+                //inittoiata
+                fdp.InitFromIATA = flights.First().FromAirportId.ToString();
+                fdp.InitToIATA = flights.Last().ToAirportId.ToString();
+                //initno 5824_5825
+                fdp.InitNo = string.Join("_", flights.Select(q => q.FlightNumber).ToList());
+                fdp.InitFlights = string.Join("*", RosterFDPDto.getFlightsStrs(flights, items.Where(q => q.IsPositioning == true).Select(q => q.FlightId).ToList()));
+                fdp.DateEnd = ((DateTime)flights.Last().ChocksIn).AddMinutes(30);
+                fdp.InitEnd = ((DateTime)flights.Last().ChocksIn).AddMinutes(30);
+                var rst = fdp.InitHomeBase != flights.Last().ToAirportId ? 10 : 12;
+                fdp.InitRestTo = ((DateTime)flights.Last().ChocksIn).AddMinutes(30).AddHours(rst);
+                //initflights 540302_0_202302051740_202302051930_5824_THR_KIH*540303_0_202302052030_202302052215_5825_KIH_THR
+               
+
+
+                fdp.STD = flights.First().STD;
+                fdp.STA = flights.Last().STA;
+
+
+
+                AddToCumDuty(fdp, context);
+                AddToCumFlight(fdp,flights.Where(q=>!notSectorIds.Contains(q.ID)).OrderBy(q=>q.ChocksOut).ToList(), items, context);
+
+            }
+
+
+            // context.Database.ExecuteSqlCommand("Delete from TableFlightFDP where FDPId=" + fdp.Id);
+
+            var saveResult = await context.SaveAsync();
+            if (saveResult.Code != HttpStatusCode.OK)
+                return saveResult;
+
+
+            return Ok(true);
+        }
 
 
         [Route("api/roster/fdp/save")]
@@ -438,10 +589,18 @@ namespace ApiScheduling.Controllers
                     Split = 0,
                     UserName = dto.UserName,
                     MaxFDP = dto.maxFDP,
+                    ReportingTime = !alldh ? dto.items.First().offblock.AddMinutes(-default_reporting) : dto.items.First().offblock,
+                    IsOver = false,
+                    STD= dto.items.First().std,
+                    STA=dto.items.Last().sta,
+                    OutOfHomeBase= dto.to != dto.homeBase,
 
 
 
                 };
+                fdp.ActualEnd = fdp.InitEnd;
+                fdp.ActualStart = fdp.InitStart;
+                fdp.ActualRestTo = fdp.InitRestTo;
                 fdp.FDPExtras.Add(new FDPExtra() { MaxFDP = dto.maxFDP });
                 //Check Extension //////////////////
                 if (fdp.Extension != null && fdp.Extension > 0)
@@ -526,7 +685,7 @@ namespace ApiScheduling.Controllers
                     }
                     //WHAT IS THIS?
                     bool _interuptedAcceptable = dto.DeletedFDPId == null ? true : dto.DeletedFDPId != _interupted.Id;
-                     
+
                     if (_interupted != null && _interuptedAcceptable /* && (dto.IsAdmin == null || dto.IsAdmin == 0)*/)
                     {
                         //Rest/Interruption Error
@@ -614,7 +773,7 @@ namespace ApiScheduling.Controllers
                             if (sendError && (dto.IsAdmin == null || dto.IsAdmin == 0))
                                 return new CustomActionResult(HttpStatusCode.NotAcceptable, new
                                 {
-
+                                    Code = 406,
                                     message = "Rest/Interruption Error(" + _interupted.Id + "). " + (GetDutyTypeTitle(_interupted.DutyType)) + "   " + (_interupted.InitStart == null ? "" : ((DateTime)_interupted.InitStart).ToString("yyyy-MM-dd") + " " + _interupted.InitFlts + " " + _interupted.InitRoute)
 
                                 });
@@ -715,6 +874,7 @@ namespace ApiScheduling.Controllers
                         Split = 0,
                         UserName = dto.UserName,
                         MaxFDP = dto.maxFDP,
+                        IsOver=false,
 
                     };
                     temp.FDPExtras.Add(new FDPExtra() { MaxFDP = dto.maxFDP });
@@ -826,11 +986,70 @@ namespace ApiScheduling.Controllers
                 // var vfdp = await this.context.ViewFDPRests.FirstOrDefaultAsync(q => q.Id == fdp.Id);
                 //  return new CustomActionResult(HttpStatusCode.OK, vfdp);
 
-
+                AddToCumDuty(fdp);
+                AddToCumFlight(fdp, dto.items);
 
                 timer.Stop();
                 var _ms = timer.Elapsed;
-                return new CustomActionResult(HttpStatusCode.OK, fdp);
+                var fdp_result = new FDPResult()
+                {
+                    BL = fdp.BL,
+                    BoxId = fdp.BoxId,
+                    CanceledNo = fdp.CanceledNo,
+                    CanceledRoute = fdp.CanceledRoute,
+                    CityId = fdp.CityId,
+                    ConfirmedBy = fdp.ConfirmedBy,
+                    CP = fdp.CP,
+                    CrewId = fdp.CrewId,
+                    CustomerId = fdp.CustomerId,
+                    DateConfirmed = fdp.DateConfirmed,
+                    DateContact = fdp.DateContact,
+                    DateEnd = fdp.DateEnd,
+                    DateStart = fdp.DateStart,
+                    DelayAmount = fdp.DelayAmount,
+                    DelayedReportingTime = fdp.DelayedReportingTime,
+                    DutyType = fdp.DutyType,
+                    Extension = fdp.Extension,
+                    FDPId = fdp.FDPId,
+                    FDPReportingTime = fdp.FDPReportingTime,
+                    FirstFlightId = fdp.FirstFlightId,
+                    FirstNotification = fdp.FirstNotification,
+                    FX = fdp.FX,
+                    GUID = fdp.GUID,
+                    Id = fdp.Id,
+                    InitEnd = fdp.InitEnd,
+                    InitFlights = fdp.InitFlights,
+                    InitFlts = fdp.InitFlts,
+                    InitFromIATA = fdp.InitFromIATA,
+                    InitGroup = fdp.InitGroup,
+                    InitHomeBase = fdp.InitHomeBase,
+                    InitIndex = fdp.InitIndex,
+                    InitKey = fdp.InitKey,
+                    InitNo = fdp.InitNo,
+                    InitRank = fdp.InitRank,
+                    InitRestTo = fdp.InitRestTo,
+                    InitRoute = fdp.InitRoute,
+                    InitScheduleName = fdp.InitScheduleName,
+                    InitStart = fdp.InitStart,
+                    InitToIATA = fdp.InitToIATA,
+                    IsMain = fdp.IsMain,
+                    IsTemplate = fdp.IsTemplate,
+                    JobGroupId = fdp.JobGroupId,
+                    Key = fdp.Key,
+                    LastFlightId = fdp.LastFlightId,
+                    LocationId = fdp.LocationId,
+                    MaxFDP = fdp.MaxFDP,
+                    NextNotification = fdp.NextNotification,
+                    Remark = fdp.Remark,
+                    Remark2 = fdp.Remark2,
+                    ReportingTime = fdp.ReportingTime,
+                    RevisedDelayedReportingTime = fdp.RevisedDelayedReportingTime,
+                    Split = fdp.Split,
+                    TemplateId = fdp.TemplateId,
+                    UPD = fdp.UPD,
+                    UserName = fdp.UserName,
+                };
+                return new CustomActionResult(HttpStatusCode.OK, fdp_result);
 
 
             }
@@ -843,6 +1062,9 @@ namespace ApiScheduling.Controllers
             return Ok(true);
         }
 
+
+
+
         DateTime toDate(string dt, string t)
         {
             var year = Convert.ToInt32(dt.Substring(0, 4));
@@ -853,9 +1075,442 @@ namespace ApiScheduling.Controllers
 
             return new DateTime(year, month, day, hour, minute, 0);
         }
+        private void AddToCumFlight(FDP fdp, List<RosterFDPDtoItem> items)
+        {
+            try
+            {
+                
+                var context = new Models.dbEntities();
+                context.Database.ExecuteSqlCommand("Delete from TableFlightFDP where FDPId=" + fdp.Id);
+                var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
+                var fdpItems = fdp.FDPItems.ToList();
+                foreach (var fdp_item in fdpItems)
+                {
+                    var item = items.FirstOrDefault(q => q.flightId == fdp_item.FlightId);
+                    var offblock = ((DateTime)item.offblock).AddMinutes(utcdiff);
+                    var onblock = ((DateTime)item.onblock).AddMinutes(utcdiff);
+                    if (offblock.Date == onblock.Date)
+                    {
+                        var duration = (fdp_item.IsOff == true || fdp_item.IsPositioning == true || fdp_item.IsSector == false) ? 0 : (onblock - offblock).TotalMinutes;
+                        context.TableFlightFDPs.Add(new TableFlightFDP()
+                        {
+                            CDate = offblock.Date,
+                            CrewId = fdp.CrewId,
+                            Duration = duration,
+                            DurationLocal = duration,
+                            DutyEnd = item.onblock,
+                            DutyEndLocal = onblock,
+                            DutyStart = item.offblock,
+                            DutyStartLocal = offblock,
+                            FDPItemId = fdp_item.Id,
+                            FlightId = fdp_item.FlightId,
+                            FDPId = fdp.Id,
+                            GUID = Guid.NewGuid()
+                        });
+                    }
+                    else
+                    {
+                        var duration1 = (fdp_item.IsOff == true || fdp_item.IsPositioning == true || fdp_item.IsSector == false)
+                            ? 0 : (onblock.Date - offblock).TotalMinutes;
+                        var duration2 = (fdp_item.IsOff == true || fdp_item.IsPositioning == true || fdp_item.IsSector == false)
+                            ? 0 : (onblock - onblock.Date).TotalMinutes;
+                        context.TableFlightFDPs.Add(new TableFlightFDP()
+                        {
+                            CDate = offblock.Date,
+                            CrewId = fdp.CrewId,
+                            Duration = duration1,
+                            DurationLocal = duration1,
+                            DutyEnd = item.onblock,
+                            DutyEndLocal = onblock,
+                            DutyStart = item.offblock,
+                            DutyStartLocal = offblock,
+                            FDPItemId = fdp_item.Id,
+                            FlightId = fdp_item.FlightId,
+                            FDPId = fdp.Id,
+                            GUID = Guid.NewGuid()
+                        });
+                        context.TableFlightFDPs.Add(new TableFlightFDP()
+                        {
+                            CDate = onblock.Date,
+                            CrewId = fdp.CrewId,
+                            Duration = duration2,
+                            DurationLocal = duration2,
+                            DutyEnd = item.onblock,
+                            DutyEndLocal = onblock,
+                            DutyStart = item.offblock,
+                            DutyStartLocal = offblock,
+                            FDPItemId = fdp_item.Id,
+                            FlightId = fdp_item.FlightId,
+                            FDPId = fdp.Id,
+                            GUID = Guid.NewGuid()
+                        });
+
+
+                    }
+                }
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+        }
+
+        private void AddToCumFlight(FDP fdp, List<SchFlight> flights,List<FDPItem> fdpitems, Models.dbEntities context=null)
+        {
+            try
+            {
+                //02-05
+                bool do_save = context == null;
+                if (context==null)
+                   context = new Models.dbEntities();
+                context.Database.ExecuteSqlCommand("Delete from TableFlightFDP where FDPId=" + fdp.Id);
+                var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
+               // var fdpItems = fdp.FDPItems.ToList();
+                foreach (var flight in flights)
+                {
+                    var fdp_item = fdpitems.FirstOrDefault(q => q.FlightId == flight.ID);
+                    var offblock = ((DateTime)flight.ChocksOut).AddMinutes(utcdiff);
+                    var onblock = ((DateTime)flight.ChocksIn).AddMinutes(utcdiff);
+                    if (offblock.Date == onblock.Date)
+                    {
+                        var duration = (onblock - offblock).TotalMinutes;
+                        context.TableFlightFDPs.Add(new TableFlightFDP()
+                        {
+                            CDate = offblock.Date,
+                            CrewId = fdp.CrewId,
+                            Duration = duration,
+                            DurationLocal = duration,
+                            DutyEnd = flight.ChocksIn,
+                            DutyEndLocal = onblock,
+                            DutyStart = flight.ChocksOut,
+                            DutyStartLocal = offblock,
+                            FDPItemId = fdp_item.Id,
+                            FlightId = flight.ID,
+                            FDPId = fdp.Id,
+                            GUID = Guid.NewGuid()
+                        });
+                    }
+                    else
+                    {
+                        var duration1 =   (onblock.Date - offblock).TotalMinutes;
+                        var duration2 =  (onblock - onblock.Date).TotalMinutes;
+                        context.TableFlightFDPs.Add(new TableFlightFDP()
+                        {
+                            CDate = offblock.Date,
+                            CrewId = fdp.CrewId,
+                            Duration = duration1,
+                            DurationLocal = duration1,
+                            DutyEnd = flight.ChocksIn,
+                            DutyEndLocal = onblock,
+                            DutyStart = flight.ChocksOut,
+                            DutyStartLocal = offblock,
+                            FDPItemId = fdp_item.Id,
+                            FlightId = flight.ID,
+                            FDPId = fdp.Id,
+                            GUID = Guid.NewGuid()
+                        });
+                        context.TableFlightFDPs.Add(new TableFlightFDP()
+                        {
+                            CDate = onblock.Date,
+                            CrewId = fdp.CrewId,
+                            Duration = duration2,
+                            DurationLocal = duration2,
+                            DutyEnd = flight.ChocksIn,
+                            DutyEndLocal = onblock,
+                            DutyStart = flight.ChocksOut,
+                            DutyStartLocal = offblock,
+                            FDPItemId = fdp_item.Id,
+                            FlightId = flight.ID,
+                            FDPId = fdp.Id,
+                            GUID = Guid.NewGuid()
+                        });
+
+
+                    }
+                }
+                if (do_save)
+                    context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+        }
+
+
+
+
+        void AddToCumDuty(FDP fdp, Models.dbEntities context = null)
+        {
+            try
+            {
+                bool do_save = context == null;
+                if (context == null)
+                    context = new Models.dbEntities();
+                context.Database.ExecuteSqlCommand("Delete from TableDutyFDP where FDPId=" + fdp.Id);
+                var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
+
+                if (fdp.DutyType == 1165)
+                {
+                    var startLocal = ((DateTime)fdp.DateStart).AddMinutes(utcdiff);
+                    var endLocal = ((DateTime)fdp.DateEnd).AddMinutes(utcdiff);
+                    var startDate = startLocal.Date;
+                    var endDate = endLocal.Date;
+                    if (startDate == endDate)
+                    {
+                        var duration = (endLocal - startLocal).TotalMinutes;
+                        context.TableDutyFDPs.Add(new TableDutyFDP()
+                        {
+                            CDate = startDate,
+                            CrewId = fdp.CrewId,
+                            Duration = duration,
+                            DurationLocal = duration,
+                            DutyEnd = fdp.DateEnd,
+                            DutyEndLocal = endLocal,
+                            DutyStart = fdp.DateStart,
+                            DutyStartLocal = fdp.DateStart,
+                            FDPId = fdp.Id,
+                            GUID = Guid.NewGuid()
+                        });
+
+                    }
+                    else
+                    {
+                        var duration1 = (endDate - startLocal).TotalMinutes;
+                        var duration2 = (endLocal - endDate).TotalMinutes;
+                        context.TableDutyFDPs.Add(new TableDutyFDP()
+                        {
+                            CDate = startDate,
+                            CrewId = fdp.CrewId,
+                            Duration = duration1,
+                            DurationLocal = duration1,
+                            DutyEnd = fdp.DateEnd,
+                            DutyEndLocal = endLocal,
+                            DutyStart = fdp.DateStart,
+                            DutyStartLocal = fdp.DateStart,
+                            FDPId = fdp.Id,
+                            GUID = Guid.NewGuid()
+                        });
+                        context.TableDutyFDPs.Add(new TableDutyFDP()
+                        {
+                            CDate = endDate,
+                            CrewId = fdp.CrewId,
+                            Duration = duration2,
+                            DurationLocal = duration2,
+                            DutyEnd = fdp.DateEnd,
+                            DutyEndLocal = endLocal,
+                            DutyStart = fdp.DateStart,
+                            DutyStartLocal = fdp.DateStart,
+                            FDPId = fdp.Id,
+                            GUID = Guid.NewGuid()
+                        });
+                    }
+
+
+
+
+                }
+                if (do_save)
+                    context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
+        static List<FDPMaxDaily> MaxTable = null;
+        List<FDPMaxDaily> getMaxFDPTable()
+        {
+            if (MaxTable == null)
+            {
+                var context = new Models.dbEntities();
+                MaxTable = context.FDPMaxDailies.ToList();
+            }
+            return MaxTable;
+        }
+
+        static List<Extension> ExtensionTable = null;
+        List<Extension> getExtensionTable()
+        {
+            if (ExtensionTable == null)
+            {
+                var context = new Models.dbEntities();
+                ExtensionTable = context.Extensions.ToList();
+            }
+            return ExtensionTable;
+        }
+
+
+
+        public int GetMaxFDP2 (DateTime reporting,int sectors)
+        {
+            
+            var MaxFDPTable = getMaxFDPTable();
+            var maxfdp = getMaxFDP(reporting, sectors, MaxFDPTable);
+            return maxfdp;
+        }
+        //magu2
+        public async Task<dynamic> GetMaxFDPStats(List<int> ids, int? dh = null)
+        {
+            var context = new Models.dbEntities();
+            var MaxFDPTable = getMaxFDPTable(); //await this.context.FDPMaxDailies.ToListAsync();
+            //var flights = await this.context.ViewFlightABS.Where(q => ids.Contains(q.ID)).OrderBy(q => q.STDDay).ThenBy(q => q.STD).ThenBy(q => q.Register).ToListAsync();
+            //2022-01-23
+            var flights = await  context.ViewLegTimes.Where(q => ids.Contains(q.ID)).OrderBy(q => q.STDDay).ThenBy(q => q.ChocksOut).ThenBy(q => q.Register).ToListAsync();
+            foreach (var f in flights)
+            {
+               
+                if (f.ChocksIn == null)
+                    f.ChocksIn = f.STA;
+                if (f.ChocksOut == null)
+                    f.ChocksOut = f.STD;
+            }
+            //old 
+            //var flights = await this.context.ViewLegTimes.Where(q => ids.Contains(q.ID)).OrderBy(q => q.STDDay).ThenBy(q => q.STD).ThenBy(q => q.Register).ToListAsync();
+            MaxFDPStats stat = new MaxFDPStats();
+            stat.ReportingTime = ((DateTime)flights.First().DepartureLocal).AddMinutes(-60);
+            stat.Sectors = ids.Count - (dh == null ? 0 : (int)dh);
+            stat.RestFrom = ((DateTime)flights.Last().ArrivalLocal).AddMinutes(30);
+            var endDate = ((DateTime)flights.Last().ArrivalLocal);
+
+            var _start = stat.ReportingTime.Hour + stat.ReportingTime.Minute * 1.0 / 60;
+            var _end = endDate.Hour + endDate.Minute * 1.0 / 60;
+            if (stat.ReportingTime.Day != endDate.Day)
+                _start = 0;
+            double wocl = 0;
+            if (_start >= 2 && _start <= 6)
+                wocl = Math.Min(6, _end) - _start;
+            else if (_end >= 2 && _end <= 6)
+                wocl = Math.Min(6, _end) - 2;
+            else if (2 > _start && 2 < _end && 6 > _start && 6 < _end)
+                wocl = 4;
+
+
+            stat.RestTo = stat.RestFrom.AddHours(12);
+            stat.MaxFDP = getMaxFDP(((DateTime)flights.First().DepartureLocal).AddMinutes(-60), stat.Sectors, MaxFDPTable);
+            stat.WOCL = wocl * 60;
+            stat.Extended = 0;
+            stat.AllowedExtension = 0;
+            bool allowExtension = true;
+            stat.WOCLError = 0;
+            if (flights.Count >= 5)
+                allowExtension = false;
+            else if (wocl > 0 && wocl <= 2 && flights.Count > 4)
+            {
+                allowExtension = false;
+                stat.WOCLError = 1;
+            }
+            else if (wocl > 2 && flights.Count > 2)
+            {
+                allowExtension = false;
+                stat.WOCLError = 1;
+            }
+
+            if (wocl > 0 && wocl <= 2 && flights.Count > 4)
+            {
+
+                stat.WOCLError = 1;
+            }
+            else if (wocl > 2 && flights.Count > 2)
+            {
+
+                stat.WOCLError = 1;
+            }
+            //allowExtension = true;
+            if (allowExtension)
+                for (int i = 1; i < flights.Count; i++)
+                {
+                    var dt = (DateTime)flights[i].ChocksOut - (DateTime)flights[i - 1].ChocksIn;
+                    var minuts = dt.TotalMinutes;
+
+                    var brk = minuts - 30 - 60;
+
+                    if (brk >= 180 && brk < 600)
+                    {
+                        stat.Extended = 0.5 * brk;
+                        break;
+                    }
+                }
+
+            stat.Flight = flights.Select(q => ((DateTime)q.ChocksIn - (DateTime)q.ChocksOut).TotalMinutes).Sum();
+            stat.Duration = ((DateTime)flights.Last().ArrivalLocal - stat.ReportingTime).TotalMinutes;
+            if (stat.Duration > stat.MaxFDP && stat.Extended == 0)
+            {
+                var extTable = getExtensionTable();
+                var extend = getExtension(((DateTime)flights.First().DepartureLocal).AddMinutes(-60), stat.Sectors, extTable);
+                if (extend >= stat.Duration)
+                    stat.AllowedExtension = getExtension(((DateTime)flights.First().DepartureLocal).AddMinutes(-60), stat.Sectors, extTable);
+
+
+            }
+            stat.MaxFDPExtended = stat.MaxFDP + stat.Extended;
+
+            stat.Duty = stat.Duration + 30;
+
+
+            return stat;
+        }
+        public int getMaxFDP(DateTime start, int sectors, List<FDPMaxDaily> rows)
+        {
+            var _start = new DateTime(1900, 1, 1, start.Hour, start.Minute, start.Second);
+            var row = rows.FirstOrDefault(q => q.Sectors == sectors && _start >= q.DutyStart && _start <= q.DutyEnd);
+            if (row != null)
+                return (int)row.MaxFDP;
+            else
+                return 13 * 60;
+        }
+        public int getExtension(DateTime start, int sectors, List<Extension> rows)
+        {
+            var _start = new DateTime(1900, 1, 1, start.Hour, start.Minute, start.Second);
+            var row = rows.FirstOrDefault(q => q.Sectors == sectors && _start >= q.DutyStart && _start <= q.DutyEnd);
+            if (row != null)
+                return (int)row.MaxFDP;
+            else
+                return 0;
+        }
+
 
     }
 
+    public class MaxFDPStats
+    {
+        public int Sectors { get; set; }
+        public DateTime ReportingTime { get; set; }
+
+        public DateTime RestTo { get; set; }
+
+        public double MaxFDP { get; set; }
+        public double WOCL { get; set; }
+        public double WOCLError { get; set; }
+
+        public double Extended { get; set; }
+
+        public double MaxFDPExtended { get; set; }
+
+        public double Flight { get; set; }
+
+        public DateTime RestFrom { get; set; }
+
+        public double Duration { get; set; }
+        public double Duty { get; set; }
+
+        public bool IsOver
+        {
+            get
+            {
+                return Duration > MaxFDPExtended;
+            }
+        }
+
+        public int AllowedExtension { get; set; }
+    }
 
     public class eventDto
     {
@@ -866,5 +1521,65 @@ namespace ApiScheduling.Controllers
         public string tf { get; set; }
         public string tt { get; set; }
         public string remark { get; set; }
+    }
+    public class FDPResult
+    {
+        public int Id { get; set; }
+        public Nullable<int> CrewId { get; set; }
+        public Nullable<System.DateTime> ReportingTime { get; set; }
+        public Nullable<System.DateTime> DelayedReportingTime { get; set; }
+        public Nullable<System.DateTime> RevisedDelayedReportingTime { get; set; }
+        public Nullable<System.DateTime> FirstNotification { get; set; }
+        public Nullable<System.DateTime> NextNotification { get; set; }
+        public Nullable<int> DelayAmount { get; set; }
+        public Nullable<int> BoxId { get; set; }
+        public Nullable<int> JobGroupId { get; set; }
+        public bool IsTemplate { get; set; }
+        public int DutyType { get; set; }
+        public Nullable<System.DateTime> DateContact { get; set; }
+        public Nullable<int> FDPId { get; set; }
+        public Nullable<System.DateTime> DateStart { get; set; }
+        public Nullable<System.DateTime> DateEnd { get; set; }
+        public Nullable<int> CityId { get; set; }
+        public Nullable<int> TemplateId { get; set; }
+        public Nullable<System.DateTime> FDPReportingTime { get; set; }
+        public Nullable<System.Guid> GUID { get; set; }
+        public Nullable<int> FirstFlightId { get; set; }
+        public Nullable<int> LastFlightId { get; set; }
+        public Nullable<int> UPD { get; set; }
+        public Nullable<bool> IsMain { get; set; }
+        public string Key { get; set; }
+        public Nullable<bool> CP { get; set; }
+        public Nullable<int> CustomerId { get; set; }
+        public string Remark { get; set; }
+        public Nullable<int> LocationId { get; set; }
+        public Nullable<System.DateTime> InitStart { get; set; }
+        public Nullable<System.DateTime> InitEnd { get; set; }
+        public Nullable<System.DateTime> InitRestTo { get; set; }
+        public string InitFlts { get; set; }
+        public string InitRoute { get; set; }
+        public string InitFromIATA { get; set; }
+        public string InitToIATA { get; set; }
+        public string InitNo { get; set; }
+        public string InitKey { get; set; }
+        public Nullable<int> InitHomeBase { get; set; }
+        public string InitRank { get; set; }
+        public Nullable<int> InitIndex { get; set; }
+        public string InitGroup { get; set; }
+        public string InitScheduleName { get; set; }
+        public string InitFlights { get; set; }
+        public string Remark2 { get; set; }
+        public string CanceledNo { get; set; }
+        public string CanceledRoute { get; set; }
+        public Nullable<int> Extension { get; set; }
+        public Nullable<double> Split { get; set; }
+        public Nullable<System.DateTime> DateConfirmed { get; set; }
+        public string ConfirmedBy { get; set; }
+        public string UserName { get; set; }
+        public Nullable<decimal> MaxFDP { get; set; }
+        public Nullable<int> BL { get; set; }
+        public Nullable<int> FX { get; set; }
+
+
     }
 }
