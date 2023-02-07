@@ -1244,7 +1244,7 @@ namespace ApiScheduling.Controllers
 
 
 
-
+        //this method is planningController too
         void AddToCumDuty(FDP fdp, Models.dbEntities context = null)
         {
             try

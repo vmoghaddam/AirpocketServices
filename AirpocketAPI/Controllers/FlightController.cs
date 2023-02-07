@@ -380,13 +380,13 @@ namespace AirpocketAPI.Controllers
             sheet.Range[6, 35].Text = "سوخت (لیتر)";
             if (fuel == "lbs")
             {
-                
+
                 sheet.Range[6, 35].Text = "سوخت (پوند)";
             }
 
             if (fuel == "kg")
             {
-               
+
                 sheet.Range[6, 35].Text = "سوخت (کیلوگرم)";
             }
 
@@ -427,11 +427,11 @@ namespace AirpocketAPI.Controllers
                 sheet.Range[ln, 18].NumberFormat = "0";
 
 
-              
+
                 sheet.Range[ln, 19].Value2 = weight == "kg" ? flt.BaggageWeightKg : flt.BaggageWeightLbs;
                 sheet.Range[ln, 19].NumberFormat = "0.0";
 
-              
+
                 sheet.Range[ln, 20].Value2 = weight == "kg" ? flt.CargoWeightKg : flt.CargoWeightLbs;
                 sheet.Range[ln, 20].NumberFormat = "0.0";
 
@@ -490,24 +490,24 @@ namespace AirpocketAPI.Controllers
                 //    sheet.Range[ln, 33].TimeSpanValue = TimeSpan.FromMinutes(0);
                 //else
                 //    sheet.Range[ln, 33].TimeSpanValue = flt.DelayOffBlock == null ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(Convert.ToDouble(flt.DelayOffBlock));
-                sheet.Range[ln, 33].Formula = "IF(AD"+ln+"+0>=X"+ln+"+0,AD"+ln+"-X"+ln+",0)";//"IF(AE" + ln + "+0>=AD" + ln + "+0,AE" + ln + "-" + "AD" + ln + ",AE" + ln + "-AD" + ln + "+1)";
+                sheet.Range[ln, 33].Formula = "IF(AD" + ln + "+0>=X" + ln + "+0,AD" + ln + "-X" + ln + ",0)";//"IF(AE" + ln + "+0>=AD" + ln + "+0,AE" + ln + "-" + "AD" + ln + ",AE" + ln + "-AD" + ln + "+1)";
                 sheet.Range[ln, 33].NumberFormat = "HH:mm";
 
                 //DelayReason
                 sheet.Range[ln, 34].Value2 = flt.DelayReason;
                 //UsedFuel
                 var _fuel = flt.UpliftLtr;
-                
+
                 if (fuel == "lbs")
-                { 
+                {
                     _fuel = flt.UpliftLbs;
-                    
+
                 }
 
                 if (fuel == "kg")
                 {
                     _fuel = flt.UpliftKg;
-                   
+
                 }
 
 
@@ -1754,7 +1754,7 @@ namespace AirpocketAPI.Controllers
                 ExcelPicture picture = sheet.Pictures.Add(1, 1, picPath);
                 sheet.Range[1, 1].ColumnWidth = 8;
                 sheet.Range[1, 1].RowHeight = 17;
-                picture.TopRowOffset =  4;
+                picture.TopRowOffset = 4;
                 picture.LeftColumnOffset = 40;
 
                 sheet.Range["A1:A2"].Merge();
@@ -2158,7 +2158,7 @@ namespace AirpocketAPI.Controllers
                 ExcelPicture picture = sheet.Pictures.Add(1, 1, picPath);
                 sheet.Range[1, 1].ColumnWidth = 10;
                 sheet.Range[1, 1].RowHeight = 20;
-                picture.TopRowOffset =  5;
+                picture.TopRowOffset = 5;
                 picture.LeftColumnOffset = 50;
 
                 sheet.Range["A1:A2"].Merge();
@@ -2171,7 +2171,7 @@ namespace AirpocketAPI.Controllers
                 sheet.Range[1, 2].RowHeight = 30;
                 sheet.Range[1, 2].Style.Font.Size = 14;
 
-                sheet.Range[2, 2].Text ="Created At "+DateTime.Now.ToString("MMM-dd HH:mm");
+                sheet.Range[2, 2].Text = "Created At " + DateTime.Now.ToString("MMM-dd HH:mm");
 
                 sheet.Range[1, 2].Style.HorizontalAlignment = HorizontalAlignType.Left;
                 sheet.Range[1, 2].Style.VerticalAlignment = VerticalAlignType.Center;
@@ -2967,7 +2967,7 @@ namespace AirpocketAPI.Controllers
                                PID = x.PID,
                                Mobile = x.Mobile,
                                Address = x.Address,
-                               
+
 
                            }).ToList();
             var _gcrews = (from x in _crews2
@@ -3130,7 +3130,7 @@ namespace AirpocketAPI.Controllers
                                PID = x.PID,
                                Mobile = x.Mobile,
                                Address = x.Address,
-                               NID= x.Sex
+                               NID = x.Sex
 
 
                            }).ToList();
@@ -3167,7 +3167,7 @@ namespace AirpocketAPI.Controllers
                              JobGroupCode = x.Key.JobGroupCode,
                              GroupOrder = x.Key.GroupOrder,
                              PID = x.Key.PID,
-                             NID=x.Key.NID,
+                             NID = x.Key.NID,
                              Mobile = x.Key.Mobile,
                              Address = x.Key.Address,
                              IsCockpit = x.Key.IsCockpit,
@@ -3299,7 +3299,7 @@ namespace AirpocketAPI.Controllers
                                PID = x.PID,
                                Mobile = x.Mobile,
                                Address = x.Address,
-                                PassportNo=x.Sex
+                               PassportNo = x.Sex
 
                            }).ToList();
             var _gcrews = (from x in _crews2
@@ -3318,7 +3318,7 @@ namespace AirpocketAPI.Controllers
                                x.PID,
                                x.Mobile,
                                x.Address,
-                              PassportNo=string.IsNullOrEmpty( x.PassportNo)?"-":x.PassportNo
+                               PassportNo = string.IsNullOrEmpty(x.PassportNo) ? "-" : x.PassportNo
                            } into grp
                            select grp).ToList();
             var query = (from x in _gcrews
@@ -3337,7 +3337,7 @@ namespace AirpocketAPI.Controllers
                              PID = x.Key.PID,
                              Mobile = x.Key.Mobile,
                              Address = x.Key.Address,
-                             PassportNo=x.Key.PassportNo,
+                             PassportNo = x.Key.PassportNo,
                              IsCockpit = x.Key.IsCockpit,
                              Legs = vflights.Where(q => xfids.Contains((int)q.ID)).OrderBy(q => q.DepartureLocal).Select(q => q.FlightNumber).Distinct().ToList(),
                              LegsStr = string.Join("-", vflights.Where(q => xfids.Contains((int)q.ID)).OrderBy(q => q.DepartureLocal).Select(q => q.FlightNumber).Distinct().ToList()),
@@ -3545,7 +3545,7 @@ namespace AirpocketAPI.Controllers
 
             var cockpit = query.Where(q => q.JobGroupCode.StartsWith("00101")).OrderBy(q => q.GroupOrder).ThenBy(q => q.Name).ToList();
             var cabin = query.Where(q => q.JobGroupCode.StartsWith("00102")).OrderBy(q => q.GroupOrder).ThenBy(q => q.Name).ToList();
-            var other= query.Where(q => !q.JobGroupCode.StartsWith("00102") && !q.JobGroupCode.StartsWith("00101")).OrderBy(q => q.GroupOrder).ThenBy(q => q.Name).ToList();
+            var other = query.Where(q => !q.JobGroupCode.StartsWith("00102") && !q.JobGroupCode.StartsWith("00101")).OrderBy(q => q.GroupOrder).ThenBy(q => q.Name).ToList();
             var result = new
             {
                 flights = vflights,
@@ -3571,7 +3571,7 @@ namespace AirpocketAPI.Controllers
             sheet.Range[3, 2].Text = ((DateTime)result.stdLocal).ToString("yyyy-MMM-dd");
             DateTime d = ((DateTime)result.stdLocal);
             PersianCalendar pc = new PersianCalendar();
-            sheet.Range[3, 3].Text = "("+pc.GetYear(d)+"/"+pc.GetMonth(d).ToString().PadLeft(2,'0')+"/"+pc.GetDayOfMonth(d).ToString().PadLeft(2, '0') + ")";
+            sheet.Range[3, 3].Text = "(" + pc.GetYear(d) + "/" + pc.GetMonth(d).ToString().PadLeft(2, '0') + "/" + pc.GetDayOfMonth(d).ToString().PadLeft(2, '0') + ")";
 
             sheet.Range[3, 7].Text = ((DateTime)result.staLocal).ToString("yyyy-MMM-dd");
 
@@ -3599,10 +3599,10 @@ namespace AirpocketAPI.Controllers
             int rowno = 1;
             foreach (var cr in result.cockpit)
             {
-                sheet.Range[r, 1].Text =rowno.ToString();
+                sheet.Range[r, 1].Text = rowno.ToString();
                 sheet.Range[r, 2].Text = cr.Position;
                 sheet.Range[r, 3].Text = "";
-                sheet.Range[r, 4].Text = cr.Name+(cr.Legs.Count!= flightIds.Count?" ("+ cr.LegsStr+")":"");
+                sheet.Range[r, 4].Text = cr.Name + (cr.Legs.Count != flightIds.Count ? " (" + cr.LegsStr + ")" : "");
                 sheet.Range[r, 5].Text = cr.PassportNo;
                 r++;
                 rowno++;
@@ -3764,7 +3764,7 @@ namespace AirpocketAPI.Controllers
             var cockpit = query.Where(q => q.JobGroupCode.StartsWith("00101")).OrderBy(q => q.GroupOrder).ThenBy(q => q.Name).ToList();
             var cabin = query.Where(q => q.JobGroupCode.StartsWith("00102")).OrderBy(q => q.GroupOrder).ThenBy(q => q.Name).ToList();
             var other = query.Where(q => !q.JobGroupCode.StartsWith("00102") && !q.JobGroupCode.StartsWith("00101")).OrderBy(q => q.GroupOrder).ThenBy(q => q.Name).ToList();
-            
+
             var result = new
             {
                 flights = vflights,
@@ -3787,21 +3787,21 @@ namespace AirpocketAPI.Controllers
             var mappedPathSource = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "_jlchb" + ".xlsx");
             workbook.LoadFromFile(mappedPathSource);
             Worksheet sheet = workbook.Worksheets[0];
-           // sheet.Range[3, 2].Text = ((DateTime)result.stdLocal).ToString("yyyy-MMM-dd");
+            // sheet.Range[3, 2].Text = ((DateTime)result.stdLocal).ToString("yyyy-MMM-dd");
             DateTime d = ((DateTime)result.stdLocal);
             PersianCalendar pc = new PersianCalendar();
 
             sheet.Range[10, 11].Text = result.regs;
             sheet.Range[10, 9].Text = "MD";
 
-           // sheet.Range[3, 3].Text = "(" + pc.GetYear(d) + "/" + pc.GetMonth(d).ToString().PadLeft(2, '0') + "/" + pc.GetDayOfMonth(d).ToString().PadLeft(2, '0') + ")";
+            // sheet.Range[3, 3].Text = "(" + pc.GetYear(d) + "/" + pc.GetMonth(d).ToString().PadLeft(2, '0') + "/" + pc.GetDayOfMonth(d).ToString().PadLeft(2, '0') + ")";
 
             sheet.Range[10, 14].Text = ((DateTime)result.std).ToString("yyyy-MMM-dd");
 
 
             var _oflts = vflights.OrderBy(q => q.STD).ToList();
             var _nf = 14;
-            foreach(var flt in _oflts)
+            foreach (var flt in _oflts)
             {
                 sheet.Range[_nf, 4].Text = flt.FlightNumber;
                 sheet.Range[_nf, 5].Text = flt.FromAirportIATA;
@@ -3834,18 +3834,18 @@ namespace AirpocketAPI.Controllers
             //sheet.Range[3, 8].Text = result.flights.Last().ToAirportIATA + " - " + ((DateTime)result.flights.Last().ArrivalLocal).ToString("HH:mm");
 
             var _cf = 21;
-           
+
             foreach (var cr in result.cockpit)
             {
                 sheet.Range[_cf, 1].Text = cr.Position;
-                
-               
+
+
                 sheet.Range[_cf, 3].Text = cr.Name + (cr.Legs.Count != flightIds.Count ? " (" + cr.LegsStr + ")" : "");
-               
+
                 _cf++;
-                
+
             }
-            
+
             foreach (var cr in result.cabin)
             {
                 sheet.Range[_cf, 1].Text = cr.Position;
@@ -3857,8 +3857,8 @@ namespace AirpocketAPI.Controllers
 
             }
 
-            
-            
+
+
             foreach (var cr in result.other)
             {
                 sheet.Range[_cf, 1].Text = cr.Position;
@@ -4760,7 +4760,7 @@ namespace AirpocketAPI.Controllers
         }
 
 
-       
+
 
         [Route("api/xls/roster/cockpit/daily/kih")]
         [AcceptVerbs("GET")]
@@ -4851,21 +4851,21 @@ namespace AirpocketAPI.Controllers
                                )
                                select x).ToList();
 
-            var off = dutiesQuery.Where(q => (q.DutyType == 1166 || q.DutyType == 10000 || q.DutyType == 10001 || q.DutyType == 100007) ).ToList();
+            var off = dutiesQuery.Where(q => (q.DutyType == 1166 || q.DutyType == 10000 || q.DutyType == 10001 || q.DutyType == 100007)).ToList();
             var off_mhd = off.Where(q => q.SMSId == 140857).ToList();
             var off_thr = off.Where(q => q.SMSId == 135502).ToList();
-            var rest = dutiesQuery.Where(q => q.DutyType == 300009  ).ToList();
+            var rest = dutiesQuery.Where(q => q.DutyType == 300009).ToList();
             var rest_mhd = rest.Where(q => q.SMSId == 140857).ToList();
             var rest_thr = rest.Where(q => q.SMSId == 135502).ToList();
-            var rsv = dutiesQuery.Where(q => q.DutyType == 1170  ).ToList();
+            var rsv = dutiesQuery.Where(q => q.DutyType == 1170).ToList();
             var rsv_mhd = rsv.Where(q => q.SMSId == 140857).ToList();
             var rsv_thr = rsv.Where(q => q.SMSId == 135502).ToList();
-            var vac = dutiesQuery.Where(q => q.DutyType == 1169 ).ToList();
-            var sick = dutiesQuery.Where(q => q.DutyType == 100002  ).ToList();
-            var ground = dutiesQuery.Where(q => q.DutyType == 100000  ).ToList();
-            var trn = dutiesQuery.Where(q => q.DutyType == 5000 ).ToList();
-            var sim = dutiesQuery.Where(q => q.DutyType == 100003  ).ToList();
-            var office = dutiesQuery.Where(q => q.DutyType == 5001  ).ToList();
+            var vac = dutiesQuery.Where(q => q.DutyType == 1169).ToList();
+            var sick = dutiesQuery.Where(q => q.DutyType == 100002).ToList();
+            var ground = dutiesQuery.Where(q => q.DutyType == 100000).ToList();
+            var trn = dutiesQuery.Where(q => q.DutyType == 5000).ToList();
+            var sim = dutiesQuery.Where(q => q.DutyType == 100003).ToList();
+            var office = dutiesQuery.Where(q => q.DutyType == 5001).ToList();
             //140870
             var stbyam_thr = from x in dutiesQuery
                              where x.DutyType == 1168 && x.SMSId == 135502
@@ -4885,16 +4885,16 @@ namespace AirpocketAPI.Controllers
                              orderby x.OrderIndex, x.ScheduleName
                              select x;
             //12-26
-            var am_cockpit_thr = stbyam_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").OrderBy(q=> getOrder(q.JobGroup)).ToList();
+            var am_cockpit_thr = stbyam_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").OrderBy(q => getOrder(q.JobGroup)).ToList();
             var am_cockpit_mhd = stbyam_mhd.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").OrderBy(q => getOrder(q.JobGroup)).ToList();
             var pm_cockpit_thr = stbypm_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").OrderBy(q => getOrder(q.JobGroup)).ToList();
             var pm_cockpit_mhd = stbypm_mhd.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").OrderBy(q => getOrder(q.JobGroup)).ToList();
 
 
-           // var am_p2_thr = stbyam_thr.Where(q => q.JobGroup == "P2").ToList();
-          //  var am_p2_mhd = stbyam_mhd.Where(q => q.JobGroup == "P2").ToList();
-          //  var pm_p2_thr = stbypm_thr.Where(q => q.JobGroup == "P2").ToList();
-          //  var pm_p2_mhd = stbypm_mhd.Where(q => q.JobGroup == "P2").ToList();
+            // var am_p2_thr = stbyam_thr.Where(q => q.JobGroup == "P2").ToList();
+            //  var am_p2_mhd = stbyam_mhd.Where(q => q.JobGroup == "P2").ToList();
+            //  var pm_p2_thr = stbypm_thr.Where(q => q.JobGroup == "P2").ToList();
+            //  var pm_p2_mhd = stbypm_mhd.Where(q => q.JobGroup == "P2").ToList();
 
 
 
@@ -4904,10 +4904,10 @@ namespace AirpocketAPI.Controllers
             var pm_cabin_mhd = stbypm_mhd.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").OrderBy(q => getOrder(q.JobGroup)).ToList();
 
 
-          //  var am_ccm_thr = stbyam_thr.Where(q => q.JobGroup == "CCM").ToList();
-          //  var am_ccm_mhd = stbyam_mhd.Where(q => q.JobGroup == "CCM").ToList();
-          //  var pm_ccm_thr = stbypm_thr.Where(q => q.JobGroup == "CCM").ToList();
-          //  var pm_ccm_mhd = stbypm_mhd.Where(q => q.JobGroup == "CCM").ToList();
+            //  var am_ccm_thr = stbyam_thr.Where(q => q.JobGroup == "CCM").ToList();
+            //  var am_ccm_mhd = stbyam_mhd.Where(q => q.JobGroup == "CCM").ToList();
+            //  var pm_ccm_thr = stbypm_thr.Where(q => q.JobGroup == "CCM").ToList();
+            //  var pm_ccm_mhd = stbypm_mhd.Where(q => q.JobGroup == "CCM").ToList();
 
 
             Workbook workbook = new Workbook();
@@ -4970,7 +4970,7 @@ namespace AirpocketAPI.Controllers
                     if (!string.IsNullOrEmpty(flt.POSITIONINGCABIN))
                         _pos.Add(flt.POSITIONINGCABIN);
 
-                    sheet.Range[ln, 20].Text = _pos.Count==0 ? "" : string.Join(",",_pos);
+                    sheet.Range[ln, 20].Text = _pos.Count == 0 ? "" : string.Join(",", _pos);
 
 
                     sheet.Range["B" + ln + ":T" + ln].Style.HorizontalAlignment = HorizontalAlignType.Center;
@@ -4994,7 +4994,7 @@ namespace AirpocketAPI.Controllers
             ln = ln + 2;
 
 
-            sheet.Range[ln, 6].Text = string.Join(", ", am_cockpit_thr.Select(q => q.ScheduleName+"("+q.JobGroup+")"));
+            sheet.Range[ln, 6].Text = string.Join(", ", am_cockpit_thr.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
             ln++;
             sheet.Range[ln, 6].Text = string.Join(", ", am_cabin_thr.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
             ln++;
@@ -5020,9 +5020,9 @@ namespace AirpocketAPI.Controllers
 
 
 
-            sheet.Range[ln, 6].Text ="N/A" ;//string.Join(", ", off_thr.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = "N/A";//string.Join(", ", off_thr.Select(q => q.ScheduleName));
             ln++;
-            sheet.Range[ln, 6].Text ="N/A" ;//string.Join(", ", rest_thr.Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = "N/A";//string.Join(", ", rest_thr.Select(q => q.ScheduleName));
 
             ln++;
             //sheet.Range[ln, 5].Text = string.Join(", ", am_sccm_mhd.Select(q => q.ScheduleName));
@@ -5053,7 +5053,7 @@ namespace AirpocketAPI.Controllers
             sheet.Range[ln, 6].Text = string.Join(", ", sim.OrderBy(q => getOrder(q.JobGroup)).Select(q => q.ScheduleName));
 
             ln++;
-            sheet.Range[ln,6].Text = string.Join(", ", office.OrderBy(q => getOrder(q.JobGroup)).Select(q => q.ScheduleName));
+            sheet.Range[ln, 6].Text = string.Join(", ", office.OrderBy(q => getOrder(q.JobGroup)).Select(q => q.ScheduleName));
 
             // sheet.Range["B5:N" + ln].BorderInside(LineStyleType.Thin, Color.Black);
             //sheet.Range["B5:N" + ln].BorderAround(LineStyleType.Medium, Color.Black);
@@ -5428,7 +5428,7 @@ namespace AirpocketAPI.Controllers
                             Base = grp.OrderBy(q => q.STDx).First().Base
                         }
                        ).OrderByDescending(q => q.Base).ToList();
-           // var dqs = context.ViewCrewDuties.Where(x => (df >= x.DateLocal && df <= x.DateLocal2)).ToList();
+            // var dqs = context.ViewCrewDuties.Where(x => (df >= x.DateLocal && df <= x.DateLocal2)).ToList();
 
             var dutiesQuery = new List<ViewCrewDuty>(); /*(from x in  dqs
                                where (df >= x.DateLocal && df <= x.DateLocal2) && (x.DutyType == 1167 || x.DutyType == 1168 || x.DutyType == 1170 || x.DutyType == 5000 || x.DutyType == 5001
@@ -5606,7 +5606,7 @@ namespace AirpocketAPI.Controllers
             //sheet.Range[ln, 5].Text = string.Join(", ", rest.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
 
             //ln++;
-            
+
             //sheet.Range[ln, 5].Text = string.Join(", ", ground.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
 
             //ln++;
@@ -10215,7 +10215,7 @@ new JsonSerializerSettings
                 flightObj.ALT2 = "";
 
 
-                
+
                 ftext = ftext.Replace("..............", "....");
                 ftext = ftext.Replace(".............", "....");
                 ftext = ftext.Replace("............", "....");
@@ -10878,7 +10878,7 @@ new JsonSerializerSettings
                 var __lines = ftext.Split(new[] { '\r', '\n' }).ToList();
                 var __newlines = new List<string>();
                 var __c = 0;
-                foreach(var str in __lines)
+                foreach (var str in __lines)
                 {
                     if (str.Contains("TAXI") || str.Contains("DEST")
                         || str.Contains("CONT") || str.Contains("ALTN")
@@ -10888,6 +10888,7 @@ new JsonSerializerSettings
                         )
                         __newlines.Add(str.Replace(".......", "       "));
                     else
+
                     if (str.Contains("ENG FAIL PROC"))
                         __newlines.Add("ENG FAIL PROC:****");
                     //:  CHECK    :TIME(UTC) :   ALT 1  :   ALT 2   :    SBY    :
@@ -10907,7 +10908,11 @@ new JsonSerializerSettings
                         __newlines.Add(":   04H00   :$04time:$041:$042:$04sby:");
                     else if (str.Contains(":   05H00   :    H    Z:          :           :           :"))
                         __newlines.Add(":   05H00   :$05time:$051:$052:$05sby:");
-
+                    else if (str.Contains(" ATIS "))
+                    {
+                        __newlines.Add(str);
+                        __newlines.Add("****.");
+                    }
 
                     else
                         __newlines.Add(str);
@@ -10931,7 +10936,7 @@ new JsonSerializerSettings
                 ftext = ftext.Replace("........", "....");
                 ftext = ftext.Replace(".......", "....");
                 ftext = ftext.Replace("/...", "/....");
-                 
+
 
                 //ftext = ftext.Replace("Ground ..... ..... ..... .....", "Ground");
                 //ftext = ftext.Replace("..... ..... ..... ..... .....", "****");
@@ -10942,10 +10947,10 @@ new JsonSerializerSettings
 
 
                 var lines = ftext.Split(new[] { '\r', '\n' }).ToList();
-               // lines.Add("ENRATIS1");
-               // lines.Add("ENRATIS2");
-               // lines.Add("ENRATIS3");
-               // lines.Add("ENRATIS4");
+                // lines.Add("ENRATIS1");
+                // lines.Add("ENRATIS2");
+                // lines.Add("ENRATIS3");
+                // lines.Add("ENRATIS4");
                 var linesNoSpace = lines.Select(q => q.Replace(" ", "")).ToList();
                 var linesTrimStart = lines.Select(q => q.TrimStart()).ToList();
 
@@ -11068,6 +11073,25 @@ new JsonSerializerSettings
                     }
                     try
                     {
+                        if (ln.Contains("$rvsmtime"))
+                        {
+                            var str = ln;
+                            //$cptgnd      $stbygnd      $fognd      $timegnd
+                            str = str.Replace("$rvsm1", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop ' id='prop_rvsm1'></input>");
+                            props.Add("prop_rvsm1");
+
+                            str = str.Replace("$rvsm2", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop ' id='prop_rvsm2'></input>");
+                            props.Add("prop_rvsm2");
+
+                            str = str.Replace("$rvsmsby", "<input type='number' ng-click='propClick($event)' data-info='_null_' class='prop ' id='prop_rvsmsby'></input>");
+                            props.Add("prop_rvsmsby");
+
+                            str = str.Replace("$rvsmtime", "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop' id='prop_rvsmtime'></input>");
+                            props.Add("prop_rvsmtime");
+                            ln = str;
+
+
+                        }
                         if (ln.Contains("$gndtime"))
                         {
                             var str = ln;
@@ -11333,12 +11357,12 @@ new JsonSerializerSettings
                             //propIndex++;
                         }
                         //var reqfuel = ln.Split(new string[] { "REQUESTED" }, StringSplitOptions.None).ToList();
-                       // if (reqfuel.Count() > 1)
-                       // {
+                        // if (reqfuel.Count() > 1)
+                        // {
                         //    ln = reqfuel[0] + "REQUESTED: " + "<input type='text' ng-click='propClick($event)' data-info='_null_' class='prop  noborder alignleft' id='prop_reqfuel" + "'>" + "" + "</input>";
                         //    props.Add("prop_reqfuel");
-                            //propIndex++;
-                       // }
+                        //propIndex++;
+                        // }
                         var onblock = ln.Split(new string[] { "ON BLK" }, StringSplitOptions.None).ToList();
                         if (!ln.Replace(" ", "").ToUpper().Contains("FUEL") && onblock.Count() > 1)
                         {
@@ -11448,10 +11472,20 @@ new JsonSerializerSettings
                         var prtsgrnd = ln.Split(new string[] { "****" }, StringSplitOptions.None).ToList();
                         if (prtsgrnd.Count > 1)
                         {
-                            var str = "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_" + propIndex + "' style='width:606px'>" + "" + "</input>"; // "@prop_" + propIndex;
-                            props.Add("prop_" + propIndex);
-                            propIndex++;
-                            ln = str;
+                            if (prtsgrnd[0].Contains("ENG FAIL"))
+                            {
+                                var str = "ENG FAIL PROC: <input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_" + propIndex + "' style='width:606px'>" + "" + "</input>"; // "@prop_" + propIndex;
+                                props.Add("prop_" + propIndex);
+                                propIndex++;
+                                ln = str;
+                            }
+                            else
+                            {
+                                var str = "<input type='text' data-info='_null_' ng-click='propClick($event)' class='prop' id='prop_" + propIndex + "' style='width:606px'>" + "" + "</input>"; // "@prop_" + propIndex;
+                                props.Add("prop_" + propIndex);
+                                propIndex++;
+                                ln = str;
+                            }
                         }
                         var prts4 = ln.Split(new string[] { "...." }, StringSplitOptions.None).ToList();
 
@@ -12660,7 +12694,7 @@ new JsonSerializerSettings
     public class xmlDelayItemSingle
     {
         public xmlDelayItem Item { get; set; }
-        
+
     }
     public class xmlDelay
     {

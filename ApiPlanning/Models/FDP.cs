@@ -19,6 +19,9 @@ namespace ApiPlanning.Models
         {
             this.FDP1 = new HashSet<FDP>();
             this.FDPItems = new HashSet<FDPItem>();
+            this.CrewPickupSMS = new HashSet<CrewPickupSM>();
+            this.OffItems = new HashSet<OffItem>();
+            this.FDPExtras = new HashSet<FDPExtra>();
         }
     
         public int Id { get; set; }
@@ -76,11 +79,24 @@ namespace ApiPlanning.Models
         public Nullable<decimal> MaxFDP { get; set; }
         public Nullable<int> BL { get; set; }
         public Nullable<int> FX { get; set; }
+        public Nullable<System.DateTime> ActualStart { get; set; }
+        public Nullable<System.DateTime> ActualEnd { get; set; }
+        public Nullable<System.DateTime> ActualRestTo { get; set; }
+        public Nullable<bool> IsOver { get; set; }
+        public Nullable<System.DateTime> STD { get; set; }
+        public Nullable<System.DateTime> STA { get; set; }
+        public Nullable<bool> OutOfHomeBase { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FDP> FDP1 { get; set; }
         public virtual FDP FDP2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FDPItem> FDPItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CrewPickupSM> CrewPickupSMS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OffItem> OffItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FDPExtra> FDPExtras { get; set; }
     }
 }

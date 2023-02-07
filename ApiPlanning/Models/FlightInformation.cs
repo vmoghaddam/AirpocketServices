@@ -19,6 +19,7 @@ namespace ApiPlanning.Models
         {
             this.FlightStatusLogs = new HashSet<FlightStatusLog>();
             this.FDPItems = new HashSet<FDPItem>();
+            this.OffItems = new HashSet<OffItem>();
         }
     
         public int ID { get; set; }
@@ -296,5 +297,7 @@ namespace ApiPlanning.Models
         public virtual ICollection<FlightStatusLog> FlightStatusLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FDPItem> FDPItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OffItem> OffItems { get; set; }
     }
 }

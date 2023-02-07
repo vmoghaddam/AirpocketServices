@@ -35,5 +35,13 @@ namespace ApiPlanning.Models
         public virtual DbSet<FDP> FDPs { get; set; }
         public virtual DbSet<FDPItem> FDPItems { get; set; }
         public virtual DbSet<ViewFDPItem> ViewFDPItems { get; set; }
+        public virtual DbSet<SchFlight> SchFlights { get; set; }
+        public virtual DbSet<ViewEmployeeLight> ViewEmployeeLights { get; set; }
+        public virtual DbSet<CrewPickupSM> CrewPickupSMS { get; set; }
+        public virtual DbSet<OffItem> OffItems { get; set; }
+        public virtual DbSet<FDPExtra> FDPExtras { get; set; }
+        public virtual DbSet<HelperMaxFDP> HelperMaxFDPs { get; set; }
+        public virtual DbSet<TableDutyFDP> TableDutyFDPs { get; set; }
+        public virtual DbSet<TableFlightFDP> TableFlightFDPs { get; set; }
     }
 }
