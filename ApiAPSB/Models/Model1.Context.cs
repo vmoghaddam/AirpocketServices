@@ -27,15 +27,16 @@ namespace ApiAPSB.Models
     
         public virtual DbSet<ViewLegCrew> ViewLegCrews { get; set; }
         public virtual DbSet<EFBDSPRelease> EFBDSPReleases { get; set; }
-        public virtual DbSet<ViewEFBDSPReleas> ViewEFBDSPReleases { get; set; }
         public virtual DbSet<AppCrewFlight> AppCrewFlights { get; set; }
         public virtual DbSet<FDPItem> FDPItems { get; set; }
         public virtual DbSet<XAppLeg> XAppLegs { get; set; }
         public virtual DbSet<OFPImport> OFPImports { get; set; }
         public virtual DbSet<OFPImportProp> OFPImportProps { get; set; }
-        public virtual DbSet<FlightInformation> FlightInformations { get; set; }
         public virtual DbSet<ViewLegTime> ViewLegTimes { get; set; }
         public virtual DbSet<FlightDocument> FlightDocuments { get; set; }
         public virtual DbSet<EFBValue> EFBValues { get; set; }
+        public virtual DbSet<ViewEFBDSPReleas> ViewEFBDSPReleases { get; set; }
+        public virtual DbSet<AppLegOP> AppLegOPS { get; set; }
+        public virtual DbSet<FlightInformation> FlightInformations { get; set; }
     }
 }

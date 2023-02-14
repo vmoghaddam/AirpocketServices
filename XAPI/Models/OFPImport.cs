@@ -79,10 +79,10 @@ namespace XAPI.Models
         public Nullable<int> FuelFINALRES { get; set; }
         public string FPF { get; set; }
     
-        public virtual FlightInformation FlightInformation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImportItem> OFPImportItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImportProp> OFPImportProps { get; set; }
+        public virtual FlightInformation FlightInformation { get; set; }
     }
 }

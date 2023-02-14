@@ -69,6 +69,14 @@ namespace ApiAPSB.Models
         public string TALT1 { get; set; }
         public string TALT2 { get; set; }
         public string FPF { get; set; }
+        public Nullable<int> FuelALT1 { get; set; }
+        public Nullable<int> FuelALT2 { get; set; }
+        public Nullable<int> FuelTOF { get; set; }
+        public Nullable<int> FuelTAXI { get; set; }
+        public Nullable<int> FuelOFFBLOCK { get; set; }
+        public Nullable<int> FuelCONT { get; set; }
+        public Nullable<int> FuelMINTOF { get; set; }
+        public Nullable<int> FuelFINALRES { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImportProp> OFPImportProps { get; set; }

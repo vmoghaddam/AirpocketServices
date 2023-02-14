@@ -34,6 +34,7 @@ using System.Drawing;
 using Newtonsoft.Json.Linq;
 using System.Data.SqlClient;
 using System.Threading;
+using System.Web.Script.Serialization;
 
 namespace XAPI.Controllers
 {
@@ -178,8 +179,8 @@ namespace XAPI.Controllers
                 PAXCHD = q.PaxChild != null ? q.PaxChild : 0,
                 PAXINF = q.PaxInfant != null ? q.PaxInfant : 0,
                 TotalPAX = (q.PaxAdult != null ? q.PaxAdult : 0) + (q.PaxChild != null ? q.PaxChild : 0) + (q.PaxInfant != null ? q.PaxInfant : 0),
-                
-                Status=q.FlightStatus
+
+                Status = q.FlightStatus
 
 
 
@@ -281,7 +282,7 @@ namespace XAPI.Controllers
         //https://xpi.sbvaresh.ir/api/skyputer
         [Route("api/skyputer")]
         [AcceptVerbs("POST")]
-        public  IHttpActionResult PostSkyputer(skyputer dto)
+        public IHttpActionResult PostSkyputer(skyputer dto)
         {
             var result = "GNRL";
             try
@@ -309,7 +310,7 @@ namespace XAPI.Controllers
                     ctx.OFPSkyPuters.Add(entity);
                     ctx.SaveChanges();
 
-                   
+
                     string responsebody = "NO";
                     using (WebClient client = new WebClient())
                     {
@@ -317,7 +318,7 @@ namespace XAPI.Controllers
                         reqparm.Add("key", dto.key);
                         reqparm.Add("plan", dto.plan);
                         byte[] responsebytes = client.UploadValues("https://fleet.flypersia.aero/xpi/api/skyputer/flypersia", "POST", reqparm);
-                          responsebody = Encoding.UTF8.GetString(responsebytes);
+                        responsebody = Encoding.UTF8.GetString(responsebytes);
 
                     }
                     return Ok(true);
@@ -398,26 +399,26 @@ namespace XAPI.Controllers
                 if (dto.key != "Skyputer@1359#")
                     return Ok("Authorization key is wrong.");
 
-                
-               
-                    var entity = new OFPSkyPuter()
-                    {
-                        OFP = dto.plan,
-                        DateCreate = DateTime.Now,
-                        UploadStatus = 0,
 
 
-                    };
-                    var ctx = new PPAEntities();
-                    ctx.Database.CommandTimeout = 1000;
-                    ctx.OFPSkyPuters.Add(entity);
-                    ctx.SaveChanges();
-                    new Thread(async () =>
-                    {
-                        GetSkyputerImport(entity.Id);
-                    }).Start();
-                    return Ok(true);
-                
+                var entity = new OFPSkyPuter()
+                {
+                    OFP = dto.plan,
+                    DateCreate = DateTime.Now,
+                    UploadStatus = 0,
+
+
+                };
+                var ctx = new PPAEntities();
+                ctx.Database.CommandTimeout = 1000;
+                ctx.OFPSkyPuters.Add(entity);
+                ctx.SaveChanges();
+                new Thread(async () =>
+                {
+                    GetSkyputerImport(entity.Id);
+                }).Start();
+                return Ok(true);
+
 
 
             }
@@ -548,34 +549,34 @@ namespace XAPI.Controllers
                 var info = parts.FirstOrDefault(q => q.StartsWith("binfo:|")).Replace("binfo:|", "");
                 var infoRows = info.Split(';').ToList();
                 //binfo:|OPT=VARESH AIRLINE;FLN=VAR5820;DTE=6/24/2022 12:00:00 AM;ETD=02:35;REG=;MCI=78;FLL=330;DOW=43742
-                var opt = infoRows.FirstOrDefault(q => q.StartsWith("OPT"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("OPT")).Split('=')[1];
-                var fln = infoRows.FirstOrDefault(q => q.StartsWith("FLN"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("FLN")).Split('=')[1];
-                var dte = infoRows.FirstOrDefault(q => q.StartsWith("DTE"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("DTE")).Split('=')[1];
-                var etd = infoRows.FirstOrDefault(q => q.StartsWith("ETD"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("ETD")).Split('=')[1];
-                
-                var reg = infoRows.FirstOrDefault(q => q.StartsWith("REG"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("REG")).Split('=')[1];
-                var mci = infoRows.FirstOrDefault(q => q.StartsWith("MCI"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("MCI")).Split('=')[1];
-                var fll = infoRows.FirstOrDefault(q => q.StartsWith("FLL"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("FLL")).Split('=')[1];
-                var dow = infoRows.FirstOrDefault(q => q.StartsWith("DOW"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("DOW")).Split('=')[1];
+                var opt = infoRows.FirstOrDefault(q => q.StartsWith("OPT")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("OPT")).Split('=')[1];
+                var fln = infoRows.FirstOrDefault(q => q.StartsWith("FLN")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("FLN")).Split('=')[1];
+                var dte = infoRows.FirstOrDefault(q => q.StartsWith("DTE")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("DTE")).Split('=')[1];
+                var etd = infoRows.FirstOrDefault(q => q.StartsWith("ETD")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("ETD")).Split('=')[1];
 
-                var rtm= infoRows.FirstOrDefault(q => q.StartsWith("RTM"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("RTM")).Split('=')[1];
-                var rta = infoRows.FirstOrDefault(q => q.StartsWith("RTA"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("RTA")).Split('=')[1];
-                var rtb = infoRows.FirstOrDefault(q => q.StartsWith("RTB"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("RTB")).Split('=')[1];
-                var rtt = infoRows.FirstOrDefault(q => q.StartsWith("RTT"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("RTT")).Split('=')[1];
-                var thm = infoRows.FirstOrDefault(q => q.StartsWith("THM"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("THM")).Split('=')[1];
-                var unt = infoRows.FirstOrDefault(q => q.StartsWith("UNT"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("UNT")).Split('=')[1];
-                var crw = infoRows.FirstOrDefault(q => q.StartsWith("CRW"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("CRW")).Split('=')[1];
-                var pld = infoRows.FirstOrDefault(q => q.StartsWith("PLD"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("PLD")).Split('=')[1];
-                var ezfw = infoRows.FirstOrDefault(q => q.StartsWith("EZFW"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("EZFW")).Split('=')[1];
-                var etow = infoRows.FirstOrDefault(q => q.StartsWith("ETOW"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("ETOW")).Split('=')[1];
-                var eldw = infoRows.FirstOrDefault(q => q.StartsWith("ELDW"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("ELDW")).Split('=')[1];
-                var eta = infoRows.FirstOrDefault(q => q.StartsWith("ETA"))==null?"": infoRows.FirstOrDefault(q => q.StartsWith("ETA")).Split('=')[1];
+                var reg = infoRows.FirstOrDefault(q => q.StartsWith("REG")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("REG")).Split('=')[1];
+                var mci = infoRows.FirstOrDefault(q => q.StartsWith("MCI")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("MCI")).Split('=')[1];
+                var fll = infoRows.FirstOrDefault(q => q.StartsWith("FLL")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("FLL")).Split('=')[1];
+                var dow = infoRows.FirstOrDefault(q => q.StartsWith("DOW")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("DOW")).Split('=')[1];
+
+                var rtm = infoRows.FirstOrDefault(q => q.StartsWith("RTM")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("RTM")).Split('=')[1];
+                var rta = infoRows.FirstOrDefault(q => q.StartsWith("RTA")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("RTA")).Split('=')[1];
+                var rtb = infoRows.FirstOrDefault(q => q.StartsWith("RTB")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("RTB")).Split('=')[1];
+                var rtt = infoRows.FirstOrDefault(q => q.StartsWith("RTT")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("RTT")).Split('=')[1];
+                var thm = infoRows.FirstOrDefault(q => q.StartsWith("THM")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("THM")).Split('=')[1];
+                var unt = infoRows.FirstOrDefault(q => q.StartsWith("UNT")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("UNT")).Split('=')[1];
+                var crw = infoRows.FirstOrDefault(q => q.StartsWith("CRW")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("CRW")).Split('=')[1];
+                var pld = infoRows.FirstOrDefault(q => q.StartsWith("PLD")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("PLD")).Split('=')[1];
+                var ezfw = infoRows.FirstOrDefault(q => q.StartsWith("EZFW")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("EZFW")).Split('=')[1];
+                var etow = infoRows.FirstOrDefault(q => q.StartsWith("ETOW")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("ETOW")).Split('=')[1];
+                var eldw = infoRows.FirstOrDefault(q => q.StartsWith("ELDW")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("ELDW")).Split('=')[1];
+                var eta = infoRows.FirstOrDefault(q => q.StartsWith("ETA")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("ETA")).Split('=')[1];
 
                 var fpf = infoRows.FirstOrDefault(q => q.StartsWith("FPF")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("FPF")).Split('=')[1];
                 string alt1 = "";
                 string alt2 = "";
                 var flightDate = DateTime.Parse(dte);
-                var no =fln.Contains(" ")? fln.Substring(4) : fln.Substring(3);
+                var no = fln.Contains(" ") ? fln.Substring(4) : fln.Substring(3);
 
                 var flight = context.ViewLegTimes.Where(q => q.STDDay == flightDate && q.FlightNumber == no).FirstOrDefault();
                 var fltobj = context.FlightInformations.Where(q => q.ID == flight.ID).FirstOrDefault();
@@ -605,29 +606,29 @@ namespace XAPI.Controllers
                     plan.MCI = Convert.ToDecimal(mci);
 
 
-               
-                
+
+
                 if (!string.IsNullOrEmpty(rtm))
-                    plan.RTM = rtm ;
+                    plan.RTM = rtm;
                 //var rta = infoRows.FirstOrDefault(q => q.StartsWith("RTA")).Split('=')[1];
                 if (!string.IsNullOrEmpty(rta))
                     plan.RTA = rta;
                 //var rtb = infoRows.FirstOrDefault(q => q.StartsWith("RTB")).Split('=')[1];
                 if (!string.IsNullOrEmpty(rtb))
                     plan.RTB = rtb;
-               // var rtt = infoRows.FirstOrDefault(q => q.StartsWith("RTT")).Split('=')[1];
+                // var rtt = infoRows.FirstOrDefault(q => q.StartsWith("RTT")).Split('=')[1];
                 if (!string.IsNullOrEmpty(rtt))
                     plan.RTT = rtt;
-               // var thm = infoRows.FirstOrDefault(q => q.StartsWith("THM")).Split('=')[1];
+                // var thm = infoRows.FirstOrDefault(q => q.StartsWith("THM")).Split('=')[1];
                 if (!string.IsNullOrEmpty(thm))
                     plan.THM = thm;
-               // var unt = infoRows.FirstOrDefault(q => q.StartsWith("UNT")).Split('=')[1];
+                // var unt = infoRows.FirstOrDefault(q => q.StartsWith("UNT")).Split('=')[1];
                 if (!string.IsNullOrEmpty(unt))
                     plan.UNT = unt;
                 //var crw = infoRows.FirstOrDefault(q => q.StartsWith("CRW")).Split('=')[1];
                 if (!string.IsNullOrEmpty(crw))
                     plan.CRW = crw;
-            //    var pld = infoRows.FirstOrDefault(q => q.StartsWith("PLD")).Split('=')[1];
+                //    var pld = infoRows.FirstOrDefault(q => q.StartsWith("PLD")).Split('=')[1];
                 if (!string.IsNullOrEmpty(pld))
                     plan.PLD = pld;
                 // var ezfw = infoRows.FirstOrDefault(q => q.StartsWith("EZFW")).Split('=')[1];
@@ -668,7 +669,7 @@ namespace XAPI.Controllers
                     var prts = _r.Split(';');
                     foreach (var x in prts)
                     {
-                        var str = x.Replace("\"", "^").Replace("'", "#").Replace("GEO","COR");
+                        var str = x.Replace("\"", "^").Replace("'", "#").Replace("GEO", "COR");
                         var substr = str.Split('=')[0] + ":'" + str.Split('=')[1] + "'";
 
                         procStr += substr;
@@ -706,7 +707,7 @@ namespace XAPI.Controllers
                         var prts = _r.Split(';');
                         foreach (var x in prts)
                         {
-                           // var str = x.Replace("\"", "^").Replace("'", "#");
+                            // var str = x.Replace("\"", "^").Replace("'", "#");
                             var str = x.Replace("\"", "^").Replace("'", "#").Replace("GEO", "COR");
                             var substr = str.Split('=')[0] + ":'" + str.Split('=')[1] + "'";
 
@@ -733,7 +734,7 @@ namespace XAPI.Controllers
                     plan.JAPlan1 = "[" + string.Join(",", apln1Json) + "]";
                 }
 
-                string apln2 = parts.Where(q => q.StartsWith("apln:|")).Count()>1? parts.Where(q => q.StartsWith("apln:|")).ToList()[1]:null;
+                string apln2 = parts.Where(q => q.StartsWith("apln:|")).Count() > 1 ? parts.Where(q => q.StartsWith("apln:|")).ToList()[1] : null;
                 if (apln2 != null)
                 {
                     apln2 = apln2.Replace("apln:|", "");
@@ -816,7 +817,7 @@ namespace XAPI.Controllers
                 if (aldrf != null)
                 {
                     aldrf = aldrf.Replace("aldrf:|", "");
-                    var aldrfRows = aldrf.Split('/').Where(q=>!string.IsNullOrEmpty(q)).ToList();
+                    var aldrfRows = aldrf.Split('/').Where(q => !string.IsNullOrEmpty(q)).ToList();
                     List<JObject> aldrfJson = new List<JObject>();
                     idx = 0;
 
@@ -824,8 +825,8 @@ namespace XAPI.Controllers
                     {
                         var procStr = "";
                         var _r = r.Replace("=;", "= ;");
-                        var prts = _r.Split(new string[] { "  " }, StringSplitOptions.None).Where(q=>!string.IsNullOrEmpty(q)).ToList();
-                      //  var prts2 = _r.Split(new string[] { " " }, StringSplitOptions.None);
+                        var prts = _r.Split(new string[] { "  " }, StringSplitOptions.None).Where(q => !string.IsNullOrEmpty(q)).ToList();
+                        //  var prts2 = _r.Split(new string[] { " " }, StringSplitOptions.None);
                         //foreach (var x in prts)
                         //{
                         //    var str = x.Replace("\"", "^").Replace("'", "#");
@@ -835,7 +836,7 @@ namespace XAPI.Controllers
                         //    if (x != prts.Last())
                         //        procStr += ",";
                         //}
-                        procStr += "FL:'"+prts[0].Replace(" ","").Replace("|","")+"'";
+                        procStr += "FL:'" + prts[0].Replace(" ", "").Replace("|", "") + "'";
                         procStr += ",WIND:'" + prts[1].Replace(" ", "") + "'";
                         procStr += ",FUEL:'" + prts[2].Replace(" ", "") + "'";
                         procStr += ",T:'" + prts[3].Replace(" ", "") + "'";
@@ -863,7 +864,7 @@ namespace XAPI.Controllers
                     List<JObject> wtdrfJson = new List<JObject>();
                     idx = 0;
 
-                    var procStr = "{IDX:'1',X:'-8',FUEL:'" + aldrfRows[1].Replace(" ", "")+"'}";
+                    var procStr = "{IDX:'1',X:'-8',FUEL:'" + aldrfRows[1].Replace(" ", "") + "'}";
                     var jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
                     var _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
                     jsonObj.Add("_key", _key);
@@ -902,23 +903,27 @@ namespace XAPI.Controllers
                     jsonObj.Add("_key", _key);
                     wtdrfJson.Add(jsonObj);
 
-                    try {
+                    try
+                    {
                         procStr = "{IDX:'7',X:'+6',FUEL:'" + aldrfRows[13].Replace(" ", "") + "'}";
                         jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
                         _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
                         jsonObj.Add("_key", _key);
                         wtdrfJson.Add(jsonObj);
-                    } catch (Exception ex) { }
-                    
+                    }
+                    catch (Exception ex) { }
 
-                   
-                    try {
+
+
+                    try
+                    {
                         procStr = "{IDX:'8',X:'+8',FUEL:'" + aldrfRows[15].Replace(" ", "") + "'}";
                         jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
                         _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
                         jsonObj.Add("_key", _key);
                         wtdrfJson.Add(jsonObj);
-                    } catch (Exception ex) { }
+                    }
+                    catch (Exception ex) { }
 
                     plan.JWTDRF = "[" + string.Join(",", wtdrfJson) + "]";
 
@@ -948,16 +953,17 @@ namespace XAPI.Controllers
                     if (prm == "TRIP FUEL")
                     {
                         plan.FPTripFuel = Convert.ToDecimal(val);
-                        fltobj.FPTripFuel = plan.FPTripFuel;
+                        fltobj.OFPTRIPFUEL =Convert.ToInt32( plan.FPTripFuel);
                     }
                     if (prm == "TOF")
                     {
-                        plan.FuelTOF= Convert.ToInt32(val);
-                        fltobj.FPFuel = Convert.ToDecimal(val);
+                        plan.FuelTOF = Convert.ToInt32(val);
+                      //  fltobj.FPFuel = Convert.ToDecimal(val);
                     }
                     if (prm == "MIN TOF")
                     {
                         plan.FuelMINTOF = Convert.ToInt32(val);
+                        fltobj.OFPMINTOFFUEL= Convert.ToInt32(val);
                     }
                     if (prm == "CONT[5%]")
                     {
@@ -982,6 +988,7 @@ namespace XAPI.Controllers
                     if (prm == "OFF BLK")
                     {
                         plan.FuelOFFBLOCK = Convert.ToInt32(val);
+                        fltobj.OFPOFFBLOCKFUEL= Convert.ToInt32(val);
                     }
 
 
@@ -1019,9 +1026,9 @@ namespace XAPI.Controllers
                 other.Add(new fuelPrm() { prm = "ELDW", value = eldw });
                 props.Add("prop_eldw");
 
-                other.Add(new fuelPrm() { prm = "CREW1", value =crw.Contains("-")? crw.Split('-')[0]:"0" });
+                other.Add(new fuelPrm() { prm = "CREW1", value = crw.Contains("-") ? crw.Split('-')[0] : "0" });
                 props.Add("prop_crew1");
-                other.Add(new fuelPrm() { prm = "CREW2", value = crw.Contains("-") ? crw.Split('-')[1]:"0" });
+                other.Add(new fuelPrm() { prm = "CREW2", value = crw.Contains("-") ? crw.Split('-')[1] : "0" });
                 props.Add("prop_crew2");
 
                 other.Add(new fuelPrm() { prm = "CREW3", value = "" });
@@ -1124,8 +1131,8 @@ namespace XAPI.Controllers
                 props.Add("prop_rvsm_gnd_r");
                 other.Add(new fuelPrm() { prm = "RVSM_GND_TIME", value = "" });
                 props.Add("prop_rvsm_gnd_time");
-               
-                
+
+
                 other.Add(new fuelPrm() { prm = "RVSM_FLT_LVL", value = "" });
                 props.Add("prop_rvsm_flt_lvl");
 
@@ -1838,7 +1845,7 @@ namespace XAPI.Controllers
                 //            where x.DateUTC == dt
                 //            select x;
 
-                 var fmis_cnn_string = "Data Source=VA.FMIS.IR,2019;Initial Catalog=CrewVA;User ID=WinUsers;Password=Crew1018!)!*";
+                var fmis_cnn_string = "Data Source=VA.FMIS.IR,2019;Initial Catalog=CrewVA;User ID=WinUsers;Password=Crew1018!)!*";
                 //var fmis_cnn_string = "Data Source=65.21.100.132;Initial Catalog=VARESH;User ID=sa;Password=Atrina1359";
                 var ap_cnn_string = "Data Source=65.21.14.236;Initial Catalog=ppa_varesh;User ID=Vahid;Password=Atrina1359@aA";
 
@@ -1894,9 +1901,9 @@ namespace XAPI.Controllers
 
 
 
-             //   var updmvt = "update FMISFLT set OffBlock=STD,TakeOff=STD,OnBlock=STA,OnRunway=STA";
-             //   SqlCommand updmvtcom = new SqlCommand(updmvt, cnnAP);
-             //   var r1111 = updmvtcom.ExecuteNonQuery();
+                //   var updmvt = "update FMISFLT set OffBlock=STD,TakeOff=STD,OnBlock=STA,OnRunway=STA";
+                //   SqlCommand updmvtcom = new SqlCommand(updmvt, cnnAP);
+                //   var r1111 = updmvtcom.ExecuteNonQuery();
 
 
 
@@ -1980,6 +1987,7 @@ namespace XAPI.Controllers
 
         }
 
+      
 
 
         protected void FillError(object sender, FillErrorEventArgs args)

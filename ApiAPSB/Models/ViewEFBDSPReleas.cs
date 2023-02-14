@@ -142,5 +142,6 @@ namespace ApiAPSB.Models
         public string VldRampPassFOORemark { get; set; }
         public string VldRampPassCMDRRemark { get; set; }
         public string Note { get; set; }
+        public Nullable<decimal> MinFuelRequiredCFP { get; set; }
     }
 }
