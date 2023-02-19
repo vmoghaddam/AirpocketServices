@@ -403,6 +403,27 @@ namespace ApiScheduling.Controllers
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> SaveFDP(RosterFDPDto dto)
         {
+            if (dto.Id == -100)
+            {
+                dto.ids = new List<RosterFDPId>() { new RosterFDPId() { dh = 0, id = 539799 }, new RosterFDPId() { dh = 0, id = 539928 } };
+                dto.extension = 0;
+                dto.IsAdmin = 0;
+                dto.UserName = "demo";
+                dto.crewId = 4484;
+                dto.from=141866;
+                dto.group = "TRE";
+                dto.homeBase = 135502;
+                dto.index = 1;
+                dto.key = "539799_539928";
+                dto.maxFDP = 780;
+                dto.no = "909_910";
+                dto.rank = "rank";
+                dto.scheduleName = "scheduleName";
+                dto.split = false;
+                dto.to = 141866;
+
+
+            }
             double default_reporting = 75;
             var context = new Models.dbEntities();
             try
@@ -460,8 +481,9 @@ namespace ApiScheduling.Controllers
 
                 if (_d7 != null && (dto.IsAdmin == null || dto.IsAdmin == 0))
                 {
-                    return new CustomActionResult(HttpStatusCode.NotAcceptable, new
+                    return new CustomActionResult(HttpStatusCode.OK, new
                     {
+                        Code = 307,
                         message = "Flight Time/Duty Limitaion Error. "
                         + "7-Day Duty: "
                         + FormatTwoDigits(Convert.ToInt32(Math.Floor(Convert.ToDecimal(_d7.Duty7 + fdpDuty))) / 60)
@@ -471,8 +493,9 @@ namespace ApiScheduling.Controllers
                 }
                 if (_d14 != null && (dto.IsAdmin == null || dto.IsAdmin == 0))
                 {
-                    return new CustomActionResult(HttpStatusCode.NotAcceptable, new
+                    return new CustomActionResult(HttpStatusCode.OK, new
                     {
+                        Code = 314,
                         message = "Flight Time/Duty Limitaion Error. "
                         + "14-Day Duty: "
                         + FormatTwoDigits(Convert.ToInt32(Math.Floor(Convert.ToDecimal(_d14.Duty14 + fdpDuty))) / 60)
@@ -482,8 +505,10 @@ namespace ApiScheduling.Controllers
                 }
                 if (_d28 != null && (dto.IsAdmin == null || dto.IsAdmin == 0))
                 {
-                    return new CustomActionResult(HttpStatusCode.NotAcceptable, new
+                   
+                    return new CustomActionResult(HttpStatusCode.OK, new
                     {
+                        Code = 328,
                         message = "Flight Time/Duty Limitaion Error. "
                         + "28-Day Duty: "
                         + FormatTwoDigits(Convert.ToInt32(Math.Floor(Convert.ToDecimal(_d28.Duty28 + fdpDuty))) / 60)
@@ -494,8 +519,9 @@ namespace ApiScheduling.Controllers
 
                 if (_f28 != null && (dto.IsAdmin == null || dto.IsAdmin == 0))
                 {
-                    return new CustomActionResult(HttpStatusCode.NotAcceptable, new
+                    return new CustomActionResult(HttpStatusCode.OK, new
                     {
+                        Code = 428,
                         message = "Flight Time/Duty Limitaion Error. "
                         + "28-Day Flight: "
                         + FormatTwoDigits(Convert.ToInt32(Math.Floor(Convert.ToDecimal(_f28.Flight28 + fdpFlight))) / 60)
@@ -506,8 +532,9 @@ namespace ApiScheduling.Controllers
 
                 if (_fy != null && (dto.IsAdmin == null || dto.IsAdmin == 0))
                 {
-                    return new CustomActionResult(HttpStatusCode.NotAcceptable, new
+                    return new CustomActionResult(HttpStatusCode.OK, new
                     {
+                        Code = 412,
                         message = "Flight Time/Duty Limitaion Error. "
                         + "12-Month Flight: "
                         + FormatTwoDigits(Convert.ToInt32(Math.Floor(Convert.ToDecimal(_fy.FlightYear + fdpFlight))) / 60)
@@ -518,8 +545,9 @@ namespace ApiScheduling.Controllers
 
                 if (_fcy != null && (dto.IsAdmin == null || dto.IsAdmin == 0))
                 {
-                    return new CustomActionResult(HttpStatusCode.NotAcceptable, new
+                    return new CustomActionResult(HttpStatusCode.OK, new
                     {
+                        Code = 413,
                         message = "Flight Time/Duty Limitaion Error. "
                         + "Current-Year Flight: "
                         + FormatTwoDigits(Convert.ToInt32(Math.Floor(Convert.ToDecimal(_fcy.FlightCYear + fdpFlight))) / 60)
@@ -591,9 +619,9 @@ namespace ApiScheduling.Controllers
                     MaxFDP = dto.maxFDP,
                     ReportingTime = !alldh ? dto.items.First().offblock.AddMinutes(-default_reporting) : dto.items.First().offblock,
                     IsOver = false,
-                    STD= dto.items.First().std,
-                    STA=dto.items.Last().sta,
-                    OutOfHomeBase= dto.to != dto.homeBase,
+                    STD = dto.items.First().std,
+                    STA = dto.items.Last().sta,
+                    OutOfHomeBase = dto.to != dto.homeBase,
 
 
 
@@ -610,9 +638,9 @@ namespace ApiScheduling.Controllers
                     var extcnt = await context.ExtensionHistories.Where(q => q.CrewId == fdp.CrewId && (q.DutyStart >= exd0 && q.DutyStart <= exd1)).CountAsync();
                     if (extcnt >= 2)
                     {
-                        return new CustomActionResult(HttpStatusCode.NotAcceptable, new
+                        return new CustomActionResult(HttpStatusCode.OK, new
                         {
-
+                            Code = 110,
                             message = "You can't extend maximum daily FDP due to the crew extended fdps in 7 consecutive days."
 
                         });
@@ -653,10 +681,14 @@ namespace ApiScheduling.Controllers
                                                 !exc.Contains(q.DutyType) &&
                                                 q.Id != fdp.Id && q.CrewId == fdp.CrewId
                                                 && (
-                                                      (fdp.InitStart >= q.InitStart && fdp.InitStart <= q.InitRestTo)
-                                                       || (fdp.InitEnd >= q.InitStart && fdp.InitEnd <= q.InitRestTo)
-                                                       || (q.InitStart >= fdp.InitStart && q.InitStart <= fdp.InitRestTo)
-                                                       || (q.InitRestTo >= fdp.InitStart && q.InitRestTo <= fdp.InitRestTo)
+                                                      //(fdp.InitStart >= q.InitStart && fdp.InitStart < q.InitRestTo)
+                                                      // || (fdp.InitEnd >= q.InitStart && fdp.InitEnd <= q.InitRestTo)
+                                                      // || (q.InitStart >= fdp.InitStart && q.InitStart < fdp.InitRestTo)
+                                                      // || (q.InitRestTo > fdp.InitStart && q.InitRestTo <= fdp.InitRestTo)
+                                                      (fdp.InitStart>=q.InitStart && fdp.InitRestTo<=q.InitRestTo)
+                                                      || (q.InitStart>=fdp.InitStart && q.InitRestTo<=fdp.InitRestTo)
+                                                      || (q.InitStart>=fdp.InitStart && q.InitStart<fdp.InitRestTo)
+                                                      || (q.InitRestTo>fdp.InitStart && q.InitRestTo<=fdp.InitRestTo)
                                                     )
                                                 );
                     if (_interupted == null)
@@ -689,7 +721,9 @@ namespace ApiScheduling.Controllers
                     if (_interupted != null && _interuptedAcceptable /* && (dto.IsAdmin == null || dto.IsAdmin == 0)*/)
                     {
                         //Rest/Interruption Error
-                        if ((dto.IsAdmin == null || dto.IsAdmin == 0) && (_activeq && _interupted.DutyType != 1167 && _interupted.DutyType != 1168 && _interupted.DutyType != 1170) || !(dto.items.First().std >= _interupted.DateStart && dto.items.First().std <= _interupted.DateEnd))
+                        if ((dto.IsAdmin == null || dto.IsAdmin == 0) 
+                            && (_activeq && _interupted.DutyType != 1167 && _interupted.DutyType != 1168 && _interupted.DutyType != 1170) 
+                            || !(dto.items.First().std >= _interupted.DateStart && dto.items.First().std <= _interupted.DateEnd))
                         {
                             //if (false)
                             bool sendError = false;
@@ -771,7 +805,7 @@ namespace ApiScheduling.Controllers
                                     break;
                             }
                             if (sendError && (dto.IsAdmin == null || dto.IsAdmin == 0))
-                                return new CustomActionResult(HttpStatusCode.NotAcceptable, new
+                                return new CustomActionResult(HttpStatusCode.OK, new
                                 {
                                     Code = 406,
                                     message = "Rest/Interruption Error(" + _interupted.Id + "). " + (GetDutyTypeTitle(_interupted.DutyType)) + "   " + (_interupted.InitStart == null ? "" : ((DateTime)_interupted.InitStart).ToString("yyyy-MM-dd") + " " + _interupted.InitFlts + " " + _interupted.InitRoute)
@@ -781,11 +815,11 @@ namespace ApiScheduling.Controllers
                         else
                         {
                             if (_interupted.DutyType == 1167 || _interupted.DutyType == 1168)
-                                return new CustomActionResult(HttpStatusCode.NotImplemented, _interupted);
+                                return new CustomActionResult(HttpStatusCode.OK, new { Code = 501, data = _interupted });
                             else if (_interupted.DutyType == 5000)
-                                return new CustomActionResult(HttpStatusCode.NotAcceptable, new
+                                return new CustomActionResult(HttpStatusCode.OK, new
                                 {
-
+                                    Code = 406,
                                     message = "Interruption Error (TRAINING)"
 
                                 });
@@ -794,7 +828,7 @@ namespace ApiScheduling.Controllers
                                 var _strt = ((DateTime)fdp.InitStart).AddMinutes(60);
                                 var rdif = Math.Abs((DateTime.UtcNow - _strt).TotalMinutes);
                                 if (rdif < 10 * 60)
-                                    return new CustomActionResult(HttpStatusCode.NotModified, _interupted);
+                                    return new CustomActionResult(HttpStatusCode.OK, new { Code = 304, data = _interupted });
                             }
                         }
                         //return new CustomActionResult(HttpStatusCode.NotAcceptable, _interupted);
@@ -874,7 +908,7 @@ namespace ApiScheduling.Controllers
                         Split = 0,
                         UserName = dto.UserName,
                         MaxFDP = dto.maxFDP,
-                        IsOver=false,
+                        IsOver = false,
 
                     };
                     temp.FDPExtras.Add(new FDPExtra() { MaxFDP = dto.maxFDP });
@@ -1056,7 +1090,10 @@ namespace ApiScheduling.Controllers
             catch (Exception ex)
             {
                 int iiii = 0;
-                return new CustomActionResult(HttpStatusCode.OK, null);
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += " IINER:" + ex.InnerException.Message;
+                return new CustomActionResult(HttpStatusCode.OK, msg);
             }
 
             return Ok(true);
