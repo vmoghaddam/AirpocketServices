@@ -38,5 +38,6 @@ namespace ApiScheduling.Models
         public virtual DbSet<FDPMaxDaily> FDPMaxDailies { get; set; }
         public virtual DbSet<Extension> Extensions { get; set; }
         public virtual DbSet<FDP> FDPs { get; set; }
+        public virtual DbSet<ViewCrewDutyNoReg> ViewCrewDutyNoRegs { get; set; }
     }
 }

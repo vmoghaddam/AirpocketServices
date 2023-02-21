@@ -404,6 +404,7 @@ namespace ApiScheduling.Controllers
 
         public async Task<IHttpActionResult> PostRosterSTBYSave(dynamic dto)
         {
+            var context = new Models.dbEntities();
             var sbam_start = 0*60;
             var sbam_durattion = 11*60+59;
             var sbpm_start = 12*60;
@@ -445,7 +446,15 @@ namespace ApiScheduling.Controllers
             var duty = new FDP();
             duty.DateStart = start;
             duty.DateEnd = end;
-            duty.CityId = -1; //Convert.ToInt32(dto.CityId) == -1 ? Convert.ToInt32(dto.CityId) : null;
+            var duration = (end - start).TotalMinutes;
+            duty.CityId = Convert.ToInt32(dto.CityId); //Convert.ToInt32(dto.CityId) == -1 ? Convert.ToInt32(dto.CityId) : null;
+            var homeBase= Convert.ToInt32(dto.HomeBase);
+            var outOfBase = false;
+            if (duty.CityId!=-1 && homeBase!=duty.CityId)
+            {
+                outOfBase = true;
+            }
+            var rest = duration >= 720 ? duration : (outOfBase?600:720);
             duty.CrewId = crewId;
             duty.DutyType = type;
             duty.GUID = Guid.NewGuid();
@@ -455,23 +464,40 @@ namespace ApiScheduling.Controllers
 
             duty.InitStart = duty.DateStart;
             duty.InitEnd = duty.DateEnd;
-            var rest = new List<int>() { 1167, 1168, 1170, 5000, 5001, 100001, 100003 };
-            duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
-            //porn
-            var exc = new List<int>() { 100009, 100020, 100021, 100022, 100023, 1170 };
-            var _interupted = await this.context.FDPs.FirstOrDefaultAsync(q => !exc.Contains(q.DutyType) && q.CrewId == duty.CrewId
-            && (
-                  (duty.InitStart >= q.InitStart && duty.InitStart <= q.InitRestTo)
-               || (duty.InitEnd >= q.InitStart && duty.InitEnd <= q.InitRestTo)
-               || (q.InitStart >= duty.InitStart && q.InitRestTo <= duty.InitRestTo)
-              )
-           );
+            // var rest = new List<int>() { 1167, 1168, 1170, 5000, 5001, 100001, 100003 };
+            //duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
+            if (duty.DutyType == 1167 || duty.DutyType == 1168)
+                duty.InitRestTo = ((DateTime)duty.InitEnd).AddMinutes(rest);
+            else
+                duty.InitRestTo = duty.DateEnd;
+           //porn
+           var exc = new List<int>() { 100009, 100020, 100021, 100022, 100023, 1170 };
+            var check = new List<int>() { 1165, 1166, 1167, 1168, 1169, 5000, 5001, 100000, 100002, 100003, 100004, 100005, 100006, 100008, 100025, 300008, 300009, 300010 };
+            // var _interupted = await this.context.FDPs.FirstOrDefaultAsync(q => !exc.Contains(q.DutyType) && q.CrewId == duty.CrewId
+            // && (
+            //       (duty.InitStart >= q.InitStart && duty.InitStart <= q.InitRestTo)
+            //    || (duty.InitEnd >= q.InitStart && duty.InitEnd <= q.InitRestTo)
+            //    || (q.InitStart >= duty.InitStart && q.InitRestTo <= duty.InitRestTo)
+            //   )
+            //);
+           var  _interupted = await context.FDPs.FirstOrDefaultAsync(q =>
+                                               check.Contains(q.DutyType) &&
+                                               q.Id != duty.Id && q.CrewId == duty.CrewId
+                                               && (
+                                                    
+                                                     (duty.InitStart >= q.InitStart && duty.InitRestTo <= q.InitRestTo)
+                                                     || (q.InitStart >= duty.InitStart && q.InitRestTo <= duty.InitRestTo)
+                                                     || (q.InitStart >= duty.InitStart && q.InitStart < duty.InitRestTo)
+                                                     || (q.InitRestTo > duty.InitStart && q.InitRestTo <= duty.InitRestTo)
+                                                   )
+                                               );
+
             if (_interupted != null)
             {
                 //Rest/Interruption Error
-                return new CustomActionResult(HttpStatusCode.NotAcceptable, new
+                return new CustomActionResult(HttpStatusCode.OK, new
                 {
-
+                    Code=406,
                     message = "Rest/Interruption Error." + (_interupted.InitStart == null ? "" : ((DateTime)_interupted.InitStart).ToString("yyyy-MM-dd") + " " + _interupted.InitFlts + " " + _interupted.InitRoute)
 
                 });
@@ -479,13 +505,14 @@ namespace ApiScheduling.Controllers
             }
 
 
-            this.context.FDPs.Add(duty);
+            context.FDPs.Add(duty);
             var saveResult = await context.SaveAsync();
             if (saveResult.Code != HttpStatusCode.OK)
                 return saveResult;
+            AddToCumDuty(duty);
 
             //2020-11-22 noreg
-            var view = await this.context.ViewCrewDutyNoRegs.FirstOrDefaultAsync(q => q.Id == duty.Id);
+            var view = await  context.ViewCrewDutyNoRegs.FirstOrDefaultAsync(q => q.Id == duty.Id);
             return new CustomActionResult(HttpStatusCode.OK, view);
 
         }
@@ -1442,6 +1469,27 @@ namespace ApiScheduling.Controllers
 
 
 
+                }
+                else
+                {
+                    var coef = 0;
+                    switch (fdp.DutyType)
+                    {
+                        case 5000:
+                        case 5001:
+                            coef = 1;
+                            break;
+                        case 100025:
+                        case 1167:
+                        case 1168:
+
+
+
+
+
+                        default:
+                            break;
+                    }
                 }
                 if (do_save)
                     context.SaveChanges();

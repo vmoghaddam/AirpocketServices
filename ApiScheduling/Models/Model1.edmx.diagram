@@ -22,6 +22,7 @@
         <AssociationConnector Association="dbModel.fk_fdp_fdp" />
         <AssociationConnector Association="dbModel.fk_fdpextra_fdp" />
         <AssociationConnector Association="dbModel.fk_fdpitem_fdp" />
+        <EntityTypeShape EntityType="dbModel.ViewCrewDutyNoReg" Width="1.5" PointX="14.375" PointY="3.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
