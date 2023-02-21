@@ -399,6 +399,97 @@ namespace ApiScheduling.Controllers
         }
 
 
+        [Route("api/roster/stby/save")]
+        [AcceptVerbs("POST")]
+
+        public async Task<IHttpActionResult> PostRosterSTBYSave(dynamic dto)
+        {
+            var sbam_start = 0*60;
+            var sbam_durattion = 11*60+59;
+            var sbpm_start = 12*60;
+            var sbpm_duration = 11*60+59;
+            var res_start = 4 * 60;
+            var res_duration = 17 * 60 + 59;
+
+
+            DateTime day = (Convert.ToDateTime(dto.date));
+            var crewId = Convert.ToInt32(dto.crewId);
+            var type = Convert.ToInt32(dto.type);
+
+            //var start = day;
+            //var end = day.AddHours(12);
+            //if (type == 1167)
+            //{
+            //    start = day.AddHours(12);
+            //    end = start.AddHours(12);
+            //}
+            //if (type == 1170)
+            //{
+            //    end = start.AddHours(23).AddMinutes(59).AddSeconds(59);
+            //}
+
+            //caspian
+            var start = day.AddMinutes(sbam_start);
+            var end = start.AddMinutes(sbam_durattion);
+            if (type == 1167)
+            {
+                start = day.AddMinutes(sbpm_start);
+                end = start.AddMinutes(sbpm_duration);
+            }
+            if (type == 1170)
+            {
+                start = day.AddMinutes(res_start);
+                end = start.AddMinutes(res_duration);
+            }
+
+            var duty = new FDP();
+            duty.DateStart = start;
+            duty.DateEnd = end;
+            duty.CityId = -1; //Convert.ToInt32(dto.CityId) == -1 ? Convert.ToInt32(dto.CityId) : null;
+            duty.CrewId = crewId;
+            duty.DutyType = type;
+            duty.GUID = Guid.NewGuid();
+            duty.IsTemplate = false;
+            //duty.Remark = dto.Remark != null ? Convert.ToString(dto.Remark) : "";
+            duty.UPD = 1;
+
+            duty.InitStart = duty.DateStart;
+            duty.InitEnd = duty.DateEnd;
+            var rest = new List<int>() { 1167, 1168, 1170, 5000, 5001, 100001, 100003 };
+            duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
+            //porn
+            var exc = new List<int>() { 100009, 100020, 100021, 100022, 100023, 1170 };
+            var _interupted = await this.context.FDPs.FirstOrDefaultAsync(q => !exc.Contains(q.DutyType) && q.CrewId == duty.CrewId
+            && (
+                  (duty.InitStart >= q.InitStart && duty.InitStart <= q.InitRestTo)
+               || (duty.InitEnd >= q.InitStart && duty.InitEnd <= q.InitRestTo)
+               || (q.InitStart >= duty.InitStart && q.InitRestTo <= duty.InitRestTo)
+              )
+           );
+            if (_interupted != null)
+            {
+                //Rest/Interruption Error
+                return new CustomActionResult(HttpStatusCode.NotAcceptable, new
+                {
+
+                    message = "Rest/Interruption Error." + (_interupted.InitStart == null ? "" : ((DateTime)_interupted.InitStart).ToString("yyyy-MM-dd") + " " + _interupted.InitFlts + " " + _interupted.InitRoute)
+
+                });
+                //return new CustomActionResult(HttpStatusCode.NotAcceptable, _interupted);
+            }
+
+
+            this.context.FDPs.Add(duty);
+            var saveResult = await context.SaveAsync();
+            if (saveResult.Code != HttpStatusCode.OK)
+                return saveResult;
+
+            //2020-11-22 noreg
+            var view = await this.context.ViewCrewDutyNoRegs.FirstOrDefaultAsync(q => q.Id == duty.Id);
+            return new CustomActionResult(HttpStatusCode.OK, view);
+
+        }
+
         [Route("api/roster/fdp/save")]
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> SaveFDP(RosterFDPDto dto)
