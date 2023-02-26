@@ -328,6 +328,23 @@ namespace ApiProfile.Models
         public Nullable<bool> IsTypeMD { get; set; }
         public Nullable<bool> IsTypeAirbus { get; set; }
         public Nullable<bool> IsTypeFokker { get; set; }
+        public Nullable<System.DateTime> IssueDate28 { get; set; }
+        public Nullable<System.DateTime> ExpireDate28 { get; set; }
+        public Nullable<System.DateTime> IssueDate29 { get; set; }
+        public Nullable<System.DateTime> ExpireDate29 { get; set; }
+        public Nullable<System.DateTime> IssueDate30 { get; set; }
+        public Nullable<System.DateTime> ExpireDate30 { get; set; }
+        public Nullable<System.DateTime> IssueDate31 { get; set; }
+        public Nullable<System.DateTime> ExpireDate31 { get; set; }
+        public Nullable<System.DateTime> IssueDate32 { get; set; }
+        public Nullable<System.DateTime> ExpireDate32 { get; set; }
+        public Nullable<System.DateTime> IssueDate33 { get; set; }
+        public Nullable<System.DateTime> ExpireDate33 { get; set; }
+        public Nullable<System.DateTime> IssueDate34 { get; set; }
+        public Nullable<System.DateTime> ExpireDate34 { get; set; }
+        public Nullable<System.DateTime> IssueDate35 { get; set; }
+        public Nullable<System.DateTime> ExpireDate35 { get; set; }
+        public string BaseAirline { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonDocument> PersonDocuments { get; set; }

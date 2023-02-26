@@ -389,6 +389,23 @@
           <Property Name="IsTypeMD" Type="bit" />
           <Property Name="IsTypeAirbus" Type="bit" />
           <Property Name="IsTypeFokker" Type="bit" />
+          <Property Name="IssueDate28" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate28" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate29" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate29" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate30" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate30" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate31" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate31" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate32" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate32" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate33" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate33" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate34" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate34" Type="datetime2" Precision="7" />
+          <Property Name="IssueDate35" Type="datetime2" Precision="7" />
+          <Property Name="ExpireDate35" Type="datetime2" Precision="7" />
+          <Property Name="BaseAirline" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="PersonAircraftType">
           <Key>
@@ -852,6 +869,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="Remain25" Type="int" />
           <Property Name="Remain26" Type="int" />
           <Property Name="Remain27" Type="int" />
+          <Property Name="Remain28" Type="int" />
+          <Property Name="Remain29" Type="int" />
+          <Property Name="Remain30" Type="int" />
+          <Property Name="Remain31" Type="int" />
+          <Property Name="Remain32" Type="int" />
+          <Property Name="Remain33" Type="int" />
+          <Property Name="Remain34" Type="int" />
+          <Property Name="Remain35" Type="int" />
+          <Property Name="BaseAirline" Type="varchar" MaxLength="500" />
           <Property Name="HomeBase" Type="nvarchar" MaxLength="255" />
           <Property Name="IsType737" Type="bit" />
           <Property Name="IsTypeMD" Type="bit" />
@@ -1307,6 +1333,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
     [ViewProfile].[Remain25] AS [Remain25], 
     [ViewProfile].[Remain26] AS [Remain26], 
     [ViewProfile].[Remain27] AS [Remain27], 
+    [ViewProfile].[Remain28] AS [Remain28], 
+    [ViewProfile].[Remain29] AS [Remain29], 
+    [ViewProfile].[Remain30] AS [Remain30], 
+    [ViewProfile].[Remain31] AS [Remain31], 
+    [ViewProfile].[Remain32] AS [Remain32], 
+    [ViewProfile].[Remain33] AS [Remain33], 
+    [ViewProfile].[Remain34] AS [Remain34], 
+    [ViewProfile].[Remain35] AS [Remain35], 
+    [ViewProfile].[BaseAirline] AS [BaseAirline], 
     [ViewProfile].[HomeBase] AS [HomeBase], 
     [ViewProfile].[IsType737] AS [IsType737], 
     [ViewProfile].[IsTypeMD] AS [IsTypeMD], 
@@ -1382,6 +1417,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
           <EntitySet Name="ViewEmployeeLights" EntityType="dbModel.ViewEmployeeLight" />
+          <EntitySet Name="LoginInfoes" EntityType="dbModel.LoginInfo" />
           <EntitySet Name="People" EntityType="dbModel.Person" />
           <EntitySet Name="ViewProfiles" EntityType="dbModel.ViewProfile" />
           <AssociationSet Name="FK_PD_PERS" Association="dbModel.FK_PD_PERS">
@@ -1396,7 +1432,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
             <End Role="Person" EntitySet="People" />
             <End Role="PersonAircraftType" EntitySet="PersonAircraftTypes" />
           </AssociationSet>
-          <EntitySet Name="LoginInfoes" EntityType="dbModel.LoginInfo" />
           </EntityContainer>
         <EntityType Name="IdeaUnique">
           <Key>
@@ -1805,6 +1840,17 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="BaseAirportId" Type="Int32" />
           <Property Name="JobGroupCode2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="LoginInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreate" Type="DateTime" Precision="3" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IP" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LocationCity" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="Person">
           <Key>
             <PropertyRef Name="Id" />
@@ -2115,6 +2161,23 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="IsTypeMD" Type="Boolean" />
           <Property Name="IsTypeAirbus" Type="Boolean" />
           <Property Name="IsTypeFokker" Type="Boolean" />
+          <Property Name="IssueDate28" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate28" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate29" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate29" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate30" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate30" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate31" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate31" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate32" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate32" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate33" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate33" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate34" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate34" Type="DateTime" Precision="7" />
+          <Property Name="IssueDate35" Type="DateTime" Precision="7" />
+          <Property Name="ExpireDate35" Type="DateTime" Precision="7" />
+          <Property Name="BaseAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PersonDocuments" Relationship="dbModel.FK_PD_PERS" FromRole="Person" ToRole="PersonDocument" />
           <NavigationProperty Name="PersonCustomers" Relationship="dbModel.FK_PERSONCUSTOMER_PERSON" FromRole="Person" ToRole="PersonCustomer" />
           <NavigationProperty Name="PersonAircraftTypes" Relationship="dbModel.FK_UM_Type_Access_UM_Users" FromRole="Person" ToRole="PersonAircraftType" />
@@ -2271,6 +2334,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="Remain25" Type="Int32" />
           <Property Name="Remain26" Type="Int32" />
           <Property Name="Remain27" Type="Int32" />
+          <Property Name="Remain28" Type="Int32" />
+          <Property Name="Remain29" Type="Int32" />
+          <Property Name="Remain30" Type="Int32" />
+          <Property Name="Remain31" Type="Int32" />
+          <Property Name="Remain32" Type="Int32" />
+          <Property Name="Remain33" Type="Int32" />
+          <Property Name="Remain34" Type="Int32" />
+          <Property Name="Remain35" Type="Int32" />
+          <Property Name="BaseAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="HomeBase" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="IsType737" Type="Boolean" />
           <Property Name="IsTypeMD" Type="Boolean" />
@@ -2319,17 +2391,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="LoginInfo">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="DateCreate" Type="DateTime" Precision="3" />
-          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IP" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="LocationCity" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2674,9 +2735,38 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="LoginInfoes">
+            <EntityTypeMapping TypeName="dbModel.LoginInfo">
+              <MappingFragment StoreEntitySet="LoginInfo">
+                <ScalarProperty Name="LocationCity" ColumnName="LocationCity" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="dbModel.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="BaseAirline" ColumnName="BaseAirline" />
+                <ScalarProperty Name="ExpireDate35" ColumnName="ExpireDate35" />
+                <ScalarProperty Name="IssueDate35" ColumnName="IssueDate35" />
+                <ScalarProperty Name="ExpireDate34" ColumnName="ExpireDate34" />
+                <ScalarProperty Name="IssueDate34" ColumnName="IssueDate34" />
+                <ScalarProperty Name="ExpireDate33" ColumnName="ExpireDate33" />
+                <ScalarProperty Name="IssueDate33" ColumnName="IssueDate33" />
+                <ScalarProperty Name="ExpireDate32" ColumnName="ExpireDate32" />
+                <ScalarProperty Name="IssueDate32" ColumnName="IssueDate32" />
+                <ScalarProperty Name="ExpireDate31" ColumnName="ExpireDate31" />
+                <ScalarProperty Name="IssueDate31" ColumnName="IssueDate31" />
+                <ScalarProperty Name="ExpireDate30" ColumnName="ExpireDate30" />
+                <ScalarProperty Name="IssueDate30" ColumnName="IssueDate30" />
+                <ScalarProperty Name="ExpireDate29" ColumnName="ExpireDate29" />
+                <ScalarProperty Name="IssueDate29" ColumnName="IssueDate29" />
+                <ScalarProperty Name="ExpireDate28" ColumnName="ExpireDate28" />
+                <ScalarProperty Name="IssueDate28" ColumnName="IssueDate28" />
                 <ScalarProperty Name="IsTypeFokker" ColumnName="IsTypeFokker" />
                 <ScalarProperty Name="IsTypeAirbus" ColumnName="IsTypeAirbus" />
                 <ScalarProperty Name="IsTypeMD" ColumnName="IsTypeMD" />
@@ -2994,6 +3084,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
                 <ScalarProperty Name="IsTypeMD" ColumnName="IsTypeMD" />
                 <ScalarProperty Name="IsType737" ColumnName="IsType737" />
                 <ScalarProperty Name="HomeBase" ColumnName="HomeBase" />
+                <ScalarProperty Name="BaseAirline" ColumnName="BaseAirline" />
+                <ScalarProperty Name="Remain35" ColumnName="Remain35" />
+                <ScalarProperty Name="Remain34" ColumnName="Remain34" />
+                <ScalarProperty Name="Remain33" ColumnName="Remain33" />
+                <ScalarProperty Name="Remain32" ColumnName="Remain32" />
+                <ScalarProperty Name="Remain31" ColumnName="Remain31" />
+                <ScalarProperty Name="Remain30" ColumnName="Remain30" />
+                <ScalarProperty Name="Remain29" ColumnName="Remain29" />
+                <ScalarProperty Name="Remain28" ColumnName="Remain28" />
                 <ScalarProperty Name="Remain27" ColumnName="Remain27" />
                 <ScalarProperty Name="Remain26" ColumnName="Remain26" />
                 <ScalarProperty Name="Remain25" ColumnName="Remain25" />
@@ -3131,18 +3230,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="PID" ColumnName="PID" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LoginInfoes">
-            <EntityTypeMapping TypeName="dbModel.LoginInfo">
-              <MappingFragment StoreEntitySet="LoginInfo">
-                <ScalarProperty Name="LocationCity" ColumnName="LocationCity" />
-                <ScalarProperty Name="IP" ColumnName="IP" />
-                <ScalarProperty Name="Info" ColumnName="Info" />
-                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
-                <ScalarProperty Name="User" ColumnName="User" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

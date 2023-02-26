@@ -321,6 +321,23 @@ namespace ApiProfile.ViewModels
         public Nullable<System.DateTime> ExpireDate26 { get; set; }
         public Nullable<System.DateTime> IssueDate27 { get; set; }
         public Nullable<System.DateTime> ExpireDate27 { get; set; }
+        public Nullable<System.DateTime> IssueDate28 { get; set; }
+        public Nullable<System.DateTime> ExpireDate28 { get; set; }
+        public Nullable<System.DateTime> IssueDate29 { get; set; }
+        public Nullable<System.DateTime> ExpireDate29 { get; set; }
+        public Nullable<System.DateTime> IssueDate30 { get; set; }
+        public Nullable<System.DateTime> ExpireDate30 { get; set; }
+        public Nullable<System.DateTime> IssueDate31 { get; set; }
+        public Nullable<System.DateTime> ExpireDate31 { get; set; }
+        public Nullable<System.DateTime> IssueDate32 { get; set; }
+        public Nullable<System.DateTime> ExpireDate32 { get; set; }
+        public Nullable<System.DateTime> IssueDate33 { get; set; }
+        public Nullable<System.DateTime> ExpireDate33 { get; set; }
+        public Nullable<System.DateTime> IssueDate34 { get; set; }
+        public Nullable<System.DateTime> ExpireDate34 { get; set; }
+        public Nullable<System.DateTime> IssueDate35 { get; set; }
+        public Nullable<System.DateTime> ExpireDate35 { get; set; }
+        public string BaseAirline { get; set; }
 
         public Nullable<bool> IsType737 { get; set; }
         public Nullable<bool> IsTypeMD { get; set; }
@@ -737,6 +754,25 @@ namespace ApiProfile.ViewModels
 
             entity.OtherAirline = person.OtherAirline;
 
+            entity.ExpireDate28 = person.ExpireDate28;
+            entity.ExpireDate29 = person.ExpireDate29;
+            entity.ExpireDate30 = person.ExpireDate30;
+            entity.ExpireDate31 = person.ExpireDate31;
+            entity.ExpireDate32 = person.ExpireDate32;
+            entity.ExpireDate33 = person.ExpireDate33;
+            entity.ExpireDate34 = person.ExpireDate34;
+            entity.ExpireDate35 = person.ExpireDate35;
+
+            entity.IssueDate28 = person.IssueDate28;
+            entity.IssueDate29 = person.IssueDate29;
+            entity.IssueDate30 = person.IssueDate30;
+            entity.IssueDate31 = person.IssueDate31;
+            entity.IssueDate32 = person.IssueDate32;
+            entity.IssueDate33 = person.IssueDate33;
+            entity.IssueDate34 = person.IssueDate34;
+            entity.IssueDate35 = person.IssueDate35;
+
+            entity.BaseAirline = person.BaseAirline;
 
 
         }
@@ -1067,6 +1103,32 @@ namespace ApiProfile.ViewModels
 
             person.IssueDate27 = entity.IssueDate27;
             person.ExpireDate27 = entity.ExpireDate27;
+        
+            person.IssueDate28 = entity.IssueDate28;
+            person.ExpireDate28 = entity.ExpireDate28;
+
+            person.IssueDate29 = entity.IssueDate29;
+            person.ExpireDate29 = entity.ExpireDate29;
+
+            person.IssueDate30 = entity.IssueDate30;
+            person.ExpireDate30 = entity.ExpireDate30;
+
+            person.IssueDate31 = entity.IssueDate31;
+            person.ExpireDate31 = entity.ExpireDate31;
+
+            person.IssueDate32 = entity.IssueDate32;
+            person.ExpireDate32 = entity.ExpireDate32;
+
+            person.IssueDate33 = entity.IssueDate33;
+            person.ExpireDate33 = entity.ExpireDate33;
+
+            person.IssueDate34 = entity.IssueDate34;
+            person.ExpireDate34 = entity.ExpireDate34;
+
+            person.IssueDate35 = entity.IssueDate35;
+            person.ExpireDate35 = entity.ExpireDate35;
+
+            person.BaseAirline = entity.BaseAirline;
 
             person.IsType737 = entity.IsType737;
             person.IsTypeAirbus = entity.IsTypeAirbus;

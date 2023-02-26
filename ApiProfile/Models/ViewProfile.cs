@@ -152,6 +152,15 @@ namespace ApiProfile.Models
         public Nullable<int> Remain25 { get; set; }
         public Nullable<int> Remain26 { get; set; }
         public Nullable<int> Remain27 { get; set; }
+        public Nullable<int> Remain28 { get; set; }
+        public Nullable<int> Remain29 { get; set; }
+        public Nullable<int> Remain30 { get; set; }
+        public Nullable<int> Remain31 { get; set; }
+        public Nullable<int> Remain32 { get; set; }
+        public Nullable<int> Remain33 { get; set; }
+        public Nullable<int> Remain34 { get; set; }
+        public Nullable<int> Remain35 { get; set; }
+        public string BaseAirline { get; set; }
         public string HomeBase { get; set; }
         public Nullable<bool> IsType737 { get; set; }
         public Nullable<bool> IsTypeMD { get; set; }

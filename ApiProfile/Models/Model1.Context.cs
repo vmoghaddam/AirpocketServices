@@ -39,8 +39,8 @@ namespace ApiProfile.Models
         public virtual DbSet<ViewEmployeeLocation> ViewEmployeeLocations { get; set; }
         public virtual DbSet<PersonCustomer> PersonCustomers { get; set; }
         public virtual DbSet<ViewEmployeeLight> ViewEmployeeLights { get; set; }
+        public virtual DbSet<LoginInfo> LoginInfoes { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<ViewProfile> ViewProfiles { get; set; }
-        public virtual DbSet<LoginInfo> LoginInfoes { get; set; }
     }
 }
