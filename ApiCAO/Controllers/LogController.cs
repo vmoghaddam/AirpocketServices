@@ -67,7 +67,7 @@ namespace ApiCAO.Controllers
                 string icao = ConfigurationManager.AppSettings["icao"];
                 ppa_entities context = new ppa_entities();
                 var flt = context.ViewLegTimes.Where(q => q.ID == id).FirstOrDefault();
-                if (flt.FlightStatusID != 2 && flt.FlightStatusID != 15)
+                if (flt.FlightStatusID != 2 && !(flt.FlightStatusID == 15 || flt.FlightStatusID == 3))
                     return Ok();
                 CaoMVTLog log = new CaoMVTLog()
                 {
@@ -150,14 +150,101 @@ namespace ApiCAO.Controllers
                 context.SaveChanges();
                 return Ok(true);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var msg = ex.Message;
                 if (ex.InnerException != null)
                     msg += "   INNER: " + ex.InnerException.Message;
                 return Ok(msg);
             }
-           
+
+
+
+        }
+        public class AuthInfo
+        {
+            public string userName { get; set; }
+            public string password { get; set; }
+        }
+        [Route("api/flight/status/{username}/{password}/{date}/{no}")]
+        [AcceptVerbs("GET")]
+        ///<summary>
+        ///Get Status Of Flight
+        ///</summary>
+        ///<remarks>
+
+
+        ///</remarks>
+        public async Task<IHttpActionResult> PostFlightStatus(string username,string password, string date, string no)
+        {
+            try
+            {
+                if (!(username == "pnlairpocket" &&  password == "Pnl1234Za"))
+                    return BadRequest("Authentication Failed");
+
+                no = no.PadLeft(4, '0');
+                List<int> prts = new List<int>();
+                try
+                {
+                    prts = date.Split('-').Select(q => Convert.ToInt32(q)).ToList();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Incorrect Date");
+                }
+
+                if (prts.Count != 3)
+                    return BadRequest("Incorrect Date");
+                if (prts[0] < 1300)
+                    return BadRequest("Incorrect Date (Year)");
+                //if (prts[1] < 1 || prts[1]>12)
+                //    return BadRequest("Incorrect Date (Month)");
+                //if (prts[2] < 1 || prts[1] > 31)
+                //    return BadRequest("Incorrect Date (Day)");
+
+                System.Globalization.PersianCalendar pc = new System.Globalization.PersianCalendar();
+                var gd = (pc.ToDateTime(prts[0], prts[1], prts[2], 0, 0, 0, 0)).Date;
+                var context = new ppa_entities();
+                var flight = await context.ExpFlights.Where(q => q.DepartureDay == gd && q.FlightNo == no).FirstOrDefaultAsync();
+                if (flight == null)
+                    return BadRequest("Flight Not Found");
+                var delay = (((DateTime)flight.Departure) - ((DateTime)flight.STD)).TotalMinutes;
+                if (delay < 0)
+                    delay = 0;
+                var result = new
+                {
+                    flightId = flight.Id,
+                    flightNo = flight.FlightNo,
+                    date = flight.DepartureDay,
+                    departure = flight.DepartureLocal,
+                    arrival = flight.ArrivalLocal,
+                    departureUTC = flight.Departure,
+                    arrivalUTC = flight.Arrival,
+                    status = flight.FlightStatus,
+                    statusId = flight.FlightStatusId,
+                    origin = flight.Origin,
+                    destination = flight.Destination,
+                    aircraftType = flight.AircraftType,
+                    register = flight.Register,
+                    isDelayed = delay > 0,
+                    delay
+
+                };
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "    Inner Exception:" + ex.InnerException.Message;
+                return BadRequest(msg);
+            }
+
+
+
+
+
+
 
 
         }

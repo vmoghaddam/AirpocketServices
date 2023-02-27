@@ -17,6 +17,48 @@
           <Property Name="Response" Type="varchar" MaxLength="2000" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_dev.dbo.ExpFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ExpFlight">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FlightStatus" />
+          </Key>
+          <Property Name="PersianDate" Type="nvarchar" MaxLength="500" />
+          <Property Name="PersianYear" Type="int" />
+          <Property Name="PersianMonthName" Type="nvarchar" MaxLength="255" />
+          <Property Name="PersianMonth" Type="int" />
+          <Property Name="PersianDayName" Type="nvarchar" MaxLength="255" />
+          <Property Name="PersianDay" Type="int" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="RegisterId" Type="int" />
+          <Property Name="FlightStatusId" Type="int" />
+          <Property Name="AircraftType" Type="nvarchar" MaxLength="255" />
+          <Property Name="AircraftTypeId" Type="int" />
+          <Property Name="FlightNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="OriginId" Type="int" />
+          <Property Name="DestinationId" Type="int" />
+          <Property Name="Origin" Type="nvarchar" MaxLength="255" />
+          <Property Name="Destination" Type="nvarchar" MaxLength="255" />
+          <Property Name="OriginICAO" Type="nvarchar" MaxLength="255" />
+          <Property Name="DestinationICAO" Type="nvarchar" MaxLength="255" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlightStatus" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="DepartureDay" Type="date" />
+          <Property Name="ArrivalDay" Type="date" />
+          <Property Name="DepartureDayLocal" Type="date" />
+          <Property Name="ArrivalDayLocal" Type="date" />
+          <Property Name="BlockTime" Type="int" />
+          <Property Name="FlightTime" Type="int" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="STDLocal" Type="datetime" />
+          <Property Name="STALocal" Type="datetime" />
+          <Property Name="Departure" Type="datetime" />
+          <Property Name="Arrival" Type="datetime" />
+          <Property Name="DepartureLocal" Type="datetime" />
+          <Property Name="ArrivalLocal" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_dev.dbo.ViewFlightDelayCode' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFlightDelayCode">
           <Key>
@@ -172,6 +214,44 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
         </EntityType>
         <EntityContainer Name="ppaModelStoreContainer">
           <EntitySet Name="CaoMVTLog" EntityType="Self.CaoMVTLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpFlight" EntityType="Self.ExpFlight" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ExpFlight].[PersianDate] AS [PersianDate], 
+    [ExpFlight].[PersianYear] AS [PersianYear], 
+    [ExpFlight].[PersianMonthName] AS [PersianMonthName], 
+    [ExpFlight].[PersianMonth] AS [PersianMonth], 
+    [ExpFlight].[PersianDayName] AS [PersianDayName], 
+    [ExpFlight].[PersianDay] AS [PersianDay], 
+    [ExpFlight].[Id] AS [Id], 
+    [ExpFlight].[RegisterId] AS [RegisterId], 
+    [ExpFlight].[FlightStatusId] AS [FlightStatusId], 
+    [ExpFlight].[AircraftType] AS [AircraftType], 
+    [ExpFlight].[AircraftTypeId] AS [AircraftTypeId], 
+    [ExpFlight].[FlightNo] AS [FlightNo], 
+    [ExpFlight].[OriginId] AS [OriginId], 
+    [ExpFlight].[DestinationId] AS [DestinationId], 
+    [ExpFlight].[Origin] AS [Origin], 
+    [ExpFlight].[Destination] AS [Destination], 
+    [ExpFlight].[OriginICAO] AS [OriginICAO], 
+    [ExpFlight].[DestinationICAO] AS [DestinationICAO], 
+    [ExpFlight].[Register] AS [Register], 
+    [ExpFlight].[FlightStatus] AS [FlightStatus], 
+    [ExpFlight].[DepartureDay] AS [DepartureDay], 
+    [ExpFlight].[ArrivalDay] AS [ArrivalDay], 
+    [ExpFlight].[DepartureDayLocal] AS [DepartureDayLocal], 
+    [ExpFlight].[ArrivalDayLocal] AS [ArrivalDayLocal], 
+    [ExpFlight].[BlockTime] AS [BlockTime], 
+    [ExpFlight].[FlightTime] AS [FlightTime], 
+    [ExpFlight].[STD] AS [STD], 
+    [ExpFlight].[STA] AS [STA], 
+    [ExpFlight].[STDLocal] AS [STDLocal], 
+    [ExpFlight].[STALocal] AS [STALocal], 
+    [ExpFlight].[Departure] AS [Departure], 
+    [ExpFlight].[Arrival] AS [Arrival], 
+    [ExpFlight].[DepartureLocal] AS [DepartureLocal], 
+    [ExpFlight].[ArrivalLocal] AS [ArrivalLocal]
+    FROM [dbo].[ExpFlight] AS [ExpFlight]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewFlightDelayCode" EntityType="Self.ViewFlightDelayCode" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewFlightDelayCode].[FlightId] AS [FlightId], 
@@ -317,6 +397,7 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
           <EntitySet Name="ViewLegTimes" EntityType="ppaModel.ViewLegTime" />
           <EntitySet Name="ViewFlightDelayCodes" EntityType="ppaModel.ViewFlightDelayCode" />
           <EntitySet Name="CaoMVTLogs" EntityType="ppaModel.CaoMVTLog" />
+          <EntitySet Name="ExpFlights" EntityType="ppaModel.ExpFlight" />
         </EntityContainer>
         <EntityType Name="ViewLegTime">
           <Key>
@@ -479,6 +560,46 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
           <Property Name="Message" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="Response" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="ExpFlight">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FlightStatus" />
+          </Key>
+          <Property Name="PersianDate" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PersianYear" Type="Int32" />
+          <Property Name="PersianMonthName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PersianMonth" Type="Int32" />
+          <Property Name="PersianDayName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PersianDay" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="RegisterId" Type="Int32" />
+          <Property Name="FlightStatusId" Type="Int32" />
+          <Property Name="AircraftType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AircraftTypeId" Type="Int32" />
+          <Property Name="FlightNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OriginId" Type="Int32" />
+          <Property Name="DestinationId" Type="Int32" />
+          <Property Name="Origin" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Destination" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="OriginICAO" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DestinationICAO" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlightStatus" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="DepartureDay" Type="DateTime" Precision="0" />
+          <Property Name="ArrivalDay" Type="DateTime" Precision="0" />
+          <Property Name="DepartureDayLocal" Type="DateTime" Precision="0" />
+          <Property Name="ArrivalDayLocal" Type="DateTime" Precision="0" />
+          <Property Name="BlockTime" Type="Int32" />
+          <Property Name="FlightTime" Type="Int32" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="STDLocal" Type="DateTime" Precision="3" />
+          <Property Name="STALocal" Type="DateTime" Precision="3" />
+          <Property Name="Departure" Type="DateTime" Precision="3" />
+          <Property Name="Arrival" Type="DateTime" Precision="3" />
+          <Property Name="DepartureLocal" Type="DateTime" Precision="3" />
+          <Property Name="ArrivalLocal" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -634,6 +755,46 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpFlights">
+            <EntityTypeMapping TypeName="ppaModel.ExpFlight">
+              <MappingFragment StoreEntitySet="ExpFlight">
+                <ScalarProperty Name="ArrivalLocal" ColumnName="ArrivalLocal" />
+                <ScalarProperty Name="DepartureLocal" ColumnName="DepartureLocal" />
+                <ScalarProperty Name="Arrival" ColumnName="Arrival" />
+                <ScalarProperty Name="Departure" ColumnName="Departure" />
+                <ScalarProperty Name="STALocal" ColumnName="STALocal" />
+                <ScalarProperty Name="STDLocal" ColumnName="STDLocal" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="FlightTime" ColumnName="FlightTime" />
+                <ScalarProperty Name="BlockTime" ColumnName="BlockTime" />
+                <ScalarProperty Name="ArrivalDayLocal" ColumnName="ArrivalDayLocal" />
+                <ScalarProperty Name="DepartureDayLocal" ColumnName="DepartureDayLocal" />
+                <ScalarProperty Name="ArrivalDay" ColumnName="ArrivalDay" />
+                <ScalarProperty Name="DepartureDay" ColumnName="DepartureDay" />
+                <ScalarProperty Name="FlightStatus" ColumnName="FlightStatus" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="DestinationICAO" ColumnName="DestinationICAO" />
+                <ScalarProperty Name="OriginICAO" ColumnName="OriginICAO" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Origin" ColumnName="Origin" />
+                <ScalarProperty Name="DestinationId" ColumnName="DestinationId" />
+                <ScalarProperty Name="OriginId" ColumnName="OriginId" />
+                <ScalarProperty Name="FlightNo" ColumnName="FlightNo" />
+                <ScalarProperty Name="AircraftTypeId" ColumnName="AircraftTypeId" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="FlightStatusId" ColumnName="FlightStatusId" />
+                <ScalarProperty Name="RegisterId" ColumnName="RegisterId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PersianDay" ColumnName="PersianDay" />
+                <ScalarProperty Name="PersianDayName" ColumnName="PersianDayName" />
+                <ScalarProperty Name="PersianMonth" ColumnName="PersianMonth" />
+                <ScalarProperty Name="PersianMonthName" ColumnName="PersianMonthName" />
+                <ScalarProperty Name="PersianYear" ColumnName="PersianYear" />
+                <ScalarProperty Name="PersianDate" ColumnName="PersianDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
