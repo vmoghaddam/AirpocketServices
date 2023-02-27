@@ -1491,8 +1491,30 @@ namespace ApiScheduling.Controllers
 
 
                         default:
+                            coef = 0;
                             break;
                     }
+                    var startLocal = ((DateTime)fdp.DateStart).AddMinutes(utcdiff);
+                    var endLocal = ((DateTime)fdp.DateEnd).AddMinutes(utcdiff);
+                    var startDate = startLocal.Date;
+                    var endDate = endLocal.Date;
+                    var duration = (endLocal - startLocal).TotalMinutes*coef;
+                    context.TableDutyFDPs.Add(new TableDutyFDP()
+                    {
+                        CDate = startDate,
+                        CrewId = fdp.CrewId,
+                        Duration = duration,
+                        DurationLocal = duration,
+                        DutyEnd = fdp.DateEnd,
+                        DutyEndLocal = endLocal,
+                        DutyStart = fdp.DateStart,
+                        DutyStartLocal = fdp.DateStart,
+                        FDPId = fdp.Id,
+                        GUID = Guid.NewGuid()
+                    });
+
+
+
                 }
                 if (do_save)
                     context.SaveChanges();
