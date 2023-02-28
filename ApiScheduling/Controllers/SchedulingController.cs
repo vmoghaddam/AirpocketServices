@@ -402,6 +402,13 @@ namespace ApiScheduling.Controllers
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> AddDuty(dynamic dto)
         {
+
+            //1166 dayoff
+            //1169 vac 
+            //300008 dty
+            //100007 no flt
+            //100008 req off
+            //above items: datestart date 12:00 utc ex: 2023-02-01 12:00
             var context = new Models.dbEntities();
             var duty = new FDP();
             DateTime _date = Convert.ToDateTime(dto.DateStart);
@@ -420,7 +427,18 @@ namespace ApiScheduling.Controllers
             duty.InitEnd = duty.DateEnd;
             //  var rest = new List<int>() { 1167, 1168, 1170, 5000, 5001, 100001, 100003, 300010 };
             //  duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
-            duty.InitRestTo = 0;
+            duty.InitRestTo = duty.DateEnd;
+            var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
+            var d24s = new List<int>() { 1166, 1169, 300008, 100007, 100008 };
+            if (d24s.IndexOf(duty.DutyType) != -1)
+            {
+                var _start = ((DateTime)duty.InitStart).Date.AddMinutes(-utcdiff);
+                var _end = _start.AddHours(24);
+                duty.DateStart = _start.AddMinutes(1);
+                duty.DateEnd = _end.AddMinutes(-1);
+                duty.InitStart = duty.DateStart;
+                duty.InitEnd = duty.DateEnd;
+            }
             //  var _bl = Convert.ToInt32(dto.BL);
             //if (_bl != 0)
             //{
@@ -524,6 +542,8 @@ namespace ApiScheduling.Controllers
                         || _interupted.DutyType == 100008  //req off
                         || _interupted.DutyType == 1166 //day off
                         || _interupted.DutyType == 1169  //vacation
+                        || _interupted.DutyType == 10000  //rerrp
+                        || _interupted.DutyType == 10001  //rerrp2
                         || _interupted_norest.DutyType == 300010 //other airline stby
                        ))
                         return new CustomActionResult(HttpStatusCode.OK, new
@@ -535,8 +555,38 @@ namespace ApiScheduling.Controllers
                     break;
                 case 300010://other airline stby
                 case 100025://mission
-                    var types = new List<int>() {1165,1167,1168,1170,5000,5001,100001,100025,100002,100008,1166,1169 };
+                    var types = new List<int>() {1165,1167,1168,1170,5000,5001,100001,100025,100002,100008,1166,1169,10000,10001 };
                     if (_interupted != null && types.IndexOf(_interupted.DutyType)!=-1)
+                        return new CustomActionResult(HttpStatusCode.OK, new
+                        {
+                            Code = 406,
+                            message = "Interruption Error." + (_interupted.InitStart == null ? "" : ((DateTime)_interupted.InitStart).ToString("yyyy-MM-dd") + " " + _interupted.InitFlts + " " + _interupted.InitRoute)
+
+                        });
+                    break;
+                case 100003://sim
+                    var types2 = new List<int>() { 100003,1165,1167,1168,1170,5000,5001,1166,1169,10000,10001,100001, 300010, 100025, 100008 };
+                    if (_interupted_norest != null && types2.IndexOf(_interupted_norest.DutyType) != -1)
+                        return new CustomActionResult(HttpStatusCode.OK, new
+                        {
+                            Code = 406,
+                            message = "Interruption Error." + (_interupted.InitStart == null ? "" : ((DateTime)_interupted.InitStart).ToString("yyyy-MM-dd") + " " + _interupted.InitFlts + " " + _interupted.InitRoute)
+
+                        });
+                    break;
+                case 300008://duty
+                    var types3 = new List<int>() { 1166,1169,10000,10001,100002,100008 };
+                    if (_interupted_norest != null && types3.IndexOf(_interupted_norest.DutyType) != -1)
+                        return new CustomActionResult(HttpStatusCode.OK, new
+                        {
+                            Code = 406,
+                            message = "Interruption Error." + (_interupted.InitStart == null ? "" : ((DateTime)_interupted.InitStart).ToString("yyyy-MM-dd") + " " + _interupted.InitFlts + " " + _interupted.InitRoute)
+
+                        });
+                    break;
+                case 300009://rest
+                    var types3 = new List<int>() { 1166, 1169, 10000, 10001, 100002, 100008 };
+                    if (_interupted_norest != null && types3.IndexOf(_interupted_norest.DutyType) != -1)
                         return new CustomActionResult(HttpStatusCode.OK, new
                         {
                             Code = 406,
