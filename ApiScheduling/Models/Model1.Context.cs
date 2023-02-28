@@ -39,5 +39,10 @@ namespace ApiScheduling.Models
         public virtual DbSet<Extension> Extensions { get; set; }
         public virtual DbSet<FDP> FDPs { get; set; }
         public virtual DbSet<ViewCrewDutyNoReg> ViewCrewDutyNoRegs { get; set; }
+        public virtual DbSet<ViewFDPItem2> ViewFDPItem2 { get; set; }
+        public virtual DbSet<CrewPickupSM> CrewPickupSMS { get; set; }
+        public virtual DbSet<ViewEmployeeLight> ViewEmployeeLights { get; set; }
+        public virtual DbSet<OffItem> OffItems { get; set; }
+        public virtual DbSet<HelperMaxFDP> HelperMaxFDPs { get; set; }
     }
 }

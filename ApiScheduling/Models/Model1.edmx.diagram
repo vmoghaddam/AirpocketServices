@@ -23,6 +23,13 @@
         <AssociationConnector Association="dbModel.fk_fdpextra_fdp" />
         <AssociationConnector Association="dbModel.fk_fdpitem_fdp" />
         <EntityTypeShape EntityType="dbModel.ViewCrewDutyNoReg" Width="1.5" PointX="14.375" PointY="3.75" />
+        <EntityTypeShape EntityType="dbModel.ViewFDPItem2" Width="1.5" PointX="5.375" PointY="15.75" />
+        <EntityTypeShape EntityType="dbModel.CrewPickupSM" Width="1.5" PointX="8.625" PointY="17.125" />
+        <EntityTypeShape EntityType="dbModel.ViewEmployeeLight" Width="1.5" PointX="16.375" PointY="0.75" />
+        <AssociationConnector Association="dbModel.cps_fdp" />
+        <EntityTypeShape EntityType="dbModel.OffItem" Width="1.5" PointX="8.625" PointY="24" />
+        <AssociationConnector Association="dbModel.off_fdp" />
+        <EntityTypeShape EntityType="dbModel.HelperMaxFDP" Width="1.5" PointX="0.75" PointY="17.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

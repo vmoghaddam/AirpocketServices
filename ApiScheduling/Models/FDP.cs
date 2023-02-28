@@ -21,6 +21,8 @@ namespace ApiScheduling.Models
             this.FDP1 = new HashSet<FDP>();
             this.FDPExtras = new HashSet<FDPExtra>();
             this.FDPItems = new HashSet<FDPItem>();
+            this.CrewPickupSMS = new HashSet<CrewPickupSM>();
+            this.OffItems = new HashSet<OffItem>();
         }
     
         public int Id { get; set; }
@@ -95,5 +97,9 @@ namespace ApiScheduling.Models
         public virtual ICollection<FDPExtra> FDPExtras { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FDPItem> FDPItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CrewPickupSM> CrewPickupSMS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OffItem> OffItems { get; set; }
     }
 }
