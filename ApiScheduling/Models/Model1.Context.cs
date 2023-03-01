@@ -44,5 +44,6 @@ namespace ApiScheduling.Models
         public virtual DbSet<ViewEmployeeLight> ViewEmployeeLights { get; set; }
         public virtual DbSet<OffItem> OffItems { get; set; }
         public virtual DbSet<HelperMaxFDP> HelperMaxFDPs { get; set; }
+        public virtual DbSet<ViewCrewDuty> ViewCrewDuties { get; set; }
     }
 }

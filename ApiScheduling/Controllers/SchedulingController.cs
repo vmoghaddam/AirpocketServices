@@ -841,10 +841,10 @@ namespace ApiScheduling.Controllers
             //  duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
             duty.InitRestTo = duty.DateEnd;
             var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
-            var d24s = new List<int>() { 1166, 1169, 300008, 100007, 100008 };
+            var d24s = new List<int>() { 1166, 1169, 300008, 100007, 100008, 100002 };
             if (d24s.IndexOf(duty.DutyType) != -1)
             {
-                var _start = ((DateTime)duty.InitStart).Date.AddMinutes(-utcdiff);
+                var _start = ((DateTime)duty.InitStart);//.Date;//.AddMinutes(-utcdiff);
                 var _end = _start.AddHours(24);
                 duty.DateStart = _start.AddMinutes(1);
                 duty.DateEnd = _end.AddMinutes(-1);
@@ -870,10 +870,16 @@ namespace ApiScheduling.Controllers
                 }
                 else
                 {
+                    duty.Remark += "(EXTENDED)";
                     _end = _start.AddMinutes(48*60);
                     var _lnr=24*60 - (_start.Hour * 60 + _start.Minute);
                     _end = _end.AddMinutes(_lnr);
                 }
+                duty.DateStart = _start.AddMinutes(-utcdiff);
+                duty.DateEnd = _end.AddMinutes(-utcdiff);
+                duty.InitStart = duty.DateStart;
+                duty.InitEnd = duty.DateEnd;
+                duty.InitRestTo = duty.DateEnd;
             }
             //  var _bl = Convert.ToInt32(dto.BL);
             //if (_bl != 0)
@@ -1052,7 +1058,8 @@ namespace ApiScheduling.Controllers
             if (saveResult.Code != HttpStatusCode.OK)
                 return saveResult;
             AddToCumDuty(duty);
-            return new CustomActionResult(HttpStatusCode.OK, duty);
+            var result = await context.ViewCrewDuties.FirstOrDefaultAsync(q => q.Id == duty.Id);
+            return new CustomActionResult(HttpStatusCode.OK, result);
         }
 
         [Route("api/roster/stby/save")]
