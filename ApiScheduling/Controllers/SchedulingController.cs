@@ -956,6 +956,7 @@ namespace ApiScheduling.Controllers
                        || _interupted_norest.DutyType == 300010 //ostby
                        || _interupted_norest.DutyType == 5000
                        || _interupted_norest.DutyType == 5001
+                         || _interupted_norest.DutyType == 300014
                        || _interupted_norest.DutyType == 100001 //meeting
                         || _interupted_norest.DutyType == 100025 //mission
 
@@ -969,6 +970,7 @@ namespace ApiScheduling.Controllers
                     break;
                 case 5000://trn
                 case 5001: //office
+                case 300014:
                 case 100001: //meeting
                     if (_interupted  != null &&
                        (_interupted.DutyType == 1165
@@ -977,6 +979,7 @@ namespace ApiScheduling.Controllers
                        || _interupted.DutyType == 1168
                        || _interupted.DutyType == 300010 //ostby
                        || _interupted.DutyType == 5000
+                        || _interupted.DutyType == 300014
                        || _interupted.DutyType == 5001
                        || _interupted.DutyType == 100001 //meeting
                         || _interupted.DutyType == 100025 //mission
@@ -997,7 +1000,7 @@ namespace ApiScheduling.Controllers
                     break;
                 case 300010://other airline stby
                 case 100025://mission
-                    var types = new List<int>() {1165,1167,1168,1170,5000,5001,100001,100025,100002,100008,1166,1169,10000,10001 };
+                    var types = new List<int>() {1165,1167,1168,1170,5000,5001,300014,100001,100025,100002,100008,1166,1169,10000,10001 };
                     if (_interupted != null && types.IndexOf(_interupted.DutyType)!=-1)
                         return new CustomActionResult(HttpStatusCode.OK, new
                         {
@@ -1007,7 +1010,7 @@ namespace ApiScheduling.Controllers
                         });
                     break;
                 case 100003://sim
-                    var types2 = new List<int>() { 100003,1165,1167,1168,1170,5000,5001,1166,1169,10000,10001,100001, 300010, 100025, 100008 };
+                    var types2 = new List<int>() { 100003,1165,1167,1168,1170,5000,5001,300014,1166,1169,10000,10001,100001, 300010, 100025, 100008 };
                     if (_interupted_norest != null && types2.IndexOf(_interupted_norest.DutyType) != -1)
                         return new CustomActionResult(HttpStatusCode.OK, new
                         {
@@ -1027,7 +1030,7 @@ namespace ApiScheduling.Controllers
                         });
                     break;
                 case 300009://rest
-                    var types4 = new List<int>() { 1165,1167,1168,1170, 100003,5000,5001, 100025, 300008, 100001, 300010 };
+                    var types4 = new List<int>() { 1165,1167,1168,1170, 100003,5000,5001,300014, 100025, 300008, 100001, 300010 };
                     if (_interupted_norest != null && types4.IndexOf(_interupted_norest.DutyType) != -1)
                         return new CustomActionResult(HttpStatusCode.OK, new
                         {
@@ -1038,7 +1041,7 @@ namespace ApiScheduling.Controllers
                     break;
                 case 10000://rerrp
                 case 10001:
-                    var types5 = new List<int>() { 1165, 1167, 1168, 1170, 100003, 5000, 5001, 100025, 300008, 100001, 300010 };
+                    var types5 = new List<int>() { 1165, 1167, 1168, 1170, 100003, 5000, 5001,300014, 100025, 300008, 100001, 300010 };
                     if (_interupted_norest != null && types5.IndexOf(_interupted_norest.DutyType) != -1)
                         return new CustomActionResult(HttpStatusCode.OK, new
                         {
@@ -2140,6 +2143,7 @@ namespace ApiScheduling.Controllers
                     {
                         case 5000:
                         case 5001:
+                        case 300014:
                         case 100001: //meeting
                             coef = 1;
                             break;
