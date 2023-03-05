@@ -6552,7 +6552,7 @@ new JsonSerializerSettings
 
         }
 
-
+        //2023
         [Route("api/duty/timeline/{rank}/{type}")]
         [AcceptVerbs("GET")]
         //nookp
@@ -6586,29 +6586,29 @@ new JsonSerializerSettings
                 query = query.Where(q => q.DutyType == type);
 
             var duties = query.OrderBy(q => q.GroupOrder).ThenBy(q => q.ScheduleName).ToList();
-            //var resuorces = duties.Select(q => new {q.CrewId, id=q.CrewId, text=q.ScheduleName }).ToList();
+           var resuorces = duties.Select(q => new {q.CrewId, id=q.CrewId, text=q.ScheduleName }).ToList();
 
 
 
-            //var resources = (from x in duties
-            //                 group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.GroupOrder } into grp
-            //                 select new
-            //                 {
-            //                     grp.Key.CrewId,
-            //                     id = grp.Key.CrewId,
+            var resources = (from x in duties
+                             group x by new { x.CrewId, x.ScheduleName, x.JobGroup, x.GroupOrder } into grp
+                             select new
+                             {
+                                 grp.Key.CrewId,
+                                 id = grp.Key.CrewId,
 
-            //                     grp.Key.ScheduleName,
-            //                     text = "(" + grp.Key.JobGroup + ")" + grp.Key.ScheduleName,
-            //                     grp.Key.JobGroup,
-            //                     grp.Key.GroupOrder,
-            //                 }).OrderBy(q => q.GroupOrder).ThenBy(q => q.ScheduleName).ToList();
+                                 grp.Key.ScheduleName,
+                                 text = "(" + grp.Key.JobGroup + ")" + grp.Key.ScheduleName,
+                                 grp.Key.JobGroup,
+                                 grp.Key.GroupOrder,
+                             }).OrderBy(q => q.GroupOrder).ThenBy(q => q.ScheduleName).ToList();
 
 
             // return result.OrderBy(q => q.STD);
             return Ok(new
             {
                 duties,
-                // resources
+                 resources
             });
 
         }

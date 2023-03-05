@@ -75,6 +75,88 @@ namespace ApiScheduling.Controllers
 
         }
 
+        [Route("api/sch/crew/valid/gant/")]
+
+        //nookp
+        public IHttpActionResult GetValidCrewForGantt( )
+        {
+            //nooz
+            //this.context.Database.CommandTimeout = 160;
+
+            var context = new Models.dbEntities();
+            var query = context.ViewCrewValidFTLs.ToList();
+            var resources = (from x in query
+                             group x by new { x.Id, x.ScheduleName, x.JobGroup, x.GroupOrder } into grp
+                             select new
+                             {
+                                 CrewId=grp.Key.Id,
+                                 id = grp.Key.Id,
+
+                                 grp.Key.ScheduleName,
+                                 text = "(" + grp.Key.JobGroup + ")" + grp.Key.ScheduleName,
+                                 grp.Key.JobGroup,
+                                 grp.Key.GroupOrder,
+                             }).OrderBy(q => q.GroupOrder).ThenBy(q => q.ScheduleName).ToList();
+
+
+
+            // return result.OrderBy(q => q.STD);
+            return Ok(resources);
+
+        }
+
+
+        [Route("api/sch/crew/duties/gant/")]
+
+        //nookp
+        public IHttpActionResult GetValidCrewForGantt(DateTime df,DateTime dt)
+        {
+            //nooz
+            //this.context.Database.CommandTimeout = 160;
+            dt = dt.AddDays(1);
+            var context = new Models.dbEntities();
+            var query = context.ViewCrewDutyTimeLineNews.Where(q=>q.DateStart>=df && q.DateStart<dt).ToList();
+            var duties = (from x in query
+                         group x by new { x.CrewId } into grp
+                         select new
+                         {
+                             grp.Key.CrewId,
+                             Items=grp.ToList(),
+                         }).ToList();
+
+
+
+
+            // return result.OrderBy(q => q.STD);
+            return Ok(duties);
+
+        }
+
+        [Route("api/sch/flts/gant/")]
+
+        //nookp
+        public IHttpActionResult GetSCHFltsForGantt(DateTime df,DateTime dt)
+        {
+            //nooz
+            //this.context.Database.CommandTimeout = 160;
+            dt = dt.AddDays(1);
+            var context = new Models.dbEntities();
+            var query = context.SchFlights.Where(q => q.STDLocal >= df && q.STDLocal < dt).ToList();
+            var result = (from x in query
+                         group x by new { x.ACType, x.ACTypeId, x.Register, x.RegisterID } into grp
+                         select new
+                         {
+                             grp.Key.ACType,
+                             grp.Key.ACTypeId,
+                             grp.Key.Register,
+                             grp.Key.RegisterID,
+                             Flights = grp.OrderBy(q => q.STD).ToList()
+                         }).ToList();
+            
+            return Ok(result);
+
+        }
+
         [Route("api/sch/roster/fdps/")]
 
         //nookp
@@ -820,8 +902,11 @@ namespace ApiScheduling.Controllers
             //above items: datestart date 12:00 utc ex: 2023-02-01 12:00
             var context = new Models.dbEntities();
             var extendedRERRP = 0;
+            var timeline = 0;
             if (dto.EXTRERRP != null)
                 extendedRERRP = Convert.ToInt32(dto.EXTRERRP);
+            if (dto.TIMELINE != null)
+                timeline = Convert.ToInt32(dto.TIMELINE);
             var duty = new FDP();
             DateTime _date = Convert.ToDateTime(dto.DateStart);
             _date = _date.Date;
@@ -1061,8 +1146,17 @@ namespace ApiScheduling.Controllers
             if (saveResult.Code != HttpStatusCode.OK)
                 return saveResult;
             AddToCumDuty(duty);
-            var result = await context.ViewCrewDuties.FirstOrDefaultAsync(q => q.Id == duty.Id);
-            return new CustomActionResult(HttpStatusCode.OK, result);
+            if (timeline == 0)
+            {
+                var result = await context.ViewCrewDuties.FirstOrDefaultAsync(q => q.Id == duty.Id);
+                return new CustomActionResult(HttpStatusCode.OK, result);
+            }
+            else
+            {
+                var result = await context.ViewCrewDutyTimeLineNews.FirstOrDefaultAsync(q => q.Id == duty.Id);
+                return new CustomActionResult(HttpStatusCode.OK, result);
+            }
+           
         }
 
         [Route("api/roster/stby/save")]

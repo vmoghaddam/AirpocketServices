@@ -248,6 +248,9 @@
     <Compile Include="Models\ViewCrewDutyNoReg.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewCrewDutyTimeLineNew.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewCrewValidFTL.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

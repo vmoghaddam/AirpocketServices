@@ -1034,6 +1034,14 @@ namespace XAPI.Controllers
                 other.Add(new fuelPrm() { prm = "CREW3", value = "" });
                 props.Add("prop_crew3");
 
+                other.Add(new fuelPrm() { prm = "CREW4", value = "" });
+                props.Add("prop_crew4");
+
+                other.Add(new fuelPrm() { prm = "CREW5", value = "" });
+                props.Add("prop_crew5");
+
+
+
 
                 other.Add(new fuelPrm() { prm = "ETD", value = etd });
                 props.Add("prop_etd");
