@@ -940,6 +940,36 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
           <Property Name="DepCountry" Type="varchar" MaxLength="255" />
           <Property Name="ArrCountry" Type="varchar" MaxLength="255" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="XFlightCrew">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="JobGroupCode" />
+            <PropertyRef Name="JobGroup" />
+            <PropertyRef Name="SexId" />
+            <PropertyRef Name="GroupOrder" />
+            <PropertyRef Name="IsCockpit" />
+          </Key>
+          <Property Name="CrewId" Type="int" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="IsPositioning" Type="bit" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="Position" Type="varchar" MaxLength="255" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1001" Nullable="false" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="500" />
+          <Property Name="ScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="JobGroupCode" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="SexId" Type="int" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="500" />
+          <Property Name="GroupOrder" Type="int" Nullable="false" />
+          <Property Name="IsCockpit" Type="int" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="500" />
+          <Property Name="DateConfirmed" Type="datetime" />
+          <Property Name="IsConfirmed" Type="bit" />
+        </EntityType>
         <Association Name="cps_fdp">
           <End Role="FDP" Type="Self.FDP" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -1653,6 +1683,28 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
     [ViewLegTime].[ArrCountry] AS [ArrCountry]
     FROM [dbo].[ViewLegTime] AS [ViewLegTime]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="XFlightCrew" EntityType="Self.XFlightCrew" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [XFlightCrew].[CrewId] AS [CrewId], 
+    [XFlightCrew].[FlightId] AS [FlightId], 
+    [XFlightCrew].[IsPositioning] AS [IsPositioning], 
+    [XFlightCrew].[PositionId] AS [PositionId], 
+    [XFlightCrew].[Position] AS [Position], 
+    [XFlightCrew].[Name] AS [Name], 
+    [XFlightCrew].[Mobile] AS [Mobile], 
+    [XFlightCrew].[ScheduleName] AS [ScheduleName], 
+    [XFlightCrew].[GroupId] AS [GroupId], 
+    [XFlightCrew].[JobGroupCode] AS [JobGroupCode], 
+    [XFlightCrew].[JobGroup] AS [JobGroup], 
+    [XFlightCrew].[SexId] AS [SexId], 
+    [XFlightCrew].[Sex] AS [Sex], 
+    [XFlightCrew].[GroupOrder] AS [GroupOrder], 
+    [XFlightCrew].[IsCockpit] AS [IsCockpit], 
+    [XFlightCrew].[Code] AS [Code], 
+    [XFlightCrew].[DateConfirmed] AS [DateConfirmed], 
+    [XFlightCrew].[IsConfirmed] AS [IsConfirmed]
+    FROM [dbo].[XFlightCrew] AS [XFlightCrew]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="cps_fdp" Association="Self.cps_fdp">
             <End Role="FDP" EntitySet="FDP" />
             <End Role="CrewPickupSMS" EntitySet="CrewPickupSMS" />
@@ -1728,6 +1780,7 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
           <EntitySet Name="HelperMaxFDPs" EntityType="dbModel.HelperMaxFDP" />
           <EntitySet Name="ViewCrewDuties" EntityType="dbModel.ViewCrewDuty" />
           <EntitySet Name="ViewCrewDutyTimeLineNews" EntityType="dbModel.ViewCrewDutyTimeLineNew" />
+          <EntitySet Name="XFlightCrews" EntityType="dbModel.XFlightCrew" />
           </EntityContainer>
         <EntityType Name="ViewFDPLog">
           <Key>
@@ -2736,6 +2789,34 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
           <Property Name="STA" Type="DateTime" Precision="3" />
           <Property Name="OutOfHomeBase" Type="Boolean" />
         </EntityType>
+        <EntityType Name="XFlightCrew">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="JobGroupCode" />
+            <PropertyRef Name="JobGroup" />
+            <PropertyRef Name="SexId" />
+            <PropertyRef Name="GroupOrder" />
+            <PropertyRef Name="IsCockpit" />
+          </Key>
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="IsPositioning" Type="Boolean" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="JobGroupCode" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroup" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SexId" Type="Int32" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="GroupOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsCockpit" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="3" />
+          <Property Name="IsConfirmed" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3583,6 +3664,30 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
                 <ScalarProperty Name="ReportingTime" ColumnName="ReportingTime" />
                 <ScalarProperty Name="CrewId" ColumnName="CrewId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="XFlightCrews">
+            <EntityTypeMapping TypeName="dbModel.XFlightCrew">
+              <MappingFragment StoreEntitySet="XFlightCrew">
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="IsCockpit" ColumnName="IsCockpit" />
+                <ScalarProperty Name="GroupOrder" ColumnName="GroupOrder" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="SexId" ColumnName="SexId" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

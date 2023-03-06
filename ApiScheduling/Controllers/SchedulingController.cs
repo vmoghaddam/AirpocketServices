@@ -153,7 +153,28 @@ namespace ApiScheduling.Controllers
                              Flights = grp.OrderBy(q => q.STD).ToList()
                          }).ToList();
             
-            return Ok(result);
+            return Ok(new { result, flights = query });
+
+        }
+
+        [Route("api/sch/flight/crews/{id}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetFlightCrews(int id)
+        {
+            try
+            {
+                var _context = new Models.dbEntities();
+                var result = _context.XFlightCrews.Where(q => q.FlightId == id  ).OrderBy(q => q.IsPositioning).ThenBy(q => q.GroupOrder).ToList();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   INNER:" + ex.InnerException.Message;
+                return Ok(new List<Models.XFlightCrew> { new Models.XFlightCrew() { Name = msg } });
+            }
 
         }
 

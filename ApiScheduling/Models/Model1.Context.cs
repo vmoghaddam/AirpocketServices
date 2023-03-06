@@ -46,5 +46,6 @@ namespace ApiScheduling.Models
         public virtual DbSet<HelperMaxFDP> HelperMaxFDPs { get; set; }
         public virtual DbSet<ViewCrewDuty> ViewCrewDuties { get; set; }
         public virtual DbSet<ViewCrewDutyTimeLineNew> ViewCrewDutyTimeLineNews { get; set; }
+        public virtual DbSet<XFlightCrew> XFlightCrews { get; set; }
     }
 }
