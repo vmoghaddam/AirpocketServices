@@ -37,7 +37,6 @@ namespace ApiScheduling.Models
         public virtual DbSet<ViewLegTime> ViewLegTimes { get; set; }
         public virtual DbSet<FDPMaxDaily> FDPMaxDailies { get; set; }
         public virtual DbSet<Extension> Extensions { get; set; }
-        public virtual DbSet<FDP> FDPs { get; set; }
         public virtual DbSet<ViewCrewDutyNoReg> ViewCrewDutyNoRegs { get; set; }
         public virtual DbSet<ViewFDPItem2> ViewFDPItem2 { get; set; }
         public virtual DbSet<CrewPickupSM> CrewPickupSMS { get; set; }
@@ -47,5 +46,8 @@ namespace ApiScheduling.Models
         public virtual DbSet<ViewCrewDuty> ViewCrewDuties { get; set; }
         public virtual DbSet<ViewCrewDutyTimeLineNew> ViewCrewDutyTimeLineNews { get; set; }
         public virtual DbSet<XFlightCrew> XFlightCrews { get; set; }
+        public virtual DbSet<FDP> FDPs { get; set; }
+        public virtual DbSet<AppFTLAb> AppFTLAbs { get; set; }
+        public virtual DbSet<FTLFlightTimeRatioMonthly> FTLFlightTimeRatioMonthlies { get; set; }
     }
 }

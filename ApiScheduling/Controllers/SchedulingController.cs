@@ -86,11 +86,12 @@ namespace ApiScheduling.Controllers
             var context = new Models.dbEntities();
             var query = context.ViewCrewValidFTLs.ToList();
             var resources = (from x in query
-                             group x by new { x.Id, x.ScheduleName, x.JobGroup, x.GroupOrder } into grp
+                             group x by new { x.Id, x.ScheduleName, x.JobGroup, x.GroupOrder ,x.BaseAirportId} into grp
                              select new
                              {
                                  CrewId=grp.Key.Id,
                                  id = grp.Key.Id,
+                                 grp.Key.BaseAirportId,
 
                                  grp.Key.ScheduleName,
                                  text = "(" + grp.Key.JobGroup + ")" + grp.Key.ScheduleName,
@@ -237,6 +238,27 @@ namespace ApiScheduling.Controllers
 
 
         }
+
+
+        [Route("api/sch/fdp/index/")]
+        [AcceptVerbs("GET")]
+        //nookp
+        public async Task<IHttpActionResult> GetFDPIndex(string key,string pos)
+        {
+            //nooz
+            //this.context.Database.CommandTimeout = 160;
+
+            var context = new Models.dbEntities();
+            var fdp = await context.FDPs.Where(q => q.Key == key && q.InitRank == pos && q.IsTemplate == false).OrderByDescending(q => q.InitIndex).FirstOrDefaultAsync();
+            if (fdp == null)
+                return Ok( 1);
+            else
+
+            return Ok(fdp.InitIndex+1);
+
+
+        }
+
 
         [Route("api/fdp/log")]
         [AcceptVerbs("GET")]
@@ -1484,7 +1506,7 @@ namespace ApiScheduling.Controllers
 
                 // if (dto.extension != null && dto.extension > 0)
                 //     rst += 4;
-
+                //bini
                 var fdp = new FDP()
                 {
                     IsTemplate = false,
@@ -1511,6 +1533,7 @@ namespace ApiScheduling.Controllers
                     InitKey = dto.key,
                     InitNo = dto.no,
                     InitRank = dto.rank,
+                    InitPosition=String.Join("_", dto.items.Select(q=>q.flightId+"*"+ RosterFDPDto.getRank(q.pos)).ToList()),
                     InitScheduleName = dto.scheduleName,
                     Extension = dto.extension,
                     Split = 0,
@@ -1827,7 +1850,7 @@ namespace ApiScheduling.Controllers
                         FlightId = x.flightId,
                         IsPositioning = x.dh == 1,
                         IsSector = x.dh != 1,
-                        PositionId = RosterFDPDto.getRank(dto.rank),
+                        PositionId = RosterFDPDto.getRank(x.pos), //RosterFDPDto.getRank(dto.rank),
                         RosterPositionId = dto.index,
 
                     });
@@ -1998,6 +2021,46 @@ namespace ApiScheduling.Controllers
             return Ok(true);
         }
 
+
+        public class FTLCrewIds
+        {
+            public DateTime CDate { get; set; }
+            public List<int> CrewIds { get; set; }
+        }
+        [Route("api/ftl/abs/crews/")]
+        [AcceptVerbs("POST")]
+        //nookp
+        public IHttpActionResult GetAppFTLsABSByCrewIds(FTLCrewIds dto)
+        {
+            //nooz
+            //this.context.Database.CommandTimeout = 160;
+            var date = dto.CDate.Date;
+            var context = new Models.dbEntities();
+
+            var query = from x in context.AppFTLAbs
+                        where x.CDate == date && dto.CrewIds.Contains(x.CrewId)
+                        select x;
+
+            var result = query.OrderByDescending(q => q.Duty7).ThenByDescending(q => q.Duty14).ThenByDescending(q => q.Duty28).ToList();
+            var yy = date.Year;
+            var mm = date.Month;
+            var ratios = context.FTLFlightTimeRatioMonthlies.Where(q => q.Year == yy && q.Month == mm && dto.CrewIds.Contains(q.CrewId)).ToList();
+            foreach (var r in ratios)
+            {
+                var c = result.FirstOrDefault(q => q.CrewId == r.CrewId);
+                if (c != null)
+                {
+                    c.Ratio = Math.Round(Convert.ToDouble(r.Ratio));
+                    c.CNT = r.CNT;
+                    c.ScheduledFlightTime = r.ScheduledFlightTime;
+
+                }
+            }
+
+            // return result.OrderBy(q => q.STD);
+            return Ok(result);
+
+        }
 
 
 

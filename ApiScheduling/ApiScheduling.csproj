@@ -186,6 +186,9 @@
     <Compile Include="Models\AppFTL.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppFTLAb.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CrewPickupSM.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -205,6 +208,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FDPMaxDaily.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FTLFlightTimeRatioMonthly.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HelperMaxFDP.cs">

@@ -144,6 +144,7 @@ namespace ApiScheduling.ViewModel
     public class RosterFDPDto
     {
         public int Id { get; set; }
+        public int? IsGantt { get; set; }
         public string UserName { get; set; }
         public List<RosterFDPId> ids { get; set; }
         public int crewId { get; set; }
