@@ -66,5 +66,6 @@ namespace ApiScheduling.Models
         public Nullable<System.DateTime> STD { get; set; }
         public Nullable<System.DateTime> STA { get; set; }
         public Nullable<bool> OutOfHomeBase { get; set; }
+        public string JobGroup { get; set; }
     }
 }

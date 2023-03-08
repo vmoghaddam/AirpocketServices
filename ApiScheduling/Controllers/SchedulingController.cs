@@ -78,13 +78,70 @@ namespace ApiScheduling.Controllers
         [Route("api/sch/crew/valid/gant/")]
 
         //nookp
-        public IHttpActionResult GetValidCrewForGantt( )
+        public IHttpActionResult GetValidCrewForGantt( string rank="-1")
         {
             //nooz
             //this.context.Database.CommandTimeout = 160;
-
+            /*
+             * switch ($scope.rank) {
+           
+           
+            
+            case 'ISCCM,SCCM':
+                _code = 6;
+                break;
+            case 'ISCCM':
+                _code = 7;
+                break;
+            case 'SCCM':
+                _code = 8;
+                break;
+            case 'CCM':
+                _code = 9;
+                break;
+            default:
+                break;
+        }
+             */
             var context = new Models.dbEntities();
-            var query = context.ViewCrewValidFTLs.ToList();
+            var _query =from x in  context.ViewCrewValidFTLs select x;
+            if (rank != "-1")
+            {
+                switch (rank)
+                {
+                    case "1":
+                        _query = _query.Where(q => q.JobGroup == "TRI" || q.JobGroup == "TRE" || q.JobGroup == "LTC" || q.JobGroup == "P1");
+                        break;
+                    case "2":
+                        _query = _query.Where(q => q.JobGroup == "P1");
+                        break;
+                    case "3":
+                        _query = _query.Where(q => q.JobGroup == "P2");
+                        break;
+                    case "4":
+                        _query = _query.Where(q => q.JobGroup == "TRE");
+                        break;
+                    case "5":
+                        _query = _query.Where(q => q.JobGroup == "TRI");
+                        break;
+                    case "6":
+                        _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM");
+                        break;
+                    case "7":
+                        _query = _query.Where(q => q.JobGroup == "ISCCM");
+                        break;
+                    case "8":
+                        _query = _query.Where(q => q.JobGroup == "SCCM");
+                        break;
+                    case "9":
+                        _query = _query.Where(q => q.JobGroup == "CCM");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            var query = _query.ToList();
             var resources = (from x in query
                              group x by new { x.Id, x.ScheduleName, x.JobGroup, x.GroupOrder ,x.BaseAirportId} into grp
                              select new
@@ -110,13 +167,50 @@ namespace ApiScheduling.Controllers
         [Route("api/sch/crew/duties/gant/")]
 
         //nookp
-        public IHttpActionResult GetValidCrewForGantt(DateTime df,DateTime dt)
+        public IHttpActionResult GetValidCrewForGantt(DateTime df,DateTime dt,string rank="-1")
         {
             //nooz
             //this.context.Database.CommandTimeout = 160;
             dt = dt.AddDays(1);
             var context = new Models.dbEntities();
-            var query = context.ViewCrewDutyTimeLineNews.Where(q=>q.DateStart>=df && q.DateStart<dt).ToList();
+            var _query = from x in context.ViewCrewDutyTimeLineNews select x;
+            if (rank != "-1")
+            {
+                switch (rank)
+                {
+                    case "1":
+                        _query = _query.Where(q => q.JobGroup == "TRI" || q.JobGroup == "TRE" || q.JobGroup == "LTC" || q.JobGroup == "P1");
+                        break;
+                    case "2":
+                        _query = _query.Where(q => q.JobGroup == "P1");
+                        break;
+                    case "3":
+                        _query = _query.Where(q => q.JobGroup == "P2");
+                        break;
+                    case "4":
+                        _query = _query.Where(q => q.JobGroup == "TRE");
+                        break;
+                    case "5":
+                        _query = _query.Where(q => q.JobGroup == "TRI");
+                        break;
+                    case "6":
+                        _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM");
+                        break;
+                    case "7":
+                        _query = _query.Where(q => q.JobGroup == "ISCCM");
+                        break;
+                    case "8":
+                        _query = _query.Where(q => q.JobGroup == "SCCM");
+                        break;
+                    case "9":
+                        _query = _query.Where(q => q.JobGroup == "CCM");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            var query = _query.Where(q=>q.DateStart>=df && q.DateStart<dt).ToList();
             var duties = (from x in query
                          group x by new { x.CrewId } into grp
                          select new
@@ -1215,10 +1309,14 @@ namespace ApiScheduling.Controllers
             var res_start = 4 * 60;
             var res_duration = 17 * 60 + 59;
 
+            var sbc_start = 6 * 60;
+            var sbc_duration = 11 * 60 + 59;
+
 
             DateTime day = (Convert.ToDateTime(dto.date));
             var crewId = Convert.ToInt32(dto.crewId);
             var type = Convert.ToInt32(dto.type);
+            var isgantt= dto.isgantt!=null ? Convert.ToInt32(dto.isgantt) :0;
 
             //var start = day;
             //var end = day.AddHours(12);
@@ -1239,6 +1337,11 @@ namespace ApiScheduling.Controllers
             {
                 start = day.AddMinutes(sbpm_start);
                 end = start.AddMinutes(sbpm_duration);
+            }
+            if (type == 300013)
+            {
+                start = day.AddMinutes(sbc_start);
+                end = start.AddMinutes(sbc_duration);
             }
             if (type == 1170)
             {
@@ -1269,13 +1372,13 @@ namespace ApiScheduling.Controllers
             duty.InitEnd = duty.DateEnd;
             // var rest = new List<int>() { 1167, 1168, 1170, 5000, 5001, 100001, 100003 };
             //duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
-            if (duty.DutyType == 1167 || duty.DutyType == 1168)
+            if (duty.DutyType == 1167 || duty.DutyType == 1168 || duty.DutyType== 300013)
                 duty.InitRestTo = ((DateTime)duty.InitEnd).AddMinutes(rest);
             else
                 duty.InitRestTo = duty.DateEnd;
             //porn
             var exc = new List<int>() { 100009, 100020, 100021, 100022, 100023, 1170 };
-            var check = new List<int>() { 1165, 1166, 1167, 1168, 1169, 5000, 5001, 100000, 100002, 100003, 100004, 100005, 100006, 100008, 100025, 300008, 300009, 300010 };
+            var check = new List<int>() { 1165, 1166, 1167, 1168, 300013, 1169, 5000, 5001, 100000, 100002, 100003, 100004, 100005, 100006, 100008, 100025, 300008, 300009, 300010 };
             // var _interupted = await this.context.FDPs.FirstOrDefaultAsync(q => !exc.Contains(q.DutyType) && q.CrewId == duty.CrewId
             // && (
             //       (duty.InitStart >= q.InitStart && duty.InitStart <= q.InitRestTo)
@@ -1315,8 +1418,18 @@ namespace ApiScheduling.Controllers
             AddToCumDuty(duty);
 
             //2020-11-22 noreg
-            var view = await context.ViewCrewDutyNoRegs.FirstOrDefaultAsync(q => q.Id == duty.Id);
-            return new CustomActionResult(HttpStatusCode.OK, view);
+            
+            if (isgantt == 0)
+            {
+                var view = await context.ViewCrewDutyNoRegs.FirstOrDefaultAsync(q => q.Id == duty.Id);
+                return new CustomActionResult(HttpStatusCode.OK, view);
+            }
+            else
+            {
+                var view = await context.ViewCrewDutyTimeLineNews.FirstOrDefaultAsync(q => q.Id == duty.Id);
+                return new CustomActionResult(HttpStatusCode.OK, view);
+            }
+           
 
         }
 
@@ -2005,6 +2118,12 @@ namespace ApiScheduling.Controllers
                     UPD = fdp.UPD,
                     UserName = fdp.UserName,
                 };
+                if (dto.IsGantt == 1)
+                {
+                    var gres =  await context.ViewCrewDutyTimeLineNews.FirstOrDefaultAsync(q => q.Id == fdp.Id);
+                    return new CustomActionResult(HttpStatusCode.OK, gres);
+                }
+                    else
                 return new CustomActionResult(HttpStatusCode.OK, fdp_result);
 
 
