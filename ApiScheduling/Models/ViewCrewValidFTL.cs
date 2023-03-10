@@ -32,7 +32,7 @@ namespace ApiScheduling.Models
         public Nullable<int> CurrentLocationAirportId { get; set; }
         public string CurrentLocationAirporIATA { get; set; }
         public string CurrentLocationCity { get; set; }
-        public Nullable<int> CurrentLocationCityId { get; set; }
+        public int CurrentLocationCityId { get; set; }
         public Nullable<int> LastLocationId { get; set; }
         public string LastLocation { get; set; }
         public string ScheduleName { get; set; }
@@ -91,9 +91,15 @@ namespace ApiScheduling.Models
         public Nullable<System.DateTime> LPRExpired { get; set; }
         public Nullable<System.DateTime> FirstAidExpired { get; set; }
         public Nullable<System.DateTime> FirstAidIssued { get; set; }
+        public Nullable<System.DateTime> PassportExpired { get; set; }
+        public Nullable<System.DateTime> PassportIssued { get; set; }
         public Nullable<System.DateTime> LicenceExpired { get; set; }
         public Nullable<System.DateTime> LicenceIssued { get; set; }
         public Nullable<System.DateTime> TREExpired { get; set; }
         public Nullable<System.DateTime> TRIExpired { get; set; }
+        public Nullable<System.DateTime> Type737Expired { get; set; }
+        public Nullable<System.DateTime> TypeMDExpired { get; set; }
+        public int IsCockpit { get; set; }
+        public int IsCabin { get; set; }
     }
 }

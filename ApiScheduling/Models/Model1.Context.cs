@@ -26,7 +26,6 @@ namespace ApiScheduling.Models
         }
     
         public virtual DbSet<ViewFDPLog> ViewFDPLogs { get; set; }
-        public virtual DbSet<ViewCrewValidFTL> ViewCrewValidFTLs { get; set; }
         public virtual DbSet<AppFTL> AppFTLs { get; set; }
         public virtual DbSet<FDPExtra> FDPExtras { get; set; }
         public virtual DbSet<ExtensionHistory> ExtensionHistories { get; set; }
@@ -49,5 +48,6 @@ namespace ApiScheduling.Models
         public virtual DbSet<AppFTLAb> AppFTLAbs { get; set; }
         public virtual DbSet<FTLFlightTimeRatioMonthly> FTLFlightTimeRatioMonthlies { get; set; }
         public virtual DbSet<ViewCrewDutyTimeLineNew> ViewCrewDutyTimeLineNews { get; set; }
+        public virtual DbSet<ViewCrewValidFTL> ViewCrewValidFTLs { get; set; }
     }
 }

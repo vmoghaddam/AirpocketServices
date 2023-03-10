@@ -154,6 +154,7 @@ namespace ApiScheduling.Controllers
                                  text = "(" + grp.Key.JobGroup + ")" + grp.Key.ScheduleName,
                                  grp.Key.JobGroup,
                                  grp.Key.GroupOrder,
+                                 item=grp.FirstOrDefault()
                              }).OrderBy(q => q.GroupOrder).ThenBy(q => q.ScheduleName).ToList();
 
 
