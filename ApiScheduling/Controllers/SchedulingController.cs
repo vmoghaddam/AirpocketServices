@@ -91,8 +91,15 @@ namespace ApiScheduling.Controllers
                         orderby y.InitStart
                         select y;
             var result = query.ToList();
+            var grps = (from x in result
+                       group x by new { x.InitFlts } into grp
+                       select new
+                       {
+                           flts = grp.Key.InitFlts.Replace("*1", "(DH)"),
+                           item = grp.ToList()
+                       }).OrderBy(q=>q.flts).ToList();
             
-            return Ok(result);
+            return Ok(grps);
 
         }
 
