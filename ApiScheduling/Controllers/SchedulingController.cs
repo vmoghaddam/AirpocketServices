@@ -75,6 +75,28 @@ namespace ApiScheduling.Controllers
 
         }
 
+        [Route("api/fdps/flight/{ids}")]
+
+        //nookp
+        public IHttpActionResult GetFDPsByFlight(string ids)
+        {
+            //nooz
+            //this.context.Database.CommandTimeout = 160;
+
+            var context = new Models.dbEntities();
+            var fltIds = ids.Split('_').Select(q =>(Nullable<int>) Convert.ToInt32(q)).ToList();
+            var query = from x in context.FDPItems
+                        join y in context.FDPs on x.FDPId equals y.Id
+                        where y.CrewId != null && fltIds.Contains(x.FlightId)
+                        orderby y.InitStart
+                        select y;
+            var result = query.ToList();
+            
+            return Ok(result);
+
+        }
+
+
         [Route("api/sch/crew/valid/gant/")]
 
         //nookp
