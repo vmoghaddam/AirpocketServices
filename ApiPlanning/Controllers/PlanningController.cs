@@ -274,7 +274,7 @@ namespace ApiPlanning.Controllers
                 var staMinutesBF = ((DateTime)baseFlight.STA).Minute;
 
                 var flightIds = await (from x in _context.ViewLegTimes
-                                       where x.FlightNumber == baseFlight.FlightNumber && x.FlightPlanId==baseFlight.FlightGroupID && intervalDays.Contains(x.STDDay)
+                                       where x.FlightNumber == baseFlight.FlightNumber /*&& x.FlightPlanId==baseFlight.FlightGroupID*/ && intervalDays.Contains(x.STDDay)
                                        select x.ID).ToListAsync();
                 //var flights = await unitOfWork.FlightRepository.GetFlights().Where(q => flightIds.Contains(q.ID)).ToListAsync();
                 List<FlightInformation> flights = new List<FlightInformation>();
@@ -489,7 +489,7 @@ namespace ApiPlanning.Controllers
             var flightIds = await (from x in _context.ViewLegTimes
                                    where 
                                      x.FlightNumber == baseFlight.FlightNumber 
-                                     &&  x.FlightPlanId==baseFlight.FlightGroupID
+                                     //&&  x.FlightPlanId==baseFlight.FlightGroupID
                                      && intervalDays.Contains(x.STDDay)
                                    select x.ID).ToListAsync();
             var nflts = flightIds.Select(q => (Nullable<int>)q).ToList();
