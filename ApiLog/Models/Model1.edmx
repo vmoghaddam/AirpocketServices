@@ -295,6 +295,13 @@
           <Property Name="MaxFDP" Type="decimal" Precision="18" Scale="4" />
           <Property Name="BL" Type="int" />
           <Property Name="FX" Type="int" />
+          <Property Name="ActualStart" Type="datetime" />
+          <Property Name="ActualEnd" Type="datetime" />
+          <Property Name="ActualRestTo" Type="datetime" />
+          <Property Name="IsOver" Type="bit" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="OutOfHomeBase" Type="bit" />
         </EntityType>
         <EntityType Name="FDPExtra">
           <Key>
@@ -632,6 +639,19 @@
           <Property Name="ExBagWeight" Type="int" />
           <Property Name="ExBagCost" Type="bigint" />
           <Property Name="TotalTrafficLoad" Type="int" />
+          <Property Name="OLDSTD" Type="datetime" />
+          <Property Name="OLDSTA" Type="datetime" />
+          <Property Name="OLDReg" Type="int" />
+          <Property Name="NewReg" Type="int" />
+          <Property Name="NewTime" Type="int" />
+          <Property Name="UTCSTD" Type="int" />
+          <Property Name="UTCSTA" Type="int" />
+          <Property Name="FuelRemaining" Type="int" />
+          <Property Name="FuelUplift" Type="int" />
+          <Property Name="FuelTotal" Type="int" />
+          <Property Name="FuelRemained" Type="int" />
+          <Property Name="FuelUsed" Type="int" />
+          <Property Name="FuelUpliftLitr" Type="int" />
         </EntityType>
         <EntityType Name="FlightStatusLog">
           <Key>
@@ -654,7 +674,7 @@
           <Property Name="Remark" Type="varchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.AppCrewFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_amw.dbo.AppCrewFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AppCrewFlight">
           <Key>
             <PropertyRef Name="FDPId" />
@@ -798,7 +818,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.AppCrewFlight' does not have a prim
           <Property Name="ALT1" Type="varchar" MaxLength="255" />
           <Property Name="ALT2" Type="varchar" MaxLength="255" />
           <Property Name="ALT3" Type="varchar" MaxLength="255" />
-          <Property Name="ALT4" Type="varchar" MaxLength="255" />
+          <Property Name="ALT4" Type="nvarchar" MaxLength="4000" />
           <Property Name="ALT5" Type="varchar" MaxLength="500" />
           <Property Name="ATL" Type="varchar" MaxLength="1000" />
           <Property Name="ATCPlan" Type="varchar" MaxLength="3000" />
@@ -807,7 +827,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.AppCrewFlight' does not have a prim
           <Property Name="FuelPlanned" Type="decimal" Precision="18" Scale="4" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.AppLeg' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_amw.dbo.AppLeg' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AppLeg">
           <Key>
             <PropertyRef Name="ID" />
@@ -962,7 +982,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.AppLeg' does not have a primary key
           <Property Name="FuelPlanned" Type="decimal" Precision="18" Scale="4" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.HelperMaxFDP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_amw.dbo.HelperMaxFDP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="HelperMaxFDP">
           <Key>
             <PropertyRef Name="Id" />
@@ -973,7 +993,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.HelperMaxFDP' does not have a prima
           <Property Name="MaxFDPExtended" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBDSPReleases' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_amw.dbo.ViewEFBDSPReleases' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewEFBDSPReleases">
           <Key>
             <PropertyRef Name="Id" />
@@ -1108,7 +1128,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBDSPReleases' does not have a
           <Property Name="Note" Type="varchar(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployeeLight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_amw.dbo.ViewEmployeeLight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewEmployeeLight">
           <Key>
             <PropertyRef Name="Id" />
@@ -1235,7 +1255,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployeeLight' does not have a 
           <Property Name="JobGroupCode2" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPItem' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_amw.dbo.ViewFDPItem' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFDPItem">
           <Key>
             <PropertyRef Name="Id" />
@@ -1278,7 +1298,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPItem' does not have a primar
           <Property Name="Position" Type="varchar" MaxLength="7" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightInformation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_amw.dbo.ViewFlightInformation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFlightInformation">
           <Key>
             <PropertyRef Name="ID" />
@@ -1468,7 +1488,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightInformation' does not hav
           <Property Name="CargoCost" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGantt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_amw.dbo.ViewFlightsGantt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFlightsGantt">
           <Key>
             <PropertyRef Name="ID" />
@@ -1477,6 +1497,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGantt' does not have a p
             <PropertyRef Name="FlightType" />
             <PropertyRef Name="FlightTypeAbr" />
             <PropertyRef Name="TypeId" />
+            <PropertyRef Name="Airline" />
+            <PropertyRef Name="FlightPlan" />
             <PropertyRef Name="FromAirportName" />
             <PropertyRef Name="FromAirportCityId" />
             <PropertyRef Name="ToAirportName" />
@@ -1487,8 +1509,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGantt' does not have a p
             <PropertyRef Name="to" />
             <PropertyRef Name="status" />
             <PropertyRef Name="progress" />
-            <PropertyRef Name="taskName" />
             <PropertyRef Name="taskId" />
+            <PropertyRef Name="PlanId" />
             <PropertyRef Name="Manufacturer" />
             <PropertyRef Name="FromSortName" />
             <PropertyRef Name="FromContry" />
@@ -1543,7 +1565,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGantt' does not have a p
           <Property Name="TypeId" Type="int" Nullable="false" />
           <Property Name="OTypeId" Type="int" />
           <Property Name="AirlineOperatorsID" Type="int" />
-          <Property Name="Airline" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Airline" Type="varchar" MaxLength="6" Nullable="false" />
           <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="FromAirport" Type="int" />
           <Property Name="ToAirport" Type="int" />
@@ -1551,7 +1573,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGantt' does not have a p
           <Property Name="STAPlanned" Type="datetime" />
           <Property Name="FlightHPlanned" Type="int" />
           <Property Name="FlightMPlanned" Type="int" />
-          <Property Name="FlightPlan" Type="nvarchar" MaxLength="500" />
+          <Property Name="FlightPlan" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="CustomerId" Type="int" />
           <Property Name="DateActive" Type="datetime" />
           <Property Name="FromAirportName" Type="varchar" MaxLength="1" Nullable="false" />
@@ -1573,12 +1595,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGantt' does not have a p
           <Property Name="status" Type="int" Nullable="false" />
           <Property Name="notes" Type="varchar" MaxLength="1" />
           <Property Name="progress" Type="int" Nullable="false" />
-          <Property Name="taskName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="taskName" Type="varchar" MaxLength="21" />
           <Property Name="startDate" Type="datetime" />
           <Property Name="duration" Type="decimal" Precision="18" Scale="0" />
           <Property Name="taskId" Type="int" Nullable="false" />
           <Property Name="FlightGroupID" Type="int" />
-          <Property Name="PlanId" Type="int" />
+          <Property Name="PlanId" Type="int" Nullable="false" />
           <Property Name="ManufacturerId" Type="int" />
           <Property Name="Manufacturer" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="FromSortName" Type="varchar" MaxLength="1" Nullable="false" />
@@ -1784,9 +1806,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGantt' does not have a p
           <Property Name="ExBagWeight" Type="int" />
           <Property Name="ExBagCost" Type="bigint" />
           <Property Name="TotalTrafficLoad" Type="int" />
+          <Property Name="FuelRemaining" Type="int" />
+          <Property Name="FuelRemained" Type="int" />
+          <Property Name="FuelUplift" Type="int" />
+          <Property Name="FuelUpliftLitr" Type="int" />
+          <Property Name="FuelUsed" Type="int" />
+          <Property Name="FuelTotal" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_amw.dbo.ViewLegTime' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewLegTime">
           <Key>
             <PropertyRef Name="ID" />
@@ -1909,9 +1937,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ChrChild" Type="int" />
           <Property Name="ChrInfant" Type="int" />
           <Property Name="CargoCost" Type="bigint" />
+          <Property Name="CPRegister" Type="varchar" MaxLength="500" />
+          <Property Name="DepCountry" Type="varchar" MaxLength="255" />
+          <Property Name="ArrCountry" Type="varchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewRegisterGround">
           <Key>
             <PropertyRef Name="RegisterId" />
@@ -2062,7 +2093,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FlightDelay_FlightInformation">
-          <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="1" />
+          <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="FlightDelay" Type="Self.FlightDelay" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FlightInformation">
@@ -3149,7 +3182,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
     [ViewFlightsGantt].[WLCost] AS [WLCost], 
     [ViewFlightsGantt].[ExBagWeight] AS [ExBagWeight], 
     [ViewFlightsGantt].[ExBagCost] AS [ExBagCost], 
-    [ViewFlightsGantt].[TotalTrafficLoad] AS [TotalTrafficLoad]
+    [ViewFlightsGantt].[TotalTrafficLoad] AS [TotalTrafficLoad], 
+    [ViewFlightsGantt].[FuelRemaining] AS [FuelRemaining], 
+    [ViewFlightsGantt].[FuelRemained] AS [FuelRemained], 
+    [ViewFlightsGantt].[FuelUplift] AS [FuelUplift], 
+    [ViewFlightsGantt].[FuelUpliftLitr] AS [FuelUpliftLitr], 
+    [ViewFlightsGantt].[FuelUsed] AS [FuelUsed], 
+    [ViewFlightsGantt].[FuelTotal] AS [FuelTotal]
     FROM [dbo].[ViewFlightsGantt] AS [ViewFlightsGantt]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewLegTime" EntityType="Self.ViewLegTime" store:Type="Views" store:Schema="dbo">
@@ -3265,7 +3304,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
     [ViewLegTime].[ChrAdult] AS [ChrAdult], 
     [ViewLegTime].[ChrChild] AS [ChrChild], 
     [ViewLegTime].[ChrInfant] AS [ChrInfant], 
-    [ViewLegTime].[CargoCost] AS [CargoCost]
+    [ViewLegTime].[CargoCost] AS [CargoCost], 
+    [ViewLegTime].[CPRegister] AS [CPRegister], 
+    [ViewLegTime].[DepCountry] AS [DepCountry], 
+    [ViewLegTime].[ArrCountry] AS [ArrCountry]
     FROM [dbo].[ViewLegTime] AS [ViewLegTime]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewRegisterGround" EntityType="Self.ViewRegisterGround" store:Type="Views" store:Schema="dbo">
@@ -3597,6 +3639,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="ChrChild" Type="Int32" />
           <Property Name="ChrInfant" Type="Int32" />
           <Property Name="CargoCost" Type="Int64" />
+          <Property Name="CPRegister" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DepCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ArrCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="ppa_entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Ac_MSN" EntityType="Self.Ac_MSN" />
@@ -3648,7 +3693,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <EntitySet Name="AppCrewFlights" EntityType="ppaModel.AppCrewFlight" />
           <EntitySet Name="AppLegs" EntityType="ppaModel.AppLeg" />
           <EntitySet Name="FlightInformations" EntityType="ppaModel.FlightInformation" />
-          <EntitySet Name="ViewFlightsGantts" EntityType="ppaModel.ViewFlightsGantt" />
           <AssociationSet Name="FK_FlightInformation_Ac_MSN" Association="ppaModel.FK_FlightInformation_Ac_MSN">
             <End Role="Ac_MSN" EntitySet="Ac_MSN" />
             <End Role="FlightInformation" EntitySet="FlightInformations" />
@@ -3673,7 +3717,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
             <End Role="FlightInformation" EntitySet="FlightInformations" />
             <End Role="OffItem" EntitySet="OffItems" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="ViewFlightsGantts" EntityType="ppaModel.ViewFlightsGantt" />
+          </EntityContainer>
         <EntityType Name="FDP">
           <Key>
             <PropertyRef Name="Id" />
@@ -3740,6 +3785,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <NavigationProperty Name="OffItems" Relationship="ppaModel.off_fdp" FromRole="FDP" ToRole="OffItem" />
           <NavigationProperty Name="FDPExtras" Relationship="ppaModel.fk_fdpextra_fdp" FromRole="FDP" ToRole="FDPExtra" />
           <NavigationProperty Name="FDPItems" Relationship="ppaModel.fk_fdpitem_fdp" FromRole="FDP" ToRole="FDPItem" />
+          <Property Name="ActualStart" Type="DateTime" Precision="3" />
+          <Property Name="ActualEnd" Type="DateTime" Precision="3" />
+          <Property Name="ActualRestTo" Type="DateTime" Precision="3" />
+          <Property Name="IsOver" Type="Boolean" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="OutOfHomeBase" Type="Boolean" />
         </EntityType>
         <Association Name="fk_fdp_employee">
           <End Type="ppaModel.Employee" Role="Employee" Multiplicity="0..1">
@@ -4731,7 +4783,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="ALT1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ALT2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ALT3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ALT4" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ALT4" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="ALT5" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="ATL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="ATCPlan" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
@@ -5159,6 +5211,19 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="ExBagWeight" Type="Int32" />
           <Property Name="ExBagCost" Type="Int64" />
           <Property Name="TotalTrafficLoad" Type="Int32" />
+          <Property Name="OLDSTD" Type="DateTime" Precision="3" />
+          <Property Name="OLDSTA" Type="DateTime" Precision="3" />
+          <Property Name="OLDReg" Type="Int32" />
+          <Property Name="NewReg" Type="Int32" />
+          <Property Name="NewTime" Type="Int32" />
+          <Property Name="UTCSTD" Type="Int32" />
+          <Property Name="UTCSTA" Type="Int32" />
+          <Property Name="FuelRemaining" Type="Int32" />
+          <Property Name="FuelUplift" Type="Int32" />
+          <Property Name="FuelTotal" Type="Int32" />
+          <Property Name="FuelRemained" Type="Int32" />
+          <Property Name="FuelUsed" Type="Int32" />
+          <Property Name="FuelUpliftLitr" Type="Int32" />
           <NavigationProperty Name="Ac_MSN" Relationship="ppaModel.FK_FlightInformation_Ac_MSN" FromRole="FlightInformation" ToRole="Ac_MSN" />
           <NavigationProperty Name="EFBDSPReleases" Relationship="ppaModel.fk_EFB_FI" FromRole="FlightInformation" ToRole="EFBDSPRelease" />
           <NavigationProperty Name="FDPItems" Relationship="ppaModel.fk_fdpitem_flight" FromRole="FlightInformation" ToRole="FDPItem" />
@@ -5166,6 +5231,84 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <NavigationProperty Name="FlightStatusLogs" Relationship="ppaModel.FK_FlightStatusLog_FlightInformation" FromRole="FlightInformation" ToRole="FlightStatusLog" />
           <NavigationProperty Name="OffItems" Relationship="ppaModel.off_flight" FromRole="FlightInformation" ToRole="OffItem" />
         </EntityType>
+        <Association Name="FK_FlightInformation_Ac_MSN">
+          <End Type="ppaModel.Ac_MSN" Role="Ac_MSN" Multiplicity="0..1" />
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ac_MSN">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightInformation">
+              <PropertyRef Name="RegisterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EFB_FI">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
+          <End Type="ppaModel.EFBDSPRelease" Role="EFBDSPRelease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EFBDSPRelease">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fdpitem_flight">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppaModel.FDPItem" Role="FDPItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FDPItem">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FlightDelay_FlightInformation">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppaModel.FlightDelay" Role="FlightDelay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightDelay">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FlightStatusLog_FlightInformation">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppaModel.FlightStatusLog" Role="FlightStatusLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightStatusLog">
+              <PropertyRef Name="FlightID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="off_flight">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
+          <End Type="ppaModel.OffItem" Role="OffItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OffItem">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="ViewFlightsGantt">
           <Key>
             <PropertyRef Name="ID" />
@@ -5174,6 +5317,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
             <PropertyRef Name="FlightType" />
             <PropertyRef Name="FlightTypeAbr" />
             <PropertyRef Name="TypeId" />
+            <PropertyRef Name="Airline" />
+            <PropertyRef Name="FlightPlan" />
             <PropertyRef Name="FromAirportName" />
             <PropertyRef Name="FromAirportCityId" />
             <PropertyRef Name="ToAirportName" />
@@ -5184,8 +5329,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
             <PropertyRef Name="to" />
             <PropertyRef Name="status" />
             <PropertyRef Name="progress" />
-            <PropertyRef Name="taskName" />
             <PropertyRef Name="taskId" />
+            <PropertyRef Name="PlanId" />
             <PropertyRef Name="Manufacturer" />
             <PropertyRef Name="FromSortName" />
             <PropertyRef Name="FromContry" />
@@ -5240,7 +5385,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="TypeId" Type="Int32" Nullable="false" />
           <Property Name="OTypeId" Type="Int32" />
           <Property Name="AirlineOperatorsID" Type="Int32" />
-          <Property Name="Airline" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Airline" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
           <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FromAirport" Type="Int32" />
           <Property Name="ToAirport" Type="Int32" />
@@ -5248,7 +5393,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="STAPlanned" Type="DateTime" Precision="3" />
           <Property Name="FlightHPlanned" Type="Int32" />
           <Property Name="FlightMPlanned" Type="Int32" />
-          <Property Name="FlightPlan" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FlightPlan" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CustomerId" Type="Int32" />
           <Property Name="DateActive" Type="DateTime" Precision="3" />
           <Property Name="FromAirportName" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
@@ -5270,12 +5415,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="status" Type="Int32" Nullable="false" />
           <Property Name="notes" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="progress" Type="Int32" Nullable="false" />
-          <Property Name="taskName" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="taskName" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
           <Property Name="startDate" Type="DateTime" Precision="3" />
           <Property Name="duration" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="taskId" Type="Int32" Nullable="false" />
           <Property Name="FlightGroupID" Type="Int32" />
-          <Property Name="PlanId" Type="Int32" />
+          <Property Name="PlanId" Type="Int32" Nullable="false" />
           <Property Name="ManufacturerId" Type="Int32" />
           <Property Name="Manufacturer" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="FromSortName" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
@@ -5481,84 +5626,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="ExBagWeight" Type="Int32" />
           <Property Name="ExBagCost" Type="Int64" />
           <Property Name="TotalTrafficLoad" Type="Int32" />
+          <Property Name="FuelRemaining" Type="Int32" />
+          <Property Name="FuelRemained" Type="Int32" />
+          <Property Name="FuelUplift" Type="Int32" />
+          <Property Name="FuelUpliftLitr" Type="Int32" />
+          <Property Name="FuelUsed" Type="Int32" />
+          <Property Name="FuelTotal" Type="Int32" />
         </EntityType>
-        <Association Name="FK_FlightInformation_Ac_MSN">
-          <End Type="ppaModel.Ac_MSN" Role="Ac_MSN" Multiplicity="0..1" />
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ac_MSN">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FlightInformation">
-              <PropertyRef Name="RegisterID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_EFB_FI">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
-          <End Type="ppaModel.EFBDSPRelease" Role="EFBDSPRelease" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EFBDSPRelease">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_fdpitem_flight">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ppaModel.FDPItem" Role="FDPItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FDPItem">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FlightDelay_FlightInformation">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
-          <End Type="ppaModel.FlightDelay" Role="FlightDelay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FlightDelay">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FlightStatusLog_FlightInformation">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ppaModel.FlightStatusLog" Role="FlightStatusLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FlightStatusLog">
-              <PropertyRef Name="FlightID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="off_flight">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
-          <End Type="ppaModel.OffItem" Role="OffItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OffItem">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -5686,6 +5761,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <EntitySetMapping Name="ViewLegTimes">
             <EntityTypeMapping TypeName="ppaModel.ViewLegTime">
               <MappingFragment StoreEntitySet="ViewLegTime">
+                <ScalarProperty Name="ArrCountry" ColumnName="ArrCountry" />
+                <ScalarProperty Name="DepCountry" ColumnName="DepCountry" />
+                <ScalarProperty Name="CPRegister" ColumnName="CPRegister" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="FlightPlanId" ColumnName="FlightPlanId" />
@@ -5804,6 +5882,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <EntitySetMapping Name="FDPs">
             <EntityTypeMapping TypeName="ppaModel.FDP">
               <MappingFragment StoreEntitySet="FDP">
+                <ScalarProperty Name="OutOfHomeBase" ColumnName="OutOfHomeBase" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="IsOver" ColumnName="IsOver" />
+                <ScalarProperty Name="ActualRestTo" ColumnName="ActualRestTo" />
+                <ScalarProperty Name="ActualEnd" ColumnName="ActualEnd" />
+                <ScalarProperty Name="ActualStart" ColumnName="ActualStart" />
                 <ScalarProperty Name="FX" ColumnName="FX" />
                 <ScalarProperty Name="BL" ColumnName="BL" />
                 <ScalarProperty Name="MaxFDP" ColumnName="MaxFDP" />
@@ -6855,6 +6940,19 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <EntitySetMapping Name="FlightInformations">
             <EntityTypeMapping TypeName="ppaModel.FlightInformation">
               <MappingFragment StoreEntitySet="FlightInformation">
+                <ScalarProperty Name="FuelUpliftLitr" ColumnName="FuelUpliftLitr" />
+                <ScalarProperty Name="FuelUsed" ColumnName="FuelUsed" />
+                <ScalarProperty Name="FuelRemained" ColumnName="FuelRemained" />
+                <ScalarProperty Name="FuelTotal" ColumnName="FuelTotal" />
+                <ScalarProperty Name="FuelUplift" ColumnName="FuelUplift" />
+                <ScalarProperty Name="FuelRemaining" ColumnName="FuelRemaining" />
+                <ScalarProperty Name="UTCSTA" ColumnName="UTCSTA" />
+                <ScalarProperty Name="UTCSTD" ColumnName="UTCSTD" />
+                <ScalarProperty Name="NewTime" ColumnName="NewTime" />
+                <ScalarProperty Name="NewReg" ColumnName="NewReg" />
+                <ScalarProperty Name="OLDReg" ColumnName="OLDReg" />
+                <ScalarProperty Name="OLDSTA" ColumnName="OLDSTA" />
+                <ScalarProperty Name="OLDSTD" ColumnName="OLDSTD" />
                 <ScalarProperty Name="TotalTrafficLoad" ColumnName="TotalTrafficLoad" />
                 <ScalarProperty Name="ExBagCost" ColumnName="ExBagCost" />
                 <ScalarProperty Name="ExBagWeight" ColumnName="ExBagWeight" />
@@ -7124,6 +7222,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <EntitySetMapping Name="ViewFlightsGantts">
             <EntityTypeMapping TypeName="ppaModel.ViewFlightsGantt">
               <MappingFragment StoreEntitySet="ViewFlightsGantt">
+                <ScalarProperty Name="FuelTotal" ColumnName="FuelTotal" />
+                <ScalarProperty Name="FuelUsed" ColumnName="FuelUsed" />
+                <ScalarProperty Name="FuelUpliftLitr" ColumnName="FuelUpliftLitr" />
+                <ScalarProperty Name="FuelUplift" ColumnName="FuelUplift" />
+                <ScalarProperty Name="FuelRemained" ColumnName="FuelRemained" />
+                <ScalarProperty Name="FuelRemaining" ColumnName="FuelRemaining" />
                 <ScalarProperty Name="TotalTrafficLoad" ColumnName="TotalTrafficLoad" />
                 <ScalarProperty Name="ExBagCost" ColumnName="ExBagCost" />
                 <ScalarProperty Name="ExBagWeight" ColumnName="ExBagWeight" />

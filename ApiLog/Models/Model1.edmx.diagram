@@ -32,15 +32,15 @@
         <EntityTypeShape EntityType="ppaModel.ViewEFBDSPReleas" Width="1.5" PointX="23.375" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.AppCrewFlight" Width="1.5" PointX="27.375" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.AppLeg" Width="1.5" PointX="21.375" PointY="27.75" />
-        <EntityTypeShape EntityType="ppaModel.FlightInformation" Width="1.5" PointX="3" PointY="69.375" />
-        <EntityTypeShape EntityType="ppaModel.ViewFlightsGantt" Width="1.5" PointX="23.375" PointY="27.75" />
+        <EntityTypeShape EntityType="ppaModel.FlightInformation" Width="1.5" PointX="3" PointY="71.875" />
         <AssociationConnector Association="ppaModel.FK_FlightInformation_Ac_MSN" />
         <AssociationConnector Association="ppaModel.fk_EFB_FI" />
         <AssociationConnector Association="ppaModel.fk_fdpitem_flight" />
         <AssociationConnector Association="ppaModel.FK_FlightDelay_FlightInformation" />
         <AssociationConnector Association="ppaModel.FK_FlightStatusLog_FlightInformation" />
         <AssociationConnector Association="ppaModel.off_flight" />
-      </Diagram>
+        <EntityTypeShape EntityType="ppaModel.ViewFlightsGantt" Width="1.5" PointX="23.375" PointY="27.75" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

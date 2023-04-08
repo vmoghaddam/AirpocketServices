@@ -96,7 +96,28 @@ namespace ApiScheduling.Controllers
                        select new
                        {
                            flts = grp.Key.InitFlts.Replace("*1", "(DH)"),
-                           item = grp.ToList()
+                           item = grp.Select(q => new { 
+                            q.ActualEnd,
+                            q.ActualRestTo,
+                            q.ActualStart,
+                            q.InitScheduleName,
+                            q.CrewId,
+                            q.InitKey,
+                            q.InitNo,
+                            q.InitPosition,
+                            q.InitHomeBase,
+                            q.InitFlights,
+                            q.InitFlts,
+                            q.InitFromIATA,
+                            q.InitToIATA,
+                            q.InitRoute,
+                            q.InitStart,
+                            q.InitEnd,
+                            q.InitRestTo,
+                            q.OutOfHomeBase,
+                            q.InitGroup,
+                            q.InitRank
+                           }).Distinct().ToList()
                        }).OrderBy(q=>q.flts).ToList();
             
             return Ok(grps);
@@ -1460,6 +1481,249 @@ namespace ApiScheduling.Controllers
                 return new CustomActionResult(HttpStatusCode.OK, view);
             }
            
+
+        }
+
+        [Route("api/stby/ceased/stat/{isExtended}/{stbyId}/{firstLeg}/{duty}/{maxfdp}")]
+        public async Task<IHttpActionResult> GetSTBYActivationStat(int isExtended, int stbyId, int firstLeg, int duty, int maxfdp)
+        {
+            var context = new Models.dbEntities();
+            var stby = await context.ViewFDPRests.FirstOrDefaultAsync(q => q.Id == stbyId);
+            var leg = await context.ViewLegTimes.FirstOrDefaultAsync(q => q.ID == firstLeg);
+            var reporting = ((DateTime)leg.STDLocal).AddHours(-1);
+            string sqlQuery = "SELECT [dbo].[getFDPReductionBySTBY] ({0},{1},{2},{3})";
+            Object[] parameters = { -1, stby.DateStartLocal, reporting, isExtended };
+            double reduction = context.Database.SqlQuery<double>(sqlQuery, parameters).FirstOrDefault();
+
+            var reducedMaxFDP = maxfdp - reduction;
+            var maxFDPError = duty > reducedMaxFDP;
+
+            var stbyDuration = (reporting - (DateTime)stby.DateStartLocal).TotalMinutes;
+            var stbyFDPDuration = stbyDuration + duty;
+            var durationError = stbyFDPDuration > 18 * 60;
+
+            return Ok( new
+            {
+                reduction,
+                reducedMaxFDP,
+                stbyDuration,
+                stbyFDPDuration,
+                maxFDPError,
+                durationError
+
+            });
+
+
+
+
+        }
+
+        internal async Task<CustomActionResult> ActivateStandby(int crewId, int stbyId, string fids, int rank, int index,string ranks)
+        {
+            //doolnazs
+            var context = new Models.dbEntities();
+            var _fids = fids.Split('*').Select(q => Convert.ToInt32(q)).ToList();
+            var flights = await context.ViewLegTimes.Where(q => _fids.Contains(q.ID)).OrderBy(q => q.STD).ToListAsync();
+
+            var flightIds = flights.Select(q => (Nullable<int>)q.ID).ToList();
+            var allFdpItems = await (from x in context.FDPItems
+                                     join y in context.FDPs on x.FDPId equals y.Id
+                                     where flightIds.Contains(x.FlightId) && y.CrewId != null && x.IsSector && (x.IsOff == null || x.IsOff == false)
+                                     select x).ToListAsync();
+            if (index == -1)
+            {
+                var _fpdItemX = allFdpItems.Where(q => q.FlightId == flightIds.First() && q.PositionId == rank).OrderByDescending(q => q.RosterPositionId).FirstOrDefault();
+                index = 1;
+                if (_fpdItemX != null)
+                {
+                    index = _fpdItemX.RosterPositionId == null ? 1 : (int)_fpdItemX.RosterPositionId + 1;
+                }
+            }
+
+
+            var stby = await context.FDPs.FirstOrDefaultAsync(q => q.Id == stbyId);
+            // keyParts.Add(items[0].flt.ID + "*" + (items[0].fi.IsPositioning == true ? "1" : "0"));
+            var keyParts = flights.Select(q => q.ID + "*0").ToList();
+            var crew = await context.ViewEmployeeLights.Where(q => q.Id == crewId).FirstOrDefaultAsync();
+            double default_reporting = 75;
+            var fdp = new FDP()
+            {
+                IsTemplate = false,
+                DutyType = 1165,
+                CrewId = crewId,
+                GUID = Guid.NewGuid(),
+                JobGroupId = rank,
+                FirstFlightId = flights.First().ID,
+                LastFlightId = flights.Last().ID,
+                Key = string.Join("_", keyParts),
+                FDPId = stbyId,
+                IsOver=false,
+                STD=flights.First().STD,
+                STA=flights.Last().STA,
+                OutOfHomeBase=flights.Last().ToAirport!=crew.BaseAirportId,
+
+
+
+            };
+            /////////////////////////////////
+            fdp.InitScheduleName = crew.ScheduleName;
+            fdp.InitHomeBase = crew.BaseAirportId;
+            fdp.InitIndex = index;
+            fdp.InitGroup = crew.JobGroup;
+            //switch (crew.JobGroup)
+            //{
+            //    case "TRE":
+            //    case "TRI":
+            //    case "LTC":
+            //        fdp.InitRank = "IP";
+            //        break;
+            //    case "ISCCM":
+            //        fdp.InitRank = "ISCCM";
+            //        break;
+            //    case "SCCM":
+            //        fdp.InitRank = "SCCM";
+            //        break;
+            //    case "CCM":
+            //        fdp.InitRank = "CCM";
+            //        break;
+            //    case "P1":
+            //        fdp.InitRank = "P1";
+            //        break;
+            //    case "P2":
+            //        fdp.InitRank = "P2";
+            //        break;
+            //    default:
+            //        break;
+            //}
+            fdp.InitRank = RosterFDPDto.getRankStr(rank);
+            fdp.InitStart = ((DateTime)flights.First().STD).AddMinutes(-default_reporting);
+            fdp.InitEnd = ((DateTime)flights.Last().STA).AddMinutes(30);
+            fdp.DateStart = ((DateTime)flights.First().STD).AddMinutes(-default_reporting);
+            fdp.DateEnd = ((DateTime)flights.Last().STA).AddMinutes(30);
+            var rst = 12;
+            if (fdp.OutOfHomeBase == false)
+                rst = 10;
+
+            fdp.InitRestTo = ((DateTime)flights.Last().STA).AddMinutes(30).AddHours(rst);
+            fdp.InitFlts = string.Join(",", flights.Select(q => q.FlightNumber).ToList());
+            fdp.InitRoute = string.Join(",", flights.Select(q => q.FromAirportIATA).ToList());
+            fdp.InitRoute += "," + flights.Last().ToAirportIATA;
+            fdp.InitFromIATA = flights.First().FromAirport.ToString();
+            fdp.InitToIATA = flights.Last().ToAirport.ToString();
+            fdp.InitNo = string.Join("-", flights.Select(q => q.FlightNumber).ToList());
+            fdp.InitKey = string.Join("-", flights.Select(q => q.ID).ToList());
+            fdp.InitFlights = string.Join("*", flights.Select(q => q.ID + "_" + ("0") + "_" + ((DateTime)q.STDLocal).ToString("yyyyMMddHHmm")
+              + "_" + ((DateTime)q.STALocal).ToString("yyyyMMddHHmm")
+              + "_" + q.FlightNumber + "_" + q.FromAirportIATA + "_" + q.ToAirportIATA).ToList()
+            );
+            fdp.Split = 0;
+            fdp.ReportingTime= ((DateTime)flights.First().STD).AddMinutes(-default_reporting);
+            fdp.ActualEnd = fdp.InitEnd;
+            fdp.ActualStart = fdp.InitStart;
+            fdp.ActualRestTo = fdp.InitRestTo;
+            //////////////////////////////////
+            var temp = new FDP()
+            {
+                IsTemplate = true,
+                DutyType = 1165,
+                IsMain = true,
+                GUID = Guid.NewGuid(),
+
+                FirstFlightId = flights.First().ID,
+                LastFlightId = flights.Last().ID,
+                Key = string.Join("_", keyParts),
+                Split = 0,
+
+            };
+            context.FDPs.Add(temp);
+
+
+            foreach (var x in flights)
+            {
+                //var _fpdItem = allFdpItems.Where(q => q.FlightId == x.ID && q.PositionId == rank).OrderByDescending(q => q.RosterPositionId).FirstOrDefault();
+                //var rosterPositionId = 1;
+                //if (_fpdItem != null)
+                //{
+                //    rosterPositionId = _fpdItem.RosterPositionId == null ? 1 : (int)_fpdItem.RosterPositionId + 1;
+                //}
+                fdp.FDPItems.Add(new FDPItem()
+                {
+                    FlightId = x.ID,
+                    IsPositioning = false,
+                    IsSector = true,
+                    PositionId = rank,
+                    RosterPositionId = index,
+
+                });
+                temp.FDPItems.Add(new FDPItem()
+                {
+                    FlightId = x.ID,
+                    IsPositioning = false,
+                    IsSector = true,
+
+
+                });
+
+            }
+
+            var breakGreaterThan10Hours = string.Empty;
+            if (flights.Count > 1)
+            {
+                for (int i = 1; i < flights.Count; i++)
+                {
+                    var dt = (DateTime)flights[i].STD - (DateTime)flights[i - 1].STA;
+                    var minuts = dt.TotalMinutes;
+                    // – (0:30 + 0:15 + 0:45)
+                    var brk = minuts - 30 - 60; //30:travel time, post flight duty:15, pre flight duty:30
+                    if (brk >= 600)
+                    {
+                        //var tfi = tflights.FirstOrDefault(q => q.ID == flights[i].ID);
+                        // var tfi1 = tflights.FirstOrDefault(q => q.ID == flights[i - 1].ID);
+                        breakGreaterThan10Hours = "The break is greater than 10 hours.";
+                    }
+
+                    else
+                    if (brk >= 180)
+                    {
+                        var fdpitem = fdp.FDPItems.FirstOrDefault(q => q.FlightId == flights[i].ID);
+                        fdpitem.SplitDuty = true;
+                        var pair = fdp.FDPItems.FirstOrDefault(q => q.FlightId == flights[i - 1].ID);
+                        pair.SplitDuty = true;
+                        fdpitem.SplitDutyPairId = pair.FlightId;
+                        fdp.Split += 0.5 * (brk);
+                        ////////////////////////////////////////////////////
+                        var fdpitemTemp = temp.FDPItems.FirstOrDefault(q => q.FlightId == flights[i].ID);
+                        fdpitemTemp.SplitDuty = true;
+                        var pairTemp = temp.FDPItems.FirstOrDefault(q => q.FlightId == flights[i - 1].ID);
+                        pairTemp.SplitDuty = true;
+                        fdpitemTemp.SplitDutyPairId = pair.FlightId;
+                        temp.Split += 0.5 * (brk);
+                        //////////////////////////////////
+
+                    }
+                }
+            }
+
+
+
+            var saveResult = await context.SaveAsync();
+            if (saveResult.Code != HttpStatusCode.OK)
+                return saveResult;
+            fdp.TemplateId = temp.Id;
+            stby.FDP2 = fdp;
+            stby.FDPReportingTime = ((DateTime)flights.First().STD).AddMinutes(-60);
+            stby.UPD = stby.UPD == null ? 1 : ((int)stby.UPD) + 1;
+            this.context.FDPs.Add(fdp);
+
+            saveResult = await context.SaveAsync();
+            if (saveResult.Code != HttpStatusCode.OK)
+                return saveResult;
+            var vfdp = await this.context.ViewFDPRests.FirstOrDefaultAsync(q => q.Id == fdp.Id);
+            return new CustomActionResult(HttpStatusCode.OK, vfdp);
+
+
+
+
 
         }
 

@@ -1224,6 +1224,20 @@ namespace XAPI.Controllers
                 other.Add(new fuelPrm() { prm = "LND_COND", value = "" });
                 props.Add("prop_lnd_cond");
 
+                other.Add(new fuelPrm() { prm = "LND_COND", value = "" });
+                props.Add("prop_lnd_cond");
+
+                other.Add(new fuelPrm() { prm = "CLR_TAXIOUT", value = "" });
+                props.Add("prop_clr_taxiout");
+
+                other.Add(new fuelPrm() { prm = "CLR_TAXIIN", value = "" });
+                props.Add("prop_clr_taxiin");
+
+                other.Add(new fuelPrm() { prm = "CLR_TAXIOUT_STAND", value = "" });
+                props.Add("prop_clr_taxiout_stand");
+
+                other.Add(new fuelPrm() { prm = "CLR_TAXIIN_STAND", value = "" });
+                props.Add("prop_clr_taxiin_stand");
 
 
                 var dtupd = DateTime.UtcNow.ToString("yyyyMMddHHmm");

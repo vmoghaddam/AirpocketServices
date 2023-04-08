@@ -85,7 +85,7 @@ namespace ApiLog.Models
         public Nullable<decimal> duration { get; set; }
         public int taskId { get; set; }
         public Nullable<int> FlightGroupID { get; set; }
-        public Nullable<int> PlanId { get; set; }
+        public int PlanId { get; set; }
         public Nullable<int> ManufacturerId { get; set; }
         public string Manufacturer { get; set; }
         public string FromSortName { get; set; }
@@ -291,5 +291,11 @@ namespace ApiLog.Models
         public Nullable<int> ExBagWeight { get; set; }
         public Nullable<long> ExBagCost { get; set; }
         public Nullable<int> TotalTrafficLoad { get; set; }
+        public Nullable<int> FuelRemaining { get; set; }
+        public Nullable<int> FuelRemained { get; set; }
+        public Nullable<int> FuelUplift { get; set; }
+        public Nullable<int> FuelUpliftLitr { get; set; }
+        public Nullable<int> FuelUsed { get; set; }
+        public Nullable<int> FuelTotal { get; set; }
     }
 }

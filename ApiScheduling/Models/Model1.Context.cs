@@ -49,5 +49,6 @@ namespace ApiScheduling.Models
         public virtual DbSet<FTLFlightTimeRatioMonthly> FTLFlightTimeRatioMonthlies { get; set; }
         public virtual DbSet<ViewCrewDutyTimeLineNew> ViewCrewDutyTimeLineNews { get; set; }
         public virtual DbSet<ViewCrewValidFTL> ViewCrewValidFTLs { get; set; }
+        public virtual DbSet<ViewFDPRest> ViewFDPRests { get; set; }
     }
 }

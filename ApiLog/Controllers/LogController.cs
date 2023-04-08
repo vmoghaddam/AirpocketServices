@@ -85,6 +85,14 @@ namespace ApiLog.Controllers
                 flight.NightTime = dto.NightTime;
 
 
+                //////new fuel
+                flight.FuelRemained = dto.FuelRemained;
+                flight.FuelRemaining = dto.FuelRemaining;
+                flight.FuelUplift = dto.FuelUplift;
+                flight.FuelUpliftLitr = dto.FuelUpliftLitr;
+                flight.FuelTotal = dto.FuelTotal;
+                flight.FuelUsed = dto.FuelUsed;
+
                 ////////NEW LOG
                 /// 
                 flight.CargoWeight = dto.CargoWeight;

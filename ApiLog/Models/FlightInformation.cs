@@ -287,6 +287,19 @@ namespace ApiLog.Models
         public Nullable<int> ExBagWeight { get; set; }
         public Nullable<long> ExBagCost { get; set; }
         public Nullable<int> TotalTrafficLoad { get; set; }
+        public Nullable<System.DateTime> OLDSTD { get; set; }
+        public Nullable<System.DateTime> OLDSTA { get; set; }
+        public Nullable<int> OLDReg { get; set; }
+        public Nullable<int> NewReg { get; set; }
+        public Nullable<int> NewTime { get; set; }
+        public Nullable<int> UTCSTD { get; set; }
+        public Nullable<int> UTCSTA { get; set; }
+        public Nullable<int> FuelRemaining { get; set; }
+        public Nullable<int> FuelUplift { get; set; }
+        public Nullable<int> FuelTotal { get; set; }
+        public Nullable<int> FuelRemained { get; set; }
+        public Nullable<int> FuelUsed { get; set; }
+        public Nullable<int> FuelUpliftLitr { get; set; }
     
         public virtual Ac_MSN Ac_MSN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

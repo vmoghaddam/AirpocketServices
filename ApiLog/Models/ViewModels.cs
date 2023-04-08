@@ -189,6 +189,14 @@ namespace ApiLog.ViewModels
 
         public int? TotalTrafficLoad { get; set; }
 
+        public Nullable<int> FuelRemaining { get; set; }
+        public Nullable<int> FuelUplift { get; set; }
+        public Nullable<int> FuelTotal { get; set; }
+        public Nullable<int> FuelRemained { get; set; }
+        public Nullable<int> FuelUsed { get; set; }
+        public Nullable<int> FuelUpliftLitr { get; set; }
+
+
 
     }
 
@@ -843,6 +851,12 @@ namespace ApiLog.ViewModels
         public int? Duty { get; set; }
         public double? MaxFDPExtended { get; set; }
 
+        public Nullable<int> FuelRemaining { get; set; }
+        public Nullable<int> FuelRemained { get; set; }
+        public Nullable<int> FuelUplift { get; set; }
+        public Nullable<int> FuelUpliftLitr { get; set; }
+        public Nullable<int> FuelUsed { get; set; }
+        public Nullable<int> FuelTotal { get; set; }
 
 
         public int IsDutyOver { get; set; }
@@ -1181,7 +1195,7 @@ namespace ApiLog.ViewModels
             entity.duration = viewflightinformation.duration;
             entity.taskId = viewflightinformation.taskId;
             entity.FlightGroupID = viewflightinformation.FlightGroupID;
-            entity.PlanId = viewflightinformation.PlanId;
+           // entity.PlanId = viewflightinformation.PlanId;
             entity.ManufacturerId = viewflightinformation.ManufacturerId;
             entity.Manufacturer = viewflightinformation.Manufacturer;
             // entity.ToCountry = viewflightinformation.ToCountry;
@@ -1628,6 +1642,13 @@ namespace ApiLog.ViewModels
             viewflightinformation.ExBagWeight = entity.ExBagWeight;
 
             viewflightinformation.TotalTrafficLoad = entity.TotalTrafficLoad;
+            viewflightinformation.FuelRemaining = entity.FuelRemaining;
+            viewflightinformation.FuelRemained = entity.FuelRemained;
+            viewflightinformation.FuelUsed = entity.FuelUsed;
+            viewflightinformation.FuelTotal = entity.FuelTotal;
+            viewflightinformation.FuelUplift = entity.FuelUplift;
+            viewflightinformation.FuelUpliftLitr = entity.FuelUpliftLitr;
+
 
 
         }
