@@ -949,7 +949,7 @@ namespace ApiPlanning.Controllers
             var nullfids = fltIds.Select(q => (Nullable<int>)q).ToList();
 
 
-            //hoda
+            
 
             var result=   new updateLogResult()
             {
