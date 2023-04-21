@@ -54,20 +54,191 @@ namespace ApiFDM.Controllers
 
 
 
+        //public async Task<List<FailedItmes>> boeingImport(string fn)
+        //{
+
+        //    var context = new dbEntities();
+
+        //    List<Boeing> flights = new List<Boeing>();
+        //    List<FailedItmes> failedItems = new List<FailedItmes>();
+
+        //    var path = HostingEnvironment.MapPath("~/upload");
+        //    var dir = Path.Combine(path, fn);
+        //    ConnexionExcel excelFile = new ConnexionExcel(dir);
+
+        //    try
+        //    {
+        //        var names = excelFile.UrlConnexion.GetWorksheetNames();
+        //        var event_sheet = names.Where(q => q.ToUpper().Contains("EVENT")).FirstOrDefault();
+        //        if (string.IsNullOrEmpty(event_sheet))
+        //            event_sheet = names.First();
+        //        var query = from x in excelFile.UrlConnexion.WorksheetNoHeader(event_sheet)
+        //                    select x;
+
+        //        var rows = query.ToList();
+
+
+        //        for (int i = 1; i < rows.Count(); i++)
+        //        {
+        //            var flight = new Boeing();
+        //            var row = rows[i];
+
+        //            flight.Severity = row[0];
+        //            flight.EventName = row[1];
+        //            flight.Value = row[2];
+        //            flight.Minor = row[3];
+        //            flight.Major = row[4];
+        //            flight.Critical = row[5];
+        //            flight.Duration = TimeSpan.Parse(row[6]);
+        //            flight.TOAirport = row[7];
+        //            flight.TDAirport = row[8];
+        //            flight.RecdFltNum = row[9];
+        //            flight.TDDatetime = row[10];
+        //            //flight.IP = row[11];
+        //            //flight.P1 = row[12];
+        //            //flight.P2 = row[13];
+        //            flight.Aircraft = row[11];
+        //            flight.FlightPhase = row[12];
+        //            flight.StateName = row[13];
+        //            flight.Context = row[14];
+        //            flight.TORunway = row[15];
+        //            flight.TDRunway = row[16];
+        //            flight.TODatetime = row[17];
+        //            flight.Type = row[18];
+        //            flight.Units = row[19];
+        //            flight.ValueName = row[20];
+        //            flight.EnginePos = row[21];
+
+        //            flights.Add(flight);
+        //        }
+
+
+
+        //        var fileExist = context.FDMs.Where(q => q.FileName == fn).ToList();
+        //        context.FDMs.RemoveRange(fileExist);
+
+
+
+        //        var dates = flights.Where(q => q.DateX != null).Select(q => (Nullable<DateTime>)((DateTime)q.DateX).Date).ToList();
+        //        var existFlight = context.AppLegs.Where(q => dates.Contains(q.STDDay)).ToList();
+        //        var P1Codes = flights.Select(q => q.P1).ToList();
+        //        var P2Codes = flights.Select(q => q.P2).ToList();
+        //        var IPCodes = flights.Select(q => q.IP).ToList();
+        //        var PilotsCode = P1Codes.Concat(P2Codes.Concat(IPCodes)).ToList();
+        //        var PilotsId = context.CrewSecretCodes.Where(q => PilotsCode.Contains(q.Code)).ToList();
+        //        var fdmKeys = context.FDMs.Select(q => q.Key).ToList();
+
+
+        //        foreach (var y in flights)
+        //        {
+        //            var flight = existFlight.FirstOrDefault(q => q.STDDay == y.DateX && q.FlightNumber == y.FlightNumber);
+        //            var Key = (y.EventName).Trim() + Trim(y.Aircraft) + DateConvert(y.DateX) + y.TOAirport + y.TDAirport + (y.FlightPhase == null ? string.Empty : y.FlightPhase);
+        //            if (fdmKeys.Contains(Key))
+        //                continue;
+
+
+
+        //            if (y.IsValid && flight != null && flight.AircraftType.Contains("B"))
+        //            {
+        //                var entity = new FDM();
+        //                entity.Severity = y.SeverityX;
+        //                entity.Date = y.DateX;
+        //                entity.EventName = y.EventName;
+        //                entity.Duration = y.Duration;
+        //                //entity.P1 = y.P1;
+        //                //entity.P1Id = PilotsId.Where(q => q.Code == y.P1).Select(w => (int?)w.CrewId).DefaultIfEmpty().First();
+        //                //entity.P2 = y.P2;
+        //                //entity.P2Id = PilotsId.Where(q => q.Code == y.P2).Select(w => (int?)w.CrewId).DefaultIfEmpty().First();
+        //                //entity.IP = y.IP;
+        //                //entity.IPId = PilotsId.Where(q => q.Code == y.IP).Select(w => (int?)w.CrewId).DefaultIfEmpty().First();
+        //                entity.P1 = flight.P1Name;
+        //                entity.P1Id = flight.P1Id;
+        //                entity.P2 = flight.P2Name;
+        //                entity.P2Id = flight.P2Id;
+        //                entity.IP = flight.IPName;
+        //                entity.IPId = flight.IPId;
+        //                entity.PFLR = flight.PFLR.ToString();
+        //                entity.Value = y.Value;
+        //                entity.Minor = y.MinorX;
+        //                entity.Major = y.MajorX;
+        //                entity.Critical = y.CriticalX;
+        //                entity.Phase = y.FlightPhase;
+        //                entity.Context = y.Context;
+        //                entity.StateName = y.StateName;
+        //                entity.Type = y.Type;
+        //                entity.Units = y.Units;
+        //                entity.TODatetime = null;
+        //                entity.TDDatetime = null;
+        //                entity.FileName = fn;
+        //                entity.AircraftType = flight.AircraftType;
+        //                entity.Key = Key;
+        //                entity.FlightId = flight.FlightId;
+        //                entity.FromAirport = flight.FromAirport;
+        //                entity.ToAirport = flight.ToAirport;
+        //                entity.FromAirportIATA = flight.FromAirportIATA;
+        //                entity.ToAirportIATA = flight.ToAirportIATA;
+        //                entity.FlightId = flight.FlightId;
+        //                entity.AircraftTypeId = flight.TypeId;
+        //                entity.Approved = false;
+        //                entity.Removed = false;
+        //                entity.Islocked = false;
+        //                entity.IsVisible = false;
+        //                context.FDMs.Add(entity);
+
+        //            }
+        //            else
+        //            {
+
+        //                var failedItem = new FailedItmes();
+        //                failedItem.Severity = y.Severity;
+        //                failedItem.Date = y.DateX;
+        //                failedItem.EventName = y.EventName;
+        //                failedItem.P1 = y.P1;
+        //                failedItem.P2 = y.P2;
+        //                failedItem.FileName = fn;
+        //                failedItem.Value = y.ValueX;
+        //                failedItem.Duration = y.Duration;
+        //                failedItem.flightNo = y.FlightNumber;
+        //                failedItem.Message = flight != null ? string.Empty : "Flight record not found";
+        //                failedItems.Add(failedItem);
+        //            }
+
+        //        }
+
+        //        context.SaveChanges();
+        //        return failedItems;
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var msg = ex.Message;
+        //        if (ex.InnerException != null)
+        //            msg += " INNSER: " + ex.InnerException.Message;
+        //        var exist = new FailedItmes();
+        //        exist.Status = 500;
+        //        exist.FileName = fn;
+        //        exist.Message = msg;
+        //        var inner = ex.ToString();
+        //        failedItems.Add(exist);
+        //        return failedItems;
+        //    }
+        //}
+
+
         public async Task<List<FailedItmes>> boeingImport(string fn)
         {
-
-            var context = new dbEntities();
-
-            List<Boeing> flights = new List<Boeing>();
-            List<FailedItmes> failedItems = new List<FailedItmes>();
-
-            var path = HostingEnvironment.MapPath("~/upload");
-            var dir = Path.Combine(path, fn);
-            ConnexionExcel excelFile = new ConnexionExcel(dir);
-
             try
             {
+                var context = new dbEntities();
+
+                List<Boeing> flights = new List<Boeing>();
+                List<FailedItmes> failedItems = new List<FailedItmes>();
+
+                var path = HostingEnvironment.MapPath("~/upload");
+                var dir = Path.Combine(path, fn);
+                ConnexionExcel excelFile = new ConnexionExcel(dir);
+
+
                 var names = excelFile.UrlConnexion.GetWorksheetNames();
                 var event_sheet = names.Where(q => q.ToUpper().Contains("EVENT")).FirstOrDefault();
                 if (string.IsNullOrEmpty(event_sheet))
@@ -181,6 +352,9 @@ namespace ApiFDM.Controllers
                         entity.AircraftTypeId = flight.TypeId;
                         entity.Approved = false;
                         entity.Removed = false;
+                        entity.Confirmation = false;
+                        entity.IsVisible = false;
+                        entity.Validity = 0;
                         context.FDMs.Add(entity);
 
                     }
@@ -209,6 +383,7 @@ namespace ApiFDM.Controllers
             }
             catch (Exception ex)
             {
+                var ds = new List<FailedItmes>();
                 var msg = ex.Message;
                 if (ex.InnerException != null)
                     msg += " INNSER: " + ex.InnerException.Message;
@@ -217,8 +392,8 @@ namespace ApiFDM.Controllers
                 exist.FileName = fn;
                 exist.Message = msg;
                 var inner = ex.ToString();
-                failedItems.Add(exist);
-                return failedItems;
+                ds.Add(exist);
+                return ds;
             }
         }
 
@@ -249,6 +424,7 @@ namespace ApiFDM.Controllers
 
                 for (int i = 1; i < rows.Count(); i++)
                 {
+
                     var flight = new MD();
                     var row = rows[i];
 
@@ -262,12 +438,15 @@ namespace ApiFDM.Controllers
                     flight.Reg = row[7];
                     flight.From = row[8];
                     flight.To = row[9];
+                    flight.FlightPhase = row[10];
+                    flight.StateName = row[11];
                     //flight.IP = row[10];
                     //flight.P1 = row[11];
                     //flight.P2 = row[12];
                     //flight.PFLR = row[13];
                     flights.Add(flight);
                 }
+
 
 
 
@@ -332,6 +511,11 @@ namespace ApiFDM.Controllers
                         entity.Key = Key;
                         entity.Approved = false;
                         entity.Removed = false;
+                        entity.Confirmation = false;
+                        entity.IsVisible = false;
+                        entity.Validity = 0;
+                        entity.Phase = y.FlightPhase;
+                        entity.StateName = y.StateName;
                         context.FDMs.Add(entity);
 
                     }
@@ -428,9 +612,8 @@ namespace ApiFDM.Controllers
 
         }
 
-
+        [HttpPost]
         [Route("api/uploadfile")]
-        [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> Upload()
         {
             //var context = new FLYEntities();

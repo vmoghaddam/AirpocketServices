@@ -16,6 +16,7 @@ namespace ApiFDM.Models
     {
         public Nullable<int> Month { get; set; }
         public Nullable<int> Year { get; set; }
+        public Nullable<int> YearMonth { get; set; }
         public string Register { get; set; }
         public Nullable<int> RegisterID { get; set; }
         public string CptName { get; set; }

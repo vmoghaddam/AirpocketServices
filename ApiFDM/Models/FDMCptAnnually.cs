@@ -25,5 +25,6 @@ namespace ApiFDM.Models
         public Nullable<int> LowCount { get; set; }
         public Nullable<int> Score { get; set; }
         public Nullable<int> FaultPercentagePerFlight { get; set; }
+        public Nullable<bool> Approved { get; set; }
     }
 }

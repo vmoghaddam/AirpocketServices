@@ -12,18 +12,21 @@ namespace ApiFDM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class FDMCptEventDaily
+    public partial class FDMRegFoMonthly
     {
-        public Nullable<System.DateTime> Day { get; set; }
-        public string EventName { get; set; }
-        public string CptName { get; set; }
-        public int CptId { get; set; }
-        public string CptCode { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
+        public Nullable<int> YearMonth { get; set; }
+        public string Register { get; set; }
+        public int RegisterId { get; set; }
+        public string P2Name { get; set; }
+        public Nullable<int> P2Id { get; set; }
+        public string P1Code { get; set; }
+        public Nullable<int> FlightCount { get; set; }
         public Nullable<int> EventCount { get; set; }
         public Nullable<int> HighCount { get; set; }
         public Nullable<int> MediumCount { get; set; }
         public Nullable<int> LowCount { get; set; }
         public Nullable<int> Score { get; set; }
-        public Nullable<bool> Approved { get; set; }
     }
 }

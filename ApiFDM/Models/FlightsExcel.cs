@@ -212,7 +212,8 @@ namespace ApiFDM.Models
         public int RegisterId { get; set; }
         public string FileName { get; set; }
         public int recordNum { get; set; }
-
+        public string FlightPhase { get; set; }
+        public string StateName { get; set; }
         public float? ValueX
         {
             get

@@ -14,33 +14,24 @@ namespace ApiFDM.Models
     
     public partial class FDMCptMonthly
     {
-        public Nullable<int> Month { get; set; }
-        public Nullable<int> Year { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
+        public Nullable<int> YearMonth { get; set; }
         public string CptName { get; set; }
         public int CptId { get; set; }
         public string JobGroup { get; set; }
         public string CptCode { get; set; }
         public Nullable<int> FlightCount { get; set; }
         public Nullable<int> EventCount { get; set; }
-        public Nullable<int> p1EventCount { get; set; }
-        public Nullable<int> IPEventCount { get; set; }
         public Nullable<int> HighCount { get; set; }
         public Nullable<int> MediumCount { get; set; }
         public Nullable<int> LowCount { get; set; }
         public Nullable<int> Score { get; set; }
-        public Nullable<int> FaultPercentagePerFlight { get; set; }
-        public Nullable<int> IPHighCount { get; set; }
-        public Nullable<int> P1HighCount { get; set; }
-        public Nullable<int> IPMediumCount { get; set; }
-        public Nullable<int> P1MediumCount { get; set; }
-        public Nullable<int> IPLowCount { get; set; }
-        public Nullable<int> P1LowCount { get; set; }
-        public Nullable<int> FOResEventsCount { get; set; }
-        public Nullable<int> IPResEventsCount { get; set; }
-        public Nullable<int> P1ResEventsCount { get; set; }
-        public Nullable<int> IPSelfResEventsCount { get; set; }
-        public Nullable<int> P1SelfResEventsCount { get; set; }
-        public Nullable<int> IPOtherResEventsCount { get; set; }
-        public Nullable<int> P1OtherResEventsCount { get; set; }
+        public Nullable<decimal> ScorePerEvent { get; set; }
+        public Nullable<int> ScorePerFlight { get; set; }
+        public Nullable<int> EventPerFlight { get; set; }
+        public Nullable<int> HighScore { get; set; }
+        public Nullable<int> MediumScore { get; set; }
+        public Nullable<int> LowScore { get; set; }
     }
 }

@@ -12,16 +12,9 @@ namespace ApiFDM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class FDMPhaseMonthly
+    public partial class FDMAVG
     {
-        public string Phase { get; set; }
-        public int Month { get; set; }
-        public int Year { get; set; }
-        public Nullable<int> YearMonth { get; set; }
-        public string Name { get; set; }
-        public int CrewId { get; set; }
-        public string JobGroup { get; set; }
-        public Nullable<int> EventCount { get; set; }
-        public Nullable<int> Score { get; set; }
+        public int Validity { get; set; }
+        public Nullable<decimal> ScorePerEvent { get; set; }
     }
 }

@@ -26,5 +26,11 @@ namespace ApiFDM.Models
         public Nullable<int> MediumCount { get; set; }
         public Nullable<int> Score { get; set; }
         public Nullable<int> LowCount { get; set; }
+        public Nullable<decimal> ScorePerEvent { get; set; }
+        public Nullable<int> ScorePerFlight { get; set; }
+        public Nullable<int> EventPerFlight { get; set; }
+        public Nullable<int> HighScore { get; set; }
+        public Nullable<int> MediumScore { get; set; }
+        public Nullable<int> LowScore { get; set; }
     }
 }

@@ -32,38 +32,27 @@ namespace ApiFDM.Models
         public virtual DbSet<ViewLegTime> ViewLegTimes { get; set; }
         public virtual DbSet<AppLeg> AppLegs { get; set; }
         public virtual DbSet<FDMCptAnnually> FDMCptAnnuallies { get; set; }
-        public virtual DbSet<FDMCptDaily> FDMCptDailies { get; set; }
         public virtual DbSet<FDMCptEventDaily> FDMCptEventDailies { get; set; }
-        public virtual DbSet<FDMCptEventMonthly> FDMCptEventMonthlies { get; set; }
-        public virtual DbSet<FDMCptIpDaily> FDMCptIpDailies { get; set; }
-        public virtual DbSet<FDMCptIpMonthly> FDMCptIpMonthlies { get; set; }
-        public virtual DbSet<FDMCptMonthly> FDMCptMonthlies { get; set; }
-        public virtual DbSet<FDMFoDaily> FDMFoDailies { get; set; }
-        public virtual DbSet<FDMFoEventDaily> FDMFoEventDailies { get; set; }
-        public virtual DbSet<FDMFoEventMonthly> FDMFoEventMonthlies { get; set; }
-        public virtual DbSet<FDMFoMonthly> FDMFoMonthlies { get; set; }
-        public virtual DbSet<FDMPhaseTypeMonthly> FDMPhaseTypeMonthlies { get; set; }
-        public virtual DbSet<FDMRegCptAnnually> FDMRegCptAnnuallies { get; set; }
-        public virtual DbSet<FDMRegCptDaily_> FDMRegCptDaily_ { get; set; }
-        public virtual DbSet<FDMRegCptFoDaily> FDMRegCptFoDailies { get; set; }
-        public virtual DbSet<FDMRegCptFoMonthly> FDMRegCptFoMonthlies { get; set; }
-        public virtual DbSet<FDMRegCptMonthly> FDMRegCptMonthlies { get; set; }
-        public virtual DbSet<FDMDaily> FDMDailies { get; set; }
-        public virtual DbSet<FDMCptFoDaily> FDMCptFoDailies { get; set; }
-        public virtual DbSet<FDMCptFoMonthly> FDMCptFoMonthlies { get; set; }
         public virtual DbSet<FDMEventDaily> FDMEventDailies { get; set; }
-        public virtual DbSet<FDMEventMonthly> FDMEventMonthlies { get; set; }
-        public virtual DbSet<FDMRegCptFoAnnully> FDMRegCptFoAnnullies { get; set; }
-        public virtual DbSet<FDMRegDaily> FDMRegDailies { get; set; }
-        public virtual DbSet<FDMRegEventDaily> FDMRegEventDailies { get; set; }
-        public virtual DbSet<FDMRegEventMonthly> FDMRegEventMonthlies { get; set; }
-        public virtual DbSet<FDMRegMonthly> FDMRegMonthlies { get; set; }
-        public virtual DbSet<FDMTypeAnnually> FDMTypeAnnuallies { get; set; }
-        public virtual DbSet<FDMTypeDaily> FDMTypeDailies { get; set; }
-        public virtual DbSet<FDMTypeMonthly> FDMTypeMonthlies { get; set; }
-        public virtual DbSet<FDM> FDMs { get; set; }
-        public virtual DbSet<ViewFDM> ViewFDMs { get; set; }
+        public virtual DbSet<FDMFoEventMonthly> FDMFoEventMonthlies { get; set; }
         public virtual DbSet<FDMPhaseMonthly> FDMPhaseMonthlies { get; set; }
+        public virtual DbSet<FDMRegCptMonthly> FDMRegCptMonthlies { get; set; }
+        public virtual DbSet<FDMRegFoMonthly> FDMRegFoMonthlies { get; set; }
+        public virtual DbSet<ViewFDM> ViewFDMs { get; set; }
+        public virtual DbSet<FDMCptEventMonthly> FDMCptEventMonthlies { get; set; }
+        public virtual DbSet<FDMRegDaily> FDMRegDailies { get; set; }
+        public virtual DbSet<FDMRegEventMonthly1> FDMRegEventMonthly1 { get; set; }
+        public virtual DbSet<FDM> FDMs { get; set; }
+        public virtual DbSet<FDMAVG> FDMAVGs { get; set; }
         public virtual DbSet<FDMCptAll> FDMCptAlls { get; set; }
+        public virtual DbSet<FDMCptMonthly> FDMCptMonthlies { get; set; }
+        public virtual DbSet<FDMCptFoMonthly> FDMCptFoMonthlies { get; set; }
+        public virtual DbSet<FDMCptIpMonthly> FDMCptIpMonthlies { get; set; }
+        public virtual DbSet<FDMFoMonthly> FDMFoMonthlies { get; set; }
+        public virtual DbSet<FDMCptAirportEventMonthly> FDMCptAirportEventMonthlies { get; set; }
+        public virtual DbSet<FDMCptAirportMonthly> FDMCptAirportMonthlies { get; set; }
+        public virtual DbSet<FDMAirportMonthly> FDMAirportMonthlies { get; set; }
+        public virtual DbSet<FDMRegMonthly> FDMRegMonthlies { get; set; }
+        public virtual DbSet<FDMMonthly> FDMMonthlies { get; set; }
     }
 }

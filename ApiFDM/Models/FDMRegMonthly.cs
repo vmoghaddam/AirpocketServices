@@ -14,8 +14,9 @@ namespace ApiFDM.Models
     
     public partial class FDMRegMonthly
     {
-        public Nullable<int> Year { get; set; }
-        public Nullable<int> Month { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
+        public int YearMonth { get; set; }
         public string Register { get; set; }
         public int RegisterId { get; set; }
         public Nullable<int> EventCount { get; set; }
@@ -24,5 +25,6 @@ namespace ApiFDM.Models
         public Nullable<int> MediumCount { get; set; }
         public Nullable<int> LowCount { get; set; }
         public Nullable<int> Score { get; set; }
+        public Nullable<int> ScorePerEvent { get; set; }
     }
 }

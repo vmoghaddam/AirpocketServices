@@ -65,8 +65,14 @@ namespace ApiFDM.Models
         public string RemovedBy { get; set; }
         public Nullable<System.DateTime> DateRemoved { get; set; }
         public Nullable<bool> Approved { get; set; }
+        public Nullable<bool> IsLocked { get; set; }
+        public Nullable<int> Validity { get; set; }
+        public Nullable<bool> Confirmation { get; set; }
+        public string ValidationPerson { get; set; }
+        public string ConfirmationPerson { get; set; }
         public Nullable<int> ResponsibleId { get; set; }
         public string Responsible { get; set; }
         public string Status { get; set; }
+        public string ValidityStatus { get; set; }
     }
 }

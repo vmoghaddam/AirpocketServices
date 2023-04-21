@@ -12,28 +12,32 @@ namespace ApiFDM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class FDMCptIpMonthly
+    public partial class FDMCptAirportMonthly
     {
-        public Nullable<int> Year { get; set; }
         public Nullable<int> Month { get; set; }
+        public int Year { get; set; }
         public Nullable<int> YearMonth { get; set; }
-        public string P1Name { get; set; }
-        public Nullable<int> p1Id { get; set; }
-        public string IpName { get; set; }
-        public Nullable<int> IpId { get; set; }
-        public string P1Code { get; set; }
-        public string IpCode { get; set; }
         public Nullable<int> FlightCount { get; set; }
-        public Nullable<int> EventCount { get; set; }
+        public Nullable<int> EventsCount { get; set; }
         public Nullable<int> HighCount { get; set; }
         public Nullable<int> MediumCount { get; set; }
         public Nullable<int> LowCount { get; set; }
         public Nullable<int> Score { get; set; }
         public Nullable<decimal> ScorePerEvent { get; set; }
         public Nullable<int> ScorePerFlight { get; set; }
-        public Nullable<int> EventPerFlight { get; set; }
         public Nullable<int> HighScore { get; set; }
         public Nullable<int> MediumScore { get; set; }
         public Nullable<int> LowScore { get; set; }
+        public string FromAirportIATA { get; set; }
+        public string ToAirportIATA { get; set; }
+        public string Route { get; set; }
+        public string p1Name { get; set; }
+        public Nullable<int> P1Id { get; set; }
+        public string IPName { get; set; }
+        public Nullable<int> IPId { get; set; }
+        public string P2Name { get; set; }
+        public Nullable<int> P2Id { get; set; }
+        public string Phase { get; set; }
+        public Nullable<bool> Approved { get; set; }
     }
 }

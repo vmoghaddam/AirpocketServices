@@ -59,5 +59,14 @@ namespace ApiFDM.Models
         public string ApprovedBy { get; set; }
         public Nullable<System.DateTime> DateApproved { get; set; }
         public Nullable<System.TimeSpan> Duration { get; set; }
+        public Nullable<bool> IsLocked { get; set; }
+        public Nullable<System.DateTime> IsLockedDate { get; set; }
+        public Nullable<bool> IsVisible { get; set; }
+        public Nullable<System.DateTime> IsVisibleDate { get; set; }
+        public string Remark { get; set; }
+        public Nullable<int> Validity { get; set; }
+        public Nullable<bool> Confirmation { get; set; }
+        public string ValidationPerson { get; set; }
+        public string ConfirmationPerson { get; set; }
     }
 }
