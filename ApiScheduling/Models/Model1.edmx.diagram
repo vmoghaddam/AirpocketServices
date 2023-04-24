@@ -24,6 +24,11 @@
         <EntityTypeShape EntityType="dbModel.HelperMaxFDP" Width="1.5" PointX="0.75" PointY="17.75" />
         <EntityTypeShape EntityType="dbModel.ViewCrewDuty" Width="1.5" PointX="18.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.XFlightCrew" Width="1.5" PointX="20.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.AppFTLAb" Width="1.5" PointX="0.75" PointY="20.75" />
+        <EntityTypeShape EntityType="dbModel.FTLFlightTimeRatioMonthly" Width="1.5" PointX="20.375" PointY="6.75" />
+        <EntityTypeShape EntityType="dbModel.ViewCrewDutyTimeLineNew" Width="1.5" PointX="18.375" PointY="14.75" />
+        <EntityTypeShape EntityType="dbModel.ViewCrewValidFTL" Width="1.5" PointX="20.375" PointY="9.75" />
+        <EntityTypeShape EntityType="dbModel.ViewFDPRest" Width="1.5" PointX="14.375" PointY="21.75" />
         <EntityTypeShape EntityType="dbModel.FDP" Width="1.5" PointX="6.375" PointY="0.75" />
         <AssociationConnector Association="dbModel.cps_fdp" />
         <AssociationConnector Association="dbModel.fk_exh_fdp" />
@@ -31,11 +36,6 @@
         <AssociationConnector Association="dbModel.fk_fdpextra_fdp" />
         <AssociationConnector Association="dbModel.fk_fdpitem_fdp" />
         <AssociationConnector Association="dbModel.off_fdp" />
-        <EntityTypeShape EntityType="dbModel.AppFTLAb" Width="1.5" PointX="0.75" PointY="20.75" />
-        <EntityTypeShape EntityType="dbModel.FTLFlightTimeRatioMonthly" Width="1.5" PointX="20.375" PointY="6.75" />
-        <EntityTypeShape EntityType="dbModel.ViewCrewDutyTimeLineNew" Width="1.5" PointX="18.375" PointY="14.75" />
-        <EntityTypeShape EntityType="dbModel.ViewCrewValidFTL" Width="1.5" PointX="20.375" PointY="9.75" />
-        <EntityTypeShape EntityType="dbModel.ViewFDPRest" Width="1.5" PointX="14.375" PointY="21.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

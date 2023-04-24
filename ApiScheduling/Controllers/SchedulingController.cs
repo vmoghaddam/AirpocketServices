@@ -222,6 +222,8 @@ namespace ApiScheduling.Controllers
         {
             //nooz
             //this.context.Database.CommandTimeout = 160;
+            var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
+            df = df.AddMinutes(-utcdiff);
             dt = dt.AddDays(1);
             var context = new Models.dbEntities();
             var _query = from x in context.ViewCrewDutyTimeLineNews select x;
@@ -1487,10 +1489,11 @@ namespace ApiScheduling.Controllers
         [Route("api/stby/ceased/stat/{isExtended}/{stbyId}/{firstLeg}/{duty}/{maxfdp}")]
         public async Task<IHttpActionResult> GetSTBYActivationStat(int isExtended, int stbyId, int firstLeg, int duty, int maxfdp)
         {
+            double default_reporting = 75;
             var context = new Models.dbEntities();
             var stby = await context.ViewFDPRests.FirstOrDefaultAsync(q => q.Id == stbyId);
             var leg = await context.ViewLegTimes.FirstOrDefaultAsync(q => q.ID == firstLeg);
-            var reporting = ((DateTime)leg.STDLocal).AddHours(-1);
+            var reporting = ((DateTime)leg.STDLocal).AddMinutes(-default_reporting);
             string sqlQuery = "SELECT [dbo].[getFDPReductionBySTBY] ({0},{1},{2},{3})";
             Object[] parameters = { -1, stby.DateStartLocal, reporting, isExtended };
             double reduction = context.Database.SqlQuery<double>(sqlQuery, parameters).FirstOrDefault();
@@ -1561,6 +1564,8 @@ namespace ApiScheduling.Controllers
                 STD=flights.First().STD,
                 STA=flights.Last().STA,
                 OutOfHomeBase=flights.Last().ToAirport!=crew.BaseAirportId,
+               // InitPosition = String.Join("_", dto.items.Select(q => q.flightId + "*" + RosterFDPDto.getRank(q.pos)).ToList()),
+               InitPosition= String.Join("_", flights.Select(q=>q.ID+"*"+rank).ToList()),
 
 
 
@@ -1713,12 +1718,12 @@ namespace ApiScheduling.Controllers
             stby.FDP2 = fdp;
             stby.FDPReportingTime = ((DateTime)flights.First().STD).AddMinutes(-60);
             stby.UPD = stby.UPD == null ? 1 : ((int)stby.UPD) + 1;
-            this.context.FDPs.Add(fdp);
+             context.FDPs.Add(fdp);
 
             saveResult = await context.SaveAsync();
             if (saveResult.Code != HttpStatusCode.OK)
                 return saveResult;
-            var vfdp = await this.context.ViewFDPRests.FirstOrDefaultAsync(q => q.Id == fdp.Id);
+            var vfdp = await  context.ViewFDPRests.FirstOrDefaultAsync(q => q.Id == fdp.Id);
             return new CustomActionResult(HttpStatusCode.OK, vfdp);
 
 
@@ -1726,7 +1731,32 @@ namespace ApiScheduling.Controllers
 
 
         }
+        [Route("api/stby/activate")]
 
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> PostStbyActivate(dynamic dto)
+        {
+            //internal async Task<CustomActionResult> ActivateStandby(int crewId, int stbyId, string fids, int rank)
+            if (dto == null)
+                return Exceptions.getNullException(ModelState);
+
+            int crewId = Convert.ToInt32(dto.crewId);
+            int stbyId = Convert.ToInt32(dto.stbyId);
+            string fids = Convert.ToString(dto.fids);
+            int rank = Convert.ToInt32(dto.rank);
+            string rank2 = Convert.ToString(dto.rank2);
+            int index = -1;
+            if (dto.index != null)
+            {
+                index = Convert.ToInt32(dto.index);
+            }
+
+            var result = await ActivateStandby(crewId, stbyId, fids, rank, index,rank2);
+
+
+            return result;
+
+        }
         [Route("api/roster/fdp/save")]
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> SaveFDP(RosterFDPDto dto)
