@@ -88,7 +88,8 @@ namespace ApiScheduling.Models
         public Nullable<System.DateTime> STA { get; set; }
         public Nullable<bool> OutOfHomeBase { get; set; }
         public string InitPosition { get; set; }
-        public Nullable<System.DateTime> STBYEnd { get; set; }
+        public Nullable<System.DateTime> PLNEnd { get; set; }
+        public Nullable<System.DateTime> PLNRest { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CrewPickupSM> CrewPickupSMS { get; set; }

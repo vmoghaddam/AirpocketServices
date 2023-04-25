@@ -280,7 +280,7 @@ namespace ApiScheduling.ViewModel
                 item.no = x.FlightNumber;
                 item.from = x.FromAirportIATA;
                 item.to = x.ToAirportIATA;
-
+                
                 result.Add(item);
 
             }

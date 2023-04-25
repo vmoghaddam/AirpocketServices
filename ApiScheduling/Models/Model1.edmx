@@ -121,7 +121,8 @@
           <Property Name="STA" Type="datetime" />
           <Property Name="OutOfHomeBase" Type="bit" />
           <Property Name="InitPosition" Type="varchar" MaxLength="500" />
-          <Property Name="STBYEnd" Type="datetime" />
+          <Property Name="PLNEnd" Type="datetime" />
+          <Property Name="PLNRest" Type="datetime" />
         </EntityType>
         <EntityType Name="FDPExtra">
           <Key>
@@ -3180,7 +3181,8 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
           <Property Name="STA" Type="DateTime" Precision="3" />
           <Property Name="OutOfHomeBase" Type="Boolean" />
           <Property Name="InitPosition" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="STBYEnd" Type="DateTime" Precision="3" />
+          <Property Name="PLNEnd" Type="DateTime" Precision="3" />
+          <Property Name="PLNRest" Type="DateTime" Precision="3" />
           <NavigationProperty Name="CrewPickupSMS" Relationship="dbModel.cps_fdp" FromRole="FDP" ToRole="CrewPickupSM" />
           <NavigationProperty Name="ExtensionHistories" Relationship="dbModel.fk_exh_fdp" FromRole="FDP" ToRole="ExtensionHistory" />
           <NavigationProperty Name="FDP1" Relationship="dbModel.fk_fdp_fdp" FromRole="FDP" ToRole="FDP1" />
@@ -4219,7 +4221,8 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
           <EntitySetMapping Name="FDPs">
             <EntityTypeMapping TypeName="dbModel.FDP">
               <MappingFragment StoreEntitySet="FDP">
-                <ScalarProperty Name="STBYEnd" ColumnName="STBYEnd" />
+                <ScalarProperty Name="PLNRest" ColumnName="PLNRest" />
+                <ScalarProperty Name="PLNEnd" ColumnName="PLNEnd" />
                 <ScalarProperty Name="InitPosition" ColumnName="InitPosition" />
                 <ScalarProperty Name="OutOfHomeBase" ColumnName="OutOfHomeBase" />
                 <ScalarProperty Name="STA" ColumnName="STA" />
