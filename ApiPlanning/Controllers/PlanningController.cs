@@ -238,6 +238,7 @@ namespace ApiPlanning.Controllers
 
             return Ok(/*entity*/oresult);
 
+
         }
 
         [Route("api/plan/group/update/utc")]
