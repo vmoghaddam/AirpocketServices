@@ -113,131 +113,140 @@ namespace ApiPlanning.Controllers
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> PostFlightGroupUTC(ViewModels.FlightDto dto)
         {
-            var _context = new Models.dbEntities();
-            bool isUtc = true;
-
-             
-
-            //var validate = unitOfWork.FlightRepository.ValidateFlight(dto);
-            //if (validate.Code != HttpStatusCode.OK)
-            //    return validate;
-            var nowOffset = isUtc ? 0 : TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalMinutes;
-            dto.STD = parseDate(dto.STDRAW);
-            dto.STA = parseDate(dto.STARAW);
-            dto.RefDate = parseDate(dto.RefDateRAW);
-            dto.IntervalFrom = parseDate(dto.IntervalFromRAW);
-            dto.IntervalTo = parseDate(dto.IntervalToRAW);
-            dto.Days = isUtc ? dto.DaysUTC.ToList() : dto.Days;
-
-
-
-
-            var stdOffset = isUtc ? 0 : TimeZoneInfo.Local.GetUtcOffset((DateTime)dto.STD).TotalMinutes;
-            var localSTD = ((DateTime)dto.STD).AddMinutes(stdOffset);
-            var _addDay = localSTD.Day == ((DateTime)dto.STD).Day ? 0 : 1;
-
-            var stdHours = ((DateTime)dto.STD).Hour;
-            var stdMinutes = ((DateTime)dto.STD).Minute;
-            var staHours = ((DateTime)dto.STA).Hour;
-            var staMinutes = ((DateTime)dto.STA).Minute;
-            var duration = (((DateTime)dto.STA) - ((DateTime)dto.STD)).TotalMinutes;
-           
-
-            var intervalDays = GetInvervalDates((int)dto.Interval, (DateTime)dto.IntervalFrom, (DateTime)dto.IntervalTo, dto.Days);
-
-
-            FlightInformation entity = null;
-           // FlightChangeHistory changeLog = null;
-
-            List<FlightInformation> flights = new List<FlightInformation>();
-            var str = DateTime.Now.ToString("MMddmmss");
-            var flightGroup = Convert.ToInt32(str);
-            foreach (var dt in intervalDays)
+            try
             {
-                entity = new FlightInformation();
-                _context.FlightInformations.Add(entity);
-                flights.Add(entity);
-                if (entity.STD != null)
+                var _context = new Models.dbEntities();
+                bool isUtc = true;
+
+
+
+                //var validate = unitOfWork.FlightRepository.ValidateFlight(dto);
+                //if (validate.Code != HttpStatusCode.OK)
+                //    return validate;
+                var nowOffset = isUtc ? 0 : TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalMinutes;
+                dto.STD = parseDate(dto.STDRAW);
+                dto.STA = parseDate(dto.STARAW);
+                dto.RefDate = parseDate(dto.RefDateRAW);
+                dto.IntervalFrom = parseDate(dto.IntervalFromRAW);
+                dto.IntervalTo = parseDate(dto.IntervalToRAW);
+                dto.Days = isUtc ? dto.DaysUTC.ToList() : dto.Days;
+
+
+
+
+                var stdOffset = isUtc ? 0 : TimeZoneInfo.Local.GetUtcOffset((DateTime)dto.STD).TotalMinutes;
+                var localSTD = ((DateTime)dto.STD).AddMinutes(stdOffset);
+                var _addDay = localSTD.Day == ((DateTime)dto.STD).Day ? 0 : 1;
+
+                var stdHours = ((DateTime)dto.STD).Hour;
+                var stdMinutes = ((DateTime)dto.STD).Minute;
+                var staHours = ((DateTime)dto.STA).Hour;
+                var staMinutes = ((DateTime)dto.STA).Minute;
+                var duration = (((DateTime)dto.STA) - ((DateTime)dto.STD)).TotalMinutes;
+
+
+                var intervalDays = GetInvervalDates((int)dto.Interval, (DateTime)dto.IntervalFrom, (DateTime)dto.IntervalTo, dto.Days);
+
+
+                FlightInformation entity = null;
+                // FlightChangeHistory changeLog = null;
+
+                List<FlightInformation> flights = new List<FlightInformation>();
+                var str = DateTime.Now.ToString("MMddmmss");
+                var flightGroup = Convert.ToInt32(str);
+                foreach (var dt in intervalDays)
                 {
-                    var oldSTD = ((DateTime)entity.STD).AddMinutes(270).Date;
-                    var newSTD = ((DateTime)dto.STD).AddMinutes(270).Date;
-                    if (oldSTD != newSTD)
+                    entity = new FlightInformation();
+                    _context.FlightInformations.Add(entity);
+                    flights.Add(entity);
+                    if (entity.STD != null)
                     {
-                        entity.FlightDate = oldSTD;
+                        var oldSTD = ((DateTime)entity.STD).AddMinutes(270).Date;
+                        var newSTD = ((DateTime)dto.STD).AddMinutes(270).Date;
+                        if (oldSTD != newSTD)
+                        {
+                            entity.FlightDate = oldSTD;
+                        }
                     }
+
+
+                    ViewModels.FlightDto.Fill(entity, dto);
+                    var _fltDate = new DateTime(dt.Year, dt.Month, dt.Day, 1, 0, 0);
+                    var fltOffset = isUtc ? 0 : -1 * TimeZoneInfo.Local.GetUtcOffset(_fltDate).TotalMinutes;
+                    entity.FlightGroupID = flightGroup;
+                    var _std = new DateTime(dt.Year, dt.Month, dt.Day, (int)dto.STDHH, (int)dto.STDMM, 0);
+                    _std = _std.AddDays(_addDay).AddMinutes(fltOffset);
+                    entity.STD = _std;
+
+                    entity.STA = ((DateTime)entity.STD).AddMinutes(duration);
+                    entity.ChocksOut = entity.STD;
+                    entity.ChocksIn = entity.STA;
+                    entity.Takeoff = entity.STD;
+                    entity.Landing = entity.STA;
+                    entity.BoxId = dto.BoxId;
                 }
 
 
-                ViewModels.FlightDto.Fill(entity, dto);
-                var _fltDate = new DateTime(dt.Year, dt.Month, dt.Day, 1, 0, 0);
-                var fltOffset = isUtc ? 0 : -1 * TimeZoneInfo.Local.GetUtcOffset(_fltDate).TotalMinutes;
-                entity.FlightGroupID = flightGroup;
-                var _std = new DateTime(dt.Year, dt.Month, dt.Day, (int)dto.STDHH, (int)dto.STDMM, 0);
-                _std = _std.AddDays(_addDay).AddMinutes(fltOffset);
-                entity.STD = _std;
+                var saveResult = await _context.SaveChangesAsync();
+                // if (saveResult.Code != HttpStatusCode.OK)
+                //     return saveResult;
 
-                entity.STA = ((DateTime)entity.STD).AddMinutes(duration);
-                entity.ChocksOut = entity.STD;
-                entity.ChocksIn = entity.STA;
-                entity.Takeoff = entity.STD;
-                entity.Landing = entity.STA;
-                entity.BoxId = dto.BoxId;
+                //if (dto.SMSNira == 1)
+                // {
+                //     foreach (var x in flights)
+                //         await unitOfWork.FlightRepository.NotifyNira(x.ID, dto.UserName);
+                // }
+
+                //bip
+                var flightIds = flights.Select(q => q.ID).ToList();
+                var beginDate = ((DateTime)dto.RefDate).Date;
+                var endDate = ((DateTime)dto.RefDate).Date.AddDays((int)dto.RefDays).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                var fg = await _context.ViewFlightsGantts.Where(q => flightIds.Contains(q.ID)
+                && q.STDDay >= beginDate && q.STDDay <= endDate
+                ).ToListAsync();
+
+
+
+                var odtos = new List<ViewFlightsGanttDto>();
+                foreach (var f in fg)
+                {
+                    ViewModels.ViewFlightsGanttDto odto = new ViewFlightsGanttDto();
+
+                    ViewModels.ViewFlightsGanttDto.FillDto(f, odto, 0, 1);
+                    odto.resourceId.Add((int)odto.RegisterID);
+                    odtos.Add(odto);
+                }
+
+                var resgroups = from x in fg
+                                group x by new { x.AircraftType, AircraftTypeId = x.TypeId }
+                               into grp
+                                select new { groupId = grp.Key.AircraftTypeId, Title = grp.Key.AircraftType };
+                var ressq = (from x in fg
+                             group x by new { x.RegisterID, x.Register, x.TypeId }
+                         into grp
+
+                             orderby getOrderIndex(grp.Key.Register, new List<string>())
+                             select new { resourceId = grp.Key.RegisterID, resourceName = grp.Key.Register, groupId = grp.Key.TypeId }).ToList();
+
+
+
+
+                var oresult = new
+                {
+                    flights = odtos,
+                    resgroups,
+                    ressq
+                };
+
+                return Ok(/*entity*/oresult);
             }
-
-
-            var saveResult = await _context.SaveChangesAsync();
-           // if (saveResult.Code != HttpStatusCode.OK)
-           //     return saveResult;
-
-            //if (dto.SMSNira == 1)
-           // {
-           //     foreach (var x in flights)
-           //         await unitOfWork.FlightRepository.NotifyNira(x.ID, dto.UserName);
-           // }
-
-            //bip
-            var flightIds = flights.Select(q => q.ID).ToList();
-            var beginDate = ((DateTime)dto.RefDate).Date;
-            var endDate = ((DateTime)dto.RefDate).Date.AddDays((int)dto.RefDays).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-            var fg=await _context.ViewFlightsGantts.Where(q => flightIds.Contains(q.ID)
-            && q.STDDay >= beginDate && q.STDDay <= endDate
-            ).ToListAsync();
-            
-
-
-            var odtos = new List<ViewFlightsGanttDto>();
-            foreach (var f in fg)
+            catch(Exception ex)
             {
-                ViewModels.ViewFlightsGanttDto odto = new ViewFlightsGanttDto();
-
-                ViewModels.ViewFlightsGanttDto.FillDto(f, odto, 0, 1);
-                odto.resourceId.Add((int)odto.RegisterID);
-                odtos.Add(odto);
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += ex.InnerException.Message;
+                return Ok(msg);
             }
-
-            var resgroups = from x in fg
-                            group x by new { x.AircraftType, AircraftTypeId = x.TypeId }
-                           into grp
-                            select new { groupId = grp.Key.AircraftTypeId, Title = grp.Key.AircraftType };
-            var ressq = (from x in fg
-                         group x by new { x.RegisterID, x.Register, x.TypeId }
-                     into grp
-
-                         orderby getOrderIndex(grp.Key.Register, new List<string>())
-                         select new { resourceId = grp.Key.RegisterID, resourceName = grp.Key.Register, groupId = grp.Key.TypeId }).ToList();
-
-
-
-
-            var oresult = new
-            {
-                flights = odtos,
-                resgroups,
-                ressq
-            };
-
-            return Ok(/*entity*/oresult);
-
 
         }
 
