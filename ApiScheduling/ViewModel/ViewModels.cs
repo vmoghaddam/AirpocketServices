@@ -229,8 +229,8 @@ namespace ApiScheduling.ViewModel
                 var prts = new List<string>();
                 prts.Add(x.ID.ToString());
                 prts.Add(id_item.dh.ToString());
-                prts.Add(((DateTime)x.ChocksOutLocal).ToString("yyyyMMddHHmm"));
-                prts.Add(((DateTime)x.ChocksInLocal).ToString("yyyyMMddHHmm"));
+                prts.Add(((DateTime)(x.ChocksOutLocal ?? x.STDLocal)).ToString("yyyyMMddHHmm"));
+                prts.Add(((DateTime)(x.ChocksInLocal ?? x.STALocal)).ToString("yyyyMMddHHmm"));
                 prts.Add(x.FlightNumber);
                 prts.Add(x.FromAirportIATA);
                 prts.Add(x.ToAirportIATA);
@@ -274,8 +274,8 @@ namespace ApiScheduling.ViewModel
                 item.pos = id_item.pos;
                 item.std =(DateTime) x.STD;
                 item.sta = (DateTime)x.STA;
-                item.offblock = (DateTime)x.ChocksOut;
-                item.onblock = (DateTime)x.ChocksIn;
+                item.offblock = (DateTime)(x.ChocksOut ?? x.STD);
+                item.onblock = (DateTime)(x.ChocksIn ?? x.STA);
 
                 item.no = x.FlightNumber;
                 item.from = x.FromAirportIATA;

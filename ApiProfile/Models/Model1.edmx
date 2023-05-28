@@ -406,6 +406,8 @@
           <Property Name="IssueDate35" Type="datetime2" Precision="7" />
           <Property Name="ExpireDate35" Type="datetime2" Precision="7" />
           <Property Name="BaseAirline" Type="varchar" MaxLength="500" />
+          <Property Name="IssueDateTRG02" Type="datetime" />
+          <Property Name="ExpireDateTRG02" Type="datetime" />
         </EntityType>
         <EntityType Name="PersonAircraftType">
           <Key>
@@ -738,7 +740,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="CustomerId" Type="int" />
           <Property Name="GroupId" Type="int" />
           <Property Name="C1GroupId" Type="int" />
-          <Property Name="JobGroupC1" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroupC1" Type="varchar" MaxLength="500" />
           <Property Name="JobGroupCodeC1" Type="varchar" MaxLength="500" />
           <Property Name="C2GroupId" Type="int" />
           <Property Name="JobGroupC2" Type="nvarchar" MaxLength="500" />
@@ -883,6 +885,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="IsTypeMD" Type="bit" />
           <Property Name="IsTypeAirbus" Type="bit" />
           <Property Name="IsTypeFokker" Type="bit" />
+          <Property Name="RemainTRG02" Type="int" />
         </EntityType>
         <Association Name="FK_DF_DOC">
           <End Role="Document" Type="Self.Document" Multiplicity="1" />
@@ -1346,7 +1349,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
     [ViewProfile].[IsType737] AS [IsType737], 
     [ViewProfile].[IsTypeMD] AS [IsTypeMD], 
     [ViewProfile].[IsTypeAirbus] AS [IsTypeAirbus], 
-    [ViewProfile].[IsTypeFokker] AS [IsTypeFokker]
+    [ViewProfile].[IsTypeFokker] AS [IsTypeFokker], 
+    [ViewProfile].[RemainTRG02] AS [RemainTRG02]
     FROM [dbo].[ViewProfile] AS [ViewProfile]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_DF_DOC" Association="Self.FK_DF_DOC">
@@ -1419,7 +1423,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <EntitySet Name="ViewEmployeeLights" EntityType="dbModel.ViewEmployeeLight" />
           <EntitySet Name="LoginInfoes" EntityType="dbModel.LoginInfo" />
           <EntitySet Name="People" EntityType="dbModel.Person" />
-          <EntitySet Name="ViewProfiles" EntityType="dbModel.ViewProfile" />
           <AssociationSet Name="FK_PD_PERS" Association="dbModel.FK_PD_PERS">
             <End Role="Person" EntitySet="People" />
             <End Role="PersonDocument" EntitySet="PersonDocuments" />
@@ -1432,6 +1435,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
             <End Role="Person" EntitySet="People" />
             <End Role="PersonAircraftType" EntitySet="PersonAircraftTypes" />
           </AssociationSet>
+          <EntitySet Name="ViewProfiles" EntityType="dbModel.ViewProfile" />
           </EntityContainer>
         <EntityType Name="IdeaUnique">
           <Key>
@@ -2178,10 +2182,54 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="IssueDate35" Type="DateTime" Precision="7" />
           <Property Name="ExpireDate35" Type="DateTime" Precision="7" />
           <Property Name="BaseAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IssueDateTRG02" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDateTRG02" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PersonDocuments" Relationship="dbModel.FK_PD_PERS" FromRole="Person" ToRole="PersonDocument" />
           <NavigationProperty Name="PersonCustomers" Relationship="dbModel.FK_PERSONCUSTOMER_PERSON" FromRole="Person" ToRole="PersonCustomer" />
           <NavigationProperty Name="PersonAircraftTypes" Relationship="dbModel.FK_UM_Type_Access_UM_Users" FromRole="Person" ToRole="PersonAircraftType" />
         </EntityType>
+        <Association Name="FK_PD_PERS">
+          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.PersonDocument" Role="PersonDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonDocument">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONCUSTOMER_PERSON">
+          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.PersonCustomer" Role="PersonCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonCustomer">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UM_Type_Access_UM_Users">
+          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.PersonAircraftType" Role="PersonAircraftType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonAircraftType">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="ViewProfile">
           <Key>
             <PropertyRef Name="Id" />
@@ -2203,7 +2251,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="CustomerId" Type="Int32" />
           <Property Name="GroupId" Type="Int32" />
           <Property Name="C1GroupId" Type="Int32" />
-          <Property Name="JobGroupC1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupC1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="JobGroupCodeC1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="C2GroupId" Type="Int32" />
           <Property Name="JobGroupC2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
@@ -2348,49 +2396,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="IsTypeMD" Type="Boolean" />
           <Property Name="IsTypeAirbus" Type="Boolean" />
           <Property Name="IsTypeFokker" Type="Boolean" />
+          <Property Name="RemainTRG02" Type="Int32" />
         </EntityType>
-        <Association Name="FK_PD_PERS">
-          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="dbModel.PersonDocument" Role="PersonDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PersonDocument">
-              <PropertyRef Name="PersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONCUSTOMER_PERSON">
-          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="dbModel.PersonCustomer" Role="PersonCustomer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PersonCustomer">
-              <PropertyRef Name="PersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UM_Type_Access_UM_Users">
-          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="dbModel.PersonAircraftType" Role="PersonAircraftType" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PersonAircraftType">
-              <PropertyRef Name="PersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2750,6 +2757,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="dbModel.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="ExpireDateTRG02" ColumnName="ExpireDateTRG02" />
+                <ScalarProperty Name="IssueDateTRG02" ColumnName="IssueDateTRG02" />
                 <ScalarProperty Name="BaseAirline" ColumnName="BaseAirline" />
                 <ScalarProperty Name="ExpireDate35" ColumnName="ExpireDate35" />
                 <ScalarProperty Name="IssueDate35" ColumnName="IssueDate35" />
@@ -3079,6 +3088,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <EntitySetMapping Name="ViewProfiles">
             <EntityTypeMapping TypeName="dbModel.ViewProfile">
               <MappingFragment StoreEntitySet="ViewProfile">
+                <ScalarProperty Name="RemainTRG02" ColumnName="RemainTRG02" />
                 <ScalarProperty Name="IsTypeFokker" ColumnName="IsTypeFokker" />
                 <ScalarProperty Name="IsTypeAirbus" ColumnName="IsTypeAirbus" />
                 <ScalarProperty Name="IsTypeMD" ColumnName="IsTypeMD" />

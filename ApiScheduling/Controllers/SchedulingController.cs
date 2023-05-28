@@ -75,6 +75,30 @@ namespace ApiScheduling.Controllers
 
         }
 
+        public int getGroupOrderIndex (string grp,string pos)
+        {
+            switch (grp)
+            {
+                case "IP":
+                case "TRE":
+                case "TRI":
+                    return 1;
+                case "P1":
+                    return 2;
+                case "P2":
+                    return 3;
+                case "ISCCM":
+                case "CCE":
+                case "CCI":
+                    return 4;
+                case "SCCM":
+                case "SCC":
+                    return 5;
+                default:
+                    return 1000;
+            }
+        }
+        //05-21
         [Route("api/fdps/flight/{ids}")]
 
         //nookp
@@ -84,7 +108,7 @@ namespace ApiScheduling.Controllers
             //this.context.Database.CommandTimeout = 160;
 
             var context = new Models.dbEntities();
-            var fltIds = ids.Split('_').Select(q =>(Nullable<int>) Convert.ToInt32(q)).ToList();
+            var fltIds = ids.Split('_').Select(q => (Nullable<int>)Convert.ToInt32(q)).ToList();
             var query = from x in context.FDPItems
                         join y in context.FDPs on x.FDPId equals y.Id
                         where y.CrewId != null && fltIds.Contains(x.FlightId)
@@ -92,34 +116,37 @@ namespace ApiScheduling.Controllers
                         select y;
             var result = query.ToList();
             var grps = (from x in result
-                       group x by new { x.InitFlts } into grp
-                       select new
-                       {
-                           flts = grp.Key.InitFlts.Replace("*1", "(DH)"),
-                           item = grp.Select(q => new { 
-                            q.ActualEnd,
-                            q.ActualRestTo,
-                            q.ActualStart,
-                            q.InitScheduleName,
-                            q.CrewId,
-                            q.InitKey,
-                            q.InitNo,
-                            q.InitPosition,
-                            q.InitHomeBase,
-                            q.InitFlights,
-                            q.InitFlts,
-                            q.InitFromIATA,
-                            q.InitToIATA,
-                            q.InitRoute,
-                            q.InitStart,
-                            q.InitEnd,
-                            q.InitRestTo,
-                            q.OutOfHomeBase,
-                            q.InitGroup,
-                            q.InitRank
-                           }).Distinct().ToList()
-                       }).OrderBy(q=>q.flts).ToList();
-            
+                        group x by new { x.InitFlts,x.InitRoute } into grp
+                        select new
+                        {
+                            flts = grp.Key.InitFlts.Replace("*1", "(DH)"),
+                            route=grp.Key.InitRoute,
+                            item = grp.Select(q => new
+                            {
+                                q.ActualEnd,
+                                q.ActualRestTo,
+                                q.ActualStart,
+                                q.InitScheduleName,
+                                q.CrewId,
+                                q.InitKey,
+                                q.InitNo,
+                                q.InitPosition,
+                                q.InitHomeBase,
+                                q.InitFlights,
+                                q.InitFlts,
+                                q.InitFromIATA,
+                                q.InitToIATA,
+                                q.InitRoute,
+                                q.InitStart,
+                                q.InitEnd,
+                                q.InitRestTo,
+                                q.OutOfHomeBase,
+                                q.InitGroup,
+                                q.InitRank,
+                                FDPId = q.Id
+                            }).Distinct().OrderBy(q=>getGroupOrderIndex(q.InitGroup,q.InitPosition)).ToList()
+                        }).OrderBy(q => q.flts).ToList();
+
             return Ok(grps);
 
         }
@@ -128,95 +155,106 @@ namespace ApiScheduling.Controllers
         [Route("api/sch/crew/valid/gant/")]
 
         //nookp
-        public IHttpActionResult GetValidCrewForGantt( string rank="-1")
+        public IHttpActionResult GetValidCrewForGantt(string rank = "-1")
         {
-            //nooz
-            //this.context.Database.CommandTimeout = 160;
-            /*
-             * switch ($scope.rank) {
-           
-           
-            
-            case 'ISCCM,SCCM':
-                _code = 6;
-                break;
-            case 'ISCCM':
-                _code = 7;
-                break;
-            case 'SCCM':
-                _code = 8;
-                break;
-            case 'CCM':
-                _code = 9;
-                break;
-            default:
-                break;
-        }
-             */
-            var context = new Models.dbEntities();
-            var _query =from x in  context.ViewCrewValidFTLs select x;
-            if (rank != "-1")
+            try
             {
-                switch (rank)
+                //nooz
+                //this.context.Database.CommandTimeout = 160;
+                /*
+                 * switch ($scope.rank) {
+
+
+
+                case 'ISCCM,SCCM':
+                    _code = 6;
+                    break;
+                case 'ISCCM':
+                    _code = 7;
+                    break;
+                case 'SCCM':
+                    _code = 8;
+                    break;
+                case 'CCM':
+                    _code = 9;
+                    break;
+                default:
+                    break;
+            }
+                 */
+                var context = new Models.dbEntities();
+                var _query = from x in context.ViewCrewValidFTLs select x;
+                if (rank != "-1")
                 {
-                    case "1":
-                        _query = _query.Where(q => q.JobGroup == "TRI" || q.JobGroup == "TRE" || q.JobGroup == "LTC" || q.JobGroup == "P1");
-                        break;
-                    case "10":
-                        _query = _query.Where(q => q.JobGroup == "TRI" || q.JobGroup == "TRE" || q.JobGroup == "LTC" || q.JobGroup == "P1" || q.JobGroup == "P2");
-                        break;
-                    case "2":
-                        _query = _query.Where(q => q.JobGroup == "P1");
-                        break;
-                    case "3":
-                        _query = _query.Where(q => q.JobGroup == "P2");
-                        break;
-                    case "4":
-                        _query = _query.Where(q => q.JobGroup == "TRE");
-                        break;
-                    case "5":
-                        _query = _query.Where(q => q.JobGroup == "TRI");
-                        break;
-                    case "6":
-                        _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM");
-                        break;
-                    case "11":
-                        _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM");
-                        break;
-                    case "7":
-                        _query = _query.Where(q => q.JobGroup == "ISCCM");
-                        break;
-                    case "8":
-                        _query = _query.Where(q => q.JobGroup == "SCCM");
-                        break;
-                    case "9":
-                        _query = _query.Where(q => q.JobGroup == "CCM");
-                        break;
-                    default:
-                        break;
+                    switch (rank)
+                    {
+                        case "1":
+                            _query = _query.Where(q => q.JobGroup == "TRI" || q.JobGroup == "TRE" || q.JobGroup == "LTC" || q.JobGroup == "P1");
+                            break;
+                        case "10":
+                            _query = _query.Where(q => q.JobGroup == "TRI" || q.JobGroup == "TRE" || q.JobGroup == "LTC" || q.JobGroup == "P1" || q.JobGroup == "P2");
+                            break;
+                        case "2":
+                            _query = _query.Where(q => q.JobGroup == "P1");
+                            break;
+                        case "3":
+                            _query = _query.Where(q => q.JobGroup == "P2");
+                            break;
+                        case "4":
+                            _query = _query.Where(q => q.JobGroup == "TRE");
+                            break;
+                        case "5":
+                            _query = _query.Where(q => q.JobGroup == "TRI");
+                            break;
+                        case "6":
+                            _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM");
+                            break;
+                        case "11":
+                            _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM");
+                            break;
+                        case "7":
+                            _query = _query.Where(q => q.JobGroup == "ISCCM");
+                            break;
+                        case "8":
+                            _query = _query.Where(q => q.JobGroup == "SCCM");
+                            break;
+                        case "9":
+                            _query = _query.Where(q => q.JobGroup == "CCM");
+                            break;
+                        default:
+                            break;
+                    }
                 }
+
+                var query = _query.ToList();
+                var resources = (from x in query
+                                 group x by new { x.Id, x.ScheduleName, x.JobGroup, x.GroupOrder, x.BaseAirportId } into grp
+                                 select new
+                                 {
+                                     CrewId = grp.Key.Id,
+                                     id = grp.Key.Id,
+                                     grp.Key.BaseAirportId,
+
+                                     grp.Key.ScheduleName,
+                                     text = "(" + grp.Key.JobGroup + ")" + grp.Key.ScheduleName,
+                                     grp.Key.JobGroup,
+                                     grp.Key.GroupOrder,
+                                     item = grp.FirstOrDefault()
+                                 }).OrderBy(q => q.GroupOrder).ThenBy(q => q.ScheduleName).ToList();
+
+
+
+                // return result.OrderBy(q => q.STD);
+                return Ok(resources);
+            }
+            catch(Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   " + ex.InnerException.Message;
+                return Ok(msg);
             }
 
-            var query = _query.ToList();
-            var resources = (from x in query
-                             group x by new { x.Id, x.ScheduleName, x.JobGroup, x.GroupOrder ,x.BaseAirportId} into grp
-                             select new
-                             {
-                                 CrewId=grp.Key.Id,
-                                 id = grp.Key.Id,
-                                 grp.Key.BaseAirportId,
-
-                                 grp.Key.ScheduleName,
-                                 text = "(" + grp.Key.JobGroup + ")" + grp.Key.ScheduleName,
-                                 grp.Key.JobGroup,
-                                 grp.Key.GroupOrder,
-                                 item=grp.FirstOrDefault()
-                             }).OrderBy(q => q.GroupOrder).ThenBy(q => q.ScheduleName).ToList();
-
-
-
-            // return result.OrderBy(q => q.STD);
-            return Ok(resources);
 
         }
 
@@ -224,7 +262,7 @@ namespace ApiScheduling.Controllers
         [Route("api/sch/crew/duties/gant/")]
 
         //nookp
-        public IHttpActionResult GetValidCrewForGantt(DateTime df,DateTime dt,string rank="-1")
+        public IHttpActionResult GetValidCrewForGantt(DateTime df, DateTime dt, string rank = "-1")
         {
             //nooz
             //this.context.Database.CommandTimeout = 160;
@@ -269,14 +307,46 @@ namespace ApiScheduling.Controllers
                 }
             }
 
-            var query = _query.Where(q=>q.DateStart>=df && q.DateStart<dt).ToList();
+            var query = _query.Where(q => q.DateStart >= df && q.DateStart < dt).ToList();
             var duties = (from x in query
-                         group x by new { x.CrewId } into grp
-                         select new
-                         {
-                             grp.Key.CrewId,
-                             Items=grp.ToList(),
-                         }).ToList();
+                          group x by new { x.CrewId } into grp
+                          select new
+                          {
+                              grp.Key.CrewId,
+                              Items = grp.ToList(),
+                          }).ToList();
+
+
+
+
+            // return result.OrderBy(q => q.STD);
+            return Ok(duties);
+
+        }
+
+
+        [Route("api/sch/crew/duties/gant/crew")]
+
+        //nookp
+        public IHttpActionResult GetValidCrewForGantt(DateTime df, DateTime dt, int crewid)
+        {
+            //nooz
+            //this.context.Database.CommandTimeout = 160;
+            var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
+            df = df.AddMinutes(-utcdiff);
+            dt = dt.AddDays(1);
+            var context = new Models.dbEntities();
+            var _query = from x in context.ViewCrewDutyTimeLineNews where x.CrewId == crewid select x;
+
+
+            var query = _query.Where(q => q.DateStart >= df && q.DateStart < dt).ToList();
+            var duties = (from x in query
+                          group x by new { x.CrewId } into grp
+                          select new
+                          {
+                              grp.Key.CrewId,
+                              Items = grp.ToList(),
+                          }).ToList();
 
 
 
@@ -289,7 +359,7 @@ namespace ApiScheduling.Controllers
         [Route("api/sch/flts/gant/")]
 
         //nookp
-        public IHttpActionResult GetSCHFltsForGantt(DateTime df,DateTime dt)
+        public IHttpActionResult GetSCHFltsForGantt(DateTime df, DateTime dt)
         {
             //nooz
             //this.context.Database.CommandTimeout = 160;
@@ -297,16 +367,16 @@ namespace ApiScheduling.Controllers
             var context = new Models.dbEntities();
             var query = context.SchFlights.Where(q => q.STDLocal >= df && q.STDLocal < dt).ToList();
             var result = (from x in query
-                         group x by new { x.ACType, x.ACTypeId, x.Register, x.RegisterID } into grp
-                         select new
-                         {
-                             grp.Key.ACType,
-                             grp.Key.ACTypeId,
-                             grp.Key.Register,
-                             grp.Key.RegisterID,
-                             Flights = grp.OrderBy(q => q.STD).ToList()
-                         }).ToList();
-            
+                          group x by new { x.ACType, x.ACTypeId, x.Register, x.RegisterID } into grp
+                          select new
+                          {
+                              grp.Key.ACType,
+                              grp.Key.ACTypeId,
+                              grp.Key.Register,
+                              grp.Key.RegisterID,
+                              Flights = grp.OrderBy(q => q.STD).ToList()
+                          }).ToList();
+
             return Ok(new { result, flights = query });
 
         }
@@ -318,7 +388,7 @@ namespace ApiScheduling.Controllers
             try
             {
                 var _context = new Models.dbEntities();
-                var result = _context.XFlightCrews.Where(q => q.FlightId == id  ).OrderBy(q => q.IsPositioning).ThenBy(q => q.GroupOrder).ToList();
+                var result = _context.XFlightCrews.Where(q => q.FlightId == id).OrderBy(q => q.IsPositioning).ThenBy(q => q.GroupOrder).ToList();
 
                 return Ok(result);
             }
@@ -396,7 +466,7 @@ namespace ApiScheduling.Controllers
         [Route("api/sch/fdp/index/")]
         [AcceptVerbs("GET")]
         //nookp
-        public async Task<IHttpActionResult> GetFDPIndex(string key,string pos)
+        public async Task<IHttpActionResult> GetFDPIndex(string key, string pos)
         {
             //nooz
             //this.context.Database.CommandTimeout = 160;
@@ -404,10 +474,10 @@ namespace ApiScheduling.Controllers
             var context = new Models.dbEntities();
             var fdp = await context.FDPs.Where(q => q.Key == key && q.InitRank == pos && q.IsTemplate == false).OrderByDescending(q => q.InitIndex).FirstOrDefaultAsync();
             if (fdp == null)
-                return Ok( 1);
+                return Ok(1);
             else
 
-            return Ok(fdp.InitIndex+1);
+                return Ok(fdp.InitIndex + 1);
 
 
         }
@@ -520,6 +590,7 @@ namespace ApiScheduling.Controllers
                 case 100023: return "Canceled(FTL)";
                 case 100024: return "Canceled(Not using Split Duty)";
                 case 100025: return "Mission";
+                case 300014: return "Briefing";
                 default:
                     return "Unknown";
             }
@@ -577,7 +648,7 @@ namespace ApiScheduling.Controllers
         public async Task<IHttpActionResult> PostFlightsOff(dynamic dto)
         {
             var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
-            double default_reporting = 75;
+            double default_reporting = Convert.ToInt32(ConfigurationManager.AppSettings["reporting"]);
             var context = new Models.dbEntities();
             //var _fdpItemIds = strItems.Split('*').Select(q => Convert.ToInt32(q)).Distinct().ToList();
             //var _fdpIds = strfdps.Split('*').Select(q => Convert.ToInt32(q)).Distinct().ToList();
@@ -585,6 +656,7 @@ namespace ApiScheduling.Controllers
             int crewId = Convert.ToInt32(dto.crewId);
             int reason = Convert.ToInt32(dto.reason);
             string remark = Convert.ToString(dto.remark);
+            string remark2 = Convert.ToString(dto.remark2);
             int notify = Convert.ToInt32(dto.notify);
             int noflight = Convert.ToInt32(dto.noflight);
             string username = Convert.ToString(dto.UserName);
@@ -592,15 +664,15 @@ namespace ApiScheduling.Controllers
 
             var flightIds = strItems.Split('*').Select(q => (Nullable<int>)Convert.ToInt32(q)).Distinct().ToList();
             var _fdpItemIds = await context.ViewFDPItem2.Where(q => q.CrewId == crewId && flightIds.Contains(q.FlightId)).OrderBy(q => q.STD).Select(q => q.Id).ToListAsync();
-            var allRemovedItems = await  context.FDPItems.Where(q => _fdpItemIds.Contains(q.Id)).ToListAsync();
+            var allRemovedItems = await context.FDPItems.Where(q => _fdpItemIds.Contains(q.Id)).ToListAsync();
             var _fdpIds = allRemovedItems.Select(q => q.FDPId).ToList();
-            var fdps = await  context.FDPs.Where(q => _fdpIds.Contains(q.Id)).ToListAsync();
-            var fdpItems = await  context.FDPItems.Where(q => _fdpIds.Contains(q.FDPId)).ToListAsync();
+            var fdps = await context.FDPs.Where(q => _fdpIds.Contains(q.Id)).ToListAsync();
+            var fdpItems = await context.FDPItems.Where(q => _fdpIds.Contains(q.FDPId)).ToListAsync();
 
 
             var allFlightIds = fdpItems.Select(q => q.FlightId).ToList();
-            var allFlights = await  context.SchFlights.Where(q => allFlightIds.Contains(q.ID)).OrderBy(q => q.STD).ToListAsync();
-            var crews = await  context.ViewEmployeeLights.Where(q => q.Id == crewId).ToListAsync();
+            var allFlights = await context.SchFlights.Where(q => allFlightIds.Contains(q.ID)).OrderBy(q => q.STD).ToListAsync();
+            var crews = await context.ViewEmployeeLights.Where(q => q.Id == crewId).ToListAsync();
             var allRemovedFlights = allFlights.Where(q => flightIds.Contains(q.ID)).OrderBy(q => q.STD).ToList();
             FDP offFDP = null;
             string offSMS = string.Empty;
@@ -625,6 +697,7 @@ namespace ApiScheduling.Controllers
                     GUID = Guid.NewGuid(),
                     IsTemplate = false,
                     Remark = remark,
+                    Remark2 = remark2,
                     UPD = 1,
                     UserName = username
 
@@ -632,61 +705,63 @@ namespace ApiScheduling.Controllers
                 };
                 offFDP.CanceledNo = string.Join(",", allRemovedFlights.Select(q => q.FlightNumber));
                 offFDP.CanceledRoute = string.Join(",", allRemovedFlights.Select(q => q.FromAirportIATA)) + "," + allRemovedFlights.Last().ToAirportIATA;
-                switch (reason)
-                {
-                    case 1:
-                        offFDP.DutyType = 100009;
-                        offFDP.Remark2 = "Refused by Crew";
-                        break;
-                    case 5:
-                        offFDP.DutyType = 100020;
-                        offFDP.Remark2 = "Cenceled due to Rescheduling";
-                        break;
-                    case 2:
-                        offFDP.DutyType = 100021;
-                        offFDP.Remark2 = "Cenceled due to Flight(s) Cancellation";
-                        break;
-                    case 3:
-                        offFDP.DutyType = 100022;
-                        offFDP.Remark2 = "Cenceled due to Change of A/C Type";
-                        break;
-                    case 4:
-                        offFDP.DutyType = 100023;
-                        offFDP.Remark2 = "Cenceled due to Flight/Duty Limitations";
-                        break;
-                    case 6:
-                        offFDP.DutyType = 100024;
-                        offFDP.Remark2 = "Cenceled due to Not using Split Duty";
-                        break;
+                offFDP.DutyType = 100020;
+                offFDP.Remark2 = remark2;
+                //switch (reason)
+                //{
+                //    case 1:
+                //        offFDP.DutyType = 100009;
+                //        offFDP.Remark2 = "Refused by Crew";
+                //        break;
+                //    case 5:
+                //        offFDP.DutyType = 100020;
+                //        offFDP.Remark2 = "Cenceled due to Rescheduling";
+                //        break;
+                //    case 2:
+                //        offFDP.DutyType = 100021;
+                //        offFDP.Remark2 = "Cenceled due to Flight(s) Cancellation";
+                //        break;
+                //    case 3:
+                //        offFDP.DutyType = 100022;
+                //        offFDP.Remark2 = "Cenceled due to Change of A/C Type";
+                //        break;
+                //    case 4:
+                //        offFDP.DutyType = 100023;
+                //        offFDP.Remark2 = "Cenceled due to Flight/Duty Limitations";
+                //        break;
+                //    case 6:
+                //        offFDP.DutyType = 100024;
+                //        offFDP.Remark2 = "Cenceled due to Not using Split Duty";
+                //        break;
 
 
-                    case 7:
-                        offFDP.DutyType = 200000;
-                        offFDP.Remark2 = "Refused-Not Home";
-                        break;
-                    case 8:
-                        offFDP.DutyType = 200001;
-                        offFDP.Remark2 = "Refused-Family Problem";
-                        break;
-                    case 9:
-                        offFDP.DutyType = 200002;
-                        offFDP.Remark2 = "Canceled - Training";
-                        break;
-                    case 10:
-                        offFDP.DutyType = 200003;
-                        offFDP.Remark2 = "Ground - Operation";
-                        break;
-                    case 11:
-                        offFDP.DutyType = 200004;
-                        offFDP.Remark2 = "Ground - Expired License";
-                        break;
-                    case 12:
-                        offFDP.DutyType = 200005;
-                        offFDP.Remark2 = "Ground - Medical";
-                        break;
-                    default:
-                        break;
-                }
+                //    case 7:
+                //        offFDP.DutyType = 200000;
+                //        offFDP.Remark2 = "Refused-Not Home";
+                //        break;
+                //    case 8:
+                //        offFDP.DutyType = 200001;
+                //        offFDP.Remark2 = "Refused-Family Problem";
+                //        break;
+                //    case 9:
+                //        offFDP.DutyType = 200002;
+                //        offFDP.Remark2 = "Canceled - Training";
+                //        break;
+                //    case 10:
+                //        offFDP.DutyType = 200003;
+                //        offFDP.Remark2 = "Ground - Operation";
+                //        break;
+                //    case 11:
+                //        offFDP.DutyType = 200004;
+                //        offFDP.Remark2 = "Ground - Expired License";
+                //        break;
+                //    case 12:
+                //        offFDP.DutyType = 200005;
+                //        offFDP.Remark2 = "Ground - Medical";
+                //        break;
+                //    default:
+                //        break;
+                //}
                 foreach (var x in allRemovedFlights)
                 {
                     var _ofdpitem = fdpItems.FirstOrDefault(q => q.FlightId == x.ID);
@@ -871,7 +946,7 @@ namespace ApiScheduling.Controllers
 
             ////////////////////////////
             //doog2
-            foreach(var did in removed)
+            foreach (var did in removed)
             {
                 context.Database.ExecuteSqlCommand("Delete from TableDutyFDP where FDPId=" + did);
                 context.Database.ExecuteSqlCommand("Delete from TableFlightFDP where FDPId=" + did);
@@ -887,7 +962,7 @@ namespace ApiScheduling.Controllers
 
                 AddToCumDuty(uf);
                 AddToCumFlight(uf, flts, fitems);
-                
+
             }
             /////////////////////////////
 
@@ -976,7 +1051,8 @@ namespace ApiScheduling.Controllers
                     stby.InitEnd = stby.PLNEnd;
                     stby.InitRestTo = stby.PLNRest;
                     stby.DateEnd = stby.PLNEnd;
-                    AddToCumDuty(stby, context);
+                    if (stby.DutyType != 1170)
+                        AddToCumDuty(stby, context);
                 }
             }
 
@@ -985,7 +1061,7 @@ namespace ApiScheduling.Controllers
             context.FDPs.Remove(fdp);
             context.Database.ExecuteSqlCommand("Delete from TableDutyFDP where FDPId=" + fdp.Id);
             context.Database.ExecuteSqlCommand("Delete from TableFlightFDP where FDPId=" + fdp.Id);
-            
+
             var saveResult = await context.SaveAsync();
             if (saveResult.Code != HttpStatusCode.OK)
                 return saveResult;
@@ -1003,7 +1079,7 @@ namespace ApiScheduling.Controllers
             //*********************
             //UPDATE FOR ALL DH
             //***********************
-            double default_reporting = 75;
+            double default_reporting = Convert.ToInt32(ConfigurationManager.AppSettings["reporting"]);
             var context = new Models.dbEntities();
             var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
             var fdps = await (from x in context.FDPItems
@@ -1136,7 +1212,7 @@ namespace ApiScheduling.Controllers
                 duty.InitStart = duty.DateStart;
                 duty.InitEnd = duty.DateEnd;
             }
-            if (duty.DutyType== 10000 || duty.DutyType== 10001)
+            if (duty.DutyType == 10000 || duty.DutyType == 10001)
             {
                 var _start = ((DateTime)duty.InitStart).AddMinutes(utcdiff);
                 DateTime _end;
@@ -1148,7 +1224,7 @@ namespace ApiScheduling.Controllers
                     }
                     else
                     {
-                        _end= _start.AddMinutes(36 * 60);
+                        _end = _start.AddMinutes(36 * 60);
                         var _lnr = 18 * 60 - (_start.Hour * 60 + _start.Minute);
                         _end = _end.AddMinutes(_lnr);
                     }
@@ -1156,8 +1232,8 @@ namespace ApiScheduling.Controllers
                 else
                 {
                     duty.Remark += "(EXTENDED)";
-                    _end = _start.AddMinutes(48*60);
-                    var _lnr=24*60 - (_start.Hour * 60 + _start.Minute);
+                    _end = _start.AddMinutes(48 * 60);
+                    var _lnr = 24 * 60 - (_start.Hour * 60 + _start.Minute);
                     _end = _end.AddMinutes(_lnr);
                 }
                 duty.DateStart = _start.AddMinutes(-utcdiff);
@@ -1216,11 +1292,11 @@ namespace ApiScheduling.Controllers
                 case 100005: //exp med
                 case 100006: //exp pass
                 case 100007: //no flt
-                    if (_interupted_norest!=null && 
-                        (_interupted_norest.DutyType == 1165 
-                        || _interupted_norest.DutyType == 1167 
-                        || _interupted_norest.DutyType == 1170 
-                        || _interupted_norest.DutyType == 1168 
+                    if (_interupted_norest != null &&
+                        (_interupted_norest.DutyType == 1165
+                        || _interupted_norest.DutyType == 1167
+                        || _interupted_norest.DutyType == 1170
+                        || _interupted_norest.DutyType == 1168
                         || _interupted_norest.DutyType == 300010))//other airline stby
                         return new CustomActionResult(HttpStatusCode.OK, new
                         {
@@ -1257,7 +1333,7 @@ namespace ApiScheduling.Controllers
                 case 5001: //office
                 case 300014:
                 case 100001: //meeting
-                    if (_interupted  != null &&
+                    if (_interupted != null &&
                        (_interupted.DutyType == 1165
                        || _interupted.DutyType == 1167
                        || _interupted.DutyType == 1170
@@ -1285,8 +1361,8 @@ namespace ApiScheduling.Controllers
                     break;
                 case 300010://other airline stby
                 case 100025://mission
-                    var types = new List<int>() {1165,1167,1168,1170,5000,5001,300014,100001,100025,100002,100008,1166,1169,10000,10001 };
-                    if (_interupted != null && types.IndexOf(_interupted.DutyType)!=-1)
+                    var types = new List<int>() { 1165, 1167, 1168, 1170, 5000, 5001, 300014, 100001, 100025, 100002, 100008, 1166, 1169, 10000, 10001 };
+                    if (_interupted != null && types.IndexOf(_interupted.DutyType) != -1)
                         return new CustomActionResult(HttpStatusCode.OK, new
                         {
                             Code = 406,
@@ -1295,7 +1371,7 @@ namespace ApiScheduling.Controllers
                         });
                     break;
                 case 100003://sim
-                    var types2 = new List<int>() { 100003,1165,1167,1168,1170,5000,5001,300014,1166,1169,10000,10001,100001, 300010, 100025, 100008 };
+                    var types2 = new List<int>() { 100003, 1165, 1167, 1168, 1170, 5000, 5001, 300014, 1166, 1169, 10000, 10001, 100001, 300010, 100025, 100008 };
                     if (_interupted_norest != null && types2.IndexOf(_interupted_norest.DutyType) != -1)
                         return new CustomActionResult(HttpStatusCode.OK, new
                         {
@@ -1305,7 +1381,7 @@ namespace ApiScheduling.Controllers
                         });
                     break;
                 case 300008://duty
-                    var types3 = new List<int>() { 1166,1169,10000,10001,100002,100008 };
+                    var types3 = new List<int>() { 1166, 1169, 10000, 10001, 100002, 100008 };
                     if (_interupted_norest != null && types3.IndexOf(_interupted_norest.DutyType) != -1)
                         return new CustomActionResult(HttpStatusCode.OK, new
                         {
@@ -1315,7 +1391,7 @@ namespace ApiScheduling.Controllers
                         });
                     break;
                 case 300009://rest
-                    var types4 = new List<int>() { 1165,1167,1168,1170, 100003,5000,5001,300014, 100025, 300008, 100001, 300010 };
+                    var types4 = new List<int>() { 1165, 1167, 1168, 1170, 100003, 5000, 5001, 300014, 100025, 300008, 100001, 300010 };
                     if (_interupted_norest != null && types4.IndexOf(_interupted_norest.DutyType) != -1)
                         return new CustomActionResult(HttpStatusCode.OK, new
                         {
@@ -1326,7 +1402,7 @@ namespace ApiScheduling.Controllers
                     break;
                 case 10000://rerrp
                 case 10001:
-                    var types5 = new List<int>() { 1165, 1167, 1168, 1170, 100003, 5000, 5001,300014, 100025, 300008, 100001, 300010 };
+                    var types5 = new List<int>() { 1165, 1167, 1168, 1170, 100003, 5000, 5001, 300014, 100025, 300008, 100001, 300010 };
                     if (_interupted_norest != null && types5.IndexOf(_interupted_norest.DutyType) != -1)
                         return new CustomActionResult(HttpStatusCode.OK, new
                         {
@@ -1346,6 +1422,18 @@ namespace ApiScheduling.Controllers
             if (saveResult.Code != HttpStatusCode.OK)
                 return saveResult;
             AddToCumDuty(duty);
+
+            if (duty.DutyType == 10000 || duty.DutyType == 10001)
+            {
+                var d1 = (DateTime)duty.DateStart;
+                var de = ((DateTime)duty.DateEnd);
+                var d2 = (new DateTime(de.Year, de.Month, de.Day, 0, 0, 0)).AddDays(6);
+                var sd1 = d1.ToString("yyyy-MM-dd");
+                var sd2 = d2.ToString("yyyy-MM-dd");
+                context.Database.ExecuteSqlCommand("update ftlsummary set RERRP=isnull(rerrp,0)+1 where CDate>='" + sd1 + "'  and cdate<='" + sd2 + "' and crewid=" + duty.CrewId);
+            }
+
+
             if (timeline == 0)
             {
                 var result = await context.ViewCrewDuties.FirstOrDefaultAsync(q => q.Id == duty.Id);
@@ -1356,7 +1444,7 @@ namespace ApiScheduling.Controllers
                 var result = await context.ViewCrewDutyTimeLineNews.FirstOrDefaultAsync(q => q.Id == duty.Id);
                 return new CustomActionResult(HttpStatusCode.OK, result);
             }
-           
+
         }
 
         [Route("api/roster/stby/save")]
@@ -1379,7 +1467,7 @@ namespace ApiScheduling.Controllers
             DateTime day = (Convert.ToDateTime(dto.date));
             var crewId = Convert.ToInt32(dto.crewId);
             var type = Convert.ToInt32(dto.type);
-            var isgantt= dto.isgantt!=null ? Convert.ToInt32(dto.isgantt) :0;
+            var isgantt = dto.isgantt != null ? Convert.ToInt32(dto.isgantt) : 0;
 
             //var start = day;
             //var end = day.AddHours(12);
@@ -1435,13 +1523,13 @@ namespace ApiScheduling.Controllers
             duty.InitEnd = duty.DateEnd;
             // var rest = new List<int>() { 1167, 1168, 1170, 5000, 5001, 100001, 100003 };
             //duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
-            if (duty.DutyType == 1167 || duty.DutyType == 1168 || duty.DutyType== 300013)
+            if (duty.DutyType == 1167 || duty.DutyType == 1168 || duty.DutyType == 300013)
                 duty.InitRestTo = ((DateTime)duty.InitEnd).AddMinutes(rest);
             else
                 duty.InitRestTo = duty.DateEnd;
             //porn
             var exc = new List<int>() { 100009, 100020, 100021, 100022, 100023, 1170 };
-            var check = new List<int>() { 1165, 1166, 1167, 1168, 300013, 1169, 5000, 5001, 100000, 100002, 100003, 100004, 100005, 100006, 100008, 100025, 300008, 300009, 300010 };
+            var check = new List<int>() { 1165, 1166, 1167, 1168, 300013, 1169, 5000, 5001, 100000, 100002, 100003, 100004, 100005, 100006, 100008, 100025, 300008, 300009, 300010, 300014 };
             // var _interupted = await this.context.FDPs.FirstOrDefaultAsync(q => !exc.Contains(q.DutyType) && q.CrewId == duty.CrewId
             // && (
             //       (duty.InitStart >= q.InitStart && duty.InitStart <= q.InitRestTo)
@@ -1478,10 +1566,10 @@ namespace ApiScheduling.Controllers
             var saveResult = await context.SaveAsync();
             if (saveResult.Code != HttpStatusCode.OK)
                 return saveResult;
-            AddToCumDuty(duty );
+            AddToCumDuty(duty);
 
             //2020-11-22 noreg
-            
+
             if (isgantt == 0)
             {
                 var view = await context.ViewCrewDutyNoRegs.FirstOrDefaultAsync(q => q.Id == duty.Id);
@@ -1492,14 +1580,14 @@ namespace ApiScheduling.Controllers
                 var view = await context.ViewCrewDutyTimeLineNews.FirstOrDefaultAsync(q => q.Id == duty.Id);
                 return new CustomActionResult(HttpStatusCode.OK, view);
             }
-           
+
 
         }
 
         [Route("api/stby/ceased/stat/{isExtended}/{stbyId}/{firstLeg}/{duty}/{maxfdp}")]
         public async Task<IHttpActionResult> GetSTBYActivationStat(int isExtended, int stbyId, int firstLeg, int duty, int maxfdp)
         {
-            double default_reporting = 75;
+            double default_reporting = Convert.ToInt32(ConfigurationManager.AppSettings["reporting"]);
             var context = new Models.dbEntities();
             var stby = await context.ViewFDPRests.FirstOrDefaultAsync(q => q.Id == stbyId);
             var leg = await context.ViewLegTimes.FirstOrDefaultAsync(q => q.ID == firstLeg);
@@ -1515,7 +1603,7 @@ namespace ApiScheduling.Controllers
             var stbyFDPDuration = stbyDuration + duty;
             var durationError = stbyFDPDuration > 18 * 60;
 
-            return Ok( new
+            return Ok(new
             {
                 reduction,
                 reducedMaxFDP,
@@ -1531,7 +1619,7 @@ namespace ApiScheduling.Controllers
 
         }
 
-        internal async Task<CustomActionResult> ActivateStandby(int crewId, int stbyId, string fids, int rank, int index,string ranks,int isgantt)
+        internal async Task<CustomActionResult> ActivateStandby(int crewId, int stbyId, string fids, int rank, int index, string ranks, int isgantt)
         {
             //doolnazs
             var context = new Models.dbEntities();
@@ -1558,7 +1646,7 @@ namespace ApiScheduling.Controllers
             // keyParts.Add(items[0].flt.ID + "*" + (items[0].fi.IsPositioning == true ? "1" : "0"));
             var keyParts = flights.Select(q => q.ID + "*0").ToList();
             var crew = await context.ViewEmployeeLights.Where(q => q.Id == crewId).FirstOrDefaultAsync();
-            double default_reporting = 75;
+            double default_reporting = Convert.ToInt32(ConfigurationManager.AppSettings["reporting"]);
             var fdp = new FDP()
             {
                 IsTemplate = false,
@@ -1570,12 +1658,12 @@ namespace ApiScheduling.Controllers
                 LastFlightId = flights.Last().ID,
                 Key = string.Join("_", keyParts),
                 FDPId = stbyId,
-                IsOver=false,
-                STD=flights.First().STD,
-                STA=flights.Last().STA,
-                OutOfHomeBase=flights.Last().ToAirport!=crew.BaseAirportId,
-               // InitPosition = String.Join("_", dto.items.Select(q => q.flightId + "*" + RosterFDPDto.getRank(q.pos)).ToList()),
-               InitPosition= String.Join("_", flights.Select(q=>q.ID+"*"+rank).ToList()),
+                IsOver = false,
+                STD = flights.First().STD,
+                STA = flights.Last().STA,
+                OutOfHomeBase = flights.Last().ToAirport != crew.BaseAirportId,
+                // InitPosition = String.Join("_", dto.items.Select(q => q.flightId + "*" + RosterFDPDto.getRank(q.pos)).ToList()),
+                InitPosition = String.Join("_", flights.Select(q => q.ID + "*" + rank).ToList()),
 
 
 
@@ -1632,7 +1720,7 @@ namespace ApiScheduling.Controllers
               + "_" + q.FlightNumber + "_" + q.FromAirportIATA + "_" + q.ToAirportIATA).ToList()
             );
             fdp.Split = 0;
-            fdp.ReportingTime= ((DateTime)flights.First().STD).AddMinutes(-default_reporting);
+            fdp.ReportingTime = ((DateTime)flights.First().STD).AddMinutes(-default_reporting);
             fdp.ActualEnd = fdp.InitEnd;
             fdp.ActualStart = fdp.InitStart;
             fdp.ActualRestTo = fdp.InitRestTo;
@@ -1663,7 +1751,7 @@ namespace ApiScheduling.Controllers
                 //    rosterPositionId = _fpdItem.RosterPositionId == null ? 1 : (int)_fpdItem.RosterPositionId + 1;
                 //}
                 //cici
-                var _rnk =string.IsNullOrEmpty(ranks)?rank: RosterFDPDto.getRank( ranks.Split('_')[_cr]);
+                var _rnk = string.IsNullOrEmpty(ranks) ? rank : RosterFDPDto.getRank(ranks.Split('_')[_cr]);
                 var _fdp_item = new FDPItem()
                 {
                     FlightId = x.ID,
@@ -1736,19 +1824,19 @@ namespace ApiScheduling.Controllers
             stby.PLNEnd = stby.InitEnd;
             stby.PLNRest = stby.InitRestTo;
             stby.InitEnd = ((DateTime)fdp.InitStart).AddMinutes(-1);
-            stby.DateEnd =((DateTime) fdp.InitStart).AddMinutes(-1);
+            stby.DateEnd = ((DateTime)fdp.InitStart).AddMinutes(-1);
             stby.InitRestTo = stby.InitEnd;
-             context.FDPs.Add(fdp);
+            context.FDPs.Add(fdp);
             saveResult = await context.SaveAsync();
-            AddToCumDuty(stby,context);
+            AddToCumDuty(stby, context);
 
-            AddToCumDuty(fdp,context);
+            AddToCumDuty(fdp, context);
             // AddToCumFlight(fdp, fdp.FDPItems, context);
             AddToCumFlightByLEGTIME(fdp, flights, _fdpitems, context);
             saveResult = await context.SaveAsync();
             if (saveResult.Code != HttpStatusCode.OK)
                 return saveResult;
-            var vfdp = await  context.ViewFDPRests.FirstOrDefaultAsync(q => q.Id == fdp.Id);
+            var vfdp = await context.ViewFDPRests.FirstOrDefaultAsync(q => q.Id == fdp.Id);
 
             if (isgantt == 1)
             {
@@ -1790,16 +1878,32 @@ namespace ApiScheduling.Controllers
                 isgantt = Convert.ToInt32(dto.isgantt);
             }
 
-            var result = await ActivateStandby(crewId, stbyId, fids, rank, index,rank2, isgantt);
+            var result = await ActivateStandby(crewId, stbyId, fids, rank, index, rank2, isgantt);
 
 
             return result;
 
         }
+
+
+        [Route("api/fdp/stat/{ids}/{dh}")]
+
+        public async Task<IHttpActionResult> GetFDPStat(string ids, int dh)
+        {
+            var _ids = ids.Split('_').Select(q => Convert.ToInt32(q)).ToList();
+            var result = await GetMaxFDPStats(_ids, dh);
+
+            return Ok(result);
+
+        }
+
+
+
         [Route("api/roster/fdp/save")]
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> SaveFDP(RosterFDPDto dto)
         {
+            int _ln = 1;
             if (dto.Id == -100)
             {
                 dto.ids = new List<RosterFDPId>() { new RosterFDPId() { dh = 0, id = 539799 }, new RosterFDPId() { dh = 0, id = 539928 } };
@@ -1821,23 +1925,33 @@ namespace ApiScheduling.Controllers
 
 
             }
-            double default_reporting = 75;
+            _ln = 2;
+            double default_reporting = Convert.ToInt32(ConfigurationManager.AppSettings["reporting"]);
+            _ln = 3;
             var context = new Models.dbEntities();
             try
             {
                 var _x_fltids = dto.ids.Select(q => q.id).ToList();
+                _ln = 4;
                 var _x_flights = context.SchFlights.Where(q => _x_fltids.Contains(q.ID)).OrderBy(q => q.STD).ToList();
+                _ln = 41;
                 dto.IsAdmin = dto.IsAdmin == null ? 0 : (int)dto.IsAdmin;
+                _ln = 42;
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
                 dto.items = RosterFDPDto.getItemsX(_x_flights, dto.ids); //RosterFDPDto.getItems(dto.flights);
+                _ln = 43;
                 dto.no = string.Join("_", _x_flights.Select(q => q.FlightNumber).ToList());
+                _ln = 44;
                 dto.key = string.Join("_", _x_flights.Select(q => q.ID.ToString()).ToList());
+                _ln = 45;
                 dto.from = (int)_x_flights.First().FromAirportId;
+                _ln = 46;
                 dto.to = (int)_x_flights.Last().ToAirportId;
+                _ln = 47;
                 dto.flights = RosterFDPDto.getFlightsStrs(_x_flights, dto.ids);
 
-
+                _ln = 5;
 
                 bool alldh = dto.items.Where(q => q.dh == 0).Count() == 0;
                 var fdpDuty = dto.getDuty(default_reporting);
@@ -1846,7 +1960,7 @@ namespace ApiScheduling.Controllers
                 //var dutyFlight = await this.context.ViewDayDutyFlights.FirstOrDefaultAsync(q => q.Date == stdday);
                 //magu210
 
-
+                _ln = 6;
 
                 var _d1 = stdday;
                 var _d2 = stdday.AddDays(-6);
@@ -1862,8 +1976,18 @@ namespace ApiScheduling.Controllers
 
                 var ftlYearFrom = new DateTime(stdday.Year, 1, 1);
                 var ftlYearTo = (new DateTime(stdday.Year + 1, 1, 1)).AddDays(-1);
+                _ln = 7;
+                var _rerrp = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate == ftlDateFrom && q.RERRP > 0).FirstOrDefaultAsync();
+                if (_rerrp == null && (dto.IsAdmin == null || dto.IsAdmin == 0))
+                {
+                    return new CustomActionResult(HttpStatusCode.OK, new
+                    {
+                        Code = 308,
+                        message = "RERRP Error. "
 
-
+                    });
+                }
+                _ln = 8;
                 //var _d7 = await this.context.TableDutyFDPs.Where(q => q.CrewId == ncrewid && q.CDate >= _d2 && q.CDate <= _d1).Select(q => q.DurationLocal).SumAsync();
                 var _d7 = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate >= ftlDateFrom && q.CDate <= ftlDate7 && q.Duty7 > 60 * 60 - fdpDuty).FirstOrDefaultAsync();
                 var _d14 = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate >= ftlDateFrom && q.CDate <= ftlDate14 && q.Duty14 > 110 * 60 - fdpDuty).FirstOrDefaultAsync();
@@ -2009,7 +2133,7 @@ namespace ApiScheduling.Controllers
                     InitKey = dto.key,
                     InitNo = dto.no,
                     InitRank = dto.rank,
-                    InitPosition=String.Join("_", dto.items.Select(q=>q.flightId+"*"+ RosterFDPDto.getRank(q.pos)).ToList()),
+                    InitPosition = String.Join("_", dto.items.Select(q => q.flightId + "*" + RosterFDPDto.getRank(q.pos)).ToList()),
                     InitScheduleName = dto.scheduleName,
                     Extension = dto.extension,
                     Split = 0,
@@ -2062,18 +2186,19 @@ namespace ApiScheduling.Controllers
                 ,300011
                 ,300012
                 ,300013
-                ,300014
+               // ,300014
 
 
                 ,1167
                 ,1168
                 ,1170
-                ,5001
+               // ,5001
                 };
                 var stbys = new List<int>() { 1167, 1168, 1170 };
                 //if (!alldh)
+                FDP _interupted = null;
                 {
-                    FDP _interupted = null;
+                    //FDP _interupted = null;
 
                     _interupted = await context.FDPs.FirstOrDefaultAsync(q =>
                                                 !exc.Contains(q.DutyType) &&
@@ -2119,9 +2244,12 @@ namespace ApiScheduling.Controllers
                     if (_interupted != null && _interuptedAcceptable /* && (dto.IsAdmin == null || dto.IsAdmin == 0)*/)
                     {
                         //Rest/Interruption Error
+                        //if ((dto.IsAdmin == null || dto.IsAdmin == 0)
+                        //    && (_activeq && _interupted.DutyType != 1167 && _interupted.DutyType != 1168 && _interupted.DutyType != 1170)
+                        //    || !(dto.items.First().std >= _interupted.DateStart && dto.items.First().std <= _interupted.DateEnd))
                         if ((dto.IsAdmin == null || dto.IsAdmin == 0)
-                            && (_activeq && _interupted.DutyType != 1167 && _interupted.DutyType != 1168 && _interupted.DutyType != 1170)
-                            || !(dto.items.First().std >= _interupted.DateStart && dto.items.First().std <= _interupted.DateEnd))
+                           && (_interupted.DutyType != 1167 && _interupted.DutyType != 1168 && _interupted.DutyType != 1170)
+                          )
                         {
                             //if (false)
                             bool sendError = false;
@@ -2411,7 +2539,21 @@ namespace ApiScheduling.Controllers
 
                 context.Database.ExecuteSqlCommand("update employee set flightsum=isnull(flightsum,0)+" + flightSum + ",FlightEarly=isnull(FlightEarly,0)+" + early + ",FlightLate=isnull(FlightLate,0)+" + late + "  where id=" + dto.crewId);
 
+                //2023-05-16
+                if (_interupted != null && _interupted.DutyType == 1170)
+                {
+                    _interupted.FDP2 = fdp;
+                    _interupted.FDPReportingTime = fdp.InitStart;
+                    _interupted.UPD = _interupted.UPD == null ? 1 : ((int)_interupted.UPD) + 1;
+                    _interupted.PLNEnd = _interupted.InitEnd;
+                    _interupted.PLNRest = _interupted.InitRestTo;
+                    _interupted.InitEnd = ((DateTime)fdp.InitStart).AddMinutes(-1);
+                    _interupted.DateEnd = ((DateTime)fdp.InitStart).AddMinutes(-1);
+                    _interupted.InitRestTo = _interupted.InitEnd;
 
+                    fdp.FDPId = _interupted.Id;
+
+                }
                 saveResult = await context.SaveAsync();
                 if (saveResult.Code != HttpStatusCode.OK)
                     return saveResult;
@@ -2483,18 +2625,28 @@ namespace ApiScheduling.Controllers
                 };
                 if (dto.IsGantt == 1)
                 {
-                    var gres =  await context.ViewCrewDutyTimeLineNews.FirstOrDefaultAsync(q => q.Id == fdp.Id);
+                    var gres = await context.ViewCrewDutyTimeLineNews.FirstOrDefaultAsync(q => q.Id == fdp.Id);
                     return new CustomActionResult(HttpStatusCode.OK, gres);
                 }
-                    else
-                return new CustomActionResult(HttpStatusCode.OK, fdp_result);
+                else
+                    return new CustomActionResult(HttpStatusCode.OK, fdp_result);
 
 
             }
             catch (Exception ex)
             {
+
+
+                // Get stack trace for the exception with source file information
+                var st = new StackTrace(ex, true);
+                // Get the top stack frame
+                var frame = st.GetFrame(0);
+                // Get the line number from the stack frame
+                var line = frame.GetFileLineNumber();
+
+
                 int iiii = 0;
-                var msg = ex.Message;
+                var msg = line+"   "+_ln+"   "+ ex.Message;
                 if (ex.InnerException != null)
                     msg += " IINER:" + ex.InnerException.Message;
                 return new CustomActionResult(HttpStatusCode.OK, msg);
@@ -2810,7 +2962,7 @@ namespace ApiScheduling.Controllers
 
 
         //this method is planningController too
-        void AddToCumDuty(FDP fdp, Models.dbEntities context = null )
+        void AddToCumDuty(FDP fdp, Models.dbEntities context = null)
         {
             try
             {
@@ -2912,13 +3064,13 @@ namespace ApiScheduling.Controllers
                     var endLocal = ((DateTime)fdp.DateEnd).AddMinutes(utcdiff);
                     var startDate = startLocal.Date;
                     var endDate = endLocal.Date;
-                    var duration = ((endLocal - startLocal).TotalMinutes+ext) * coef;
+                    var duration = ((endLocal - startLocal).TotalMinutes + ext) * coef;
                     context.TableDutyFDPs.Add(new TableDutyFDP()
                     {
                         CDate = startDate,
                         CrewId = fdp.CrewId,
-                        Duration = duration  ,
-                        DurationLocal = duration ,
+                        Duration = duration,
+                        DurationLocal = duration,
                         DutyEnd = fdp.DateEnd,
                         DutyEndLocal = endLocal,
                         DutyStart = fdp.DateStart,
@@ -2990,7 +3142,8 @@ namespace ApiScheduling.Controllers
             //old 
             //var flights = await this.context.ViewLegTimes.Where(q => ids.Contains(q.ID)).OrderBy(q => q.STDDay).ThenBy(q => q.STD).ThenBy(q => q.Register).ToListAsync();
             MaxFDPStats stat = new MaxFDPStats();
-            stat.ReportingTime = ((DateTime)flights.First().DepartureLocal).AddMinutes(-60);
+            var rp = Convert.ToInt32(ConfigurationManager.AppSettings["reporting"]);
+            stat.ReportingTime = ((DateTime)flights.First().DepartureLocal).AddMinutes(-1 * rp);
             stat.Sectors = ids.Count - (dh == null ? 0 : (int)dh);
             stat.RestFrom = ((DateTime)flights.Last().ArrivalLocal).AddMinutes(30);
             var endDate = ((DateTime)flights.Last().ArrivalLocal);

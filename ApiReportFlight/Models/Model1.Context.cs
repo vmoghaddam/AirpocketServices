@@ -25,21 +25,24 @@ namespace ApiReportFlight.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ViewFinMonthlyRoute> ViewFinMonthlyRoutes { get; set; }
+        public virtual DbSet<ViewFlightDelay> ViewFlightDelays { get; set; }
+        public virtual DbSet<ViewLegCrew> ViewLegCrews { get; set; }
+        public virtual DbSet<ViewCrew> ViewCrews { get; set; }
+        public virtual DbSet<RptNoFDP> RptNoFDPs { get; set; }
+        public virtual DbSet<FDP> FDPs { get; set; }
+        public virtual DbSet<ViewCrewFlightApp> ViewCrewFlightApps { get; set; }
+        public virtual DbSet<ViewCourseFDP> ViewCourseFDPs { get; set; }
         public virtual DbSet<RptFuelOFP> RptFuelOFPs { get; set; }
         public virtual DbSet<RptFlightRVSM> RptFlightRVSMs { get; set; }
         public virtual DbSet<ViewFormB> ViewFormBs { get; set; }
         public virtual DbSet<ViewFormC> ViewFormCs { get; set; }
         public virtual DbSet<XFlightCrew> XFlightCrews { get; set; }
-        public virtual DbSet<ViewFinMonthlyRoute> ViewFinMonthlyRoutes { get; set; }
         public virtual DbSet<ViewDelayedFlight> ViewDelayedFlights { get; set; }
-        public virtual DbSet<ViewFlightDelay> ViewFlightDelays { get; set; }
-        public virtual DbSet<ViewLegCrew> ViewLegCrews { get; set; }
-        public virtual DbSet<ViewFlightCockpit> ViewFlightCockpits { get; set; }
-        public virtual DbSet<ViewFlightDaily> ViewFlightDailies { get; set; }
-        public virtual DbSet<ViewCrew> ViewCrews { get; set; }
-        public virtual DbSet<RptFDPItem> RptFDPItems { get; set; }
-        public virtual DbSet<RptNoFDP> RptNoFDPs { get; set; }
         public virtual DbSet<RptFDP2> RptFDP2 { get; set; }
+        public virtual DbSet<ViewFlightDaily> ViewFlightDailies { get; set; }
         public virtual DbSet<RptRefuse> RptRefuses { get; set; }
+        public virtual DbSet<ViewFlightCockpit> ViewFlightCockpits { get; set; }
+        public virtual DbSet<RptFDPItem> RptFDPItems { get; set; }
     }
 }

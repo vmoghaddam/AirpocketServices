@@ -258,6 +258,7 @@ namespace ApiXLS.Controllers
         {
 
             var ctx = new Models.dbEntities();
+            ctx.Database.CommandTimeout = 500;
             var legs = ctx.AppLegs.Where(q => q.STDDay != null && q.STDDay == dt && q.FlightStatusID != 4 ).ToList();
             var pics = legs.Select(q => q.PICId).ToList();
             var piclegs = ctx.AppCrewFlights.Where(q => q.STDDayLocal == dt && pics.Contains(q.CrewId)).ToList();
@@ -275,8 +276,8 @@ namespace ApiXLS.Controllers
                               {
                                   FlightId = q.FlightId,
                                   FlightNumber = q.FlightNumber,
-                                 // Dep = q.FromAirportIATA2,
-                                  //Dest = q.ToAirportIATA2,
+                                  Dep = q.FromAirportIATA,
+                                  Dest = q.ToAirportIATA,
                                   STD = q.STD,
                                   STDLocal = q.STDLocal,
                                   STA = q.STA,

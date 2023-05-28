@@ -166,5 +166,6 @@ namespace ApiProfile.Models
         public Nullable<bool> IsTypeMD { get; set; }
         public Nullable<bool> IsTypeAirbus { get; set; }
         public Nullable<bool> IsTypeFokker { get; set; }
+        public Nullable<int> RemainTRG02 { get; set; }
     }
 }

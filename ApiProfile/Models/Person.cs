@@ -345,6 +345,8 @@ namespace ApiProfile.Models
         public Nullable<System.DateTime> IssueDate35 { get; set; }
         public Nullable<System.DateTime> ExpireDate35 { get; set; }
         public string BaseAirline { get; set; }
+        public Nullable<System.DateTime> IssueDateTRG02 { get; set; }
+        public Nullable<System.DateTime> ExpireDateTRG02 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonDocument> PersonDocuments { get; set; }
