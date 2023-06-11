@@ -1977,16 +1977,16 @@ namespace ApiScheduling.Controllers
                 var ftlYearFrom = new DateTime(stdday.Year, 1, 1);
                 var ftlYearTo = (new DateTime(stdday.Year + 1, 1, 1)).AddDays(-1);
                 _ln = 7;
-                var _rerrp = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate == ftlDateFrom && q.RERRP > 0).FirstOrDefaultAsync();
-                if (_rerrp == null && (dto.IsAdmin == null || dto.IsAdmin == 0))
-                {
-                    return new CustomActionResult(HttpStatusCode.OK, new
-                    {
-                        Code = 308,
-                        message = "RERRP Error. "
+               // var _rerrp = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate == ftlDateFrom && q.RERRP > 0).FirstOrDefaultAsync();
+               // if (_rerrp == null && (dto.IsAdmin == null || dto.IsAdmin == 0))
+               // {
+               //     return new CustomActionResult(HttpStatusCode.OK, new
+               //     {
+               //         Code = 308,
+               //         message = "RERRP Error. "
 
-                    });
-                }
+                //    });
+                //}
                 _ln = 8;
                 //var _d7 = await this.context.TableDutyFDPs.Where(q => q.CrewId == ncrewid && q.CDate >= _d2 && q.CDate <= _d1).Select(q => q.DurationLocal).SumAsync();
                 var _d7 = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate >= ftlDateFrom && q.CDate <= ftlDate7 && q.Duty7 > 60 * 60 - fdpDuty).FirstOrDefaultAsync();

@@ -68,7 +68,6 @@ namespace ApiAPSB.Models
         public string ALT2 { get; set; }
         public string TALT1 { get; set; }
         public string TALT2 { get; set; }
-        public string FPF { get; set; }
         public Nullable<int> FuelALT1 { get; set; }
         public Nullable<int> FuelALT2 { get; set; }
         public Nullable<int> FuelTOF { get; set; }
@@ -77,9 +76,18 @@ namespace ApiAPSB.Models
         public Nullable<int> FuelCONT { get; set; }
         public Nullable<int> FuelMINTOF { get; set; }
         public Nullable<int> FuelFINALRES { get; set; }
+        public string FPF { get; set; }
+        public string VDT { get; set; }
+        public string MAXSHEER { get; set; }
+        public string MINDIVFUEL { get; set; }
+        public string WDTMP { get; set; }
+        public string DID { get; set; }
+        public string WDCLB { get; set; }
+        public string WDDES { get; set; }
+        public Nullable<int> FuelExtra { get; set; }
     
+        public virtual FlightInformation FlightInformation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImportProp> OFPImportProps { get; set; }
-        public virtual FlightInformation FlightInformation { get; set; }
     }
 }

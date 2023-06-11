@@ -396,10 +396,26 @@ namespace ApiReportFlight.Controllers
 
                 if (!string.IsNullOrEmpty(status) && status != "-1")
                 {
-                    var _regs = status.Split('_').ToList();
-                    var col = _regs.Select(q => "status=" + q).ToList();
-                    var _whr = "(" + string.Join(" OR ", col) + ")";
-                    whr += " AND " + _whr;
+                    //all
+                    if (status == "-2")
+                    {
+
+                    }
+                    //all excludes cnl
+                    else if (status == "-3")
+                    {
+
+                        var _whr = "status <> 4";
+                        whr += " AND " + _whr;
+                    }
+                    else
+                    {
+                        var _regs = status.Split('_').ToList();
+                        var col = _regs.Select(q => "status=" + q).ToList();
+                        var _whr = "(" + string.Join(" OR ", col) + ")";
+                        whr += " AND " + _whr;
+                    }
+                   
                 }
                 if (!string.IsNullOrEmpty(type2) && type2 != "-1")
                 {
@@ -500,10 +516,26 @@ namespace ApiReportFlight.Controllers
 
                 if (!string.IsNullOrEmpty(status) && status != "-1")
                 {
-                    var _regs = status.Split('_').ToList();
-                    var col = _regs.Select(q => "status=" + q).ToList();
-                    var _whr = "(" + string.Join(" OR ", col) + ")";
-                    whr += " AND " + _whr;
+                    //all
+                    if (status == "-2")
+                    {
+                        
+                    }
+                    //all excludes cnl
+                    else if (status =="-3")
+                    {
+                        
+                        var _whr = "status <> 4";
+                        whr += " AND " + _whr;
+                    }
+                    else
+                    {
+                        var _regs = status.Split('_').ToList();
+                        var col = _regs.Select(q => "status=" + q).ToList();
+                        var _whr = "(" + string.Join(" OR ", col) + ")";
+                        whr += " AND " + _whr;
+                    }
+                   
                 }
                 if (!string.IsNullOrEmpty(type2) && type2 != "-1")
                 {

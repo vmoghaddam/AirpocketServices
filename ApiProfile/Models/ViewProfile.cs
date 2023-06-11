@@ -167,5 +167,20 @@ namespace ApiProfile.Models
         public Nullable<bool> IsTypeAirbus { get; set; }
         public Nullable<bool> IsTypeFokker { get; set; }
         public Nullable<int> RemainTRG02 { get; set; }
+        public Nullable<int> Remain36 { get; set; }
+        public Nullable<int> Remain37 { get; set; }
+        public Nullable<int> Remain38 { get; set; }
+        public Nullable<int> Remain39 { get; set; }
+        public Nullable<int> Remain40 { get; set; }
+        public Nullable<int> Remain41 { get; set; }
+        public Nullable<int> Remain42 { get; set; }
+        public Nullable<int> Remain43 { get; set; }
+        public Nullable<int> Remain44 { get; set; }
+        public Nullable<int> Remain45 { get; set; }
+        public Nullable<int> Remain46 { get; set; }
+        public Nullable<int> Remain47 { get; set; }
+        public Nullable<int> Remain48 { get; set; }
+        public Nullable<int> Remain49 { get; set; }
+        public Nullable<int> Remain50 { get; set; }
     }
 }

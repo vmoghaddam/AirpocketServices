@@ -20,6 +20,7 @@ namespace ApiProfile.Models
             this.PersonDocuments = new HashSet<PersonDocument>();
             this.PersonCustomers = new HashSet<PersonCustomer>();
             this.PersonAircraftTypes = new HashSet<PersonAircraftType>();
+            this.CertificateHistories = new HashSet<CertificateHistory>();
         }
     
         public int Id { get; set; }
@@ -347,6 +348,36 @@ namespace ApiProfile.Models
         public string BaseAirline { get; set; }
         public Nullable<System.DateTime> IssueDateTRG02 { get; set; }
         public Nullable<System.DateTime> ExpireDateTRG02 { get; set; }
+        public Nullable<System.DateTime> IssueDate36 { get; set; }
+        public Nullable<System.DateTime> ExpireDate36 { get; set; }
+        public Nullable<System.DateTime> IssueDate37 { get; set; }
+        public Nullable<System.DateTime> ExpireDate37 { get; set; }
+        public Nullable<System.DateTime> IssueDate38 { get; set; }
+        public Nullable<System.DateTime> ExpireDate38 { get; set; }
+        public Nullable<System.DateTime> IssueDate39 { get; set; }
+        public Nullable<System.DateTime> ExpireDate39 { get; set; }
+        public Nullable<System.DateTime> IssueDate40 { get; set; }
+        public Nullable<System.DateTime> ExpireDate40 { get; set; }
+        public Nullable<System.DateTime> IssueDate41 { get; set; }
+        public Nullable<System.DateTime> IssueDate42 { get; set; }
+        public Nullable<System.DateTime> IssueDate43 { get; set; }
+        public Nullable<System.DateTime> IssueDate44 { get; set; }
+        public Nullable<System.DateTime> IssueDate45 { get; set; }
+        public Nullable<System.DateTime> IssueDate46 { get; set; }
+        public Nullable<System.DateTime> IssueDate47 { get; set; }
+        public Nullable<System.DateTime> IssueDate48 { get; set; }
+        public Nullable<System.DateTime> IssueDate49 { get; set; }
+        public Nullable<System.DateTime> IssueDate50 { get; set; }
+        public Nullable<System.DateTime> ExpireDate41 { get; set; }
+        public Nullable<System.DateTime> ExpireDate42 { get; set; }
+        public Nullable<System.DateTime> ExpireDate43 { get; set; }
+        public Nullable<System.DateTime> ExpireDate44 { get; set; }
+        public Nullable<System.DateTime> ExpireDate45 { get; set; }
+        public Nullable<System.DateTime> ExpireDate46 { get; set; }
+        public Nullable<System.DateTime> ExpireDate47 { get; set; }
+        public Nullable<System.DateTime> ExpireDate48 { get; set; }
+        public Nullable<System.DateTime> ExpireDate49 { get; set; }
+        public Nullable<System.DateTime> ExpireDate50 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonDocument> PersonDocuments { get; set; }
@@ -354,5 +385,7 @@ namespace ApiProfile.Models
         public virtual ICollection<PersonCustomer> PersonCustomers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonAircraftType> PersonAircraftTypes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CertificateHistory> CertificateHistories { get; set; }
     }
 }

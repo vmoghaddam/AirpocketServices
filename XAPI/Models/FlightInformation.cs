@@ -295,6 +295,7 @@ namespace XAPI.Models
         public Nullable<int> OFPOFFBLOCKFUEL { get; set; }
         public Nullable<int> OFPTRIPFUEL { get; set; }
         public Nullable<int> PILOTREQFUEL { get; set; }
+        public Nullable<int> OFPExtra { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EFBDSPRelease> EFBDSPReleases { get; set; }

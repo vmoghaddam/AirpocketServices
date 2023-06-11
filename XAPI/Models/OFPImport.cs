@@ -78,11 +78,19 @@ namespace XAPI.Models
         public Nullable<int> FuelMINTOF { get; set; }
         public Nullable<int> FuelFINALRES { get; set; }
         public string FPF { get; set; }
+        public string VDT { get; set; }
+        public string MAXSHEER { get; set; }
+        public string MINDIVFUEL { get; set; }
+        public string WDTMP { get; set; }
+        public string DID { get; set; }
+        public string WDCLB { get; set; }
+        public string WDDES { get; set; }
+        public Nullable<int> FuelExtra { get; set; }
     
+        public virtual FlightInformation FlightInformation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImportItem> OFPImportItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImportProp> OFPImportProps { get; set; }
-        public virtual FlightInformation FlightInformation { get; set; }
     }
 }

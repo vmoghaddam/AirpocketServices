@@ -337,6 +337,43 @@ namespace ApiProfile.ViewModels
         public Nullable<System.DateTime> ExpireDate34 { get; set; }
         public Nullable<System.DateTime> IssueDate35 { get; set; }
         public Nullable<System.DateTime> ExpireDate35 { get; set; }
+
+
+        public Nullable<System.DateTime> IssueDateTRG02 { get; set; }
+        public Nullable<System.DateTime> ExpireDateTRG02 { get; set; }
+        public Nullable<System.DateTime> IssueDate36 { get; set; }
+        public Nullable<System.DateTime> ExpireDate36 { get; set; }
+        public Nullable<System.DateTime> IssueDate37 { get; set; }
+        public Nullable<System.DateTime> ExpireDate37 { get; set; }
+        public Nullable<System.DateTime> IssueDate38 { get; set; }
+        public Nullable<System.DateTime> ExpireDate38 { get; set; }
+        public Nullable<System.DateTime> IssueDate39 { get; set; }
+        public Nullable<System.DateTime> ExpireDate39 { get; set; }
+        public Nullable<System.DateTime> IssueDate40 { get; set; }
+        public Nullable<System.DateTime> ExpireDate40 { get; set; }
+        public Nullable<System.DateTime> IssueDate41 { get; set; }
+        public Nullable<System.DateTime> IssueDate42 { get; set; }
+        public Nullable<System.DateTime> IssueDate43 { get; set; }
+        public Nullable<System.DateTime> IssueDate44 { get; set; }
+        public Nullable<System.DateTime> IssueDate45 { get; set; }
+        public Nullable<System.DateTime> IssueDate46 { get; set; }
+        public Nullable<System.DateTime> IssueDate47 { get; set; }
+        public Nullable<System.DateTime> IssueDate48 { get; set; }
+        public Nullable<System.DateTime> IssueDate49 { get; set; }
+        public Nullable<System.DateTime> IssueDate50 { get; set; }
+        public Nullable<System.DateTime> ExpireDate41 { get; set; }
+        public Nullable<System.DateTime> ExpireDate42 { get; set; }
+        public Nullable<System.DateTime> ExpireDate43 { get; set; }
+        public Nullable<System.DateTime> ExpireDate44 { get; set; }
+        public Nullable<System.DateTime> ExpireDate45 { get; set; }
+        public Nullable<System.DateTime> ExpireDate46 { get; set; }
+        public Nullable<System.DateTime> ExpireDate47 { get; set; }
+        public Nullable<System.DateTime> ExpireDate48 { get; set; }
+        public Nullable<System.DateTime> ExpireDate49 { get; set; }
+        public Nullable<System.DateTime> ExpireDate50 { get; set; }
+
+
+
         public string BaseAirline { get; set; }
 
         public Nullable<bool> IsType737 { get; set; }
@@ -763,6 +800,22 @@ namespace ApiProfile.ViewModels
             entity.ExpireDate34 = person.ExpireDate34;
             entity.ExpireDate35 = person.ExpireDate35;
 
+            entity.ExpireDate36 = person.ExpireDate36;
+            entity.ExpireDate37 = person.ExpireDate37;
+            entity.ExpireDate38 = person.ExpireDate38;
+            entity.ExpireDate39 = person.ExpireDate39;
+            entity.ExpireDate40 = person.ExpireDate40;
+            entity.ExpireDate41 = person.ExpireDate41;
+            entity.ExpireDate42 = person.ExpireDate42;
+            entity.ExpireDate43 = person.ExpireDate43;
+            entity.ExpireDate44 = person.ExpireDate44;
+            entity.ExpireDate45 = person.ExpireDate45;
+            entity.ExpireDate46 = person.ExpireDate46;
+            entity.ExpireDate47 = person.ExpireDate47;
+            entity.ExpireDate48 = person.ExpireDate48;
+            entity.ExpireDate49 = person.ExpireDate49;
+            entity.ExpireDate50 = person.ExpireDate50;
+
             entity.IssueDate28 = person.IssueDate28;
             entity.IssueDate29 = person.IssueDate29;
             entity.IssueDate30 = person.IssueDate30;
@@ -771,6 +824,25 @@ namespace ApiProfile.ViewModels
             entity.IssueDate33 = person.IssueDate33;
             entity.IssueDate34 = person.IssueDate34;
             entity.IssueDate35 = person.IssueDate35;
+
+
+            entity.IssueDate36 = person.IssueDate36;
+            entity.IssueDate37 = person.IssueDate37;
+            entity.IssueDate38 = person.IssueDate38;
+            entity.IssueDate39 = person.IssueDate39;
+            entity.IssueDate40 = person.IssueDate40;
+            entity.IssueDate41 = person.IssueDate41;
+            entity.IssueDate42 = person.IssueDate42;
+            entity.IssueDate43 = person.IssueDate43;
+            entity.IssueDate44 = person.IssueDate44;
+            entity.IssueDate45 = person.IssueDate45;
+            entity.IssueDate46 = person.IssueDate46;
+            entity.IssueDate47 = person.IssueDate47;
+            entity.IssueDate48 = person.IssueDate48;
+            entity.IssueDate49 = person.IssueDate49;
+            entity.IssueDate50 = person.IssueDate50;
+            entity.ExpireDateTRG02 = person.ExpireDateTRG02;
+            entity.IssueDateTRG02 = person.IssueDateTRG02;
 
             entity.BaseAirline = person.BaseAirline;
 
@@ -1127,6 +1199,25 @@ namespace ApiProfile.ViewModels
 
             person.IssueDate35 = entity.IssueDate35;
             person.ExpireDate35 = entity.ExpireDate35;
+
+
+            person.IssueDate36 = entity.IssueDate36;
+            person.IssueDate37 = entity.IssueDate37;
+            person.IssueDate38 = entity.IssueDate38;
+            person.IssueDate39 = entity.IssueDate39;
+            person.IssueDate40 = entity.IssueDate40;
+            person.IssueDate41 = entity.IssueDate41;
+            person.IssueDate42 = entity.IssueDate42;
+            person.IssueDate43 = entity.IssueDate43;
+            person.IssueDate44 = entity.IssueDate44;
+            person.IssueDate45 = entity.IssueDate45;
+            person.IssueDate46 = entity.IssueDate46;
+            person.IssueDate47 = entity.IssueDate47;
+            person.IssueDate48 = entity.IssueDate48;
+            person.IssueDate49 = entity.IssueDate49;
+            person.IssueDate50 = entity.IssueDate50;
+            person.ExpireDateTRG02 = entity.ExpireDateTRG02;
+            person.IssueDateTRG02 = entity.IssueDateTRG02;
 
             person.BaseAirline = entity.BaseAirline;
 

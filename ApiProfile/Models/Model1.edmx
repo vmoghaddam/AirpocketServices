@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CertificateHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateCreate" Type="datetime" />
+          <Property Name="CertificateType" Type="varchar" MaxLength="255" />
+          <Property Name="DateIssue" Type="datetime2" Precision="7" />
+          <Property Name="DateExpire" Type="datetime2" Precision="7" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="Remark" Type="varchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="Document">
           <Key>
             <PropertyRef Name="Id" />
@@ -408,6 +420,36 @@
           <Property Name="BaseAirline" Type="varchar" MaxLength="500" />
           <Property Name="IssueDateTRG02" Type="datetime" />
           <Property Name="ExpireDateTRG02" Type="datetime" />
+          <Property Name="IssueDate36" Type="datetime" />
+          <Property Name="ExpireDate36" Type="datetime" />
+          <Property Name="IssueDate37" Type="datetime" />
+          <Property Name="ExpireDate37" Type="datetime" />
+          <Property Name="IssueDate38" Type="datetime" />
+          <Property Name="ExpireDate38" Type="datetime" />
+          <Property Name="IssueDate39" Type="datetime" />
+          <Property Name="ExpireDate39" Type="datetime" />
+          <Property Name="IssueDate40" Type="datetime" />
+          <Property Name="ExpireDate40" Type="datetime" />
+          <Property Name="IssueDate41" Type="datetime" />
+          <Property Name="IssueDate42" Type="datetime" />
+          <Property Name="IssueDate43" Type="datetime" />
+          <Property Name="IssueDate44" Type="datetime" />
+          <Property Name="IssueDate45" Type="datetime" />
+          <Property Name="IssueDate46" Type="datetime" />
+          <Property Name="IssueDate47" Type="datetime" />
+          <Property Name="IssueDate48" Type="datetime" />
+          <Property Name="IssueDate49" Type="datetime" />
+          <Property Name="IssueDate50" Type="datetime" />
+          <Property Name="ExpireDate41" Type="datetime" />
+          <Property Name="ExpireDate42" Type="datetime" />
+          <Property Name="ExpireDate43" Type="datetime" />
+          <Property Name="ExpireDate44" Type="datetime" />
+          <Property Name="ExpireDate45" Type="datetime" />
+          <Property Name="ExpireDate46" Type="datetime" />
+          <Property Name="ExpireDate47" Type="datetime" />
+          <Property Name="ExpireDate48" Type="datetime" />
+          <Property Name="ExpireDate49" Type="datetime" />
+          <Property Name="ExpireDate50" Type="datetime" />
         </EntityType>
         <EntityType Name="PersonAircraftType">
           <Key>
@@ -748,7 +790,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="C3GroupId" Type="int" />
           <Property Name="JobGroup" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="JobGroupCode" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="JobGroupRoot" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="JobGroupRoot" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="NID" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="500" Nullable="false" />
@@ -886,7 +928,34 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="IsTypeAirbus" Type="bit" />
           <Property Name="IsTypeFokker" Type="bit" />
           <Property Name="RemainTRG02" Type="int" />
+          <Property Name="Remain36" Type="int" />
+          <Property Name="Remain37" Type="int" />
+          <Property Name="Remain38" Type="int" />
+          <Property Name="Remain39" Type="int" />
+          <Property Name="Remain40" Type="int" />
+          <Property Name="Remain41" Type="int" />
+          <Property Name="Remain42" Type="int" />
+          <Property Name="Remain43" Type="int" />
+          <Property Name="Remain44" Type="int" />
+          <Property Name="Remain45" Type="int" />
+          <Property Name="Remain46" Type="int" />
+          <Property Name="Remain47" Type="int" />
+          <Property Name="Remain48" Type="int" />
+          <Property Name="Remain49" Type="int" />
+          <Property Name="Remain50" Type="int" />
         </EntityType>
+        <Association Name="FK_CH_PERSON">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="CertificateHistory" Type="Self.CertificateHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CertificateHistory">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DF_DOC">
           <End Role="Document" Type="Self.Document" Multiplicity="1" />
           <End Role="PersonDocumentFile" Type="Self.PersonDocumentFile" Multiplicity="0..1" />
@@ -996,6 +1065,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="dbModelStoreContainer">
+          <EntitySet Name="CertificateHistory" EntityType="Self.CertificateHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeLocation" EntityType="Self.EmployeeLocation" Schema="dbo" store:Type="Tables" />
@@ -1350,9 +1420,28 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
     [ViewProfile].[IsTypeMD] AS [IsTypeMD], 
     [ViewProfile].[IsTypeAirbus] AS [IsTypeAirbus], 
     [ViewProfile].[IsTypeFokker] AS [IsTypeFokker], 
-    [ViewProfile].[RemainTRG02] AS [RemainTRG02]
+    [ViewProfile].[RemainTRG02] AS [RemainTRG02], 
+    [ViewProfile].[Remain36] AS [Remain36], 
+    [ViewProfile].[Remain37] AS [Remain37], 
+    [ViewProfile].[Remain38] AS [Remain38], 
+    [ViewProfile].[Remain39] AS [Remain39], 
+    [ViewProfile].[Remain40] AS [Remain40], 
+    [ViewProfile].[Remain41] AS [Remain41], 
+    [ViewProfile].[Remain42] AS [Remain42], 
+    [ViewProfile].[Remain43] AS [Remain43], 
+    [ViewProfile].[Remain44] AS [Remain44], 
+    [ViewProfile].[Remain45] AS [Remain45], 
+    [ViewProfile].[Remain46] AS [Remain46], 
+    [ViewProfile].[Remain47] AS [Remain47], 
+    [ViewProfile].[Remain48] AS [Remain48], 
+    [ViewProfile].[Remain49] AS [Remain49], 
+    [ViewProfile].[Remain50] AS [Remain50]
     FROM [dbo].[ViewProfile] AS [ViewProfile]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_CH_PERSON" Association="Self.FK_CH_PERSON">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="CertificateHistory" EntitySet="CertificateHistory" />
+          </AssociationSet>
           <AssociationSet Name="FK_DF_DOC" Association="Self.FK_DF_DOC">
             <End Role="Document" EntitySet="Document" />
             <End Role="PersonDocumentFile" EntitySet="PersonDocumentFile" />
@@ -1423,6 +1512,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <EntitySet Name="ViewEmployeeLights" EntityType="dbModel.ViewEmployeeLight" />
           <EntitySet Name="LoginInfoes" EntityType="dbModel.LoginInfo" />
           <EntitySet Name="People" EntityType="dbModel.Person" />
+          <EntitySet Name="ViewProfiles" EntityType="dbModel.ViewProfile" />
           <AssociationSet Name="FK_PD_PERS" Association="dbModel.FK_PD_PERS">
             <End Role="Person" EntitySet="People" />
             <End Role="PersonDocument" EntitySet="PersonDocuments" />
@@ -1435,7 +1525,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
             <End Role="Person" EntitySet="People" />
             <End Role="PersonAircraftType" EntitySet="PersonAircraftTypes" />
           </AssociationSet>
-          <EntitySet Name="ViewProfiles" EntityType="dbModel.ViewProfile" />
+          <EntitySet Name="CertificateHistories" EntityType="dbModel.CertificateHistory" />
+          <AssociationSet Name="FK_CH_PERSON" Association="dbModel.FK_CH_PERSON">
+            <End Role="Person" EntitySet="People" />
+            <End Role="CertificateHistory" EntitySet="CertificateHistories" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="IdeaUnique">
           <Key>
@@ -2184,52 +2278,41 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="BaseAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="IssueDateTRG02" Type="DateTime" Precision="3" />
           <Property Name="ExpireDateTRG02" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate36" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate36" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate37" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate37" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate38" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate38" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate39" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate39" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate40" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate40" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate41" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate42" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate43" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate44" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate45" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate46" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate47" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate48" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate49" Type="DateTime" Precision="3" />
+          <Property Name="IssueDate50" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate41" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate42" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate43" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate44" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate45" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate46" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate47" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate48" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate49" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate50" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PersonDocuments" Relationship="dbModel.FK_PD_PERS" FromRole="Person" ToRole="PersonDocument" />
           <NavigationProperty Name="PersonCustomers" Relationship="dbModel.FK_PERSONCUSTOMER_PERSON" FromRole="Person" ToRole="PersonCustomer" />
           <NavigationProperty Name="PersonAircraftTypes" Relationship="dbModel.FK_UM_Type_Access_UM_Users" FromRole="Person" ToRole="PersonAircraftType" />
+          <NavigationProperty Name="CertificateHistories" Relationship="dbModel.FK_CH_PERSON" FromRole="Person" ToRole="CertificateHistory" />
         </EntityType>
-        <Association Name="FK_PD_PERS">
-          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="dbModel.PersonDocument" Role="PersonDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PersonDocument">
-              <PropertyRef Name="PersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONCUSTOMER_PERSON">
-          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="dbModel.PersonCustomer" Role="PersonCustomer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PersonCustomer">
-              <PropertyRef Name="PersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UM_Type_Access_UM_Users">
-          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="dbModel.PersonAircraftType" Role="PersonAircraftType" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PersonAircraftType">
-              <PropertyRef Name="PersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ViewProfile">
           <Key>
             <PropertyRef Name="Id" />
@@ -2259,7 +2342,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="C3GroupId" Type="Int32" />
           <Property Name="JobGroup" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="JobGroupCode" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
           <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
@@ -2397,7 +2480,89 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="IsTypeAirbus" Type="Boolean" />
           <Property Name="IsTypeFokker" Type="Boolean" />
           <Property Name="RemainTRG02" Type="Int32" />
+          <Property Name="Remain36" Type="Int32" />
+          <Property Name="Remain37" Type="Int32" />
+          <Property Name="Remain38" Type="Int32" />
+          <Property Name="Remain39" Type="Int32" />
+          <Property Name="Remain40" Type="Int32" />
+          <Property Name="Remain41" Type="Int32" />
+          <Property Name="Remain42" Type="Int32" />
+          <Property Name="Remain43" Type="Int32" />
+          <Property Name="Remain44" Type="Int32" />
+          <Property Name="Remain45" Type="Int32" />
+          <Property Name="Remain46" Type="Int32" />
+          <Property Name="Remain47" Type="Int32" />
+          <Property Name="Remain48" Type="Int32" />
+          <Property Name="Remain49" Type="Int32" />
+          <Property Name="Remain50" Type="Int32" />
         </EntityType>
+        <Association Name="FK_PD_PERS">
+          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.PersonDocument" Role="PersonDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonDocument">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONCUSTOMER_PERSON">
+          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.PersonCustomer" Role="PersonCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonCustomer">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UM_Type_Access_UM_Users">
+          <End Type="dbModel.Person" Role="Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbModel.PersonAircraftType" Role="PersonAircraftType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonAircraftType">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CertificateHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateCreate" Type="DateTime" Precision="3" />
+          <Property Name="CertificateType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateIssue" Type="DateTime" Precision="7" />
+          <Property Name="DateExpire" Type="DateTime" Precision="7" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Person" Relationship="dbModel.FK_CH_PERSON" FromRole="CertificateHistory" ToRole="Person" />
+        </EntityType>
+        <Association Name="FK_CH_PERSON">
+          <End Type="dbModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="dbModel.CertificateHistory" Role="CertificateHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CertificateHistory">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2757,6 +2922,36 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="dbModel.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="ExpireDate50" ColumnName="ExpireDate50" />
+                <ScalarProperty Name="ExpireDate49" ColumnName="ExpireDate49" />
+                <ScalarProperty Name="ExpireDate48" ColumnName="ExpireDate48" />
+                <ScalarProperty Name="ExpireDate47" ColumnName="ExpireDate47" />
+                <ScalarProperty Name="ExpireDate46" ColumnName="ExpireDate46" />
+                <ScalarProperty Name="ExpireDate45" ColumnName="ExpireDate45" />
+                <ScalarProperty Name="ExpireDate44" ColumnName="ExpireDate44" />
+                <ScalarProperty Name="ExpireDate43" ColumnName="ExpireDate43" />
+                <ScalarProperty Name="ExpireDate42" ColumnName="ExpireDate42" />
+                <ScalarProperty Name="ExpireDate41" ColumnName="ExpireDate41" />
+                <ScalarProperty Name="IssueDate50" ColumnName="IssueDate50" />
+                <ScalarProperty Name="IssueDate49" ColumnName="IssueDate49" />
+                <ScalarProperty Name="IssueDate48" ColumnName="IssueDate48" />
+                <ScalarProperty Name="IssueDate47" ColumnName="IssueDate47" />
+                <ScalarProperty Name="IssueDate46" ColumnName="IssueDate46" />
+                <ScalarProperty Name="IssueDate45" ColumnName="IssueDate45" />
+                <ScalarProperty Name="IssueDate44" ColumnName="IssueDate44" />
+                <ScalarProperty Name="IssueDate43" ColumnName="IssueDate43" />
+                <ScalarProperty Name="IssueDate42" ColumnName="IssueDate42" />
+                <ScalarProperty Name="IssueDate41" ColumnName="IssueDate41" />
+                <ScalarProperty Name="ExpireDate40" ColumnName="ExpireDate40" />
+                <ScalarProperty Name="IssueDate40" ColumnName="IssueDate40" />
+                <ScalarProperty Name="ExpireDate39" ColumnName="ExpireDate39" />
+                <ScalarProperty Name="IssueDate39" ColumnName="IssueDate39" />
+                <ScalarProperty Name="ExpireDate38" ColumnName="ExpireDate38" />
+                <ScalarProperty Name="IssueDate38" ColumnName="IssueDate38" />
+                <ScalarProperty Name="ExpireDate37" ColumnName="ExpireDate37" />
+                <ScalarProperty Name="IssueDate37" ColumnName="IssueDate37" />
+                <ScalarProperty Name="ExpireDate36" ColumnName="ExpireDate36" />
+                <ScalarProperty Name="IssueDate36" ColumnName="IssueDate36" />
                 <ScalarProperty Name="ExpireDateTRG02" ColumnName="ExpireDateTRG02" />
                 <ScalarProperty Name="IssueDateTRG02" ColumnName="IssueDateTRG02" />
                 <ScalarProperty Name="BaseAirline" ColumnName="BaseAirline" />
@@ -3088,6 +3283,21 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <EntitySetMapping Name="ViewProfiles">
             <EntityTypeMapping TypeName="dbModel.ViewProfile">
               <MappingFragment StoreEntitySet="ViewProfile">
+                <ScalarProperty Name="Remain50" ColumnName="Remain50" />
+                <ScalarProperty Name="Remain49" ColumnName="Remain49" />
+                <ScalarProperty Name="Remain48" ColumnName="Remain48" />
+                <ScalarProperty Name="Remain47" ColumnName="Remain47" />
+                <ScalarProperty Name="Remain46" ColumnName="Remain46" />
+                <ScalarProperty Name="Remain45" ColumnName="Remain45" />
+                <ScalarProperty Name="Remain44" ColumnName="Remain44" />
+                <ScalarProperty Name="Remain43" ColumnName="Remain43" />
+                <ScalarProperty Name="Remain42" ColumnName="Remain42" />
+                <ScalarProperty Name="Remain41" ColumnName="Remain41" />
+                <ScalarProperty Name="Remain40" ColumnName="Remain40" />
+                <ScalarProperty Name="Remain39" ColumnName="Remain39" />
+                <ScalarProperty Name="Remain38" ColumnName="Remain38" />
+                <ScalarProperty Name="Remain37" ColumnName="Remain37" />
+                <ScalarProperty Name="Remain36" ColumnName="Remain36" />
                 <ScalarProperty Name="RemainTRG02" ColumnName="RemainTRG02" />
                 <ScalarProperty Name="IsTypeFokker" ColumnName="IsTypeFokker" />
                 <ScalarProperty Name="IsTypeAirbus" ColumnName="IsTypeAirbus" />
@@ -3240,6 +3450,19 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CertificateHistories">
+            <EntityTypeMapping TypeName="dbModel.CertificateHistory">
+              <MappingFragment StoreEntitySet="CertificateHistory">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="DateExpire" ColumnName="DateExpire" />
+                <ScalarProperty Name="DateIssue" ColumnName="DateIssue" />
+                <ScalarProperty Name="CertificateType" ColumnName="CertificateType" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

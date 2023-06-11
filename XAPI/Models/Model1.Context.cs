@@ -31,7 +31,7 @@ namespace XAPI.Models
         public virtual DbSet<FlightCard> FlightCards { get; set; }
         public virtual DbSet<OFPImportItem> OFPImportItems { get; set; }
         public virtual DbSet<OFPImportProp> OFPImportProps { get; set; }
-        public virtual DbSet<OFPImport> OFPImports { get; set; }
         public virtual DbSet<FlightInformation> FlightInformations { get; set; }
+        public virtual DbSet<OFPImport> OFPImports { get; set; }
     }
 }

@@ -42,5 +42,6 @@ namespace ApiProfile.Models
         public virtual DbSet<LoginInfo> LoginInfoes { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<ViewProfile> ViewProfiles { get; set; }
+        public virtual DbSet<CertificateHistory> CertificateHistories { get; set; }
     }
 }

@@ -25,10 +25,12 @@
         <EntityTypeShape EntityType="dbModel.ViewEmployeeLight" Width="1.5" PointX="12.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.LoginInfo" Width="1.5" PointX="9.375" PointY="10.75" />
         <EntityTypeShape EntityType="dbModel.Person" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.ViewProfile" Width="1.5" PointX="17.375" PointY="6.375" />
         <AssociationConnector Association="dbModel.FK_PD_PERS" />
         <AssociationConnector Association="dbModel.FK_PERSONCUSTOMER_PERSON" />
         <AssociationConnector Association="dbModel.FK_UM_Type_Access_UM_Users" />
-        <EntityTypeShape EntityType="dbModel.ViewProfile" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbModel.CertificateHistory" Width="1.5" PointX="3" PointY="37.5" />
+        <AssociationConnector Association="dbModel.FK_CH_PERSON" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

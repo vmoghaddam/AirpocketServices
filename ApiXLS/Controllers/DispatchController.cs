@@ -58,6 +58,9 @@ namespace ApiXLS.Controllers
         [AcceptVerbs("GET")]
         public HttpResponseMessage GetXlsCrewFlights(string grp,DateTime df,DateTime dt)
         {
+            var cids = new List<int>() {
+            4325,4460,4470,4467,4468,4477,4469,4479,4289,4287,4616,4615,4220,4478
+            };
             var ctx = new Models.dbEntities();
             var _df = df.Date;
             var _dt = dt.Date.AddDays(1);
@@ -69,6 +72,7 @@ namespace ApiXLS.Controllers
                          //flypersia
                          //&& x.FlightStatusID != 1 
                          && x.FlightStatusID != 4
+                         && cids.Contains(x.CrewId)
                          //orderby x.STDLocal
                          select x);
             if (grp != "-1")

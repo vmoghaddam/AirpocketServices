@@ -144,5 +144,6 @@ namespace ApiAPSB.Models
         public Nullable<decimal> FPTripFuel { get; set; }
         public Nullable<decimal> FPFuel { get; set; }
         public Nullable<decimal> FuelPlanned { get; set; }
+        public Nullable<int> OFPExtra { get; set; }
     }
 }

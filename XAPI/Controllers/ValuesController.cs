@@ -573,6 +573,8 @@ namespace XAPI.Controllers
                 var eta = infoRows.FirstOrDefault(q => q.StartsWith("ETA")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("ETA")).Split('=')[1];
 
                 var fpf = infoRows.FirstOrDefault(q => q.StartsWith("FPF")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("FPF")).Split('=')[1];
+                
+               // var vdt= infoRows.FirstOrDefault(q => q.StartsWith("VDT")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("VDT")).Split('=')[1];
                 string alt1 = "";
                 string alt2 = "";
                 var flightDate = DateTime.Parse(dte);
@@ -991,18 +993,111 @@ namespace XAPI.Controllers
                         fltobj.OFPOFFBLOCKFUEL= Convert.ToInt32(val);
                     }
 
+                    if (prm == "EXTRA")
+                    {
+                        plan.FuelExtra = Convert.ToInt32(val);
+                        fltobj.OFPExtra= Convert.ToInt32(val);
+
+                    }
+
 
 
                     props.Add("prop_" + _key);
 
                     idx++;
                 }
+
+                var mindivalt1 = plan.FuelALT1  + plan.FuelFINALRES;
+                if (plan.FuelALT2!=null && plan.FuelALT2 > 0)
+                {
+                    var mindivalt2 = plan.FuelALT2  + plan.FuelFINALRES ;
+                    if (mindivalt1>=mindivalt2)
+                        plan.MINDIVFUEL = "[" + alt1 + ", " + mindivalt1 + "]"+"     "+"[" + plan.ALT2 + ", " + mindivalt2 + "]";
+                    else
+                        plan.MINDIVFUEL = "[" + alt2 + ", " + mindivalt2 + "]" + "     " + "[" + plan.ALT1 + ", " + mindivalt1 + "]";
+                }
+                else
+                {
+                    plan.MINDIVFUEL = "["+ alt1 +", "+mindivalt1+ "]";
+                }
+
                 fuel.Add(new fuelPrm()
                 {
                     prm = "REQ",
                     _key = "fuel_" + "req"
                 }); ;
                 props.Add("prop_fuel_" + "req");
+
+
+
+                var did = parts.FirstOrDefault(q => q.ToUpper().Contains("DID"));
+                var vdt = parts.FirstOrDefault(q => q.ToUpper().Contains("VDT"));
+                if (did != null)
+                {
+                    plan.DID = did.Split('=')[1];
+                }
+
+                if (vdt != null)
+                {
+                    plan.VDT = vdt.Split('=')[1];
+                }
+
+                var wdtmp = parts.FirstOrDefault(q => q.StartsWith("wdtmp:|"));
+                if (wdtmp != null)
+                {
+                    try
+                    {
+                        wdtmp = wdtmp.Replace("wdtmp:|", "");
+                        var wdtmp_parts = wdtmp.Split('|');
+                        var wdtmp_a = wdtmp_parts[0].Replace("/", "_").Substring(0, wdtmp_parts[0].Length - 1);
+                        var wdtmp_b_parts = wdtmp_parts[1].Split('F').Where(q => !string.IsNullOrEmpty(q.Replace(" ", ""))).Select(q => "F" + q).ToList();
+                        int _gwsize =Convert.ToInt32(( wdtmp_b_parts.Count / wdtmp_a.Split('_').Count()));
+                        var _gindex = 0;
+                        var grpgw = wdtmp_b_parts.GroupBy(x => _gindex++ / _gwsize).Select(q=>string.Join("_",q) ).ToList();
+                        var wdtmp_b = string.Join("*", grpgw);
+                        plan.WDTMP = wdtmp_a + "^" + wdtmp_b;
+                    }
+                    catch(Exception _wdex)
+                    {
+
+                    }
+                   
+                }
+
+
+                var wdclb = parts.FirstOrDefault(q => q.StartsWith("wdclb:|"));
+                var wddes= parts.FirstOrDefault(q => q.StartsWith("wddes:|"));
+                if (wdclb != null)
+                {
+                    try
+                    {
+                        wdclb = wdclb.Replace("wdclb:|", "");
+                        var wdclb_parts = wdclb.Split('F').Where(q => !string.IsNullOrEmpty(q.Replace(" ", ""))).Select(q => "F" + q).ToList();
+                        plan.WDCLB = string.Join("*", wdclb_parts);
+                    }
+                    catch (Exception _wdex)
+                    {
+
+                    }
+
+                }
+
+                
+                if (wddes != null)
+                {
+                    try
+                    {
+                        wddes = wddes.Replace("wddes:|", "");
+                        var wddes_parts = wdclb.Split('F').Where(q => !string.IsNullOrEmpty(q.Replace(" ", ""))).Select(q => "F" + q).ToList();
+                        plan.WDDES = string.Join("*", wddes_parts);
+                    }
+                    catch (Exception _wdex)
+                    {
+
+                    }
+
+                }
+
 
                 var other = new List<fuelPrm>();
 
@@ -1282,6 +1377,20 @@ namespace XAPI.Controllers
 
 
                 return Ok(true);
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
             }
             catch (Exception ex)
             {
