@@ -18,11 +18,14 @@ namespace ApiReportFlight.Controllers
         {
             if (dayname == "FRI")
                 return 1;
+            if (dayname == "THU")
+                return 1;
             return 0;
         }
         [Route("api/crew/flight/summary")]
         public IHttpActionResult GetCrewFlightSummary(DateTime df, DateTime dt, string grps = "All", string actype = "All", string cid = "-1")
         {
+            var total_days = (dt.Date - df.Date).Days;
             var result = new List<CrewSummaryDto>();
 
             var context = new ppa_Entities();
@@ -92,6 +95,7 @@ namespace ApiReportFlight.Controllers
                                  group x by new { x.CrewId, x.Name, x.ScheduleName, x.FirstName, x.LastName, x.JobGroup, x.JobGroupCode, x.JobGroupRoot } into grp
                                  select new RptFDPGRP()
                                  {
+                                      
                                      CrewId = grp.Key.CrewId,
                                      ScheduleName = grp.Key.ScheduleName,
                                      Name = grp.Key.Name,
@@ -101,6 +105,7 @@ namespace ApiReportFlight.Controllers
                                      JobGroupCode = grp.Key.JobGroupCode,
                                      JobGroupRoot = grp.Key.JobGroupRoot,
                                      BlockTime = grp.Sum(q => q.BlockTime) ?? 0,
+                                     IndexF=Math.Round(  (grp.Sum(q => q.BlockTime*1.0/60) ?? 0.0) /total_days,2),
                                      FlightTime = grp.Sum(q => q.FlightTime) ?? 0,
                                      FixedFlightTime = grp.Sum(q => q.FixedFlightTime) ?? 0,
                                      ScheduledTime = grp.Sum(q => q.ScheduledTime) ?? 0,
@@ -113,10 +118,13 @@ namespace ApiReportFlight.Controllers
                                      Leg6 = grp.Sum(q => q.Leg6),
                                      Leg7 = grp.Sum(q => q.Leg7),
                                      Leg8 = grp.Sum(q => q.Leg8),
-                                     Positioning = grp.Sum(q => q.Positioning) ?? 0,
-                                     Canceled = grp.Sum(q => q.Canceled) ?? 0,
-                                     PositioningFixTime = grp.Sum(q => q.PositioningFixTime) ?? 0,
-                                     CanceledFixTime = grp.Sum(q => q.CanceledFixTime) ?? 0,
+                                     Leg2X= (grp.Sum(q => q.Leg1)  ) + (grp.Sum(q => q.Leg2)  ) + (grp.Sum(q => q.Leg3) ),
+                                     Leg4X = grp.Sum(q => q.Leg4)+ grp.Sum(q => q.Leg5)+ grp.Sum(q => q.Leg6)+ grp.Sum(q => q.Leg7)+ grp.Sum(q => q.Leg8),
+                                     Positioning =0, //grp.Sum(q => q.Positioning) ?? 0,
+                                     Canceled =0, //grp.Sum(q => q.Canceled) ?? 0,
+                                     PositioningFixTime =0, //grp.Sum(q => q.PositioningFixTime) ?? 0,
+                                     CanceledFixTime =0, //grp.Sum(q => q.CanceledFixTime) ?? 0,
+                                     
 
                                      //DeadHead=grp.Sum(q=>q.)
                                      EarlyDeparture = grp.Sum(q => q.EarlyDeparture),
@@ -202,6 +210,7 @@ namespace ApiReportFlight.Controllers
                 if (fdp != null)
                 {
                     crew.BlockTime = fdp.BlockTime;
+                    crew.IndexF = fdp.IndexF;
                     crew.FlightTime = fdp.FlightTime;
                     crew.FixedFlightTime = fdp.FixedFlightTime;
                     crew.ScheduledTime = fdp.ScheduledTime;
@@ -214,6 +223,8 @@ namespace ApiReportFlight.Controllers
                     crew.Leg7 = fdp.Leg7;
                     crew.Leg8 = fdp.Leg8;
                     crew.Legs = fdp.Legs;
+                    crew.Leg2X = fdp.Leg2X;
+                    crew.Leg4X = fdp.Leg4X;
                     crew.Positioning = fdp.Positioning;
                     crew.Canceled = fdp.Canceled;
                     crew.PositioningFixTime = fdp.PositioningFixTime;
@@ -225,7 +236,7 @@ namespace ApiReportFlight.Controllers
                     crew.WOCLLND = fdp.WOCLLND;
                     crew.WOCLTO = fdp.WOCLTO;
                     crew.XAirportLND = fdp.XAirportLND;
-                    crew.XAirportTO = fdp.XAirportTO;
+                    crew.XAirportTO = fdp.XAirportTO+ fdp.XAirportLND;
                     crew.FDPs = fdp.FDPs.ToList();
                     //crew.FixTimeTotal += fdp.FixedFlightTime;
                 }
@@ -323,6 +334,15 @@ namespace ApiReportFlight.Controllers
             public int Leg6 { get; set; }
             public int Leg7 { get; set; }
             public int Leg8 { get; set; }
+
+            public int Leg2X { get; set; }
+            public int Leg4X { get; set; }
+
+            public int IntFDP { get; set; }
+            public int IntFlt { get; set; }
+
+            public int Index { get; set; }
+            public double IndexF { get; set; }
 
             public int Standby { get; set; }
             public int StandbyFixTime { get; set; }
@@ -626,79 +646,96 @@ namespace ApiReportFlight.Controllers
         // [Authorize]
         public IHttpActionResult GetDelayedFlight(DateTime df, DateTime dt, string route = "", string regs = "", string types = "", string flts = "", string cats = "", int range = 1)
         {
-            var context = new ppa_Entities();
-            var _df = df.Date;
-            var _dt = dt.Date;//.AddHours(24);
-            var query = from x in context.ViewDelayedFlights
-                        where x.STDDayLocal >= _df && x.STDDayLocal <= _dt
-                        select x;
-            ////if (!string.IsNullOrEmpty(cats))
-            ////{
-            ////    var cts = cats.Split('_').ToList();
-            ////    query = query.Where(q => cts.Contains(q.MapTitle2));
-            ////}
-            if (!string.IsNullOrEmpty(route))
+            try
             {
-                var rids = route.Split('_').ToList();
-                query = query.Where(q => rids.Contains(q.Route));
+
+
+                var context = new ppa_Entities();
+                var _df = df.Date;
+                var _dt = dt.Date;//.AddHours(24);
+                var query = from x in context.ViewDelayedFlights
+                            where x.STDDayLocal >= _df && x.STDDayLocal <= _dt
+                            select x;
+                ////if (!string.IsNullOrEmpty(cats))
+                ////{
+                ////    var cts = cats.Split('_').ToList();
+                ////    query = query.Where(q => cts.Contains(q.MapTitle2));
+                ////}
+                if (!string.IsNullOrEmpty(route))
+                {
+                    var rids = route.Split('_').ToList();
+                    query = query.Where(q => rids.Contains(q.Route));
+                }
+
+
+
+                if (!string.IsNullOrEmpty(regs))
+                {
+                    var regids = regs.Split('_').Select(q => (Nullable<int>)Convert.ToInt32(q)).ToList();
+                    query = query.Where(q => regids.Contains(q.RegisterID));
+                }
+
+                if (!string.IsNullOrEmpty(types))
+                {
+                    var typeids = types.Split('_').Select(q => (Nullable<int>)Convert.ToInt32(q)).ToList();
+                    query = query.Where(q => typeids.Contains(q.TypeId));
+                }
+                //malakh
+                if (!string.IsNullOrEmpty(flts))
+                {
+                    var fltids = flts.Split(',').Select(q => q.Trim().Replace(" ", "")).ToList();
+                    query = query.Where(q => fltids.Contains(q.FlightNumber));
+                }
+
+                switch (range)
+                {
+                    case 1:
+
+                        break;
+                    case 2:
+                        query = query.Where(q => q.Delay <= 30);
+                        break;
+                    case 3:
+                        query = query.Where(q => q.Delay > 30);
+                        break;
+                    case 4:
+                        query = query.Where(q => q.Delay >= 31 && q.Delay <= 60);
+                        break;
+                    case 5:
+                        query = query.Where(q => q.Delay >= 61 && q.Delay <= 120);
+                        break;
+                    case 6:
+                        query = query.Where(q => q.Delay >= 121 && q.Delay <= 180);
+                        break;
+                    case 7:
+                        query = query.Where(q => q.Delay >= 181);
+                        break;
+                    case 8:
+                        query = query.Where(q => q.Delay <= 15);
+                        break;
+                    default: break;
+                }
+
+
+
+
+
+                var result = query.OrderBy(q => q.STDDay).ThenBy(q => q.AircraftType).ThenBy(q => q.Register).ThenBy(q => q.STD).ToList();
+
+                return Ok(result);
+
+
+            }
+            catch(Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "    " + ex.InnerException.Message;
+                return Ok(msg);
             }
 
 
 
-            if (!string.IsNullOrEmpty(regs))
-            {
-                var regids = regs.Split('_').Select(q => (Nullable<int>)Convert.ToInt32(q)).ToList();
-                query = query.Where(q => regids.Contains(q.RegisterID));
-            }
-
-            if (!string.IsNullOrEmpty(types))
-            {
-                var typeids = types.Split('_').Select(q => (Nullable<int>)Convert.ToInt32(q)).ToList();
-                query = query.Where(q => typeids.Contains(q.TypeId));
-            }
-            //malakh
-            if (!string.IsNullOrEmpty(flts))
-            {
-                var fltids = flts.Split(',').Select(q => q.Trim().Replace(" ", "")).ToList();
-                query = query.Where(q => fltids.Contains(q.FlightNumber));
-            }
-
-            switch (range)
-            {
-                case 1:
-
-                    break;
-                case 2:
-                    query = query.Where(q => q.Delay <= 30);
-                    break;
-                case 3:
-                    query = query.Where(q => q.Delay > 30);
-                    break;
-                case 4:
-                    query = query.Where(q => q.Delay >= 31 && q.Delay <= 60);
-                    break;
-                case 5:
-                    query = query.Where(q => q.Delay >= 61 && q.Delay <= 120);
-                    break;
-                case 6:
-                    query = query.Where(q => q.Delay >= 121 && q.Delay <= 180);
-                    break;
-                case 7:
-                    query = query.Where(q => q.Delay >= 181);
-                    break;
-                case 8:
-                    query = query.Where(q => q.Delay <= 15);
-                    break;
-                default: break;
-            }
-
-
-
-
-
-            var result = query.OrderBy(q => q.STDDay).ThenBy(q => q.AircraftType).ThenBy(q => q.Register).ThenBy(q => q.STD).ToList();
-
-            return Ok(result);
         }
 
 

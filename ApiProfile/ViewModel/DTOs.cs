@@ -181,6 +181,10 @@ namespace ApiProfile.ViewModels
         public DateTime? DRMExpireDate { get; set; }
         public DateTime? FMTDIssueDate { get; set; }
         public DateTime? FMTDExpireDate { get; set; }
+
+        public DateTime? FMTIssueDate { get; set; }
+        public DateTime? FMTExpireDate { get; set; }
+
         public DateTime? MELExpireDate { get; set; }
         public DateTime? MELIssueDate { get; set; }
         public DateTime? METIssueDate { get; set; }
@@ -628,6 +632,8 @@ namespace ApiProfile.ViewModels
             entity.DRMExpireDate = person.DRMExpireDate;
             entity.FMTDIssueDate = person.FMTDIssueDate;
             entity.FMTDExpireDate = person.FMTDExpireDate;
+            entity.FMTIssueDate = person.FMTIssueDate;
+            entity.FMTExpireDate = person.FMTExpireDate;
             entity.MELExpireDate = person.MELExpireDate;
             entity.MELIssueDate = person.MELIssueDate;
             entity.METIssueDate = person.METIssueDate;
@@ -1017,6 +1023,8 @@ namespace ApiProfile.ViewModels
             person.DRMExpireDate = entity.DRMExpireDate;
             person.FMTDIssueDate = entity.FMTDIssueDate;
             person.FMTDExpireDate = entity.FMTDExpireDate;
+            person.FMTIssueDate = entity.FMTIssueDate;
+            person.FMTExpireDate = entity.FMTExpireDate;
             person.MELExpireDate = entity.MELExpireDate;
             person.MELIssueDate = entity.MELIssueDate;
             person.METIssueDate = entity.METIssueDate;

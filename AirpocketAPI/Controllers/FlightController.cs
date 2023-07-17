@@ -6891,7 +6891,7 @@ new JsonSerializerSettings
             var hasOBSC = result.Where(q => !string.IsNullOrEmpty(q.OBSC)).FirstOrDefault() != null;
             var hasCHECK = result.Where(q => !string.IsNullOrEmpty(q.CHECK)).FirstOrDefault() != null;
             var hasCHECKC = result.Where(q => !string.IsNullOrEmpty(q.CHECKC)).FirstOrDefault() != null;
-
+            var hasFM = result.Where(q => !string.IsNullOrEmpty(q.FM)).FirstOrDefault() != null;
             var obsQuery = result.Where(q => !string.IsNullOrEmpty(q.POSITIONING)).OrderBy(q => q.STD).ToList();
             List<string> obsList = new List<string>();
             foreach (var x in obsQuery)
@@ -6900,7 +6900,7 @@ new JsonSerializerSettings
             }
             var positioning = string.Join(" ", obsList);
             var dutiesQuery = (from x in context.ViewCrewDuties
-                               where x.DateLocal == df && (x.DutyType == 1167 || x.DutyType == 1168 || x.DutyType == 1170 || x.DutyType == 5000 || x.DutyType == 5001
+                               where x.DateLocal == df && (x.DutyType == 1167 || x.DutyType == 1168 || x.DutyType== 300013 ||  x.DutyType == 1170 || x.DutyType == 5000 || x.DutyType == 5001
                                || x.DutyType == 100001 || x.DutyType == 100003)
                                select x).ToList();
             var duties = (from x in dutiesQuery
@@ -6932,6 +6932,7 @@ new JsonSerializerSettings
                 hasISCCM,
                 hasOBSC,
                 hasCHECKC,
+                hasFM
             };
             return Ok(output);
 

@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiSBTBN", "ApiSBTBN\ApiSBT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiCAO", "ApiCAO\ApiCAO.csproj", "{82DC1493-3639-47CF-8714-8B2186BE4EB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiQA", "ApiQA\ApiQA.csproj", "{C67C6CD5-B788-4943-9917-BD125D80EABB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -181,6 +183,14 @@ Global
 		{82DC1493-3639-47CF-8714-8B2186BE4EB5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82DC1493-3639-47CF-8714-8B2186BE4EB5}.Release|x64.ActiveCfg = Release|Any CPU
 		{82DC1493-3639-47CF-8714-8B2186BE4EB5}.Release|x64.Build.0 = Release|Any CPU
+		{C67C6CD5-B788-4943-9917-BD125D80EABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C67C6CD5-B788-4943-9917-BD125D80EABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C67C6CD5-B788-4943-9917-BD125D80EABB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C67C6CD5-B788-4943-9917-BD125D80EABB}.Debug|x64.Build.0 = Debug|Any CPU
+		{C67C6CD5-B788-4943-9917-BD125D80EABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C67C6CD5-B788-4943-9917-BD125D80EABB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C67C6CD5-B788-4943-9917-BD125D80EABB}.Release|x64.ActiveCfg = Release|Any CPU
+		{C67C6CD5-B788-4943-9917-BD125D80EABB}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

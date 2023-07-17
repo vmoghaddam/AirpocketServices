@@ -221,6 +221,9 @@
     <Compile Include="Models\BookFile.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CertificateHistory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CertificateType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -332,6 +335,15 @@
     <Compile Include="Models\TeacherDocument.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TrnDbAppFieldMapping.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewCertificateHistoryRanked.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewCourseAllowedEmployee.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewCourseDocument.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -360,6 +372,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewCourseSessionPresenceDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewCourseSMSHistoryRanked.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewCourseType.cs">

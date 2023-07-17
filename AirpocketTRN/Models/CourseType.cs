@@ -35,10 +35,10 @@ namespace AirpocketTRN.Models
         public Nullable<int> IDX { get; set; }
         public Nullable<int> Mandatory { get; set; }
     
-        public virtual CertificateType CertificateType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseTypeJobGroup> CourseTypeJobGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Course> Courses { get; set; }
+        public virtual CertificateType CertificateType { get; set; }
     }
 }

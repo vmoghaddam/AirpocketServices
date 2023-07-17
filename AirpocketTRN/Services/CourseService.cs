@@ -145,6 +145,599 @@ namespace AirpocketTRN.Services
             };
         }
 
+
+        public class _title_count
+        {
+
+        }
+        public class _expiring_group
+        {
+            public int GroupId { get; set; }
+            public string GroupTitle { get; set; }
+            public string GroupCode { get; set; }
+
+            public int IsExpiring { get; set; }
+
+            public int IsExpired { get; set; }
+            public string CertificateType { get; set; }
+            public int EmployeesCount { get; set; }
+            public double IndexExpiring { get; set; }
+            public double IndexExpired { get; set; }
+
+            public List<_expiring_group> Children { get; set; }
+
+            public int GroupLevel { get; set; }
+            public dynamic Dates { get; set; }
+        }
+        public dynamic getCalendar(List<ViewCertificateHistoryRanked> rows,string code)
+        {
+            var expiring = new List<ViewCertificateHistoryRanked>();
+            var expiring_query = rows.Where(q => q.IsExpiring == 1);
+            if (!string.IsNullOrEmpty(code))
+                expiring_query = expiring_query.Where(q => q.JobGroupCode2.StartsWith(code));
+            expiring = expiring_query.ToList();
+            var query = from x in expiring
+                        group x by new { DateExpire=((DateTime)x.DateExpire).Date, x.CertificateType } into grp
+                        select new
+                        {
+                            grp.Key.DateExpire,
+                            grp.Key.CertificateType,
+                            Count=grp.Count(),
+                            Items=(
+                               from y in grp
+                               group y by new {y.L1Title} into grp2
+                               select new
+                               {
+                                   main_group=grp2.Key.L1Title,
+                                   employees=grp2.OrderBy(q=>q.JobGroup).ThenBy(q=>q.LastName).ToList()
+                               }
+                            ).ToList()
+                        };
+            var query2 = (from x in query
+                          group x by new { x.DateExpire } into grp
+                          select new
+                          {
+                              Date = grp.Key.DateExpire,
+                              Month=grp.Key.DateExpire.ToString("MMM"),
+                              Items = grp.OrderByDescending(q => q.Count).ToList()
+                          }).OrderBy(q=>q.Date).ToList();
+            var month_names = query2.Select(q => q.Month).Distinct().ToList();
+            return new { Items = query2, Monthes = month_names };
+
+        }
+
+        public dynamic getCalendarExpired(List<ViewCertificateHistoryRanked> rows, string code)
+        {
+            var expiring = new List<ViewCertificateHistoryRanked>();
+            var expiring_query = rows.AsEnumerable() ;
+            if (!string.IsNullOrEmpty(code))
+                expiring_query = expiring_query.Where(q => q.JobGroupCode2.StartsWith(code));
+            expiring = expiring_query.ToList();
+            var query = from x in expiring
+                        group x by new { DateExpire = ((DateTime)x.DateExpire).Date, x.CertificateType } into grp
+                        select new
+                        {
+                            grp.Key.DateExpire,
+                            grp.Key.CertificateType,
+                            Count = grp.Count(),
+                            Items = (
+                               from y in grp
+                               group y by new { y.L1Title } into grp2
+                               select new
+                               {
+                                   main_group = grp2.Key.L1Title,
+                                   employees = grp2.OrderBy(q => q.JobGroup).ThenBy(q => q.LastName).ToList()
+                               }
+                            ).ToList()
+                        };
+            var query2 = (from x in query
+                          group x by new { x.DateExpire } into grp
+                          select new
+                          {
+                              Date = grp.Key.DateExpire,
+                              Month = grp.Key.DateExpire.ToString("MMM"),
+                              Items = grp.OrderByDescending(q => q.Count).ToList()
+                          }).OrderBy(q => q.Date).ToList();
+            var month_names = query2.Select(q => q.Month).Distinct().ToList();
+            return new { Items = query2, Monthes = month_names };
+
+        }
+        public async Task<DataResponse> GetMonitoringExpiringGroups()
+        {
+
+            var l1_length = 3;
+            var lo_length = 2;
+            var jobgroups = await context.JobGroups.ToListAsync();
+            var _exg = new List<string>() { "TRE", "TRI", "P1", "P2", "ISCCM", "SCCM", "CCM" };
+            var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/ q.IsCritical == 1 /*&& !_exg.Contains(q.JobGroup)*/).ToListAsync();
+
+
+            //condition: inactive=false
+            var expiring_employees_groups = await context.ViewEmployees.Select(q => new { q.Id, q.JobGroupMainCode }).ToListAsync();
+
+            foreach (var emp in expiring_employees)
+            {
+                var jobgroup_code = emp.JobGroupCode2;
+                var l1_code = jobgroup_code.Substring(0, l1_length);
+                var l1_group = jobgroups.FirstOrDefault(q => q.FullCode2 == l1_code);
+                emp.L1Id = l1_group.Id;
+                emp.L1Code = l1_group.FullCode2;
+                emp.L1Title = l1_group.Title;
+
+
+
+                if (jobgroup_code.Length > l1_length)
+                {
+                    var l2_code = jobgroup_code.Substring(0, l1_length + lo_length);
+                    var l2_group = jobgroups.FirstOrDefault(q => q.FullCode2 == l2_code);
+
+                    emp.L2Id = l2_group.Id;
+                    emp.L2Code = l2_group.FullCode2;
+                    emp.L2Title = l2_group.Title;
+                }
+                if (jobgroup_code.Length > l1_length + lo_length * 1)
+                {
+                    var l3_code = jobgroup_code.Substring(0, l1_length + 2 * lo_length);
+                    var l3_group = jobgroups.FirstOrDefault(q => q.FullCode2 == l3_code);
+
+                    emp.L3Id = l3_group.Id;
+                    emp.L3Code = l3_group.FullCode2;
+                    emp.L3Title = l3_group.Title;
+                }
+                if (jobgroup_code.Length > l1_length + lo_length * 2)
+                {
+                    var l4_code = jobgroup_code.Substring(0, l1_length + 3 * lo_length);
+                    var l4_group = jobgroups.FirstOrDefault(q => q.FullCode2 == l4_code);
+
+                    emp.L4Id = l4_group.Id;
+                    emp.L4Code = l4_group.FullCode2;
+                    emp.L4Title = l4_group.Title;
+                }
+                if (jobgroup_code.Length > l1_length + lo_length * 3)
+                {
+                    var l5_code = jobgroup_code.Substring(0, l1_length + 4 * lo_length);
+                    var l5_group = jobgroups.FirstOrDefault(q => q.FullCode2 == l5_code);
+
+                    emp.L5Id = l5_group.Id;
+                    emp.L5Code = l5_group.FullCode2;
+                    emp.L5Title = l5_group.Title;
+                }
+            }
+            
+
+            var dates = getCalendar(expiring_employees, null);
+            var query_l1 = (from x in expiring_employees
+                            group x by new { x.L1Code, x.L1Id, x.L1Title } into grp
+                            select new _expiring_group()
+                            {
+                                GroupCode = grp.Key.L1Code,
+                                GroupTitle = grp.Key.L1Title,
+                                GroupId = (int)grp.Key.L1Id,
+                                IsExpired = grp.Sum(q => q.IsExpired),
+                                IsExpiring = grp.Sum(q => q.IsExpiring),
+                                GroupLevel = 1,
+                                EmployeesCount = expiring_employees_groups.Where(q => q.JobGroupMainCode.StartsWith(grp.Key.L1Code)).Count(),
+                                Dates=getCalendar(expiring_employees, grp.Key.L1Code)
+
+                                
+                            }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
+            var query_l2 = (from x in expiring_employees
+                            group x by new { x.L2Code, x.L2Id, x.L2Title } into grp
+                            select new _expiring_group()
+                            {
+                                GroupCode = grp.Key.L2Code,
+                                GroupTitle = grp.Key.L2Title,
+                                GroupId = (int)grp.Key.L2Id,
+                                IsExpired = grp.Sum(q => q.IsExpired),
+                                IsExpiring = grp.Sum(q => q.IsExpiring),
+                                GroupLevel = 2,
+                                EmployeesCount = expiring_employees_groups.Where(q => q.JobGroupMainCode.StartsWith(grp.Key.L2Code)).Count(),
+                                Dates = getCalendar(expiring_employees, grp.Key.L2Code)
+                            }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
+
+
+            List<_expiring_group> query_l3 = new List<_expiring_group>();
+            List<_expiring_group> query_l4 = new List<_expiring_group>();
+            List<_expiring_group> query_l5 = new List<_expiring_group>();
+
+            if (expiring_employees.Where(q => q.JobGroupCode2.Length >= l1_length + 2 * lo_length).Count() > 0)
+            {
+                //l3
+                query_l3 = (from x in expiring_employees
+                            group x by new { x.L3Code, x.L3Id, x.L3Title } into grp
+                            select new _expiring_group()
+                            {
+                                GroupCode = grp.Key.L3Code,
+                                GroupTitle = grp.Key.L3Title,
+                                GroupId = (int)grp.Key.L3Id,
+                                IsExpired = grp.Sum(q => q.IsExpired),
+                                IsExpiring = grp.Sum(q => q.IsExpiring),
+                                GroupLevel = 3,
+                                EmployeesCount = expiring_employees_groups.Where(q => q.JobGroupMainCode.StartsWith(grp.Key.L3Code)).Count(),
+                                Dates = getCalendar(expiring_employees, grp.Key.L3Code)
+                            }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
+            }
+
+            if (expiring_employees.Where(q => q.JobGroupCode2.Length >= l1_length + 3 * lo_length).Count() > 0)
+            {
+                //l4
+                query_l4 = (from x in expiring_employees
+                            group x by new { x.L4Code, x.L4Id, x.L4Title } into grp
+                            select new _expiring_group()
+                            {
+                                GroupCode = grp.Key.L4Code,
+                                GroupTitle = grp.Key.L4Title,
+                                GroupId = (int)grp.Key.L4Id,
+                                IsExpired = grp.Sum(q => q.IsExpired),
+                                IsExpiring = grp.Sum(q => q.IsExpiring),
+                                GroupLevel = 4,
+                                EmployeesCount = expiring_employees_groups.Where(q => q.JobGroupMainCode.StartsWith(grp.Key.L4Code)).Count(),
+                                Dates = getCalendar(expiring_employees, grp.Key.L4Code)
+                            }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
+            }
+
+            if (expiring_employees.Where(q => q.JobGroupCode2.Length >= l1_length + 4 * lo_length).Count() > 0)
+            {
+                //l5
+                query_l5 = (from x in expiring_employees
+                            group x by new { x.L5Code, x.L5Id, x.L5Title } into grp
+                            select new _expiring_group()
+                            {
+                                GroupCode = grp.Key.L5Code,
+                                GroupTitle = grp.Key.L5Title,
+                                GroupId = (int)grp.Key.L5Id,
+                                IsExpired = grp.Sum(q => q.IsExpired),
+                                IsExpiring = grp.Sum(q => q.IsExpiring),
+                                GroupLevel = 5,
+                                EmployeesCount = expiring_employees_groups.Where(q => q.JobGroupMainCode.StartsWith(grp.Key.L5Code)).Count(),
+                                Dates = getCalendar(expiring_employees, grp.Key.L5Code)
+                            }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
+            }
+
+            foreach (var grp in query_l1)
+            {
+                grp.Children = query_l2.Where(q => q.GroupCode.StartsWith(grp.GroupCode)).ToList();
+                grp.IndexExpired =Math.Round( grp.IsExpired * 1.0 / grp.EmployeesCount,1);
+                grp.IndexExpiring = Math.Round(grp.IsExpiring * 1.0 / grp.EmployeesCount,1);
+            }
+            foreach (var grp in query_l2)
+            {
+                grp.Children = query_l3.Where(q => q.GroupCode.StartsWith(grp.GroupCode)).ToList();
+                grp.IndexExpired = Math.Round(grp.IsExpired * 1.0 / grp.EmployeesCount, 1);
+                grp.IndexExpiring = Math.Round(grp.IsExpiring * 1.0 / grp.EmployeesCount, 1);
+            }
+            foreach (var grp in query_l3)
+            {
+                grp.Children = query_l4.Where(q => q.GroupCode.StartsWith(grp.GroupCode)).ToList();
+                grp.IndexExpired = Math.Round(grp.IsExpired * 1.0 / grp.EmployeesCount, 1);
+                grp.IndexExpiring = Math.Round(grp.IsExpiring * 1.0 / grp.EmployeesCount, 1);
+            }
+
+            foreach (var grp in query_l4)
+            {
+                grp.Children = query_l5.Where(q => q.GroupCode.StartsWith(grp.GroupCode)).ToList();
+                grp.IndexExpired = Math.Round(grp.IsExpired * 1.0 / grp.EmployeesCount, 1);
+                grp.IndexExpiring = Math.Round(grp.IsExpiring * 1.0 / grp.EmployeesCount, 1);
+            }
+
+            var result = new
+            {
+                employees = expiring_employees,
+                Dates=dates,
+                groups = query_l1,
+            };
+
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+
+        public async Task<DataResponse> GetMonitoringExpiringCertificateTypes()
+        {
+
+            var l1_length = 3;
+            var lo_length = 2;
+            var jobgroups = await context.JobGroups.ToListAsync();
+            var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => q.InActive == false && q.IsCritical == 1).ToListAsync();
+
+            foreach (var emp in expiring_employees)
+            {
+                var jobgroup_code = emp.JobGroupCode2;
+                var l1_code = jobgroup_code.Substring(0, l1_length);
+                var l1_group = jobgroups.FirstOrDefault(q => q.FullCode2 == l1_code);
+                emp.L1Id = l1_group.Id;
+                emp.L1Code = l1_group.FullCode2;
+                emp.L1Title = l1_group.Title;
+
+                if (jobgroup_code.Length > l1_length)
+                {
+                    var l2_code = jobgroup_code.Substring(0, l1_length + lo_length);
+                    var l2_group = jobgroups.FirstOrDefault(q => q.FullCode2 == l2_code);
+
+                    emp.L2Id = l2_group.Id;
+                    emp.L2Code = l2_group.FullCode2;
+                    emp.L2Title = l2_group.Title;
+                }
+                if (jobgroup_code.Length > l1_length + lo_length * 1)
+                {
+                    var l3_code = jobgroup_code.Substring(0, l1_length + 2 * lo_length);
+                    var l3_group = jobgroups.FirstOrDefault(q => q.FullCode2 == l3_code);
+
+                    emp.L3Id = l3_group.Id;
+                    emp.L3Code = l3_group.FullCode2;
+                    emp.L3Title = l3_group.Title;
+                }
+                if (jobgroup_code.Length > l1_length + lo_length * 2)
+                {
+                    var l4_code = jobgroup_code.Substring(0, l1_length + 3 * lo_length);
+                    var l4_group = jobgroups.FirstOrDefault(q => q.FullCode2 == l4_code);
+
+                    emp.L4Id = l4_group.Id;
+                    emp.L4Code = l4_group.FullCode2;
+                    emp.L4Title = l4_group.Title;
+                }
+                if (jobgroup_code.Length > l1_length + lo_length * 3)
+                {
+                    var l5_code = jobgroup_code.Substring(0, l1_length + 4 * lo_length);
+                    var l5_group = jobgroups.FirstOrDefault(q => q.FullCode2 == l5_code);
+
+                    emp.L5Id = l5_group.Id;
+                    emp.L5Code = l5_group.FullCode2;
+                    emp.L5Title = l5_group.Title;
+                }
+            }
+
+            var query_root = (from x in expiring_employees
+                              group x by new { x.CertificateType } into grp
+                              select new _expiring_group()
+                              {
+                                  CertificateType = grp.Key.CertificateType,
+                                  IsExpired = grp.Sum(q => q.IsExpired),
+                                  IsExpiring = grp.Sum(q => q.IsExpiring),
+                                  GroupLevel = 0,
+                              }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
+
+            var query_l1 = (from x in expiring_employees
+                            group x by new { x.CertificateType, x.L1Code, x.L1Id, x.L1Title } into grp
+                            select new _expiring_group()
+                            {
+                                CertificateType = grp.Key.CertificateType,
+                                GroupCode = grp.Key.L1Code,
+                                GroupTitle = grp.Key.L1Title,
+                                GroupId = (int)grp.Key.L1Id,
+                                IsExpired = grp.Sum(q => q.IsExpired),
+                                IsExpiring = grp.Sum(q => q.IsExpiring),
+                                GroupLevel = 1,
+                            }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
+            var query_l2 = (from x in expiring_employees
+                            group x by new { x.CertificateType, x.L2Code, x.L2Id, x.L2Title } into grp
+                            select new _expiring_group()
+                            {
+                                CertificateType = grp.Key.CertificateType,
+                                GroupCode = grp.Key.L2Code,
+                                GroupTitle = grp.Key.L2Title,
+                                GroupId = (int)grp.Key.L2Id,
+                                IsExpired = grp.Sum(q => q.IsExpired),
+                                IsExpiring = grp.Sum(q => q.IsExpiring),
+                                GroupLevel = 2,
+                            }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
+
+
+            List<_expiring_group> query_l3 = new List<_expiring_group>();
+            List<_expiring_group> query_l4 = new List<_expiring_group>();
+            List<_expiring_group> query_l5 = new List<_expiring_group>();
+
+            if (expiring_employees.Where(q => q.JobGroupCode2.Length >= l1_length + 2 * lo_length).Count() > 0)
+            {
+                //l3
+                query_l3 = (from x in expiring_employees
+                            group x by new { x.CertificateType, x.L3Code, x.L3Id, x.L3Title } into grp
+                            select new _expiring_group()
+                            {
+                                CertificateType = grp.Key.CertificateType,
+                                GroupCode = grp.Key.L3Code,
+                                GroupTitle = grp.Key.L3Title,
+                                GroupId = (int)grp.Key.L3Id,
+                                IsExpired = grp.Sum(q => q.IsExpired),
+                                IsExpiring = grp.Sum(q => q.IsExpiring),
+                                GroupLevel = 3,
+                            }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
+            }
+
+            if (expiring_employees.Where(q => q.JobGroupCode2.Length >= l1_length + 3 * lo_length).Count() > 0)
+            {
+                //l4
+                query_l4 = (from x in expiring_employees
+                            group x by new { x.CertificateType, x.L4Code, x.L4Id, x.L4Title } into grp
+                            select new _expiring_group()
+                            {
+                                CertificateType = grp.Key.CertificateType,
+                                GroupCode = grp.Key.L4Code,
+                                GroupTitle = grp.Key.L4Title,
+                                GroupId = (int)grp.Key.L4Id,
+                                IsExpired = grp.Sum(q => q.IsExpired),
+                                IsExpiring = grp.Sum(q => q.IsExpiring),
+                                GroupLevel = 4,
+                            }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
+            }
+
+            if (expiring_employees.Where(q => q.JobGroupCode2.Length >= l1_length + 4 * lo_length).Count() > 0)
+            {
+                //l5
+                query_l5 = (from x in expiring_employees
+                            group x by new { x.CertificateType, x.L5Code, x.L5Id, x.L5Title } into grp
+                            select new _expiring_group()
+                            {
+                                CertificateType = grp.Key.CertificateType,
+                                GroupCode = grp.Key.L5Code,
+                                GroupTitle = grp.Key.L5Title,
+                                GroupId = (int)grp.Key.L5Id,
+                                IsExpired = grp.Sum(q => q.IsExpired),
+                                IsExpiring = grp.Sum(q => q.IsExpiring),
+                                GroupLevel = 5,
+                            }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
+            }
+            foreach (var grp in query_root)
+            {
+                grp.Children = query_l1.Where(q => q.CertificateType == grp.CertificateType).ToList();
+            }
+            foreach (var grp in query_l1)
+            {
+                grp.Children = query_l2.Where(q => q.CertificateType == grp.CertificateType && q.GroupCode.StartsWith(grp.GroupCode)).ToList();
+            }
+            foreach (var grp in query_l2)
+            {
+                grp.Children = query_l3.Where(q => q.CertificateType == grp.CertificateType && q.GroupCode.StartsWith(grp.GroupCode)).ToList();
+            }
+            foreach (var grp in query_l3)
+            {
+                grp.Children = query_l4.Where(q => q.CertificateType == grp.CertificateType && q.GroupCode.StartsWith(grp.GroupCode)).ToList();
+            }
+
+            foreach (var grp in query_l4)
+            {
+                grp.Children = query_l5.Where(q => q.CertificateType == grp.CertificateType && q.GroupCode.StartsWith(grp.GroupCode)).ToList();
+            }
+
+            var result = new
+            {
+                employees = expiring_employees,
+                groups = query_root,
+            };
+
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+
+        public async Task<DataResponse> GetMonitoringExpiringMain()
+        {
+            var query = from x in context.ViewCertificateHistoryRankeds
+                        where x.InActive == false && x.IsCritical == 1
+                        group x by new { x.JobGroupMain, x.JobGroupMainCode, x.JobGroupMainId } into grp
+                        select new
+                        {
+                            Group = grp.Key.JobGroupMain,
+                            GroupId = grp.Key.JobGroupMainId,
+                            GroupCode = grp.Key.JobGroupMainCode,
+                            Count = grp.Count(),
+                            IsExpiring = grp.Sum(q => q.IsExpiring),
+                            IsExpired = grp.Sum(q => q.IsExpired),
+                            Employees = grp.OrderBy(q => q.JobGroup).ThenBy(q => q.CertificateType).ToList()
+
+                        };
+            var result = (await query.ToListAsync()).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.Group).ToList();
+
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+
+
+        public class _JobGroupKey
+        {
+            public int Id { get; set; }
+            public string Title { get; set; }
+            public string Code { get; set; }
+        }
+        public async Task<DataResponse> GetMonitoringExpiringMainByParent(int parentid)
+        {
+            var parentgoup = await context.JobGroups.Where(q => q.Id == parentid).FirstOrDefaultAsync();
+
+            var jobgroups = (await context.JobGroups.Where(q => q.ParentId == parentid).ToListAsync()).OrderBy(q => q.FullCode2).ToList();
+            var fullcodes = jobgroups.Select(q => q.FullCode2).ToList();
+            var query = from x in context.ViewCertificateHistoryRankeds
+                        where x.InActive == false && x.IsCritical == 1 && x.JobGroupCode2.StartsWith(parentgoup.FullCode2)
+                        group x by new { x.JobGroupCode2, x.JobGroup, x.JobGroupMain, x.JobGroupId } into grp
+                        select new
+                        {
+                            MainGroup = grp.Key.JobGroupMain,
+                            Group = grp.Key.JobGroup,
+                            GroupCode = grp.Key.JobGroupCode2,
+                            GroupId = grp.Key.JobGroupId,
+                            Count = grp.Count(),
+                            IsExpiring = grp.Sum(q => q.IsExpiring),
+                            IsExpired = grp.Sum(q => q.IsExpired),
+                            Employees = grp.OrderBy(q => q.JobGroup).ThenBy(q => q.CertificateType).ToList()
+
+                        };
+            var query_result = await query.ToListAsync();
+            var result = new List<Object>(); //new Dictionary<string, List<object>>();
+            foreach (var jg in jobgroups)
+            {
+                var items = query_result.Where(q => q.GroupCode.StartsWith(jg.FullCode2)).OrderBy(q => q.GroupCode).ToList();
+                if (items.Count > 0)
+                {
+                    //result.Add(jg.Id+"_"+jg.Id+"_"+jg.Title, items.Select(q=>(object)q).ToList());
+                    result.Add(
+                        new
+                        {
+                            jg.Id,
+                            Code = jg.Id,
+                            jg.Title,
+                            Items = items
+                        }
+                    );
+                }
+            }
+
+
+
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+
+
+        public async Task<DataResponse> GetTrainingSchedule(int year,int month)
+        {
+            var session_query = await (from x in context.ViewCourseSessions
+                                where x.Year==year && x.Month==month
+                                select x).ToListAsync();
+            var sessions = (from x in session_query
+                            group x by new { ((DateTime)x.DateStart).Date } into grp
+                            select new
+                            {
+                                Date = grp.Key.Date,
+                                Items = grp.Select(q => new
+                                {
+                                    q.CourseId,
+                                    q.DateStart,
+                                    q.DateEnd,
+                                    q.Instructor,
+                                    q.No,
+                                    q.Organization,
+                                    q.Title,
+                                    q.Location,
+                                    q.Status
+                                }).OrderBy(w => w.DateStart).ThenBy(w => w.Title).ToList()
+                            }).OrderBy(q => q.Date).ToList();
+
+            var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear==year && q.ExpireMonth==month).ToListAsync();
+            //kosu
+            var dates = getCalendarExpired(expiring_employees, null);
+
+
+            var result = new { 
+               sessions,
+               expired=dates
+            };
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+
+        }
+
         public async Task<DataResponse> GetCourseTypeJobGroups(int cid)
         {
             var result = await context.ViewCourseTypeJobGroups.Where(q => q.CourseTypeId == cid).OrderBy(q => q.Title).ToListAsync();
@@ -996,9 +1589,9 @@ namespace AirpocketTRN.Services
                 context.CourseSyllabus.RemoveRange(_deletedSyl);
 
                 var newSyllabi = dto.Syllabi.Where(q => q.Id < 0).ToList();
-                foreach(var x in newSyllabi)
+                foreach (var x in newSyllabi)
                 {
-                    entity.CourseSyllabus.Add(new CourseSyllabu() { Duration=x.Duration, Title=x.Title });
+                    entity.CourseSyllabus.Add(new CourseSyllabu() { Duration = x.Duration, Title = x.Title });
                 }
 
 
@@ -1568,8 +2161,8 @@ namespace AirpocketTRN.Services
                 Data = dto,
             };
         }
-       
-    public async Task<DataResponse> SaveSyllabus(dynamic dto)
+
+        public async Task<DataResponse> SaveSyllabus(dynamic dto)
         {
             int Id = Convert.ToInt32(dto.Id);
             string Remark = Convert.ToString(dto.Remark);
@@ -1582,10 +2175,10 @@ namespace AirpocketTRN.Services
             syllabus.InstructorId = Instructor;
             syllabus.SessionKey = Session;
 
-        
+
 
             await context.SaveChangesAsync();
-            var syll = await context.ViewSyllabus .Where(q => q.Id == Id).FirstOrDefaultAsync();
+            var syll = await context.ViewSyllabus.Where(q => q.Id == Id).FirstOrDefaultAsync();
             return new DataResponse()
             {
                 IsSuccess = true,
@@ -1629,10 +2222,11 @@ namespace AirpocketTRN.Services
             };
         }
 
-
+        //06-13
         public async Task<DataResponse> UpdateCoursePeopleStatus(CoursePeopleStatusViewModel dto)
         {
             CoursePeople cp = null;
+
 
             if (dto.Id != -1)
                 cp = await context.CoursePeoples.Where(q => q.Id == dto.Id).FirstOrDefaultAsync();
@@ -1641,12 +2235,23 @@ namespace AirpocketTRN.Services
             if (dto.StatusId != cp.StatusId)
                 cp.DateStatus = DateTime.Now;
 
+            var course = await context.ViewCourseNews.Where(q => q.Id == cp.CourseId).FirstOrDefaultAsync();
+            var history = await context.CertificateHistories.Where(q => q.PersonId == dto.PersonId && q.CourseId == dto.CourseId).FirstOrDefaultAsync();
+
+            var field_map = await (from m in context.TrnDbAppFieldMappings
+                                   join ct in context.CertificateTypes on m.CertificateTypeId equals ct.TypeId
+                                   where ct.Id == course.CertificateTypeId //&& dto.Group.StartsWith(m.GroupCode)
+                                   select m).FirstOrDefaultAsync();
+            if (history != null)
+                context.CertificateHistories.Remove(history);
             //-1: UnKnown 0:Failed 1:Passed
             if (dto.StatusId != 1)
             {
                 cp.DateIssue = null;
                 cp.DateExpire = null;
                 cp.CertificateNo = null;
+
+                //remove record from history
 
 
             }
@@ -1658,16 +2263,53 @@ namespace AirpocketTRN.Services
                 if (string.IsNullOrEmpty(cp.CertificateNo))
                     cp.CertificateNo = "FPC-" + cp.Id;
 
+                //add record to history
+                context.CertificateHistories.Add(new CertificateHistory()
+                {
+                    CourseId = dto.CourseId,
+                    CertificateType = field_map.Identifier,
+                    DateCreate = DateTime.Now,
+                    DateExpire = cp.DateExpire,
+                    DateIssue = cp.DateIssue,
+                    PersonId = (int)cp.PersonId,
+                    Remark = "Update Course Result"
+
+                });
             }
+
+
 
             cp.StatusId = dto.StatusId;
             cp.StatusRemark = dto.Remark;
 
-            if (dto.StatusId == 1 && cp.DateIssue != null && cp.DateExpire != null && !string.IsNullOrEmpty(cp.CertificateNo))
+            if (dto.StatusId == 1 && (cp.DateIssue != null || cp.DateExpire != null) && field_map.DbFieldIssue!=null)
+            {
+                var cmd_upd_part = new List<string>();
+
+                if (cp.DateIssue != null)
+                    cmd_upd_part.Add(field_map.DbFieldIssue + "='" + ((DateTime)cp.DateIssue).ToString("yyyy-MM-dd") + "' ");
+                if (cp.DateExpire != null)
+                    cmd_upd_part.Add(field_map.DbFieldExpire + "='" + ((DateTime)cp.DateExpire).ToString("yyyy-MM-dd") + "' ");
+
+                var cmd_upd = "Update Person set "
+                    + string.Join(",", cmd_upd_part)
+                    + " Where id=" + dto.PersonId;
+
+                var i = context.Database.ExecuteSqlCommand(cmd_upd);
+
+            }
+
+            if (1 == 2 && dto.StatusId == 1 && cp.DateIssue != null && cp.DateExpire != null && !string.IsNullOrEmpty(cp.CertificateNo))
             {
 
+
+
                 var person = await context.People.Where(q => q.Id == cp.PersonId).FirstOrDefaultAsync();
-                var course = await context.ViewCourseNews.Where(q => q.Id == cp.CourseId).FirstOrDefaultAsync();
+
+
+
+
+
                 switch (course.CertificateType)
                 {
 
@@ -3104,7 +3746,7 @@ namespace AirpocketTRN.Services
             //var press = await context.CourseSessionPresences.Where(q => q.CourseId == cid).ToListAsync();
             var press = await context.ViewCourseSessionPresences.Where(q => q.CourseId == cid).ToListAsync();
             var syllabi = await context.ViewSyllabus.Where(q => q.CourseId == cid).ToListAsync();
-            
+
 
             return new DataResponse()
             {

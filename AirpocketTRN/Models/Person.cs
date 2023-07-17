@@ -20,6 +20,7 @@ namespace AirpocketTRN.Models
             this.CoursePeoples = new HashSet<CoursePeople>();
             this.CourseSessionPresences = new HashSet<CourseSessionPresence>();
             this.CourseSessionPresenceDetails = new HashSet<CourseSessionPresenceDetail>();
+            this.CertificateHistories = new HashSet<CertificateHistory>();
         }
     
         public int Id { get; set; }
@@ -290,6 +291,93 @@ namespace AirpocketTRN.Models
         public Nullable<System.DateTime> ExpireDate9 { get; set; }
         public Nullable<System.DateTime> IssueDate10 { get; set; }
         public Nullable<System.DateTime> ExpireDate10 { get; set; }
+        public Nullable<System.DateTime> IssueDate11 { get; set; }
+        public Nullable<System.DateTime> ExpireDate11 { get; set; }
+        public Nullable<System.DateTime> IssueDate12 { get; set; }
+        public Nullable<System.DateTime> ExpireDate12 { get; set; }
+        public Nullable<System.DateTime> IssueDate13 { get; set; }
+        public Nullable<System.DateTime> ExpireDate13 { get; set; }
+        public Nullable<System.DateTime> IssueDate14 { get; set; }
+        public Nullable<System.DateTime> ExpireDate14 { get; set; }
+        public Nullable<System.DateTime> IssueDate15 { get; set; }
+        public Nullable<System.DateTime> ExpireDate15 { get; set; }
+        public Nullable<System.DateTime> IssueDate16 { get; set; }
+        public Nullable<System.DateTime> ExpireDate16 { get; set; }
+        public Nullable<System.DateTime> IssueDate17 { get; set; }
+        public Nullable<System.DateTime> ExpireDate17 { get; set; }
+        public Nullable<System.DateTime> IssueDate18 { get; set; }
+        public Nullable<System.DateTime> ExpireDate18 { get; set; }
+        public Nullable<System.DateTime> IssueDate19 { get; set; }
+        public Nullable<System.DateTime> ExpireDate19 { get; set; }
+        public Nullable<System.DateTime> IssueDate20 { get; set; }
+        public Nullable<System.DateTime> ExpireDate20 { get; set; }
+        public Nullable<System.DateTime> IssueDate21 { get; set; }
+        public Nullable<System.DateTime> ExpireDate21 { get; set; }
+        public Nullable<System.DateTime> IssueDate22 { get; set; }
+        public Nullable<System.DateTime> ExpireDate22 { get; set; }
+        public Nullable<System.DateTime> IssueDate23 { get; set; }
+        public Nullable<System.DateTime> ExpireDate23 { get; set; }
+        public Nullable<System.DateTime> IssueDate24 { get; set; }
+        public Nullable<System.DateTime> ExpireDate24 { get; set; }
+        public Nullable<System.DateTime> IssueDate25 { get; set; }
+        public Nullable<System.DateTime> ExpireDate25 { get; set; }
+        public Nullable<System.DateTime> IssueDate26 { get; set; }
+        public Nullable<System.DateTime> ExpireDate26 { get; set; }
+        public Nullable<System.DateTime> IssueDate27 { get; set; }
+        public Nullable<System.DateTime> ExpireDate27 { get; set; }
+        public Nullable<bool> IsType737 { get; set; }
+        public Nullable<bool> IsTypeMD { get; set; }
+        public Nullable<bool> IsTypeAirbus { get; set; }
+        public Nullable<bool> IsTypeFokker { get; set; }
+        public Nullable<System.DateTime> IssueDate28 { get; set; }
+        public Nullable<System.DateTime> ExpireDate28 { get; set; }
+        public Nullable<System.DateTime> IssueDate29 { get; set; }
+        public Nullable<System.DateTime> ExpireDate29 { get; set; }
+        public Nullable<System.DateTime> IssueDate30 { get; set; }
+        public Nullable<System.DateTime> ExpireDate30 { get; set; }
+        public Nullable<System.DateTime> IssueDate31 { get; set; }
+        public Nullable<System.DateTime> ExpireDate31 { get; set; }
+        public Nullable<System.DateTime> IssueDate32 { get; set; }
+        public Nullable<System.DateTime> ExpireDate32 { get; set; }
+        public Nullable<System.DateTime> IssueDate33 { get; set; }
+        public Nullable<System.DateTime> ExpireDate33 { get; set; }
+        public Nullable<System.DateTime> IssueDate34 { get; set; }
+        public Nullable<System.DateTime> ExpireDate34 { get; set; }
+        public Nullable<System.DateTime> IssueDate35 { get; set; }
+        public Nullable<System.DateTime> ExpireDate35 { get; set; }
+        public string BaseAirline { get; set; }
+        public Nullable<System.DateTime> IssueDateTRG02 { get; set; }
+        public Nullable<System.DateTime> ExpireDateTRG02 { get; set; }
+        public Nullable<System.DateTime> IssueDate36 { get; set; }
+        public Nullable<System.DateTime> ExpireDate36 { get; set; }
+        public Nullable<System.DateTime> IssueDate37 { get; set; }
+        public Nullable<System.DateTime> ExpireDate37 { get; set; }
+        public Nullable<System.DateTime> IssueDate38 { get; set; }
+        public Nullable<System.DateTime> ExpireDate38 { get; set; }
+        public Nullable<System.DateTime> IssueDate39 { get; set; }
+        public Nullable<System.DateTime> ExpireDate39 { get; set; }
+        public Nullable<System.DateTime> IssueDate40 { get; set; }
+        public Nullable<System.DateTime> ExpireDate40 { get; set; }
+        public Nullable<System.DateTime> IssueDate41 { get; set; }
+        public Nullable<System.DateTime> IssueDate42 { get; set; }
+        public Nullable<System.DateTime> IssueDate43 { get; set; }
+        public Nullable<System.DateTime> IssueDate44 { get; set; }
+        public Nullable<System.DateTime> IssueDate45 { get; set; }
+        public Nullable<System.DateTime> IssueDate46 { get; set; }
+        public Nullable<System.DateTime> IssueDate47 { get; set; }
+        public Nullable<System.DateTime> IssueDate48 { get; set; }
+        public Nullable<System.DateTime> IssueDate49 { get; set; }
+        public Nullable<System.DateTime> IssueDate50 { get; set; }
+        public Nullable<System.DateTime> ExpireDate41 { get; set; }
+        public Nullable<System.DateTime> ExpireDate42 { get; set; }
+        public Nullable<System.DateTime> ExpireDate43 { get; set; }
+        public Nullable<System.DateTime> ExpireDate44 { get; set; }
+        public Nullable<System.DateTime> ExpireDate45 { get; set; }
+        public Nullable<System.DateTime> ExpireDate46 { get; set; }
+        public Nullable<System.DateTime> ExpireDate47 { get; set; }
+        public Nullable<System.DateTime> ExpireDate48 { get; set; }
+        public Nullable<System.DateTime> ExpireDate49 { get; set; }
+        public Nullable<System.DateTime> ExpireDate50 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CoursePeople> CoursePeoples { get; set; }
@@ -298,5 +386,7 @@ namespace AirpocketTRN.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseSessionPresenceDetail> CourseSessionPresenceDetails { get; set; }
         public virtual Teacher Teacher { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CertificateHistory> CertificateHistories { get; set; }
     }
 }

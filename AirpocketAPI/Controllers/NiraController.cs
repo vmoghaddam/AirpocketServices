@@ -745,4 +745,21 @@ namespace AirpocketAPI.Controllers
 
     }
 
+    public class NRSCWSResultX
+    {
+        public List<NRSCRSFlightDataX> NRSCRSFlightData { get; set; }
+    }
+
+    public class NRSCRSFlightDataX
+    {
+        public string AirlineCode { get; set; }
+          public string Origin { get; set; }
+        public string Destination { get; set; }
+        public string AircraftCode { get; set; }
+        public DateTime DepartureDateTime { get; set; }
+        public DateTime ArrivalDateTime { get; set; }
+        public string FleetWatchKey { get; set; }
+        public string FlightNo { get; set; }
+    }
+
 }

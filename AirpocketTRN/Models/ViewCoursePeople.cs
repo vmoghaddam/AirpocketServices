@@ -79,5 +79,7 @@ namespace AirpocketTRN.Models
         public Nullable<bool> Continual { get; set; }
         public Nullable<bool> InActive { get; set; }
         public string JobGroupCode2 { get; set; }
+        public Nullable<int> ExamResult { get; set; }
+        public Nullable<System.DateTime> ExamDate { get; set; }
     }
 }

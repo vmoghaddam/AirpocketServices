@@ -428,6 +428,15 @@
           <Property Name="OFPTRIPFUEL" Type="int" />
           <Property Name="PILOTREQFUEL" Type="int" />
           <Property Name="OFPExtra" Type="int" />
+          <Property Name="OFPCONTFUEL" Type="int" />
+          <Property Name="OFPALT1FUEL" Type="int" />
+          <Property Name="OFPALT2FUEL" Type="int" />
+          <Property Name="OFPFINALRESFUEL" Type="int" />
+          <Property Name="OFPTAXIFUEL" Type="int" />
+          <Property Name="OFPETOPSADDNLFUEL" Type="int" />
+          <Property Name="OFPOPSEXTRAFUEL" Type="int" />
+          <Property Name="OFPTANKERINGFUEL" Type="int" />
+          <Property Name="OFPTOTALFUEL" Type="int" />
         </EntityType>
         <EntityType Name="OFPImport">
           <Key>
@@ -498,6 +507,10 @@
           <Property Name="WDCLB" Type="varchar" MaxLength="2000" />
           <Property Name="WDDES" Type="varchar" MaxLength="2000" />
           <Property Name="FuelExtra" Type="int" />
+          <Property Name="FuelETOPSADDNL" Type="int" />
+          <Property Name="FuelOPSEXTRA" Type="int" />
+          <Property Name="FuelTANKERING" Type="int" />
+          <Property Name="FuelTOTALFUEL" Type="int" />
         </EntityType>
         <EntityType Name="OFPImportItem">
           <Key>
@@ -1017,11 +1030,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySet Name="OFPImportItems" EntityType="ppa_tabanModel.OFPImportItem" />
           <EntitySet Name="OFPImportProps" EntityType="ppa_tabanModel.OFPImportProp" />
           <EntitySet Name="FlightInformations" EntityType="ppa_tabanModel.FlightInformation" />
+          <EntitySet Name="OFPImports" EntityType="ppa_tabanModel.OFPImport" />
           <AssociationSet Name="fk_EFB_FI" Association="ppa_tabanModel.fk_EFB_FI">
             <End Role="FlightInformation" EntitySet="FlightInformations" />
             <End Role="EFBDSPRelease" EntitySet="EFBDSPReleases" />
           </AssociationSet>
-          <EntitySet Name="OFPImports" EntityType="ppa_tabanModel.OFPImport" />
           <AssociationSet Name="fk_ofp_flt" Association="ppa_tabanModel.fk_ofp_flt">
             <End Role="FlightInformation" EntitySet="FlightInformations" />
             <End Role="OFPImport" EntitySet="OFPImports" />
@@ -1498,21 +1511,18 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="OFPTRIPFUEL" Type="Int32" />
           <Property Name="PILOTREQFUEL" Type="Int32" />
           <Property Name="OFPExtra" Type="Int32" />
+          <Property Name="OFPCONTFUEL" Type="Int32" />
+          <Property Name="OFPALT1FUEL" Type="Int32" />
+          <Property Name="OFPALT2FUEL" Type="Int32" />
+          <Property Name="OFPFINALRESFUEL" Type="Int32" />
+          <Property Name="OFPTAXIFUEL" Type="Int32" />
+          <Property Name="OFPETOPSADDNLFUEL" Type="Int32" />
+          <Property Name="OFPOPSEXTRAFUEL" Type="Int32" />
+          <Property Name="OFPTANKERINGFUEL" Type="Int32" />
+          <Property Name="OFPTOTALFUEL" Type="Int32" />
           <NavigationProperty Name="EFBDSPReleases" Relationship="ppa_tabanModel.fk_EFB_FI" FromRole="FlightInformation" ToRole="EFBDSPRelease" />
           <NavigationProperty Name="OFPImports" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="FlightInformation" ToRole="OFPImport" />
         </EntityType>
-        <Association Name="fk_EFB_FI">
-          <End Type="ppa_tabanModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
-          <End Type="ppa_tabanModel.EFBDSPRelease" Role="EFBDSPRelease" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EFBDSPRelease">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="OFPImport">
           <Key>
             <PropertyRef Name="Id" />
@@ -1582,10 +1592,26 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="WDCLB" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="WDDES" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="FuelExtra" Type="Int32" />
+          <Property Name="FuelETOPSADDNL" Type="Int32" />
+          <Property Name="FuelOPSEXTRA" Type="Int32" />
+          <Property Name="FuelTANKERING" Type="Int32" />
+          <Property Name="FuelTOTALFUEL" Type="Int32" />
           <NavigationProperty Name="FlightInformation" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="OFPImport" ToRole="FlightInformation" />
           <NavigationProperty Name="OFPImportItems" Relationship="ppa_tabanModel.fk_ofpl_ofp" FromRole="OFPImport" ToRole="OFPImportItem" />
           <NavigationProperty Name="OFPImportProps" Relationship="ppa_tabanModel.fk_ofpp_ofp" FromRole="OFPImport" ToRole="OFPImportProp" />
         </EntityType>
+        <Association Name="fk_EFB_FI">
+          <End Type="ppa_tabanModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
+          <End Type="ppa_tabanModel.EFBDSPRelease" Role="EFBDSPRelease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EFBDSPRelease">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_ofp_flt">
           <End Type="ppa_tabanModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
           <End Type="ppa_tabanModel.OFPImport" Role="OFPImport" Multiplicity="*" />
@@ -1948,6 +1974,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="FlightInformations">
             <EntityTypeMapping TypeName="ppa_tabanModel.FlightInformation">
               <MappingFragment StoreEntitySet="FlightInformation">
+                <ScalarProperty Name="OFPTOTALFUEL" ColumnName="OFPTOTALFUEL" />
+                <ScalarProperty Name="OFPTANKERINGFUEL" ColumnName="OFPTANKERINGFUEL" />
+                <ScalarProperty Name="OFPOPSEXTRAFUEL" ColumnName="OFPOPSEXTRAFUEL" />
+                <ScalarProperty Name="OFPETOPSADDNLFUEL" ColumnName="OFPETOPSADDNLFUEL" />
+                <ScalarProperty Name="OFPTAXIFUEL" ColumnName="OFPTAXIFUEL" />
+                <ScalarProperty Name="OFPFINALRESFUEL" ColumnName="OFPFINALRESFUEL" />
+                <ScalarProperty Name="OFPALT2FUEL" ColumnName="OFPALT2FUEL" />
+                <ScalarProperty Name="OFPALT1FUEL" ColumnName="OFPALT1FUEL" />
+                <ScalarProperty Name="OFPCONTFUEL" ColumnName="OFPCONTFUEL" />
                 <ScalarProperty Name="OFPExtra" ColumnName="OFPExtra" />
                 <ScalarProperty Name="PILOTREQFUEL" ColumnName="PILOTREQFUEL" />
                 <ScalarProperty Name="OFPTRIPFUEL" ColumnName="OFPTRIPFUEL" />
@@ -2229,6 +2264,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="OFPImports">
             <EntityTypeMapping TypeName="ppa_tabanModel.OFPImport">
               <MappingFragment StoreEntitySet="OFPImport">
+                <ScalarProperty Name="FuelTOTALFUEL" ColumnName="FuelTOTALFUEL" />
+                <ScalarProperty Name="FuelTANKERING" ColumnName="FuelTANKERING" />
+                <ScalarProperty Name="FuelOPSEXTRA" ColumnName="FuelOPSEXTRA" />
+                <ScalarProperty Name="FuelETOPSADDNL" ColumnName="FuelETOPSADDNL" />
                 <ScalarProperty Name="FuelExtra" ColumnName="FuelExtra" />
                 <ScalarProperty Name="WDDES" ColumnName="WDDES" />
                 <ScalarProperty Name="WDCLB" ColumnName="WDCLB" />

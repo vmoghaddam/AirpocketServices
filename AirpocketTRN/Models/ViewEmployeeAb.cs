@@ -31,5 +31,6 @@ namespace AirpocketTRN.Models
         public string IDNo { get; set; }
         public string Customer { get; set; }
         public int PersonId { get; set; }
+        public Nullable<bool> InActive { get; set; }
     }
 }

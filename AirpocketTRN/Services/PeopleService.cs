@@ -263,6 +263,23 @@ namespace AirpocketTRN.Services
 
 
 
+        public async Task<DataResponse> GetAllowedEmployeesForCourse(int courseid)
+        {
+            var query = from x in context.ViewCourseAllowedEmployees
+                         
+                        where x.CourseId == courseid && x.InActive==false
+                        select x;
+            var result = await query.OrderBy(q => q.JobGroupCode).ThenBy(q => q.LastName).ToListAsync();
+
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+
+
+
 
     }
 

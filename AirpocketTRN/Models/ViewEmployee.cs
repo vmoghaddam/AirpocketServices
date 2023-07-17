@@ -299,5 +299,43 @@ namespace AirpocketTRN.Models
         public Nullable<int> RemainOPCC1 { get; set; }
         public Nullable<int> RemainOPCC2 { get; set; }
         public Nullable<int> RemainOPCC3 { get; set; }
+        public Nullable<int> Remain1 { get; set; }
+        public Nullable<int> Remain2 { get; set; }
+        public Nullable<int> Remain3 { get; set; }
+        public Nullable<int> Remain4 { get; set; }
+        public Nullable<int> Remain5 { get; set; }
+        public Nullable<int> Remain6 { get; set; }
+        public Nullable<int> Remain7 { get; set; }
+        public Nullable<int> Remain8 { get; set; }
+        public Nullable<int> Remain9 { get; set; }
+        public Nullable<int> Remain10 { get; set; }
+        public Nullable<int> Remain11 { get; set; }
+        public Nullable<int> Remain12 { get; set; }
+        public Nullable<int> Remain13 { get; set; }
+        public Nullable<int> Remain14 { get; set; }
+        public Nullable<int> Remain15 { get; set; }
+        public Nullable<int> Remain16 { get; set; }
+        public Nullable<int> Remain17 { get; set; }
+        public Nullable<int> Remain18 { get; set; }
+        public Nullable<int> Remain19 { get; set; }
+        public Nullable<int> Remain20 { get; set; }
+        public Nullable<int> Remain21 { get; set; }
+        public Nullable<int> Remain22 { get; set; }
+        public Nullable<int> Remain23 { get; set; }
+        public Nullable<int> Remain24 { get; set; }
+        public Nullable<int> Remain25 { get; set; }
+        public Nullable<int> Remain26 { get; set; }
+        public Nullable<int> Remain27 { get; set; }
+        public Nullable<int> Remain28 { get; set; }
+        public Nullable<int> Remain29 { get; set; }
+        public Nullable<int> Remain30 { get; set; }
+        public Nullable<int> Remain31 { get; set; }
+        public Nullable<int> Remain32 { get; set; }
+        public Nullable<int> Remain33 { get; set; }
+        public Nullable<int> Remain34 { get; set; }
+        public Nullable<int> Remain35 { get; set; }
+        public Nullable<int> JobGroupMainId { get; set; }
+        public Nullable<int> JobGroupId { get; set; }
+        public Nullable<int> JobGroupParentId { get; set; }
     }
 }

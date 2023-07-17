@@ -68,5 +68,6 @@ namespace AirpocketTRN.Models
         public string SMSIns2Status { get; set; }
         public Nullable<System.DateTime> SMSInsDate { get; set; }
         public string AttForm { get; set; }
+        public string Intervals { get; set; }
     }
 }

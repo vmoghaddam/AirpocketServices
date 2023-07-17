@@ -33,5 +33,7 @@ namespace AirpocketTRN.Models
         public string JobGroups { get; set; }
         public string JobGroupsCode { get; set; }
         public Nullable<int> Mandatory { get; set; }
+        public string Intervals { get; set; }
+        public string MapIntervals { get; set; }
     }
 }

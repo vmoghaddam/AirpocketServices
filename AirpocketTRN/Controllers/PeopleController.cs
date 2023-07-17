@@ -86,6 +86,17 @@ namespace AirpocketTRN.Controllers
         }
 
 
+        [Route("api/course/allowed/employees/{id}")]
+        //[EnableQuery]
+        // [Authorize]
+        public async Task<IHttpActionResult> GetAllowedEmployeesForCourse(int id)
+        {
+            var result = await peopleService.GetAllowedEmployeesForCourse(id);
+            return Ok(result);
+        }
+
+
+
         [Route("api/people/{id}")]
         [EnableQuery]
         // [Authorize]

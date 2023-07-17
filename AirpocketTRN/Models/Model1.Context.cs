@@ -31,10 +31,8 @@ namespace AirpocketTRN.Models
         public virtual DbSet<FDPItem> FDPItems { get; set; }
         public virtual DbSet<ViewEmployeeLight> ViewEmployeeLights { get; set; }
         public virtual DbSet<ViewFDPRest> ViewFDPRests { get; set; }
-        public virtual DbSet<CertificateType> CertificateTypes { get; set; }
         public virtual DbSet<CourseSession> CourseSessions { get; set; }
         public virtual DbSet<CourseSessionPresence> CourseSessionPresences { get; set; }
-        public virtual DbSet<ViewEmployeeAb> ViewEmployeeAbs { get; set; }
         public virtual DbSet<ViewFDPIdea> ViewFDPIdeas { get; set; }
         public virtual DbSet<CourseSessionFDP> CourseSessionFDPs { get; set; }
         public virtual DbSet<ViewCourseSession> ViewCourseSessions { get; set; }
@@ -72,7 +70,6 @@ namespace AirpocketTRN.Models
         public virtual DbSet<Charterer> Charterers { get; set; }
         public virtual DbSet<EmployeeDocument> EmployeeDocuments { get; set; }
         public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<ViewCourseNew> ViewCourseNews { get; set; }
         public virtual DbSet<JobGroup> JobGroups { get; set; }
         public virtual DbSet<ViewJobGroup> ViewJobGroups { get; set; }
         public virtual DbSet<Person> People { get; set; }
@@ -85,5 +82,13 @@ namespace AirpocketTRN.Models
         public virtual DbSet<ViewMandatoryCourseEmployee> ViewMandatoryCourseEmployees { get; set; }
         public virtual DbSet<CourseSyllabu> CourseSyllabus { get; set; }
         public virtual DbSet<ViewSyllabu> ViewSyllabus { get; set; }
+        public virtual DbSet<CertificateType> CertificateTypes { get; set; }
+        public virtual DbSet<ViewCourseAllowedEmployee> ViewCourseAllowedEmployees { get; set; }
+        public virtual DbSet<ViewEmployeeAb> ViewEmployeeAbs { get; set; }
+        public virtual DbSet<ViewCourseNew> ViewCourseNews { get; set; }
+        public virtual DbSet<CertificateHistory> CertificateHistories { get; set; }
+        public virtual DbSet<TrnDbAppFieldMapping> TrnDbAppFieldMappings { get; set; }
+        public virtual DbSet<ViewCourseSMSHistoryRanked> ViewCourseSMSHistoryRankeds { get; set; }
+        public virtual DbSet<ViewCertificateHistoryRanked> ViewCertificateHistoryRankeds { get; set; }
     }
 }

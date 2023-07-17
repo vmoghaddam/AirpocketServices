@@ -25,6 +25,8 @@ namespace AirpocketTRN.Models
         public string StatusRemark { get; set; }
         public string CertificateNo { get; set; }
         public string ImgUrl { get; set; }
+        public Nullable<int> ExamResult { get; set; }
+        public Nullable<System.DateTime> ExamDate { get; set; }
     
         public virtual Course Course { get; set; }
         public virtual Person Person { get; set; }

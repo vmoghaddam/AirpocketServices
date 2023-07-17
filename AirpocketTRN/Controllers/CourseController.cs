@@ -256,6 +256,50 @@ namespace AirpocketTRN.Controllers
             return Ok(result.Data);
         }
 
+
+        [Route("api/trn/monitoring/expiring")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetMonitoringExpiringGroups()
+        {
+            var result = await courseService.GetMonitoringExpiringGroups();
+
+            return Ok(result.Data);
+        }
+        [Route("api/trn/monitoring/expiring/type")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetMonitoringExpiringCertificateTypes()
+        {
+            var result = await courseService.GetMonitoringExpiringCertificateTypes();
+
+            return Ok(result.Data);
+        }
+
+        [Route("api/trn/monitoring/expiring/main")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetMonitoringExpiringMain( )
+        {
+            var result = await courseService.GetMonitoringExpiringMain();
+
+            return Ok(result.Data);
+        }
+        [Route("api/trn/monitoring/expiring/{parent_id}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetMonitoringExpiringMainByParent(int parent_id)
+        {
+            var result = await courseService.GetMonitoringExpiringMainByParent(parent_id);
+
+            return Ok(result.Data);
+        }
+
+        [Route("api/trn/schedule/{year}/{month}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetTrainingSchedule(int year,int month)
+        {
+            var result = await courseService.GetTrainingSchedule(  year,  month);
+
+            return Ok(result.Data);
+        }
+
         //GetCertificatesHistory
         [Route("api/course/{cid}")]
         [AcceptVerbs("GET")]

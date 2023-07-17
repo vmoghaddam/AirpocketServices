@@ -86,6 +86,10 @@ namespace XAPI.Models
         public string WDCLB { get; set; }
         public string WDDES { get; set; }
         public Nullable<int> FuelExtra { get; set; }
+        public Nullable<int> FuelETOPSADDNL { get; set; }
+        public Nullable<int> FuelOPSEXTRA { get; set; }
+        public Nullable<int> FuelTANKERING { get; set; }
+        public Nullable<int> FuelTOTALFUEL { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
