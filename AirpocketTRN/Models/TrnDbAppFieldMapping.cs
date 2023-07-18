@@ -25,7 +25,5 @@ namespace AirpocketTRN.Models
         public Nullable<int> IntervalMonth { get; set; }
         public string Identifier { get; set; }
         public string Remark { get; set; }
-    
-        public virtual CertificateType CertificateType { get; set; }
     }
 }

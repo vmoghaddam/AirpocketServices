@@ -82,7 +82,6 @@ namespace AirpocketTRN.Models
         public virtual DbSet<ViewMandatoryCourseEmployee> ViewMandatoryCourseEmployees { get; set; }
         public virtual DbSet<CourseSyllabu> CourseSyllabus { get; set; }
         public virtual DbSet<ViewSyllabu> ViewSyllabus { get; set; }
-        public virtual DbSet<CertificateType> CertificateTypes { get; set; }
         public virtual DbSet<ViewCourseAllowedEmployee> ViewCourseAllowedEmployees { get; set; }
         public virtual DbSet<ViewEmployeeAb> ViewEmployeeAbs { get; set; }
         public virtual DbSet<ViewCourseNew> ViewCourseNews { get; set; }
@@ -90,5 +89,6 @@ namespace AirpocketTRN.Models
         public virtual DbSet<TrnDbAppFieldMapping> TrnDbAppFieldMappings { get; set; }
         public virtual DbSet<ViewCourseSMSHistoryRanked> ViewCourseSMSHistoryRankeds { get; set; }
         public virtual DbSet<ViewCertificateHistoryRanked> ViewCertificateHistoryRankeds { get; set; }
+        public virtual DbSet<CertificateType> CertificateTypes { get; set; }
     }
 }

@@ -18,7 +18,6 @@ namespace AirpocketTRN.Models
         public CertificateType()
         {
             this.CourseTypes = new HashSet<CourseType>();
-            this.TrnDbAppFieldMappings = new HashSet<TrnDbAppFieldMapping>();
         }
     
         public int Id { get; set; }
@@ -28,10 +27,10 @@ namespace AirpocketTRN.Models
         public string AppField { get; set; }
         public string DbField { get; set; }
         public Nullable<int> TypeId { get; set; }
+        public string IssueField { get; set; }
+        public string ExpireField { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseType> CourseTypes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TrnDbAppFieldMapping> TrnDbAppFieldMappings { get; set; }
     }
 }

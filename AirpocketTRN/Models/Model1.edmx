@@ -41,6 +41,8 @@
           <Property Name="AppField" Type="varchar" MaxLength="500" />
           <Property Name="DbField" Type="varchar" MaxLength="500" />
           <Property Name="TypeId" Type="int" />
+          <Property Name="IssueField" Type="varchar" MaxLength="500" />
+          <Property Name="ExpireField" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="Charterer">
           <Key>
@@ -744,6 +746,84 @@
           <Property Name="ExpireDate48" Type="datetime" />
           <Property Name="ExpireDate49" Type="datetime" />
           <Property Name="ExpireDate50" Type="datetime" />
+          <Property Name="FRMSIssueDate" Type="datetime" />
+          <Property Name="FRMSExpireDate" Type="datetime" />
+          <Property Name="FTSL2IssueDate" Type="datetime" />
+          <Property Name="FTSL2ExpireDate" Type="datetime" />
+          <Property Name="DGRIssueDate" Type="datetime" />
+          <Property Name="DGRExpireDate" Type="datetime" />
+          <Property Name="SITA_IssueDate" Type="datetime" />
+          <Property Name="CONVERSION_IssueDate" Type="datetime" />
+          <Property Name="TEACHING_METHOD_IssueDate" Type="datetime" />
+          <Property Name="EMERGENCY_RESPONSE_PLAN_IssueDate" Type="datetime" />
+          <Property Name="STORE_IssueDate" Type="datetime" />
+          <Property Name="APT_HANDLING_SERVICES_IssueDate" Type="datetime" />
+          <Property Name="APT_SERVICE_ORIENTATION_IssueDate" Type="datetime" />
+          <Property Name="CABIN_SAFETY_INSPECTION_IssueDate" Type="datetime" />
+          <Property Name="CRMI_IssueDate" Type="datetime" />
+          <Property Name="CYBER_DEFENCE_IssueDate" Type="datetime" />
+          <Property Name="DCS_IssueDate" Type="datetime" />
+          <Property Name="DISPATCH_MANUAL_FAM_IssueDate" Type="datetime" />
+          <Property Name="ICAO_RULE_MAKING_PROCESS_IssueDate" Type="datetime" />
+          <Property Name="INTERNAL_AUDIT_IssueDate" Type="datetime" />
+          <Property Name="LAR_IssueDate" Type="datetime" />
+          <Property Name="LOAD_CONTROL_IssueDate" Type="datetime" />
+          <Property Name="MASS_BALANCE_CONTROL_IssueDate" Type="datetime" />
+          <Property Name="MOC_IssueDate" Type="datetime" />
+          <Property Name="OCC_IssueDate" Type="datetime" />
+          <Property Name="ORGANIZATIONAL_BEHAVIOR_IssueDate" Type="datetime" />
+          <Property Name="PART_66_IssueDate" Type="datetime" />
+          <Property Name="PREFLIGHT_INSPECTION_IssueDate" Type="datetime" />
+          <Property Name="RISK_ASSESSMENT_IssueDate" Type="datetime" />
+          <Property Name="RISK_MANAGEMENT_IssueDate" Type="datetime" />
+          <Property Name="SCCM_IssueDate" Type="datetime" />
+          <Property Name="SECURITY_PROGRAM_FAM_IssueDate" Type="datetime" />
+          <Property Name="SPECIAL_APPROVALS_IssueDate" Type="datetime" />
+          <Property Name="AC_RELIABILITY_IssueDate" Type="datetime" />
+          <Property Name="ACCINCDT_INVESTIGATION_IssueDate" Type="datetime" />
+          <Property Name="AIRCREW_IssueDate" Type="datetime" />
+          <Property Name="AVSECTRG11_IssueDate" Type="datetime" />
+          <Property Name="AVSECTRG13_IssueDate" Type="datetime" />
+          <Property Name="AVSECTRG14_IssueDate" Type="datetime" />
+          <Property Name="CCOM_FAM_IssueDate" Type="datetime" />
+          <Property Name="CREW_CONDUCT_IssueDate" Type="datetime" />
+          <Property Name="MISCELLANEOUS_IssueDate" Type="datetime" />
+          <Property Name="SITA_ExpireDate" Type="datetime" />
+          <Property Name="CONVERSION_ExpireDate" Type="datetime" />
+          <Property Name="TEACHING_METHOD_ExpireDate" Type="datetime" />
+          <Property Name="EMERGENCY_RESPONSE_PLAN_ExpireDate" Type="datetime" />
+          <Property Name="STORE_ExpireDate" Type="datetime" />
+          <Property Name="APT_HANDLING_SERVICES_ExpireDate" Type="datetime" />
+          <Property Name="APT_SERVICE_ORIENTATION_ExpireDate" Type="datetime" />
+          <Property Name="CABIN_SAFETY_INSPECTION_ExpireDate" Type="datetime" />
+          <Property Name="CRMI_ExpireDate" Type="datetime" />
+          <Property Name="CYBER_DEFENCE_ExpireDate" Type="datetime" />
+          <Property Name="DCS_ExpireDate" Type="datetime" />
+          <Property Name="DISPATCH_MANUAL_FAM_ExpireDate" Type="datetime" />
+          <Property Name="ICAO_RULE_MAKING_PROCESS_ExpireDate" Type="datetime" />
+          <Property Name="INTERNAL_AUDIT_ExpireDate" Type="datetime" />
+          <Property Name="LAR_ExpireDate" Type="datetime" />
+          <Property Name="LOAD_CONTROL_ExpireDate" Type="datetime" />
+          <Property Name="MASS_BALANCE_CONTROL_ExpireDate" Type="datetime" />
+          <Property Name="MOC_ExpireDate" Type="datetime" />
+          <Property Name="OCC_ExpireDate" Type="datetime" />
+          <Property Name="ORGANIZATIONAL_BEHAVIOR_ExpireDate" Type="datetime" />
+          <Property Name="PART_66_ExpireDate" Type="datetime" />
+          <Property Name="PREFLIGHT_INSPECTION_ExpireDate" Type="datetime" />
+          <Property Name="RISK_ASSESSMENT_ExpireDate" Type="datetime" />
+          <Property Name="RISK_MANAGEMENT_ExpireDate" Type="datetime" />
+          <Property Name="SCCM_ExpireDate" Type="datetime" />
+          <Property Name="SECURITY_PROGRAM_FAM_ExpireDate" Type="datetime" />
+          <Property Name="SPECIAL_APPROVALS_ExpireDate" Type="datetime" />
+          <Property Name="AC_RELIABILITY_ExpireDate" Type="datetime" />
+          <Property Name="ACCINCDT_INVESTIGATION_ExpireDate" Type="datetime" />
+          <Property Name="AIRCREW_ExpireDate" Type="datetime" />
+          <Property Name="AVSECTRG11_ExpireDate" Type="datetime" />
+          <Property Name="AVSECTRG13_ExpireDate" Type="datetime" />
+          <Property Name="AVSECTRG14_ExpireDate" Type="datetime" />
+          <Property Name="CCOM_FAM_ExpireDate" Type="datetime" />
+          <Property Name="CREW_CONDUCT_ExpireDate" Type="datetime" />
+          <Property Name="MISCELLANEOUS_ExpireDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -5191,11 +5271,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
             <End Role="CourseSyllabu" EntitySet="CourseSyllabus" />
           </AssociationSet>
           <EntitySet Name="ViewSyllabus" EntityType="FLYModel.ViewSyllabu" />
-          <EntitySet Name="CertificateTypes" EntityType="FLYModel.CertificateType" />
-          <AssociationSet Name="fk_cty_certy" Association="FLYModel.fk_cty_certy">
-            <End Role="CertificateType" EntitySet="CertificateTypes" />
-            <End Role="CourseType" EntitySet="CourseTypes" />
-          </AssociationSet>
           <EntitySet Name="ViewCourseAllowedEmployees" EntityType="FLYModel.ViewCourseAllowedEmployee" />
           <EntitySet Name="ViewEmployeeAbs" EntityType="FLYModel.ViewEmployeeAb" />
           <EntitySet Name="ViewCourseNews" EntityType="FLYModel.ViewCourseNew" />
@@ -5205,12 +5280,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
             <End Role="CertificateHistory" EntitySet="CertificateHistories" />
           </AssociationSet>
           <EntitySet Name="TrnDbAppFieldMappings" EntityType="FLYModel.TrnDbAppFieldMapping" />
-          <AssociationSet Name="fk_trnfield_map_ct" Association="FLYModel.fk_trnfield_map_ct">
-            <End Role="CertificateType" EntitySet="CertificateTypes" />
-            <End Role="TrnDbAppFieldMapping" EntitySet="TrnDbAppFieldMappings" />
-          </AssociationSet>
           <EntitySet Name="ViewCourseSMSHistoryRankeds" EntityType="FLYModel.ViewCourseSMSHistoryRanked" />
           <EntitySet Name="ViewCertificateHistoryRankeds" EntityType="FLYModel.ViewCertificateHistoryRanked" />
+          <EntitySet Name="CertificateTypes" EntityType="FLYModel.CertificateType" />
+          <AssociationSet Name="fk_cty_certy" Association="FLYModel.fk_cty_certy">
+            <End Role="CertificateType" EntitySet="CertificateTypes" />
+            <End Role="CourseType" EntitySet="CourseTypes" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="ViewLegTime">
           <Key>
@@ -7733,6 +7809,84 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="ExpireDate49" Type="DateTime" Precision="3" />
           <Property Name="ExpireDate50" Type="DateTime" Precision="3" />
           <NavigationProperty Name="CertificateHistories" Relationship="FLYModel.FK_CH_PERSON" FromRole="Person" ToRole="CertificateHistory" />
+          <Property Name="FRMSIssueDate" Type="DateTime" Precision="3" />
+          <Property Name="FRMSExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="FTSL2IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="FTSL2ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="DGRIssueDate" Type="DateTime" Precision="3" />
+          <Property Name="DGRExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="SITA_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="CONVERSION_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="TEACHING_METHOD_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="EMERGENCY_RESPONSE_PLAN_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="STORE_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="APT_HANDLING_SERVICES_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="APT_SERVICE_ORIENTATION_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="CABIN_SAFETY_INSPECTION_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="CRMI_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="CYBER_DEFENCE_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="DCS_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="DISPATCH_MANUAL_FAM_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="ICAO_RULE_MAKING_PROCESS_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="INTERNAL_AUDIT_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="LAR_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="LOAD_CONTROL_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="MASS_BALANCE_CONTROL_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="MOC_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="OCC_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="ORGANIZATIONAL_BEHAVIOR_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="PART_66_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="PREFLIGHT_INSPECTION_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="RISK_ASSESSMENT_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="RISK_MANAGEMENT_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="SCCM_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="SECURITY_PROGRAM_FAM_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="SPECIAL_APPROVALS_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="AC_RELIABILITY_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="ACCINCDT_INVESTIGATION_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="AIRCREW_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="AVSECTRG11_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="AVSECTRG13_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="AVSECTRG14_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="CCOM_FAM_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="CREW_CONDUCT_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="MISCELLANEOUS_IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="SITA_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="CONVERSION_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="TEACHING_METHOD_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="EMERGENCY_RESPONSE_PLAN_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="STORE_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="APT_HANDLING_SERVICES_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="APT_SERVICE_ORIENTATION_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="CABIN_SAFETY_INSPECTION_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="CRMI_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="CYBER_DEFENCE_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="DCS_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="DISPATCH_MANUAL_FAM_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="ICAO_RULE_MAKING_PROCESS_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="INTERNAL_AUDIT_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="LAR_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="LOAD_CONTROL_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="MASS_BALANCE_CONTROL_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="MOC_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="OCC_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="ORGANIZATIONAL_BEHAVIOR_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="PART_66_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="PREFLIGHT_INSPECTION_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="RISK_ASSESSMENT_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="RISK_MANAGEMENT_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="SCCM_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="SECURITY_PROGRAM_FAM_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="SPECIAL_APPROVALS_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="AC_RELIABILITY_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="ACCINCDT_INVESTIGATION_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="AIRCREW_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="AVSECTRG11_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="AVSECTRG13_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="AVSECTRG14_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="CCOM_FAM_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="CREW_CONDUCT_ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="MISCELLANEOUS_ExpireDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_CoursePeople_Person_Id">
           <End Type="FLYModel.Person" Role="Person" Multiplicity="0..1" />
@@ -8090,32 +8244,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="Instructor2" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="Instructor" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="CertificateType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Operator" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="AppField" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="DbField" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CourseTypes" Relationship="FLYModel.fk_cty_certy" FromRole="CertificateType" ToRole="CourseType" />
-          <NavigationProperty Name="TrnDbAppFieldMappings" Relationship="FLYModel.fk_trnfield_map_ct" FromRole="CertificateType" ToRole="TrnDbAppFieldMapping" />
-          <Property Name="TypeId" Type="Int32" />
-        </EntityType>
-        <Association Name="fk_cty_certy">
-          <End Type="FLYModel.CertificateType" Role="CertificateType" Multiplicity="0..1" />
-          <End Type="FLYModel.CourseType" Role="CourseType" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CertificateType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CourseType">
-              <PropertyRef Name="CertificateTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ViewCourseAllowedEmployee">
           <Key>
             <PropertyRef Name="CourseId" />
@@ -8296,21 +8424,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="DbFieldRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="IntervalMonth" Type="Int32" />
           <Property Name="Identifier" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CertificateType" Relationship="FLYModel.fk_trnfield_map_ct" FromRole="TrnDbAppFieldMapping" ToRole="CertificateType" />
           <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
-        <Association Name="fk_trnfield_map_ct">
-          <End Type="FLYModel.CertificateType" Role="CertificateType" Multiplicity="0..1" />
-          <End Type="FLYModel.TrnDbAppFieldMapping" Role="TrnDbAppFieldMapping" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CertificateType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TrnDbAppFieldMapping">
-              <PropertyRef Name="CertificateTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ViewCourseSMSHistoryRanked">
           <Key>
             <PropertyRef Name="Id" />
@@ -8398,6 +8513,33 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="IsExpired" Type="Int32" Nullable="false" />
           <Property Name="IsCritical" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="CertificateType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Operator" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AppField" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DbField" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TypeId" Type="Int32" />
+          <Property Name="IssueField" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ExpireField" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CourseTypes" Relationship="FLYModel.fk_cty_certy" FromRole="CertificateType" ToRole="CourseType" />
+        </EntityType>
+        <Association Name="fk_cty_certy">
+          <End Type="FLYModel.CertificateType" Role="CertificateType" Multiplicity="0..1" />
+          <End Type="FLYModel.CourseType" Role="CourseType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CertificateType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseType">
+              <PropertyRef Name="CertificateTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10125,6 +10267,84 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="FLYModel.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="MISCELLANEOUS_ExpireDate" ColumnName="MISCELLANEOUS_ExpireDate" />
+                <ScalarProperty Name="CREW_CONDUCT_ExpireDate" ColumnName="CREW_CONDUCT_ExpireDate" />
+                <ScalarProperty Name="CCOM_FAM_ExpireDate" ColumnName="CCOM_FAM_ExpireDate" />
+                <ScalarProperty Name="AVSECTRG14_ExpireDate" ColumnName="AVSECTRG14_ExpireDate" />
+                <ScalarProperty Name="AVSECTRG13_ExpireDate" ColumnName="AVSECTRG13_ExpireDate" />
+                <ScalarProperty Name="AVSECTRG11_ExpireDate" ColumnName="AVSECTRG11_ExpireDate" />
+                <ScalarProperty Name="AIRCREW_ExpireDate" ColumnName="AIRCREW_ExpireDate" />
+                <ScalarProperty Name="ACCINCDT_INVESTIGATION_ExpireDate" ColumnName="ACCINCDT_INVESTIGATION_ExpireDate" />
+                <ScalarProperty Name="AC_RELIABILITY_ExpireDate" ColumnName="AC_RELIABILITY_ExpireDate" />
+                <ScalarProperty Name="SPECIAL_APPROVALS_ExpireDate" ColumnName="SPECIAL_APPROVALS_ExpireDate" />
+                <ScalarProperty Name="SECURITY_PROGRAM_FAM_ExpireDate" ColumnName="SECURITY_PROGRAM_FAM_ExpireDate" />
+                <ScalarProperty Name="SCCM_ExpireDate" ColumnName="SCCM_ExpireDate" />
+                <ScalarProperty Name="RISK_MANAGEMENT_ExpireDate" ColumnName="RISK_MANAGEMENT_ExpireDate" />
+                <ScalarProperty Name="RISK_ASSESSMENT_ExpireDate" ColumnName="RISK_ASSESSMENT_ExpireDate" />
+                <ScalarProperty Name="PREFLIGHT_INSPECTION_ExpireDate" ColumnName="PREFLIGHT_INSPECTION_ExpireDate" />
+                <ScalarProperty Name="PART_66_ExpireDate" ColumnName="PART_66_ExpireDate" />
+                <ScalarProperty Name="ORGANIZATIONAL_BEHAVIOR_ExpireDate" ColumnName="ORGANIZATIONAL_BEHAVIOR_ExpireDate" />
+                <ScalarProperty Name="OCC_ExpireDate" ColumnName="OCC_ExpireDate" />
+                <ScalarProperty Name="MOC_ExpireDate" ColumnName="MOC_ExpireDate" />
+                <ScalarProperty Name="MASS_BALANCE_CONTROL_ExpireDate" ColumnName="MASS_BALANCE_CONTROL_ExpireDate" />
+                <ScalarProperty Name="LOAD_CONTROL_ExpireDate" ColumnName="LOAD_CONTROL_ExpireDate" />
+                <ScalarProperty Name="LAR_ExpireDate" ColumnName="LAR_ExpireDate" />
+                <ScalarProperty Name="INTERNAL_AUDIT_ExpireDate" ColumnName="INTERNAL_AUDIT_ExpireDate" />
+                <ScalarProperty Name="ICAO_RULE_MAKING_PROCESS_ExpireDate" ColumnName="ICAO_RULE_MAKING_PROCESS_ExpireDate" />
+                <ScalarProperty Name="DISPATCH_MANUAL_FAM_ExpireDate" ColumnName="DISPATCH_MANUAL_FAM_ExpireDate" />
+                <ScalarProperty Name="DCS_ExpireDate" ColumnName="DCS_ExpireDate" />
+                <ScalarProperty Name="CYBER_DEFENCE_ExpireDate" ColumnName="CYBER_DEFENCE_ExpireDate" />
+                <ScalarProperty Name="CRMI_ExpireDate" ColumnName="CRMI_ExpireDate" />
+                <ScalarProperty Name="CABIN_SAFETY_INSPECTION_ExpireDate" ColumnName="CABIN_SAFETY_INSPECTION_ExpireDate" />
+                <ScalarProperty Name="APT_SERVICE_ORIENTATION_ExpireDate" ColumnName="APT_SERVICE_ORIENTATION_ExpireDate" />
+                <ScalarProperty Name="APT_HANDLING_SERVICES_ExpireDate" ColumnName="APT_HANDLING_SERVICES_ExpireDate" />
+                <ScalarProperty Name="STORE_ExpireDate" ColumnName="STORE_ExpireDate" />
+                <ScalarProperty Name="EMERGENCY_RESPONSE_PLAN_ExpireDate" ColumnName="EMERGENCY_RESPONSE_PLAN_ExpireDate" />
+                <ScalarProperty Name="TEACHING_METHOD_ExpireDate" ColumnName="TEACHING_METHOD_ExpireDate" />
+                <ScalarProperty Name="CONVERSION_ExpireDate" ColumnName="CONVERSION_ExpireDate" />
+                <ScalarProperty Name="SITA_ExpireDate" ColumnName="SITA_ExpireDate" />
+                <ScalarProperty Name="MISCELLANEOUS_IssueDate" ColumnName="MISCELLANEOUS_IssueDate" />
+                <ScalarProperty Name="CREW_CONDUCT_IssueDate" ColumnName="CREW_CONDUCT_IssueDate" />
+                <ScalarProperty Name="CCOM_FAM_IssueDate" ColumnName="CCOM_FAM_IssueDate" />
+                <ScalarProperty Name="AVSECTRG14_IssueDate" ColumnName="AVSECTRG14_IssueDate" />
+                <ScalarProperty Name="AVSECTRG13_IssueDate" ColumnName="AVSECTRG13_IssueDate" />
+                <ScalarProperty Name="AVSECTRG11_IssueDate" ColumnName="AVSECTRG11_IssueDate" />
+                <ScalarProperty Name="AIRCREW_IssueDate" ColumnName="AIRCREW_IssueDate" />
+                <ScalarProperty Name="ACCINCDT_INVESTIGATION_IssueDate" ColumnName="ACCINCDT_INVESTIGATION_IssueDate" />
+                <ScalarProperty Name="AC_RELIABILITY_IssueDate" ColumnName="AC_RELIABILITY_IssueDate" />
+                <ScalarProperty Name="SPECIAL_APPROVALS_IssueDate" ColumnName="SPECIAL_APPROVALS_IssueDate" />
+                <ScalarProperty Name="SECURITY_PROGRAM_FAM_IssueDate" ColumnName="SECURITY_PROGRAM_FAM_IssueDate" />
+                <ScalarProperty Name="SCCM_IssueDate" ColumnName="SCCM_IssueDate" />
+                <ScalarProperty Name="RISK_MANAGEMENT_IssueDate" ColumnName="RISK_MANAGEMENT_IssueDate" />
+                <ScalarProperty Name="RISK_ASSESSMENT_IssueDate" ColumnName="RISK_ASSESSMENT_IssueDate" />
+                <ScalarProperty Name="PREFLIGHT_INSPECTION_IssueDate" ColumnName="PREFLIGHT_INSPECTION_IssueDate" />
+                <ScalarProperty Name="PART_66_IssueDate" ColumnName="PART_66_IssueDate" />
+                <ScalarProperty Name="ORGANIZATIONAL_BEHAVIOR_IssueDate" ColumnName="ORGANIZATIONAL_BEHAVIOR_IssueDate" />
+                <ScalarProperty Name="OCC_IssueDate" ColumnName="OCC_IssueDate" />
+                <ScalarProperty Name="MOC_IssueDate" ColumnName="MOC_IssueDate" />
+                <ScalarProperty Name="MASS_BALANCE_CONTROL_IssueDate" ColumnName="MASS_BALANCE_CONTROL_IssueDate" />
+                <ScalarProperty Name="LOAD_CONTROL_IssueDate" ColumnName="LOAD_CONTROL_IssueDate" />
+                <ScalarProperty Name="LAR_IssueDate" ColumnName="LAR_IssueDate" />
+                <ScalarProperty Name="INTERNAL_AUDIT_IssueDate" ColumnName="INTERNAL_AUDIT_IssueDate" />
+                <ScalarProperty Name="ICAO_RULE_MAKING_PROCESS_IssueDate" ColumnName="ICAO_RULE_MAKING_PROCESS_IssueDate" />
+                <ScalarProperty Name="DISPATCH_MANUAL_FAM_IssueDate" ColumnName="DISPATCH_MANUAL_FAM_IssueDate" />
+                <ScalarProperty Name="DCS_IssueDate" ColumnName="DCS_IssueDate" />
+                <ScalarProperty Name="CYBER_DEFENCE_IssueDate" ColumnName="CYBER_DEFENCE_IssueDate" />
+                <ScalarProperty Name="CRMI_IssueDate" ColumnName="CRMI_IssueDate" />
+                <ScalarProperty Name="CABIN_SAFETY_INSPECTION_IssueDate" ColumnName="CABIN_SAFETY_INSPECTION_IssueDate" />
+                <ScalarProperty Name="APT_SERVICE_ORIENTATION_IssueDate" ColumnName="APT_SERVICE_ORIENTATION_IssueDate" />
+                <ScalarProperty Name="APT_HANDLING_SERVICES_IssueDate" ColumnName="APT_HANDLING_SERVICES_IssueDate" />
+                <ScalarProperty Name="STORE_IssueDate" ColumnName="STORE_IssueDate" />
+                <ScalarProperty Name="EMERGENCY_RESPONSE_PLAN_IssueDate" ColumnName="EMERGENCY_RESPONSE_PLAN_IssueDate" />
+                <ScalarProperty Name="TEACHING_METHOD_IssueDate" ColumnName="TEACHING_METHOD_IssueDate" />
+                <ScalarProperty Name="CONVERSION_IssueDate" ColumnName="CONVERSION_IssueDate" />
+                <ScalarProperty Name="SITA_IssueDate" ColumnName="SITA_IssueDate" />
+                <ScalarProperty Name="DGRExpireDate" ColumnName="DGRExpireDate" />
+                <ScalarProperty Name="DGRIssueDate" ColumnName="DGRIssueDate" />
+                <ScalarProperty Name="FTSL2ExpireDate" ColumnName="FTSL2ExpireDate" />
+                <ScalarProperty Name="FTSL2IssueDate" ColumnName="FTSL2IssueDate" />
+                <ScalarProperty Name="FRMSExpireDate" ColumnName="FRMSExpireDate" />
+                <ScalarProperty Name="FRMSIssueDate" ColumnName="FRMSIssueDate" />
                 <ScalarProperty Name="ExpireDate50" ColumnName="ExpireDate50" />
                 <ScalarProperty Name="ExpireDate49" ColumnName="ExpireDate49" />
                 <ScalarProperty Name="ExpireDate48" ColumnName="ExpireDate48" />
@@ -10724,19 +10944,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CertificateTypes">
-            <EntityTypeMapping TypeName="FLYModel.CertificateType">
-              <MappingFragment StoreEntitySet="CertificateType">
-                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
-                <ScalarProperty Name="DbField" ColumnName="DbField" />
-                <ScalarProperty Name="AppField" ColumnName="AppField" />
-                <ScalarProperty Name="Operator" ColumnName="Operator" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViewCourseAllowedEmployees">
             <EntityTypeMapping TypeName="FLYModel.ViewCourseAllowedEmployee">
               <MappingFragment StoreEntitySet="ViewCourseAllowedEmployee">
@@ -10953,6 +11160,21 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
                 <ScalarProperty Name="DateIssue" ColumnName="DateIssue" />
                 <ScalarProperty Name="Identifier" ColumnName="Identifier" />
                 <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CertificateTypes">
+            <EntityTypeMapping TypeName="FLYModel.CertificateType">
+              <MappingFragment StoreEntitySet="CertificateType">
+                <ScalarProperty Name="ExpireField" ColumnName="ExpireField" />
+                <ScalarProperty Name="IssueField" ColumnName="IssueField" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="DbField" ColumnName="DbField" />
+                <ScalarProperty Name="AppField" ColumnName="AppField" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

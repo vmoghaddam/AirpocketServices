@@ -84,17 +84,16 @@
         <EntityTypeShape EntityType="FLYModel.CourseSyllabu" Width="1.5" PointX="30.125" PointY="22.125" />
         <AssociationConnector Association="FLYModel.fk_syl_crs" />
         <EntityTypeShape EntityType="FLYModel.ViewSyllabu" Width="1.5" PointX="29.375" PointY="12.75" />
-        <EntityTypeShape EntityType="FLYModel.CertificateType" Width="1.5" PointX="1.125" PointY="0.75" />
-        <AssociationConnector Association="FLYModel.fk_cty_certy" />
         <EntityTypeShape EntityType="FLYModel.ViewCourseAllowedEmployee" Width="1.5" PointX="31.375" PointY="0.75" />
         <EntityTypeShape EntityType="FLYModel.ViewEmployeeAb" Width="1.5" PointX="31.375" PointY="6.75" />
         <EntityTypeShape EntityType="FLYModel.ViewCourseNew" Width="1.5" PointX="7.375" PointY="28.75" />
         <EntityTypeShape EntityType="FLYModel.CertificateHistory" Width="1.5" PointX="3" PointY="38" />
         <AssociationConnector Association="FLYModel.FK_CH_PERSON" />
         <EntityTypeShape EntityType="FLYModel.TrnDbAppFieldMapping" Width="1.5" PointX="3.375" PointY="45.875" />
-        <AssociationConnector Association="FLYModel.fk_trnfield_map_ct" />
         <EntityTypeShape EntityType="FLYModel.ViewCourseSMSHistoryRanked" Width="1.5" PointX="29.375" PointY="17.75" />
         <EntityTypeShape EntityType="FLYModel.ViewCertificateHistoryRanked" Width="1.5" PointX="32.375" PointY="12.75" />
+        <EntityTypeShape EntityType="FLYModel.CertificateType" Width="1.5" PointX="1.125" PointY="0.75" />
+        <AssociationConnector Association="FLYModel.fk_cty_certy" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
