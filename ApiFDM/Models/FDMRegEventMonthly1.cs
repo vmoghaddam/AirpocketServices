@@ -12,27 +12,20 @@ namespace ApiFDM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class FDMCptMonthlyTBL
+    public partial class FDMRegEventMonthly1
     {
-        public int Year { get; set; }
-        public int Month { get; set; }
-        public Nullable<int> YearMonth { get; set; }
-        public string CptName { get; set; }
-        public int CptId { get; set; }
-        public string JobGroup { get; set; }
-        public string CptCode { get; set; }
+        public Nullable<int> Year { get; set; }
+        public string YearMonthName { get; set; }
+        public Nullable<int> Month { get; set; }
+        public string MonthName { get; set; }
+        public string EventName { get; set; }
+        public string register { get; set; }
+        public int registerId { get; set; }
         public Nullable<int> FlightCount { get; set; }
         public Nullable<int> EventCount { get; set; }
         public Nullable<int> HighCount { get; set; }
         public Nullable<int> MediumCount { get; set; }
         public Nullable<int> LowCount { get; set; }
         public Nullable<int> Score { get; set; }
-        public Nullable<decimal> ScorePerEvent { get; set; }
-        public Nullable<decimal> ScorePerFlight { get; set; }
-        public Nullable<decimal> EventPerFlight { get; set; }
-        public Nullable<int> HighScore { get; set; }
-        public Nullable<int> MediumScore { get; set; }
-        public Nullable<int> LowScore { get; set; }
-        public string AircraftType { get; set; }
     }
 }

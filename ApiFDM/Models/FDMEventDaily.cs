@@ -12,10 +12,9 @@ namespace ApiFDM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class FDMEventMonthly
+    public partial class FDMEventDaily
     {
-        public Nullable<int> Month { get; set; }
-        public int Year { get; set; }
+        public System.DateTime FlightDate { get; set; }
         public string EventName { get; set; }
         public Nullable<int> EventCount { get; set; }
         public Nullable<int> HighCount { get; set; }

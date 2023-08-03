@@ -6,5 +6,5 @@
     cause the file to be unrecognizable by the program.
 -->
 <GenericObjectDataSource DisplayName="DeliveryStatus" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-   <TypeInfo>AirpocketTRN.com.magfa.sms.DeliveryStatus</TypeInfo>
+   <TypeInfo>AirpocketTRN.com.magfa.sms.DeliveryStatus, Web References.com.magfa.sms.Reference.cs.dll, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
 </GenericObjectDataSource>

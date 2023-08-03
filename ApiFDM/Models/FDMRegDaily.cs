@@ -12,13 +12,16 @@ namespace ApiFDM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QACSREvent
+    public partial class FDMRegDaily
     {
-        public int QACSRId { get; set; }
-        public int EventTitleId { get; set; }
-        public int Id { get; set; }
-    
-        public virtual QACSR QACSR { get; set; }
-        public virtual QAOption QAOption { get; set; }
+        public System.DateTime FlightDate { get; set; }
+        public string Register { get; set; }
+        public Nullable<int> RegisterID { get; set; }
+        public Nullable<int> EventCount { get; set; }
+        public Nullable<int> FlightCount { get; set; }
+        public Nullable<int> HighCount { get; set; }
+        public Nullable<int> MediumCount { get; set; }
+        public Nullable<int> LowCount { get; set; }
+        public Nullable<int> Score { get; set; }
     }
 }

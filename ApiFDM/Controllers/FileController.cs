@@ -377,11 +377,7 @@ namespace ApiFDM.Controllers
 
                 }
 
-                var date =  flights[0].DateX.ToString();
-                int year = DateTime.Parse(date).Year;
-                int month = DateTime.Parse(date).Month;
                 context.SaveChanges();
-                UpdateFdmTbl(year, month, year, month);
                 return failedItems;
 
             }
@@ -416,7 +412,7 @@ namespace ApiFDM.Controllers
             try
             {
 
-                var names = excelFile.UrlConnexion.GetWorksheetNames();
+               var names= excelFile.UrlConnexion.GetWorksheetNames();
                 var event_sheet = names.Where(q => q.ToUpper().Contains("EVENT")).FirstOrDefault();
                 if (string.IsNullOrEmpty(event_sheet))
                     event_sheet = names.First();
@@ -510,7 +506,7 @@ namespace ApiFDM.Controllers
                         entity.FromAirportIATA = flight.FromAirportIATA;
                         entity.ToAirportIATA = flight.ToAirportIATA;
                         entity.FlightId = flight.FlightId;
-                        //entity.AircraftTypeId = flight.TypeId;
+                        entity.AircraftTypeId = flight.TypeId;
                         entity.Limit = y.limit;
                         entity.Key = Key;
                         entity.Approved = false;
@@ -546,11 +542,7 @@ namespace ApiFDM.Controllers
 
 
 
-                var date = flights[0].DateX.ToString();
-                int year = DateTime.Parse(date).Year;
-                int month = DateTime.Parse(date).Month;
                 context.SaveChanges();
-                UpdateFdmTbl(year, month, year, month);
                 return failedItems;
 
 
@@ -641,74 +633,7 @@ namespace ApiFDM.Controllers
             return Ok(docfiles);
         }
 
-        [HttpGet]
-        [Route("api/fdm/update/fdmtbl")]
-        public async Task<DataResponse> UpdateFdmTbl(int yf, int mf, int yt, int mt)
-        {
-            try
-            {
-                var context = new dbEntities();
-                context.Database.CommandTimeout = 200;
-                var result = context.FillFDMCptMonthlyTBL(yf,mf,yt,mt);
-                
-                return new DataResponse()
-                {
-                    IsSuccess = true,
-                    Data = result
-                };
-            }
-            catch (Exception ex)
-            {
-                return new DataResponse()
-                {
-                    IsSuccess = false,
-                    Data = ex
-                };
-            }
-            //try
-            //{
-            //    var context = new dbEntities();
-            //    var fdmds = context.FDMCptMonthlies.ToList();
-            //    foreach (var i in context.FDMCptMonthlyTBLs) 
-            //    {
-            //        context.FDMCptMonthlyTBLs.Remove(i); 
-            //    }
-            //    foreach (var f in fdmds)
-            //    {
-            //        var entity = new FDMCptMonthlyTBL();
-            //        entity.Year = (int)(f.Year == null ? -1 : f.Year);
-            //        entity.Month = (int)(f.Month == null ? -1 : f.Month);
-            //        entity.YearMonth = f.YearMonth;
-            //        entity.ScorePerFlight = f.ScorePerFlight;
-            //        entity.ScorePerEvent = f.ScorePerEvent;
-            //        entity.Score = f.Score;
-            //        entity.MediumScore = f.MediumScore;
-            //        entity.MediumCount = f.MediumCount;
-            //        entity.LowScore = f.LowScore;
-            //        entity.LowCount = f.LowCount;
-            //        entity.HighScore = f.HighScore;
-            //        entity.HighCount = f.HighCount;
-            //        entity.JobGroup = f.JobGroup;
-            //        entity.FlightCount = f.FlightCount;
-            //        entity.EventPerFlight = f.EventPerFlight;
-            //        entity.EventCount = f.EventCount;
-            //        entity.CptName = f.CptName;
-            //        entity.CptId = f.CptId;
-            //        entity.CptCode = f.CptCode;
-            //        entity.AircraftTypeId = (int)(f.TypeId == null ? -1 : f.TypeId);
-            //        entity.AircraftType = f.AircraftType;
-            //        context.FDMCptMonthlyTBLs.Add(entity);
 
-            //    }
-            //    context.SaveChanges();
-            //    return Ok();
-            //}
-            //catch (Exception ex)
-
-            //{
-            //    return Ok(ex);
-            //}
-        }
 
 
 

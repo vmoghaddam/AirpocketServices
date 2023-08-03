@@ -16,8 +16,7 @@ namespace ApiFDM.Models
     {
         public int Year { get; set; }
         public int Month { get; set; }
-        public Nullable<int> YearMonth { get; set; }
-        public string aircrafttype { get; set; }
+        public int YearMonth { get; set; }
         public string Register { get; set; }
         public int RegisterId { get; set; }
         public Nullable<int> EventCount { get; set; }
@@ -26,7 +25,6 @@ namespace ApiFDM.Models
         public Nullable<int> MediumCount { get; set; }
         public Nullable<int> LowCount { get; set; }
         public Nullable<int> Score { get; set; }
-        public Nullable<decimal> ScorePerEvent { get; set; }
-        public Nullable<decimal> ScorePerFlight { get; set; }
+        public Nullable<int> ScorePerEvent { get; set; }
     }
 }

@@ -59,7 +59,7 @@ namespace AirpocketTRN.com.magfa.sms {
         
         /// <remarks/>
         public SoapSmsQueuableImplementationService() {
-            this.Url = "https://sms.magfa.com/api/soap/sms/v1/server";
+            this.Url = global::AirpocketTRN.Properties.Settings.Default.AirpocketTRN_com_magfa_sms_SoapSmsQueuableImplementationService;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
