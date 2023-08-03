@@ -128,5 +128,8 @@ namespace ApiFDM.Models
         public Nullable<int> ChrChild { get; set; }
         public Nullable<int> ChrInfant { get; set; }
         public Nullable<long> CargoCost { get; set; }
+        public string CPRegister { get; set; }
+        public string DepCountry { get; set; }
+        public string ArrCountry { get; set; }
     }
 }

@@ -14,6 +14,14 @@ namespace ApiFDM.Models
     
     public partial class FlightInformation
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public FlightInformation()
+        {
+            this.QAGroundIADs = new HashSet<QAGroundIAD>();
+            this.QACSRs = new HashSet<QACSR>();
+            this.QAMORs = new HashSet<QAMOR>();
+        }
+    
         public int ID { get; set; }
         public Nullable<int> TypeID { get; set; }
         public Nullable<int> RegisterID { get; set; }
@@ -181,8 +189,14 @@ namespace ApiFDM.Models
         public Nullable<int> MAXLNW { get; set; }
         public Nullable<long> CargoCost { get; set; }
     
-        public virtual Ac_MSN Ac_MSN { get; set; }
         public virtual Airport Airport { get; set; }
         public virtual Airport Airport1 { get; set; }
+        public virtual Ac_MSN Ac_MSN { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QAGroundIAD> QAGroundIADs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QACSR> QACSRs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QAMOR> QAMORs { get; set; }
     }
 }

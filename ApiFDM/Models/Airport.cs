@@ -19,6 +19,8 @@ namespace ApiFDM.Models
         {
             this.FlightInformations = new HashSet<FlightInformation>();
             this.FlightInformations1 = new HashSet<FlightInformation>();
+            this.QAGroundIADs = new HashSet<QAGroundIAD>();
+            this.QAMORs = new HashSet<QAMOR>();
         }
     
         public int Id { get; set; }
@@ -36,5 +38,9 @@ namespace ApiFDM.Models
         public virtual ICollection<FlightInformation> FlightInformations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FlightInformation> FlightInformations1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QAGroundIAD> QAGroundIADs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QAMOR> QAMORs { get; set; }
     }
 }

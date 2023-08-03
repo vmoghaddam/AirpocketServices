@@ -14,9 +14,15 @@ namespace ApiFDM.Models
     
     public partial class FDMCptAirportMonthly
     {
-        public Nullable<int> Month { get; set; }
-        public int Year { get; set; }
+        public Nullable<int> year { get; set; }
+        public Nullable<int> month { get; set; }
         public Nullable<int> YearMonth { get; set; }
+        public string CptName { get; set; }
+        public int CptId { get; set; }
+        public string CptCode { get; set; }
+        public string FromAirportIATA { get; set; }
+        public string ToAirportIATA { get; set; }
+        public string Route { get; set; }
         public Nullable<int> FlightCount { get; set; }
         public Nullable<int> EventsCount { get; set; }
         public Nullable<int> HighCount { get; set; }
@@ -28,16 +34,5 @@ namespace ApiFDM.Models
         public Nullable<int> HighScore { get; set; }
         public Nullable<int> MediumScore { get; set; }
         public Nullable<int> LowScore { get; set; }
-        public string FromAirportIATA { get; set; }
-        public string ToAirportIATA { get; set; }
-        public string Route { get; set; }
-        public string p1Name { get; set; }
-        public Nullable<int> P1Id { get; set; }
-        public string IPName { get; set; }
-        public Nullable<int> IPId { get; set; }
-        public string P2Name { get; set; }
-        public Nullable<int> P2Id { get; set; }
-        public string Phase { get; set; }
-        public Nullable<bool> Approved { get; set; }
     }
 }
