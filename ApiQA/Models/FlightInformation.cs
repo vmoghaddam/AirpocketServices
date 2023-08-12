@@ -14,6 +14,17 @@ namespace ApiQA.Models
     
     public partial class FlightInformation
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public FlightInformation()
+        {
+            this.QACaterings = new HashSet<QACatering>();
+            this.QAMaintenances = new HashSet<QAMaintenance>();
+            this.QASecurities = new HashSet<QASecurity>();
+            this.QADispatches = new HashSet<QADispatch>();
+            this.QACSRs = new HashSet<QACSR>();
+            this.QAGroundIADs = new HashSet<QAGroundIAD>();
+        }
+    
         public int ID { get; set; }
         public Nullable<int> TypeID { get; set; }
         public Nullable<int> RegisterID { get; set; }
@@ -277,5 +288,43 @@ namespace ApiQA.Models
         public Nullable<int> ExBagWeight { get; set; }
         public Nullable<long> ExBagCost { get; set; }
         public Nullable<int> TotalTrafficLoad { get; set; }
+        public Nullable<System.DateTime> OLDSTD { get; set; }
+        public Nullable<System.DateTime> OLDSTA { get; set; }
+        public Nullable<int> OLDReg { get; set; }
+        public Nullable<int> NewReg { get; set; }
+        public Nullable<int> NewTime { get; set; }
+        public Nullable<int> UTCSTD { get; set; }
+        public Nullable<int> UTCSTA { get; set; }
+        public Nullable<int> OFPMINTOFFUEL { get; set; }
+        public Nullable<int> OFPOFFBLOCKFUEL { get; set; }
+        public Nullable<int> OFPTRIPFUEL { get; set; }
+        public Nullable<int> PILOTREQFUEL { get; set; }
+        public Nullable<int> OFPExtra { get; set; }
+        public Nullable<int> OFPCONTFUEL { get; set; }
+        public Nullable<int> OFPALT1FUEL { get; set; }
+        public Nullable<int> OFPALT2FUEL { get; set; }
+        public Nullable<int> OFPFINALRESFUEL { get; set; }
+        public Nullable<int> OFPTAXIFUEL { get; set; }
+        public Nullable<int> OFPETOPSADDNLFUEL { get; set; }
+        public Nullable<int> OFPOPSEXTRAFUEL { get; set; }
+        public Nullable<int> OFPTANKERINGFUEL { get; set; }
+        public Nullable<int> OFPTOTALFUEL { get; set; }
+        public Nullable<int> FuelUsedEng1 { get; set; }
+        public Nullable<int> FuelUsedEng2 { get; set; }
+        public Nullable<int> ACTUALTANKERINGFUEL { get; set; }
+        public string LTR2 { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QACatering> QACaterings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QAMaintenance> QAMaintenances { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QASecurity> QASecurities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QADispatch> QADispatches { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QACSR> QACSRs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QAGroundIAD> QAGroundIADs { get; set; }
     }
 }

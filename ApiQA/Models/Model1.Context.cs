@@ -12,6 +12,8 @@ namespace ApiQA.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class ppa_entities : DbContext
     {
@@ -27,5 +29,106 @@ namespace ApiQA.Models
     
         public virtual DbSet<HelperMaxFDP> HelperMaxFDPs { get; set; }
         public virtual DbSet<FlightInformation> FlightInformations { get; set; }
+        public virtual DbSet<QAOption> QAOptions { get; set; }
+        public virtual DbSet<AppLeg> AppLegs { get; set; }
+        public virtual DbSet<ViewQACSREvent> ViewQACSREvents { get; set; }
+        public virtual DbSet<QACSREvent> QACSREvents { get; set; }
+        public virtual DbSet<QACatering> QACaterings { get; set; }
+        public virtual DbSet<QAMaintenance> QAMaintenances { get; set; }
+        public virtual DbSet<QASecurity> QASecurities { get; set; }
+        public virtual DbSet<QADispatch> QADispatches { get; set; }
+        public virtual DbSet<QAHazard> QAHazards { get; set; }
+        public virtual DbSet<ViewQAHazard> ViewQAHazards { get; set; }
+        public virtual DbSet<ViewQADispatch> ViewQADispatches { get; set; }
+        public virtual DbSet<QAFollowingUp> QAFollowingUps { get; set; }
+        public virtual DbSet<QAResponsibilty> QAResponsibilties { get; set; }
+        public virtual DbSet<QACSR> QACSRs { get; set; }
+        public virtual DbSet<QAGroundIAD> QAGroundIADs { get; set; }
+        public virtual DbSet<ViewQAGround> ViewQAGrounds { get; set; }
+        public virtual DbSet<ViewQAByEmployeeCount> ViewQAByEmployeeCounts { get; set; }
+        public virtual DbSet<ViewQACatering> ViewQACaterings { get; set; }
+        public virtual DbSet<ViewQAMaintenance> ViewQAMaintenances { get; set; }
+        public virtual DbSet<ViewQASecurity> ViewQASecurities { get; set; }
+        public virtual DbSet<ViewQACSR> ViewQACSRs { get; set; }
+        public virtual DbSet<ViewQAFollowingUp> ViewQAFollowingUps { get; set; }
+        public virtual DbSet<ViewQABYEmployee> ViewQABYEmployees { get; set; }
+    
+        public virtual ObjectResult<QACSRGet_Result> QACSRGet(Nullable<int> employeeId, Nullable<int> flightId)
+        {
+            var employeeIdParameter = employeeId.HasValue ?
+                new ObjectParameter("EmployeeId", employeeId) :
+                new ObjectParameter("EmployeeId", typeof(int));
+    
+            var flightIdParameter = flightId.HasValue ?
+                new ObjectParameter("FlightId", flightId) :
+                new ObjectParameter("FlightId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QACSRGet_Result>("QACSRGet", employeeIdParameter, flightIdParameter);
+        }
+    
+        public virtual ObjectResult<QACateringGet_Result> QACateringGet(Nullable<int> employeeId, Nullable<int> flightId)
+        {
+            var employeeIdParameter = employeeId.HasValue ?
+                new ObjectParameter("EmployeeId", employeeId) :
+                new ObjectParameter("EmployeeId", typeof(int));
+    
+            var flightIdParameter = flightId.HasValue ?
+                new ObjectParameter("FlightId", flightId) :
+                new ObjectParameter("FlightId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QACateringGet_Result>("QACateringGet", employeeIdParameter, flightIdParameter);
+        }
+    
+        public virtual ObjectResult<QAGroundGet_Result> QAGroundGet(Nullable<int> employeeId, Nullable<int> flightId)
+        {
+            var employeeIdParameter = employeeId.HasValue ?
+                new ObjectParameter("EmployeeId", employeeId) :
+                new ObjectParameter("EmployeeId", typeof(int));
+    
+            var flightIdParameter = flightId.HasValue ?
+                new ObjectParameter("FlightId", flightId) :
+                new ObjectParameter("FlightId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QAGroundGet_Result>("QAGroundGet", employeeIdParameter, flightIdParameter);
+        }
+    
+        public virtual ObjectResult<QAMaintenanceGet_Result> QAMaintenanceGet(Nullable<int> employeeId, Nullable<int> flightId)
+        {
+            var employeeIdParameter = employeeId.HasValue ?
+                new ObjectParameter("EmployeeId", employeeId) :
+                new ObjectParameter("EmployeeId", typeof(int));
+    
+            var flightIdParameter = flightId.HasValue ?
+                new ObjectParameter("FlightId", flightId) :
+                new ObjectParameter("FlightId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QAMaintenanceGet_Result>("QAMaintenanceGet", employeeIdParameter, flightIdParameter);
+        }
+    
+        public virtual ObjectResult<QASecurityGet_Result> QASecurityGet(Nullable<int> employeeId, Nullable<int> flightId)
+        {
+            var employeeIdParameter = employeeId.HasValue ?
+                new ObjectParameter("EmployeeId", employeeId) :
+                new ObjectParameter("EmployeeId", typeof(int));
+    
+            var flightIdParameter = flightId.HasValue ?
+                new ObjectParameter("FlightId", flightId) :
+                new ObjectParameter("FlightId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QASecurityGet_Result>("QASecurityGet", employeeIdParameter, flightIdParameter);
+        }
+    
+        public virtual ObjectResult<QADispatchGet_Result2> QADispatchGet(Nullable<int> employeeId, Nullable<int> flightId)
+        {
+            var employeeIdParameter = employeeId.HasValue ?
+                new ObjectParameter("EmployeeId", employeeId) :
+                new ObjectParameter("EmployeeId", typeof(int));
+    
+            var flightIdParameter = flightId.HasValue ?
+                new ObjectParameter("FlightId", flightId) :
+                new ObjectParameter("FlightId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QADispatchGet_Result2>("QADispatchGet", employeeIdParameter, flightIdParameter);
+        }
     }
 }
