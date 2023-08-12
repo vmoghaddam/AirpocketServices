@@ -130,7 +130,7 @@ namespace ApiFDM.Models
             {
                 DateTime? result = new DateTime();
 
-                if (DateTime.TryParse(TODatetime, out DateTime y))
+                if (DateTime.TryParse(TDDatetime, out DateTime y))
                 {
                     result = y.Date;
                 }
@@ -151,7 +151,7 @@ namespace ApiFDM.Models
                 string result = null;
                 if (severity == "high" || severity == "critical")
                     result = "High";
-                else if ( severity == "medium"  || severity == "major")
+                else if (severity == "medium" || severity == "major")
                     result = "Medium";
                 else if (severity == "low" || severity == "minor")
                     result = "Low";
