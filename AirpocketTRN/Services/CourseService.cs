@@ -169,7 +169,7 @@ namespace AirpocketTRN.Services
             public int GroupLevel { get; set; }
             public dynamic Dates { get; set; }
         }
-        public dynamic getCalendar(List<ViewCertificateHistoryRanked> rows,string code)
+        public dynamic getCalendar(List<ViewCertificateHistoryRanked> rows, string code)
         {
             var expiring = new List<ViewCertificateHistoryRanked>();
             var expiring_query = rows.Where(q => q.IsExpiring == 1);
@@ -177,19 +177,19 @@ namespace AirpocketTRN.Services
                 expiring_query = expiring_query.Where(q => q.JobGroupCode2.StartsWith(code));
             expiring = expiring_query.ToList();
             var query = from x in expiring
-                        group x by new { DateExpire=((DateTime)x.DateExpire).Date, x.CertificateType } into grp
+                        group x by new { DateExpire = ((DateTime)x.DateExpire).Date, x.CertificateType } into grp
                         select new
                         {
                             grp.Key.DateExpire,
                             grp.Key.CertificateType,
-                            Count=grp.Count(),
-                            Items=(
+                            Count = grp.Count(),
+                            Items = (
                                from y in grp
-                               group y by new {y.L1Title} into grp2
+                               group y by new { y.L1Title } into grp2
                                select new
                                {
-                                   main_group=grp2.Key.L1Title,
-                                   employees=grp2.OrderBy(q=>q.JobGroup).ThenBy(q=>q.LastName).ToList()
+                                   main_group = grp2.Key.L1Title,
+                                   employees = grp2.OrderBy(q => q.JobGroup).ThenBy(q => q.LastName).ToList()
                                }
                             ).ToList()
                         };
@@ -198,9 +198,9 @@ namespace AirpocketTRN.Services
                           select new
                           {
                               Date = grp.Key.DateExpire,
-                              Month=grp.Key.DateExpire.ToString("MMM"),
+                              Month = grp.Key.DateExpire.ToString("MMM"),
                               Items = grp.OrderByDescending(q => q.Count).ToList()
-                          }).OrderBy(q=>q.Date).ToList();
+                          }).OrderBy(q => q.Date).ToList();
             var month_names = query2.Select(q => q.Month).Distinct().ToList();
             return new { Items = query2, Monthes = month_names };
 
@@ -209,7 +209,7 @@ namespace AirpocketTRN.Services
         public dynamic getCalendarExpired(List<ViewCertificateHistoryRanked> rows, string code)
         {
             var expiring = new List<ViewCertificateHistoryRanked>();
-            var expiring_query = rows.AsEnumerable() ;
+            var expiring_query = rows.AsEnumerable();
             if (!string.IsNullOrEmpty(code))
                 expiring_query = expiring_query.Where(q => q.JobGroupCode2.StartsWith(code));
             expiring = expiring_query.ToList();
@@ -303,7 +303,7 @@ namespace AirpocketTRN.Services
                     emp.L5Title = l5_group.Title;
                 }
             }
-            
+
 
             var dates = getCalendar(expiring_employees, null);
             var query_l1 = (from x in expiring_employees
@@ -317,9 +317,9 @@ namespace AirpocketTRN.Services
                                 IsExpiring = grp.Sum(q => q.IsExpiring),
                                 GroupLevel = 1,
                                 EmployeesCount = expiring_employees_groups.Where(q => q.JobGroupMainCode.StartsWith(grp.Key.L1Code)).Count(),
-                                Dates=getCalendar(expiring_employees, grp.Key.L1Code)
+                                Dates = getCalendar(expiring_employees, grp.Key.L1Code)
 
-                                
+
                             }).OrderBy(q => q.IsExpired).ThenBy(q => q.IsExpiring).ThenBy(q => q.GroupTitle).ToList();
             var query_l2 = (from x in expiring_employees
                             group x by new { x.L2Code, x.L2Id, x.L2Title } into grp
@@ -397,8 +397,8 @@ namespace AirpocketTRN.Services
             foreach (var grp in query_l1)
             {
                 grp.Children = query_l2.Where(q => q.GroupCode.StartsWith(grp.GroupCode)).ToList();
-                grp.IndexExpired =Math.Round( grp.IsExpired * 1.0 / grp.EmployeesCount,1);
-                grp.IndexExpiring = Math.Round(grp.IsExpiring * 1.0 / grp.EmployeesCount,1);
+                grp.IndexExpired = Math.Round(grp.IsExpired * 1.0 / grp.EmployeesCount, 1);
+                grp.IndexExpiring = Math.Round(grp.IsExpiring * 1.0 / grp.EmployeesCount, 1);
             }
             foreach (var grp in query_l2)
             {
@@ -423,7 +423,7 @@ namespace AirpocketTRN.Services
             var result = new
             {
                 employees = expiring_employees,
-                Dates=dates,
+                Dates = dates,
                 groups = query_l1,
             };
 
@@ -696,12 +696,182 @@ namespace AirpocketTRN.Services
             };
         }
 
+        public async Task<DataResponse> GetTrainingExpiredCertificateTypes(int year, int certificate_type_id)
+        {
+            //var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear == year && q.ExpireMonth == month).ToListAsync();
+            var query = from x in context.ViewCertificateHistoryRankeds
+                        where x.ExpireYear == year
+                        select x;
+            if (certificate_type_id != -1)
+                query = query.Where(q => q.CertificateTypeId == certificate_type_id);
+            var ds = await query.ToListAsync();
+            var result = (from x in ds
+                          group x by new { Year = x.ExpireYear, Month = x.ExpireMonth, TypeId = x.CertificateTypeId, Type = x.CertificateType } into grp
+                          select new
+                          {
+                              grp.Key.Year,
+                              grp.Key.Month,
+                              grp.Key.Type,
+                              grp.Key.TypeId,
 
-        public async Task<DataResponse> GetTrainingSchedule(int year,int month)
+                              Count = grp.Count(),
+                              Items = grp.OrderBy(q => q.ExpireMonth).ThenBy(q => q.CertificateType).ToList(),
+                              GroupedItems = (
+                                   from z in grp
+                                   group z by new { z.JobGroup } into grpz
+                                   select new
+                                   {
+                                       grp.Key.Type,
+                                       grp.Key.Year,
+                                       grp.Key.Month,
+                                       Items = grpz.OrderBy(q => q.JobGroup).ToList(),
+                                       Count = grpz.Count(),
+                                       Group = grpz.Key.JobGroup
+                                   }
+                                ).OrderBy(q => q.Count).ToList()
+                          }).OrderBy(q => q.Month).ThenByDescending(q => q.Count).ThenBy(q => q.Type).ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+
+
+        public async Task<DataResponse> GetTrainingExpiredCertificateTypes(int year, int month, int certificate_type_id)
+        {
+            //var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear == year && q.ExpireMonth == month).ToListAsync();
+            var query = from x in context.ViewCertificateHistoryRankeds
+                        where x.ExpireYear == year && x.ExpireMonth == month
+                        select x;
+            if (certificate_type_id != -1)
+                query = query.Where(q => q.CertificateTypeId == certificate_type_id);
+            var ds = await query.ToListAsync();
+            var result = (from x in ds
+                          group x by new { Date = ((DateTime)x.DateExpire).Date, Year = x.ExpireYear, Month = x.ExpireMonth, TypeId = x.CertificateTypeId, Type = x.CertificateType } into grp
+                          select new
+                          {
+                              grp.Key.Date,
+                              grp.Key.Year,
+                              grp.Key.Month,
+                              grp.Key.Type,
+                              grp.Key.TypeId,
+
+                              Count = grp.Count(),
+                              Items = grp.OrderBy(q => q.ExpireMonth).ThenBy(q => q.CertificateType).ToList(),
+                              GroupedItems = (
+                                   from z in grp
+                                   group z by new { z.JobGroup } into grpz
+                                   select new
+                                   {
+                                       grp.Key.Type,
+                                       grp.Key.Year,
+                                       grp.Key.Month,
+                                       grp.Key.Date,
+                                       Items = grpz.OrderBy(q => q.JobGroup).ToList(),
+                                       Count = grpz.Count(),
+                                       Group = grpz.Key.JobGroup
+                                   }
+                                ).OrderBy(q => q.Count).ToList()
+                          }).OrderBy(q => q.Month).ThenByDescending(q => q.Count).ThenBy(q => q.Type).ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+
+
+        public async Task<DataResponse> GetTrainingExpiredCertificateTypesByPerson(int year, int pid)
+        {
+            //var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear == year && q.ExpireMonth == month).ToListAsync();
+            var query = from x in context.ViewCertificateHistoryRankeds
+                        where x.ExpireYear == year && x.PersonId == pid
+                        select x;
+            var ds = await query.ToListAsync();
+            var result = (from x in ds
+                          group x by new { Year = x.ExpireYear, Month = x.ExpireMonth } into grp
+                          select new
+                          {
+                              grp.Key.Year,
+                              grp.Key.Month,
+
+                              Count = grp.Count(),
+                              Items = grp.OrderBy(q => q.ExpireMonth).ThenBy(q => q.CertificateType).ToList(),
+
+                          }).OrderBy(q => q.Month).ThenByDescending(q => q.Count).ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+
+
+        public async Task<DataResponse> GetTrainingExpiredCertificateTypesByPerson(int year, int month, int pid)
+        {
+            //var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear == year && q.ExpireMonth == month).ToListAsync();
+            var query = from x in context.ViewCertificateHistoryRankeds
+                        where x.ExpireYear == year && x.ExpireMonth == month && x.PersonId == pid
+                        select x;
+            var ds = await query.ToListAsync();
+            var result = (from x in ds
+                          group x by new { Date = ((DateTime)x.DateExpire).Date, Year = x.ExpireYear, Month = x.ExpireMonth } into grp
+                          select new
+                          {
+                              grp.Key.Date,
+                              grp.Key.Year,
+                              grp.Key.Month,
+
+                              Count = grp.Count(),
+                              Items = grp.OrderBy(q => q.ExpireMonth).ThenBy(q => q.CertificateType).ToList(),
+
+                          }).OrderBy(q => q.Month).ThenByDescending(q => q.Count).ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+
+
+        public async Task<DataResponse> GetProfilesAbs(string grp)
+        {
+
+
+            var query = context.ViewProfiles.Where(q => q.InActive != true);
+
+            grp = grp.Replace('x', '/');
+            if (grp != "-1")
+                query = query.Where(q => q.JobGroupRoot == grp);
+            var profiles = await query.Select(q => new
+            {
+                q.Id,
+                q.JobGroup,
+                q.JobGroupRoot,
+                q.NID,
+                q.Mobile,
+                q.FirstName,
+                q.LastName,
+                q.Name,
+                q.PersonId,
+                q.PID
+            }).ToListAsync();
+
+            return new DataResponse()
+            {
+                Data = profiles,
+                IsSuccess = true,
+            };
+
+        }
+
+
+        public async Task<DataResponse> GetTrainingSchedule(int year, int month)
         {
             var session_query = await (from x in context.ViewCourseSessions
-                                where x.Year==year && x.Month==month
-                                select x).ToListAsync();
+                                       where x.Year == year && x.Month == month
+                                       select x).ToListAsync();
             var sessions = (from x in session_query
                             group x by new { ((DateTime)x.DateStart).Date } into grp
                             select new
@@ -717,18 +887,20 @@ namespace AirpocketTRN.Services
                                     q.Organization,
                                     q.Title,
                                     q.Location,
-                                    q.Status
+                                    q.Status,
+                                    q.StatusId
                                 }).OrderBy(w => w.DateStart).ThenBy(w => w.Title).ToList()
                             }).OrderBy(q => q.Date).ToList();
 
-            var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear==year && q.ExpireMonth==month).ToListAsync();
+            var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear == year && q.ExpireMonth == month).ToListAsync();
             //kosu
             var dates = getCalendarExpired(expiring_employees, null);
 
 
-            var result = new { 
-               sessions,
-               expired=dates
+            var result = new
+            {
+                sessions,
+                expired = dates
             };
             return new DataResponse()
             {
@@ -736,6 +908,313 @@ namespace AirpocketTRN.Services
                 IsSuccess = true,
             };
 
+        }
+
+
+        public async Task<DataResponse> GetTrainingSchedule(int year)
+        {
+            var course_query = await (from x in context.ViewCourseNews
+                                      where x.Year == year
+                                      select x).ToListAsync();
+            var courses = (from x in course_query
+                           group x by new { x.Year, ((DateTime)x.DateStart).Month, x.CourseType } into grp
+                           select new
+                           {
+                               Year = grp.Key.Year,
+                               grp.Key.Month,
+                               Type = grp.Key.CourseType,
+                               Scheduled = grp.Where(q => q.StatusId == 1).Count(),
+                               InProgress = grp.Where(q => q.StatusId == 2).Count(),
+                               Done = grp.Where(q => q.StatusId == 3).Count(),
+                               Canceled = grp.Where(q => q.StatusId == 4).Count(),
+
+                               Items = grp.Select(q => new
+                               {
+                                   q.Id,
+                                   q.DateStart,
+                                   q.DateEnd,
+                                   q.Instructor,
+                                   q.No,
+                                   q.Organization,
+                                   q.Title,
+                                   q.Location,
+                                   q.Status,
+                                   q.StatusId
+                               }).OrderBy(w => w.DateStart).ThenBy(w => w.Title).ToList()
+                           }).OrderBy(q => q.Month).ToList();
+
+            var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear == year).ToListAsync();
+            //kosu
+            var dates = getCalendarExpired(expiring_employees, null);
+
+
+            var result = new
+            {
+                courses,
+                expired = dates
+            };
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+
+        }
+
+
+
+        public async Task<DataResponse> GetRptCourseType(DateTime df, DateTime dt)
+        {
+            df = df.Date;
+            dt = dt.Date.AddDays(1).Date;
+
+            var courses =await (from x in context.ViewCourseNews
+
+                           where x.DateStart >= df && x.DateStart < dt  
+                           group x by new { x.CourseType } into grp
+                           select new
+                           {
+
+                               Type = grp.Key.CourseType,
+                               Scheduled = grp.Where(q => q.StatusId == 1).Count(),
+                               InProgress = grp.Where(q => q.StatusId == 2).Count(),
+                               Done = grp.Where(q => q.StatusId == 3).Count(),
+                               Canceled = grp.Where(q => q.StatusId == 4).Count(),
+                               Duration=grp.Where(q=>q.StatusId!=4 ).Sum(q=>q.Duration),
+
+
+                               Items = grp.Select(q => new
+                               {
+                                   q.Id,
+                                   q.DateStart,
+                                   q.DateEnd,
+                                   q.Instructor,
+                                   q.No,
+                                   q.Organization,
+                                   q.Title,
+                                   q.Location,
+                                   q.Status,
+                                   q.StatusId
+                               }).OrderBy(w => w.DateStart).ThenBy(w => w.Title).ToList()
+                           }).ToListAsync();
+
+
+
+            var result = new
+            {
+                courses,
+
+            };
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+
+        }
+
+        //2023-07-31
+        public async Task<DataResponse> GetRptCourseJobGroup(DateTime df, DateTime dt, int ct, string jg)
+        {
+            if (jg == "-1")
+                jg = "";
+            df = df.Date;
+            dt = dt.Date.AddDays(1).Date;
+
+
+            int n = 2;
+            if (jg == "")
+                n = 3;
+
+            var query_people = from x in context.ViewCoursePeoples
+                               where x.JobGroupCode2.StartsWith(jg) && x.StatusId !=4 && x.DateStart >= df && x.DateStart < dt
+                               group x by new { Group = x.JobGroupCode2.Substring(0, jg.Length + n), x.CourseType, x.CourseTypeId } into grp
+                               join y in context.ViewJobGroups on grp.Key.Group equals y.FullCode2
+                               select new
+                               {
+                                   grp.Key.Group,
+                                   GroupTitle = y.Title,
+                                   grp.Key.CourseType,
+                                   grp.Key.CourseTypeId,
+                                   Duration = grp.Where(q => q.StatusId != 4).Sum(q => q.Duration),
+                                   Passed = grp.Where(q => q.CoursePeopleStatusId == 1).Count(),
+                                   Failed = grp.Where(q => q.CoursePeopleStatusId == 0).Count(),
+                                   Unknown = grp.Where(q => q.CoursePeopleStatusId == -1).Count(),
+                                   Count = grp.Count(),
+                                   Items = grp.Select(q => new
+                                   {
+                                       q.JobGroup,
+                                       q.FirstName,
+                                       q.LastName,
+                                       q.NID,
+                                       q.Mobile,
+                                       q.CoursePeopleStatus,
+                                       q.PersonId,
+                                       q.EmployeeId,
+                                       q.CourseId,
+                                       q.DateIssue,
+                                       q.DateExpire,
+                                       q.ImgUrl,
+                                   })
+
+                               };
+            var people = await query_people.OrderBy(q => q.Group).ToListAsync();
+            var summary = (from x in people
+                           group x by new { x.Group, x.GroupTitle } into grp
+                           select new
+                           {
+                               grp.Key.Group,
+                               grp.Key.GroupTitle,
+                               Duration = grp.Sum(q => q.Duration),
+                               Count = grp.Sum(q => q.Count),
+                           }).OrderByDescending(q => q.Count).ToList();
+
+
+
+
+
+            var result = new
+            {
+                people,
+                summary
+
+            };
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+
+
+
+        }
+
+        public async Task<DataResponse> GetRptCoursePerson(DateTime df, DateTime dt, int pid)
+        {
+            df = df.Date;
+            dt = dt.Date.AddDays(1).Date;
+            var query_people = from x in context.ViewCoursePeoples
+                               where x.PersonId == pid && x.StatusId == 3 && x.DateStart >= df && x.DateStart < dt
+                               group x by new { x.CourseType, x.CourseTypeId } into grp
+
+                               select new
+                               {
+
+
+                                   grp.Key.CourseType,
+                                   grp.Key.CourseTypeId,
+                                   Duration = grp.Sum(q => q.Duration),
+                                   Passed = grp.Where(q => q.CoursePeopleStatusId == 1).Count(),
+                                   Failed = grp.Where(q => q.CoursePeopleStatusId == 0).Count(),
+                                   Unknown = grp.Where(q => q.CoursePeopleStatusId == -1).Count(),
+                                   Count = grp.Count(),
+                                   Items = grp.Select(q => new
+                                   {
+                                       q.JobGroup,
+                                       q.FirstName,
+                                       q.LastName,
+                                       q.NID,
+                                       q.Mobile,
+                                       q.CoursePeopleStatus,
+                                       q.PersonId,
+                                       q.EmployeeId,
+                                       q.CourseId,
+                                       q.DateIssue,
+                                       q.DateExpire,
+                                       q.ImgUrl,
+                                       q.Title
+                                   })
+
+                               };
+            var people = await query_people.OrderBy(q => q.CourseType).ToListAsync();
+
+
+
+
+            var result = new
+            {
+                people,
+
+            };
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+
+
+        public async Task<DataResponse> GetRptSummary(DateTime df, DateTime dt)
+        {
+            df = df.Date;
+            dt = dt.Date.AddDays(1).Date;
+            var query_passed = from x in context.ViewCoursePeoples
+                               where x.DateStart >= df && x.DateStart < dt && x.StatusId != 4
+                               group x by new { x.CoursePeopleStatus } into grp
+                               select new
+                               {
+                                   Status=grp.Key.CoursePeopleStatus,
+                                   Count = grp.Count(),
+                               };
+            var passed =await query_passed.OrderBy(q => q.Count).ToListAsync();
+
+            var query_status = from x in context.ViewCourseNews
+                               where x.DateStart >= df && x.DateStart < dt
+                               group x by new { x.Status, x.StatusId } into grp
+                               select new
+                               {
+                                   grp.Key.Status,
+                                   grp.Key.StatusId,
+                                   Count = grp.Count(),
+
+                               };
+            var status = await query_status.OrderBy(q => q.Count).ToListAsync();
+
+            var query_type = from x in context.ViewCourseNews
+                             where x.DateStart >= df && x.DateStart < dt && (x.StatusId != 4)
+                             group x by new { x.CourseType, x.CourseTypeId } into grp
+                             select new
+                             {
+                                 grp.Key.CourseType,
+                                 grp.Key.CourseTypeId,
+                                 Count = grp.Count(),
+                                 Duration = grp.Sum(q => q.Duration)
+
+                             };
+            var type = await query_type.OrderByDescending(q => q.Count).Take(20).ToListAsync();
+
+
+            var query_group = from x in context.ViewCoursePeoples
+                              where x.DateStart >= df && x.DateStart < dt && x.StatusId != 4
+                              //group x by new { Group = x.JobGroupCode2.Substring(0, 3) } into grp
+                              //FLY
+                              group x by new { Group = x.JobGroupCode2.Substring(0,7) } into grp
+                              join y in context.ViewJobGroups on grp.Key.Group equals y.FullCode2
+                              select new
+                              {
+                                  grp.Key.Group,
+                                  Title = y.Title,
+                                  Count = grp.Count(),
+                                  Duration = grp.Sum(q => q.Duration)
+                              };
+            var group = await query_group.OrderBy(q => q.Count).ToListAsync();
+
+
+
+
+            var result = new
+            {
+                status,
+                passed,
+                type,
+                group
+
+            };
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
         }
 
         public async Task<DataResponse> GetCourseTypeJobGroups(int cid)
@@ -2238,10 +2717,11 @@ namespace AirpocketTRN.Services
             var course = await context.ViewCourseNews.Where(q => q.Id == cp.CourseId).FirstOrDefaultAsync();
             var history = await context.CertificateHistories.Where(q => q.PersonId == dto.PersonId && q.CourseId == dto.CourseId).FirstOrDefaultAsync();
 
-            var field_map = await (from m in context.TrnDbAppFieldMappings
-                                   join ct in context.CertificateTypes on m.CertificateTypeId equals ct.TypeId
-                                   where ct.Id == course.CertificateTypeId //&& dto.Group.StartsWith(m.GroupCode)
-                                   select m).FirstOrDefaultAsync();
+            var certificate_type = await context.CertificateTypes.Where(q => q.Id == course.CertificateTypeId).FirstOrDefaultAsync();
+            // var field_map = await (from m in context.TrnDbAppFieldMappings
+            //                        join ct in context.CertificateTypes on m.CertificateTypeId equals ct.TypeId
+            //                        where ct.Id == course.CertificateTypeId //&& dto.Group.StartsWith(m.GroupCode)
+            //                        select m).FirstOrDefaultAsync();
             if (history != null)
                 context.CertificateHistories.Remove(history);
             //-1: UnKnown 0:Failed 1:Passed
@@ -2267,7 +2747,7 @@ namespace AirpocketTRN.Services
                 context.CertificateHistories.Add(new CertificateHistory()
                 {
                     CourseId = dto.CourseId,
-                    CertificateType = field_map.Identifier,
+                    CertificateType = certificate_type != null ? (!string.IsNullOrEmpty(certificate_type.IssueField) ? certificate_type.IssueField : certificate_type.ExpireField) : "", //field_map.Identifier,
                     DateCreate = DateTime.Now,
                     DateExpire = cp.DateExpire,
                     DateIssue = cp.DateIssue,
@@ -2282,14 +2762,14 @@ namespace AirpocketTRN.Services
             cp.StatusId = dto.StatusId;
             cp.StatusRemark = dto.Remark;
 
-            if (dto.StatusId == 1 && (cp.DateIssue != null || cp.DateExpire != null) && field_map.DbFieldIssue!=null)
+            if (dto.StatusId == 1 && (cp.DateIssue != null || cp.DateExpire != null) && /*field_map.DbFieldIssue!=null*/certificate_type != null)
             {
                 var cmd_upd_part = new List<string>();
 
-                if (cp.DateIssue != null)
-                    cmd_upd_part.Add(field_map.DbFieldIssue + "='" + ((DateTime)cp.DateIssue).ToString("yyyy-MM-dd") + "' ");
-                if (cp.DateExpire != null)
-                    cmd_upd_part.Add(field_map.DbFieldExpire + "='" + ((DateTime)cp.DateExpire).ToString("yyyy-MM-dd") + "' ");
+                if (cp.DateIssue != null && !string.IsNullOrEmpty(certificate_type.IssueField))
+                    cmd_upd_part.Add(/*field_map.DbFieldIssue*/certificate_type.IssueField + "='" + ((DateTime)cp.DateIssue).ToString("yyyy-MM-dd") + "' ");
+                if (cp.DateExpire != null && !string.IsNullOrEmpty(certificate_type.IssueField))
+                    cmd_upd_part.Add(/*field_map.DbFieldExpire*/certificate_type.ExpireField + "='" + ((DateTime)cp.DateExpire).ToString("yyyy-MM-dd") + "' ");
 
                 var cmd_upd = "Update Person set "
                     + string.Join(",", cmd_upd_part)

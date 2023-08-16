@@ -376,7 +376,22 @@ namespace ApiProfile.ViewModels
         public Nullable<System.DateTime> ExpireDate49 { get; set; }
         public Nullable<System.DateTime> ExpireDate50 { get; set; }
 
+        public Nullable<System.DateTime> EFBIssueDate { get; set; }
+        public Nullable<System.DateTime> EFBExpireDate { get; set; }
+        public Nullable<System.DateTime> RIGHT_SEAT_QUALIFICATION_IssueDate { get; set; }
+        public Nullable<System.DateTime> RIGHT_SEAT_QUALIFICATION_ExpireDate { get; set; }
+        public Nullable<System.DateTime> ELTIssueDate { get; set; }
+        public Nullable<System.DateTime> ELTExpireDate { get; set; }
+        public Nullable<System.DateTime> RVSMIssueDate { get; set; }
+        public Nullable<System.DateTime> RVSMExpireDate { get; set; }
+        public Nullable<System.DateTime> PILOT_INCAPACITATION_IssueDate { get; set; }
+        public Nullable<System.DateTime> PILOT_INCAPACITATION_ExpireDate { get; set; }
 
+        public Nullable<System.DateTime> SafetyPilotIssueDate { get; set; }
+        public Nullable<System.DateTime> SafetyPilotExpireDate { get; set; }
+
+        public Nullable<System.DateTime> RouteCheckIssueDate { get; set; }
+        public Nullable<System.DateTime> RouteCheckExpireDate { get; set; }
 
         public string BaseAirline { get; set; }
 
@@ -850,6 +865,23 @@ namespace ApiProfile.ViewModels
             entity.ExpireDateTRG02 = person.ExpireDateTRG02;
             entity.IssueDateTRG02 = person.IssueDateTRG02;
 
+            entity.EFBIssueDate = person.EFBIssueDate;
+            entity.EFBExpireDate = person.EFBExpireDate;
+            entity.RIGHT_SEAT_QUALIFICATION_IssueDate = person.RIGHT_SEAT_QUALIFICATION_IssueDate;
+            entity.RIGHT_SEAT_QUALIFICATION_ExpireDate = person.RIGHT_SEAT_QUALIFICATION_ExpireDate;
+            entity.ELTIssueDate = person.ELTIssueDate;
+            entity.ELTExpireDate = person.ELTExpireDate;
+            entity.RVSMIssueDate = person.RVSMIssueDate;
+            entity.RVSMExpireDate = person.RVSMExpireDate;
+            entity.PILOT_INCAPACITATION_IssueDate = person.PILOT_INCAPACITATION_IssueDate;
+            entity.PILOT_INCAPACITATION_ExpireDate = person.PILOT_INCAPACITATION_ExpireDate;
+
+            entity.SafetyPilotIssueDate = person.SafetyPilotIssueDate;
+            entity.SafetyPilotExpireDate = person.SafetyPilotExpireDate;
+
+            entity.RouteCheckIssueDate = person.RouteCheckIssueDate;
+            entity.RouteCheckExpireDate = person.RouteCheckExpireDate;
+
             entity.BaseAirline = person.BaseAirline;
 
 
@@ -1226,6 +1258,24 @@ namespace ApiProfile.ViewModels
             person.IssueDate50 = entity.IssueDate50;
             person.ExpireDateTRG02 = entity.ExpireDateTRG02;
             person.IssueDateTRG02 = entity.IssueDateTRG02;
+
+
+            person.EFBIssueDate = entity.EFBIssueDate;
+            person.EFBExpireDate = entity.EFBExpireDate;
+            person.RIGHT_SEAT_QUALIFICATION_IssueDate = entity.RIGHT_SEAT_QUALIFICATION_IssueDate;
+            person.RIGHT_SEAT_QUALIFICATION_ExpireDate = entity.RIGHT_SEAT_QUALIFICATION_ExpireDate;
+            person.ELTIssueDate = entity.ELTIssueDate;
+            person.ELTExpireDate = entity.ELTExpireDate;
+            person.RVSMIssueDate = entity.RVSMIssueDate;
+            person.RVSMExpireDate = entity.RVSMExpireDate;
+            person.PILOT_INCAPACITATION_IssueDate = entity.PILOT_INCAPACITATION_IssueDate;
+            person.PILOT_INCAPACITATION_ExpireDate = entity.PILOT_INCAPACITATION_ExpireDate;
+
+            person.SafetyPilotIssueDate = entity.SafetyPilotIssueDate;
+            person.SafetyPilotExpireDate = entity.SafetyPilotExpireDate;
+
+            person.RouteCheckIssueDate = entity.RouteCheckIssueDate;
+            person.RouteCheckExpireDate = entity.RouteCheckExpireDate;
 
             person.BaseAirline = entity.BaseAirline;
 

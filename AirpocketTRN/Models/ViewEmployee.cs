@@ -337,5 +337,7 @@ namespace AirpocketTRN.Models
         public Nullable<int> JobGroupMainId { get; set; }
         public Nullable<int> JobGroupId { get; set; }
         public Nullable<int> JobGroupParentId { get; set; }
+        public Nullable<System.DateTime> Type737ExpireDate { get; set; }
+        public Nullable<System.DateTime> TypeMDExpireDate { get; set; }
     }
 }

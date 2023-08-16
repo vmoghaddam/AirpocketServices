@@ -21,6 +21,7 @@ namespace AirpocketTRN.Models
         public string CertificateType { get; set; }
         public string JobGroups { get; set; }
         public string JobGroupsCode { get; set; }
+        public Nullable<int> Year { get; set; }
         public System.DateTime DateStart { get; set; }
         public Nullable<System.DateTime> DateEnd { get; set; }
         public string Instructor { get; set; }

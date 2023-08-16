@@ -17,10 +17,10 @@ namespace AirpocketTRN.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Person()
         {
+            this.CertificateHistories = new HashSet<CertificateHistory>();
             this.CoursePeoples = new HashSet<CoursePeople>();
             this.CourseSessionPresences = new HashSet<CourseSessionPresence>();
             this.CourseSessionPresenceDetails = new HashSet<CourseSessionPresenceDetail>();
-            this.CertificateHistories = new HashSet<CertificateHistory>();
         }
     
         public int Id { get; set; }
@@ -456,7 +456,25 @@ namespace AirpocketTRN.Models
         public Nullable<System.DateTime> CCOM_FAM_ExpireDate { get; set; }
         public Nullable<System.DateTime> CREW_CONDUCT_ExpireDate { get; set; }
         public Nullable<System.DateTime> MISCELLANEOUS_ExpireDate { get; set; }
+        public Nullable<System.DateTime> TRG07AIssueDate { get; set; }
+        public Nullable<System.DateTime> TRG07AExpireDate { get; set; }
+        public Nullable<System.DateTime> EFBIssueDate { get; set; }
+        public Nullable<System.DateTime> EFBExpireDate { get; set; }
+        public Nullable<System.DateTime> RIGHT_SEAT_QUALIFICATION_IssueDate { get; set; }
+        public Nullable<System.DateTime> RIGHT_SEAT_QUALIFICATION_ExpireDate { get; set; }
+        public Nullable<System.DateTime> ELTIssueDate { get; set; }
+        public Nullable<System.DateTime> ELTExpireDate { get; set; }
+        public Nullable<System.DateTime> RVSMIssueDate { get; set; }
+        public Nullable<System.DateTime> RVSMExpireDate { get; set; }
+        public Nullable<System.DateTime> PILOT_INCAPACITATION_IssueDate { get; set; }
+        public Nullable<System.DateTime> PILOT_INCAPACITATION_ExpireDate { get; set; }
+        public Nullable<System.DateTime> SafetyPilotIssueDate { get; set; }
+        public Nullable<System.DateTime> SafetyPilotExpireDate { get; set; }
+        public Nullable<System.DateTime> RouteCheckIssueDate { get; set; }
+        public Nullable<System.DateTime> RouteCheckExpireDate { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CertificateHistory> CertificateHistories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CoursePeople> CoursePeoples { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -464,7 +482,5 @@ namespace AirpocketTRN.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseSessionPresenceDetail> CourseSessionPresenceDetails { get; set; }
         public virtual Teacher Teacher { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CertificateHistory> CertificateHistories { get; set; }
     }
 }

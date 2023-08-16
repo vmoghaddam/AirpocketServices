@@ -64,14 +64,24 @@ namespace ApiScheduling.Controllers
         {
             //nooz
             //this.context.Database.CommandTimeout = 160;
+            try
+            {
+                var context = new Models.dbEntities();
+                var query = context.ViewCrewValidFTLs.ToList();
 
-            var context = new Models.dbEntities();
-            var query = context.ViewCrewValidFTLs.ToList();
 
 
-
-            // return result.OrderBy(q => q.STD);
-            return Ok(query);
+                // return result.OrderBy(q => q.STD);
+                return Ok(query);
+            }
+            catch(Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += ex.InnerException.Message;
+                return Ok(msg);
+            }
+           
 
         }
 
@@ -2341,7 +2351,7 @@ namespace ApiScheduling.Controllers
                         else
                         {
                             if (_interupted.DutyType == 1167 || _interupted.DutyType == 1168)
-                                return new CustomActionResult(HttpStatusCode.OK, new { Code = 501, data = _interupted });
+                                return new CustomActionResult(HttpStatusCode.OK, new { Code = 501, data = /*_interupted*/new { Id=_interupted.Id } });
                             else if (_interupted.DutyType == 5000)
                                 return new CustomActionResult(HttpStatusCode.OK, new
                                 {
@@ -2354,7 +2364,7 @@ namespace ApiScheduling.Controllers
                                 var _strt = ((DateTime)fdp.InitStart).AddMinutes(60);
                                 var rdif = Math.Abs((DateTime.UtcNow - _strt).TotalMinutes);
                                 if (rdif < 10 * 60)
-                                    return new CustomActionResult(HttpStatusCode.OK, new { Code = 304, data = _interupted });
+                                    return new CustomActionResult(HttpStatusCode.OK, new { Code = 304, data =  /*_interupted*/new { Id = _interupted.Id } });
                             }
                         }
                         //return new CustomActionResult(HttpStatusCode.NotAcceptable, _interupted);

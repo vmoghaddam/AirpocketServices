@@ -135,5 +135,6 @@ namespace AirpocketTRN.Models
         public Nullable<int> PILOTREQFUEL { get; set; }
         public Nullable<decimal> FuelPlanned { get; set; }
         public string PF { get; set; }
+        public Nullable<int> OFPTOTALFUEL { get; set; }
     }
 }

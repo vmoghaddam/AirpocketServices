@@ -29,5 +29,8 @@ namespace ApiCAO.Models
         public virtual DbSet<ViewFlightDelayCode> ViewFlightDelayCodes { get; set; }
         public virtual DbSet<CaoMVTLog> CaoMVTLogs { get; set; }
         public virtual DbSet<ExpFlight> ExpFlights { get; set; }
+        public virtual DbSet<XFlightCrew> XFlightCrews { get; set; }
+        public virtual DbSet<AppLeg> AppLegs { get; set; }
+        public virtual DbSet<ViewCao> ViewCaos { get; set; }
     }
 }

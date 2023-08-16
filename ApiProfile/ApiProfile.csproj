@@ -233,6 +233,9 @@
     <Compile Include="Models\ViewIdeaUniqueLast.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewOPC.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewPersonAircraftType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -419,6 +419,9 @@
     <Compile Include="Models\ViewPersonDocumentFileX.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewProfile.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewSyllabu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

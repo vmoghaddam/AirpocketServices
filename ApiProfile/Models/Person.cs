@@ -17,10 +17,10 @@ namespace ApiProfile.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Person()
         {
+            this.CertificateHistories = new HashSet<CertificateHistory>();
             this.PersonDocuments = new HashSet<PersonDocument>();
             this.PersonCustomers = new HashSet<PersonCustomer>();
             this.PersonAircraftTypes = new HashSet<PersonAircraftType>();
-            this.CertificateHistories = new HashSet<CertificateHistory>();
         }
     
         public int Id { get; set; }
@@ -378,14 +378,108 @@ namespace ApiProfile.Models
         public Nullable<System.DateTime> ExpireDate48 { get; set; }
         public Nullable<System.DateTime> ExpireDate49 { get; set; }
         public Nullable<System.DateTime> ExpireDate50 { get; set; }
+        public Nullable<System.DateTime> FRMSIssueDate { get; set; }
+        public Nullable<System.DateTime> FRMSExpireDate { get; set; }
+        public Nullable<System.DateTime> FTSL2IssueDate { get; set; }
+        public Nullable<System.DateTime> FTSL2ExpireDate { get; set; }
+        public Nullable<System.DateTime> DGRIssueDate { get; set; }
+        public Nullable<System.DateTime> DGRExpireDate { get; set; }
+        public Nullable<System.DateTime> SITA_IssueDate { get; set; }
+        public Nullable<System.DateTime> CONVERSION_IssueDate { get; set; }
+        public Nullable<System.DateTime> TEACHING_METHOD_IssueDate { get; set; }
+        public Nullable<System.DateTime> EMERGENCY_RESPONSE_PLAN_IssueDate { get; set; }
+        public Nullable<System.DateTime> STORE_IssueDate { get; set; }
+        public Nullable<System.DateTime> APT_HANDLING_SERVICES_IssueDate { get; set; }
+        public Nullable<System.DateTime> APT_SERVICE_ORIENTATION_IssueDate { get; set; }
+        public Nullable<System.DateTime> CABIN_SAFETY_INSPECTION_IssueDate { get; set; }
+        public Nullable<System.DateTime> CRMI_IssueDate { get; set; }
+        public Nullable<System.DateTime> CYBER_DEFENCE_IssueDate { get; set; }
+        public Nullable<System.DateTime> DCS_IssueDate { get; set; }
+        public Nullable<System.DateTime> DISPATCH_MANUAL_FAM_IssueDate { get; set; }
+        public Nullable<System.DateTime> ICAO_RULE_MAKING_PROCESS_IssueDate { get; set; }
+        public Nullable<System.DateTime> INTERNAL_AUDIT_IssueDate { get; set; }
+        public Nullable<System.DateTime> LAR_IssueDate { get; set; }
+        public Nullable<System.DateTime> LOAD_CONTROL_IssueDate { get; set; }
+        public Nullable<System.DateTime> MASS_BALANCE_CONTROL_IssueDate { get; set; }
+        public Nullable<System.DateTime> MOC_IssueDate { get; set; }
+        public Nullable<System.DateTime> OCC_IssueDate { get; set; }
+        public Nullable<System.DateTime> ORGANIZATIONAL_BEHAVIOR_IssueDate { get; set; }
+        public Nullable<System.DateTime> PART_66_IssueDate { get; set; }
+        public Nullable<System.DateTime> PREFLIGHT_INSPECTION_IssueDate { get; set; }
+        public Nullable<System.DateTime> RISK_ASSESSMENT_IssueDate { get; set; }
+        public Nullable<System.DateTime> RISK_MANAGEMENT_IssueDate { get; set; }
+        public Nullable<System.DateTime> SCCM_IssueDate { get; set; }
+        public Nullable<System.DateTime> SECURITY_PROGRAM_FAM_IssueDate { get; set; }
+        public Nullable<System.DateTime> SPECIAL_APPROVALS_IssueDate { get; set; }
+        public Nullable<System.DateTime> AC_RELIABILITY_IssueDate { get; set; }
+        public Nullable<System.DateTime> ACCINCDT_INVESTIGATION_IssueDate { get; set; }
+        public Nullable<System.DateTime> AIRCREW_IssueDate { get; set; }
+        public Nullable<System.DateTime> AVSECTRG11_IssueDate { get; set; }
+        public Nullable<System.DateTime> AVSECTRG13_IssueDate { get; set; }
+        public Nullable<System.DateTime> AVSECTRG14_IssueDate { get; set; }
+        public Nullable<System.DateTime> CCOM_FAM_IssueDate { get; set; }
+        public Nullable<System.DateTime> CREW_CONDUCT_IssueDate { get; set; }
+        public Nullable<System.DateTime> MISCELLANEOUS_IssueDate { get; set; }
+        public Nullable<System.DateTime> SITA_ExpireDate { get; set; }
+        public Nullable<System.DateTime> CONVERSION_ExpireDate { get; set; }
+        public Nullable<System.DateTime> TEACHING_METHOD_ExpireDate { get; set; }
+        public Nullable<System.DateTime> EMERGENCY_RESPONSE_PLAN_ExpireDate { get; set; }
+        public Nullable<System.DateTime> STORE_ExpireDate { get; set; }
+        public Nullable<System.DateTime> APT_HANDLING_SERVICES_ExpireDate { get; set; }
+        public Nullable<System.DateTime> APT_SERVICE_ORIENTATION_ExpireDate { get; set; }
+        public Nullable<System.DateTime> CABIN_SAFETY_INSPECTION_ExpireDate { get; set; }
+        public Nullable<System.DateTime> CRMI_ExpireDate { get; set; }
+        public Nullable<System.DateTime> CYBER_DEFENCE_ExpireDate { get; set; }
+        public Nullable<System.DateTime> DCS_ExpireDate { get; set; }
+        public Nullable<System.DateTime> DISPATCH_MANUAL_FAM_ExpireDate { get; set; }
+        public Nullable<System.DateTime> ICAO_RULE_MAKING_PROCESS_ExpireDate { get; set; }
+        public Nullable<System.DateTime> INTERNAL_AUDIT_ExpireDate { get; set; }
+        public Nullable<System.DateTime> LAR_ExpireDate { get; set; }
+        public Nullable<System.DateTime> LOAD_CONTROL_ExpireDate { get; set; }
+        public Nullable<System.DateTime> MASS_BALANCE_CONTROL_ExpireDate { get; set; }
+        public Nullable<System.DateTime> MOC_ExpireDate { get; set; }
+        public Nullable<System.DateTime> OCC_ExpireDate { get; set; }
+        public Nullable<System.DateTime> ORGANIZATIONAL_BEHAVIOR_ExpireDate { get; set; }
+        public Nullable<System.DateTime> PART_66_ExpireDate { get; set; }
+        public Nullable<System.DateTime> PREFLIGHT_INSPECTION_ExpireDate { get; set; }
+        public Nullable<System.DateTime> RISK_ASSESSMENT_ExpireDate { get; set; }
+        public Nullable<System.DateTime> RISK_MANAGEMENT_ExpireDate { get; set; }
+        public Nullable<System.DateTime> SCCM_ExpireDate { get; set; }
+        public Nullable<System.DateTime> SECURITY_PROGRAM_FAM_ExpireDate { get; set; }
+        public Nullable<System.DateTime> SPECIAL_APPROVALS_ExpireDate { get; set; }
+        public Nullable<System.DateTime> AC_RELIABILITY_ExpireDate { get; set; }
+        public Nullable<System.DateTime> ACCINCDT_INVESTIGATION_ExpireDate { get; set; }
+        public Nullable<System.DateTime> AIRCREW_ExpireDate { get; set; }
+        public Nullable<System.DateTime> AVSECTRG11_ExpireDate { get; set; }
+        public Nullable<System.DateTime> AVSECTRG13_ExpireDate { get; set; }
+        public Nullable<System.DateTime> AVSECTRG14_ExpireDate { get; set; }
+        public Nullable<System.DateTime> CCOM_FAM_ExpireDate { get; set; }
+        public Nullable<System.DateTime> CREW_CONDUCT_ExpireDate { get; set; }
+        public Nullable<System.DateTime> MISCELLANEOUS_ExpireDate { get; set; }
+        public Nullable<System.DateTime> TRG07AIssueDate { get; set; }
+        public Nullable<System.DateTime> TRG07AExpireDate { get; set; }
+        public Nullable<System.DateTime> EFBIssueDate { get; set; }
+        public Nullable<System.DateTime> EFBExpireDate { get; set; }
+        public Nullable<System.DateTime> RIGHT_SEAT_QUALIFICATION_IssueDate { get; set; }
+        public Nullable<System.DateTime> RIGHT_SEAT_QUALIFICATION_ExpireDate { get; set; }
+        public Nullable<System.DateTime> ELTIssueDate { get; set; }
+        public Nullable<System.DateTime> ELTExpireDate { get; set; }
+        public Nullable<System.DateTime> RVSMIssueDate { get; set; }
+        public Nullable<System.DateTime> RVSMExpireDate { get; set; }
+        public Nullable<System.DateTime> PILOT_INCAPACITATION_IssueDate { get; set; }
+        public Nullable<System.DateTime> PILOT_INCAPACITATION_ExpireDate { get; set; }
+        public Nullable<System.DateTime> SafetyPilotIssueDate { get; set; }
+        public Nullable<System.DateTime> SafetyPilotExpireDate { get; set; }
+        public Nullable<System.DateTime> RouteCheckIssueDate { get; set; }
+        public Nullable<System.DateTime> RouteCheckExpireDate { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CertificateHistory> CertificateHistories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonDocument> PersonDocuments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonCustomer> PersonCustomers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonAircraftType> PersonAircraftTypes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CertificateHistory> CertificateHistories { get; set; }
     }
 }

@@ -21,6 +21,9 @@ namespace ApiProfile.Models
         public Nullable<System.DateTime> DateExpire { get; set; }
         public int PersonId { get; set; }
         public string Remark { get; set; }
+        public Nullable<System.DateTime> DateIssueOld { get; set; }
+        public Nullable<System.DateTime> DateExpireOld { get; set; }
+        public Nullable<int> CourseId { get; set; }
     
         public virtual Person Person { get; set; }
     }

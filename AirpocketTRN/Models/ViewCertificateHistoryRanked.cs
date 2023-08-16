@@ -26,6 +26,7 @@ namespace AirpocketTRN.Models
         public Nullable<System.DateTime> DateIssueOld { get; set; }
         public Nullable<System.DateTime> DateExpireOld { get; set; }
         public string CertificateType { get; set; }
+        public Nullable<int> CertificateTypeId { get; set; }
         public Nullable<int> Remain { get; set; }
         public Nullable<bool> InActive { get; set; }
         public string LastName { get; set; }

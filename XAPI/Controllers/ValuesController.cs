@@ -381,6 +381,64 @@ namespace XAPI.Controllers
                     }
                     return Ok(true);
                 }
+                else if (dto.plan.Contains("ATLAS") || dto.plan.Contains("Atlas"))
+                {
+                    result = "ATLAS";
+                    var entity = new OFPSkyPuter()
+                    {
+                        OFP = dto.plan,
+                        DateCreate = DateTime.Now,
+                        UploadStatus = 0,
+
+
+                    };
+                    var ctx = new PPAEntities();
+                    ctx.Database.CommandTimeout = 1000;
+                    ctx.OFPSkyPuters.Add(entity);
+                    ctx.SaveChanges();
+
+
+                    string responsebody = "NO";
+                    using (WebClient client = new WebClient())
+                    {
+                        var reqparm = new System.Collections.Specialized.NameValueCollection();
+                        reqparm.Add("key", dto.key);
+                        reqparm.Add("plan", dto.plan);
+                        byte[] responsebytes = client.UploadValues("https://xpi.atlas.skybag.click/api/skyputer/atlas", "POST", reqparm);
+                        responsebody = Encoding.UTF8.GetString(responsebytes);
+
+                    }
+                    return Ok(true);
+                }
+                else if (dto.plan.Contains("TABAN") || dto.plan.Contains("Taban"))
+                {
+                    result = "TBN";
+                    var entity = new OFPSkyPuter()
+                    {
+                        OFP = dto.plan,
+                        DateCreate = DateTime.Now,
+                        UploadStatus = 0,
+
+
+                    };
+                    var ctx = new PPAEntities();
+                    ctx.Database.CommandTimeout = 1000;
+                    ctx.OFPSkyPuters.Add(entity);
+                    ctx.SaveChanges();
+
+
+                    string responsebody = "NO";
+                    using (WebClient client = new WebClient())
+                    {
+                        var reqparm = new System.Collections.Specialized.NameValueCollection();
+                        reqparm.Add("key", dto.key);
+                        reqparm.Add("plan", dto.plan);
+                        byte[] responsebytes = client.UploadValues("https://xpi.tbn.skybag.click/api/skyputer/tbn", "POST", reqparm);
+                        responsebody = Encoding.UTF8.GetString(responsebytes);
+
+                    }
+                    return Ok(true);
+                }
                 else
                 {
                     var entity = new OFPSkyPuter()
@@ -409,7 +467,7 @@ namespace XAPI.Controllers
                 var msg = ex.Message;
                 if (ex.InnerException != null)
                     msg += " INNER:" + ex.InnerException.Message;
-                return Ok(false);
+                return Ok(msg);
             }
 
         }
@@ -550,6 +608,100 @@ namespace XAPI.Controllers
 
         }
 
+
+        [Route("api/skyputer/tbn")]
+        [AcceptVerbs("POST")]
+        public IHttpActionResult PostSkyputerTBN(skyputer dto)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(dto.key))
+                    return Ok("Authorization key not found.");
+                if (string.IsNullOrEmpty(dto.plan))
+                    return Ok("Plan cannot be empty.");
+                if (dto.key != "Skyputer@1359#")
+                    return Ok("Authorization key is wrong.");
+
+
+
+                var entity = new OFPSkyPuter()
+                {
+                    OFP = dto.plan,
+                    DateCreate = DateTime.Now,
+                    UploadStatus = 0,
+
+
+                };
+                var ctx = new PPAEntities();
+                ctx.Database.CommandTimeout = 1000;
+                ctx.OFPSkyPuters.Add(entity);
+                ctx.SaveChanges();
+                new Thread(async () =>
+                {
+                    GetSkyputerImport(entity.Id);
+                }).Start();
+                return Ok(true);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += " Inner: " + ex.InnerException.Message;
+                return Ok(msg);
+            }
+
+        }
+
+
+        [Route("api/skyputer/atlas")]
+        [AcceptVerbs("POST")]
+        public IHttpActionResult PostSkyputerATLAS(skyputer dto)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(dto.key))
+                    return Ok("Authorization key not found.");
+                if (string.IsNullOrEmpty(dto.plan))
+                    return Ok("Plan cannot be empty.");
+                if (dto.key != "Skyputer@1359#")
+                    return Ok("Authorization key is wrong.");
+
+
+
+                var entity = new OFPSkyPuter()
+                {
+                    OFP = dto.plan,
+                    DateCreate = DateTime.Now,
+                    UploadStatus = 0,
+
+
+                };
+                var ctx = new PPAEntities();
+                ctx.Database.CommandTimeout = 1000;
+                ctx.OFPSkyPuters.Add(entity);
+                ctx.SaveChanges();
+                new Thread(async () =>
+                {
+                    GetSkyputerImport(entity.Id);
+                }).Start();
+                return Ok(true);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += " Inner: " + ex.InnerException.Message;
+                return Ok(msg);
+            }
+
+        }
+
         [Route("api/php")]
         [AcceptVerbs("POST")]
         public IHttpActionResult PostPHP(skyputer dto)
@@ -607,7 +759,12 @@ namespace XAPI.Controllers
         [AcceptVerbs("GET")]
         public IHttpActionResult GetSkyputerImport(int id)
         {
+           
             var context = new PPAEntities();
+
+             
+
+
             context.Database.CommandTimeout = 5000;
             var dto = context.OFPSkyPuters.Where(q => q.Id == id).FirstOrDefault();
             if (dto == null)
@@ -676,12 +833,19 @@ namespace XAPI.Controllers
 
 
                 };
+
+                
                 if (!string.IsNullOrEmpty(dow))
                     plan.DOW = Convert.ToDecimal(dow);
                 if (!string.IsNullOrEmpty(fll))
                     plan.FLL = Convert.ToDecimal(fll);
                 if (!string.IsNullOrEmpty(mci))
+                {
+                    if (mci == "ETAS")
+                        plan.MCI = -1;
+                    else
                     plan.MCI = Convert.ToDecimal(mci);
+                }
 
 
 
@@ -808,8 +972,9 @@ namespace XAPI.Controllers
                         idx++;
 
                     }
-
+                    //FUCK
                     plan.JAPlan1 = "[" + string.Join(",", apln1Json) + "]";
+                    
                 }
 
                 string apln2 = parts.Where(q => q.StartsWith("apln:|")).Count() > 1 ? parts.Where(q => q.StartsWith("apln:|")).ToList()[1] : null;
@@ -850,7 +1015,8 @@ namespace XAPI.Controllers
 
                     }
 
-                    plan.JAPlan2 = "[" + string.Join(",", apln2Json) + "]";
+                     plan.JAPlan2 = "[" + string.Join(",", apln2Json) + "]";
+                    //FUCK
                 }
 
 
@@ -888,7 +1054,8 @@ namespace XAPI.Controllers
                         idx++;
 
                     }
-                    plan.JCSTBL = "[" + string.Join(",", cstblJson) + "]";
+                     plan.JCSTBL = "[" + string.Join(",", cstblJson) + "]";
+                    //FUCK
                 }
 
                 var aldrf = parts.FirstOrDefault(q => q.StartsWith("aldrf:|"));
@@ -931,7 +1098,8 @@ namespace XAPI.Controllers
                         idx++;
 
                     }
-                    plan.JALDRF = "[" + string.Join(",", aldrfJson) + "]";
+                     plan.JALDRF = "[" + string.Join(",", aldrfJson) + "]";
+                    //FUCK
                 }
 
                 var wtdrf = parts.FirstOrDefault(q => q.StartsWith("wtdrf:|"));
@@ -997,7 +1165,8 @@ namespace XAPI.Controllers
                     }
                     catch (Exception ex) { }
 
-                    plan.JWTDRF = "[" + string.Join(",", wtdrfJson) + "]";
+                     plan.JWTDRF = "[" + string.Join(",", wtdrfJson) + "]";
+                    //FUCK
 
                 }
 
@@ -1033,13 +1202,13 @@ namespace XAPI.Controllers
                         fltobj.OFPCONTFUEL= Convert.ToInt32(val);
                     }
 
-                    if (prm == "ALT 1")
+                    if (prm == "ALT 1" || prm== "ALTN 1")
                     {
                         plan.FuelALT1 = Convert.ToInt32(val);
                         fltobj.OFPALT1FUEL = Convert.ToInt32(val);
 
                     }
-                    if (prm == "ALT 2")
+                    if (prm == "ALT 2" || prm == "ALTN 2")
                     {
                         plan.FuelALT2 = Convert.ToInt32(val);
                         fltobj.OFPALT2FUEL = Convert.ToInt32(val);
@@ -1072,6 +1241,9 @@ namespace XAPI.Controllers
                     {
                         plan.FuelTANKERING= Convert.ToInt32(val);
                         fltobj.OFPTANKERINGFUEL = Convert.ToInt32(val);
+
+                        plan.FuelACTUALTANKERING = Convert.ToInt32(val);
+                        fltobj.ACTUALTANKERINGFUEL = Convert.ToInt32(val);
                     }
 
                     if (prm == "TAXI")
@@ -1197,7 +1369,7 @@ namespace XAPI.Controllers
                     try
                     {
                         wddes = wddes.Replace("wddes:|", "");
-                        var wddes_parts = wdclb.Split('F').Where(q => !string.IsNullOrEmpty(q.Replace(" ", ""))).Select(q => "F" + q).ToList();
+                        var wddes_parts = wddes.Split('F').Where(q => !string.IsNullOrEmpty(q.Replace(" ", ""))).Select(q => "F" + q).ToList();
                         plan.WDDES = string.Join("*", wddes_parts);
                     }
                     catch (Exception _wdex)
@@ -1411,6 +1583,36 @@ namespace XAPI.Controllers
                 other.Add(new fuelPrm() { prm = "TO_COND", value = "" });
                 props.Add("prop_to_cond");
 
+                other.Add(new fuelPrm() { prm = "TO_INFO", value = "" });
+                props.Add("prop_to_info");
+                other.Add(new fuelPrm() { prm = "TO_TIME", value = "" });
+                props.Add("prop_to_time");
+                other.Add(new fuelPrm() { prm = "TO_TA", value = "" });
+                props.Add("prop_to_ta");
+                other.Add(new fuelPrm() { prm = "TO_FE", value = "" });
+                props.Add("prop_to_fe");
+                other.Add(new fuelPrm() { prm = "TO_WIND", value = "" });
+                props.Add("prop_to_wind");
+                other.Add(new fuelPrm() { prm = "TO_VIS", value = "" });
+                props.Add("prop_to_vis");
+                other.Add(new fuelPrm() { prm = "TO_CLOUD", value = "" });
+                props.Add("prop_to_cloud");
+                other.Add(new fuelPrm() { prm = "TO_TEMP", value = "" });
+                props.Add("prop_to_temp");
+                other.Add(new fuelPrm() { prm = "TO_DEWP", value = "" });
+                props.Add("prop_to_dewp");
+                other.Add(new fuelPrm() { prm = "TO_QNH", value = "" });
+                props.Add("prop_to_qnh");
+                other.Add(new fuelPrm() { prm = "TO_FLAP", value = "" });
+                props.Add("prop_to_flap");
+                other.Add(new fuelPrm() { prm = "TO_STAB", value = "" });
+                props.Add("prop_to_stab");
+                other.Add(new fuelPrm() { prm = "TO_CG", value = "" });
+                props.Add("prop_to_cg");
+                other.Add(new fuelPrm() { prm = "TO_ALTFUEL", value = "" });
+                props.Add("prop_to_altfuel");
+
+
 
 
                 other.Add(new fuelPrm() { prm = "LND_STAR", value = "" });
@@ -1427,9 +1629,40 @@ namespace XAPI.Controllers
                 props.Add("prop_lnd_rwy");
                 other.Add(new fuelPrm() { prm = "LND_COND", value = "" });
                 props.Add("prop_lnd_cond");
+                other.Add(new fuelPrm() { prm = "LND_INFO", value = "" });
+                props.Add("prop_lnd_info");
+                other.Add(new fuelPrm() { prm = "LND_TIME", value = "" });
+                props.Add("prop_lnd_time");
+                other.Add(new fuelPrm() { prm = "LND_TL", value = "" });
+                props.Add("prop_lnd_tl");
+                other.Add(new fuelPrm() { prm = "LND_FE", value = "" });
+                props.Add("prop_lnd_fe");
+                other.Add(new fuelPrm() { prm = "LND_WIND", value = "" });
+                props.Add("prop_lnd_wind");
+                other.Add(new fuelPrm() { prm = "LND_VIS", value = "" });
+                props.Add("prop_lnd_vis");
 
-                other.Add(new fuelPrm() { prm = "LND_COND", value = "" });
-                props.Add("prop_lnd_cond");
+                other.Add(new fuelPrm() { prm = "LND_CLOUD", value = "" });
+                props.Add("prop_lnd_cloud");
+                other.Add(new fuelPrm() { prm = "LND_TEMP", value = "" });
+                props.Add("prop_lnd_temp");
+                other.Add(new fuelPrm() { prm = "LND_DEWP", value = "" });
+                props.Add("prop_lnd_dewp");
+                other.Add(new fuelPrm() { prm = "LND_QNH", value = "" });
+                props.Add("prop_lnd_qnh");
+                other.Add(new fuelPrm() { prm = "LND_FLAP", value = "" });
+                props.Add("prop_lnd_flap");
+                other.Add(new fuelPrm() { prm = "LND_STAB", value = "" });
+                props.Add("prop_lnd_stab");
+                other.Add(new fuelPrm() { prm = "LND_MAS", value = "" });
+                props.Add("prop_lnd_mas");
+                other.Add(new fuelPrm() { prm = "LND_ACTWEIGHT", value = "" });
+                props.Add("prop_lnd_actweight");
+                other.Add(new fuelPrm() { prm = "LND_ALTFUEL", value = "" });
+                props.Add("prop_lnd_altfuel");
+
+                //  other.Add(new fuelPrm() { prm = "LND_COND", value = "" });
+                // props.Add("prop_lnd_cond");
 
                 other.Add(new fuelPrm() { prm = "CLR_TAXIOUT", value = "" });
                 props.Add("prop_clr_taxiout");
@@ -1457,8 +1690,9 @@ namespace XAPI.Controllers
 
                     });
                 var _fuel = JsonConvert.SerializeObject(fuel);
-                plan.JFuel = _fuel; //"["+string.Join(",", fuel)+"]";
-                plan.JPlan = "[" + string.Join(",", mplnpJson) + "]";
+                 plan.JFuel = _fuel; //"["+string.Join(",", fuel)+"]";
+                                      plan.JPlan = "[" + string.Join(",", mplnpJson) + "]";
+                                    //FUCK
 
 
 
@@ -1506,14 +1740,18 @@ namespace XAPI.Controllers
                 var message = ex.Message;
                 if (ex.InnerException != null)
                     message += "  INNER: " + ex.InnerException.Message;
-
+                if (ex.InnerException.InnerException!=null)
+                    message += "  INNER: " + ex.InnerException.InnerException.Message;
                 dto.DateUpload = DateTime.Now;
                 dto.UploadStatus = -1;
                 dto.UploadMessage = message;
+                //try
+                //{
+                //    context.SaveChanges();
+                //}
+                //catch (Exception ex) { }
 
-                context.SaveChanges();
-
-                return Ok("Not Uploaded");
+                return Ok("Not Uploaded "+ message);
             }
 
 

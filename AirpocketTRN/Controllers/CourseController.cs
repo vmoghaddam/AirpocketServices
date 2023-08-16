@@ -300,6 +300,101 @@ namespace AirpocketTRN.Controllers
             return Ok(result.Data);
         }
 
+        [Route("api/trn/schedule/year/{year}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetTrainingScheduleYear(int year )
+        {
+            var result = await courseService.GetTrainingSchedule(year );
+
+            return Ok(result.Data);
+        }
+
+        //GetTrainingExpiredCertificateTypes
+        [Route("api/trn/schedule/year/type/{year}/{type}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetTrainingExpiredCertificateTypes(int year, int type)
+        {
+            var result = await courseService.GetTrainingExpiredCertificateTypes(year, type);
+
+            return Ok(result.Data);
+        }
+
+        [Route("api/trn/schedule/year/month/type/{year}/{month}/{type}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetTrainingExpiredCertificateTypes(int year,int month, int type)
+        {
+            var result = await courseService.GetTrainingExpiredCertificateTypes(year,month, type);
+
+            return Ok(result.Data);
+        }
+
+
+
+        [Route("api/trn/schedule/year/person/{year}/{pid}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetTrainingExpiredCertificateTypesByPerson(int year, int pid)
+        {
+            var result = await courseService.GetTrainingExpiredCertificateTypesByPerson(year, pid);
+
+            return Ok(result.Data);
+        }
+
+        [Route("api/trn/schedule/year/month/person/{year}/{month}/{pid}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetTrainingExpiredCertificateTypesByPerson(int year, int month, int pid)
+        {
+            var result = await courseService.GetTrainingExpiredCertificateTypesByPerson(year, month, pid);
+
+            return Ok(result.Data);
+        }
+
+
+        [Route("api/trn/dashboard/report/type")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetRptCourseType(DateTime df,DateTime dt)
+        {
+            var result = await courseService.GetRptCourseType(df, dt);
+
+            return Ok(result.Data);
+        }
+        [Route("api/trn/dashboard/report/group/{ct}/{jg}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetRptCourseJobGroup(DateTime df, DateTime dt,int ct,string jg)
+        {
+            var result = await courseService.GetRptCourseJobGroup(df, dt,ct,jg);
+
+            return Ok(result.Data);
+        }
+
+        [Route("api/trn/dashboard/report/person/{pid}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetRptCoursePerson(DateTime df, DateTime dt, int pid)
+        {
+            var result = await courseService.GetRptCoursePerson(df, dt, pid);
+
+            return Ok(result.Data);
+        }
+
+        [Route("api/trn/dashboard/report/summary")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetRptSummary(DateTime df, DateTime dt )
+        {
+            var result = await courseService.GetRptSummary(df, dt );
+
+            return Ok(result.Data);
+        }
+
+
+
+        [Route("api/profiles/abs/{grp}")]
+
+        public async Task<IHttpActionResult> GetProfilesByCustomerId(  string grp)
+        {
+            var result = await courseService.GetProfilesAbs(grp);
+
+            return Ok(result.Data);
+
+        }
         //GetCertificatesHistory
         [Route("api/course/{cid}")]
         [AcceptVerbs("GET")]

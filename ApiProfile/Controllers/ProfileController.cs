@@ -26,7 +26,7 @@ namespace ApiProfile.Controllers
             var context = new Models.dbEntities();
 
             var nidCheck = await context.People.Where(q => q.Id != dto.PersonId && q.NID == dto.Person.NID).FirstOrDefaultAsync();
-            if (nidCheck!=null)
+            if (nidCheck != null)
             {
                 return Exceptions.getDuplicateException("Person-01", "NID");
             }
@@ -45,7 +45,7 @@ namespace ApiProfile.Controllers
             ViewModels.Person.Fill(person, dto.Person);
             var cid = (int)dto.CustomerId;
             Models.PersonCustomer personCustomer = await context.PersonCustomers.Where(q => q.CustomerId == cid && q.PersonId == dto.Person.PersonId).FirstOrDefaultAsync();
-                //await unitOfWork.PersonRepository.GetPersonCustomer((int)dto.CustomerId, dto.Person.PersonId);
+            //await unitOfWork.PersonRepository.GetPersonCustomer((int)dto.CustomerId, dto.Person.PersonId);
             if (personCustomer == null)
             {
                 personCustomer = new Models.PersonCustomer();
@@ -59,10 +59,10 @@ namespace ApiProfile.Controllers
             personCustomer.Employee = employee;
             ViewModels.Employee.Fill(employee, dto);
 
-            FillEmployeeLocations(context,employee, dto);
+            FillEmployeeLocations(context, employee, dto);
 
-           FillAircraftTypes(context,person, dto);
-             FillDocuments(context,person, dto);
+            FillAircraftTypes(context, person, dto);
+            FillDocuments(context, person, dto);
 
             var saveResult = await context.SaveAsync();
             if (saveResult.Code != HttpStatusCode.OK)
@@ -78,7 +78,7 @@ namespace ApiProfile.Controllers
         {
             var context = new Models.dbEntities();
             ViewModels.Employee employee = null;
-            var entity = await  context.People.SingleOrDefaultAsync(q => q.NID == nid && !q.IsDeleted);
+            var entity = await context.People.SingleOrDefaultAsync(q => q.NID == nid && !q.IsDeleted);
             if (entity == null)
                 return Ok();
             employee = new ViewModels.Employee();
@@ -136,6 +136,34 @@ namespace ApiProfile.Controllers
             //soosk
             ///var employee = await unitOfWork.PersonRepository.GetEmployeeDtoByNID(nid, cid);
             return Ok(employee);
+        }
+
+
+
+        [Route("api/profile/opc/nid/{nid}")]
+        public async Task<IHttpActionResult> GetOPC(string nid)
+        {
+            try
+            {
+
+
+                var context = new Models.dbEntities();
+                
+                var employee = await context.ViewOPCs.Where(q => q.NID == nid).FirstOrDefaultAsync();
+                //soosk
+                ///var employee = await unitOfWork.PersonRepository.GetEmployeeDtoByNID(nid, cid);
+                var result = new { 
+                  Person=employee,
+                };
+                return Ok(result );
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   INNER:  " + ex.InnerException.Message;
+                return Ok(msg);
+            }
         }
 
         public class UpdTrnDto
@@ -375,7 +403,7 @@ namespace ApiProfile.Controllers
 
         [Route("api/profiles/main/{cid}/{active}/{grp}")]
 
-        public async Task<IHttpActionResult> GetProfilesByCustomerId(int cid,int active,string grp)
+        public async Task<IHttpActionResult> GetProfilesByCustomerId(int cid, int active, string grp)
         {
             try
             {
@@ -404,7 +432,7 @@ namespace ApiProfile.Controllers
 
         [Route("api/login/info")]
 
-        public async Task<IHttpActionResult> GetLoginInfo(DateTime df,DateTime dt,string user,string city)
+        public async Task<IHttpActionResult> GetLoginInfo(DateTime df, DateTime dt, string user, string city)
         {
             try
             {
@@ -418,25 +446,25 @@ namespace ApiProfile.Controllers
                     _qry = _qry.Where(q => q.User == user);
                 if (city != "-1")
                     _qry = _qry.Where(q => q.LocationCity.ToLower() == city);
-                var query =await _qry.Select(q=> new {q.Id,q.IP,q.LocationCity,q.User,q.DateCreate,q.Info }).ToListAsync();
-                 
+                var query = await _qry.Select(q => new { q.Id, q.IP, q.LocationCity, q.User, q.DateCreate, q.Info }).ToListAsync();
+
 
                 return Ok(query);
             }
             catch (Exception ex)
             {
-               return  Ok(ex.Message);
+                return Ok(ex.Message);
             }
 
         }
 
-        public void FillEmployeeLocations(dbEntities context, Models. Employee employee, ViewModels.Employee dto)
+        public void FillEmployeeLocations(dbEntities context, Models.Employee employee, ViewModels.Employee dto)
         {
-            var exists =  context.EmployeeLocations.Where(q => q.EmployeeId == employee.Id).ToList();
+            var exists = context.EmployeeLocations.Where(q => q.EmployeeId == employee.Id).ToList();
             var dtoLocation = dto.Locations.First();
             if (exists == null || exists.Count == 0)
             {
-                employee.EmployeeLocations.Add(new Models. EmployeeLocation()
+                employee.EmployeeLocations.Add(new Models.EmployeeLocation()
                 {
                     DateActiveEnd = dtoLocation.DateActiveEnd,
                     DateActiveEndP = dtoLocation.DateActiveEnd != null ? (Nullable<decimal>)Convert.ToDecimal(Utils.DateTimeUtil.GetPersianDateTimeDigital((DateTime)dtoLocation.DateActiveEnd)) : null,
@@ -466,7 +494,7 @@ namespace ApiProfile.Controllers
         }
         public void FillAircraftTypes(dbEntities context, Models.Person person, ViewModels.Employee dto)
         {
-            var existing =  context.PersonAircraftTypes.Where(q => q.PersonId == person.Id).ToList();
+            var existing = context.PersonAircraftTypes.Where(q => q.PersonId == person.Id).ToList();
             var deleted = (from x in existing
                            where dto.Person.AircraftTypes.FirstOrDefault(q => q.Id == x.Id) == null
                            select x).ToList();
@@ -505,7 +533,7 @@ namespace ApiProfile.Controllers
         }
         public void FillDocuments(dbEntities context, Models.Person person, ViewModels.Employee dto)
         {
-            var existing =  context.PersonDocuments.Include("Documents").Where(q => q.PersonId == person.Id).ToList();
+            var existing = context.PersonDocuments.Include("Documents").Where(q => q.PersonId == person.Id).ToList();
             var deleted = (from x in existing
                            where dto.Person.Documents.FirstOrDefault(q => q.Id == x.Id) == null
                            select x).ToList();
@@ -554,7 +582,7 @@ namespace ApiProfile.Controllers
                     while (x.Documents.Count > 0)
                     {
                         var f = x.Documents.First();
-                         context.Documents.Remove(f);
+                        context.Documents.Remove(f);
                     }
                     foreach (var f in item.Documents)
                         x.Documents.Add(new Document()

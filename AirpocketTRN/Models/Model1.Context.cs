@@ -72,7 +72,6 @@ namespace AirpocketTRN.Models
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<JobGroup> JobGroups { get; set; }
         public virtual DbSet<ViewJobGroup> ViewJobGroups { get; set; }
-        public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<CourseDocument> CourseDocuments { get; set; }
         public virtual DbSet<CourseRemainingNotification> CourseRemainingNotifications { get; set; }
         public virtual DbSet<ViewCourseDocument> ViewCourseDocuments { get; set; }
@@ -84,11 +83,13 @@ namespace AirpocketTRN.Models
         public virtual DbSet<ViewSyllabu> ViewSyllabus { get; set; }
         public virtual DbSet<ViewCourseAllowedEmployee> ViewCourseAllowedEmployees { get; set; }
         public virtual DbSet<ViewEmployeeAb> ViewEmployeeAbs { get; set; }
-        public virtual DbSet<ViewCourseNew> ViewCourseNews { get; set; }
         public virtual DbSet<CertificateHistory> CertificateHistories { get; set; }
         public virtual DbSet<TrnDbAppFieldMapping> TrnDbAppFieldMappings { get; set; }
         public virtual DbSet<ViewCourseSMSHistoryRanked> ViewCourseSMSHistoryRankeds { get; set; }
-        public virtual DbSet<ViewCertificateHistoryRanked> ViewCertificateHistoryRankeds { get; set; }
         public virtual DbSet<CertificateType> CertificateTypes { get; set; }
+        public virtual DbSet<ViewCertificateHistoryRanked> ViewCertificateHistoryRankeds { get; set; }
+        public virtual DbSet<ViewCourseNew> ViewCourseNews { get; set; }
+        public virtual DbSet<Person> People { get; set; }
+        public virtual DbSet<ViewProfile> ViewProfiles { get; set; }
     }
 }
