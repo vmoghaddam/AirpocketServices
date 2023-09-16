@@ -12,14 +12,14 @@ namespace ApiQA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QAResponsibilty
+    public partial class ViewQAReferringCount
     {
-        public int Id { get; set; }
-        public int Type { get; set; }
-        public Nullable<int> ReceiverEmployeeId { get; set; }
-        public Nullable<int> ConfirmationEmployeeId { get; set; }
         public Nullable<int> EmployeeId { get; set; }
-        public string Remarks { get; set; }
-        public Nullable<bool> IsResponsible { get; set; }
+        public Nullable<int> Type { get; set; }
+        public Nullable<int> EntityId { get; set; }
+        public int ReferCount { get; set; }
+        public int DeterminedCount { get; set; }
+        public int ClosedCount { get; set; }
+        public Nullable<int> ReviewResult { get; set; }
     }
 }

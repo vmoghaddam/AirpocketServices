@@ -10,18 +10,14 @@
 namespace ApiQA.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ViewQADispatch
+    public partial class QADispatchGet_Result4
     {
         public Nullable<int> Id { get; set; }
-        public int FlightId { get; set; }
-        public string FlightNumber { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
-        public string EmployeeName { get; set; }
+        public Nullable<int> FlightId { get; set; }
+        public int EmployeeId { get; set; }
         public Nullable<int> Type { get; set; }
         public Nullable<System.DateTime> DateReport { get; set; }
-        public Nullable<System.DateTime> DateSign { get; set; }
         public Nullable<System.DateTime> DateOccurrence { get; set; }
         public Nullable<System.DateTime> OPTimeReceived { get; set; }
         public string OPReportedBy { get; set; }
@@ -35,16 +31,10 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> OPCrewChangedTime { get; set; }
         public Nullable<bool> OPFlightPerformed { get; set; }
         public Nullable<System.DateTime> OPFlightPerformedTime { get; set; }
-        public string CatagoryTitle { get; set; }
         public string OPSummary { get; set; }
         public string DISLocation { get; set; }
         public Nullable<int> DISTimeDuration { get; set; }
         public string DISActionResult { get; set; }
         public string Remarks { get; set; }
-        public Nullable<int> status { get; set; }
-        public Nullable<System.DateTime> dateStatus { get; set; }
-        public Nullable<int> StatusEmployeeId { get; set; }
-        public string StatusEmployeeName { get; set; }
-        public string Result { get; set; }
     }
 }

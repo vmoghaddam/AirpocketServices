@@ -12,11 +12,13 @@ namespace ApiQA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class HelperMaxFDP
+    public partial class ViewQaDashGround
     {
-        public int Id { get; set; }
-        public Nullable<double> MaxFDP { get; set; }
-        public Nullable<double> FDPReductionByStandBy { get; set; }
-        public Nullable<double> MaxFDPExtended { get; set; }
+        public Nullable<int> year { get; set; }
+        public Nullable<int> month { get; set; }
+        public Nullable<int> YearMonth { get; set; }
+        public Nullable<int> DamageById { get; set; }
+        public string DamageByTitle { get; set; }
+        public Nullable<int> Count { get; set; }
     }
 }

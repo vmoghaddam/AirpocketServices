@@ -12,15 +12,20 @@ namespace ApiQA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QAFollowingUp
+    public partial class QAGetEntites_Result
     {
         public int Id { get; set; }
-        public Nullable<int> Type { get; set; }
-        public Nullable<int> EntityId { get; set; }
-        public Nullable<int> ReferrerId { get; set; }
-        public Nullable<int> ReferredId { get; set; }
         public Nullable<int> ReviewResult { get; set; }
-        public string Comment { get; set; }
+        public string ReviewResultTitle { get; set; }
+        public Nullable<int> ClosedCount { get; set; }
+        public Nullable<int> DeterminedCount { get; set; }
+        public Nullable<int> ReferCount { get; set; }
+        public string Category { get; set; }
+        public string EmployeeName { get; set; }
+        public Nullable<int> Status { get; set; }
         public Nullable<System.DateTime> DateStatus { get; set; }
+        public Nullable<int> StatusEmployeeId { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
+        public string FlightNumber { get; set; }
     }
 }

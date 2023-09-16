@@ -17,6 +17,9 @@ namespace ApiQA.Models
         public Nullable<int> EmployeeId { get; set; }
         public Nullable<int> EntityId { get; set; }
         public Nullable<int> Type { get; set; }
-        public string Status { get; set; }
+        public string Comment { get; set; }
+        public string Category { get; set; }
+        public Nullable<int> ReviewResult { get; set; }
+        public string ReviewResultTitle { get; set; }
     }
 }

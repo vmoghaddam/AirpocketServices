@@ -88,7 +88,7 @@ namespace ApiQA.Models
         public string CorrectiveActionTaken { get; set; }
         public string OtherSuggestions { get; set; }
         public int EmployeeId { get; set; }
-        public Nullable<System.DateTime> DateSigne { get; set; }
+        public Nullable<System.DateTime> DateSign { get; set; }
         public string DamageRemark { get; set; }
     }
 }

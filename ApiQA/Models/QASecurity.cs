@@ -17,7 +17,7 @@ namespace ApiQA.Models
         public int Id { get; set; }
         public Nullable<int> FlightId { get; set; }
         public Nullable<System.DateTime> DateReport { get; set; }
-        public Nullable<System.DateTime> DateTimeHazard { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string Place { get; set; }
         public string Description { get; set; }
         public Nullable<int> ReasonId { get; set; }
@@ -35,6 +35,10 @@ namespace ApiQA.Models
         public string PreventiveActions { get; set; }
         public Nullable<int> EmployeeId { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
+        public Nullable<int> Status { get; set; }
+        public Nullable<System.DateTime> DateStatus { get; set; }
+        public Nullable<int> StatusEmployeeId { get; set; }
+        public string Result { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
         public virtual QAOption QAOption { get; set; }

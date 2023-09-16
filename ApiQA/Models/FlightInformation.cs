@@ -18,11 +18,11 @@ namespace ApiQA.Models
         public FlightInformation()
         {
             this.QACaterings = new HashSet<QACatering>();
+            this.QACSRs = new HashSet<QACSR>();
+            this.QADispatches = new HashSet<QADispatch>();
+            this.QAGroundIADs = new HashSet<QAGroundIAD>();
             this.QAMaintenances = new HashSet<QAMaintenance>();
             this.QASecurities = new HashSet<QASecurity>();
-            this.QADispatches = new HashSet<QADispatch>();
-            this.QACSRs = new HashSet<QACSR>();
-            this.QAGroundIADs = new HashSet<QAGroundIAD>();
         }
     
         public int ID { get; set; }
@@ -317,14 +317,14 @@ namespace ApiQA.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QACatering> QACaterings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QAMaintenance> QAMaintenances { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QASecurity> QASecurities { get; set; }
+        public virtual ICollection<QACSR> QACSRs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QADispatch> QADispatches { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QACSR> QACSRs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QAGroundIAD> QAGroundIADs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QAMaintenance> QAMaintenances { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QASecurity> QASecurities { get; set; }
     }
 }

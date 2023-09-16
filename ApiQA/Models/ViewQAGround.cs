@@ -22,7 +22,7 @@ namespace ApiQA.Models
         public string Title { get; set; }
         public Nullable<int> DamageById { get; set; }
         public string DamageBy { get; set; }
-        public Nullable<System.DateTime> DamageDate { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string OperationPhase { get; set; }
         public string Area { get; set; }
         public string Register { get; set; }
@@ -91,7 +91,12 @@ namespace ApiQA.Models
         public Nullable<int> EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public string JobGroup { get; set; }
-        public Nullable<System.DateTime> DateSigne { get; set; }
+        public Nullable<System.DateTime> DateSign { get; set; }
         public string DamageRemark { get; set; }
+        public Nullable<int> status { get; set; }
+        public Nullable<System.DateTime> dateStatus { get; set; }
+        public Nullable<int> StatusEmployeeId { get; set; }
+        public string StatusEmployeeName { get; set; }
+        public string Result { get; set; }
     }
 }

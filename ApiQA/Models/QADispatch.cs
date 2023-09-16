@@ -19,18 +19,21 @@ namespace ApiQA.Models
         public Nullable<int> EmployeeId { get; set; }
         public Nullable<int> Type { get; set; }
         public Nullable<System.DateTime> DateReport { get; set; }
-        public Nullable<System.DateTime> OPDateTimeEvent { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public Nullable<System.DateTime> OPTimeReceived { get; set; }
         public string OPReportedBy { get; set; }
         public string OPLocation { get; set; }
-        public Nullable<int> OPCatagoryId { get; set; }
+        public Nullable<int> CatagoryId { get; set; }
         public string OPSummary { get; set; }
-        public Nullable<System.DateTime> DISDateTimeEvent { get; set; }
         public string DISLocation { get; set; }
-        public Nullable<int> DISCatagoryId { get; set; }
         public Nullable<int> DISTimeDuration { get; set; }
         public string DISActionResult { get; set; }
         public string Remarks { get; set; }
+        public Nullable<int> Status { get; set; }
+        public Nullable<System.DateTime> DateStatus { get; set; }
+        public Nullable<int> StatusEmployeeId { get; set; }
+        public Nullable<System.DateTime> DateSign { get; set; }
+        public string Result { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
     }

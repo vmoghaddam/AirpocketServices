@@ -10,14 +10,12 @@
 namespace ApiQA.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ViewQAMaintenance
+    public partial class QAMaintenanceGet_Result1
     {
         public Nullable<int> Id { get; set; }
-        public int FlightId { get; set; }
+        public Nullable<int> FlightId { get; set; }
         public Nullable<System.DateTime> DateOccurrence { get; set; }
-        public Nullable<System.DateTime> DateSign { get; set; }
         public string AircraftType { get; set; }
         public string Register { get; set; }
         public Nullable<int> ComponentSpecificationId { get; set; }
@@ -31,18 +29,11 @@ namespace ApiQA.Models
         public string Station { get; set; }
         public string EventDescription { get; set; }
         public string ActionTakenDescription { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
-        public string Name { get; set; }
+        public int EmployeeId { get; set; }
         public string CAALicenceNo { get; set; }
         public string AuthorizationNo { get; set; }
         public Nullable<int> SerialNumber { get; set; }
         public Nullable<int> PartNumber { get; set; }
-        public string EmployeeName { get; set; }
         public Nullable<System.DateTime> STD { get; set; }
-        public Nullable<int> status { get; set; }
-        public Nullable<System.DateTime> dateStatus { get; set; }
-        public Nullable<int> StatusEmployeeId { get; set; }
-        public string StatusEmployeeName { get; set; }
-        public string Result { get; set; }
     }
 }

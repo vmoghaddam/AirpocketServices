@@ -12,14 +12,14 @@ namespace ApiQA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QAResponsibilty
+    public partial class QAAuthCard
     {
         public int Id { get; set; }
-        public int Type { get; set; }
-        public Nullable<int> ReceiverEmployeeId { get; set; }
-        public Nullable<int> ConfirmationEmployeeId { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
-        public string Remarks { get; set; }
-        public Nullable<bool> IsResponsible { get; set; }
+        public string AuthCardNo { get; set; }
+        public Nullable<System.DateTime> IssueDate { get; set; }
+        public Nullable<System.DateTime> ExpireDate { get; set; }
+        public int AuthTypeId { get; set; }
+        public int EmployeeId { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     }
 }

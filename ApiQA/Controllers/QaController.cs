@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -307,7 +308,7 @@ namespace ApiQA.Controllers
                 entity.Describtion = dto.Describtion;
                 entity.EventLocation = dto.EventLocation;
                 entity.ReportFiledBy = dto.ReportFiledBy;
-                entity.OccurrenceDateTime = DateTime.Parse(Date);
+                entity.DateOccurrence = DateTime.Parse(Date);
                 entity.Recommendation = dto.Recommendation;
                 entity.WeatherCondition = dto.WeatherCondition;
                 entity.Name = dto.Name;
@@ -315,8 +316,12 @@ namespace ApiQA.Controllers
                 entity.RefNumber = dto.RefNumber;
                 entity.FollowUp = dto.FollowUp;
                 entity.Recived = dto.Recived;
-                entity.EmployeeId = dto.EmploeeId;
+                entity.EmployeeId = dto.EmployeeId;
                 entity.EventTitleRemark = dto.EventTitleRemark;
+                entity.Status = dto.Status;
+                entity.StatusEmployeeId = dto.StatusEmployeeId;
+                entity.DateStatus = dto.DateStatus;
+                entity.DateSign = dto.DateSign;
                 foreach (var x in dto.EventTitleIds)
                 {
                     entity.QACSREvents.Add(new QACSREvent()
@@ -326,10 +331,10 @@ namespace ApiQA.Controllers
                 };
 
                 context.SaveChanges();
-
+                dto.Id = entity.Id;
                 return new DataResponse()
                 {
-                    Data = null,
+                    Data = dto,
                     IsSuccess = true
                 };
             }
@@ -358,13 +363,13 @@ namespace ApiQA.Controllers
                     context.QAMaintenances.Add(entity);
                 }
 
-                entity.OccurrenceDateTime = dto.OccurrenceDateTime;
+                entity.DateOccurrence = dto.OccurrenceDateTime;
                 entity.ComponentSpecificationId = dto.ComponentSpecificationId;
                 entity.ATLNo = dto.ATLNo;
                 entity.TaskNo = dto.TaskNo;
                 entity.Reference = dto.Reference;
                 entity.FlightId = dto.FlightId;
-                entity.EmployeeId = dto.EmploeeId;
+                entity.EmployeeId = dto.EmployeeId;
                 entity.StationId = dto.StationId;
                 entity.EventDescription = dto.EventDescription;
                 entity.ActionTakenDescription = dto.ActionTakenDescription;
@@ -373,10 +378,15 @@ namespace ApiQA.Controllers
                 entity.AuthorizationNo = dto.AuthorizationNo;
                 entity.SerialNumber = dto.SerialNumber;
                 entity.PartNumber = dto.PartNumber;
+                entity.Status = dto.Status;
+                entity.StatusEmployeeId = dto.StatusEmployeeId;
+                entity.DateStatus = dto.DateStatus;
+                entity.DateSign = dto.DateSign;
                 context.SaveChanges();
+                dto.Id = entity.Id;
                 return new DataResponse()
                 {
-                    Data = null,
+                    Data = dto,
                     IsSuccess = true
                 };
 
@@ -411,15 +421,19 @@ namespace ApiQA.Controllers
                 entity.TelNumber = dto.TelNumber;
                 entity.ReportDate = dto.ReportDate;
                 entity.AffectedArea = dto.AffectedArea;
-                entity.HazardDate = dto.HazardDate;
+                entity.DateOccurrence = dto.HazardDate;
                 entity.HazardDescription = dto.HazardDescription;
                 entity.RecommendedAction = dto.RecommendedAction;
-                entity.EmployeeId = dto.EmploeeId;
-
+                entity.EmployeeId = dto.EmployeeId;
+                entity.Status = dto.Status;
+                entity.StatusEmployeeId = dto.StatusEmployeeId;
+                entity.DateStatus = dto.DateStatus;
+                entity.DateSign = dto.DateSign;
                 context.SaveChanges();
+                dto.Id = entity.Id;
                 return new DataResponse()
                 {
-                    Data = entity,
+                    Data = dto,
                     IsSuccess = false
                 };
 
@@ -457,10 +471,10 @@ namespace ApiQA.Controllers
                 entity.ContributoryFactors = dto.ContributoryFactors;
                 entity.CorrectiveActionTaken = dto.CorrectiveActionTaken;
                 entity.DamageById = dto.DamageById;
-                entity.DamageDate = dto.DamageDate;
+                entity.DateOccurrence = dto.DamageDate;
                 entity.DamageDetails = dto.DamageDetails;
                 //entity.DateSigne
-                entity.EmployeeId = dto.EmploeeId;
+                entity.EmployeeId = dto.EmployeeId;
                 entity.CorrectiveActionTaken = dto.CorrectiveActionTaken;
                 entity.EmployeesNonFatalityNr = dto.EmployeesNonFatalityNr;
                 entity.EmployeesFatalityNr = dto.EmployeesFatalityNr;
@@ -516,10 +530,15 @@ namespace ApiQA.Controllers
                 entity.WXWeatherId = dto.WXWeatherId;
                 entity.WXWind = dto.WXWind;
                 entity.DamageRemark = dto.DamageRemark;
+                entity.Status = dto.Status;
+                entity.StatusEmployeeId = dto.StatusEmployeeId;
+                entity.DateStatus = dto.DateStatus;
+                entity.DateSign = dto.DateSign;
                 context.SaveChanges();
+                dto.Id = entity.Id;
                 return new DataResponse()
                 {
-                    Data = null,
+                    Data = dto,
                     IsSuccess = true
                 };
 
@@ -578,7 +597,7 @@ namespace ApiQA.Controllers
         }
 
         [HttpGet]
-        [Route("api/get/chr/byid/[id]")]
+        [Route("api/get/chr/byid/{id}")]
         public async Task<DataResponse> GetCHRById(int id)
         {
             var result = context.ViewQACaterings.SingleOrDefault(q => q.Id == id);
@@ -606,10 +625,10 @@ namespace ApiQA.Controllers
 
                 entity.DateReport = dto.DateReport;
                 entity.DateSign = dto.DateSign;
-                entity.DateHazard = dto.DateHazard;
+                entity.DateOccurrence = dto.DateHazard;
                 entity.Description = dto.Description;
                 entity.Equipment = dto.Equipment;
-                entity.EmployeeId = dto.EmploeeId;
+                entity.EmployeeId = dto.EmployeeId;
                 entity.InjuryDescription = dto.InjuryDescription;
                 entity.Place = dto.Place;
                 entity.PreventiveActions = dto.PreventiveActions;
@@ -623,6 +642,10 @@ namespace ApiQA.Controllers
                 entity.WorkBreak = dto.WorkBreak;
                 entity.WorkBreakPeriod = dto.WorkBreakPeriod;
                 entity.FlightId = dto.FlightId;
+                entity.Status = dto.Status;
+                entity.StatusEmployeeId = dto.StatusEmployeeId;
+                entity.DateStatus = dto.DateStatus;
+                entity.DateSign = dto.DateSign;
 
                 var saveChanges = await context.SaveChangesAsync();
                 dto.Id = entity.Id;
@@ -676,7 +699,7 @@ namespace ApiQA.Controllers
         }
 
         [HttpGet]
-        [Route("api/get/shr/byid/[id]")]
+        [Route("api/get/shr/byid/{id}")]
         public async Task<DataResponse> GetSHRById(int id)
         {
             var result = context.ViewQASecurities.SingleOrDefault(q => q.Id == id);
@@ -704,7 +727,7 @@ namespace ApiQA.Controllers
 
                 entity.DateReport = dto.DateReport;
                 entity.DateSign = dto.DateSign;
-                entity.DateTimeHazard = dto.DateTimeHazard;
+                entity.DateOccurrence = dto.DateTimeHazard;
                 entity.Description = dto.Description;
                 entity.Camera = dto.Camera;
                 entity.CarryingBox = dto.CarryingBox;
@@ -722,7 +745,10 @@ namespace ApiQA.Controllers
                 entity.InjuryOccuring = dto.InjuryOccuring;
                 entity.Other = dto.Other;
                 entity.EmployeeId = dto.EmployeeId;
-
+                entity.Status = dto.Status;
+                entity.StatusEmployeeId = dto.StatusEmployeeId;
+                entity.DateStatus = dto.DateStatus;
+                entity.DateSign = dto.DateSign;
 
 
                 var saveChanges = await context.SaveChangesAsync();
@@ -809,7 +835,7 @@ namespace ApiQA.Controllers
         }
 
         [HttpGet]
-        [Route("api/get/dhr/byid/[id]")]
+        [Route("api/get/dhr/byid/{id}")]
         public async Task<DataResponse> GetDHRById(int id)
         {
             var result = context.ViewQADispatches.SingleOrDefault(q => q.Id == id);
@@ -837,13 +863,11 @@ namespace ApiQA.Controllers
 
                 entity.DateReport = dto.DateReport;
                 entity.DISActionResult = dto.DISActionResult;
-                entity.DISCatagoryId = dto.DISCatagoryId;
-                entity.DISDateTimeEvent = dto.DISDateTimeEvent;
+                entity.CatagoryId = dto.CatagoryId;
+                entity.DateOccurrence = dto.DateTimeEvent;
                 entity.DISLocation = dto.DISLocation;
                 entity.DISTimeDuration = dto.DISTimeDuration;
                 entity.FlightId = dto.FlightId;
-                entity.OPCatagoryId = dto.OPCatagoryId;
-                entity.OPDateTimeEvent = dto.OPDateTimeEvent;
                 entity.OPLocation = dto.OPLocation;
                 entity.OPReportedBy = dto.OPReportedBy;
                 entity.OPSummary = dto.OPSummary;
@@ -851,7 +875,10 @@ namespace ApiQA.Controllers
                 entity.Remarks = dto.Remarks;
                 entity.Type = dto.Type;
                 entity.EmployeeId = dto.EmployeeId;
-
+                entity.Status = dto.Status;
+                entity.StatusEmployeeId = dto.StatusEmployeeId;
+                entity.DateStatus = dto.DateStatus;
+                entity.DateSign = dto.DateSign;
 
 
                 var saveChanges = await context.SaveChangesAsync();
@@ -889,7 +916,7 @@ namespace ApiQA.Controllers
                 //}
 
                 int Type = dto.Type;
-                var respEmployee = context.QAResponsibilties.Where(q => q.Type == Type).ToList();
+                var respEmployee = context.QAResponsibilties.Where(q => q.Type == Type && q.IsResponsible == true).ToList();
 
                 foreach (var x in respEmployee)
                 {
@@ -898,12 +925,11 @@ namespace ApiQA.Controllers
                     context.QAFollowingUps.Add(entity);
 
                     entity.EntityId = dto.EntityId;
-                    entity.DateConfirmation = dto.DateConfirmation;
-                    entity.DateReferr = dto.DateReferr;
+                    entity.DateStatus = DateTime.Now;
                     entity.Type = dto.Type;
                     entity.ReferredId = x.ReceiverEmployeeId;
-                    entity.ReferrerId = dto.ReferrerId;
-
+                    entity.ReferrerId = null;
+                    entity.ReviewResult = 2;
                 };
 
 
@@ -934,13 +960,14 @@ namespace ApiQA.Controllers
 
                 var query = from e in context.ViewQAByEmployeeCounts
                             where e.EmployeeId == employeeId
-                            group e by new { e.TypeTitle } into grp
+                            group e by new { e.TypeTitle, e.type } into grp
                             select new
                             {
                                 grp.Key.TypeTitle,
-                                ReferredCount = grp.Sum(q => q.ReferredCount),
-                                ConfirmedCount = grp.Sum(q => q.ConfirmedCount),
-                                NotDeterminedCount = grp.Sum(q => q.NotDeterminedCount)
+                                grp.Key.type,
+                                NewCount = grp.Sum(q => q.NewCount),
+                                OpenCount = grp.Sum(q => q.OpenCount),
+                                DeterminedCount = grp.Sum(q => q.DeterminedCount)
                             };
 
                 var result = query.ToList();
@@ -967,132 +994,756 @@ namespace ApiQA.Controllers
         }
 
 
+        //[HttpPost]
+        //[Route("api/get/qa/status")]
+        //public async Task<DataResponse> GetQAStatus(dynamic dto)
+        //{
+        //    try
+        //    {
+        //        dynamic result = null;
+        //        DateTime df = dto.dt_from;
+        //        DateTime dt = dto.dt_to;
+        //        int employeeId = dto.employeeId;
+        //        int type = dto.type;
+        //        //var result = new { };
+        //        //var result = new { Confirmed, };
+        //        switch (type)
+        //        {
+        //            case 0:
+        //                var q0 = (from byEmp in context.ViewQABYEmployees
+        //                          join cabin in context.ViewQACSRs on byEmp.EntityId equals cabin.Id
+        //                          where byEmp.EmployeeId == employeeId && cabin.OccurrenceDateTime >= df && cabin.OccurrenceDateTime <= dt && byEmp.Type == 0
+        //                          select new
+        //                          {
+        //                              Category = byEmp.Category,
+        //                              Date = cabin.dateStatus,
+        //                              EmployeeName = cabin.EmployeeName,
+        //                              EmployeeId = byEmp.EmployeeId,
+        //                              Id = cabin.Id,
+        //                              Status = byEmp.DeterminedType,
+        //                              StatusTitle = byEmp.DeterminedTitle,
+        //                              Type = byEmp.Type
+        //                          }).ToList();
+
+        //                var ds = (from x in q0
+        //                          join refer in context.ViewQAReferringCounts on new { Id = (int?)x.Id, EmployeeId = (int?)x.EmployeeId } equals new { Id = (int?)refer.EntityId, EmployeeId = (int?)refer.EmployeeId } into referGroup
+        //                          from matching in referGroup.DefaultIfEmpty()
+        //                          select new
+        //                          {
+        //                              Category = x.Category,
+        //                              Date = x.Date,
+        //                              EmployeeName = x.EmployeeName,
+        //                              Id = x.Id,
+        //                              Status = x.Status,
+        //                              StatusTitle = x.StatusTitle,
+        //                              ReferCount = (matching == null) ? 0 : matching.ReferCount,
+        //                              DeterminedCount = (matching == null) ? 0 : matching.DeterminedCount
+
+        //                          }).ToList();
+        //                ;
+        //                result = new
+        //                {
+        //                    New = ds.Where(q => q.Category == "New"),
+        //                    Determined = ds.Where(q => q.Category == "Determined"),
+        //                    Open = ds.Where(q => q.Category == "Open"),
+        //                };
+
+
+        //                break;
+
+        //            case 1:
+        //                var q1 = (from byEmp in context.ViewQABYEmployees
+        //                          join ground in context.ViewQAGrounds on byEmp.EntityId equals ground.Id
+        //                          where byEmp.EmployeeId == employeeId && ground.DamageDate >= df && ground.DamageDate <= dt && byEmp.Type == 1
+        //                          select new
+        //                          {
+        //                              Category = byEmp.Category,
+        //                              Date = ground.DamageDate,
+        //                              EmployeeName = ground.EmployeeName,
+        //                              EmployeeId = byEmp.EmployeeId,
+        //                              Id = ground.Id,
+        //                              Status = byEmp.DeterminedType,
+        //                              StatusTitle = byEmp.DeterminedTitle,
+        //                              Type = byEmp.Type
+        //                          }).ToList();
+        //                //var ds1 = q1.ToList();
+
+        //                var ds1 = (from x in q1
+        //                           join refer in context.ViewQAReferringCounts on new { Id = (int?)x.Id, EmployeeId = (int?)x.EmployeeId } equals new { Id = (int?)refer.EntityId, EmployeeId = (int?)refer.EmployeeId } into referGroup
+        //                           from matching in referGroup.DefaultIfEmpty()
+        //                           select new
+        //                           {
+        //                               Category = x.Category,
+        //                               Date = x.Date,
+        //                               EmployeeName = x.EmployeeName,
+        //                               Id = x.Id,
+        //                               Status = x.Status,
+        //                               StatusTitle = x.StatusTitle,
+        //                               ReferCount = (matching == null) ? 0 : matching.ReferCount,
+        //                               DeterminedCount = (matching == null) ? 0 : matching.DeterminedCount
+
+        //                           }).ToList();
+
+
+        //                result = new
+        //                {
+        //                    New = ds1.Where(q => q.Category == "New"),
+        //                    Determined = ds1.Where(q => q.Category == "Determined"),
+        //                    Open = ds1.Where(q => q.Category == "Open"),
+        //                };
+        //                break;
+        //            case 2:
+        //                var q2 = (from byEmp in context.ViewQABYEmployees
+        //                          join hazard in context.ViewQAHazards on byEmp.EntityId equals hazard.Id
+        //                          where byEmp.EmployeeId == employeeId && hazard.HazardDate >= df && hazard.HazardDate <= dt && byEmp.Type == 2
+        //                          select new
+        //                          {
+        //                              Category = byEmp.Category,
+        //                              Date = hazard.dateStatus,
+        //                              EmployeeName = hazard.EmployeeName,
+        //                              EmployeeId = byEmp.EmployeeId,
+        //                              Id = hazard.Id,
+        //                              Status = byEmp.DeterminedType,
+        //                              StatusTitle = byEmp.DeterminedTitle,
+        //                              Type = byEmp.Type
+        //                          }).ToList();
+        //                var ds2 = (from x in q2
+        //                                     join refer in context.ViewQAReferringCounts on new { Id = (int?)x.Id, EmployeeId = (int?)x.EmployeeId } equals new { Id = (int?)refer.EntityId, EmployeeId = (int?)refer.EmployeeId } into referGroup
+        //                                     from matching in referGroup.DefaultIfEmpty()
+        //                                     select new
+        //                                     {
+        //                                         Category = x.Category,
+        //                                         Date = x.Date,
+        //                                         EmployeeName = x.EmployeeName,
+        //                                         Id = x.Id,
+        //                                         Status = x.Status,
+        //                                         StatusTitle = x.StatusTitle,
+        //                                         ReferCount = (matching == null) ? 0 : matching.ReferCount,
+        //                                         DeterminedCount = (matching == null) ? 0 : matching.DeterminedCount
+
+        //                                     }).ToList();
+
+        //                result = new
+        //                {
+        //                    New = ds2.Where(q => q.Category == "New"),
+        //                    Determined = ds2.Where(q => q.Category == "Determined"),
+        //                    Open = ds2.Where(q => q.Category == "Open"),
+        //                };
+        //                break;
+        //            case 3:
+        //                var q3 = (from byEmp in context.ViewQABYEmployees
+        //                         join maintenance in context.ViewQAMaintenances on byEmp.EntityId equals maintenance.Id
+        //                         where byEmp.EmployeeId == employeeId && maintenance.OccurrenceDateTime >= df && maintenance.OccurrenceDateTime <= dt && byEmp.Type == 3
+        //                         select new
+        //                         {
+        //                             Category = byEmp.Category,
+        //                             Date = maintenance.dateStatus,
+        //                             EmployeeName = maintenance.EmployeeName,
+        //                             EmployeeId = byEmp.EmployeeId,
+        //                             Id = maintenance.Id,
+        //                             Status = byEmp.DeterminedType,
+        //                             StatusTitle = byEmp.DeterminedTitle,
+        //                             Type = byEmp.Type
+        //                         }).ToList();
+        //                var ds3 = q3.ToList();
+        //                result = new
+        //                {
+        //                    New = ds3.Where(q => q.Category == "New"),
+        //                    Determined = ds3.Where(q => q.Category == "Determined"),
+        //                    Open = ds3.Where(q => q.Category == "Open"),
+        //                };
+        //                break;
+        //            case 4:
+        //                var q4 = (from byEmp in context.ViewQABYEmployees
+        //                         join catering in context.ViewQACaterings on byEmp.EntityId equals catering.Id
+        //                         where byEmp.EmployeeId == employeeId && catering.DateHazard >= df && catering.DateHazard <= dt && byEmp.Type == 4
+        //                         select new
+        //                         {
+        //                             Category = byEmp.Category,
+        //                             Date = catering.dateStatus,
+        //                             EmployeeName = catering.EmployeeName,
+        //                             EmployeeId = byEmp.EmployeeId,
+        //                             Id = catering.Id,
+        //                             Status = byEmp.DeterminedType,
+        //                             StatusTitle = byEmp.DeterminedTitle,
+        //                             Type = byEmp.Type
+        //                         }).ToList();
+        //                var ds4 = (from x in q4
+        //                           join refer in context.ViewQAReferringCounts on new { Id = (int?)x.Id, EmployeeId = (int?)x.EmployeeId } equals new { Id = (int?)refer.EntityId, EmployeeId = (int?)refer.EmployeeId } into referGroup
+        //                           from matching in referGroup.DefaultIfEmpty()
+        //                           select new
+        //                           {
+        //                               Category = x.Category,
+        //                               Date = x.Date,
+        //                               EmployeeName = x.EmployeeName,
+        //                               Id = x.Id,
+        //                               Status = x.Status,
+        //                               StatusTitle = x.StatusTitle,
+        //                               ReferCount = (matching == null) ? 0 : matching.ReferCount,
+        //                               DeterminedCount = (matching == null) ? 0 : matching.DeterminedCount
+
+        //                           }).ToList();
+
+        //                result = new
+        //                {
+        //                    New = ds4.Where(q => q.Category == "New"),
+        //                    Determined = ds4.Where(q => q.Category == "Determined"),
+        //                    Open = ds4.Where(q => q.Category == "Open"),
+        //                };
+        //                break;
+        //            case 5:
+        //                var q5 = (from byEmp in context.ViewQABYEmployees
+        //                         join security in context.ViewQASecurities on byEmp.EntityId equals security.Id
+        //                         where byEmp.EmployeeId == employeeId && security.DateReport >= df && security.DateReport <= dt && byEmp.Type == 5
+        //                         select new
+        //                         {
+        //                             Category = byEmp.Category,
+        //                             Date = security.dateStatus,
+        //                             EmployeeName = security.EmployeeName,
+        //                             EmployeeId = byEmp.EmployeeId,
+        //                             Id = security.Id,
+        //                             Status = byEmp.DeterminedType,
+        //                             StatusTitle = byEmp.DeterminedTitle,
+        //                             Type = byEmp.Type
+        //                         }).ToList();
+        //                var ds5 = (from x in q5
+        //                           join refer in context.ViewQAReferringCounts on new { Id = (int?)x.Id, EmployeeId = (int?)x.EmployeeId, Type = x.Type  } equals new { Id = (int?)refer.EntityId, EmployeeId = (int?)refer.EmployeeId, Type = refer.Type } into referGroup
+
+        //                           from matching in referGroup.DefaultIfEmpty()
+        //                           select new
+        //                           {
+        //                               Category = x.Category,
+        //                               Date = x.Date,
+        //                               EmployeeName = x.EmployeeName,
+        //                               Id = x.Id,
+        //                               Status = x.Status,
+        //                               StatusTitle = x.StatusTitle,
+        //                               ReferCount = (matching == null) ? 0 : matching.ReferCount,
+        //                               DeterminedCount = (matching == null) ? 0 : matching.DeterminedCount
+
+        //                           }).ToList();
+
+        //                result = new
+        //                {
+        //                    New = ds5.Where(q => q.Category == "New"),
+        //                    Determined = ds5.Where(q => q.Category == "Determined"),
+        //                    Open = ds5.Where(q => q.Category == "Open"),
+        //                };
+        //                break;
+
+        //            case 6:
+        //                var q6 = (from byEmp in context.ViewQABYEmployees
+        //                         join dispatch in context.ViewQADispatches on byEmp.EntityId equals dispatch.Id
+        //                         where byEmp.EmployeeId == employeeId && dispatch.DateReport >= df && dispatch.DateReport <= dt && byEmp.Type == 6
+        //                         select new
+        //                         {
+        //                             Category = byEmp.Category,
+        //                             Date = dispatch.dateStatus,
+        //                             EmployeeName = dispatch.EmployeeName,
+        //                             EmployeeId = byEmp.EmployeeId,
+        //                             Id = dispatch.Id,
+        //                             Status = byEmp.DeterminedType,
+        //                             StatusTitle = byEmp.DeterminedTitle,
+        //                             Type = byEmp.Type
+        //                         }).ToList();
+        //                var ds6 = (from x in q6
+        //                           join refer in context.ViewQAReferringCounts on new { Id = (int?)x.Id, EmployeeId = (int?)x.EmployeeId } equals new { Id = (int?)refer.EntityId, EmployeeId = (int?)refer.EmployeeId } into referGroup
+        //                           from matching in referGroup.DefaultIfEmpty()
+        //                           select new
+        //                           {
+        //                               Category = x.Category,
+        //                               Date = x.Date,
+        //                               EmployeeName = x.EmployeeName,
+        //                               Id = x.Id,
+        //                               Status = x.Status,
+        //                               StatusTitle = x.StatusTitle,
+        //                               ReferCount = (matching == null) ? 0 : matching.ReferCount,
+        //                               DeterminedCount = (matching == null) ? 0 : matching.DeterminedCount
+
+        //                           }).ToList();
+
+        //                result = new
+        //                {
+        //                    New = ds6.Where(q => q.Category == "New"),
+        //                    Determined = ds6.Where(q => q.Category == "Determined"),
+        //                    Open = ds6.Where(q => q.Category == "Open"),
+        //                };
+        //                break;
+        //        }
+
+
+
+        //        //var entity = context.ViewQABYEmployees.Where(q => q.EmploeeId == employeeId).ToList();
+
+
+        //        return new DataResponse()
+        //        {
+        //            Data = result,
+        //            IsSuccess = true
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new DataResponse()
+        //        {
+        //            Data = ex,
+        //            IsSuccess = false
+        //        };
+        //    }
+        //}
+
         [HttpPost]
         [Route("api/get/qa/status")]
         public async Task<DataResponse> GetQAStatus(dynamic dto)
         {
             try
             {
-                dynamic result = null;
-                DateTime df = dto.dt_from;
-                DateTime dt = dto.dt_to;
-                int employeeId = dto.employeeId;
-                int type = dto.type;
-                //var result = new { };
-                //var result = new { Confirmed, };
-                switch (type)
+                var ds = context.QAGetEntities((int?)dto.employeeId, (int?)dto.type, (DateTime?)dto.dt_from, (DateTime?)dto.dt_to).ToList();
+                var result = new
                 {
-                    case 0:
-                        var q0 = from byEmp in context.ViewQABYEmployees
-                                 join cabin in context.ViewQACSRs on byEmp.EntityId equals cabin.Id
-                                 where byEmp.EmployeeId == employeeId && cabin.OccurrenceDateTime >= df && cabin.OccurrenceDateTime <= dt
-                                 select new
-                                 {
-                                     Status = byEmp.Status,
-                                     Date = cabin.OccurrenceDateTime,
-                                     EmployeeName = cabin.EmployeeName,
-                                     Id = cabin.Id
-                                 };
-                        var ds = q0.ToList();
-                        result = new
-                        {
-                            Confirmed = ds.Where(q => q.Status == "Confirmed"),
-                            NotDetermined = ds.Where(q => q.Status == "notDetermined"),
-                            Referred = ds.Where(q => q.Status == "Referred"),
-                        };
+                    New = ds.Where(q => q.Category == "New"),
+                    Determined = ds.Where(q => q.Category == "Determined"),
+                    Open = ds.Where(q => q.Category == "Open"),
+                };
+
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DataResponse()
+                {
+                    Data = ex,
+                    IsSuccess = false
+                };
+            }
+        }
 
 
-                        break;
-                    case 1:
-                        var q1 = from byEmp in context.ViewQABYEmployees
-                                 join ground in context.ViewQAGrounds on byEmp.EntityId equals ground.Id
-                                 where byEmp.EmployeeId == employeeId && ground.DamageDate >= df && ground.DamageDate <= dt
-                                 select new
-                                 {
-                                     Status = byEmp.Status,
-                                     Date = ground.DamageDate,
-                                     EmployeeName = ground.EmployeeName,
-                                 };
-                        result = q1.ToList();
-                        break;
-                    case 2:
-                        var q2 = from byEmp in context.ViewQABYEmployees
-                                 join hazard in context.ViewQAHazards on byEmp.EntityId equals hazard.Id
-                                 where byEmp.EmployeeId == employeeId && hazard.HazardDate >= df && hazard.HazardDate <= dt
-                                 select new
-                                 {
-                                     Status = byEmp.Status,
-                                     Date = hazard.HazardDate,
-                                     EmployeeName = hazard.EmployeeName,
-                                 };
-                        var ds2 = q2.ToList();
-                        result = new
+        ////[HttpGet]
+        ////[Route("api/qa/confirm/report/{employeeId}/{type}/{entityId}/{status}")]
+        ////public async Task<DataResponse> ConfirmReport(int employeeId, int type, int entityId, int status)
+        ////{
+        ////    try
+        ////    {
+        ////        var entity = new QAFollowingUp();
+        ////        context.QAFollowingUps.Add(entity);
+        ////        entity.Type = type;
+        ////        entity.ReferredId = employeeId;
+        ////        entity.ReferrerId = employeeId;
+        ////        entity.Status = status;
+        ////        entity.DateStatus = DateTime.Now;
+        ////        entity.EntityId = entityId;
+        ////        context.SaveChanges();
+
+        ////        return new DataResponse()
+        ////        {
+        ////            Data = entity,
+        ////            IsSuccess = true
+        ////        };
+        ////    }
+        ////    catch (Exception ex)
+        ////    {
+        ////        return new DataResponse()
+        ////        {
+        ////            Data = ex,
+        ////            IsSuccess = false
+        ////        };
+        ////    }
+        ////}
+
+        [HttpGet]
+        [Route("api/get/followup/{entityId}/{type}")]
+        public async Task<DataResponse> FollowUpReport(int entityId, int type)
+        {
+            try
+            {
+                var entity = context.ViewQAFollowingUps.Where(q => q.EntityId == entityId && q.Type == type).ToList();
+                return new DataResponse()
+                {
+                    Data = entity,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DataResponse()
+                {
+                    Data = ex,
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+        [HttpGet]
+        [Route("api/get/qa/catering/report/{ymf}/{ymt}")]
+        public async Task<DataResponse> GetCateringReport(int ymf, int ymt)
+        {
+            var query = from x in context.ViewQADashCaterings
+                        where x.YearMonth >= ymf && x.YearMonth <= ymt
+                        group x by new { x.ReasonId, x.ReasonTitle } into grp
+                        select new
                         {
-                            Confirmed = ds2.Where(q => q.Status == "Confirmed"),
-                            NotDetermined = ds2.Where(q => q.Status == "notDetermined"),
-                            Referred = ds2.Where(q => q.Status == "Referred"),
+                            ReasonId = grp.Key.ReasonId,
+                            ReasonTitle = grp.Key.ReasonTitle,
+                            Count = grp.Sum(q => q.Count)
                         };
-                        break;
-                    case 3:
-                        var q3 = from byEmp in context.ViewQABYEmployees
-                                 join maintenance in context.ViewQAMaintenances on byEmp.EntityId equals maintenance.Id
-                                 where byEmp.EmployeeId == employeeId && maintenance.OccurrenceDateTime >= df && maintenance.OccurrenceDateTime <= dt
-                                 select new
-                                 {
-                                     Status = byEmp.Status,
-                                     Date = maintenance.OccurrenceDateTime,
-                                     EmployeeName = maintenance.EmployeeName,
-                                 };
-                        var ds3 = q3.ToList();
-                        result = new
+
+            var result = query.ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true
+            };
+        }
+
+        [HttpGet]
+        [Route("api/get/qa/ground/report/{ymf}/{ymt}")]
+        public async Task<DataResponse> GetGroundReport(int ymf, int ymt)
+        {
+            var query = from x in context.ViewQaDashGrounds
+                        where x.YearMonth >= ymf && x.YearMonth <= ymt
+                        group x by new { x.DamageById, x.DamageByTitle } into grp
+                        select new
                         {
-                            Confirmed = ds3.Where(q => q.Status == "Confirmed"),
-                            NotDetermined = ds3.Where(q => q.Status == "notDetermined"),
-                            Referred = ds3.Where(q => q.Status == "Referred"),
+                            DamageById = grp.Key.DamageById,
+                            DamageByTitle = grp.Key.DamageByTitle,
+                            Count = grp.Sum(q => q.Count)
                         };
-                        break;
-                    case 4:
-                        var q4 = from byEmp in context.ViewQABYEmployees
-                                 join catering in context.ViewQACaterings on byEmp.EntityId equals catering.Id
-                                 where byEmp.EmployeeId == employeeId && catering.DateHazard >= df && catering.DateHazard <= dt
-                                 select new
-                                 {
-                                     Status = byEmp.Status,
-                                     Date = catering.DateHazard,
-                                     EmployeeName = catering.EmployeeName,
-                                 };
-                        var ds4 = q4.ToList();
-                        result = new
+
+            var result = query.ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true
+            };
+        }
+
+
+        [HttpGet]
+        [Route("api/get/qa/security/report/{ymf}/{ymt}")]
+        public async Task<DataResponse> GetSecurityReport(int ymf, int ymt)
+        {
+            var query = from x in context.ViewQaDashSecurities
+                        where x.YearMonth >= ymf && x.YearMonth <= ymt
+                        group x by new { x.ReasonId, x.ReasonTitle } into grp
+                        select new
                         {
-                            Confirmed = ds4.Where(q => q.Status == "Confirmed"),
-                            NotDetermined = ds4.Where(q => q.Status == "notDetermined"),
-                            Referred = ds4.Where(q => q.Status == "Referred"),
+                            ReasonId = grp.Key.ReasonId,
+                            ReasonTitle = grp.Key.ReasonTitle,
+                            Count = grp.Sum(q => q.Count)
                         };
-                        break;
-                    case 5:
-                        var q5 = from byEmp in context.ViewQABYEmployees
-                                 join security in context.ViewQASecurities on byEmp.EntityId equals security.Id
-                                 where byEmp.EmployeeId == employeeId && security.DateReport >= df && security.DateReport <= dt
-                                 select new
-                                 {
-                                     Status = byEmp.Status,
-                                     Date = security.DateReport,
-                                     EmployeeName = security.EmployeeName,
-                                 };
-                        var ds5 = q5.ToList();
-                        result = new
+
+            var result = query.ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true
+            };
+        }
+
+
+        [HttpGet]
+        [Route("api/get/qa/csr/report/{ymf}/{ymt}")]
+        public async Task<DataResponse> GetCSRReport(int ymf, int ymt)
+        {
+            var query = from x in context.ViewQaDashCSRs
+                        where x.YearMonth >= ymf && x.YearMonth <= ymt
+                        group x by new { x.YearMonth } into grp
+                        select new
                         {
-                            Confirmed = ds5.Where(q => q.Status == "Confirmed"),
-                            NotDetermined = ds5.Where(q => q.Status == "notDetermined"),
-                            Referred = ds5.Where(q => q.Status == "Referred"),
+                            YearMonth = grp.Key.YearMonth,
+                            Count = grp.Sum(q => q.Count)
                         };
-                        break;
+            var result = query.ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true
+            };
+        }
+
+        [HttpGet]
+        [Route("api/get/qa/maintenance/report/{ymf}/{ymt}")]
+        public async Task<DataResponse> GetMaintenance(int ymf, int ymt)
+        {
+            var query = from x in context.ViewQaDashMaintenances
+                        where x.YearMonth >= ymf && x.YearMonth <= ymt
+                        group x by new { x.YearMonth } into grp
+                        select new
+                        {
+                            YearMonth = grp.Key.YearMonth,
+                            Count = grp.Sum(q => q.Count)
+                        };
+            var result = query.ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true
+            };
+        }
+
+
+        [HttpGet]
+        [Route("api/get/qa/maintenance/reg/report/{ymf}/{ymt}")]
+        public async Task<DataResponse> GetMaintenanceByRegister(int ymf, int ymt)
+        {
+            var query = from x in context.ViewQaDashMaintenances
+                        where x.YearMonth >= ymf && x.YearMonth <= ymt
+                        group x by new { x.Register } into grp
+                        select new
+                        {
+                            Register = grp.Key.Register,
+                            Count = grp.Sum(q => q.Count)
+                        };
+            var result = query.ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true
+            };
+        }
+
+        [HttpGet]
+        [Route("api/get/qa/dispatch/report/{ymf}/{ymt}")]
+        public async Task<DataResponse> GetDispatchReport(int ymf, int ymt)
+        {
+            var query = from x in context.ViewQADashDispatches
+                        where x.YearMonth >= ymf && x.YearMonth <= ymt
+                        group x by new { x.YearMonth } into grp
+                        select new
+                        {
+                            YearMonth = grp.Key.YearMonth,
+                            Count = grp.Sum(q => q.Count)
+                        };
+            var result = query.ToList();
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true
+            };
+        }
+
+
+        [HttpGet]
+        [Route("api/get/qa/employee/{type}/{entityId}/{referrerId}")]
+        public async Task<DataResponse> GetQAEmployee(int type, int entityId, int referrerId)
+        {
+            try
+            {
+                var query = from x in context.ViewQAResponsibilities
+                            where x.Type == type
+                            select new
+                            {
+                                TypeTitle = x.TypeTitle,
+                                Name = x.Name,
+                                ReceiverEmployeeId = x.ReceiverEmployeeId,
+                            };
+
+                var ds = query.Select(q => q.ReceiverEmployeeId).ToList();
+                var ableToRefer = context.ViewQAFollowingUps.Where(q => q.Type == type && q.EntityId == entityId && q.ReferrerId == referrerId && ds.Contains(q.ReferredId)).Select(q => q.ReferredId).ToList();
+                var result = query.Where(q => !ableToRefer.Contains(q.ReceiverEmployeeId)).ToList();
+
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DataResponse()
+                {
+                    Data = ex,
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/qa/referr")]
+        public async Task<DataResponse> QAReferr(dynamic dto)
+        {
+            try
+            {
+                var test = dto;
+
+                foreach (var x in test)
+                {
+                    var entity = new QAFollowingUp();
+                    context.QAFollowingUps.Add(entity);
+                    entity.EntityId = x.EntityId;
+                    entity.ReferredId = x.ReferredId;
+                    entity.ReferrerId = x.ReferrerId;
+                    entity.DateStatus = DateTime.Now;
+                    entity.Type = x.Type;
+                    entity.ReviewResult = 2;
+                    entity.Comment = x.Comment;
+                };
+                context.SaveChanges();
+
+                return new DataResponse() { Data = null, IsSuccess = true };
+
+            }
+            catch (Exception ex)
+            {
+                return new DataResponse()
+                {
+                    Data = ex,
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/qa/accept")]
+        public async Task<DataResponse> AcceptQA(dynamic dto)
+        {
+            try
+            {
+                if (dto.isResponsible == true)
+                {
+
+                    var test = DateTime.Now.ToString("yyyy-MM-dd");
+                    switch ((int)dto.Type)
+                    {
+                        case 0:
+                            context.Database.ExecuteSqlCommand("update QACSR set Status = 1,DateStatus = '" + test + "', StatusEmployeeId= " + dto.EmployeeId + ",Result = '" + dto.Result + "' where Id=" + dto.Id);
+                            break;
+                        case 1:
+                            context.Database.ExecuteSqlCommand("update QAGroundIAD set Status = 1,DateStatus = '" + test + "', StatusEmployeeId= " + dto.EmployeeId + ",Result = '" + dto.Result + "' where Id=" + dto.Id);
+                            break;
+                        case 2:
+                            context.Database.ExecuteSqlCommand("update QAHazard set Status = 1,DateStatus = '" + test + "', StatusEmployeeId= " + dto.EmployeeId + ",Result = '" + dto.Result + "' where Id=" + dto.Id);
+                            break;
+                        case 3:
+                            context.Database.ExecuteSqlCommand("update QAMaintenance set Status = 1,DateStatus = '" + test + "', StatusEmployeeId= " + dto.EmployeeId + ",Result = '" + dto.Result + "' where Id=" + dto.Id);
+                            break;
+                        case 4:
+                            context.Database.ExecuteSqlCommand("update QACatering set Status = 1,DateStatus = '" + test + "', StatusEmployeeId= " + dto.EmployeeId + ",Result = '" + dto.Result + "' where Id=" + dto.Id);
+                            break;
+                        case 5:
+                            context.Database.ExecuteSqlCommand("update QASecurity set Status = 1,DateStatus = '" + test + "', StatusEmployeeId= " + dto.EmployeeId + ",Result = '" + dto.Result + "' where Id=" + dto.Id);
+                            break;
+                        case 6:
+                            context.Database.ExecuteSqlCommand("update QADispatch set Status = 1,DateStatus = '" + test + "', StatusEmployeeId= " + dto.EmployeeId + ",Result = '" + dto.Result + "' where Id=" + dto.Id);
+                            break;
+                    }
                 }
 
+                var entity = new QAFollowingUp();
+                context.QAFollowingUps.Add(entity);
+                entity.Type = dto.Type;
+                entity.EntityId = dto.Id;
+                entity.ReferrerId = dto.EmployeeId;
+                entity.ReferredId = null;
+                entity.ReviewResult = 1;
+                entity.DateStatus = DateTime.Now;
 
 
-                //var entity = context.ViewQABYEmployees.Where(q => q.EmploeeId == employeeId).ToList();
 
+
+                context.SaveChanges();
+                return new DataResponse()
+                {
+                    Data = null,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DataResponse()
+                {
+                    Data = ex,
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/qa/reject")]
+        public async Task<DataResponse> RejectQA(dynamic dto)
+        {
+            try
+            {
+                var entity = new QAFollowingUp();
+                context.QAFollowingUps.Add(entity);
+                entity.Type = dto.Type;
+                entity.EntityId = dto.Id;
+                entity.ReferrerId = dto.EmployeeId;
+                entity.ReviewResult = 0;
+                entity.DateStatus = DateTime.Now;
+
+                context.SaveChanges();
+                dto.Id = entity.Id;
+                return new DataResponse()
+                {
+                    Data = dto,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DataResponse()
+                {
+                    Data = ex,
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+
+
+
+        [HttpGet]
+        [Route("api/qa/get/referred/{referreId}/{type}/{entityId}")]
+        public async Task<DataResponse> GetReferredList(int referreId, int type, int entityId)
+        {
+
+            try
+            {
+                var data = from x in context.ViewQAFollowingUps
+                           join y in context.ViewQABYEmployees on new { EmployeeId = x.ReferredId, Id = x.EntityId, Type = x.Type } equals new { EmployeeId = y.EmployeeId, Id = y.EntityId, Type = y.Type } into grp
+                           from matching in grp
+                           where x.Type == type && x.EntityId == entityId
+                           select new
+                           {
+                               ReferredId = x.ReferredId,
+                               ReferrerId = x.ReferrerId,
+                               ReferredName = x.ReferredName,
+                               ReferrerName = x.ReferrerName,
+                               DateStatus = x.DateStatus,
+                               Type = x.Type,
+                               ReviewResultTitle = matching.ReviewResultTitle,
+                               ReviewResult = matching.ReviewResult,
+                               Comment = x.Comment,
+                               EntityId = x.EntityId,
+                           };
+
+
+                //var data = from x in context.ViewQAFollowingUps
+                //           where x.Type == type && x.EntityId == entityId && x.ReferredId != null
+                //           select new
+                //           {
+                //               ReferredId = x.ReferredId,
+                //               ReferrerId = x.ReferrerId,
+                //               ReferredName = x.ReferredName,
+                //               ReferrerName = x.ReferrerName,
+                //               DateStatus = x.DateStatus,
+                //               Type = x.Type,
+                //               ReviewResultTitle = x.ReviewResultTitle,
+                //               EntityId = x.EntityId,
+                //           };
+
+                var result = data.ToList();
 
                 return new DataResponse()
                 {
@@ -1112,25 +1763,16 @@ namespace ApiQA.Controllers
 
 
         [HttpGet]
-        [Route("api/qa/confirm/report/{employeeId}/{type}/{entityId}")]
-        public async Task<DataResponse> ConfirmReport(int employeeId, int type, int entityId)
+        [Route("api/qa/isresponsible/{employeeId}/{type}/{entityId}")]
+        public async Task<DataResponse> QAIsResponsible(int employeeId, int type, int entityId)
         {
             try
             {
-                var entity = new QAFollowingUp();
-                context.QAFollowingUps.Add(entity);
-                entity.Type = type;
-                entity.ReferredId = employeeId;
-                entity.ReferrerId = employeeId;
-                entity.Confirmation = true;
-                entity.DateConfirmation = new DateTime?();
-                entity.DateReferr = new DateTime?();
-                entity.EntityId = entityId;
-                context.SaveChanges();
 
+                var isResponsible = context.ViewQAFollowingUps.Single(q => q.EntityId == entityId && q.ReferredId == employeeId && q.Type == type && q.ReferrerId == 0);
                 return new DataResponse()
                 {
-                    Data = entity,
+                    Data = isResponsible,
                     IsSuccess = true
                 };
             }
@@ -1144,16 +1786,50 @@ namespace ApiQA.Controllers
             }
         }
 
+
         [HttpGet]
-        [Route("api/get/followup/{entityId}/{type}")]
-        public async Task<DataResponse> FollowUpReport(int entityId, int type)
+        [Route("api/qa/get/comments/{entityId}/{type}")]
+        public async Task<DataResponse> GetComments(int entityId, int type)
+        {
+
+            try
+            {
+                var result = context.ViewQAComments.Where(q => q.EntityId == entityId && q.Type == type).ToList();
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DataResponse()
+                {
+                    Data = ex,
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/qa/send/comment")]
+        public async Task<DataResponse> SendComment(dynamic dto)
         {
             try
             {
-                var entity = context.ViewQAFollowingUps.Where(q => q.EntityId == entityId && q.Type == type).ToList();
+                var entity = new QAComment();
+                context.QAComments.Add(entity);
+                entity.EntityId = dto.Id;
+                entity.Type = dto.Type;
+                entity.EmployeeId = dto.EmployeeId;
+                entity.Comment = dto.Comment;
+                entity.DateComment = DateTime.Now;
+
+                context.SaveChanges();
                 return new DataResponse()
                 {
-                    Data = entity,
+                    Data = null,
                     IsSuccess = true
                 };
             }

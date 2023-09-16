@@ -14,16 +14,16 @@ namespace ApiQA.Models
     
     public partial class ViewQAFollowingUp
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public Nullable<int> Type { get; set; }
         public Nullable<int> EntityId { get; set; }
-        public Nullable<int> ReferrerId { get; set; }
+        public int ReferrerId { get; set; }
         public string ReferrerName { get; set; }
         public Nullable<int> ReferredId { get; set; }
         public string ReferredName { get; set; }
-        public Nullable<bool> Confirmation { get; set; }
+        public Nullable<int> ReviewResult { get; set; }
+        public string ReviewResultTitle { get; set; }
         public string Comment { get; set; }
-        public Nullable<System.DateTime> DateReferr { get; set; }
-        public Nullable<System.DateTime> DateConfirmation { get; set; }
+        public Nullable<System.DateTime> DateStatus { get; set; }
     }
 }

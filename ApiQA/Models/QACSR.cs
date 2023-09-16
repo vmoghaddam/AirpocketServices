@@ -26,7 +26,7 @@ namespace ApiQA.Models
         public string BOX { get; set; }
         public string RefNumber { get; set; }
         public string ReportFiledBy { get; set; }
-        public Nullable<System.DateTime> OccurrenceDateTime { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string EventLocation { get; set; }
         public string WeatherCondition { get; set; }
         public Nullable<int> FlightPhaseId { get; set; }
@@ -38,6 +38,10 @@ namespace ApiQA.Models
         public string Recived { get; set; }
         public string FollowUp { get; set; }
         public string EventTitleRemark { get; set; }
+        public Nullable<int> Status { get; set; }
+        public Nullable<System.DateTime> DateStatus { get; set; }
+        public Nullable<int> StatusEmployeeId { get; set; }
+        public string Result { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
