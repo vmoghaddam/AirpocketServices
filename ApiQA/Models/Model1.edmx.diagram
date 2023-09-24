@@ -17,26 +17,9 @@
         <AssociationConnector Association="ppaModel.FK__QACSREven__Event__26068485" />
         <EntityTypeShape EntityType="ppaModel.QAComment" Width="1.5" PointX="13.375" PointY="18.75" />
         <EntityTypeShape EntityType="ppaModel.QAAuthCard" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ppaModel.QACatering" Width="1.5" PointX="19.375" PointY="80.5" />
-        <EntityTypeShape EntityType="ppaModel.QACSR" Width="1.5" PointX="14.125" PointY="25.5" />
-        <EntityTypeShape EntityType="ppaModel.QADispatch" Width="1.5" PointX="5.625" PointY="95.625" />
-        <EntityTypeShape EntityType="ppaModel.QAGroundIAD" Width="1.5" PointX="16.375" PointY="72" />
-        <EntityTypeShape EntityType="ppaModel.QASecurity" Width="1.5" PointX="22.375" PointY="70.5" />
         <EntityTypeShape EntityType="ppaModel.ViewQACSREvent" Width="1.5" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQADashCatering" Width="1.5" PointX="2.75" PointY="9.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAResponsibility" Width="1.5" PointX="15.75" PointY="0.75" />
-        <AssociationConnector Association="ppaModel.FK__QACaterin__Fligh__2DA7A64D" />
-        <AssociationConnector Association="ppaModel.FK__QACSR__FlightId__2141CF68" />
-        <AssociationConnector Association="ppaModel.FK__QADispatc__Fligh__77C096E8" />
-        <AssociationConnector Association="ppaModel.FK__QAGroundI__Fligh__15D01CBC" />
-        <AssociationConnector Association="ppaModel.FK__QASecurit__Fligh__33607FA3" />
-        <AssociationConnector Association="ppaModel.FK__QACaterin__Reaso__2E9BCA86" />
-        <AssociationConnector Association="ppaModel.FK__QACSREven__QACSR__2512604C" />
-        <AssociationConnector Association="ppaModel.FK__QAGroundI__Damag__17B8652E" />
-        <AssociationConnector Association="ppaModel.FK__QAGroundI__WXLig__1A94D1D9" />
-        <AssociationConnector Association="ppaModel.FK__QAGroundI__WXSur__19A0ADA0" />
-        <AssociationConnector Association="ppaModel.FK__QAGroundI__WXWea__18AC8967" />
-        <AssociationConnector Association="ppaModel.FK__QASecurit__Reaso__3548C815" />
         <EntityTypeShape EntityType="ppaModel.ViewQACatering" Width="1.5" PointX="5.75" PointY="8.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQACSR" Width="1.5" PointX="11.75" PointY="3.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQADispatch" Width="1.5" PointX="0.75" PointY="12.75" />
@@ -48,13 +31,30 @@
         <EntityTypeShape EntityType="ppaModel.ViewQAFollowingUp" Width="1.5" PointX="5.375" PointY="20.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQABYEmployee" Width="1.5" PointX="11.375" PointY="11.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAByEmployeeCount" Width="1.5" PointX="3.375" PointY="5.75" />
-        <EntityTypeShape EntityType="ppaModel.QAHazard" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ppaModel.QAMaintenance" Width="1.5" PointX="19" PointY="73.875" />
-        <AssociationConnector Association="ppaModel.FK__QAMOR__FlightId__10174366" />
-        <AssociationConnector Association="ppaModel.FK__QAMOR__Component__110B679F" />
         <EntityTypeShape EntityType="ppaModel.ViewQAHazard" Width="1.5" PointX="14.375" PointY="3.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAMaintenance" Width="1.5" PointX="15.375" PointY="13.75" />
         <EntityTypeShape EntityType="ppaModel.QAGetEntites_Result" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="ppaModel.QACatering" Width="1.5" PointX="22" PointY="70.5" />
+        <EntityTypeShape EntityType="ppaModel.QACSR" Width="1.5" PointX="13.75" PointY="25.5" />
+        <EntityTypeShape EntityType="ppaModel.QADispatch" Width="1.5" PointX="5.25" PointY="95.5" />
+        <EntityTypeShape EntityType="ppaModel.QAGroundIAD" Width="1.5" PointX="16" PointY="71.875" />
+        <EntityTypeShape EntityType="ppaModel.QAHazard" Width="1.5" PointX="20.375" PointY="4.75" />
+        <EntityTypeShape EntityType="ppaModel.QAMaintenance" Width="1.5" PointX="19" PointY="73.875" />
+        <EntityTypeShape EntityType="ppaModel.QASecurity" Width="1.5" PointX="19" PointY="80.5" />
+        <AssociationConnector Association="ppaModel.FK__QACaterin__Fligh__2DA7A64D" />
+        <AssociationConnector Association="ppaModel.FK__QACSR__FlightId__2141CF68" />
+        <AssociationConnector Association="ppaModel.FK__QADispatc__Fligh__77C096E8" />
+        <AssociationConnector Association="ppaModel.FK__QAGroundI__Fligh__15D01CBC" />
+        <AssociationConnector Association="ppaModel.FK__QAMOR__FlightId__10174366" />
+        <AssociationConnector Association="ppaModel.FK__QASecurit__Fligh__33607FA3" />
+        <AssociationConnector Association="ppaModel.FK__QACaterin__Reaso__2E9BCA86" />
+        <AssociationConnector Association="ppaModel.FK__QACSREven__QACSR__2512604C" />
+        <AssociationConnector Association="ppaModel.FK__QAGroundI__Damag__17B8652E" />
+        <AssociationConnector Association="ppaModel.FK__QAGroundI__WXLig__1A94D1D9" />
+        <AssociationConnector Association="ppaModel.FK__QAGroundI__WXSur__19A0ADA0" />
+        <AssociationConnector Association="ppaModel.FK__QAGroundI__WXWea__18AC8967" />
+        <AssociationConnector Association="ppaModel.FK__QAMOR__Component__110B679F" />
+        <AssociationConnector Association="ppaModel.FK__QASecurit__Reaso__3548C815" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -339,6 +339,7 @@
           <Property Name="DateStatus" Type="datetime" />
           <Property Name="StatusEmployeeId" Type="int" />
           <Property Name="Result" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DateCreation" Type="datetime" />
         </EntityType>
         <EntityType Name="QAComments">
           <Key>
@@ -410,6 +411,7 @@
           <Property Name="StatusEmployeeId" Type="int" />
           <Property Name="DateSign" Type="datetime" />
           <Property Name="Result" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DateCreation" Type="datetime" />
         </EntityType>
         <EntityType Name="QAFollowingUp">
           <Key>
@@ -516,6 +518,7 @@
           <Property Name="DateStatus" Type="datetime" />
           <Property Name="StatusEmployeeId" Type="int" />
           <Property Name="Result" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DateCreation" Type="datetime" />
         </EntityType>
         <EntityType Name="QAHazard">
           <Key>
@@ -536,6 +539,7 @@
           <Property Name="StatusEmployeeId" Type="int" />
           <Property Name="DateSign" Type="datetime" />
           <Property Name="Result" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DateCreation" Type="datetime" />
         </EntityType>
         <EntityType Name="QAMaintenance">
           <Key>
@@ -562,6 +566,7 @@
           <Property Name="StatusEmployeeId" Type="int" />
           <Property Name="DateSign" Type="datetime" />
           <Property Name="Result" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DateCreation" Type="datetime" />
         </EntityType>
         <EntityType Name="QAOption">
           <Key>
@@ -616,6 +621,7 @@
           <Property Name="DateStatus" Type="datetime" />
           <Property Name="StatusEmployeeId" Type="int" />
           <Property Name="Result" Type="nvarchar" MaxLength="4000" />
+          <Property Name="DateCreation" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.AppLeg' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2205,14 +2211,40 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           </FunctionImport>
           <EntitySet Name="QAComments" EntityType="ppaModel.QAComment" />
           <EntitySet Name="QAAuthCards" EntityType="ppaModel.QAAuthCard" />
+          <EntitySet Name="ViewQACSREvents" EntityType="ppaModel.ViewQACSREvent" />
+          <EntitySet Name="ViewQADashCaterings" EntityType="ppaModel.ViewQADashCatering" />
+          <EntitySet Name="ViewQAResponsibilities" EntityType="ppaModel.ViewQAResponsibility" />
+          <EntitySet Name="ViewQACaterings" EntityType="ppaModel.ViewQACatering" />
+          <EntitySet Name="ViewQACSRs" EntityType="ppaModel.ViewQACSR" />
+          <EntitySet Name="ViewQADispatches" EntityType="ppaModel.ViewQADispatch" />
+          <EntitySet Name="ViewQAGrounds" EntityType="ppaModel.ViewQAGround" />
+          <EntitySet Name="ViewQASecurities" EntityType="ppaModel.ViewQASecurity" />
+          <EntitySet Name="ViewQaDashCSRs" EntityType="ppaModel.ViewQaDashCSR" />
+          <EntitySet Name="ViewQAComments" EntityType="ppaModel.ViewQAComment" />
+          <EntitySet Name="QAFollowingUps" EntityType="ppaModel.QAFollowingUp" />
+          <EntitySet Name="ViewQAFollowingUps" EntityType="ppaModel.ViewQAFollowingUp" />
+          <EntitySet Name="ViewQABYEmployees" EntityType="ppaModel.ViewQABYEmployee" />
+          <EntitySet Name="ViewQAByEmployeeCounts" EntityType="ppaModel.ViewQAByEmployeeCount" />
+          <EntitySet Name="ViewQAHazards" EntityType="ppaModel.ViewQAHazard" />
+          <EntitySet Name="ViewQAMaintenances" EntityType="ppaModel.ViewQAMaintenance" />
+          <FunctionImport Name="QAByEmployeeCount">
+            <Parameter Name="Type" Mode="In" Type="Int32" />
+            <Parameter Name="EntityId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QAGetEntities" EntitySet="QAGetEntites_Result" ReturnType="Collection(ppaModel.QAGetEntites_Result)">
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
+            <Parameter Name="Type" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="QAGetEntites_Result" EntityType="ppaModel.QAGetEntites_Result" />
           <EntitySet Name="QACaterings" EntityType="ppaModel.QACatering" />
           <EntitySet Name="QACSRs" EntityType="ppaModel.QACSR" />
           <EntitySet Name="QADispatches" EntityType="ppaModel.QADispatch" />
           <EntitySet Name="QAGroundIADs" EntityType="ppaModel.QAGroundIAD" />
+          <EntitySet Name="QAHazards" EntityType="ppaModel.QAHazard" />
+          <EntitySet Name="QAMaintenances" EntityType="ppaModel.QAMaintenance" />
           <EntitySet Name="QASecurities" EntityType="ppaModel.QASecurity" />
-          <EntitySet Name="ViewQACSREvents" EntityType="ppaModel.ViewQACSREvent" />
-          <EntitySet Name="ViewQADashCaterings" EntityType="ppaModel.ViewQADashCatering" />
-          <EntitySet Name="ViewQAResponsibilities" EntityType="ppaModel.ViewQAResponsibility" />
           <AssociationSet Name="FK__QACaterin__Fligh__2DA7A64D" Association="ppaModel.FK__QACaterin__Fligh__2DA7A64D">
             <End Role="FlightInformation" EntitySet="FlightInformations" />
             <End Role="QACatering" EntitySet="QACaterings" />
@@ -2228,6 +2260,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <AssociationSet Name="FK__QAGroundI__Fligh__15D01CBC" Association="ppaModel.FK__QAGroundI__Fligh__15D01CBC">
             <End Role="FlightInformation" EntitySet="FlightInformations" />
             <End Role="QAGroundIAD" EntitySet="QAGroundIADs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QAMOR__FlightId__10174366" Association="ppaModel.FK__QAMOR__FlightId__10174366">
+            <End Role="FlightInformation" EntitySet="FlightInformations" />
+            <End Role="QAMaintenance" EntitySet="QAMaintenances" />
           </AssociationSet>
           <AssociationSet Name="FK__QASecurit__Fligh__33607FA3" Association="ppaModel.FK__QASecurit__Fligh__33607FA3">
             <End Role="FlightInformation" EntitySet="FlightInformations" />
@@ -2257,44 +2293,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             <End Role="QAOption" EntitySet="QAOptions" />
             <End Role="QAGroundIAD" EntitySet="QAGroundIADs" />
           </AssociationSet>
-          <AssociationSet Name="FK__QASecurit__Reaso__3548C815" Association="ppaModel.FK__QASecurit__Reaso__3548C815">
-            <End Role="QAOption" EntitySet="QAOptions" />
-            <End Role="QASecurity" EntitySet="QASecurities" />
-          </AssociationSet>
-          <EntitySet Name="ViewQACaterings" EntityType="ppaModel.ViewQACatering" />
-          <EntitySet Name="ViewQACSRs" EntityType="ppaModel.ViewQACSR" />
-          <EntitySet Name="ViewQADispatches" EntityType="ppaModel.ViewQADispatch" />
-          <EntitySet Name="ViewQAGrounds" EntityType="ppaModel.ViewQAGround" />
-          <EntitySet Name="ViewQASecurities" EntityType="ppaModel.ViewQASecurity" />
-          <EntitySet Name="ViewQaDashCSRs" EntityType="ppaModel.ViewQaDashCSR" />
-          <EntitySet Name="ViewQAComments" EntityType="ppaModel.ViewQAComment" />
-          <EntitySet Name="QAFollowingUps" EntityType="ppaModel.QAFollowingUp" />
-          <EntitySet Name="ViewQAFollowingUps" EntityType="ppaModel.ViewQAFollowingUp" />
-          <EntitySet Name="ViewQABYEmployees" EntityType="ppaModel.ViewQABYEmployee" />
-          <EntitySet Name="ViewQAByEmployeeCounts" EntityType="ppaModel.ViewQAByEmployeeCount" />
-          <EntitySet Name="QAHazards" EntityType="ppaModel.QAHazard" />
-          <EntitySet Name="QAMaintenances" EntityType="ppaModel.QAMaintenance" />
-          <AssociationSet Name="FK__QAMOR__FlightId__10174366" Association="ppaModel.FK__QAMOR__FlightId__10174366">
-            <End Role="FlightInformation" EntitySet="FlightInformations" />
-            <End Role="QAMaintenance" EntitySet="QAMaintenances" />
-          </AssociationSet>
           <AssociationSet Name="FK__QAMOR__Component__110B679F" Association="ppaModel.FK__QAMOR__Component__110B679F">
             <End Role="QAOption" EntitySet="QAOptions" />
             <End Role="QAMaintenance" EntitySet="QAMaintenances" />
           </AssociationSet>
-          <EntitySet Name="ViewQAHazards" EntityType="ppaModel.ViewQAHazard" />
-          <EntitySet Name="ViewQAMaintenances" EntityType="ppaModel.ViewQAMaintenance" />
-          <FunctionImport Name="QAByEmployeeCount">
-            <Parameter Name="Type" Mode="In" Type="Int32" />
-            <Parameter Name="EntityId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="QAGetEntities" EntitySet="QAGetEntites_Result" ReturnType="Collection(ppaModel.QAGetEntites_Result)">
-            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
-            <Parameter Name="Type" Mode="In" Type="Int32" />
-            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
-            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <EntitySet Name="QAGetEntites_Result" EntityType="ppaModel.QAGetEntites_Result" />
+          <AssociationSet Name="FK__QASecurit__Reaso__3548C815" Association="ppaModel.FK__QASecurit__Reaso__3548C815">
+            <End Role="QAOption" EntitySet="QAOptions" />
+            <End Role="QASecurity" EntitySet="QASecurities" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="FlightInformation">
           <Key>
@@ -2592,8 +2598,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <NavigationProperty Name="QACSRs" Relationship="ppaModel.FK__QACSR__FlightId__2141CF68" FromRole="FlightInformation" ToRole="QACSR" />
           <NavigationProperty Name="QADispatches" Relationship="ppaModel.FK__QADispatc__Fligh__77C096E8" FromRole="FlightInformation" ToRole="QADispatch" />
           <NavigationProperty Name="QAGroundIADs" Relationship="ppaModel.FK__QAGroundI__Fligh__15D01CBC" FromRole="FlightInformation" ToRole="QAGroundIAD" />
-          <NavigationProperty Name="QASecurities" Relationship="ppaModel.FK__QASecurit__Fligh__33607FA3" FromRole="FlightInformation" ToRole="QASecurity" />
           <NavigationProperty Name="QAMaintenances" Relationship="ppaModel.FK__QAMOR__FlightId__10174366" FromRole="FlightInformation" ToRole="QAMaintenance" />
+          <NavigationProperty Name="QASecurities" Relationship="ppaModel.FK__QASecurit__Fligh__33607FA3" FromRole="FlightInformation" ToRole="QASecurity" />
           </EntityType>
         <EntityType Name="AppLeg">
           <Key>
@@ -3166,8 +3172,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <NavigationProperty Name="QAGroundIADs1" Relationship="ppaModel.FK__QAGroundI__WXLig__1A94D1D9" FromRole="QAOption" ToRole="QAGroundIAD" />
           <NavigationProperty Name="QAGroundIADs2" Relationship="ppaModel.FK__QAGroundI__WXSur__19A0ADA0" FromRole="QAOption" ToRole="QAGroundIAD" />
           <NavigationProperty Name="QAGroundIADs3" Relationship="ppaModel.FK__QAGroundI__WXWea__18AC8967" FromRole="QAOption" ToRole="QAGroundIAD" />
-          <NavigationProperty Name="QASecurities" Relationship="ppaModel.FK__QASecurit__Reaso__3548C815" FromRole="QAOption" ToRole="QASecurity" />
           <NavigationProperty Name="QAMaintenances" Relationship="ppaModel.FK__QAMOR__Component__110B679F" FromRole="QAOption" ToRole="QAMaintenance" />
+          <NavigationProperty Name="QASecurities" Relationship="ppaModel.FK__QASecurit__Reaso__3548C815" FromRole="QAOption" ToRole="QASecurity" />
         </EntityType>
         <EntityType Name="QAResponsibilty">
           <Key>
@@ -3422,204 +3428,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="EmployeeId" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" />
         </EntityType>
-        <EntityType Name="QACatering">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FlightId" Type="Int32" />
-          <Property Name="DateReport" Type="DateTime" Precision="3" />
-          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
-          <Property Name="Place" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ReasonId" Type="Int32" />
-          <Property Name="ReasonDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Trolley" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Equipment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Transporter" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="TrolleyEquipmentTransporterDecs" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="InjuryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SaftyEquipmentUseage" Type="Boolean" />
-          <Property Name="SaftyEquipmentType" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="WorkBreak" Type="Boolean" />
-          <Property Name="WorkBreakPeriod" Type="Int32" />
-          <Property Name="PreventiveActions" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeId" Type="Int32" />
-          <Property Name="DateSign" Type="DateTime" Precision="3" />
-          <Property Name="IsCausedInjury" Type="Boolean" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="DateStatus" Type="DateTime" Precision="3" />
-          <Property Name="StatusEmployeeId" Type="Int32" />
-          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QACaterin__Fligh__2DA7A64D" FromRole="QACatering" ToRole="FlightInformation" />
-          <NavigationProperty Name="QAOption" Relationship="ppaModel.FK__QACaterin__Reaso__2E9BCA86" FromRole="QACatering" ToRole="QAOption" />
-        </EntityType>
-        <EntityType Name="QACSR">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DateCreation" Type="DateTime" Precision="3" />
-          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BOX" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="RefNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ReportFiledBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
-          <Property Name="EventLocation" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="WeatherCondition" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FlightPhaseId" Type="Int32" />
-          <Property Name="DateSign" Type="DateTime" Precision="3" />
-          <Property Name="EmployeeId" Type="Int32" />
-          <Property Name="Describtion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Recommendation" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FlightId" Type="Int32" Nullable="false" />
-          <Property Name="Recived" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="FollowUp" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="EventTitleRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="DateStatus" Type="DateTime" Precision="3" />
-          <Property Name="StatusEmployeeId" Type="Int32" />
-          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QACSR__FlightId__2141CF68" FromRole="QACSR" ToRole="FlightInformation" />
-          <NavigationProperty Name="QACSREvents" Relationship="ppaModel.FK__QACSREven__QACSR__2512604C" FromRole="QACSR" ToRole="QACSREvent" />
-        </EntityType>
-        <EntityType Name="QADispatch">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FlightId" Type="Int32" />
-          <Property Name="EmployeeId" Type="Int32" />
-          <Property Name="Type" Type="Int32" />
-          <Property Name="DateReport" Type="DateTime" Precision="3" />
-          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
-          <Property Name="OPTimeReceived" Type="DateTime" Precision="3" />
-          <Property Name="OPReportedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OPLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CatagoryId" Type="Int32" />
-          <Property Name="OPSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DISLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="DISTimeDuration" Type="Int32" />
-          <Property Name="DISActionResult" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="DateStatus" Type="DateTime" Precision="3" />
-          <Property Name="StatusEmployeeId" Type="Int32" />
-          <Property Name="DateSign" Type="DateTime" Precision="3" />
-          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QADispatc__Fligh__77C096E8" FromRole="QADispatch" ToRole="FlightInformation" />
-        </EntityType>
-        <EntityType Name="QAGroundIAD">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FlightId" Type="Int32" Nullable="false" />
-          <Property Name="AirportId" Type="Int32" />
-          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="DamageById" Type="Int32" />
-          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
-          <Property Name="OperationPhase" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Area" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ScheduledGroundTime" Type="Int32" />
-          <Property Name="DamageDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeesFatalityNr" Type="Int32" />
-          <Property Name="PassengersFatalityNr" Type="Int32" />
-          <Property Name="OthersFatalityNr" Type="Int32" />
-          <Property Name="EmployeesNonFatalityNr" Type="Int32" />
-          <Property Name="PassengersNonFatalityNr" Type="Int32" />
-          <Property Name="OthersNonFatalityNr" Type="Int32" />
-          <Property Name="VETyresCon" Type="Int32" />
-          <Property Name="VEBrakesCon" Type="Int32" />
-          <Property Name="VESteeringCon" Type="Int32" />
-          <Property Name="VELightsCon" Type="Int32" />
-          <Property Name="VEWipersCon" Type="Int32" />
-          <Property Name="VEProtectionCon" Type="Int32" />
-          <Property Name="VEWarningDevicesCon" Type="Int32" />
-          <Property Name="VEStabilizersCon" Type="Int32" />
-          <Property Name="VETowHitchCon" Type="Int32" />
-          <Property Name="VEFieldofVisionCon" Type="Int32" />
-          <Property Name="VEFromDrivingPoCon" Type="Int32" />
-          <Property Name="VESerialFleetNr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="VEType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="VEOwner" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="VEArea" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="VEAge" Type="Int32" />
-          <Property Name="VELastOverhaul" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="VERemarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelName1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelName2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelName3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelJobTitle1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelJobTitle2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelJobTitle3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelCompany1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelCompany2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelCompany3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelStaffNr1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelStaffNr2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelStaffNr3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelLicense1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelLicense2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PersonnelLicense3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="WXVisibilityM" Type="Int32" />
-          <Property Name="WXWind" Type="Int32" />
-          <Property Name="WXTemperature" Type="Int32" />
-          <Property Name="WXWeatherId" Type="Int32" />
-          <Property Name="WXSurfaceId" Type="Int32" />
-          <Property Name="WXLightingId" Type="Int32" />
-          <Property Name="ContributoryFactors" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SketchURL" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Event" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CorrectiveActionTaken" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OtherSuggestions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeId" Type="Int32" />
-          <Property Name="DateSign" Type="DateTime" Precision="3" />
-          <Property Name="Airport" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="WXVisibilityKM" Type="Int32" />
-          <Property Name="DamageRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="DateStatus" Type="DateTime" Precision="3" />
-          <Property Name="StatusEmployeeId" Type="Int32" />
-          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QAGroundI__Fligh__15D01CBC" FromRole="QAGroundIAD" ToRole="FlightInformation" />
-          <NavigationProperty Name="QAOption" Relationship="ppaModel.FK__QAGroundI__Damag__17B8652E" FromRole="QAGroundIAD" ToRole="QAOption" />
-          <NavigationProperty Name="QAOption1" Relationship="ppaModel.FK__QAGroundI__WXLig__1A94D1D9" FromRole="QAGroundIAD" ToRole="QAOption" />
-          <NavigationProperty Name="QAOption2" Relationship="ppaModel.FK__QAGroundI__WXSur__19A0ADA0" FromRole="QAGroundIAD" ToRole="QAOption" />
-          <NavigationProperty Name="QAOption3" Relationship="ppaModel.FK__QAGroundI__WXWea__18AC8967" FromRole="QAGroundIAD" ToRole="QAOption" />
-        </EntityType>
-        <EntityType Name="QASecurity">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FlightId" Type="Int32" />
-          <Property Name="DateReport" Type="DateTime" Precision="3" />
-          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
-          <Property Name="Place" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ReasonId" Type="Int32" />
-          <Property Name="ReasonDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Camera" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CarryingBox" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="HandRocket" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Comail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Other" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="EquipmentDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="InjuryOccuring" Type="Boolean" />
-          <Property Name="InjuryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="WorkBreak" Type="Boolean" />
-          <Property Name="WorkBreakPeriod" Type="Int32" />
-          <Property Name="PreventiveActions" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeId" Type="Int32" />
-          <Property Name="DateSign" Type="DateTime" Precision="3" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="DateStatus" Type="DateTime" Precision="3" />
-          <Property Name="StatusEmployeeId" Type="Int32" />
-          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QASecurit__Fligh__33607FA3" FromRole="QASecurity" ToRole="FlightInformation" />
-          <NavigationProperty Name="QAOption" Relationship="ppaModel.FK__QASecurit__Reaso__3548C815" FromRole="QASecurity" ToRole="QAOption" />
-        </EntityType>
         <EntityType Name="ViewQACSREvent">
           <Key>
             <PropertyRef Name="Id" />
@@ -3654,150 +3462,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="IsResponsible" Type="Boolean" />
           <Property Name="Name" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
         </EntityType>
-        <Association Name="FK__QACaterin__Fligh__2DA7A64D">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
-          <End Type="ppaModel.QACatering" Role="QACatering" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="QACatering">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QACSR__FlightId__2141CF68">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
-          <End Type="ppaModel.QACSR" Role="QACSR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="QACSR">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QADispatc__Fligh__77C096E8">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
-          <End Type="ppaModel.QADispatch" Role="QADispatch" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="QADispatch">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QAGroundI__Fligh__15D01CBC">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
-          <End Type="ppaModel.QAGroundIAD" Role="QAGroundIAD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="QAGroundIAD">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QASecurit__Fligh__33607FA3">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
-          <End Type="ppaModel.QASecurity" Role="QASecurity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="QASecurity">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QACaterin__Reaso__2E9BCA86">
-          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
-          <End Type="ppaModel.QACatering" Role="QACatering" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QAOption">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QACatering">
-              <PropertyRef Name="ReasonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QACSREven__QACSR__2512604C">
-          <End Type="ppaModel.QACSR" Role="QACSR" Multiplicity="1" />
-          <End Type="ppaModel.QACSREvent" Role="QACSREvent" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QACSR">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QACSREvent">
-              <PropertyRef Name="QACSRId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QAGroundI__Damag__17B8652E">
-          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
-          <End Type="ppaModel.QAGroundIAD" Role="QAGroundIAD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QAOption">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QAGroundIAD">
-              <PropertyRef Name="DamageById" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QAGroundI__WXLig__1A94D1D9">
-          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
-          <End Type="ppaModel.QAGroundIAD" Role="QAGroundIAD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QAOption">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QAGroundIAD">
-              <PropertyRef Name="WXLightingId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QAGroundI__WXSur__19A0ADA0">
-          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
-          <End Type="ppaModel.QAGroundIAD" Role="QAGroundIAD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QAOption">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QAGroundIAD">
-              <PropertyRef Name="WXSurfaceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QAGroundI__WXWea__18AC8967">
-          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
-          <End Type="ppaModel.QAGroundIAD" Role="QAGroundIAD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QAOption">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QAGroundIAD">
-              <PropertyRef Name="WXWeatherId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QASecurit__Reaso__3548C815">
-          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
-          <End Type="ppaModel.QASecurity" Role="QASecurity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QAOption">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QASecurity">
-              <PropertyRef Name="ReasonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ViewQACatering">
           <Key>
             <PropertyRef Name="FlightId" />
@@ -4115,78 +3779,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="InProgressCount" Type="Int32" Nullable="false" />
           <Property Name="NewCount" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="QAHazard">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="TelNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="DateReport" Type="DateTime" Precision="3" />
-          <Property Name="AffectedArea" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ReportDate" Type="DateTime" Precision="3" />
-          <Property Name="HazardDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RecommendedAction" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeId" Type="Int32" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="DateStatus" Type="DateTime" Precision="3" />
-          <Property Name="StatusEmployeeId" Type="Int32" />
-          <Property Name="DateSign" Type="DateTime" Precision="3" />
-          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="QAMaintenance">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FlightId" Type="Int32" Nullable="false" />
-          <Property Name="DateReport" Type="DateTime" Precision="3" />
-          <Property Name="ComponentSpecificationId" Type="Int32" />
-          <Property Name="ATLNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="TaskNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Reference" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="StationId" Type="Int32" />
-          <Property Name="EventDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ActionTakenDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeId" Type="Int32" />
-          <Property Name="CAALicenceNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="AuthorizationNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="SerialNumber" Type="Int32" />
-          <Property Name="PartNumber" Type="Int32" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="DateStatus" Type="DateTime" Precision="3" />
-          <Property Name="StatusEmployeeId" Type="Int32" />
-          <Property Name="DateSign" Type="DateTime" Precision="3" />
-          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QAMOR__FlightId__10174366" FromRole="QAMaintenance" ToRole="FlightInformation" />
-          <NavigationProperty Name="QAOption" Relationship="ppaModel.FK__QAMOR__Component__110B679F" FromRole="QAMaintenance" ToRole="QAOption" />
-        </EntityType>
-        <Association Name="FK__QAMOR__FlightId__10174366">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
-          <End Type="ppaModel.QAMaintenance" Role="QAMaintenance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="QAMaintenance">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QAMOR__Component__110B679F">
-          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
-          <End Type="ppaModel.QAMaintenance" Role="QAMaintenance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QAOption">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QAMaintenance">
-              <PropertyRef Name="ComponentSpecificationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ViewQAHazard">
           <Key>
             <PropertyRef Name="Id" />
@@ -4263,6 +3855,426 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="MainStatus" Type="Int32" />
           <Property Name="EmployeeStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="QACatering">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="DateReport" Type="DateTime" Precision="3" />
+          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
+          <Property Name="Place" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReasonId" Type="Int32" />
+          <Property Name="ReasonDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Trolley" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Equipment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Transporter" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TrolleyEquipmentTransporterDecs" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InjuryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SaftyEquipmentUseage" Type="Boolean" />
+          <Property Name="SaftyEquipmentType" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="WorkBreak" Type="Boolean" />
+          <Property Name="WorkBreakPeriod" Type="Int32" />
+          <Property Name="PreventiveActions" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="DateSign" Type="DateTime" Precision="3" />
+          <Property Name="IsCausedInjury" Type="Boolean" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreation" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QACaterin__Fligh__2DA7A64D" FromRole="QACatering" ToRole="FlightInformation" />
+          <NavigationProperty Name="QAOption" Relationship="ppaModel.FK__QACaterin__Reaso__2E9BCA86" FromRole="QACatering" ToRole="QAOption" />
+        </EntityType>
+        <EntityType Name="QACSR">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateCreation" Type="DateTime" Precision="3" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BOX" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RefNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ReportFiledBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
+          <Property Name="EventLocation" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WeatherCondition" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FlightPhaseId" Type="Int32" />
+          <Property Name="DateSign" Type="DateTime" Precision="3" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="Describtion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Recommendation" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="Recived" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FollowUp" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EventTitleRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QACSR__FlightId__2141CF68" FromRole="QACSR" ToRole="FlightInformation" />
+          <NavigationProperty Name="QACSREvents" Relationship="ppaModel.FK__QACSREven__QACSR__2512604C" FromRole="QACSR" ToRole="QACSREvent" />
+        </EntityType>
+        <EntityType Name="QADispatch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="DateReport" Type="DateTime" Precision="3" />
+          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
+          <Property Name="OPTimeReceived" Type="DateTime" Precision="3" />
+          <Property Name="OPReportedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OPLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CatagoryId" Type="Int32" />
+          <Property Name="OPSummary" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DISLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DISTimeDuration" Type="Int32" />
+          <Property Name="DISActionResult" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="DateSign" Type="DateTime" Precision="3" />
+          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreation" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QADispatc__Fligh__77C096E8" FromRole="QADispatch" ToRole="FlightInformation" />
+        </EntityType>
+        <EntityType Name="QAGroundIAD">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="AirportId" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DamageById" Type="Int32" />
+          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
+          <Property Name="OperationPhase" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduledGroundTime" Type="Int32" />
+          <Property Name="DamageDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeesFatalityNr" Type="Int32" />
+          <Property Name="PassengersFatalityNr" Type="Int32" />
+          <Property Name="OthersFatalityNr" Type="Int32" />
+          <Property Name="EmployeesNonFatalityNr" Type="Int32" />
+          <Property Name="PassengersNonFatalityNr" Type="Int32" />
+          <Property Name="OthersNonFatalityNr" Type="Int32" />
+          <Property Name="VETyresCon" Type="Int32" />
+          <Property Name="VEBrakesCon" Type="Int32" />
+          <Property Name="VESteeringCon" Type="Int32" />
+          <Property Name="VELightsCon" Type="Int32" />
+          <Property Name="VEWipersCon" Type="Int32" />
+          <Property Name="VEProtectionCon" Type="Int32" />
+          <Property Name="VEWarningDevicesCon" Type="Int32" />
+          <Property Name="VEStabilizersCon" Type="Int32" />
+          <Property Name="VETowHitchCon" Type="Int32" />
+          <Property Name="VEFieldofVisionCon" Type="Int32" />
+          <Property Name="VEFromDrivingPoCon" Type="Int32" />
+          <Property Name="VESerialFleetNr" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="VEType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="VEOwner" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="VEArea" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="VEAge" Type="Int32" />
+          <Property Name="VELastOverhaul" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="VERemarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelName1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelName2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelName3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelJobTitle1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelJobTitle2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelJobTitle3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelCompany1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelCompany2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelCompany3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelStaffNr1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelStaffNr2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelStaffNr3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelLicense1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelLicense2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PersonnelLicense3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WXVisibilityM" Type="Int32" />
+          <Property Name="WXWind" Type="Int32" />
+          <Property Name="WXTemperature" Type="Int32" />
+          <Property Name="WXWeatherId" Type="Int32" />
+          <Property Name="WXSurfaceId" Type="Int32" />
+          <Property Name="WXLightingId" Type="Int32" />
+          <Property Name="ContributoryFactors" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SketchURL" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Event" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CorrectiveActionTaken" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OtherSuggestions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="DateSign" Type="DateTime" Precision="3" />
+          <Property Name="Airport" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="WXVisibilityKM" Type="Int32" />
+          <Property Name="DamageRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreation" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QAGroundI__Fligh__15D01CBC" FromRole="QAGroundIAD" ToRole="FlightInformation" />
+          <NavigationProperty Name="QAOption" Relationship="ppaModel.FK__QAGroundI__Damag__17B8652E" FromRole="QAGroundIAD" ToRole="QAOption" />
+          <NavigationProperty Name="QAOption1" Relationship="ppaModel.FK__QAGroundI__WXLig__1A94D1D9" FromRole="QAGroundIAD" ToRole="QAOption" />
+          <NavigationProperty Name="QAOption2" Relationship="ppaModel.FK__QAGroundI__WXSur__19A0ADA0" FromRole="QAGroundIAD" ToRole="QAOption" />
+          <NavigationProperty Name="QAOption3" Relationship="ppaModel.FK__QAGroundI__WXWea__18AC8967" FromRole="QAGroundIAD" ToRole="QAOption" />
+        </EntityType>
+        <EntityType Name="QAHazard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TelNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DateReport" Type="DateTime" Precision="3" />
+          <Property Name="AffectedArea" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ReportDate" Type="DateTime" Precision="3" />
+          <Property Name="HazardDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RecommendedAction" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="DateSign" Type="DateTime" Precision="3" />
+          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreation" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="QAMaintenance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="DateReport" Type="DateTime" Precision="3" />
+          <Property Name="ComponentSpecificationId" Type="Int32" />
+          <Property Name="ATLNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TaskNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Reference" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StationId" Type="Int32" />
+          <Property Name="EventDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ActionTakenDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="CAALicenceNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AuthorizationNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SerialNumber" Type="Int32" />
+          <Property Name="PartNumber" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="DateSign" Type="DateTime" Precision="3" />
+          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreation" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QAMOR__FlightId__10174366" FromRole="QAMaintenance" ToRole="FlightInformation" />
+          <NavigationProperty Name="QAOption" Relationship="ppaModel.FK__QAMOR__Component__110B679F" FromRole="QAMaintenance" ToRole="QAOption" />
+        </EntityType>
+        <EntityType Name="QASecurity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="DateReport" Type="DateTime" Precision="3" />
+          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
+          <Property Name="Place" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReasonId" Type="Int32" />
+          <Property Name="ReasonDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Camera" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CarryingBox" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="HandRocket" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Comail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Other" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EquipmentDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InjuryOccuring" Type="Boolean" />
+          <Property Name="InjuryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WorkBreak" Type="Boolean" />
+          <Property Name="WorkBreakPeriod" Type="Int32" />
+          <Property Name="PreventiveActions" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="DateSign" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreation" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QASecurit__Fligh__33607FA3" FromRole="QASecurity" ToRole="FlightInformation" />
+          <NavigationProperty Name="QAOption" Relationship="ppaModel.FK__QASecurit__Reaso__3548C815" FromRole="QASecurity" ToRole="QAOption" />
+        </EntityType>
+        <Association Name="FK__QACaterin__Fligh__2DA7A64D">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
+          <End Type="ppaModel.QACatering" Role="QACatering" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QACatering">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QACSR__FlightId__2141CF68">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
+          <End Type="ppaModel.QACSR" Role="QACSR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QACSR">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QADispatc__Fligh__77C096E8">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
+          <End Type="ppaModel.QADispatch" Role="QADispatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QADispatch">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QAGroundI__Fligh__15D01CBC">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
+          <End Type="ppaModel.QAGroundIAD" Role="QAGroundIAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QAGroundIAD">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QAMOR__FlightId__10174366">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
+          <End Type="ppaModel.QAMaintenance" Role="QAMaintenance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QAMaintenance">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QASecurit__Fligh__33607FA3">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
+          <End Type="ppaModel.QASecurity" Role="QASecurity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QASecurity">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QACaterin__Reaso__2E9BCA86">
+          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
+          <End Type="ppaModel.QACatering" Role="QACatering" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QACatering">
+              <PropertyRef Name="ReasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QACSREven__QACSR__2512604C">
+          <End Type="ppaModel.QACSR" Role="QACSR" Multiplicity="1" />
+          <End Type="ppaModel.QACSREvent" Role="QACSREvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QACSR">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QACSREvent">
+              <PropertyRef Name="QACSRId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QAGroundI__Damag__17B8652E">
+          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
+          <End Type="ppaModel.QAGroundIAD" Role="QAGroundIAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QAGroundIAD">
+              <PropertyRef Name="DamageById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QAGroundI__WXLig__1A94D1D9">
+          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
+          <End Type="ppaModel.QAGroundIAD" Role="QAGroundIAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QAGroundIAD">
+              <PropertyRef Name="WXLightingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QAGroundI__WXSur__19A0ADA0">
+          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
+          <End Type="ppaModel.QAGroundIAD" Role="QAGroundIAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QAGroundIAD">
+              <PropertyRef Name="WXSurfaceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QAGroundI__WXWea__18AC8967">
+          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
+          <End Type="ppaModel.QAGroundIAD" Role="QAGroundIAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QAGroundIAD">
+              <PropertyRef Name="WXWeatherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QAMOR__Component__110B679F">
+          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
+          <End Type="ppaModel.QAMaintenance" Role="QAMaintenance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QAMaintenance">
+              <PropertyRef Name="ComponentSpecificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QASecurit__Reaso__3548C815">
+          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
+          <End Type="ppaModel.QASecurity" Role="QASecurity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QASecurity">
+              <PropertyRef Name="ReasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5070,197 +5082,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QACaterings">
-            <EntityTypeMapping TypeName="ppaModel.QACatering">
-              <MappingFragment StoreEntitySet="QACatering">
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
-                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="IsCausedInjury" ColumnName="IsCausedInjury" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="PreventiveActions" ColumnName="PreventiveActions" />
-                <ScalarProperty Name="WorkBreakPeriod" ColumnName="WorkBreakPeriod" />
-                <ScalarProperty Name="WorkBreak" ColumnName="WorkBreak" />
-                <ScalarProperty Name="SaftyEquipmentType" ColumnName="SaftyEquipmentType" />
-                <ScalarProperty Name="SaftyEquipmentUseage" ColumnName="SaftyEquipmentUseage" />
-                <ScalarProperty Name="InjuryDescription" ColumnName="InjuryDescription" />
-                <ScalarProperty Name="TrolleyEquipmentTransporterDecs" ColumnName="TrolleyEquipmentTransporterDecs" />
-                <ScalarProperty Name="Transporter" ColumnName="Transporter" />
-                <ScalarProperty Name="Equipment" ColumnName="Equipment" />
-                <ScalarProperty Name="Trolley" ColumnName="Trolley" />
-                <ScalarProperty Name="ReasonDescription" ColumnName="ReasonDescription" />
-                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Place" ColumnName="Place" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="QACSRs">
-            <EntityTypeMapping TypeName="ppaModel.QACSR">
-              <MappingFragment StoreEntitySet="QACSR">
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
-                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="EventTitleRemark" ColumnName="EventTitleRemark" />
-                <ScalarProperty Name="FollowUp" ColumnName="FollowUp" />
-                <ScalarProperty Name="Recived" ColumnName="Recived" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="Recommendation" ColumnName="Recommendation" />
-                <ScalarProperty Name="Describtion" ColumnName="Describtion" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="FlightPhaseId" ColumnName="FlightPhaseId" />
-                <ScalarProperty Name="WeatherCondition" ColumnName="WeatherCondition" />
-                <ScalarProperty Name="EventLocation" ColumnName="EventLocation" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="ReportFiledBy" ColumnName="ReportFiledBy" />
-                <ScalarProperty Name="RefNumber" ColumnName="RefNumber" />
-                <ScalarProperty Name="BOX" ColumnName="BOX" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="QADispatches">
-            <EntityTypeMapping TypeName="ppaModel.QADispatch">
-              <MappingFragment StoreEntitySet="QADispatch">
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
-                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="DISActionResult" ColumnName="DISActionResult" />
-                <ScalarProperty Name="DISTimeDuration" ColumnName="DISTimeDuration" />
-                <ScalarProperty Name="DISLocation" ColumnName="DISLocation" />
-                <ScalarProperty Name="OPSummary" ColumnName="OPSummary" />
-                <ScalarProperty Name="CatagoryId" ColumnName="CatagoryId" />
-                <ScalarProperty Name="OPLocation" ColumnName="OPLocation" />
-                <ScalarProperty Name="OPReportedBy" ColumnName="OPReportedBy" />
-                <ScalarProperty Name="OPTimeReceived" ColumnName="OPTimeReceived" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="QAGroundIADs">
-            <EntityTypeMapping TypeName="ppaModel.QAGroundIAD">
-              <MappingFragment StoreEntitySet="QAGroundIAD">
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
-                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="DamageRemark" ColumnName="DamageRemark" />
-                <ScalarProperty Name="WXVisibilityKM" ColumnName="WXVisibilityKM" />
-                <ScalarProperty Name="Airport" ColumnName="Airport" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="OtherSuggestions" ColumnName="OtherSuggestions" />
-                <ScalarProperty Name="CorrectiveActionTaken" ColumnName="CorrectiveActionTaken" />
-                <ScalarProperty Name="Event" ColumnName="Event" />
-                <ScalarProperty Name="SketchURL" ColumnName="SketchURL" />
-                <ScalarProperty Name="ContributoryFactors" ColumnName="ContributoryFactors" />
-                <ScalarProperty Name="WXLightingId" ColumnName="WXLightingId" />
-                <ScalarProperty Name="WXSurfaceId" ColumnName="WXSurfaceId" />
-                <ScalarProperty Name="WXWeatherId" ColumnName="WXWeatherId" />
-                <ScalarProperty Name="WXTemperature" ColumnName="WXTemperature" />
-                <ScalarProperty Name="WXWind" ColumnName="WXWind" />
-                <ScalarProperty Name="WXVisibilityM" ColumnName="WXVisibilityM" />
-                <ScalarProperty Name="PersonnelLicense3" ColumnName="PersonnelLicense3" />
-                <ScalarProperty Name="PersonnelLicense2" ColumnName="PersonnelLicense2" />
-                <ScalarProperty Name="PersonnelLicense1" ColumnName="PersonnelLicense1" />
-                <ScalarProperty Name="PersonnelStaffNr3" ColumnName="PersonnelStaffNr3" />
-                <ScalarProperty Name="PersonnelStaffNr2" ColumnName="PersonnelStaffNr2" />
-                <ScalarProperty Name="PersonnelStaffNr1" ColumnName="PersonnelStaffNr1" />
-                <ScalarProperty Name="PersonnelCompany3" ColumnName="PersonnelCompany3" />
-                <ScalarProperty Name="PersonnelCompany2" ColumnName="PersonnelCompany2" />
-                <ScalarProperty Name="PersonnelCompany1" ColumnName="PersonnelCompany1" />
-                <ScalarProperty Name="PersonnelJobTitle3" ColumnName="PersonnelJobTitle3" />
-                <ScalarProperty Name="PersonnelJobTitle2" ColumnName="PersonnelJobTitle2" />
-                <ScalarProperty Name="PersonnelJobTitle1" ColumnName="PersonnelJobTitle1" />
-                <ScalarProperty Name="PersonnelName3" ColumnName="PersonnelName3" />
-                <ScalarProperty Name="PersonnelName2" ColumnName="PersonnelName2" />
-                <ScalarProperty Name="PersonnelName1" ColumnName="PersonnelName1" />
-                <ScalarProperty Name="VERemarks" ColumnName="VERemarks" />
-                <ScalarProperty Name="VELastOverhaul" ColumnName="VELastOverhaul" />
-                <ScalarProperty Name="VEAge" ColumnName="VEAge" />
-                <ScalarProperty Name="VEArea" ColumnName="VEArea" />
-                <ScalarProperty Name="VEOwner" ColumnName="VEOwner" />
-                <ScalarProperty Name="VEType" ColumnName="VEType" />
-                <ScalarProperty Name="VESerialFleetNr" ColumnName="VESerialFleetNr" />
-                <ScalarProperty Name="VEFromDrivingPoCon" ColumnName="VEFromDrivingPoCon" />
-                <ScalarProperty Name="VEFieldofVisionCon" ColumnName="VEFieldofVisionCon" />
-                <ScalarProperty Name="VETowHitchCon" ColumnName="VETowHitchCon" />
-                <ScalarProperty Name="VEStabilizersCon" ColumnName="VEStabilizersCon" />
-                <ScalarProperty Name="VEWarningDevicesCon" ColumnName="VEWarningDevicesCon" />
-                <ScalarProperty Name="VEProtectionCon" ColumnName="VEProtectionCon" />
-                <ScalarProperty Name="VEWipersCon" ColumnName="VEWipersCon" />
-                <ScalarProperty Name="VELightsCon" ColumnName="VELightsCon" />
-                <ScalarProperty Name="VESteeringCon" ColumnName="VESteeringCon" />
-                <ScalarProperty Name="VEBrakesCon" ColumnName="VEBrakesCon" />
-                <ScalarProperty Name="VETyresCon" ColumnName="VETyresCon" />
-                <ScalarProperty Name="OthersNonFatalityNr" ColumnName="OthersNonFatalityNr" />
-                <ScalarProperty Name="PassengersNonFatalityNr" ColumnName="PassengersNonFatalityNr" />
-                <ScalarProperty Name="EmployeesNonFatalityNr" ColumnName="EmployeesNonFatalityNr" />
-                <ScalarProperty Name="OthersFatalityNr" ColumnName="OthersFatalityNr" />
-                <ScalarProperty Name="PassengersFatalityNr" ColumnName="PassengersFatalityNr" />
-                <ScalarProperty Name="EmployeesFatalityNr" ColumnName="EmployeesFatalityNr" />
-                <ScalarProperty Name="DamageDetails" ColumnName="DamageDetails" />
-                <ScalarProperty Name="ScheduledGroundTime" ColumnName="ScheduledGroundTime" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="OperationPhase" ColumnName="OperationPhase" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="DamageById" ColumnName="DamageById" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="AirportId" ColumnName="AirportId" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="QASecurities">
-            <EntityTypeMapping TypeName="ppaModel.QASecurity">
-              <MappingFragment StoreEntitySet="QASecurity">
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
-                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="PreventiveActions" ColumnName="PreventiveActions" />
-                <ScalarProperty Name="WorkBreakPeriod" ColumnName="WorkBreakPeriod" />
-                <ScalarProperty Name="WorkBreak" ColumnName="WorkBreak" />
-                <ScalarProperty Name="InjuryDescription" ColumnName="InjuryDescription" />
-                <ScalarProperty Name="InjuryOccuring" ColumnName="InjuryOccuring" />
-                <ScalarProperty Name="EquipmentDescription" ColumnName="EquipmentDescription" />
-                <ScalarProperty Name="Other" ColumnName="Other" />
-                <ScalarProperty Name="Comail" ColumnName="Comail" />
-                <ScalarProperty Name="HandRocket" ColumnName="HandRocket" />
-                <ScalarProperty Name="CarryingBox" ColumnName="CarryingBox" />
-                <ScalarProperty Name="Camera" ColumnName="Camera" />
-                <ScalarProperty Name="ReasonDescription" ColumnName="ReasonDescription" />
-                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Place" ColumnName="Place" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViewQACSREvents">
             <EntityTypeMapping TypeName="ppaModel.ViewQACSREvent">
               <MappingFragment StoreEntitySet="ViewQACSREvent">
@@ -5613,54 +5434,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QAHazards">
-            <EntityTypeMapping TypeName="ppaModel.QAHazard">
-              <MappingFragment StoreEntitySet="QAHazard">
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
-                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="RecommendedAction" ColumnName="RecommendedAction" />
-                <ScalarProperty Name="HazardDescription" ColumnName="HazardDescription" />
-                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
-                <ScalarProperty Name="AffectedArea" ColumnName="AffectedArea" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="QAMaintenances">
-            <EntityTypeMapping TypeName="ppaModel.QAMaintenance">
-              <MappingFragment StoreEntitySet="QAMaintenance">
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
-                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="PartNumber" ColumnName="PartNumber" />
-                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
-                <ScalarProperty Name="AuthorizationNo" ColumnName="AuthorizationNo" />
-                <ScalarProperty Name="CAALicenceNo" ColumnName="CAALicenceNo" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ActionTakenDescription" ColumnName="ActionTakenDescription" />
-                <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
-                <ScalarProperty Name="StationId" ColumnName="StationId" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
-                <ScalarProperty Name="ATLNo" ColumnName="ATLNo" />
-                <ScalarProperty Name="ComponentSpecificationId" ColumnName="ComponentSpecificationId" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViewQAHazards">
             <EntityTypeMapping TypeName="ppaModel.ViewQAHazard">
               <MappingFragment StoreEntitySet="ViewQAHazard">
@@ -5737,6 +5510,251 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
                 <ScalarProperty Name="ClosedCount" ColumnName="ClosedCount" />
                 <ScalarProperty Name="ReviewResultTitle" ColumnName="ReviewResultTitle" />
                 <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QACaterings">
+            <EntityTypeMapping TypeName="ppaModel.QACatering">
+              <MappingFragment StoreEntitySet="QACatering">
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsCausedInjury" ColumnName="IsCausedInjury" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="PreventiveActions" ColumnName="PreventiveActions" />
+                <ScalarProperty Name="WorkBreakPeriod" ColumnName="WorkBreakPeriod" />
+                <ScalarProperty Name="WorkBreak" ColumnName="WorkBreak" />
+                <ScalarProperty Name="SaftyEquipmentType" ColumnName="SaftyEquipmentType" />
+                <ScalarProperty Name="SaftyEquipmentUseage" ColumnName="SaftyEquipmentUseage" />
+                <ScalarProperty Name="InjuryDescription" ColumnName="InjuryDescription" />
+                <ScalarProperty Name="TrolleyEquipmentTransporterDecs" ColumnName="TrolleyEquipmentTransporterDecs" />
+                <ScalarProperty Name="Transporter" ColumnName="Transporter" />
+                <ScalarProperty Name="Equipment" ColumnName="Equipment" />
+                <ScalarProperty Name="Trolley" ColumnName="Trolley" />
+                <ScalarProperty Name="ReasonDescription" ColumnName="ReasonDescription" />
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QACSRs">
+            <EntityTypeMapping TypeName="ppaModel.QACSR">
+              <MappingFragment StoreEntitySet="QACSR">
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EventTitleRemark" ColumnName="EventTitleRemark" />
+                <ScalarProperty Name="FollowUp" ColumnName="FollowUp" />
+                <ScalarProperty Name="Recived" ColumnName="Recived" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Recommendation" ColumnName="Recommendation" />
+                <ScalarProperty Name="Describtion" ColumnName="Describtion" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="FlightPhaseId" ColumnName="FlightPhaseId" />
+                <ScalarProperty Name="WeatherCondition" ColumnName="WeatherCondition" />
+                <ScalarProperty Name="EventLocation" ColumnName="EventLocation" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="ReportFiledBy" ColumnName="ReportFiledBy" />
+                <ScalarProperty Name="RefNumber" ColumnName="RefNumber" />
+                <ScalarProperty Name="BOX" ColumnName="BOX" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QADispatches">
+            <EntityTypeMapping TypeName="ppaModel.QADispatch">
+              <MappingFragment StoreEntitySet="QADispatch">
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="DISActionResult" ColumnName="DISActionResult" />
+                <ScalarProperty Name="DISTimeDuration" ColumnName="DISTimeDuration" />
+                <ScalarProperty Name="DISLocation" ColumnName="DISLocation" />
+                <ScalarProperty Name="OPSummary" ColumnName="OPSummary" />
+                <ScalarProperty Name="CatagoryId" ColumnName="CatagoryId" />
+                <ScalarProperty Name="OPLocation" ColumnName="OPLocation" />
+                <ScalarProperty Name="OPReportedBy" ColumnName="OPReportedBy" />
+                <ScalarProperty Name="OPTimeReceived" ColumnName="OPTimeReceived" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QAGroundIADs">
+            <EntityTypeMapping TypeName="ppaModel.QAGroundIAD">
+              <MappingFragment StoreEntitySet="QAGroundIAD">
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DamageRemark" ColumnName="DamageRemark" />
+                <ScalarProperty Name="WXVisibilityKM" ColumnName="WXVisibilityKM" />
+                <ScalarProperty Name="Airport" ColumnName="Airport" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="OtherSuggestions" ColumnName="OtherSuggestions" />
+                <ScalarProperty Name="CorrectiveActionTaken" ColumnName="CorrectiveActionTaken" />
+                <ScalarProperty Name="Event" ColumnName="Event" />
+                <ScalarProperty Name="SketchURL" ColumnName="SketchURL" />
+                <ScalarProperty Name="ContributoryFactors" ColumnName="ContributoryFactors" />
+                <ScalarProperty Name="WXLightingId" ColumnName="WXLightingId" />
+                <ScalarProperty Name="WXSurfaceId" ColumnName="WXSurfaceId" />
+                <ScalarProperty Name="WXWeatherId" ColumnName="WXWeatherId" />
+                <ScalarProperty Name="WXTemperature" ColumnName="WXTemperature" />
+                <ScalarProperty Name="WXWind" ColumnName="WXWind" />
+                <ScalarProperty Name="WXVisibilityM" ColumnName="WXVisibilityM" />
+                <ScalarProperty Name="PersonnelLicense3" ColumnName="PersonnelLicense3" />
+                <ScalarProperty Name="PersonnelLicense2" ColumnName="PersonnelLicense2" />
+                <ScalarProperty Name="PersonnelLicense1" ColumnName="PersonnelLicense1" />
+                <ScalarProperty Name="PersonnelStaffNr3" ColumnName="PersonnelStaffNr3" />
+                <ScalarProperty Name="PersonnelStaffNr2" ColumnName="PersonnelStaffNr2" />
+                <ScalarProperty Name="PersonnelStaffNr1" ColumnName="PersonnelStaffNr1" />
+                <ScalarProperty Name="PersonnelCompany3" ColumnName="PersonnelCompany3" />
+                <ScalarProperty Name="PersonnelCompany2" ColumnName="PersonnelCompany2" />
+                <ScalarProperty Name="PersonnelCompany1" ColumnName="PersonnelCompany1" />
+                <ScalarProperty Name="PersonnelJobTitle3" ColumnName="PersonnelJobTitle3" />
+                <ScalarProperty Name="PersonnelJobTitle2" ColumnName="PersonnelJobTitle2" />
+                <ScalarProperty Name="PersonnelJobTitle1" ColumnName="PersonnelJobTitle1" />
+                <ScalarProperty Name="PersonnelName3" ColumnName="PersonnelName3" />
+                <ScalarProperty Name="PersonnelName2" ColumnName="PersonnelName2" />
+                <ScalarProperty Name="PersonnelName1" ColumnName="PersonnelName1" />
+                <ScalarProperty Name="VERemarks" ColumnName="VERemarks" />
+                <ScalarProperty Name="VELastOverhaul" ColumnName="VELastOverhaul" />
+                <ScalarProperty Name="VEAge" ColumnName="VEAge" />
+                <ScalarProperty Name="VEArea" ColumnName="VEArea" />
+                <ScalarProperty Name="VEOwner" ColumnName="VEOwner" />
+                <ScalarProperty Name="VEType" ColumnName="VEType" />
+                <ScalarProperty Name="VESerialFleetNr" ColumnName="VESerialFleetNr" />
+                <ScalarProperty Name="VEFromDrivingPoCon" ColumnName="VEFromDrivingPoCon" />
+                <ScalarProperty Name="VEFieldofVisionCon" ColumnName="VEFieldofVisionCon" />
+                <ScalarProperty Name="VETowHitchCon" ColumnName="VETowHitchCon" />
+                <ScalarProperty Name="VEStabilizersCon" ColumnName="VEStabilizersCon" />
+                <ScalarProperty Name="VEWarningDevicesCon" ColumnName="VEWarningDevicesCon" />
+                <ScalarProperty Name="VEProtectionCon" ColumnName="VEProtectionCon" />
+                <ScalarProperty Name="VEWipersCon" ColumnName="VEWipersCon" />
+                <ScalarProperty Name="VELightsCon" ColumnName="VELightsCon" />
+                <ScalarProperty Name="VESteeringCon" ColumnName="VESteeringCon" />
+                <ScalarProperty Name="VEBrakesCon" ColumnName="VEBrakesCon" />
+                <ScalarProperty Name="VETyresCon" ColumnName="VETyresCon" />
+                <ScalarProperty Name="OthersNonFatalityNr" ColumnName="OthersNonFatalityNr" />
+                <ScalarProperty Name="PassengersNonFatalityNr" ColumnName="PassengersNonFatalityNr" />
+                <ScalarProperty Name="EmployeesNonFatalityNr" ColumnName="EmployeesNonFatalityNr" />
+                <ScalarProperty Name="OthersFatalityNr" ColumnName="OthersFatalityNr" />
+                <ScalarProperty Name="PassengersFatalityNr" ColumnName="PassengersFatalityNr" />
+                <ScalarProperty Name="EmployeesFatalityNr" ColumnName="EmployeesFatalityNr" />
+                <ScalarProperty Name="DamageDetails" ColumnName="DamageDetails" />
+                <ScalarProperty Name="ScheduledGroundTime" ColumnName="ScheduledGroundTime" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="OperationPhase" ColumnName="OperationPhase" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="DamageById" ColumnName="DamageById" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="AirportId" ColumnName="AirportId" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QAHazards">
+            <EntityTypeMapping TypeName="ppaModel.QAHazard">
+              <MappingFragment StoreEntitySet="QAHazard">
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="RecommendedAction" ColumnName="RecommendedAction" />
+                <ScalarProperty Name="HazardDescription" ColumnName="HazardDescription" />
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="AffectedArea" ColumnName="AffectedArea" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QAMaintenances">
+            <EntityTypeMapping TypeName="ppaModel.QAMaintenance">
+              <MappingFragment StoreEntitySet="QAMaintenance">
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PartNumber" ColumnName="PartNumber" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="AuthorizationNo" ColumnName="AuthorizationNo" />
+                <ScalarProperty Name="CAALicenceNo" ColumnName="CAALicenceNo" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ActionTakenDescription" ColumnName="ActionTakenDescription" />
+                <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
+                <ScalarProperty Name="StationId" ColumnName="StationId" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
+                <ScalarProperty Name="ATLNo" ColumnName="ATLNo" />
+                <ScalarProperty Name="ComponentSpecificationId" ColumnName="ComponentSpecificationId" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QASecurities">
+            <EntityTypeMapping TypeName="ppaModel.QASecurity">
+              <MappingFragment StoreEntitySet="QASecurity">
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="PreventiveActions" ColumnName="PreventiveActions" />
+                <ScalarProperty Name="WorkBreakPeriod" ColumnName="WorkBreakPeriod" />
+                <ScalarProperty Name="WorkBreak" ColumnName="WorkBreak" />
+                <ScalarProperty Name="InjuryDescription" ColumnName="InjuryDescription" />
+                <ScalarProperty Name="InjuryOccuring" ColumnName="InjuryOccuring" />
+                <ScalarProperty Name="EquipmentDescription" ColumnName="EquipmentDescription" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="Comail" ColumnName="Comail" />
+                <ScalarProperty Name="HandRocket" ColumnName="HandRocket" />
+                <ScalarProperty Name="CarryingBox" ColumnName="CarryingBox" />
+                <ScalarProperty Name="Camera" ColumnName="Camera" />
+                <ScalarProperty Name="ReasonDescription" ColumnName="ReasonDescription" />
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -35,6 +35,7 @@ namespace ApiQA.Models
         public Nullable<int> StatusEmployeeId { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
         public string Result { get; set; }
+        public Nullable<System.DateTime> DateCreation { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
         public virtual QAOption QAOption { get; set; }

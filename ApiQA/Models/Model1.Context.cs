@@ -38,11 +38,6 @@ namespace ApiQA.Models
         public virtual DbSet<QAResponsibilty> QAResponsibilties { get; set; }
         public virtual DbSet<QAComment> QAComments { get; set; }
         public virtual DbSet<QAAuthCard> QAAuthCards { get; set; }
-        public virtual DbSet<QACatering> QACaterings { get; set; }
-        public virtual DbSet<QACSR> QACSRs { get; set; }
-        public virtual DbSet<QADispatch> QADispatches { get; set; }
-        public virtual DbSet<QAGroundIAD> QAGroundIADs { get; set; }
-        public virtual DbSet<QASecurity> QASecurities { get; set; }
         public virtual DbSet<ViewQACSREvent> ViewQACSREvents { get; set; }
         public virtual DbSet<ViewQADashCatering> ViewQADashCaterings { get; set; }
         public virtual DbSet<ViewQAResponsibility> ViewQAResponsibilities { get; set; }
@@ -57,11 +52,16 @@ namespace ApiQA.Models
         public virtual DbSet<ViewQAFollowingUp> ViewQAFollowingUps { get; set; }
         public virtual DbSet<ViewQABYEmployee> ViewQABYEmployees { get; set; }
         public virtual DbSet<ViewQAByEmployeeCount> ViewQAByEmployeeCounts { get; set; }
-        public virtual DbSet<QAHazard> QAHazards { get; set; }
-        public virtual DbSet<QAMaintenance> QAMaintenances { get; set; }
         public virtual DbSet<ViewQAHazard> ViewQAHazards { get; set; }
         public virtual DbSet<ViewQAMaintenance> ViewQAMaintenances { get; set; }
         public virtual DbSet<QAGetEntites_Result> QAGetEntites_Result { get; set; }
+        public virtual DbSet<QACatering> QACaterings { get; set; }
+        public virtual DbSet<QACSR> QACSRs { get; set; }
+        public virtual DbSet<QADispatch> QADispatches { get; set; }
+        public virtual DbSet<QAGroundIAD> QAGroundIADs { get; set; }
+        public virtual DbSet<QAHazard> QAHazards { get; set; }
+        public virtual DbSet<QAMaintenance> QAMaintenances { get; set; }
+        public virtual DbSet<QASecurity> QASecurities { get; set; }
     
         public virtual ObjectResult<QACateringGet_Result1> QACateringGet(Nullable<int> employeeId, Nullable<int> flightId)
         {

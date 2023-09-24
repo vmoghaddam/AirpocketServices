@@ -322,6 +322,7 @@ namespace ApiQA.Controllers
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
                 entity.DateSign = dto.DateSign;
+                entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
                 foreach (var x in dto.EventTitleIds)
                 {
                     entity.QACSREvents.Add(new QACSREvent()
@@ -382,6 +383,7 @@ namespace ApiQA.Controllers
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
                 entity.DateSign = dto.DateSign;
+                entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
                 context.SaveChanges();
                 dto.Id = entity.Id;
                 return new DataResponse()
@@ -429,6 +431,7 @@ namespace ApiQA.Controllers
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
                 entity.DateSign = dto.DateSign;
+                entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
                 context.SaveChanges();
                 dto.Id = entity.Id;
                 return new DataResponse()
@@ -533,6 +536,7 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
+                entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
                 entity.DateSign = dto.DateSign;
                 context.SaveChanges();
                 dto.Id = entity.Id;
@@ -646,6 +650,7 @@ namespace ApiQA.Controllers
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
                 entity.DateSign = dto.DateSign;
+                entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
 
                 var saveChanges = await context.SaveChangesAsync();
                 dto.Id = entity.Id;
@@ -749,7 +754,7 @@ namespace ApiQA.Controllers
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
                 entity.DateSign = dto.DateSign;
-
+                entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
 
                 var saveChanges = await context.SaveChangesAsync();
                 dto.Id = entity.Id;
@@ -879,7 +884,7 @@ namespace ApiQA.Controllers
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
                 entity.DateSign = dto.DateSign;
-
+                entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
 
                 var saveChanges = await context.SaveChangesAsync();
                 dto.Id = entity.Id;
