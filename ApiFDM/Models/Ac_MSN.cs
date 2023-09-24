@@ -62,6 +62,7 @@ namespace ApiFDM.Models
         public Nullable<int> TotalSeat { get; set; }
         public string Color1 { get; set; }
         public string Color2 { get; set; }
+        public string AircraftType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FlightInformation> FlightInformations { get; set; }

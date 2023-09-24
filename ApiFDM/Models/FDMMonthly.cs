@@ -17,6 +17,7 @@ namespace ApiFDM.Models
         public int year { get; set; }
         public int month { get; set; }
         public Nullable<int> YearMonth { get; set; }
+        public string AircraftType { get; set; }
         public Nullable<int> EventCount { get; set; }
         public Nullable<int> FlightCount { get; set; }
         public Nullable<int> HighCount { get; set; }
