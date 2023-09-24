@@ -22,5 +22,6 @@ namespace ApiQA.Models
         public Nullable<int> ReviewResult { get; set; }
         public string Comment { get; set; }
         public Nullable<System.DateTime> DateStatus { get; set; }
+        public Nullable<int> ParentId { get; set; }
     }
 }

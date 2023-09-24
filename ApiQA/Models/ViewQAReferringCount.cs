@@ -18,7 +18,6 @@ namespace ApiQA.Models
         public Nullable<int> Type { get; set; }
         public Nullable<int> EntityId { get; set; }
         public int ReferCount { get; set; }
-        public int DeterminedCount { get; set; }
         public int ClosedCount { get; set; }
         public Nullable<int> ReviewResult { get; set; }
     }

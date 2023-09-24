@@ -18,7 +18,6 @@ namespace ApiQA.Models
         public Nullable<int> ReviewResult { get; set; }
         public string ReviewResultTitle { get; set; }
         public Nullable<int> ClosedCount { get; set; }
-        public Nullable<int> DeterminedCount { get; set; }
         public Nullable<int> ReferCount { get; set; }
         public string Category { get; set; }
         public string EmployeeName { get; set; }
@@ -27,5 +26,7 @@ namespace ApiQA.Models
         public Nullable<int> StatusEmployeeId { get; set; }
         public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string FlightNumber { get; set; }
+        public Nullable<int> MainStatus { get; set; }
+        public string EmployeeStatus { get; set; }
     }
 }

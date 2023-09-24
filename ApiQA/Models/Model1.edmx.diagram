@@ -16,21 +16,16 @@
         <EntityTypeShape EntityType="ppaModel.QAResponsibilty" Width="1.5" PointX="0.75" PointY="5.75" />
         <AssociationConnector Association="ppaModel.FK__QACSREven__Event__26068485" />
         <EntityTypeShape EntityType="ppaModel.QAComment" Width="1.5" PointX="13.375" PointY="18.75" />
-        <EntityTypeShape EntityType="ppaModel.QAGetEntites_Result" Width="1.5" PointX="20.375" PointY="4.75" />
         <EntityTypeShape EntityType="ppaModel.QAAuthCard" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.QACatering" Width="1.5" PointX="19.375" PointY="80.5" />
         <EntityTypeShape EntityType="ppaModel.QACSR" Width="1.5" PointX="14.125" PointY="25.5" />
         <EntityTypeShape EntityType="ppaModel.QADispatch" Width="1.5" PointX="5.625" PointY="95.625" />
-        <EntityTypeShape EntityType="ppaModel.QAFollowingUp" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.QAGroundIAD" Width="1.5" PointX="16.375" PointY="72" />
         <EntityTypeShape EntityType="ppaModel.QAHazard" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.QAMaintenance" Width="1.5" PointX="19.375" PointY="73.875" />
         <EntityTypeShape EntityType="ppaModel.QASecurity" Width="1.5" PointX="22.375" PointY="70.5" />
-        <EntityTypeShape EntityType="ppaModel.ViewQAByEmployeeCount" Width="1.5" PointX="5.75" PointY="5.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQACSREvent" Width="1.5" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQADashCatering" Width="1.5" PointX="2.75" PointY="9.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQAFollowingUp" Width="1.5" PointX="11.75" PointY="11.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQAReferringCount" Width="1.5" PointX="13.75" PointY="14.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAResponsibility" Width="1.5" PointX="15.75" PointY="0.75" />
         <AssociationConnector Association="ppaModel.FK__QACaterin__Fligh__2DA7A64D" />
         <AssociationConnector Association="ppaModel.FK__QACSR__FlightId__2141CF68" />
@@ -53,9 +48,14 @@
         <EntityTypeShape EntityType="ppaModel.ViewQAHazard" Width="1.5" PointX="13.75" PointY="3.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAMaintenance" Width="1.5" PointX="16.75" PointY="13.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQASecurity" Width="1.5" PointX="18.75" PointY="13.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQABYEmployee" Width="1.5" PointX="14.375" PointY="9.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQaDashCSR" Width="1.5" PointX="11.375" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAComment" Width="1.5" PointX="5.375" PointY="16.75" />
+        <EntityTypeShape EntityType="ppaModel.QAFollowingUp" Width="1.5" PointX="20.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewQAFollowingUp" Width="1.5" PointX="5.375" PointY="20.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewQABYEmployee" Width="1.5" PointX="11.375" PointY="11.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewQAByEmployeeCount" Width="1.5" PointX="3.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewQAReferringCount" Width="1.5" PointX="5.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ppaModel.QAGetEntites_Result" Width="1.5" PointX="13.375" PointY="11.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

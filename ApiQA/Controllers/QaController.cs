@@ -966,8 +966,8 @@ namespace ApiQA.Controllers
                                 grp.Key.TypeTitle,
                                 grp.Key.type,
                                 NewCount = grp.Sum(q => q.NewCount),
-                                OpenCount = grp.Sum(q => q.OpenCount),
-                                DeterminedCount = grp.Sum(q => q.DeterminedCount)
+                                OpenCount = grp.Sum(q => q.InProgressCount),
+                                DeterminedCount = grp.Sum(q => q.ClosedCount)
                             };
 
                 var result = query.ToList();
@@ -1302,8 +1302,8 @@ namespace ApiQA.Controllers
                 var result = new
                 {
                     New = ds.Where(q => q.Category == "New"),
-                    Determined = ds.Where(q => q.Category == "Determined"),
-                    Open = ds.Where(q => q.Category == "Open"),
+                    Determined = ds.Where(q => q.Category == "Closed"),
+                    Open = ds.Where(q => q.Category == "InProgress"),
                 };
 
                 return new DataResponse()
@@ -1565,13 +1565,30 @@ namespace ApiQA.Controllers
         }
 
 
+        public class QADto
+        {
+            public int EntityId { get; set; }
+            public int ReferredId { get; set; }
+            public int ReferrerId { get; set; }
+            public int Type { get; set; }
+            public string Comment { get; set; }
+        }
+
+
         [HttpPost]
         [Route("api/qa/referr")]
-        public async Task<DataResponse> QAReferr(dynamic dto)
+        public async Task<DataResponse> QAReferr(List<QADto> dto)
         {
             try
             {
                 var test = dto;
+                var parentId = 0;
+                foreach (var y in test)
+                {
+                     parentId = context.ViewQAFollowingUps.Where(q => q.Type == (int?)y.Type && q.EntityId == (int?)y.EntityId && q.ReferredId == (int?)y.ReferrerId).ToList().OrderByDescending(q => q.Id).First().Id;
+                }
+
+
 
                 foreach (var x in test)
                 {
@@ -1584,6 +1601,7 @@ namespace ApiQA.Controllers
                     entity.Type = x.Type;
                     entity.ReviewResult = 2;
                     entity.Comment = x.Comment;
+                    entity.ParentId = parentId;
                 };
                 context.SaveChanges();
 
@@ -1716,6 +1734,7 @@ namespace ApiQA.Controllers
                            where x.Type == type && x.EntityId == entityId
                            select new
                            {
+                               Id = x.Id,
                                ReferredId = x.ReferredId,
                                ReferrerId = x.ReferrerId,
                                ReferredName = x.ReferredName,
@@ -1726,6 +1745,7 @@ namespace ApiQA.Controllers
                                ReviewResult = matching.ReviewResult,
                                Comment = x.Comment,
                                EntityId = x.EntityId,
+                               ParentId = x.ParentId,
                            };
 
 

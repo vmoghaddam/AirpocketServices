@@ -22,6 +22,7 @@ namespace ApiQA.Models
         public Nullable<int> ReferredId { get; set; }
         public string ReferredName { get; set; }
         public Nullable<int> ReviewResult { get; set; }
+        public Nullable<int> ParentId { get; set; }
         public string ReviewResultTitle { get; set; }
         public string Comment { get; set; }
         public Nullable<System.DateTime> DateStatus { get; set; }

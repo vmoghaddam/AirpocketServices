@@ -17,8 +17,8 @@ namespace ApiQA.Models
         public int type { get; set; }
         public string TypeTitle { get; set; }
         public int EmployeeId { get; set; }
-        public int DeterminedCount { get; set; }
-        public int OpenCount { get; set; }
+        public int ClosedCount { get; set; }
+        public int InProgressCount { get; set; }
         public int NewCount { get; set; }
     }
 }

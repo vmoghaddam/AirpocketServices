@@ -423,6 +423,7 @@
           <Property Name="ReviewResult" Type="int" />
           <Property Name="Comment" Type="nvarchar(max)" />
           <Property Name="DateStatus" Type="datetime" />
+          <Property Name="ParentId" Type="int" />
         </EntityType>
         <EntityType Name="QAGetEntites_Result">
           <Key>
@@ -432,7 +433,6 @@
           <Property Name="ReviewResult" Type="int" />
           <Property Name="ReviewResultTitle" Type="varchar" MaxLength="255" />
           <Property Name="ClosedCount" Type="int" />
-          <Property Name="DeterminedCount" Type="int" />
           <Property Name="ReferCount" Type="int" />
           <Property Name="Category" Type="varchar" MaxLength="255" />
           <Property Name="EmployeeName" Type="varchar" MaxLength="255" />
@@ -441,6 +441,8 @@
           <Property Name="StatusEmployeeId" Type="int" />
           <Property Name="DateOccurrence" Type="datetime" />
           <Property Name="FlightNumber" Type="varchar" MaxLength="1" />
+          <Property Name="MainStatus" Type="int" />
+          <Property Name="EmployeeStatus" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="QAGroundIAD">
           <Key>
@@ -828,15 +830,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQAByEmployeeCount' does not hav
           <Key>
             <PropertyRef Name="type" />
             <PropertyRef Name="EmployeeId" />
-            <PropertyRef Name="DeterminedCount" />
-            <PropertyRef Name="OpenCount" />
+            <PropertyRef Name="ClosedCount" />
+            <PropertyRef Name="InProgressCount" />
             <PropertyRef Name="NewCount" />
           </Key>
           <Property Name="type" Type="int" Nullable="false" />
           <Property Name="TypeTitle" Type="varchar" MaxLength="38" />
           <Property Name="EmployeeId" Type="int" Nullable="false" />
-          <Property Name="DeterminedCount" Type="int" Nullable="false" />
-          <Property Name="OpenCount" Type="int" Nullable="false" />
+          <Property Name="ClosedCount" Type="int" Nullable="false" />
+          <Property Name="InProgressCount" Type="int" Nullable="false" />
           <Property Name="NewCount" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -1077,6 +1079,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQAFollowingUp' does not have a 
           <Property Name="ReferredId" Type="int" />
           <Property Name="ReferredName" Type="nvarchar" MaxLength="1003" />
           <Property Name="ReviewResult" Type="int" />
+          <Property Name="ParentId" Type="int" />
           <Property Name="ReviewResultTitle" Type="varchar" MaxLength="6" Nullable="false" />
           <Property Name="Comment" Type="nvarchar(max)" />
           <Property Name="DateStatus" Type="datetime" />
@@ -1241,14 +1244,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQAReferringCount' does not have
         <EntityType Name="ViewQAReferringCount">
           <Key>
             <PropertyRef Name="ReferCount" />
-            <PropertyRef Name="DeterminedCount" />
             <PropertyRef Name="ClosedCount" />
           </Key>
           <Property Name="EmployeeId" Type="int" />
           <Property Name="Type" Type="int" />
           <Property Name="EntityId" Type="int" />
           <Property Name="ReferCount" Type="int" Nullable="false" />
-          <Property Name="DeterminedCount" Type="int" Nullable="false" />
           <Property Name="ClosedCount" Type="int" Nullable="false" />
           <Property Name="ReviewResult" Type="int" />
         </EntityType>
@@ -1717,8 +1718,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
     [ViewQAByEmployeeCount].[type] AS [type], 
     [ViewQAByEmployeeCount].[TypeTitle] AS [TypeTitle], 
     [ViewQAByEmployeeCount].[EmployeeId] AS [EmployeeId], 
-    [ViewQAByEmployeeCount].[DeterminedCount] AS [DeterminedCount], 
-    [ViewQAByEmployeeCount].[OpenCount] AS [OpenCount], 
+    [ViewQAByEmployeeCount].[ClosedCount] AS [ClosedCount], 
+    [ViewQAByEmployeeCount].[InProgressCount] AS [InProgressCount], 
     [ViewQAByEmployeeCount].[NewCount] AS [NewCount]
     FROM [dbo].[ViewQAByEmployeeCount] AS [ViewQAByEmployeeCount]</DefiningQuery>
           </EntitySet>
@@ -1916,6 +1917,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
     [ViewQAFollowingUp].[ReferredId] AS [ReferredId], 
     [ViewQAFollowingUp].[ReferredName] AS [ReferredName], 
     [ViewQAFollowingUp].[ReviewResult] AS [ReviewResult], 
+    [ViewQAFollowingUp].[ParentId] AS [ParentId], 
     [ViewQAFollowingUp].[ReviewResultTitle] AS [ReviewResultTitle], 
     [ViewQAFollowingUp].[Comment] AS [Comment], 
     [ViewQAFollowingUp].[DateStatus] AS [DateStatus]
@@ -2070,7 +2072,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
     [ViewQAReferringCount].[Type] AS [Type], 
     [ViewQAReferringCount].[EntityId] AS [EntityId], 
     [ViewQAReferringCount].[ReferCount] AS [ReferCount], 
-    [ViewQAReferringCount].[DeterminedCount] AS [DeterminedCount], 
     [ViewQAReferringCount].[ClosedCount] AS [ClosedCount], 
     [ViewQAReferringCount].[ReviewResult] AS [ReviewResult]
     FROM [dbo].[ViewQAReferringCount] AS [ViewQAReferringCount]</DefiningQuery>
@@ -2210,12 +2211,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
             <Parameter Name="FlightId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="QAGetEntities" EntitySet="QAGetEntites_Result" ReturnType="Collection(ppaModel.QAGetEntites_Result)">
-            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
-            <Parameter Name="Type" Mode="In" Type="Int32" />
-            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
-            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="QAGroundGet" ReturnType="Collection(ppaModel.QAGroundGet_Result1)">
             <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
             <Parameter Name="FlightId" Mode="In" Type="Int32" />
@@ -2229,21 +2224,16 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             <Parameter Name="FlightId" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="QAComments" EntityType="ppaModel.QAComment" />
-          <EntitySet Name="QAGetEntites_Result" EntityType="ppaModel.QAGetEntites_Result" />
           <EntitySet Name="QAAuthCards" EntityType="ppaModel.QAAuthCard" />
           <EntitySet Name="QACaterings" EntityType="ppaModel.QACatering" />
           <EntitySet Name="QACSRs" EntityType="ppaModel.QACSR" />
           <EntitySet Name="QADispatches" EntityType="ppaModel.QADispatch" />
-          <EntitySet Name="QAFollowingUps" EntityType="ppaModel.QAFollowingUp" />
           <EntitySet Name="QAGroundIADs" EntityType="ppaModel.QAGroundIAD" />
           <EntitySet Name="QAHazards" EntityType="ppaModel.QAHazard" />
           <EntitySet Name="QAMaintenances" EntityType="ppaModel.QAMaintenance" />
           <EntitySet Name="QASecurities" EntityType="ppaModel.QASecurity" />
-          <EntitySet Name="ViewQAByEmployeeCounts" EntityType="ppaModel.ViewQAByEmployeeCount" />
           <EntitySet Name="ViewQACSREvents" EntityType="ppaModel.ViewQACSREvent" />
           <EntitySet Name="ViewQADashCaterings" EntityType="ppaModel.ViewQADashCatering" />
-          <EntitySet Name="ViewQAFollowingUps" EntityType="ppaModel.ViewQAFollowingUp" />
-          <EntitySet Name="ViewQAReferringCounts" EntityType="ppaModel.ViewQAReferringCount" />
           <EntitySet Name="ViewQAResponsibilities" EntityType="ppaModel.ViewQAResponsibility" />
           <AssociationSet Name="FK__QACaterin__Fligh__2DA7A64D" Association="ppaModel.FK__QACaterin__Fligh__2DA7A64D">
             <End Role="FlightInformation" EntitySet="FlightInformations" />
@@ -2308,9 +2298,20 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="ViewQAHazards" EntityType="ppaModel.ViewQAHazard" />
           <EntitySet Name="ViewQAMaintenances" EntityType="ppaModel.ViewQAMaintenance" />
           <EntitySet Name="ViewQASecurities" EntityType="ppaModel.ViewQASecurity" />
-          <EntitySet Name="ViewQABYEmployees" EntityType="ppaModel.ViewQABYEmployee" />
           <EntitySet Name="ViewQaDashCSRs" EntityType="ppaModel.ViewQaDashCSR" />
           <EntitySet Name="ViewQAComments" EntityType="ppaModel.ViewQAComment" />
+          <EntitySet Name="QAFollowingUps" EntityType="ppaModel.QAFollowingUp" />
+          <EntitySet Name="ViewQAFollowingUps" EntityType="ppaModel.ViewQAFollowingUp" />
+          <EntitySet Name="ViewQABYEmployees" EntityType="ppaModel.ViewQABYEmployee" />
+          <EntitySet Name="ViewQAByEmployeeCounts" EntityType="ppaModel.ViewQAByEmployeeCount" />
+          <EntitySet Name="ViewQAReferringCounts" EntityType="ppaModel.ViewQAReferringCount" />
+          <FunctionImport Name="QAGetEntities" EntitySet="QAGetEntites_Result" ReturnType="Collection(ppaModel.QAGetEntites_Result)">
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
+            <Parameter Name="Type" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="QAGetEntites_Result" EntityType="ppaModel.QAGetEntites_Result" />
           </EntityContainer>
         <EntityType Name="FlightInformation">
           <Key>
@@ -3426,24 +3427,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="Comment" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="DateComment" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="QAGetEntites_Result">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="ReviewResult" Type="Int32" />
-          <Property Name="ReviewResultTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ClosedCount" Type="Int32" />
-          <Property Name="DeterminedCount" Type="Int32" />
-          <Property Name="ReferCount" Type="Int32" />
-          <Property Name="Category" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="DateStatus" Type="DateTime" Precision="0" />
-          <Property Name="StatusEmployeeId" Type="Int32" />
-          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
-          <Property Name="FlightNumber" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="QAAuthCard">
           <Key>
             <PropertyRef Name="Id" />
@@ -3542,19 +3525,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="DateSign" Type="DateTime" Precision="3" />
           <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QADispatc__Fligh__77C096E8" FromRole="QADispatch" ToRole="FlightInformation" />
-        </EntityType>
-        <EntityType Name="QAFollowingUp">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="Int32" />
-          <Property Name="EntityId" Type="Int32" />
-          <Property Name="ReferrerId" Type="Int32" />
-          <Property Name="ReferredId" Type="Int32" />
-          <Property Name="ReviewResult" Type="Int32" />
-          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DateStatus" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="QAGroundIAD">
           <Key>
@@ -3715,21 +3685,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QASecurit__Fligh__33607FA3" FromRole="QASecurity" ToRole="FlightInformation" />
           <NavigationProperty Name="QAOption" Relationship="ppaModel.FK__QASecurit__Reaso__3548C815" FromRole="QASecurity" ToRole="QAOption" />
         </EntityType>
-        <EntityType Name="ViewQAByEmployeeCount">
-          <Key>
-            <PropertyRef Name="type" />
-            <PropertyRef Name="EmployeeId" />
-            <PropertyRef Name="DeterminedCount" />
-            <PropertyRef Name="OpenCount" />
-            <PropertyRef Name="NewCount" />
-          </Key>
-          <Property Name="type" Type="Int32" Nullable="false" />
-          <Property Name="TypeTitle" Type="String" MaxLength="38" FixedLength="false" Unicode="false" />
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="DeterminedCount" Type="Int32" Nullable="false" />
-          <Property Name="OpenCount" Type="Int32" Nullable="false" />
-          <Property Name="NewCount" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="ViewQACSREvent">
           <Key>
             <PropertyRef Name="Id" />
@@ -3752,38 +3707,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="ReasonId" Type="Int32" />
           <Property Name="ReasonTitle" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Count" Type="Int32" />
-        </EntityType>
-        <EntityType Name="ViewQAFollowingUp">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="ReferrerId" />
-            <PropertyRef Name="ReviewResultTitle" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Type" Type="Int32" />
-          <Property Name="EntityId" Type="Int32" />
-          <Property Name="ReferrerId" Type="Int32" Nullable="false" />
-          <Property Name="ReferrerName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
-          <Property Name="ReferredId" Type="Int32" />
-          <Property Name="ReferredName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
-          <Property Name="ReviewResult" Type="Int32" />
-          <Property Name="ReviewResultTitle" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DateStatus" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="ViewQAReferringCount">
-          <Key>
-            <PropertyRef Name="ReferCount" />
-            <PropertyRef Name="DeterminedCount" />
-            <PropertyRef Name="ClosedCount" />
-          </Key>
-          <Property Name="EmployeeId" Type="Int32" />
-          <Property Name="Type" Type="Int32" />
-          <Property Name="EntityId" Type="Int32" />
-          <Property Name="ReferCount" Type="Int32" Nullable="false" />
-          <Property Name="DeterminedCount" Type="Int32" Nullable="false" />
-          <Property Name="ClosedCount" Type="Int32" Nullable="false" />
-          <Property Name="ReviewResult" Type="Int32" />
         </EntityType>
         <EntityType Name="ViewQAResponsibility">
           <Key>
@@ -4256,19 +4179,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="StatusEmployeeName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
           <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="ViewQABYEmployee">
-          <Key>
-            <PropertyRef Name="Category" />
-            <PropertyRef Name="ReviewResultTitle" />
-          </Key>
-          <Property Name="EmployeeId" Type="Int32" />
-          <Property Name="EntityId" Type="Int32" />
-          <Property Name="Type" Type="Int32" />
-          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Category" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="ReviewResult" Type="Int32" />
-          <Property Name="ReviewResultTitle" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="ViewQaDashCSR">
           <Key>
             <PropertyRef Name="year" />
@@ -4290,6 +4200,98 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="name" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
           <Property Name="Comment" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="DateComment" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="QAFollowingUp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="EntityId" Type="Int32" />
+          <Property Name="ReferrerId" Type="Int32" />
+          <Property Name="ReferredId" Type="Int32" />
+          <Property Name="ReviewResult" Type="Int32" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="ParentId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ViewQAFollowingUp">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ReferrerId" />
+            <PropertyRef Name="ReviewResultTitle" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="EntityId" Type="Int32" />
+          <Property Name="ReferrerId" Type="Int32" Nullable="false" />
+          <Property Name="ReferrerName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="ReferredId" Type="Int32" />
+          <Property Name="ReferredName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="ReviewResult" Type="Int32" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="ReviewResultTitle" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ViewQABYEmployee">
+          <Key>
+            <PropertyRef Name="Category" />
+            <PropertyRef Name="ReviewResultTitle" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="EntityId" Type="Int32" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ReviewResult" Type="Int32" />
+          <Property Name="ReviewResultTitle" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewQAByEmployeeCount">
+          <Key>
+            <PropertyRef Name="type" />
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="ClosedCount" />
+            <PropertyRef Name="InProgressCount" />
+            <PropertyRef Name="NewCount" />
+          </Key>
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="TypeTitle" Type="String" MaxLength="38" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="ClosedCount" Type="Int32" Nullable="false" />
+          <Property Name="InProgressCount" Type="Int32" Nullable="false" />
+          <Property Name="NewCount" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewQAReferringCount">
+          <Key>
+            <PropertyRef Name="ReferCount" />
+            <PropertyRef Name="ClosedCount" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="EntityId" Type="Int32" />
+          <Property Name="ReferCount" Type="Int32" Nullable="false" />
+          <Property Name="ClosedCount" Type="Int32" Nullable="false" />
+          <Property Name="ReviewResult" Type="Int32" />
+        </EntityType>
+        <EntityType Name="QAGetEntites_Result">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ReviewResult" Type="Int32" />
+          <Property Name="ReviewResultTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ClosedCount" Type="Int32" />
+          <Property Name="ReferCount" Type="Int32" />
+          <Property Name="Category" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="DateStatus" Type="DateTime" Precision="0" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
+          <Property Name="FlightNumber" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="MainStatus" Type="Int32" />
+          <Property Name="EmployeeStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4932,7 +4934,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="QAGetEntities" FunctionName="ppaModel.Store.QAGetEntities" />
           <FunctionImportMapping FunctionImportName="QAGroundGet" FunctionName="ppaModel.Store.QAGroundGet">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ppaModel.QAGroundGet_Result1">
@@ -5086,25 +5087,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QAGetEntites_Result">
-            <EntityTypeMapping TypeName="ppaModel.QAGetEntites_Result">
-              <MappingFragment StoreEntitySet="QAGetEntites_Result">
-                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
-                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="ReferCount" ColumnName="ReferCount" />
-                <ScalarProperty Name="DeterminedCount" ColumnName="DeterminedCount" />
-                <ScalarProperty Name="ClosedCount" ColumnName="ClosedCount" />
-                <ScalarProperty Name="ReviewResultTitle" ColumnName="ReviewResultTitle" />
-                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="QAAuthCards">
             <EntityTypeMapping TypeName="ppaModel.QAAuthCard">
               <MappingFragment StoreEntitySet="QAAuthCards">
@@ -5199,20 +5181,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="QAFollowingUps">
-            <EntityTypeMapping TypeName="ppaModel.QAFollowingUp">
-              <MappingFragment StoreEntitySet="QAFollowingUp">
-                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
-                <ScalarProperty Name="ReferredId" ColumnName="ReferredId" />
-                <ScalarProperty Name="ReferrerId" ColumnName="ReferrerId" />
-                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -5371,18 +5339,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ViewQAByEmployeeCounts">
-            <EntityTypeMapping TypeName="ppaModel.ViewQAByEmployeeCount">
-              <MappingFragment StoreEntitySet="ViewQAByEmployeeCount">
-                <ScalarProperty Name="NewCount" ColumnName="NewCount" />
-                <ScalarProperty Name="OpenCount" ColumnName="OpenCount" />
-                <ScalarProperty Name="DeterminedCount" ColumnName="DeterminedCount" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="TypeTitle" ColumnName="TypeTitle" />
-                <ScalarProperty Name="type" ColumnName="type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViewQACSREvents">
             <EntityTypeMapping TypeName="ppaModel.ViewQACSREvent">
               <MappingFragment StoreEntitySet="ViewQACSREvent">
@@ -5402,36 +5358,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
                 <ScalarProperty Name="YearMonth" ColumnName="YearMonth" />
                 <ScalarProperty Name="month" ColumnName="month" />
                 <ScalarProperty Name="year" ColumnName="year" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ViewQAFollowingUps">
-            <EntityTypeMapping TypeName="ppaModel.ViewQAFollowingUp">
-              <MappingFragment StoreEntitySet="ViewQAFollowingUp">
-                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="ReviewResultTitle" ColumnName="ReviewResultTitle" />
-                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
-                <ScalarProperty Name="ReferredName" ColumnName="ReferredName" />
-                <ScalarProperty Name="ReferredId" ColumnName="ReferredId" />
-                <ScalarProperty Name="ReferrerName" ColumnName="ReferrerName" />
-                <ScalarProperty Name="ReferrerId" ColumnName="ReferrerId" />
-                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ViewQAReferringCounts">
-            <EntityTypeMapping TypeName="ppaModel.ViewQAReferringCount">
-              <MappingFragment StoreEntitySet="ViewQAReferringCount">
-                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
-                <ScalarProperty Name="ClosedCount" ColumnName="ClosedCount" />
-                <ScalarProperty Name="DeterminedCount" ColumnName="DeterminedCount" />
-                <ScalarProperty Name="ReferCount" ColumnName="ReferCount" />
-                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5743,19 +5669,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ViewQABYEmployees">
-            <EntityTypeMapping TypeName="ppaModel.ViewQABYEmployee">
-              <MappingFragment StoreEntitySet="ViewQABYEmployee">
-                <ScalarProperty Name="ReviewResultTitle" ColumnName="ReviewResultTitle" />
-                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViewQaDashCSRs">
             <EntityTypeMapping TypeName="ppaModel.ViewQaDashCSR">
               <MappingFragment StoreEntitySet="ViewQaDashCSR">
@@ -5775,6 +5688,97 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QAFollowingUps">
+            <EntityTypeMapping TypeName="ppaModel.QAFollowingUp">
+              <MappingFragment StoreEntitySet="QAFollowingUp">
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
+                <ScalarProperty Name="ReferredId" ColumnName="ReferredId" />
+                <ScalarProperty Name="ReferrerId" ColumnName="ReferrerId" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewQAFollowingUps">
+            <EntityTypeMapping TypeName="ppaModel.ViewQAFollowingUp">
+              <MappingFragment StoreEntitySet="ViewQAFollowingUp">
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ReviewResultTitle" ColumnName="ReviewResultTitle" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
+                <ScalarProperty Name="ReferredName" ColumnName="ReferredName" />
+                <ScalarProperty Name="ReferredId" ColumnName="ReferredId" />
+                <ScalarProperty Name="ReferrerName" ColumnName="ReferrerName" />
+                <ScalarProperty Name="ReferrerId" ColumnName="ReferrerId" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewQABYEmployees">
+            <EntityTypeMapping TypeName="ppaModel.ViewQABYEmployee">
+              <MappingFragment StoreEntitySet="ViewQABYEmployee">
+                <ScalarProperty Name="ReviewResultTitle" ColumnName="ReviewResultTitle" />
+                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewQAByEmployeeCounts">
+            <EntityTypeMapping TypeName="ppaModel.ViewQAByEmployeeCount">
+              <MappingFragment StoreEntitySet="ViewQAByEmployeeCount">
+                <ScalarProperty Name="NewCount" ColumnName="NewCount" />
+                <ScalarProperty Name="InProgressCount" ColumnName="InProgressCount" />
+                <ScalarProperty Name="ClosedCount" ColumnName="ClosedCount" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="TypeTitle" ColumnName="TypeTitle" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewQAReferringCounts">
+            <EntityTypeMapping TypeName="ppaModel.ViewQAReferringCount">
+              <MappingFragment StoreEntitySet="ViewQAReferringCount">
+                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
+                <ScalarProperty Name="ClosedCount" ColumnName="ClosedCount" />
+                <ScalarProperty Name="ReferCount" ColumnName="ReferCount" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="QAGetEntities" FunctionName="ppaModel.Store.QAGetEntities" />
+          <EntitySetMapping Name="QAGetEntites_Result">
+            <EntityTypeMapping TypeName="ppaModel.QAGetEntites_Result">
+              <MappingFragment StoreEntitySet="QAGetEntites_Result">
+                <ScalarProperty Name="EmployeeStatus" ColumnName="EmployeeStatus" />
+                <ScalarProperty Name="MainStatus" ColumnName="MainStatus" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="ReferCount" ColumnName="ReferCount" />
+                <ScalarProperty Name="ClosedCount" ColumnName="ClosedCount" />
+                <ScalarProperty Name="ReviewResultTitle" ColumnName="ReviewResultTitle" />
+                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
