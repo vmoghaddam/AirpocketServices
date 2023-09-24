@@ -393,6 +393,25 @@ namespace ApiProfile.ViewModels
         public Nullable<System.DateTime> RouteCheckIssueDate { get; set; }
         public Nullable<System.DateTime> RouteCheckExpireDate { get; set; }
 
+        public string Category { get; set; }
+        public Nullable<System.DateTime> PROFICIENCY_ASSESSMENT_IsuueDate { get; set; }
+        public Nullable<System.DateTime> PROFICIENCY_ASSESSMENT_ExpireDate { get; set; }
+        public Nullable<System.DateTime> MPIssueDate { get; set; }
+        public Nullable<System.DateTime> MPExpireDate { get; set; }
+        public Nullable<System.DateTime> CALRIssueDate { get; set; }
+        public Nullable<System.DateTime> CALRExpireDate { get; set; }
+        public Nullable<System.DateTime> SpecialApprovalIssueDate { get; set; }
+        public Nullable<System.DateTime> SpecialApprovalExpireDate { get; set; }
+        public Nullable<System.DateTime> TRG01IssueDate { get; set; }
+        public Nullable<System.DateTime> TRG01ExpireDate { get; set; }
+        public Nullable<System.DateTime> TRG16IssueDate { get; set; }
+        public Nullable<System.DateTime> TRG16ExpireDate { get; set; }
+
+        public Nullable<System.DateTime> LAR_IssueDate { get; set; }
+        public Nullable<System.DateTime> LOAD_CONTROL_IssueDate { get; set; }
+        public Nullable<System.DateTime> LAR_ExpireDate { get; set; }
+        public Nullable<System.DateTime> LOAD_CONTROL_ExpireDate { get; set; }
+
         public string BaseAirline { get; set; }
 
         public Nullable<bool> IsType737 { get; set; }
@@ -882,6 +901,29 @@ namespace ApiProfile.ViewModels
             entity.RouteCheckIssueDate = person.RouteCheckIssueDate;
             entity.RouteCheckExpireDate = person.RouteCheckExpireDate;
 
+            entity.LAR_IssueDate = person.LAR_IssueDate;
+            entity.LAR_ExpireDate = person.LAR_ExpireDate;
+            entity.LOAD_CONTROL_ExpireDate = person.LOAD_CONTROL_ExpireDate;
+            entity.LOAD_CONTROL_IssueDate = person.LOAD_CONTROL_IssueDate;
+
+
+            entity.Category = person.Category;
+            entity.PROFICIENCY_ASSESSMENT_IsuueDate = person.PROFICIENCY_ASSESSMENT_IsuueDate;
+            entity.PROFICIENCY_ASSESSMENT_ExpireDate = person.PROFICIENCY_ASSESSMENT_ExpireDate;
+            entity.MPIssueDate = person.MPIssueDate;
+            entity.MPExpireDate = person.MPExpireDate;
+            entity.CALRIssueDate = person.CALRIssueDate;
+            entity.CALRExpireDate = person.CALRExpireDate;
+            entity.SpecialApprovalIssueDate = person.SpecialApprovalIssueDate;
+            entity.SpecialApprovalExpireDate = person.SpecialApprovalExpireDate;
+            entity.TRG01IssueDate = person.TRG01IssueDate;
+            entity.TRG01ExpireDate = person.TRG01ExpireDate;
+            entity.TRG16IssueDate = person.TRG16IssueDate;
+            entity.TRG16ExpireDate = person.TRG16ExpireDate;
+
+
+
+
             entity.BaseAirline = person.BaseAirline;
 
 
@@ -1276,6 +1318,26 @@ namespace ApiProfile.ViewModels
 
             person.RouteCheckIssueDate = entity.RouteCheckIssueDate;
             person.RouteCheckExpireDate = entity.RouteCheckExpireDate;
+
+            person.LAR_IssueDate = entity.LAR_IssueDate;
+            person.LAR_ExpireDate = entity.LAR_ExpireDate;
+            person.LOAD_CONTROL_ExpireDate = entity.LOAD_CONTROL_ExpireDate;
+            person.LOAD_CONTROL_IssueDate = entity.LOAD_CONTROL_IssueDate;
+
+
+            person.Category = entity.Category;
+            person.PROFICIENCY_ASSESSMENT_IsuueDate = entity.PROFICIENCY_ASSESSMENT_IsuueDate;
+            person.PROFICIENCY_ASSESSMENT_ExpireDate = entity.PROFICIENCY_ASSESSMENT_ExpireDate;
+            person.MPIssueDate = entity.MPIssueDate;
+            person.MPExpireDate = entity.MPExpireDate;
+            person.CALRIssueDate = entity.CALRIssueDate;
+            person.CALRExpireDate = entity.CALRExpireDate;
+            person.SpecialApprovalIssueDate = entity.SpecialApprovalIssueDate;
+            person.SpecialApprovalExpireDate = entity.SpecialApprovalExpireDate;
+            person.TRG01IssueDate = entity.TRG01IssueDate;
+            person.TRG01ExpireDate = entity.TRG01ExpireDate;
+            person.TRG16IssueDate = entity.TRG16IssueDate;
+            person.TRG16ExpireDate = entity.TRG16ExpireDate;
 
             person.BaseAirline = entity.BaseAirline;
 

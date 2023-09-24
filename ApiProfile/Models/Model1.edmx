@@ -547,6 +547,19 @@
           <Property Name="SafetyPilotExpireDate" Type="datetime2" Precision="7" />
           <Property Name="RouteCheckIssueDate" Type="datetime2" Precision="7" />
           <Property Name="RouteCheckExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="Category" Type="varchar" MaxLength="255" />
+          <Property Name="PROFICIENCY_ASSESSMENT_IsuueDate" Type="datetime2" Precision="7" />
+          <Property Name="PROFICIENCY_ASSESSMENT_ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="MPIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="MPExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="CALRIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="CALRExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="SpecialApprovalIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="SpecialApprovalExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="TRG01IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="TRG01ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="TRG16IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="TRG16ExpireDate" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="PersonAircraftType">
           <Key>
@@ -611,6 +624,52 @@
           <Property Name="App" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="DateSync" Type="datetime" Nullable="false" />
           <Property Name="Remark" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewPickupSMS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewCrewPickupSMS">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CrewId" />
+            <PropertyRef Name="FlightId" />
+            <PropertyRef Name="IsVisited" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CrewId" Type="int" Nullable="false" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
+          <Property Name="Pickup" Type="datetime" />
+          <Property Name="PickupLocal" Type="datetime" />
+          <Property Name="RefId" Type="varchar" MaxLength="200" />
+          <Property Name="Status" Type="varchar" MaxLength="500" />
+          <Property Name="StatusId" Type="int" />
+          <Property Name="Message" Type="varchar" MaxLength="1000" />
+          <Property Name="DateStatus" Type="datetime" />
+          <Property Name="DateSent" Type="datetime" />
+          <Property Name="DateVisit" Type="datetime" />
+          <Property Name="IsVisited" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" />
+          <Property Name="TypeStr" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ScheduleName" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1001" />
+          <Property Name="PersonId" Type="int" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="DepartureLocal" Type="datetime" />
+          <Property Name="ArrivalLocal" Type="datetime" />
+          <Property Name="Sender" Type="varchar" MaxLength="8000" />
+          <Property Name="DutyDate" Type="datetime" />
+          <Property Name="DutyType" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FDPId" Type="int" />
+          <Property Name="Flts" Type="varchar" MaxLength="500" />
+          <Property Name="Routes" Type="varchar" MaxLength="500" />
+          <Property Name="DateLocal" Type="date" />
+          <Property Name="Start" Type="datetime" />
+          <Property Name="End" Type="datetime" />
+          <Property Name="FltIds" Type="varchar" MaxLength="500" />
+          <Property Name="Remark" Type="varchar" MaxLength="1000" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployeeLight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -818,6 +877,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewOPC' does not have a primary ke
           <Property Name="ImageUrl" Type="nvarchar" MaxLength="1000" />
           <Property Name="ProficiencyCheckDateOPC" Type="datetime" />
           <Property Name="ProficiencyValidUntilOPC" Type="datetime" />
+          <Property Name="FaxTelNumber" Type="nvarchar" MaxLength="500" />
+          <Property Name="LicenceTitle" Type="nvarchar" MaxLength="500" />
+          <Property Name="NDTNumber" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewPersonAircraftType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1066,6 +1128,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="RemainEFB" Type="int" />
           <Property Name="RemainSafetyPilot" Type="int" />
           <Property Name="RemainRouteCheck" Type="int" />
+          <Property Name="RemainPROFICIENCY_ASSESSMENT" Type="int" />
+          <Property Name="RemainMP" Type="int" />
+          <Property Name="RemainCALR" Type="int" />
+          <Property Name="RemainSpecialApproval" Type="int" />
+          <Property Name="RemainTRG01" Type="int" />
+          <Property Name="RemainTRG16" Type="int" />
+          <Property Name="RemainLOAD_CONTROL" Type="int" />
         </EntityType>
         <Association Name="FK_CH_PERSON">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
@@ -1200,6 +1269,46 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <EntitySet Name="PersonDocument" EntityType="Self.PersonDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonDocumentFile" EntityType="Self.PersonDocumentFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThirdPartySyncHistory" EntityType="Self.ThirdPartySyncHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewCrewPickupSMS" EntityType="Self.ViewCrewPickupSMS" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewCrewPickupSMS].[Id] AS [Id], 
+    [ViewCrewPickupSMS].[CrewId] AS [CrewId], 
+    [ViewCrewPickupSMS].[FlightId] AS [FlightId], 
+    [ViewCrewPickupSMS].[Pickup] AS [Pickup], 
+    [ViewCrewPickupSMS].[PickupLocal] AS [PickupLocal], 
+    [ViewCrewPickupSMS].[RefId] AS [RefId], 
+    [ViewCrewPickupSMS].[Status] AS [Status], 
+    [ViewCrewPickupSMS].[StatusId] AS [StatusId], 
+    [ViewCrewPickupSMS].[Message] AS [Message], 
+    [ViewCrewPickupSMS].[DateStatus] AS [DateStatus], 
+    [ViewCrewPickupSMS].[DateSent] AS [DateSent], 
+    [ViewCrewPickupSMS].[DateVisit] AS [DateVisit], 
+    [ViewCrewPickupSMS].[IsVisited] AS [IsVisited], 
+    [ViewCrewPickupSMS].[Type] AS [Type], 
+    [ViewCrewPickupSMS].[TypeStr] AS [TypeStr], 
+    [ViewCrewPickupSMS].[ScheduleName] AS [ScheduleName], 
+    [ViewCrewPickupSMS].[JobGroup] AS [JobGroup], 
+    [ViewCrewPickupSMS].[JobGroupCode] AS [JobGroupCode], 
+    [ViewCrewPickupSMS].[Name] AS [Name], 
+    [ViewCrewPickupSMS].[PersonId] AS [PersonId], 
+    [ViewCrewPickupSMS].[FlightNumber] AS [FlightNumber], 
+    [ViewCrewPickupSMS].[FromAirportIATA] AS [FromAirportIATA], 
+    [ViewCrewPickupSMS].[ToAirportIATA] AS [ToAirportIATA], 
+    [ViewCrewPickupSMS].[DepartureLocal] AS [DepartureLocal], 
+    [ViewCrewPickupSMS].[ArrivalLocal] AS [ArrivalLocal], 
+    [ViewCrewPickupSMS].[Sender] AS [Sender], 
+    [ViewCrewPickupSMS].[DutyDate] AS [DutyDate], 
+    [ViewCrewPickupSMS].[DutyType] AS [DutyType], 
+    [ViewCrewPickupSMS].[FDPId] AS [FDPId], 
+    [ViewCrewPickupSMS].[Flts] AS [Flts], 
+    [ViewCrewPickupSMS].[Routes] AS [Routes], 
+    [ViewCrewPickupSMS].[DateLocal] AS [DateLocal], 
+    [ViewCrewPickupSMS].[Start] AS [Start], 
+    [ViewCrewPickupSMS].[End] AS [End], 
+    [ViewCrewPickupSMS].[FltIds] AS [FltIds], 
+    [ViewCrewPickupSMS].[Remark] AS [Remark]
+    FROM [dbo].[ViewCrewPickupSMS] AS [ViewCrewPickupSMS]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewEmployeeLight" EntityType="Self.ViewEmployeeLight" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewEmployeeLight].[Id] AS [Id], 
@@ -1360,7 +1469,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
     [ViewOPC].[Phone2] AS [Phone2], 
     [ViewOPC].[ImageUrl] AS [ImageUrl], 
     [ViewOPC].[ProficiencyCheckDateOPC] AS [ProficiencyCheckDateOPC], 
-    [ViewOPC].[ProficiencyValidUntilOPC] AS [ProficiencyValidUntilOPC]
+    [ViewOPC].[ProficiencyValidUntilOPC] AS [ProficiencyValidUntilOPC], 
+    [ViewOPC].[FaxTelNumber] AS [FaxTelNumber], 
+    [ViewOPC].[LicenceTitle] AS [LicenceTitle], 
+    [ViewOPC].[NDTNumber] AS [NDTNumber]
     FROM [dbo].[ViewOPC] AS [ViewOPC]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewPersonAircraftType" EntityType="Self.ViewPersonAircraftType" store:Type="Views" store:Schema="dbo">
@@ -1578,7 +1690,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
     [ViewProfile].[RemainPILOT_INCAPACITATION] AS [RemainPILOT_INCAPACITATION], 
     [ViewProfile].[RemainEFB] AS [RemainEFB], 
     [ViewProfile].[RemainSafetyPilot] AS [RemainSafetyPilot], 
-    [ViewProfile].[RemainRouteCheck] AS [RemainRouteCheck]
+    [ViewProfile].[RemainRouteCheck] AS [RemainRouteCheck], 
+    [ViewProfile].[RemainPROFICIENCY_ASSESSMENT] AS [RemainPROFICIENCY_ASSESSMENT], 
+    [ViewProfile].[RemainMP] AS [RemainMP], 
+    [ViewProfile].[RemainCALR] AS [RemainCALR], 
+    [ViewProfile].[RemainSpecialApproval] AS [RemainSpecialApproval], 
+    [ViewProfile].[RemainTRG01] AS [RemainTRG01], 
+    [ViewProfile].[RemainTRG16] AS [RemainTRG16], 
+    [ViewProfile].[RemainLOAD_CONTROL] AS [RemainLOAD_CONTROL]
     FROM [dbo].[ViewProfile] AS [ViewProfile]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_CH_PERSON" Association="Self.FK_CH_PERSON">
@@ -1655,7 +1774,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <EntitySet Name="ViewEmployeeLights" EntityType="dbModel.ViewEmployeeLight" />
           <EntitySet Name="LoginInfoes" EntityType="dbModel.LoginInfo" />
           <EntitySet Name="CertificateHistories" EntityType="dbModel.CertificateHistory" />
-          <EntitySet Name="ViewOPCs" EntityType="dbModel.ViewOPC" />
           <EntitySet Name="People" EntityType="dbModel.Person" />
           <EntitySet Name="ViewProfiles" EntityType="dbModel.ViewProfile" />
           <AssociationSet Name="FK_CH_PERSON" Association="dbModel.FK_CH_PERSON">
@@ -1674,6 +1792,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
             <End Role="Person" EntitySet="People" />
             <End Role="PersonAircraftType" EntitySet="PersonAircraftTypes" />
           </AssociationSet>
+          <EntitySet Name="ViewOPCs" EntityType="dbModel.ViewOPC" />
+          <EntitySet Name="ViewCrewPickupSMS" EntityType="dbModel.ViewCrewPickupSM" />
           </EntityContainer>
         <EntityType Name="IdeaUnique">
           <Key>
@@ -2108,22 +2228,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="DateExpireOld" Type="DateTime" Precision="7" />
           <Property Name="CourseId" Type="Int32" />
           <NavigationProperty Name="Person" Relationship="dbModel.FK_CH_PERSON" FromRole="CertificateHistory" ToRole="Person" />
-        </EntityType>
-        <EntityType Name="ViewOPC">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="NID" />
-            <PropertyRef Name="FirstName" />
-            <PropertyRef Name="LastName" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Phone2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ImageUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="ProficiencyCheckDateOPC" Type="DateTime" Precision="3" />
-          <Property Name="ProficiencyValidUntilOPC" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -2578,6 +2682,19 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="SafetyPilotExpireDate" Type="DateTime" Precision="7" />
           <Property Name="RouteCheckIssueDate" Type="DateTime" Precision="7" />
           <Property Name="RouteCheckExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="Category" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PROFICIENCY_ASSESSMENT_IsuueDate" Type="DateTime" Precision="7" />
+          <Property Name="PROFICIENCY_ASSESSMENT_ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="MPIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="MPExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="CALRIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="CALRExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="SpecialApprovalIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="SpecialApprovalExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="TRG01IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="TRG01ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="TRG16IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="TRG16ExpireDate" Type="DateTime" Precision="7" />
           <NavigationProperty Name="CertificateHistories" Relationship="dbModel.FK_CH_PERSON" FromRole="Person" ToRole="CertificateHistory" />
           <NavigationProperty Name="PersonDocuments" Relationship="dbModel.FK_PD_PERS" FromRole="Person" ToRole="PersonDocument" />
           <NavigationProperty Name="PersonCustomers" Relationship="dbModel.FK_PERSONCUSTOMER_PERSON" FromRole="Person" ToRole="PersonCustomer" />
@@ -2773,6 +2890,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="RemainEFB" Type="Int32" />
           <Property Name="RemainSafetyPilot" Type="Int32" />
           <Property Name="RemainRouteCheck" Type="Int32" />
+          <Property Name="RemainPROFICIENCY_ASSESSMENT" Type="Int32" />
+          <Property Name="RemainMP" Type="Int32" />
+          <Property Name="RemainCALR" Type="Int32" />
+          <Property Name="RemainSpecialApproval" Type="Int32" />
+          <Property Name="RemainTRG01" Type="Int32" />
+          <Property Name="RemainTRG16" Type="Int32" />
+          <Property Name="RemainLOAD_CONTROL" Type="Int32" />
         </EntityType>
         <Association Name="FK_CH_PERSON">
           <End Type="dbModel.Person" Role="Person" Multiplicity="1" />
@@ -2828,6 +2952,69 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ViewOPC">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="NID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Phone2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ProficiencyCheckDateOPC" Type="DateTime" Precision="3" />
+          <Property Name="ProficiencyValidUntilOPC" Type="DateTime" Precision="3" />
+          <Property Name="FaxTelNumber" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LicenceTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="NDTNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ViewCrewPickupSM">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CrewId" />
+            <PropertyRef Name="FlightId" />
+            <PropertyRef Name="IsVisited" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CrewId" Type="Int32" Nullable="false" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="Pickup" Type="DateTime" Precision="3" />
+          <Property Name="PickupLocal" Type="DateTime" Precision="3" />
+          <Property Name="RefId" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="DateSent" Type="DateTime" Precision="3" />
+          <Property Name="DateVisit" Type="DateTime" Precision="3" />
+          <Property Name="IsVisited" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="TypeStr" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="PersonId" Type="Int32" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DepartureLocal" Type="DateTime" Precision="3" />
+          <Property Name="ArrivalLocal" Type="DateTime" Precision="3" />
+          <Property Name="Sender" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="DutyDate" Type="DateTime" Precision="3" />
+          <Property Name="DutyType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FDPId" Type="Int32" />
+          <Property Name="Flts" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Routes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DateLocal" Type="DateTime" Precision="0" />
+          <Property Name="Start" Type="DateTime" Precision="3" />
+          <Property Name="End" Type="DateTime" Precision="3" />
+          <Property Name="FltIds" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3200,23 +3387,22 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ViewOPCs">
-            <EntityTypeMapping TypeName="dbModel.ViewOPC">
-              <MappingFragment StoreEntitySet="ViewOPC">
-                <ScalarProperty Name="ProficiencyValidUntilOPC" ColumnName="ProficiencyValidUntilOPC" />
-                <ScalarProperty Name="ProficiencyCheckDateOPC" ColumnName="ProficiencyCheckDateOPC" />
-                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="Phone2" ColumnName="Phone2" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="NID" ColumnName="NID" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="dbModel.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="TRG16ExpireDate" ColumnName="TRG16ExpireDate" />
+                <ScalarProperty Name="TRG16IssueDate" ColumnName="TRG16IssueDate" />
+                <ScalarProperty Name="TRG01ExpireDate" ColumnName="TRG01ExpireDate" />
+                <ScalarProperty Name="TRG01IssueDate" ColumnName="TRG01IssueDate" />
+                <ScalarProperty Name="SpecialApprovalExpireDate" ColumnName="SpecialApprovalExpireDate" />
+                <ScalarProperty Name="SpecialApprovalIssueDate" ColumnName="SpecialApprovalIssueDate" />
+                <ScalarProperty Name="CALRExpireDate" ColumnName="CALRExpireDate" />
+                <ScalarProperty Name="CALRIssueDate" ColumnName="CALRIssueDate" />
+                <ScalarProperty Name="MPExpireDate" ColumnName="MPExpireDate" />
+                <ScalarProperty Name="MPIssueDate" ColumnName="MPIssueDate" />
+                <ScalarProperty Name="PROFICIENCY_ASSESSMENT_ExpireDate" ColumnName="PROFICIENCY_ASSESSMENT_ExpireDate" />
+                <ScalarProperty Name="PROFICIENCY_ASSESSMENT_IsuueDate" ColumnName="PROFICIENCY_ASSESSMENT_IsuueDate" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="RouteCheckExpireDate" ColumnName="RouteCheckExpireDate" />
                 <ScalarProperty Name="RouteCheckIssueDate" ColumnName="RouteCheckIssueDate" />
                 <ScalarProperty Name="SafetyPilotExpireDate" ColumnName="SafetyPilotExpireDate" />
@@ -3672,6 +3858,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <EntitySetMapping Name="ViewProfiles">
             <EntityTypeMapping TypeName="dbModel.ViewProfile">
               <MappingFragment StoreEntitySet="ViewProfile">
+                <ScalarProperty Name="RemainLOAD_CONTROL" ColumnName="RemainLOAD_CONTROL" />
+                <ScalarProperty Name="RemainTRG16" ColumnName="RemainTRG16" />
+                <ScalarProperty Name="RemainTRG01" ColumnName="RemainTRG01" />
+                <ScalarProperty Name="RemainSpecialApproval" ColumnName="RemainSpecialApproval" />
+                <ScalarProperty Name="RemainCALR" ColumnName="RemainCALR" />
+                <ScalarProperty Name="RemainMP" ColumnName="RemainMP" />
+                <ScalarProperty Name="RemainPROFICIENCY_ASSESSMENT" ColumnName="RemainPROFICIENCY_ASSESSMENT" />
                 <ScalarProperty Name="RemainRouteCheck" ColumnName="RemainRouteCheck" />
                 <ScalarProperty Name="RemainSafetyPilot" ColumnName="RemainSafetyPilot" />
                 <ScalarProperty Name="RemainEFB" ColumnName="RemainEFB" />
@@ -3847,6 +4040,65 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewOPCs">
+            <EntityTypeMapping TypeName="dbModel.ViewOPC">
+              <MappingFragment StoreEntitySet="ViewOPC">
+                <ScalarProperty Name="NDTNumber" ColumnName="NDTNumber" />
+                <ScalarProperty Name="LicenceTitle" ColumnName="LicenceTitle" />
+                <ScalarProperty Name="FaxTelNumber" ColumnName="FaxTelNumber" />
+                <ScalarProperty Name="ProficiencyValidUntilOPC" ColumnName="ProficiencyValidUntilOPC" />
+                <ScalarProperty Name="ProficiencyCheckDateOPC" ColumnName="ProficiencyCheckDateOPC" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="NID" ColumnName="NID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewCrewPickupSMS">
+            <EntityTypeMapping TypeName="dbModel.ViewCrewPickupSM">
+              <MappingFragment StoreEntitySet="ViewCrewPickupSMS">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="FltIds" ColumnName="FltIds" />
+                <ScalarProperty Name="End" ColumnName="End" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="DateLocal" ColumnName="DateLocal" />
+                <ScalarProperty Name="Routes" ColumnName="Routes" />
+                <ScalarProperty Name="Flts" ColumnName="Flts" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+                <ScalarProperty Name="DutyDate" ColumnName="DutyDate" />
+                <ScalarProperty Name="Sender" ColumnName="Sender" />
+                <ScalarProperty Name="ArrivalLocal" ColumnName="ArrivalLocal" />
+                <ScalarProperty Name="DepartureLocal" ColumnName="DepartureLocal" />
+                <ScalarProperty Name="ToAirportIATA" ColumnName="ToAirportIATA" />
+                <ScalarProperty Name="FromAirportIATA" ColumnName="FromAirportIATA" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+                <ScalarProperty Name="TypeStr" ColumnName="TypeStr" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IsVisited" ColumnName="IsVisited" />
+                <ScalarProperty Name="DateVisit" ColumnName="DateVisit" />
+                <ScalarProperty Name="DateSent" ColumnName="DateSent" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RefId" ColumnName="RefId" />
+                <ScalarProperty Name="PickupLocal" ColumnName="PickupLocal" />
+                <ScalarProperty Name="Pickup" ColumnName="Pickup" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

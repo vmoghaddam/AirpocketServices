@@ -13,11 +13,11 @@
           <Property Name="FirstName" Type="nvarchar" MaxLength="500" />
           <Property Name="LastName" Type="nvarchar" MaxLength="500" />
           <Property Name="Name" Type="nvarchar" MaxLength="500" />
-          <Property Name="Mobile" Type="varchar" MaxLength="255" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="255" />
           <Property Name="DateSent" Type="datetime2" Precision="7" />
           <Property Name="RefId" Type="bigint" />
-          <Property Name="Message" Type="varchar" MaxLength="2000" />
-          <Property Name="Status" Type="varchar" MaxLength="255" />
+          <Property Name="Message" Type="nvarchar" MaxLength="2000" />
+          <Property Name="Status" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="BulkMsgUsername">
           <Key>
@@ -138,6 +138,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
             <PropertyRef Name="taskId" />
             <PropertyRef Name="BaggageWeight" />
             <PropertyRef Name="CargoWeight" />
+            
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="FlightId" Type="int" Nullable="false" />
@@ -233,7 +234,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="TotalSeat" Type="int" />
           <Property Name="BaggageWeight" Type="int" Nullable="false" />
           <Property Name="CargoWeight" Type="int" Nullable="false" />
-          <Property Name="Freight" Type="int" />
+          <Property Name="Freight" Type="int" Nullable="false" />
           <Property Name="FlightDate" Type="datetime" />
           <Property Name="CargoCount" Type="int" />
           <Property Name="BaggageCount" Type="int" />
@@ -254,6 +255,51 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="CPRegister" Type="varchar" MaxLength="500" />
           <Property Name="DepCountry" Type="varchar" MaxLength="255" />
           <Property Name="ArrCountry" Type="varchar" MaxLength="255" />
+          <Property Name="OFPMINTOFFUEL" Type="int" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="int" />
+          <Property Name="OFPTRIPFUEL" Type="int" />
+          <Property Name="PILOTREQFUEL" Type="int" />
+          <Property Name="FuelPlanned" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="PF" Type="varchar" MaxLength="255" />
+          <Property Name="OFPTOTALFUEL" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewNira' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewNira">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FlightStatus" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="STDDay" Type="date" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="ChocksIn" Type="datetime" />
+          <Property Name="ChocksOut" Type="datetime" />
+          <Property Name="TakeOff" Type="datetime" />
+          <Property Name="Landing" Type="datetime" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlightStatusID" Type="int" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="FromAirportId" Type="int" />
+          <Property Name="ToAirportId" Type="int" />
+          <Property Name="STDLocal" Type="datetime" />
+          <Property Name="STDDayLocal" Type="date" />
+          <Property Name="STALocal" Type="datetime" />
+          <Property Name="ChocksInLocal" Type="datetime" />
+          <Property Name="ChocksOutLocal" Type="datetime" />
+          <Property Name="TakeOffLocal" Type="datetime" />
+          <Property Name="LandingLocal" Type="datetime" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="AircraftType" Type="nvarchar" MaxLength="255" />
+          <Property Name="AircraftTypeId" Type="int" />
+          <Property Name="FlightStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="Delay" Type="int" />
+          <Property Name="DelayTakeOff" Type="int" />
+          <Property Name="NotifiedDelay" Type="int" />
+          <Property Name="FlightDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -417,8 +463,49 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
     [ViewLegTime].[CargoCost] AS [CargoCost], 
     [ViewLegTime].[CPRegister] AS [CPRegister], 
     [ViewLegTime].[DepCountry] AS [DepCountry], 
-    [ViewLegTime].[ArrCountry] AS [ArrCountry]
+    [ViewLegTime].[ArrCountry] AS [ArrCountry], 
+    [ViewLegTime].[OFPMINTOFFUEL] AS [OFPMINTOFFUEL], 
+    [ViewLegTime].[OFPOFFBLOCKFUEL] AS [OFPOFFBLOCKFUEL], 
+    [ViewLegTime].[OFPTRIPFUEL] AS [OFPTRIPFUEL], 
+    [ViewLegTime].[PILOTREQFUEL] AS [PILOTREQFUEL], 
+    [ViewLegTime].[FuelPlanned] AS [FuelPlanned], 
+    [ViewLegTime].[PF] AS [PF], 
+    [ViewLegTime].[OFPTOTALFUEL] AS [OFPTOTALFUEL]
     FROM [dbo].[ViewLegTime] AS [ViewLegTime]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewNira" EntityType="Self.ViewNira" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewNira].[ID] AS [ID], 
+    [ViewNira].[STD] AS [STD], 
+    [ViewNira].[STDDay] AS [STDDay], 
+    [ViewNira].[STA] AS [STA], 
+    [ViewNira].[ChocksIn] AS [ChocksIn], 
+    [ViewNira].[ChocksOut] AS [ChocksOut], 
+    [ViewNira].[TakeOff] AS [TakeOff], 
+    [ViewNira].[Landing] AS [Landing], 
+    [ViewNira].[FlightNumber] AS [FlightNumber], 
+    [ViewNira].[FlightStatusID] AS [FlightStatusID], 
+    [ViewNira].[RegisterID] AS [RegisterID], 
+    [ViewNira].[FromAirportId] AS [FromAirportId], 
+    [ViewNira].[ToAirportId] AS [ToAirportId], 
+    [ViewNira].[STDLocal] AS [STDLocal], 
+    [ViewNira].[STDDayLocal] AS [STDDayLocal], 
+    [ViewNira].[STALocal] AS [STALocal], 
+    [ViewNira].[ChocksInLocal] AS [ChocksInLocal], 
+    [ViewNira].[ChocksOutLocal] AS [ChocksOutLocal], 
+    [ViewNira].[TakeOffLocal] AS [TakeOffLocal], 
+    [ViewNira].[LandingLocal] AS [LandingLocal], 
+    [ViewNira].[Register] AS [Register], 
+    [ViewNira].[AircraftType] AS [AircraftType], 
+    [ViewNira].[AircraftTypeId] AS [AircraftTypeId], 
+    [ViewNira].[FlightStatus] AS [FlightStatus], 
+    [ViewNira].[FromAirportIATA] AS [FromAirportIATA], 
+    [ViewNira].[ToAirportIATA] AS [ToAirportIATA], 
+    [ViewNira].[Delay] AS [Delay], 
+    [ViewNira].[DelayTakeOff] AS [DelayTakeOff], 
+    [ViewNira].[NotifiedDelay] AS [NotifiedDelay], 
+    [ViewNira].[FlightDate] AS [FlightDate]
+    FROM [dbo].[ViewNira] AS [ViewNira]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewNiraFlight" EntityType="Self.ViewNiraFlight" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -602,7 +689,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
           <Property Name="TotalSeat" Type="Int32" />
           <Property Name="BaggageWeight" Type="Int32" Nullable="false" />
           <Property Name="CargoWeight" Type="Int32" Nullable="false" />
-          <Property Name="Freight" Type="Int32" />
+          <Property Name="Freight" Type="Int32" Nullable="false" />
           <Property Name="FlightDate" Type="DateTime" Precision="3" />
           <Property Name="CargoCount" Type="Int32" />
           <Property Name="BaggageCount" Type="Int32" />
@@ -623,6 +710,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
           <Property Name="CPRegister" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="DepCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ArrCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OFPMINTOFFUEL" Type="Int32" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="Int32" />
+          <Property Name="OFPTRIPFUEL" Type="Int32" />
+          <Property Name="PILOTREQFUEL" Type="Int32" />
+          <Property Name="FuelPlanned" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="PF" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OFPTOTALFUEL" Type="Int32" />
         </EntityType>
         <EntityContainer Name="ppa_vareshEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MVTs" EntityType="Self.MVT" />
@@ -633,6 +727,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
           <EntitySet Name="ViewNiraFlights" EntityType="ppa_vareshModel.ViewNiraFlight" />
           <EntitySet Name="BulkMsgs" EntityType="ppa_vareshModel.BulkMsg" />
           <EntitySet Name="BulkMsgUsernames" EntityType="ppa_vareshModel.BulkMsgUsername" />
+          <EntitySet Name="ViewNiras" EntityType="ppa_vareshModel.ViewNira" />
         </EntityContainer>
         <EntityType Name="ViewFlightDelayCode">
           <Key>
@@ -705,11 +800,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
           <Property Name="FirstName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Mobile" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="DateSent" Type="DateTime" Precision="7" />
           <Property Name="RefId" Type="Int64" />
-          <Property Name="Message" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="BulkMsgUsername">
           <Key>
@@ -720,6 +815,42 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
           <Property Name="Group" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Mobile" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ViewNira">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FlightStatus" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="STDDay" Type="DateTime" Precision="0" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="ChocksIn" Type="DateTime" Precision="3" />
+          <Property Name="ChocksOut" Type="DateTime" Precision="3" />
+          <Property Name="TakeOff" Type="DateTime" Precision="3" />
+          <Property Name="Landing" Type="DateTime" Precision="3" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlightStatusID" Type="Int32" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="FromAirportId" Type="Int32" />
+          <Property Name="ToAirportId" Type="Int32" />
+          <Property Name="STDLocal" Type="DateTime" Precision="3" />
+          <Property Name="STDDayLocal" Type="DateTime" Precision="0" />
+          <Property Name="STALocal" Type="DateTime" Precision="3" />
+          <Property Name="ChocksInLocal" Type="DateTime" Precision="3" />
+          <Property Name="ChocksOutLocal" Type="DateTime" Precision="3" />
+          <Property Name="TakeOffLocal" Type="DateTime" Precision="3" />
+          <Property Name="LandingLocal" Type="DateTime" Precision="3" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AircraftType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AircraftTypeId" Type="Int32" />
+          <Property Name="FlightStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Delay" Type="Int32" />
+          <Property Name="DelayTakeOff" Type="Int32" />
+          <Property Name="NotifiedDelay" Type="Int32" />
+          <Property Name="FlightDate" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -786,6 +917,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
           <EntitySetMapping Name="ViewLegTimes">
             <EntityTypeMapping TypeName="ppa_vareshModel.ViewLegTime">
               <MappingFragment StoreEntitySet="ViewLegTime">
+                <ScalarProperty Name="OFPTOTALFUEL" ColumnName="OFPTOTALFUEL" />
+                <ScalarProperty Name="PF" ColumnName="PF" />
+                <ScalarProperty Name="FuelPlanned" ColumnName="FuelPlanned" />
+                <ScalarProperty Name="PILOTREQFUEL" ColumnName="PILOTREQFUEL" />
+                <ScalarProperty Name="OFPTRIPFUEL" ColumnName="OFPTRIPFUEL" />
+                <ScalarProperty Name="OFPOFFBLOCKFUEL" ColumnName="OFPOFFBLOCKFUEL" />
+                <ScalarProperty Name="OFPMINTOFFUEL" ColumnName="OFPMINTOFFUEL" />
                 <ScalarProperty Name="ArrCountry" ColumnName="ArrCountry" />
                 <ScalarProperty Name="DepCountry" ColumnName="DepCountry" />
                 <ScalarProperty Name="CPRegister" ColumnName="CPRegister" />
@@ -986,6 +1124,42 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewNiraFlight' does not have a pri
                 <ScalarProperty Name="Group" ColumnName="Group" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewNiras">
+            <EntityTypeMapping TypeName="ppa_vareshModel.ViewNira">
+              <MappingFragment StoreEntitySet="ViewNira">
+                <ScalarProperty Name="FlightDate" ColumnName="FlightDate" />
+                <ScalarProperty Name="NotifiedDelay" ColumnName="NotifiedDelay" />
+                <ScalarProperty Name="DelayTakeOff" ColumnName="DelayTakeOff" />
+                <ScalarProperty Name="Delay" ColumnName="Delay" />
+                <ScalarProperty Name="ToAirportIATA" ColumnName="ToAirportIATA" />
+                <ScalarProperty Name="FromAirportIATA" ColumnName="FromAirportIATA" />
+                <ScalarProperty Name="FlightStatus" ColumnName="FlightStatus" />
+                <ScalarProperty Name="AircraftTypeId" ColumnName="AircraftTypeId" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="LandingLocal" ColumnName="LandingLocal" />
+                <ScalarProperty Name="TakeOffLocal" ColumnName="TakeOffLocal" />
+                <ScalarProperty Name="ChocksOutLocal" ColumnName="ChocksOutLocal" />
+                <ScalarProperty Name="ChocksInLocal" ColumnName="ChocksInLocal" />
+                <ScalarProperty Name="STALocal" ColumnName="STALocal" />
+                <ScalarProperty Name="STDDayLocal" ColumnName="STDDayLocal" />
+                <ScalarProperty Name="STDLocal" ColumnName="STDLocal" />
+                <ScalarProperty Name="ToAirportId" ColumnName="ToAirportId" />
+                <ScalarProperty Name="FromAirportId" ColumnName="FromAirportId" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="Landing" ColumnName="Landing" />
+                <ScalarProperty Name="TakeOff" ColumnName="TakeOff" />
+                <ScalarProperty Name="ChocksOut" ColumnName="ChocksOut" />
+                <ScalarProperty Name="ChocksIn" ColumnName="ChocksIn" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STDDay" ColumnName="STDDay" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

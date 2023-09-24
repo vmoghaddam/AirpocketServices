@@ -129,14 +129,14 @@ namespace ApiAPSB.Controllers
                 // return result.OrderBy(q => q.STD);
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                var msg =step+"    "+ ex.Message;
+                var msg = step + "    " + ex.Message;
                 if (ex.InnerException != null)
                     msg += " INNER: " + ex.InnerException.Message;
                 return Ok(msg);
             }
-           
+
 
         }
 
@@ -148,95 +148,102 @@ namespace ApiAPSB.Controllers
         public IHttpActionResult GetOPF(int flightId)
         {
 
-
-            var context = new Models.dbEntities();
-            var ofp = context.OFPImports.FirstOrDefault(q => q.FlightId == flightId);
-            if (ofp == null)
-                return Ok(new { Id = -1 });
-            else
+            try
             {
-                var props = context.OFPImportProps.Where(q => q.OFPId == ofp.Id).Select(q =>
-                  new
-                  {
-                      q.Id,
-                      q.OFPId,
-                      q.PropName,
-                      q.PropType,
-                      q.PropValue,
-                      q.User,
-                      q.DateUpdate,
-
-                  }
-                    ).ToList();
-                return Ok(new
+                var context = new Models.dbEntities();
+                var ofp = context.OFPImports.FirstOrDefault(q => q.FlightId == flightId);
+                if (ofp == null)
+                    return Ok(new { Id = -1 });
+                else
                 {
-                    ofp.Id,
-                    ofp.FlightId,
-                    ofp.TextOutput,
-                    ofp.User,
-                    ofp.DateCreate,
-                    ofp.PIC,
-                    ofp.PICId,
-                    ofp.JLSignedBy,
-                    ofp.JLDatePICApproved,
+                    var props = context.OFPImportProps.Where(q => q.OFPId == ofp.Id).Select(q =>
+                      new
+                      {
+                          q.Id,
+                          q.OFPId,
+                          q.PropName,
+                          q.PropType,
+                          q.PropValue,
+                          q.User,
+                          q.DateUpdate,
+
+                      }
+                        ).ToList();
+                    return Ok(new
+                    {
+                        ofp.Id,
+                        ofp.FlightId,
+                        ofp.TextOutput,
+                        ofp.User,
+                        ofp.DateCreate,
+                        ofp.PIC,
+                        ofp.PICId,
+                        ofp.JLSignedBy,
+                        ofp.JLDatePICApproved,
 
 
 
-                    ofp.DOW,
-                    ofp.FLL,
-                    ofp.MCI,
-                    ofp.JAPlan1,
-                    ofp.JAPlan2,
-                    ofp.JPlan,
-                    ofp.JFuel,
+                        ofp.DOW,
+                        ofp.FLL,
+                        ofp.MCI,
+                        ofp.JAPlan1,
+                        ofp.JAPlan2,
+                        ofp.JPlan,
+                        ofp.JFuel,
 
-                    ofp.JWTDRF,
-                    ofp.JCSTBL,
-                    ofp.JALDRF,
+                        ofp.JWTDRF,
+                        ofp.JCSTBL,
+                        ofp.JALDRF,
 
-                    ofp.ETA,
-                    ofp.ETD,
-                    ofp.THM,
-                    ofp.UNT,
-                    ofp.CRW,
-                    ofp.RTM,
-                    ofp.RTA,
-                    ofp.RTB,
-                    ofp.RTT,
-                    ofp.PLD,
-                    ofp.EZFW,
-                    ofp.ETOW,
-                    ofp.ELDW,
-                    ofp.ALT1,
-                    ofp.ALT2,
-                    ofp.TALT1,
-                    ofp.TALT2,
-                    ofp.FPF,
-                    ofp.FPFuel,
-                    ofp.FPTripFuel,
-                    ofp.FuelALT1,
-                    ofp.FuelALT2,
-                    ofp.FuelCONT,
-                    ofp.FuelFINALRES,
-                    ofp.FuelMINTOF,
-                    ofp.FuelOFFBLOCK,
-                    ofp.FuelTAXI,
-                    ofp.FuelTOF,
-                    ofp.VDT,
-                    ofp.DID,
-                    ofp.MAXSHEER,
-                    ofp.MINDIVFUEL,
-                    ofp.WDCLB,
-                    ofp.WDDES,
-                    ofp.WDTMP,
+                        ofp.ETA,
+                        ofp.ETD,
+                        ofp.THM,
+                        ofp.UNT,
+                        ofp.CRW,
+                        ofp.RTM,
+                        ofp.RTA,
+                        ofp.RTB,
+                        ofp.RTT,
+                        ofp.PLD,
+                        ofp.EZFW,
+                        ofp.ETOW,
+                        ofp.ELDW,
+                        ofp.ALT1,
+                        ofp.ALT2,
+                        ofp.TALT1,
+                        ofp.TALT2,
+                        ofp.FPF,
+                        ofp.FPFuel,
+                        ofp.FPTripFuel,
+                        ofp.FuelALT1,
+                        ofp.FuelALT2,
+                        ofp.FuelCONT,
+                        ofp.FuelFINALRES,
+                        ofp.FuelMINTOF,
+                        ofp.FuelOFFBLOCK,
+                        ofp.FuelTAXI,
+                        ofp.FuelTOF,
+                        ofp.VDT,
+                        ofp.DID,
+                        ofp.MAXSHEER,
+                        ofp.MINDIVFUEL,
+                        ofp.WDCLB,
+                        ofp.WDDES,
+                        ofp.WDTMP,
 
 
-                    props
+                        props
 
-                });
+                    });
+                }
             }
-
-
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += ex.InnerException.Message;
+                return Ok(msg);
+            }
 
         }
 
@@ -409,7 +416,7 @@ namespace ApiAPSB.Controllers
             var context = new Models.dbEntities();
             try
             {
-                var doc = context.FlightDocuments.Where(q => q.FlightId==dto.FlightId && q.DocumentType==dto.DocumentType).FirstOrDefault();
+                var doc = context.FlightDocuments.Where(q => q.FlightId == dto.FlightId && q.DocumentType == dto.DocumentType).FirstOrDefault();
                 if (doc == null)
                 {
                     doc = new FlightDocument();
@@ -495,7 +502,7 @@ namespace ApiAPSB.Controllers
         }
 
 
-        
+
 
         [Route("api/flight/doc/{id}")]
         [AcceptVerbs("GET")]
@@ -517,12 +524,12 @@ namespace ApiAPSB.Controllers
 
         [Route("api/flight/doc/type/{id}/{type}")]
         [AcceptVerbs("GET")]
-        public IHttpActionResult GetFlightsDoc(int id,string type)
+        public IHttpActionResult GetFlightsDoc(int id, string type)
         {
             var context = new Models.dbEntities();
             try
             {
-                var docs = context.FlightDocuments.Where(q => q.FlightId == id && q.DocumentType==type).FirstOrDefault();
+                var docs = context.FlightDocuments.Where(q => q.FlightId == id && q.DocumentType == type).FirstOrDefault();
                 return Ok(docs);
             }
             catch (Exception ex)
@@ -649,8 +656,8 @@ namespace ApiAPSB.Controllers
                     release.JeppesenAirwayManualCPTRemark = DSPRelease.JeppesenAirwayManualCPTRemark;
                     release.MinFuelRequiredDSP = DSPRelease.MinFuelRequiredDSP;
                     release.MinFuelRequiredCPT = DSPRelease.MinFuelRequiredCPT;
-                 //   release.MinFuelRequiredCFP = DSPRelease.MinFuelRequiredCFP;
-                  //  release.MinFuelRequiredPilotReq = DSPRelease.MinFuelRequiredPilotReq;
+                    //   release.MinFuelRequiredCFP = DSPRelease.MinFuelRequiredCFP;
+                    //  release.MinFuelRequiredPilotReq = DSPRelease.MinFuelRequiredPilotReq;
                     release.GeneralDeclarationDSP = DSPRelease.GeneralDeclarationDSP;
                     release.GeneralDeclarationCPT = DSPRelease.GeneralDeclarationCPT;
                     release.GeneralDeclarationDSPRemark = DSPRelease.GeneralDeclarationDSPRemark;
@@ -739,9 +746,9 @@ namespace ApiAPSB.Controllers
                 return Ok(new DataResponse() { IsSuccess = true, Data = _res });
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                var msg =step+"   "+ ex.Message;
+                var msg = step + "   " + ex.Message;
                 if (ex.InnerException != null)
                     msg += ex.InnerException.Message;
                 return Ok(msg);
@@ -759,7 +766,7 @@ namespace ApiAPSB.Controllers
         {
             var ids = dto.ids.Select(q => (Nullable<int>)q).ToList();
             var _context = new Models.dbEntities();
-            var drs=await _context.ViewEFBDSPReleases.Where(q=> ids.Contains(q.FlightId)).ToListAsync();
+            var drs = await _context.ViewEFBDSPReleases.Where(q => ids.Contains(q.FlightId)).ToListAsync();
             return Ok(new DataResponse()
             {
                 Data = drs,
@@ -769,7 +776,7 @@ namespace ApiAPSB.Controllers
 
         }
 
-       
+
         [Route("api/efb/dr/{flightId}")]
         public async Task<IHttpActionResult> GetDRByFlightId(int flightId)
         {
@@ -779,8 +786,8 @@ namespace ApiAPSB.Controllers
             if (entity != null)
             {
                 entity.MinFuelRequiredCFP = flight.OFPOFFBLOCKFUEL == null ? 0 : (decimal)flight.OFPOFFBLOCKFUEL;//flight.FPFuel == null ? 0 : (decimal)flight.FPFuel + 200;
-                entity.MinFuelRequiredPilotReq =flight.FuelPlanned;// flight.FuelPlanned;
-                
+                entity.MinFuelRequiredPilotReq = flight.FuelPlanned;// flight.FuelPlanned;
+
             }
             else
             {
@@ -788,7 +795,7 @@ namespace ApiAPSB.Controllers
                 {
                     Id = -1,
                     MinFuelRequiredCFP = flight.OFPOFFBLOCKFUEL == null ? 0 : (decimal)flight.OFPOFFBLOCKFUEL,
-                    MinFuelRequiredPilotReq= flight.FuelPlanned,
+                    MinFuelRequiredPilotReq = flight.FuelPlanned,
 
                 };
             }
@@ -802,7 +809,7 @@ namespace ApiAPSB.Controllers
 
         DateTime ParseDate(string str)
         {
-            var _y =Convert.ToInt32( str.Substring(0, 4));
+            var _y = Convert.ToInt32(str.Substring(0, 4));
             var _m = Convert.ToInt32(str.Substring(4, 2));
             var _d = Convert.ToInt32(str.Substring(6, 2));
             var _h = Convert.ToInt32(str.Substring(8, 2));
@@ -821,7 +828,7 @@ namespace ApiAPSB.Controllers
         {
             var _context = new Models.dbEntities();
 
-            foreach(var rec in dto.Values)
+            foreach (var rec in dto.Values)
             {
                 var dbrec = new EFBValue();
                 dbrec.UserName = rec.UserName;
@@ -834,7 +841,7 @@ namespace ApiAPSB.Controllers
                 _context.EFBValues.Add(dbrec);
             }
             var saveResult = await _context.SaveChangesAsync();
- 
+
             return Ok(new DataResponse() { IsSuccess = true });
 
 
@@ -846,14 +853,14 @@ namespace ApiAPSB.Controllers
         [AcceptVerbs("GET")]
         public IHttpActionResult GetDRByFlight(int fltid)
         {
-           // return Ok('X');
+            // return Ok('X');
             try
             {
                 var context = new Models.dbEntities();
                 var result = context.ViewEFBDSPReleases.FirstOrDefault(q => q.FlightId == fltid);
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var msg = ex.Message;
                 if (ex.InnerException != null)
@@ -1090,12 +1097,47 @@ namespace ApiAPSB.Controllers
                 //release.IPADCPT = DSPRelease.IPADCPT;
                 release.IPADDSPRemark = DSPRelease.IPADDSPRemark;
                 //release.IPADCPTRemark = DSPRelease.IPADCPTRemark;
-                release.DateConfirmed = DateTime.Now; //DSPRelease.DateConfirmed;
-                release.DispatcherId = DSPRelease.DispatcherId;
+              
+                
+                
+                //release.DateConfirmed = DateTime.Now; //DSPRelease.DateConfirmed;
+               // release.DispatcherId = DSPRelease.DispatcherId;
 
 
                 release.VoyageReportDSPRemark = DSPRelease.User;
 
+
+                context.SaveChanges();
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   INNER: " + ex.InnerException.Message;
+                return Ok(msg);
+            }
+
+        }
+
+
+        [Route("api/dsp/dr/sign")]
+        [AcceptVerbs("Post")]
+        public IHttpActionResult PostDRDSPSIGN(dynamic dto)
+        {
+            try
+            {
+                var context = new Models.dbEntities();
+               
+                int flightId = Convert.ToInt32(dto.flightId);
+                int empId= Convert.ToInt32(dto.user);
+                var release = context.EFBDSPReleases.FirstOrDefault(q => q.FlightId == flightId);
+
+
+                string name = Convert.ToString(dto.picStr);
+
+                release.DispatcherId = empId;
+                release.DateConfirmed = DateTime.Now;
 
                 context.SaveChanges();
                 return Ok(true);
@@ -1118,7 +1160,7 @@ namespace ApiAPSB.Controllers
             public List<string> Errors { get; set; }
         }
 
-       
+
         public class EFBValueObj
         {
             public int id { get; set; }

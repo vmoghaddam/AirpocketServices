@@ -22,5 +22,8 @@ namespace ApiProfile.Models
         public string ImageUrl { get; set; }
         public Nullable<System.DateTime> ProficiencyCheckDateOPC { get; set; }
         public Nullable<System.DateTime> ProficiencyValidUntilOPC { get; set; }
+        public string FaxTelNumber { get; set; }
+        public string LicenceTitle { get; set; }
+        public string NDTNumber { get; set; }
     }
 }

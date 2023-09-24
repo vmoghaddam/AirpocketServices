@@ -20,6 +20,7 @@ namespace ApiCAO.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class LogController : ApiController
     {
+        
         public class mvtDelayObj
         {
             public int amount { get; set; }
@@ -287,11 +288,11 @@ namespace ApiCAO.Controllers
                 string iata = ConfigurationManager.AppSettings["iata"];
                  string icao = ConfigurationManager.AppSettings["icao"];
                  string key = ConfigurationManager.AppSettings["caoapikey"];
-
+                ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
                 //caspian
                 //var iata = "IV";
-               // var icao = "CPN";
-               // string key = "d41668c393974880aae19ef35f5099eb";
+                // var icao = "CPN";
+                // string key = "d41668c393974880aae19ef35f5099eb";
 
                 ppa_entities context = new ppa_entities();
                 var flt = context.ViewCaos.Where(q => q.ID == id).FirstOrDefault(); // context.ViewLegTimes.Where(q => q.ID == id).FirstOrDefault();
@@ -441,7 +442,7 @@ namespace ApiCAO.Controllers
                 //}
                 //var mvts = new List<mvtObj>();
                 //mvts.Add(mvt);
-
+                
                 var msg_obj = new List<caoMsg>() { msg };
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(/*"https://cao.raman-it.com/mvt"*/"https://caadc.cao.ir:443/api/flight");
                 httpWebRequest.ContentType = "application/json";

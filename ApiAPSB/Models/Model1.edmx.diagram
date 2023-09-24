@@ -13,7 +13,6 @@
         <EntityTypeShape EntityType="dbModel.OFPImportProp" Width="1.5" PointX="15.625" PointY="8.25" />
         <EntityTypeShape EntityType="dbModel.ViewLegTime" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="dbModel.FlightDocument" Width="1.5" PointX="13.375" PointY="14.75" />
-        <EntityTypeShape EntityType="dbModel.ViewEFBDSPReleas" Width="1.5" PointX="15.375" PointY="12.75" />
         <EntityTypeShape EntityType="dbModel.FlightInformation" Width="1.5" PointX="3.125" PointY="0.75" />
         <AssociationConnector Association="dbModel.fk_EFB_FI" />
         <AssociationConnector Association="dbModel.fk_fdpitem_flight" />
@@ -22,6 +21,7 @@
         <AssociationConnector Association="dbModel.fk_ofpp_ofp" />
         <EntityTypeShape EntityType="dbModel.EFBValue" Width="1.5" PointX="15.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbModel.AppLegOP" Width="1.5" PointX="17.375" PointY="12.75" />
+        <EntityTypeShape EntityType="dbModel.ViewEFBDSPReleas" Width="1.5" PointX="13.375" PointY="18.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

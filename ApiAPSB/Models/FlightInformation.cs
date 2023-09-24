@@ -297,6 +297,19 @@ namespace ApiAPSB.Models
         public Nullable<int> OFPTRIPFUEL { get; set; }
         public Nullable<int> PILOTREQFUEL { get; set; }
         public Nullable<int> OFPExtra { get; set; }
+        public Nullable<int> OFPCONTFUEL { get; set; }
+        public Nullable<int> OFPALT1FUEL { get; set; }
+        public Nullable<int> OFPALT2FUEL { get; set; }
+        public Nullable<int> OFPFINALRESFUEL { get; set; }
+        public Nullable<int> OFPTAXIFUEL { get; set; }
+        public Nullable<int> OFPETOPSADDNLFUEL { get; set; }
+        public Nullable<int> OFPOPSEXTRAFUEL { get; set; }
+        public Nullable<int> OFPTANKERINGFUEL { get; set; }
+        public Nullable<int> OFPTOTALFUEL { get; set; }
+        public Nullable<int> FuelUsedEng1 { get; set; }
+        public Nullable<int> FuelUsedEng2 { get; set; }
+        public Nullable<int> ACTUALTANKERINGFUEL { get; set; }
+        public string LTR2 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EFBDSPRelease> EFBDSPReleases { get; set; }

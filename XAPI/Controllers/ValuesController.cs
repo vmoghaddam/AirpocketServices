@@ -375,7 +375,7 @@ namespace XAPI.Controllers
                         var reqparm = new System.Collections.Specialized.NameValueCollection();
                         reqparm.Add("key", dto.key);
                         reqparm.Add("plan", dto.plan);
-                        byte[] responsebytes = client.UploadValues("https://xpi.chb.skybag.click/api/skyputer/chb", "POST", reqparm);
+                        byte[] responsebytes = client.UploadValues(/*"https://xpi.chb.skybag.click/api/skyputer/chb"*/"https://chb.skybag.app/xpi/api/skyputer/chb", "POST", reqparm);
                         responsebody = Encoding.UTF8.GetString(responsebytes);
 
                     }
@@ -433,7 +433,36 @@ namespace XAPI.Controllers
                         var reqparm = new System.Collections.Specialized.NameValueCollection();
                         reqparm.Add("key", dto.key);
                         reqparm.Add("plan", dto.plan);
-                        byte[] responsebytes = client.UploadValues("https://xpi.tbn.skybag.click/api/skyputer/tbn", "POST", reqparm);
+                        byte[] responsebytes = client.UploadValues("https://taban.skybag.app/xpi/api/skyputer/tbn", "POST", reqparm);
+                        responsebody = Encoding.UTF8.GetString(responsebytes);
+
+                    }
+                    return Ok(true);
+                }
+                else if (dto.plan.Contains("AIR1AIR") )
+                {
+                    result = "AIR1AIR";
+                    var entity = new OFPSkyPuter()
+                    {
+                        OFP = dto.plan,
+                        DateCreate = DateTime.Now,
+                        UploadStatus = 0,
+
+
+                    };
+                    var ctx = new PPAEntities();
+                    ctx.Database.CommandTimeout = 1000;
+                    ctx.OFPSkyPuters.Add(entity);
+                    ctx.SaveChanges();
+
+
+                    string responsebody = "NO";
+                    using (WebClient client = new WebClient())
+                    {
+                        var reqparm = new System.Collections.Specialized.NameValueCollection();
+                        reqparm.Add("key", dto.key);
+                        reqparm.Add("plan", dto.plan);
+                        byte[] responsebytes = client.UploadValues("https://air1.skybag.app/xpi/api/skyputer/airone", "POST", reqparm);
                         responsebody = Encoding.UTF8.GetString(responsebytes);
 
                     }
@@ -654,6 +683,51 @@ namespace XAPI.Controllers
             }
 
         }
+        [Route("api/skyputer/airone")]
+        [AcceptVerbs("POST")]
+        public IHttpActionResult PostSkyputerAIR1(skyputer dto)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(dto.key))
+                    return Ok("Authorization key not found.");
+                if (string.IsNullOrEmpty(dto.plan))
+                    return Ok("Plan cannot be empty.");
+                if (dto.key != "Skyputer@1359#")
+                    return Ok("Authorization key is wrong.");
+
+
+
+                var entity = new OFPSkyPuter()
+                {
+                    OFP = dto.plan,
+                    DateCreate = DateTime.Now,
+                    UploadStatus = 0,
+
+
+                };
+                var ctx = new PPAEntities();
+                ctx.Database.CommandTimeout = 1000;
+                ctx.OFPSkyPuters.Add(entity);
+                ctx.SaveChanges();
+                new Thread(async () =>
+                {
+                    GetSkyputerImport(entity.Id);
+                }).Start();
+                return Ok(true);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += " Inner: " + ex.InnerException.Message;
+                return Ok(msg);
+            }
+
+        }
 
 
         [Route("api/skyputer/atlas")]
@@ -759,10 +833,10 @@ namespace XAPI.Controllers
         [AcceptVerbs("GET")]
         public IHttpActionResult GetSkyputerImport(int id)
         {
-           
+
             var context = new PPAEntities();
 
-             
+
 
 
             context.Database.CommandTimeout = 5000;
@@ -805,15 +879,15 @@ namespace XAPI.Controllers
                 var eta = infoRows.FirstOrDefault(q => q.StartsWith("ETA")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("ETA")).Split('=')[1];
 
                 var fpf = infoRows.FirstOrDefault(q => q.StartsWith("FPF")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("FPF")).Split('=')[1];
-                
-               // var vdt= infoRows.FirstOrDefault(q => q.StartsWith("VDT")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("VDT")).Split('=')[1];
+
+                // var vdt= infoRows.FirstOrDefault(q => q.StartsWith("VDT")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("VDT")).Split('=')[1];
                 string alt1 = "";
                 string alt2 = "";
                 var flightDate = DateTime.Parse(dte);
                 var no = fln.Contains(" ") ? fln.Substring(4) : fln.Substring(3);
                 if (no.Length == 3 && no.StartsWith("0"))
                     no = "0" + no;
-                var flight = context.ViewLegTimes.Where(q => q.STDDay == flightDate && q.FlightNumber == no && q.FlightStatusID!=4).FirstOrDefault();
+                var flight = context.ViewLegTimes.Where(q => q.STDDay == flightDate && q.FlightNumber == no && q.FlightStatusID != 4).FirstOrDefault();
                 var fltobj = context.FlightInformations.Where(q => q.ID == flight.ID).FirstOrDefault();
                 var cplan = context.OFPImports.FirstOrDefault(q => q.FlightId == flight.ID);
                 if (cplan != null)
@@ -834,7 +908,7 @@ namespace XAPI.Controllers
 
                 };
 
-                
+
                 if (!string.IsNullOrEmpty(dow))
                     plan.DOW = Convert.ToDecimal(dow);
                 if (!string.IsNullOrEmpty(fll))
@@ -844,7 +918,7 @@ namespace XAPI.Controllers
                     if (mci == "ETAS")
                         plan.MCI = -1;
                     else
-                    plan.MCI = Convert.ToDecimal(mci);
+                        plan.MCI = Convert.ToDecimal(mci);
                 }
 
 
@@ -974,7 +1048,7 @@ namespace XAPI.Controllers
                     }
                     //FUCK
                     plan.JAPlan1 = "[" + string.Join(",", apln1Json) + "]";
-                    
+
                 }
 
                 string apln2 = parts.Where(q => q.StartsWith("apln:|")).Count() > 1 ? parts.Where(q => q.StartsWith("apln:|")).ToList()[1] : null;
@@ -1015,7 +1089,7 @@ namespace XAPI.Controllers
 
                     }
 
-                     plan.JAPlan2 = "[" + string.Join(",", apln2Json) + "]";
+                    plan.JAPlan2 = "[" + string.Join(",", apln2Json) + "]";
                     //FUCK
                 }
 
@@ -1054,7 +1128,7 @@ namespace XAPI.Controllers
                         idx++;
 
                     }
-                     plan.JCSTBL = "[" + string.Join(",", cstblJson) + "]";
+                    plan.JCSTBL = "[" + string.Join(",", cstblJson) + "]";
                     //FUCK
                 }
 
@@ -1098,7 +1172,7 @@ namespace XAPI.Controllers
                         idx++;
 
                     }
-                     plan.JALDRF = "[" + string.Join(",", aldrfJson) + "]";
+                    plan.JALDRF = "[" + string.Join(",", aldrfJson) + "]";
                     //FUCK
                 }
 
@@ -1112,51 +1186,51 @@ namespace XAPI.Controllers
                     try
                     {
                         var procStr = "{IDX:'1',X:'-8',FUEL:'" + aldrfRows[1].Replace(" ", "") + "'}";
-                    var jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
-                    var _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
-                    jsonObj.Add("_key", _key);
-                    wtdrfJson.Add(jsonObj);
+                        var jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                        var _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                        jsonObj.Add("_key", _key);
+                        wtdrfJson.Add(jsonObj);
 
 
-                    procStr = "{IDX:'2',X:'-6',FUEL:'" + aldrfRows[3].Replace(" ", "") + "'}";
-                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
-                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
-                    jsonObj.Add("_key", _key);
-                    wtdrfJson.Add(jsonObj);
+                        procStr = "{IDX:'2',X:'-6',FUEL:'" + aldrfRows[3].Replace(" ", "") + "'}";
+                        jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                        _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                        jsonObj.Add("_key", _key);
+                        wtdrfJson.Add(jsonObj);
 
-                    procStr = "{IDX:'3',X:'-4',FUEL:'" + aldrfRows[5].Replace(" ", "") + "'}";
-                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
-                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
-                    jsonObj.Add("_key", _key);
-                    wtdrfJson.Add(jsonObj);
-
-
-                    procStr = "{IDX:'4',X:'-2',FUEL:'" + aldrfRows[7].Replace(" ", "") + "'}";
-                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
-                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
-                    jsonObj.Add("_key", _key);
-                    wtdrfJson.Add(jsonObj);
-
-                    procStr = "{IDX:'5',X:'+2',FUEL:'" + aldrfRows[9].Replace(" ", "") + "'}";
-                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
-                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
-                    jsonObj.Add("_key", _key);
-                    wtdrfJson.Add(jsonObj);
+                        procStr = "{IDX:'3',X:'-4',FUEL:'" + aldrfRows[5].Replace(" ", "") + "'}";
+                        jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                        _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                        jsonObj.Add("_key", _key);
+                        wtdrfJson.Add(jsonObj);
 
 
-                    procStr = "{IDX:'6',X:'+4',FUEL:'" + aldrfRows[11].Replace(" ", "") + "'}";
-                    jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
-                    _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
-                    jsonObj.Add("_key", _key);
-                    wtdrfJson.Add(jsonObj);
+                        procStr = "{IDX:'4',X:'-2',FUEL:'" + aldrfRows[7].Replace(" ", "") + "'}";
+                        jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                        _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                        jsonObj.Add("_key", _key);
+                        wtdrfJson.Add(jsonObj);
 
-                   
+                        procStr = "{IDX:'5',X:'+2',FUEL:'" + aldrfRows[9].Replace(" ", "") + "'}";
+                        jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                        _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                        jsonObj.Add("_key", _key);
+                        wtdrfJson.Add(jsonObj);
+
+
+                        procStr = "{IDX:'6',X:'+4',FUEL:'" + aldrfRows[11].Replace(" ", "") + "'}";
+                        jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
+                        _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
+                        jsonObj.Add("_key", _key);
+                        wtdrfJson.Add(jsonObj);
+
+
                         procStr = "{IDX:'7',X:'+6',FUEL:'" + aldrfRows[13].Replace(" ", "") + "'}";
                         jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
                         _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
                         jsonObj.Add("_key", _key);
                         wtdrfJson.Add(jsonObj);
-                    
+
                         procStr = "{IDX:'8',X:'+8',FUEL:'" + aldrfRows[15].Replace(" ", "") + "'}";
                         jsonObj = JsonConvert.DeserializeObject<JObject>(procStr);
                         _key = ("wtdrf_IDX_" + jsonObj.GetValue("IDX").ToString()).Replace(" ", "").ToLower();
@@ -1165,7 +1239,7 @@ namespace XAPI.Controllers
                     }
                     catch (Exception ex) { }
 
-                     plan.JWTDRF = "[" + string.Join(",", wtdrfJson) + "]";
+                    plan.JWTDRF = "[" + string.Join(",", wtdrfJson) + "]";
                     //FUCK
 
                 }
@@ -1194,15 +1268,15 @@ namespace XAPI.Controllers
                     if (prm == "TRIP FUEL")
                     {
                         plan.FPTripFuel = Convert.ToDecimal(val);
-                        fltobj.OFPTRIPFUEL =Convert.ToInt32( plan.FPTripFuel);
+                        fltobj.OFPTRIPFUEL = Convert.ToInt32(plan.FPTripFuel);
                     }
-                    if (prm == "CONT[5%]")
+                    if (prm == "CONT[5%]" || prm.StartsWith("CONT["))
                     {
                         plan.FuelCONT = Convert.ToInt32(val);
-                        fltobj.OFPCONTFUEL= Convert.ToInt32(val);
+                        fltobj.OFPCONTFUEL = Convert.ToInt32(val);
                     }
 
-                    if (prm == "ALT 1" || prm== "ALTN 1")
+                    if (prm == "ALT 1" || prm == "ALTN 1")
                     {
                         plan.FuelALT1 = Convert.ToInt32(val);
                         fltobj.OFPALT1FUEL = Convert.ToInt32(val);
@@ -1216,7 +1290,7 @@ namespace XAPI.Controllers
                     if (prm == "FINAL RES")
                     {
                         plan.FuelFINALRES = Convert.ToInt32(val);
-                        fltobj.OFPFINALRESFUEL= Convert.ToInt32(val);
+                        fltobj.OFPFINALRESFUEL = Convert.ToInt32(val);
                     }
 
                     if (prm == "ETOPS/ADDNL")
@@ -1239,7 +1313,7 @@ namespace XAPI.Controllers
 
                     if (prm == "TANKERING")
                     {
-                        plan.FuelTANKERING= Convert.ToInt32(val);
+                        plan.FuelTANKERING = Convert.ToInt32(val);
                         fltobj.OFPTANKERINGFUEL = Convert.ToInt32(val);
 
                         plan.FuelACTUALTANKERING = Convert.ToInt32(val);
@@ -1249,7 +1323,7 @@ namespace XAPI.Controllers
                     if (prm == "TAXI")
                     {
                         plan.FuelTAXI = Convert.ToInt32(val);
-                        fltobj.OFPTAXIFUEL= Convert.ToInt32(val);
+                        fltobj.OFPTAXIFUEL = Convert.ToInt32(val);
                     }
 
                     if (prm == "TOTAL FUEL")
@@ -1261,23 +1335,23 @@ namespace XAPI.Controllers
                     if (prm == "TOF")
                     {
                         plan.FuelTOF = Convert.ToInt32(val);
-                      //  fltobj.FPFuel = Convert.ToDecimal(val);
+                        //  fltobj.FPFuel = Convert.ToDecimal(val);
                     }
-                   
-                   
-                   
-                   
-                    
+
+
+
+
+
                     if (prm == "OFF BLK")
                     {
                         plan.FuelOFFBLOCK = Convert.ToInt32(val);
-                        fltobj.OFPOFFBLOCKFUEL= Convert.ToInt32(val);
+                        fltobj.OFPOFFBLOCKFUEL = Convert.ToInt32(val);
                     }
 
                     if (prm == "EXTRA")
                     {
                         plan.FuelExtra = Convert.ToInt32(val);
-                        fltobj.OFPExtra= Convert.ToInt32(val);
+                        fltobj.OFPExtra = Convert.ToInt32(val);
 
                     }
 
@@ -1288,18 +1362,18 @@ namespace XAPI.Controllers
                     idx++;
                 }
 
-                var mindivalt1 = plan.FuelALT1  + plan.FuelFINALRES;
-                if (plan.FuelALT2!=null && plan.FuelALT2 > 0)
+                var mindivalt1 = plan.FuelALT1 + plan.FuelFINALRES;
+                if (plan.FuelALT2 != null && plan.FuelALT2 > 0)
                 {
-                    var mindivalt2 = plan.FuelALT2  + plan.FuelFINALRES ;
-                    if (mindivalt1>=mindivalt2)
-                        plan.MINDIVFUEL = "[" + alt1 + ", " + mindivalt1 + "]"+"     "+"[" + plan.ALT2 + ", " + mindivalt2 + "]";
+                    var mindivalt2 = plan.FuelALT2 + plan.FuelFINALRES;
+                    if (mindivalt1 >= mindivalt2)
+                        plan.MINDIVFUEL = "[" + alt1 + ", " + mindivalt1 + "]" + "     " + "[" + plan.ALT2 + ", " + mindivalt2 + "]";
                     else
                         plan.MINDIVFUEL = "[" + alt2 + ", " + mindivalt2 + "]" + "     " + "[" + plan.ALT1 + ", " + mindivalt1 + "]";
                 }
                 else
                 {
-                    plan.MINDIVFUEL = "["+ alt1 +", "+mindivalt1+ "]";
+                    plan.MINDIVFUEL = "[" + alt1 + ", " + mindivalt1 + "]";
                 }
 
                 fuel.Add(new fuelPrm()
@@ -1332,22 +1406,22 @@ namespace XAPI.Controllers
                         var wdtmp_parts = wdtmp.Split('|');
                         var wdtmp_a = wdtmp_parts[0].Replace("/", "_").Substring(0, wdtmp_parts[0].Length - 1);
                         var wdtmp_b_parts = wdtmp_parts[1].Split('F').Where(q => !string.IsNullOrEmpty(q.Replace(" ", ""))).Select(q => "F" + q).ToList();
-                        int _gwsize =Convert.ToInt32(( wdtmp_b_parts.Count / wdtmp_a.Split('_').Count()));
+                        int _gwsize = Convert.ToInt32((wdtmp_b_parts.Count / wdtmp_a.Split('_').Count()));
                         var _gindex = 0;
-                        var grpgw = wdtmp_b_parts.GroupBy(x => _gindex++ / _gwsize).Select(q=>string.Join("_",q) ).ToList();
+                        var grpgw = wdtmp_b_parts.GroupBy(x => _gindex++ / _gwsize).Select(q => string.Join("_", q)).ToList();
                         var wdtmp_b = string.Join("*", grpgw);
                         plan.WDTMP = wdtmp_a + "^" + wdtmp_b;
                     }
-                    catch(Exception _wdex)
+                    catch (Exception _wdex)
                     {
 
                     }
-                   
+
                 }
 
 
                 var wdclb = parts.FirstOrDefault(q => q.StartsWith("wdclb:|"));
-                var wddes= parts.FirstOrDefault(q => q.StartsWith("wddes:|"));
+                var wddes = parts.FirstOrDefault(q => q.StartsWith("wddes:|"));
                 if (wdclb != null)
                 {
                     try
@@ -1363,7 +1437,7 @@ namespace XAPI.Controllers
 
                 }
 
-                
+
                 if (wddes != null)
                 {
                     try
@@ -1552,6 +1626,10 @@ namespace XAPI.Controllers
                 //prop_fuel_onblock
                 other.Add(new fuelPrm() { prm = "FUEL_ONBLOCK", value = "" });
                 props.Add("prop_fuel_onblock");
+                other.Add(new fuelPrm() { prm = "FUEL_ONBLOCK_ALT1", value = "" });
+                props.Add("prop_fuel_onblock_alt1");
+                other.Add(new fuelPrm() { prm = "FUEL_ONBLOCK_ALT2", value = "" });
+                props.Add("prop_fuel_onblock_alt2");
 
                 other.Add(new fuelPrm() { prm = "ARR_ATIS", value = "" });
                 props.Add("prop_arr_atis");
@@ -1690,9 +1768,9 @@ namespace XAPI.Controllers
 
                     });
                 var _fuel = JsonConvert.SerializeObject(fuel);
-                 plan.JFuel = _fuel; //"["+string.Join(",", fuel)+"]";
-                                      plan.JPlan = "[" + string.Join(",", mplnpJson) + "]";
-                                    //FUCK
+                plan.JFuel = _fuel; //"["+string.Join(",", fuel)+"]";
+                plan.JPlan = "[" + string.Join(",", mplnpJson) + "]";
+                //FUCK
 
 
 
@@ -1723,24 +1801,27 @@ namespace XAPI.Controllers
             }
             catch (DbEntityValidationException e)
             {
+                List<string> errs = new List<string>();
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+//Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+//eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    errs.Add(eve.Entry.Entity.GetType().Name+"    " + eve.Entry.State);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
+                       // Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                       //     ve.PropertyName, ve.ErrorMessage);
+                        errs.Add(ve.PropertyName + "    " + ve.ErrorMessage);
                     }
                 }
-                throw;
+                return Ok("Not Uploaded " + string.Join(",",errs));
             }
             catch (Exception ex)
             {
                 var message = ex.Message;
                 if (ex.InnerException != null)
                     message += "  INNER: " + ex.InnerException.Message;
-                if (ex.InnerException.InnerException!=null)
+                if (ex.InnerException.InnerException != null)
                     message += "  INNER: " + ex.InnerException.InnerException.Message;
                 dto.DateUpload = DateTime.Now;
                 dto.UploadStatus = -1;
@@ -1751,7 +1832,7 @@ namespace XAPI.Controllers
                 //}
                 //catch (Exception ex) { }
 
-                return Ok("Not Uploaded "+ message);
+                return Ok("Not Uploaded " + message);
             }
 
 

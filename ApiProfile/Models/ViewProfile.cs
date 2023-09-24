@@ -190,5 +190,12 @@ namespace ApiProfile.Models
         public Nullable<int> RemainEFB { get; set; }
         public Nullable<int> RemainSafetyPilot { get; set; }
         public Nullable<int> RemainRouteCheck { get; set; }
+        public Nullable<int> RemainPROFICIENCY_ASSESSMENT { get; set; }
+        public Nullable<int> RemainMP { get; set; }
+        public Nullable<int> RemainCALR { get; set; }
+        public Nullable<int> RemainSpecialApproval { get; set; }
+        public Nullable<int> RemainTRG01 { get; set; }
+        public Nullable<int> RemainTRG16 { get; set; }
+        public Nullable<int> RemainLOAD_CONTROL { get; set; }
     }
 }

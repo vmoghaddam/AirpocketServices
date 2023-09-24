@@ -239,6 +239,45 @@ warning 6002: The table/view 'ppa_varesh.dbo.ExpFlight' does not have a primary 
           <Property Name="ArrivalLocal" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.RPTFormAMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RPTFormAMonthly">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Month" />
+            <PropertyRef Name="YearMonthDay" />
+          </Key>
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="MonthName" Type="nvarchar" MaxLength="30" />
+          <Property Name="YearMonthDay" Type="int" Nullable="false" />
+          <Property Name="DistanceDom" Type="float" />
+          <Property Name="DistanceInt" Type="float" />
+          <Property Name="FlightCountDom" Type="int" />
+          <Property Name="FlightCountInt" Type="int" />
+          <Property Name="FlightHourDom" Type="numeric" Precision="18" Scale="6" />
+          <Property Name="FlightHourInt" Type="numeric" Precision="18" Scale="6" />
+          <Property Name="PaxTotalDom" Type="int" />
+          <Property Name="PaxTotalInt" Type="int" />
+          <Property Name="SeatTotalDom" Type="int" />
+          <Property Name="SeatTotalInt" Type="int" />
+          <Property Name="FreightToneDom" Type="int" />
+          <Property Name="FreightToneInt" Type="int" />
+          <Property Name="PassDistanceDom" Type="float" />
+          <Property Name="PassDistanceInt" Type="float" />
+          <Property Name="SeatDistanceDom" Type="float" />
+          <Property Name="SeatDistanceInt" Type="float" />
+          <Property Name="PaxLoadDom" Type="numeric" Precision="26" Scale="12" />
+          <Property Name="PaxLoadInt" Type="numeric" Precision="26" Scale="12" />
+          <Property Name="PassBagToneDistanceDom" Type="float" />
+          <Property Name="PassBagToneDistanceInt" Type="float" />
+          <Property Name="CargoDistanceDom" Type="float" />
+          <Property Name="CargoDistanceInt" Type="float" />
+          <Property Name="ToneDistanceAvailableDom" Type="float" />
+          <Property Name="ToneDistanceAvailableInt" Type="float" />
+          <Property Name="WeightLoadFactorDom" Type="float" />
+          <Property Name="WeightLoadFactorInt" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewCao' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewCao">
           <Key>
@@ -672,6 +711,40 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
     [ExpFlight].[ArrivalLocal] AS [ArrivalLocal]
     FROM [dbo].[ExpFlight] AS [ExpFlight]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="RPTFormAMonthly" EntityType="Self.RPTFormAMonthly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RPTFormAMonthly].[Year] AS [Year], 
+    [RPTFormAMonthly].[Month] AS [Month], 
+    [RPTFormAMonthly].[MonthName] AS [MonthName], 
+    [RPTFormAMonthly].[YearMonthDay] AS [YearMonthDay], 
+    [RPTFormAMonthly].[DistanceDom] AS [DistanceDom], 
+    [RPTFormAMonthly].[DistanceInt] AS [DistanceInt], 
+    [RPTFormAMonthly].[FlightCountDom] AS [FlightCountDom], 
+    [RPTFormAMonthly].[FlightCountInt] AS [FlightCountInt], 
+    [RPTFormAMonthly].[FlightHourDom] AS [FlightHourDom], 
+    [RPTFormAMonthly].[FlightHourInt] AS [FlightHourInt], 
+    [RPTFormAMonthly].[PaxTotalDom] AS [PaxTotalDom], 
+    [RPTFormAMonthly].[PaxTotalInt] AS [PaxTotalInt], 
+    [RPTFormAMonthly].[SeatTotalDom] AS [SeatTotalDom], 
+    [RPTFormAMonthly].[SeatTotalInt] AS [SeatTotalInt], 
+    [RPTFormAMonthly].[FreightToneDom] AS [FreightToneDom], 
+    [RPTFormAMonthly].[FreightToneInt] AS [FreightToneInt], 
+    [RPTFormAMonthly].[PassDistanceDom] AS [PassDistanceDom], 
+    [RPTFormAMonthly].[PassDistanceInt] AS [PassDistanceInt], 
+    [RPTFormAMonthly].[SeatDistanceDom] AS [SeatDistanceDom], 
+    [RPTFormAMonthly].[SeatDistanceInt] AS [SeatDistanceInt], 
+    [RPTFormAMonthly].[PaxLoadDom] AS [PaxLoadDom], 
+    [RPTFormAMonthly].[PaxLoadInt] AS [PaxLoadInt], 
+    [RPTFormAMonthly].[PassBagToneDistanceDom] AS [PassBagToneDistanceDom], 
+    [RPTFormAMonthly].[PassBagToneDistanceInt] AS [PassBagToneDistanceInt], 
+    [RPTFormAMonthly].[CargoDistanceDom] AS [CargoDistanceDom], 
+    [RPTFormAMonthly].[CargoDistanceInt] AS [CargoDistanceInt], 
+    [RPTFormAMonthly].[ToneDistanceAvailableDom] AS [ToneDistanceAvailableDom], 
+    [RPTFormAMonthly].[ToneDistanceAvailableInt] AS [ToneDistanceAvailableInt], 
+    [RPTFormAMonthly].[WeightLoadFactorDom] AS [WeightLoadFactorDom], 
+    [RPTFormAMonthly].[WeightLoadFactorInt] AS [WeightLoadFactorInt]
+    FROM [dbo].[RPTFormAMonthly] AS [RPTFormAMonthly]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewCao" EntityType="Self.ViewCao" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewCao].[ID] AS [ID], 
@@ -881,6 +954,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <EntitySet Name="XFlightCrews" EntityType="ppaModel.XFlightCrew" />
           <EntitySet Name="AppLegs" EntityType="ppaModel.AppLeg" />
           <EntitySet Name="ViewCaos" EntityType="ppaModel.ViewCao" />
+          <EntitySet Name="RPTFormAMonthlies" EntityType="ppaModel.RPTFormAMonthly" />
         </EntityContainer>
         <EntityType Name="ViewLegTime">
           <Key>
@@ -1331,6 +1405,43 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <Property Name="LandingStation" Type="DateTime" Precision="3" />
           <Property Name="TakeoffStation" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="RPTFormAMonthly">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Month" />
+            <PropertyRef Name="YearMonthDay" />
+          </Key>
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="MonthName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="YearMonthDay" Type="Int32" Nullable="false" />
+          <Property Name="DistanceDom" Type="Double" />
+          <Property Name="DistanceInt" Type="Double" />
+          <Property Name="FlightCountDom" Type="Int32" />
+          <Property Name="FlightCountInt" Type="Int32" />
+          <Property Name="FlightHourDom" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="FlightHourInt" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="PaxTotalDom" Type="Int32" />
+          <Property Name="PaxTotalInt" Type="Int32" />
+          <Property Name="SeatTotalDom" Type="Int32" />
+          <Property Name="SeatTotalInt" Type="Int32" />
+          <Property Name="FreightToneDom" Type="Int32" />
+          <Property Name="FreightToneInt" Type="Int32" />
+          <Property Name="PassDistanceDom" Type="Double" />
+          <Property Name="PassDistanceInt" Type="Double" />
+          <Property Name="SeatDistanceDom" Type="Double" />
+          <Property Name="SeatDistanceInt" Type="Double" />
+          <Property Name="PaxLoadDom" Type="Decimal" Precision="26" Scale="12" />
+          <Property Name="PaxLoadInt" Type="Decimal" Precision="26" Scale="12" />
+          <Property Name="PassBagToneDistanceDom" Type="Double" />
+          <Property Name="PassBagToneDistanceInt" Type="Double" />
+          <Property Name="CargoDistanceDom" Type="Double" />
+          <Property Name="CargoDistanceInt" Type="Double" />
+          <Property Name="ToneDistanceAvailableDom" Type="Double" />
+          <Property Name="ToneDistanceAvailableInt" Type="Double" />
+          <Property Name="WeightLoadFactorDom" Type="Double" />
+          <Property Name="WeightLoadFactorInt" Type="Double" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1757,6 +1868,42 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
                 <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
                 <ScalarProperty Name="Register" ColumnName="Register" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RPTFormAMonthlies">
+            <EntityTypeMapping TypeName="ppaModel.RPTFormAMonthly">
+              <MappingFragment StoreEntitySet="RPTFormAMonthly">
+                <ScalarProperty Name="WeightLoadFactorInt" ColumnName="WeightLoadFactorInt" />
+                <ScalarProperty Name="WeightLoadFactorDom" ColumnName="WeightLoadFactorDom" />
+                <ScalarProperty Name="ToneDistanceAvailableInt" ColumnName="ToneDistanceAvailableInt" />
+                <ScalarProperty Name="ToneDistanceAvailableDom" ColumnName="ToneDistanceAvailableDom" />
+                <ScalarProperty Name="CargoDistanceInt" ColumnName="CargoDistanceInt" />
+                <ScalarProperty Name="CargoDistanceDom" ColumnName="CargoDistanceDom" />
+                <ScalarProperty Name="PassBagToneDistanceInt" ColumnName="PassBagToneDistanceInt" />
+                <ScalarProperty Name="PassBagToneDistanceDom" ColumnName="PassBagToneDistanceDom" />
+                <ScalarProperty Name="PaxLoadInt" ColumnName="PaxLoadInt" />
+                <ScalarProperty Name="PaxLoadDom" ColumnName="PaxLoadDom" />
+                <ScalarProperty Name="SeatDistanceInt" ColumnName="SeatDistanceInt" />
+                <ScalarProperty Name="SeatDistanceDom" ColumnName="SeatDistanceDom" />
+                <ScalarProperty Name="PassDistanceInt" ColumnName="PassDistanceInt" />
+                <ScalarProperty Name="PassDistanceDom" ColumnName="PassDistanceDom" />
+                <ScalarProperty Name="FreightToneInt" ColumnName="FreightToneInt" />
+                <ScalarProperty Name="FreightToneDom" ColumnName="FreightToneDom" />
+                <ScalarProperty Name="SeatTotalInt" ColumnName="SeatTotalInt" />
+                <ScalarProperty Name="SeatTotalDom" ColumnName="SeatTotalDom" />
+                <ScalarProperty Name="PaxTotalInt" ColumnName="PaxTotalInt" />
+                <ScalarProperty Name="PaxTotalDom" ColumnName="PaxTotalDom" />
+                <ScalarProperty Name="FlightHourInt" ColumnName="FlightHourInt" />
+                <ScalarProperty Name="FlightHourDom" ColumnName="FlightHourDom" />
+                <ScalarProperty Name="FlightCountInt" ColumnName="FlightCountInt" />
+                <ScalarProperty Name="FlightCountDom" ColumnName="FlightCountDom" />
+                <ScalarProperty Name="DistanceInt" ColumnName="DistanceInt" />
+                <ScalarProperty Name="DistanceDom" ColumnName="DistanceDom" />
+                <ScalarProperty Name="YearMonthDay" ColumnName="YearMonthDay" />
+                <ScalarProperty Name="MonthName" ColumnName="MonthName" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

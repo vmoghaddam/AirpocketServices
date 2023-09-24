@@ -187,7 +187,8 @@ namespace ApiScheduling.Controllers
                     break;
                 case 'CCM':
                     _code = 9;
-                    break;
+                    break;api/sch/crew/valid/gant
+
                 default:
                     break;
             }
@@ -202,7 +203,7 @@ namespace ApiScheduling.Controllers
                             _query = _query.Where(q => q.JobGroup == "TRI" || q.JobGroup == "TRE" || q.JobGroup == "LTC" || q.JobGroup == "P1");
                             break;
                         case "10":
-                            _query = _query.Where(q => q.JobGroup == "TRI" || q.JobGroup == "TRE" || q.JobGroup == "LTC" || q.JobGroup == "P1" || q.JobGroup == "P2");
+                            _query = _query.Where(q => q.JobGroup == "TRI" || q.JobGroup == "TRE" || q.JobGroup == "LTC" || q.JobGroup == "P1" || q.JobGroup == "P2" || q.JobGroup == "FE");
                             break;
                         case "2":
                             _query = _query.Where(q => q.JobGroup == "P1");
@@ -217,19 +218,23 @@ namespace ApiScheduling.Controllers
                             _query = _query.Where(q => q.JobGroup == "TRI");
                             break;
                         case "6":
-                            _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM");
+                            _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "SCC" || q.JobGroup == "CCI" || q.JobGroup == "CCE");
                             break;
                         case "11":
-                            _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM");
+                            _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM"  || q.JobGroup == "SCC" || q.JobGroup == "CCI"
+                            || q.JobGroup == "CCE" || q.JobGroup == "CC");
                             break;
                         case "7":
-                            _query = _query.Where(q => q.JobGroup == "ISCCM");
+                            _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "CCI" || q.JobGroup == "CCE");
                             break;
                         case "8":
-                            _query = _query.Where(q => q.JobGroup == "SCCM");
+                            _query = _query.Where(q => q.JobGroup == "SCCM" || q.JobGroup == "SCC");
                             break;
                         case "9":
-                            _query = _query.Where(q => q.JobGroup == "CCM");
+                            _query = _query.Where(q => q.JobGroup == "CCM" || q.JobGroup == "CC");
+                            break;
+                        case "12":
+                            _query = _query.Where(q => q.JobGroup == "FE");
                             break;
                         default:
                             break;
@@ -388,6 +393,32 @@ namespace ApiScheduling.Controllers
                           }).ToList();
 
             return Ok(new { result, flights = query });
+
+        }
+
+
+        [Route("api/sch/flts/date/")]
+
+        //nookp
+        public IHttpActionResult GetSCHFlts(DateTime df)
+        {
+            //nooz
+            //this.context.Database.CommandTimeout = 160;
+            var dt = df.AddDays(1);
+            var context = new Models.dbEntities();
+            var query = context.SchFlights.Where(q => q.STDLocal  >= df && q.STDLocal<=dt ).OrderBy(q=>q.FlightNumber).ToList();
+            //var result = (from x in query
+            //              group x by new { x.ACType, x.ACTypeId, x.Register, x.RegisterID } into grp
+            //              select new
+            //              {
+            //                  grp.Key.ACType,
+            //                  grp.Key.ACTypeId,
+            //                  grp.Key.Register,
+            //                  grp.Key.RegisterID,
+            //                  Flights = grp.OrderBy(q => q.STD).ToList()
+            //              }).ToList();
+
+            return Ok(query);
 
         }
 

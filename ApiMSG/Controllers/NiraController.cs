@@ -46,7 +46,7 @@ namespace ApiMSG.Controllers
         {
             var histories = new List<NiraHistory>();
             var context = new ppa_vareshEntities();
-            var legs = context.ViewNiraFlights.Where(q => q.FlightStatusID ==1 && dto.ids.Contains(q.ID)).OrderBy(q => q.STDLocal).ToList();
+            var legs = context.ViewNiraFlights.Where(q => q.FlightStatusID == 1 && dto.ids.Contains(q.ID)).OrderBy(q => q.STDLocal).ToList();
             foreach (var leg in legs)
             {
                 var _std = (DateTime)leg.STDLocal;
@@ -80,7 +80,7 @@ namespace ApiMSG.Controllers
                     FlightStatusId = leg.FlightStatusID,
                     Register = leg.Register,
                     DateSend = DateTime.Now,
-                    Remark =   url
+                    Remark = url
                 };
 
 
@@ -116,7 +116,7 @@ namespace ApiMSG.Controllers
                     // result.NEWSTATUS = _result; //Convert.ToString(myObject.NEWSTATUS);
 
                     context.NiraHistories.Add(result);
-                   
+
                     histories.Add(result);
 
                 }
@@ -146,7 +146,7 @@ namespace ApiMSG.Controllers
             var ids = new List<int>() { id };
             var histories = new List<NiraHistory>();
             var context = new ppa_vareshEntities();
-            var legs = context.ViewNiraFlights.Where(q => q.FlightStatusID == 1 &&  ids.Contains(q.ID)).OrderBy(q => q.STDLocal).ToList();
+            var legs = context.ViewNiraFlights.Where(q => q.FlightStatusID == 1 && ids.Contains(q.ID)).OrderBy(q => q.STDLocal).ToList();
             foreach (var leg in legs)
             {
                 var _std = (DateTime)leg.STDLocal;
@@ -250,7 +250,7 @@ namespace ApiMSG.Controllers
             dfrom = dfrom.Date;
             dto = dto.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
             List<NRSCRSFlightData> niraFlights = new List<NRSCRSFlightData>();
-            using (var context = new   ppa_vareshEntities())
+            using (var context = new ppa_vareshEntities())
             {
                 var flights = context.ViewNiraFlights.Where(q => q.STDLocal >= dfrom && q.STDLocal <= dto && (q.FlightStatusID == 1 || q.FlightStatusID == 4)).ToList();
                 var flightNos = flights.Select(q => q.FlightNumber).Distinct().ToList();
@@ -331,6 +331,135 @@ namespace ApiMSG.Controllers
             return Ok(conflictResult);
         }
 
+
+        [Route("api/nira/delay/{id}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetNiraDelay(int id)
+        {
+            var context = new ppa_vareshEntities();
+            string airlineCode = ConfigurationManager.AppSettings["airline_code"];
+            string airline = airlineCode;
+            var flight = context.ViewNiras.FirstOrDefault(q => q.ID == id);
+            if (flight == null)
+                return Ok(-1);
+            if (flight.Delay > 30 && (flight.FlightStatusID == 1) /*&& notifiedDelay != xdelay*/ && ((DateTime)flight.STD - DateTime.UtcNow).TotalHours > 1)
+            {
+                var _std = (DateTime)flight.STDLocal;
+                var date = (_std).Year + "-" + (_std).Month.ToString().PadLeft(2, '0') + "-" + (_std).Day.ToString().PadLeft(2, '0');
+                if (flight.FlightDate != null)
+                {
+                    var fd = ((DateTime)flight.FlightDate).Date;
+                    date = (fd).Year + "-" + (fd).Month.ToString().PadLeft(2, '0') + "-" + (fd).Day.ToString().PadLeft(2, '0');
+                }
+                var dep = ((DateTime)flight.ChocksOutLocal).ToString("HH:mm");
+                var depDate = ((DateTime)flight.ChocksOutLocal).ToString("yyyy-MM-dd");
+                var arr = ((DateTime)flight.ChocksInLocal).ToString("HH:mm");
+                var status = "Scheduled";
+                if (flight.FlightStatusID == 4)
+                    status = "Canceled";
+                else if (flight.FlightStatusID == 2)
+                    status = "TookOff";
+                else if (flight.FlightStatusID == 3)
+                    status = "Landed";
+                var atireg =flight.Register;
+
+                var url = "http://iv.nirasoft.ir:882//NRSFlightInfo.jsp?Airline=" + airline + "&FlightNo=" + flight.FlightNumber
+                    + "&Origin=" + flight.FromAirportIATA + "&Destination=" + flight.ToAirportIATA + "&FlightDate="
+                    + date
+                    + "&NewDepartureTime=" + dep + "&NewDepartureDate=" + depDate + "&NewArrivalTime=" + arr + "&NewFlightStatus=" + status + "&NewACT=EP-" + atireg
+                    + "&Comment=lorem_ipsum&FleetWatchKey=" + flight.ID + "&SendSMS=true&OfficeUser=" + "Thr003.airpocket" + "&OfficePass=" + "nira123";
+
+                var _status = 1;
+
+                var result = new NiraHistory()
+                {
+                    FlightId = flight.ID,
+                    Arrival = flight.ChocksInLocal,
+                    Departure = flight.ChocksOutLocal,
+                    FlightStatusId = flight.FlightStatusID,
+                    Register = flight.Register,
+                    DateSend = DateTime.Now,
+                    Remark = url
+                };
+                context.NiraHistories.Add(result);
+
+                try
+                {
+                    // var _client = new HttpClient();
+
+                    // var _result = await _client.GetStringAsync(url);
+
+                    WebRequest request = WebRequest.Create(url);
+
+                    request.Credentials = CredentialCache.DefaultCredentials;
+
+                    WebResponse response = request.GetResponse();
+
+                    Stream dataStream = response.GetResponseStream();
+
+                    StreamReader reader = new StreamReader(dataStream);
+
+                    string responseFromServer = reader.ReadToEnd();
+
+                    reader.Close();
+                    response.Close();
+
+                    result.DateReplied = DateTime.Now;
+
+
+                    dynamic myObject = JsonConvert.DeserializeObject<dynamic>(responseFromServer);
+                    result.CHTIME = Convert.ToString(myObject.CHTIME);
+                    result.FLIGHT = Convert.ToString(myObject.FLIGHT);
+                    result.NEWAIRCRAFT = Convert.ToString(myObject.NEWAIRCRAFT);
+                    result.NEWSTATUS = Convert.ToString(myObject.NEWSTATUS);
+                    // result.NEWSTATUS = _result; //Convert.ToString(myObject.NEWSTATUS);
+
+                    
+
+                     
+
+                }
+                catch (Exception ex)
+                {
+                    var msg = "ERROR: " + ex.Message;
+                    if (ex.InnerException != null)
+                        msg += " INNER:" + ex.InnerException.Message;
+                    result.NEWSTATUS = msg;
+                    _status = -100;
+                }
+
+                var saveResult = context.SaveChanges();
+                return Ok(_status);
+            }
+            else
+                return Ok(0);
+
+
+
+
+        }
+
+
+
+        [Route("api/fail")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetRaiseException()
+        {
+            //  throw new Exception("BIG DADDY WILSON");
+            var context = new ppa_vareshEntities();
+            var flt = context.ViewLegTimes.FirstOrDefault(q => q.ID == -22232123);
+            var x = flt.ID;
+            return Ok(true);
+
+        }
+
+        [Route("api/fail2")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult FailHard()
+        {
+            //StackOverflow
+            return FailHard();
+        }
 
     }
     public class NRSCWSResult

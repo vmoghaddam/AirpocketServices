@@ -33,5 +33,6 @@ namespace ApiMSG.Models
         public virtual DbSet<ViewNiraFlight> ViewNiraFlights { get; set; }
         public virtual DbSet<BulkMsg> BulkMsgs { get; set; }
         public virtual DbSet<BulkMsgUsername> BulkMsgUsernames { get; set; }
+        public virtual DbSet<ViewNira> ViewNiras { get; set; }
     }
 }

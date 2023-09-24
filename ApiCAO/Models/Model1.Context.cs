@@ -32,5 +32,6 @@ namespace ApiCAO.Models
         public virtual DbSet<XFlightCrew> XFlightCrews { get; set; }
         public virtual DbSet<AppLeg> AppLegs { get; set; }
         public virtual DbSet<ViewCao> ViewCaos { get; set; }
+        public virtual DbSet<RPTFormAMonthly> RPTFormAMonthlies { get; set; }
     }
 }

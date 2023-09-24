@@ -1382,6 +1382,8 @@ namespace AirpocketTRN.Services
                     DateExpire = person.ProficiencyValidUntil,
                     Interval = 12,
                     ImageUrl = result.First().ImageUrl,
+                    
+                    PersonId = employee.PersonId,
                 });
                 ds.Add(new ViewCoursePeoplePassedRanked()
                 {
@@ -1394,6 +1396,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.ProficiencyValidUntilOPC,
                     Interval = 6,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1407,6 +1410,7 @@ namespace AirpocketTRN.Services
                     DateExpire = trg02 != null ? trg02.DateExpire : null,
                     Interval = 36,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
 
@@ -1421,6 +1425,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.AviationSecurityExpireDate,
                     Interval = 36,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1434,6 +1439,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.SMSExpireDate,
                     Interval = 24,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1447,6 +1453,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.SEPTPExpireDate,
                     Interval = 36,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1460,6 +1467,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.SEPTExpireDate,
                     Interval = 12,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1473,6 +1481,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.DangerousGoodsExpireDate,
                     Interval = 24,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1486,6 +1495,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.UpsetRecoveryTrainingExpireDate,
                     Interval = 12,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1499,6 +1509,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.CCRMExpireDate,
                     Interval = 36,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1512,6 +1523,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.HotWeatherOperationExpireDate,
                     Interval = 12,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1525,6 +1537,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.ColdWeatherOperationExpireDate,
                     Interval = 12,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1538,6 +1551,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.EGPWSExpireDate,
                     Interval = 24,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1551,6 +1565,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.DateIssueNDT == null ? null : (Nullable<DateTime>)((DateTime)person.DateIssueNDT).AddYears(1),
                     Interval = 12,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
             }
             else
@@ -1566,6 +1581,7 @@ namespace AirpocketTRN.Services
                     DateExpire = trg02 != null ? trg02.DateExpire : null,
                     Interval = 36,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
 
@@ -1580,6 +1596,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.AviationSecurityExpireDate,
                     Interval = 36,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
                 ds.Add(new ViewCoursePeoplePassedRanked()
                 {
@@ -1592,6 +1609,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.SMSExpireDate,
                     Interval = 24,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1605,6 +1623,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.SEPTPExpireDate,
                     Interval = 36,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1618,6 +1637,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.DangerousGoodsExpireDate,
                     Interval = 24,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
                 ds.Add(new ViewCoursePeoplePassedRanked()
                 {
@@ -1630,6 +1650,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.UpsetRecoveryTrainingExpireDate,
                     Interval = 12,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1643,6 +1664,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.CCRMExpireDate,
                     Interval = 36,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1656,6 +1678,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.FirstAidExpireDate,
                     Interval = 36,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
                 ds.Add(new ViewCoursePeoplePassedRanked()
                 {
@@ -1668,6 +1691,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.EGPWSExpireDate,
                     Interval = 24,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
                 ds.Add(new ViewCoursePeoplePassedRanked()
@@ -1681,6 +1705,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.RecurrentIssueDate == null ? null : (Nullable<DateTime>)((DateTime)person.RecurrentIssueDate).AddYears(1),
                     Interval = 12,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
                 ds.Add(new ViewCoursePeoplePassedRanked()
                 {
@@ -1693,6 +1718,7 @@ namespace AirpocketTRN.Services
                     DateExpire = person.DateIssueNDT == null ? null : (Nullable<DateTime>)((DateTime)person.DateIssueNDT).AddYears(1),
                     Interval = 12,
                     ImageUrl = result.First().ImageUrl,
+                    PersonId = employee.PersonId,
                 });
 
             }

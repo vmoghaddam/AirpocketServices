@@ -216,6 +216,9 @@
     <Compile Include="Models\ViewLegTime.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewNira.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewNiraFlight.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

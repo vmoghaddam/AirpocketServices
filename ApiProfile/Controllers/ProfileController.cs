@@ -139,6 +139,26 @@ namespace ApiProfile.Controllers
         }
 
 
+        [Route("api/profile/abs/{id}")]
+        public async Task<IHttpActionResult> GetProfileAbs(  int  id)
+        {
+            var context = new Models.dbEntities();
+            var profile = await context.ViewProfiles.FirstOrDefaultAsync(q => q.Id == id);
+            var abs = new
+            {
+                profile.Name,
+                profile.Id,
+                profile.PID,
+                profile.PersonId,
+                profile.JobGroup,
+                profile.NID,
+                profile.Mobile
+
+            };
+            return Ok(abs);
+        }
+
+
 
         [Route("api/profile/opc/nid/{nid}")]
         public async Task<IHttpActionResult> GetOPC(string nid)
@@ -165,6 +185,33 @@ namespace ApiProfile.Controllers
                 return Ok(msg);
             }
         }
+
+
+        [Route("api/profile/sms/{id}")]
+        public async Task<IHttpActionResult> GetSMS(int id)
+        {
+            try
+            {
+
+
+                var context = new Models.dbEntities();
+
+                var sms = await context.ViewCrewPickupSMS.Where(q => q.PersonId==id && q.IsVisited==0).OrderByDescending(q=>q.DateSent).Take(20).ToListAsync();
+                //soosk
+                ///var employee = await unitOfWork.PersonRepository.GetEmployeeDtoByNID(nid, cid);
+                 
+                return Ok(sms);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   INNER:  " + ex.InnerException.Message;
+                return Ok(msg);
+            }
+        }
+
+
 
         public class UpdTrnDto
         {

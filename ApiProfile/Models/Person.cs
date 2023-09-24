@@ -472,6 +472,19 @@ namespace ApiProfile.Models
         public Nullable<System.DateTime> SafetyPilotExpireDate { get; set; }
         public Nullable<System.DateTime> RouteCheckIssueDate { get; set; }
         public Nullable<System.DateTime> RouteCheckExpireDate { get; set; }
+        public string Category { get; set; }
+        public Nullable<System.DateTime> PROFICIENCY_ASSESSMENT_IsuueDate { get; set; }
+        public Nullable<System.DateTime> PROFICIENCY_ASSESSMENT_ExpireDate { get; set; }
+        public Nullable<System.DateTime> MPIssueDate { get; set; }
+        public Nullable<System.DateTime> MPExpireDate { get; set; }
+        public Nullable<System.DateTime> CALRIssueDate { get; set; }
+        public Nullable<System.DateTime> CALRExpireDate { get; set; }
+        public Nullable<System.DateTime> SpecialApprovalIssueDate { get; set; }
+        public Nullable<System.DateTime> SpecialApprovalExpireDate { get; set; }
+        public Nullable<System.DateTime> TRG01IssueDate { get; set; }
+        public Nullable<System.DateTime> TRG01ExpireDate { get; set; }
+        public Nullable<System.DateTime> TRG16IssueDate { get; set; }
+        public Nullable<System.DateTime> TRG16ExpireDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CertificateHistory> CertificateHistories { get; set; }
