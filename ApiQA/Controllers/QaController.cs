@@ -651,6 +651,9 @@ namespace ApiQA.Controllers
                 entity.DateStatus = dto.DateStatus;
                 entity.DateSign = dto.DateSign;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
+                entity.Name = dto.Name;
+                entity.Email = dto.Email;
+                entity.TelNumber = dto.TelNumber;
 
                 var saveChanges = await context.SaveChangesAsync();
                 dto.Id = entity.Id;
@@ -755,6 +758,9 @@ namespace ApiQA.Controllers
                 entity.DateStatus = dto.DateStatus;
                 entity.DateSign = dto.DateSign;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
+                entity.Email = dto.Email;
+                entity.Name = dto.Name;
+                entity.TelNumber = dto.TelNumber;
 
                 var saveChanges = await context.SaveChangesAsync();
                 dto.Id = entity.Id;
@@ -885,6 +891,9 @@ namespace ApiQA.Controllers
                 entity.DateStatus = dto.DateStatus;
                 entity.DateSign = dto.DateSign;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
+                entity.Name = dto.Name;
+                entity.Email = dto.Email;
+                entity.TelNumber = dto.TelNumber;
 
                 var saveChanges = await context.SaveChangesAsync();
                 dto.Id = entity.Id;

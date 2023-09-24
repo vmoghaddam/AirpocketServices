@@ -21,6 +21,9 @@ namespace ApiQA.Models
         public string Route { get; set; }
         public Nullable<System.DateTime> DateReport { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public Nullable<int> TelNumber { get; set; }
         public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string Description { get; set; }
         public Nullable<int> EmployeeId { get; set; }

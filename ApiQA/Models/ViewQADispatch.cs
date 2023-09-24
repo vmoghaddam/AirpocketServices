@@ -27,6 +27,9 @@ namespace ApiQA.Models
         public string OPReportedBy { get; set; }
         public string OPLocation { get; set; }
         public Nullable<int> CatagoryId { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public Nullable<int> Telnumber { get; set; }
         public Nullable<bool> OPCancelled { get; set; }
         public Nullable<System.DateTime> OPCancelledTime { get; set; }
         public Nullable<bool> OPACChanged { get; set; }
