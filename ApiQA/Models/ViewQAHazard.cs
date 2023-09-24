@@ -20,7 +20,7 @@ namespace ApiQA.Models
         public string Name { get; set; }
         public string TelNumber { get; set; }
         public string Email { get; set; }
-        public Nullable<System.DateTime> DateOccurrence { get; set; }
+        public Nullable<System.DateTime> DateReport { get; set; }
         public string AffectedArea { get; set; }
         public Nullable<System.DateTime> ReportDate { get; set; }
         public string HazardDescription { get; set; }

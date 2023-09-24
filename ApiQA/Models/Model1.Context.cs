@@ -42,8 +42,6 @@ namespace ApiQA.Models
         public virtual DbSet<QACSR> QACSRs { get; set; }
         public virtual DbSet<QADispatch> QADispatches { get; set; }
         public virtual DbSet<QAGroundIAD> QAGroundIADs { get; set; }
-        public virtual DbSet<QAHazard> QAHazards { get; set; }
-        public virtual DbSet<QAMaintenance> QAMaintenances { get; set; }
         public virtual DbSet<QASecurity> QASecurities { get; set; }
         public virtual DbSet<ViewQACSREvent> ViewQACSREvents { get; set; }
         public virtual DbSet<ViewQADashCatering> ViewQADashCaterings { get; set; }
@@ -52,8 +50,6 @@ namespace ApiQA.Models
         public virtual DbSet<ViewQACSR> ViewQACSRs { get; set; }
         public virtual DbSet<ViewQADispatch> ViewQADispatches { get; set; }
         public virtual DbSet<ViewQAGround> ViewQAGrounds { get; set; }
-        public virtual DbSet<ViewQAHazard> ViewQAHazards { get; set; }
-        public virtual DbSet<ViewQAMaintenance> ViewQAMaintenances { get; set; }
         public virtual DbSet<ViewQASecurity> ViewQASecurities { get; set; }
         public virtual DbSet<ViewQaDashCSR> ViewQaDashCSRs { get; set; }
         public virtual DbSet<ViewQAComment> ViewQAComments { get; set; }
@@ -61,7 +57,10 @@ namespace ApiQA.Models
         public virtual DbSet<ViewQAFollowingUp> ViewQAFollowingUps { get; set; }
         public virtual DbSet<ViewQABYEmployee> ViewQABYEmployees { get; set; }
         public virtual DbSet<ViewQAByEmployeeCount> ViewQAByEmployeeCounts { get; set; }
-        public virtual DbSet<ViewQAReferringCount> ViewQAReferringCounts { get; set; }
+        public virtual DbSet<QAHazard> QAHazards { get; set; }
+        public virtual DbSet<QAMaintenance> QAMaintenances { get; set; }
+        public virtual DbSet<ViewQAHazard> ViewQAHazards { get; set; }
+        public virtual DbSet<ViewQAMaintenance> ViewQAMaintenances { get; set; }
         public virtual DbSet<QAGetEntites_Result> QAGetEntites_Result { get; set; }
     
         public virtual ObjectResult<QACateringGet_Result1> QACateringGet(Nullable<int> employeeId, Nullable<int> flightId)
@@ -140,6 +139,19 @@ namespace ApiQA.Models
                 new ObjectParameter("FlightId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QASecurityGet_Result1>("QASecurityGet", employeeIdParameter, flightIdParameter);
+        }
+    
+        public virtual int QAByEmployeeCount(Nullable<int> type, Nullable<int> entityId)
+        {
+            var typeParameter = type.HasValue ?
+                new ObjectParameter("Type", type) :
+                new ObjectParameter("Type", typeof(int));
+    
+            var entityIdParameter = entityId.HasValue ?
+                new ObjectParameter("EntityId", entityId) :
+                new ObjectParameter("EntityId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("QAByEmployeeCount", typeParameter, entityIdParameter);
         }
     
         public virtual ObjectResult<QAGetEntites_Result> QAGetEntities(Nullable<int> employeeId, Nullable<int> type, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)

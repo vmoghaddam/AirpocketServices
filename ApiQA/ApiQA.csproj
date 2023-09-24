@@ -351,9 +351,6 @@
     <Compile Include="Models\ViewQAMaintenance.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ViewQAReferringCount.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ViewQAResponsibility.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

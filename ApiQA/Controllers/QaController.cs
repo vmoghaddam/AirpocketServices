@@ -363,7 +363,7 @@ namespace ApiQA.Controllers
                     context.QAMaintenances.Add(entity);
                 }
 
-                entity.DateOccurrence = dto.OccurrenceDateTime;
+                entity.DateReport = dto.OccurrenceDateTime;
                 entity.ComponentSpecificationId = dto.ComponentSpecificationId;
                 entity.ATLNo = dto.ATLNo;
                 entity.TaskNo = dto.TaskNo;
@@ -421,7 +421,7 @@ namespace ApiQA.Controllers
                 entity.TelNumber = dto.TelNumber;
                 entity.ReportDate = dto.ReportDate;
                 entity.AffectedArea = dto.AffectedArea;
-                entity.DateOccurrence = dto.HazardDate;
+                entity.DateReport = dto.HazardDate;
                 entity.HazardDescription = dto.HazardDescription;
                 entity.RecommendedAction = dto.RecommendedAction;
                 entity.EmployeeId = dto.EmployeeId;
