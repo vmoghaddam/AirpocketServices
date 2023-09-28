@@ -30,6 +30,25 @@ namespace ApiQA.Controllers
 
         ppa_entities context = new ppa_entities();
 
+
+        [HttpGet]
+        [Route("api/creator/history/{cid}")]
+        public async Task<DataResponse> CreatorHistory(int cid)
+        {
+
+            //var result = context.QAOptions.Where(q => q.ParentId == 7);
+            var query = (from x in context.ViewQaReportsByCreators
+                        where x.CreatorId == cid
+                        orderby x.DateCreation descending,x.Status
+                        select x).ToList();
+            return new DataResponse()
+            {
+                Data = query,
+                IsSuccess = true
+            };
+        }
+
+
         [HttpGet]
         [Route("api/get/csr/flightphase")]
         public async Task<DataResponse> CSRFlightPhase()
@@ -178,13 +197,28 @@ namespace ApiQA.Controllers
         public async Task<DataResponse> GetCSRByFlightId(int FlightId, int EmployeeId)
         {
             //var result = context.ViewQACSRs.SingleOrDefault(q => q.FlightId == FlightId);
-            var result = context.QACSRGet(EmployeeId, FlightId).Single();
-            var csrEvent = context.ViewQACSREvents.Where(q => q.QACSRId == result.Id).ToList();
-            return new DataResponse()
+            try
             {
-                Data = new { result = result, CSREvent = csrEvent },
-                IsSuccess = true
-            };
+                var result = context.QACSRGet(EmployeeId, FlightId).Single();
+                var csrEvent = context.ViewQACSREvents.Where(q => q.QACSRId == result.Id).ToList();
+                return new DataResponse()
+                {
+                    Data = new { result = result, CSREvent = csrEvent },
+                    IsSuccess = true
+                };
+            }
+            catch(Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data =msg,
+                    IsSuccess = true
+                };
+            }
+          
         }
 
         [HttpGet]
@@ -283,7 +317,12 @@ namespace ApiQA.Controllers
             };
         }
 
-
+        DateTime ConvertToDateTime(string str)
+        {
+            var prts = str.Split('-').Select(q => Convert.ToInt32(q)).ToList();
+            var dt = new DateTime(prts[0], prts[1], prts[2], prts[3], prts[4], 0);
+            return dt;
+        }
 
         [HttpPost]
         [Route("api/save/csr")]
@@ -293,12 +332,17 @@ namespace ApiQA.Controllers
             try
             {
                 int Id = dto.Id;
-                string Date = dto.OccurrenceDateTime.ToString();
+                string Date = dto.DateOccurrenceStr.ToString();
                 var entity = context.QACSRs.SingleOrDefault(q => q.Id == Id);
                 if (entity == null)
                 {
                     entity = new QACSR();
                     context.QACSRs.Add(entity);
+                }
+                else
+                {
+                    var exist_events = context.QACSREvents.Where(q => q.QACSRId == Id).ToList();
+                    context.QACSREvents.RemoveRange(exist_events);
                 }
 
 
@@ -308,7 +352,7 @@ namespace ApiQA.Controllers
                 entity.Describtion = dto.Describtion;
                 entity.EventLocation = dto.EventLocation;
                 entity.ReportFiledBy = dto.ReportFiledBy;
-                entity.DateOccurrence = DateTime.Parse(Date);
+                entity.DateOccurrence = ConvertToDateTime(Date); //DateTime.Parse(Date) ;
                 entity.Recommendation = dto.Recommendation;
                 entity.WeatherCondition = dto.WeatherCondition;
                 entity.Name = dto.Name;
@@ -321,7 +365,9 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
-                entity.DateSign = dto.DateSign;
+                //entity.DateSign = dto.DateSign;
+                if (dto.Signed!=null)
+                    entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
                 foreach (var x in dto.EventTitleIds)
                 {
@@ -341,9 +387,12 @@ namespace ApiQA.Controllers
             }
             catch (Exception ex)
             {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
                 return new DataResponse()
                 {
-                    Data = ex.InnerException,
+                    Data = msg,
                     IsSuccess = false
                 };
             }

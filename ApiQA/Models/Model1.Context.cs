@@ -60,9 +60,9 @@ namespace ApiQA.Models
         public virtual DbSet<ViewQACatering> ViewQACaterings { get; set; }
         public virtual DbSet<ViewQADispatch> ViewQADispatches { get; set; }
         public virtual DbSet<ViewQAHazard> ViewQAHazards { get; set; }
-        public virtual DbSet<ViewQaReportsByCreator> ViewQaReportsByCreators { get; set; }
         public virtual DbSet<ViewQASecurity> ViewQASecurities { get; set; }
         public virtual DbSet<QAMaintenance> QAMaintenances { get; set; }
+        public virtual DbSet<ViewQaReportsByCreator> ViewQaReportsByCreators { get; set; }
     
         public virtual ObjectResult<QACateringGet_Result1> QACateringGet(Nullable<int> employeeId, Nullable<int> flightId)
         {

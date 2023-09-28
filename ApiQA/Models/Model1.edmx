@@ -1269,7 +1269,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQaReportsByCreator' does not ha
             <PropertyRef Name="EntityId" />
             <PropertyRef Name="CreatorName" />
             <PropertyRef Name="Status" />
-            <PropertyRef Name="StatusEmployeeName" />
           </Key>
           <Property Name="type" Type="int" Nullable="false" />
           <Property Name="TypeTitle" Type="varchar" MaxLength="38" Nullable="false" />
@@ -1278,10 +1277,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQaReportsByCreator' does not ha
           <Property Name="DateCreation" Type="datetime" />
           <Property Name="CreatorId" Type="int" />
           <Property Name="CreatorName" Type="nvarchar" MaxLength="1003" Nullable="false" />
-          <Property Name="Status" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="11" Nullable="false" />
           <Property Name="StatusEmployeeId" Type="int" />
-          <Property Name="StatusEmployeeName" Type="nvarchar" MaxLength="1003" Nullable="false" />
+          <Property Name="StatusEmployeeName" Type="nvarchar" MaxLength="1003" />
           <Property Name="Result" Type="nvarchar" MaxLength="4000" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="Route" Type="nvarchar" MaxLength="511" />
+          <Property Name="STDLocal" Type="datetime" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewQAResponsibility' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2121,7 +2125,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
     [ViewQaReportsByCreator].[Status] AS [Status], 
     [ViewQaReportsByCreator].[StatusEmployeeId] AS [StatusEmployeeId], 
     [ViewQaReportsByCreator].[StatusEmployeeName] AS [StatusEmployeeName], 
-    [ViewQaReportsByCreator].[Result] AS [Result]
+    [ViewQaReportsByCreator].[Result] AS [Result], 
+    [ViewQaReportsByCreator].[FlightId] AS [FlightId], 
+    [ViewQaReportsByCreator].[FlightNumber] AS [FlightNumber], 
+    [ViewQaReportsByCreator].[Route] AS [Route], 
+    [ViewQaReportsByCreator].[STDLocal] AS [STDLocal], 
+    [ViewQaReportsByCreator].[Register] AS [Register]
     FROM [dbo].[ViewQaReportsByCreator] AS [ViewQaReportsByCreator]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewQAResponsibility" EntityType="Self.ViewQAResponsibility" store:Type="Views" store:Schema="dbo">
@@ -2336,7 +2345,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="ViewQACaterings" EntityType="ppaModel.ViewQACatering" />
           <EntitySet Name="ViewQADispatches" EntityType="ppaModel.ViewQADispatch" />
           <EntitySet Name="ViewQAHazards" EntityType="ppaModel.ViewQAHazard" />
-          <EntitySet Name="ViewQaReportsByCreators" EntityType="ppaModel.ViewQaReportsByCreator" />
           <EntitySet Name="ViewQASecurities" EntityType="ppaModel.ViewQASecurity" />
           <AssociationSet Name="FK__QACaterin__Fligh__2DA7A64D" Association="ppaModel.FK__QACaterin__Fligh__2DA7A64D">
             <End Role="FlightInformation" EntitySet="FlightInformations" />
@@ -2367,6 +2375,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             <End Role="QAOption" EntitySet="QAOptions" />
             <End Role="QAMaintenance" EntitySet="QAMaintenances" />
           </AssociationSet>
+          <EntitySet Name="ViewQaReportsByCreators" EntityType="ppaModel.ViewQaReportsByCreator" />
           </EntityContainer>
         <EntityType Name="FlightInformation">
           <Key>
@@ -4208,27 +4217,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="StatusEmployeeName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
           <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="ViewQaReportsByCreator">
-          <Key>
-            <PropertyRef Name="type" />
-            <PropertyRef Name="TypeTitle" />
-            <PropertyRef Name="EntityId" />
-            <PropertyRef Name="CreatorName" />
-            <PropertyRef Name="Status" />
-            <PropertyRef Name="StatusEmployeeName" />
-          </Key>
-          <Property Name="type" Type="Int32" Nullable="false" />
-          <Property Name="TypeTitle" Type="String" Nullable="false" MaxLength="38" FixedLength="false" Unicode="false" />
-          <Property Name="EntityId" Type="Int32" Nullable="false" />
-          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
-          <Property Name="DateCreation" Type="DateTime" Precision="3" />
-          <Property Name="CreatorId" Type="Int32" />
-          <Property Name="CreatorName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="StatusEmployeeId" Type="Int32" />
-          <Property Name="StatusEmployeeName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
-          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="ViewQASecurity">
           <Key>
             <PropertyRef Name="FlightId" />
@@ -4380,6 +4368,31 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ViewQaReportsByCreator">
+          <Key>
+            <PropertyRef Name="type" />
+            <PropertyRef Name="TypeTitle" />
+            <PropertyRef Name="EntityId" />
+            <PropertyRef Name="CreatorName" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="TypeTitle" Type="String" Nullable="false" MaxLength="38" FixedLength="false" Unicode="false" />
+          <Property Name="EntityId" Type="Int32" Nullable="false" />
+          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
+          <Property Name="DateCreation" Type="DateTime" Precision="3" />
+          <Property Name="CreatorId" Type="Int32" />
+          <Property Name="CreatorName" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="StatusEmployeeName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Route" Type="String" MaxLength="511" FixedLength="false" Unicode="true" />
+          <Property Name="STDLocal" Type="DateTime" Precision="3" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5815,23 +5828,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ViewQaReportsByCreators">
-            <EntityTypeMapping TypeName="ppaModel.ViewQaReportsByCreator">
-              <MappingFragment StoreEntitySet="ViewQaReportsByCreator">
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="StatusEmployeeName" ColumnName="StatusEmployeeName" />
-                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatorName" ColumnName="CreatorName" />
-                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
-                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-                <ScalarProperty Name="TypeTitle" ColumnName="TypeTitle" />
-                <ScalarProperty Name="type" ColumnName="type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViewQASecurities">
             <EntityTypeMapping TypeName="ppaModel.ViewQASecurity">
               <MappingFragment StoreEntitySet="ViewQASecurity">
@@ -5896,6 +5892,28 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
                 <ScalarProperty Name="DateReport" ColumnName="DateReport" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewQaReportsByCreators">
+            <EntityTypeMapping TypeName="ppaModel.ViewQaReportsByCreator">
+              <MappingFragment StoreEntitySet="ViewQaReportsByCreator">
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="STDLocal" ColumnName="STDLocal" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="StatusEmployeeName" ColumnName="StatusEmployeeName" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatorName" ColumnName="CreatorName" />
+                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="TypeTitle" ColumnName="TypeTitle" />
+                <ScalarProperty Name="type" ColumnName="type" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
