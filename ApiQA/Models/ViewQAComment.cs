@@ -21,5 +21,6 @@ namespace ApiQA.Models
         public string name { get; set; }
         public string Comment { get; set; }
         public Nullable<System.DateTime> DateComment { get; set; }
+        public string ReceiverList { get; set; }
     }
 }

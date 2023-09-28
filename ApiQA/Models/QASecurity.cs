@@ -42,7 +42,7 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> DateCreation { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public Nullable<int> TelNumber { get; set; }
+        public string TelNumber { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
         public virtual QAOption QAOption { get; set; }

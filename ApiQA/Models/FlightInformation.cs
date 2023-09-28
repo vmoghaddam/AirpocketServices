@@ -20,9 +20,9 @@ namespace ApiQA.Models
             this.QACSRs = new HashSet<QACSR>();
             this.QAGroundIADs = new HashSet<QAGroundIAD>();
             this.QACaterings = new HashSet<QACatering>();
-            this.QADispatches = new HashSet<QADispatch>();
-            this.QASecurities = new HashSet<QASecurity>();
             this.QAMaintenances = new HashSet<QAMaintenance>();
+            this.QASecurities = new HashSet<QASecurity>();
+            this.QADispatches = new HashSet<QADispatch>();
         }
     
         public int ID { get; set; }
@@ -321,10 +321,10 @@ namespace ApiQA.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QACatering> QACaterings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QADispatch> QADispatches { get; set; }
+        public virtual ICollection<QAMaintenance> QAMaintenances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QASecurity> QASecurities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QAMaintenance> QAMaintenances { get; set; }
+        public virtual ICollection<QADispatch> QADispatches { get; set; }
     }
 }

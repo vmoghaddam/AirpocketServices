@@ -10,13 +10,12 @@
 namespace ApiQA.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class QADispatch
+    public partial class QADispatchGet_Result6
     {
-        public int Id { get; set; }
+        public Nullable<int> Id { get; set; }
         public Nullable<int> FlightId { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
         public Nullable<int> Type { get; set; }
         public Nullable<System.DateTime> DateReport { get; set; }
         public Nullable<System.DateTime> DateOccurrence { get; set; }
@@ -24,21 +23,21 @@ namespace ApiQA.Models
         public string OPReportedBy { get; set; }
         public string OPLocation { get; set; }
         public Nullable<int> CatagoryId { get; set; }
+        public Nullable<bool> OPCancelled { get; set; }
+        public Nullable<System.DateTime> OPCancelledTime { get; set; }
+        public Nullable<bool> OPACChanged { get; set; }
+        public Nullable<System.DateTime> OPACChangedTime { get; set; }
+        public Nullable<bool> OPCrewChanged { get; set; }
+        public Nullable<System.DateTime> OPCrewChangedTime { get; set; }
+        public Nullable<bool> OPFlightPerformed { get; set; }
+        public Nullable<System.DateTime> OPFlightPerformedTime { get; set; }
         public string OPSummary { get; set; }
         public string DISLocation { get; set; }
         public Nullable<int> DISTimeDuration { get; set; }
         public string DISActionResult { get; set; }
         public string Remarks { get; set; }
-        public Nullable<int> Status { get; set; }
-        public Nullable<System.DateTime> DateStatus { get; set; }
-        public Nullable<int> StatusEmployeeId { get; set; }
-        public Nullable<System.DateTime> DateSign { get; set; }
-        public string Result { get; set; }
-        public Nullable<System.DateTime> DateCreation { get; set; }
         public string Email { get; set; }
-        public string Name { get; set; }
         public string TelNumber { get; set; }
-    
-        public virtual FlightInformation FlightInformation { get; set; }
+        public string Name { get; set; }
     }
 }

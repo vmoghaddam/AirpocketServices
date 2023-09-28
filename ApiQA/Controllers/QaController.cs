@@ -406,6 +406,7 @@ namespace ApiQA.Controllers
             {
 
                 int Id = dto.Id;
+                string Date = dto.DateOccurrenceStr.ToString();
                 var entity = context.QAMaintenances.SingleOrDefault(q => q.Id == Id);
                 if (entity == null)
                 {
@@ -413,7 +414,7 @@ namespace ApiQA.Controllers
                     context.QAMaintenances.Add(entity);
                 }
 
-                entity.DateReport = dto.OccurrenceDateTime;
+                entity.DateOccurrence = ConvertToDateTime(Date);
                 entity.ComponentSpecificationId = dto.ComponentSpecificationId;
                 entity.ATLNo = dto.ATLNo;
                 entity.TaskNo = dto.TaskNo;
@@ -431,7 +432,9 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
-                entity.DateSign = dto.DateSign;
+                //entity.DateSign = dto.DateSign;
+                if (dto.Signed != null)
+                    entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
                 context.SaveChanges();
                 dto.Id = entity.Id;
@@ -461,6 +464,7 @@ namespace ApiQA.Controllers
             try
             {
                 int Id = dto.Id;
+                string Data = dto.DateOccurrenceStr.ToString();
                 var entity = context.QAHazards.SingleOrDefault(q => q.Id == Id);
                 if (entity == null)
                 {
@@ -470,16 +474,18 @@ namespace ApiQA.Controllers
                 entity.Name = dto.Name;
                 entity.Email = dto.Email;
                 entity.TelNumber = dto.TelNumber;
-                entity.ReportDate = dto.ReportDate;
+                entity.DateOccurrence = dto.DateOccurrence;
                 entity.AffectedArea = dto.AffectedArea;
-                entity.DateReport = dto.HazardDate;
+                entity.DateReport = dto.DateReport;
                 entity.HazardDescription = dto.HazardDescription;
                 entity.RecommendedAction = dto.RecommendedAction;
                 entity.EmployeeId = dto.EmployeeId;
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
-                entity.DateSign = dto.DateSign;
+                //entity.DateSign = dto.DateSign;
+                if (dto.Signed != null)
+                    entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
                 context.SaveChanges();
                 dto.Id = entity.Id;
@@ -492,9 +498,12 @@ namespace ApiQA.Controllers
             }
             catch (Exception ex)
             {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
                 return new DataResponse()
                 {
-                    Data = ex.InnerException,
+                    Data = msg,
                     IsSuccess = false
                 };
             }
@@ -511,6 +520,7 @@ namespace ApiQA.Controllers
             try
             {
                 int Id = dto.Id;
+                string Date = dto.DateOccurrenceStr.ToString();
                 var entity = context.QAGroundIADs.SingleOrDefault(q => q.Id == Id);
                 if (entity == null)
                 {
@@ -523,16 +533,14 @@ namespace ApiQA.Controllers
                 entity.ContributoryFactors = dto.ContributoryFactors;
                 entity.CorrectiveActionTaken = dto.CorrectiveActionTaken;
                 entity.DamageById = dto.DamageById;
-                entity.DateOccurrence = dto.DamageDate;
+                entity.DateOccurrence = ConvertToDateTime(Date);
                 entity.DamageDetails = dto.DamageDetails;
-                //entity.DateSigne
                 entity.EmployeeId = dto.EmployeeId;
                 entity.CorrectiveActionTaken = dto.CorrectiveActionTaken;
                 entity.EmployeesNonFatalityNr = dto.EmployeesNonFatalityNr;
                 entity.EmployeesFatalityNr = dto.EmployeesFatalityNr;
                 entity.Event = dto.Event;
                 entity.FlightId = dto.FlightId;
-                //entity.FlightInformation
                 entity.OperationPhase = dto.OperationPhase;
                 entity.OthersFatalityNr = dto.OthersFatalityNr;
                 entity.OthersNonFatalityNr = dto.OthersNonFatalityNr;
@@ -555,7 +563,6 @@ namespace ApiQA.Controllers
                 entity.PersonnelName3 = dto.PersonnelName3;
                 entity.PersonnelStaffNr3 = dto.PersonnelStaffNr3;
                 entity.ScheduledGroundTime = dto.ScheduledGroundTime;
-                //entity.Title
                 entity.VEAge = dto.VEAge;
                 entity.VEArea = dto.VEArea;
                 entity.VEBrakesCon = dto.VEBrakesCon;
@@ -586,7 +593,9 @@ namespace ApiQA.Controllers
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
-                entity.DateSign = dto.DateSign;
+                //entity.DateSign = dto.DateSign;
+                if (dto.Signed != null)
+                    entity.DateSign = DateTime.Now;
                 context.SaveChanges();
                 dto.Id = entity.Id;
                 return new DataResponse()
@@ -598,9 +607,12 @@ namespace ApiQA.Controllers
             }
             catch (Exception ex)
             {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
                 return new DataResponse()
                 {
-                    Data = ex.InnerException,
+                    Data = msg,
                     IsSuccess = false
                 };
             }
@@ -669,16 +681,18 @@ namespace ApiQA.Controllers
             {
 
                 int Id = dto.Id;
+                string Date = dto.DateOccurrenceStr.ToString();
                 var entity = context.QACaterings.SingleOrDefault(q => q.Id == Id);
                 if (entity == null)
                 {
                     entity = new QACatering();
                     context.QACaterings.Add(entity);
                 }
+                
 
                 entity.DateReport = dto.DateReport;
                 entity.DateSign = dto.DateSign;
-                entity.DateOccurrence = dto.DateHazard;
+                entity.DateOccurrence = ConvertToDateTime(Date);
                 entity.Description = dto.Description;
                 entity.Equipment = dto.Equipment;
                 entity.EmployeeId = dto.EmployeeId;
@@ -698,7 +712,9 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
-                entity.DateSign = dto.DateSign;
+                //entity.DateSign = dto.DateSign;
+                if (dto.Signed != null)
+                    entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
                 entity.Name = dto.Name;
                 entity.Email = dto.Email;
@@ -714,9 +730,12 @@ namespace ApiQA.Controllers
             }
             catch (Exception ex)
             {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
                 return new DataResponse()
                 {
-                    Data = ex.InnerException,
+                    Data = msg,
                     IsSuccess = false
                 };
             }
@@ -775,6 +794,7 @@ namespace ApiQA.Controllers
             {
 
                 int Id = dto.Id;
+                string Date = dto.DateOccurrenceStr.ToString();
                 var entity = context.QASecurities.SingleOrDefault(q => q.Id == Id);
                 if (entity == null)
                 {
@@ -784,7 +804,7 @@ namespace ApiQA.Controllers
 
                 entity.DateReport = dto.DateReport;
                 entity.DateSign = dto.DateSign;
-                entity.DateOccurrence = dto.DateTimeHazard;
+                entity.DateOccurrence = ConvertToDateTime(Date);
                 entity.Description = dto.Description;
                 entity.Camera = dto.Camera;
                 entity.CarryingBox = dto.CarryingBox;
@@ -805,7 +825,9 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
-                entity.DateSign = dto.DateSign;
+                //entity.DateSign = dto.DateSign;
+                if (dto.Signed != null)
+                    entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
                 entity.Email = dto.Email;
                 entity.Name = dto.Name;
@@ -914,6 +936,7 @@ namespace ApiQA.Controllers
             {
 
                 int Id = dto.Id;
+                string Date = dto.DateOccurrenceStr.ToString();
                 var entity = context.QADispatches.SingleOrDefault(q => q.Id == Id);
                 if (entity == null)
                 {
@@ -924,7 +947,7 @@ namespace ApiQA.Controllers
                 entity.DateReport = dto.DateReport;
                 entity.DISActionResult = dto.DISActionResult;
                 entity.CatagoryId = dto.CatagoryId;
-                entity.DateOccurrence = dto.DateTimeEvent;
+                entity.DateOccurrence = ConvertToDateTime(Date);
                 entity.DISLocation = dto.DISLocation;
                 entity.DISTimeDuration = dto.DISTimeDuration;
                 entity.FlightId = dto.FlightId;
@@ -938,7 +961,9 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
-                entity.DateSign = dto.DateSign;
+                //entity.DateSign = dto.DateSign;
+                if (dto.Signed != null)
+                    entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
                 entity.Name = dto.Name;
                 entity.Email = dto.Email;
@@ -954,9 +979,12 @@ namespace ApiQA.Controllers
             }
             catch (Exception ex)
             {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
                 return new DataResponse()
                 {
-                    Data = ex.InnerException,
+                    Data = msg,
                     IsSuccess = false
                 };
             }
