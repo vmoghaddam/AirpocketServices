@@ -691,7 +691,6 @@ namespace ApiQA.Controllers
                 
 
                 entity.DateReport = dto.DateReport;
-                entity.DateSign = dto.DateSign;
                 entity.DateOccurrence = ConvertToDateTime(Date);
                 entity.Description = dto.Description;
                 entity.Equipment = dto.Equipment;

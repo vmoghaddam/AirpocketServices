@@ -90,19 +90,6 @@ namespace ApiQA.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QAGroundGet_Result1>("QAGroundGet", employeeIdParameter, flightIdParameter);
         }
     
-        public virtual ObjectResult<QAMaintenanceGet_Result1> QAMaintenanceGet(Nullable<int> employeeId, Nullable<int> flightId)
-        {
-            var employeeIdParameter = employeeId.HasValue ?
-                new ObjectParameter("EmployeeId", employeeId) :
-                new ObjectParameter("EmployeeId", typeof(int));
-    
-            var flightIdParameter = flightId.HasValue ?
-                new ObjectParameter("FlightId", flightId) :
-                new ObjectParameter("FlightId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QAMaintenanceGet_Result1>("QAMaintenanceGet", employeeIdParameter, flightIdParameter);
-        }
-    
         public virtual int QAByEmployeeCount(Nullable<int> type, Nullable<int> entityId)
         {
             var typeParameter = type.HasValue ?
@@ -184,7 +171,7 @@ namespace ApiQA.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QACateringGet_Result2>("QACateringGet", employeeIdParameter, flightIdParameter);
         }
     
-        public virtual ObjectResult<QADispatchGet_Result6> QADispatchGet(Nullable<int> employeeId, Nullable<int> flightId)
+        public virtual ObjectResult<QAMaintenanceGet_Result2> QAMaintenanceGet(Nullable<int> employeeId, Nullable<int> flightId)
         {
             var employeeIdParameter = employeeId.HasValue ?
                 new ObjectParameter("EmployeeId", employeeId) :
@@ -194,7 +181,20 @@ namespace ApiQA.Models
                 new ObjectParameter("FlightId", flightId) :
                 new ObjectParameter("FlightId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QADispatchGet_Result6>("QADispatchGet", employeeIdParameter, flightIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QAMaintenanceGet_Result2>("QAMaintenanceGet", employeeIdParameter, flightIdParameter);
+        }
+    
+        public virtual ObjectResult<QADispatchGet_Result7> QADispatchGet(Nullable<int> employeeId, Nullable<int> flightId)
+        {
+            var employeeIdParameter = employeeId.HasValue ?
+                new ObjectParameter("EmployeeId", employeeId) :
+                new ObjectParameter("EmployeeId", typeof(int));
+    
+            var flightIdParameter = flightId.HasValue ?
+                new ObjectParameter("FlightId", flightId) :
+                new ObjectParameter("FlightId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QADispatchGet_Result7>("QADispatchGet", employeeIdParameter, flightIdParameter);
         }
     }
 }
