@@ -22,7 +22,6 @@ namespace ApiQA.Models
         public string Email { get; set; }
         public Nullable<System.DateTime> DateReport { get; set; }
         public string AffectedArea { get; set; }
-        public Nullable<System.DateTime> ReportDate { get; set; }
         public string HazardDescription { get; set; }
         public string RecommendedAction { get; set; }
         public Nullable<int> status { get; set; }

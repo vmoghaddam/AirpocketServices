@@ -55,7 +55,6 @@ namespace ApiQA.Models
         public virtual DbSet<QAGroundIAD> QAGroundIADs { get; set; }
         public virtual DbSet<ViewQACatering> ViewQACaterings { get; set; }
         public virtual DbSet<ViewQADispatch> ViewQADispatches { get; set; }
-        public virtual DbSet<ViewQAHazard> ViewQAHazards { get; set; }
         public virtual DbSet<ViewQASecurity> ViewQASecurities { get; set; }
         public virtual DbSet<ViewQaReportsByCreator> ViewQaReportsByCreators { get; set; }
         public virtual DbSet<QACatering> QACaterings { get; set; }
@@ -63,6 +62,7 @@ namespace ApiQA.Models
         public virtual DbSet<QASecurity> QASecurities { get; set; }
         public virtual DbSet<QADispatch> QADispatches { get; set; }
         public virtual DbSet<QAHazard> QAHazards { get; set; }
+        public virtual DbSet<ViewQAHazard> ViewQAHazards { get; set; }
     
         public virtual ObjectResult<QACSRGet_Result1> QACSRGet(Nullable<int> employeeId, Nullable<int> flightId)
         {

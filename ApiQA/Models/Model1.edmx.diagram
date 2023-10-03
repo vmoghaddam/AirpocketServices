@@ -41,7 +41,6 @@
         <AssociationConnector Association="ppaModel.FK__QAGroundI__WXWea__18AC8967" />
         <EntityTypeShape EntityType="ppaModel.ViewQACatering" Width="1.5" PointX="14.375" PointY="3.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQADispatch" Width="1.5" PointX="17.375" PointY="13.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQAHazard" Width="1.5" PointX="19.375" PointY="13.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQASecurity" Width="1.5" PointX="20.375" PointY="4.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQaReportsByCreator" Width="1.5" PointX="19.375" PointY="19.75" />
         <EntityTypeShape EntityType="ppaModel.QACatering" Width="1.5" PointX="19" PointY="73.125" />
@@ -56,6 +55,7 @@
         <EntityTypeShape EntityType="ppaModel.QADispatch" Width="1.5" PointX="5.25" PointY="95.25" />
         <AssociationConnector Association="ppaModel.FK__QADispatc__Fligh__77C096E8" />
         <EntityTypeShape EntityType="ppaModel.QAHazard" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewQAHazard" Width="1.5" PointX="19.375" PointY="13.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

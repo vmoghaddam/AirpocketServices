@@ -309,12 +309,26 @@ namespace ApiQA.Controllers
         [Route("api/get/vhr/{Id}")]
         public async Task<DataResponse> GetVHRById(int Id)
         {
-            var result = context.ViewQAHazards.SingleOrDefault(q => q.Id == Id);
-            return new DataResponse()
+            try
             {
-                Data = result,
-                IsSuccess = true
-            };
+                var result = context.ViewQAHazards.SingleOrDefault(q => q.Id == Id);
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            }
         }
 
         DateTime ConvertToDateTime(string str)
