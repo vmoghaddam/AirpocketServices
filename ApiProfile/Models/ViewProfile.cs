@@ -197,5 +197,8 @@ namespace ApiProfile.Models
         public Nullable<int> RemainTRG01 { get; set; }
         public Nullable<int> RemainTRG16 { get; set; }
         public Nullable<int> RemainLOAD_CONTROL { get; set; }
+        public Nullable<int> RemainPhase1 { get; set; }
+        public Nullable<int> RemainPhase2 { get; set; }
+        public Nullable<int> RemainPhase3 { get; set; }
     }
 }

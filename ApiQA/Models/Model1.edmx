@@ -5,6 +5,30 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ppaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DutyLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FlightId" Type="int" />
+          <Property Name="DateCreate" Type="datetime2" Precision="7" />
+          <Property Name="Username" Type="varchar" MaxLength="500" />
+          <Property Name="CrewId" Type="int" />
+          <Property Name="CrewName" Type="varchar" MaxLength="500" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="Position" Type="varchar" MaxLength="500" />
+          <Property Name="IsPositioning" Type="bit" />
+          <Property Name="Action" Type="varchar" MaxLength="255" />
+          <Property Name="FlightStatusId" Type="int" />
+          <Property Name="FlightIds" Type="varchar" MaxLength="1000" />
+          <Property Name="Flights" Type="varchar" MaxLength="1000" />
+          <Property Name="Route" Type="varchar" MaxLength="1000" />
+          <Property Name="InitStart" Type="datetime2" Precision="7" />
+          <Property Name="InitEnd" Type="datetime" />
+          <Property Name="DateStart" Type="datetime2" Precision="7" />
+          <Property Name="DateEnd" Type="datetime2" Precision="7" />
+          <Property Name="DutyTypeId" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="FlightInformation">
           <Key>
             <PropertyRef Name="ID" />
@@ -824,6 +848,87 @@ warning 6002: The table/view 'ppa_varesh.dbo.HelperMaxFDP' does not have a prima
           <Property Name="MaxFDPExtended" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewDutyLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewDutyLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FlightId" Type="int" />
+          <Property Name="DateCreate" Type="datetime2" Precision="7" />
+          <Property Name="Username" Type="varchar" MaxLength="500" />
+          <Property Name="CrewId" Type="int" />
+          <Property Name="CrewName" Type="varchar" MaxLength="500" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="Position" Type="varchar" MaxLength="500" />
+          <Property Name="IsPositioning" Type="bit" />
+          <Property Name="Action" Type="varchar" MaxLength="255" />
+          <Property Name="FlightStatusId" Type="int" />
+          <Property Name="FlightIds" Type="varchar" MaxLength="1000" />
+          <Property Name="Flights" Type="varchar" MaxLength="1000" />
+          <Property Name="Route" Type="varchar" MaxLength="1000" />
+          <Property Name="InitStart" Type="datetime2" Precision="7" />
+          <Property Name="InitEnd" Type="datetime" />
+          <Property Name="DateStart" Type="datetime2" Precision="7" />
+          <Property Name="DateEnd" Type="datetime2" Precision="7" />
+          <Property Name="DutyTypeId" Type="int" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DutyType" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewFlightLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="FieldName" Type="varchar" MaxLength="500" />
+          <Property Name="DateCreate" Type="datetime2" Precision="7" />
+          <Property Name="Username" Type="varchar" MaxLength="500" />
+          <Property Name="OldValue" Type="nvarchar" MaxLength="4000" />
+          <Property Name="NewValue" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Action" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightLogMain' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewFlightLogMain">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Register" />
+            <PropertyRef Name="iRegister" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="Username" Type="varchar" MaxLength="500" />
+          <Property Name="STD" Type="datetime2" Precision="7" />
+          <Property Name="STA" Type="datetime2" Precision="7" />
+          <Property Name="FromId" Type="int" />
+          <Property Name="ToId" Type="int" />
+          <Property Name="RegisterId" Type="int" />
+          <Property Name="FlightNo" Type="varchar" MaxLength="255" />
+          <Property Name="iSTD" Type="datetime2" Precision="7" />
+          <Property Name="iSTA" Type="datetime2" Precision="7" />
+          <Property Name="iFromId" Type="int" />
+          <Property Name="iToId" Type="int" />
+          <Property Name="iRegisterId" Type="int" />
+          <Property Name="iFlightNo" Type="varchar" MaxLength="255" />
+          <Property Name="DateCreate" Type="datetime2" Precision="7" />
+          <Property Name="DateDelete" Type="datetime2" Precision="7" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="iRegister" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FromIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="iFromIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="ToIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="iToIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="STDLocal" Type="datetime2" Precision="7" />
+          <Property Name="STALocal" Type="datetime2" Precision="7" />
+          <Property Name="iSTDLocal" Type="datetime2" Precision="7" />
+          <Property Name="iSTALocal" Type="datetime2" Precision="7" />
+          <Property Name="FlightStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlightStatusID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewQABYEmployee' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewQABYEmployee">
           <Key>
@@ -843,13 +948,17 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQAByEmployeeCount' does not hav
         <EntityType Name="ViewQAByEmployeeCount">
           <Key>
             <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="type" />
+            <PropertyRef Name="ClosedCount" />
+            <PropertyRef Name="InProgressCount" />
+            <PropertyRef Name="NewCount" />
           </Key>
           <Property Name="EmployeeId" Type="int" Nullable="false" />
-          <Property Name="type" Type="int" />
+          <Property Name="type" Type="int" Nullable="false" />
           <Property Name="TypeTitle" Type="varchar" MaxLength="38" />
-          <Property Name="ClosedCount" Type="int" />
-          <Property Name="InProgressCount" Type="int" />
-          <Property Name="NewCount" Type="int" />
+          <Property Name="ClosedCount" Type="int" Nullable="false" />
+          <Property Name="InProgressCount" Type="int" Nullable="false" />
+          <Property Name="NewCount" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewQACatering' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1550,6 +1659,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Parameter Name="FlightId" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="ppaModelStoreContainer">
+          <EntitySet Name="DutyLog" EntityType="Self.DutyLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlightInformation" EntityType="Self.FlightInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QAAuthCards" EntityType="Self.QAAuthCards" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QACatering" EntityType="Self.QACatering" Schema="dbo" store:Type="Tables" />
@@ -1737,6 +1847,76 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
     [HelperMaxFDP].[FDPReductionByStandBy] AS [FDPReductionByStandBy], 
     [HelperMaxFDP].[MaxFDPExtended] AS [MaxFDPExtended]
     FROM [dbo].[HelperMaxFDP] AS [HelperMaxFDP]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewDutyLog" EntityType="Self.ViewDutyLog" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewDutyLog].[FlightId] AS [FlightId], 
+    [ViewDutyLog].[DateCreate] AS [DateCreate], 
+    [ViewDutyLog].[Username] AS [Username], 
+    [ViewDutyLog].[CrewId] AS [CrewId], 
+    [ViewDutyLog].[CrewName] AS [CrewName], 
+    [ViewDutyLog].[PositionId] AS [PositionId], 
+    [ViewDutyLog].[Position] AS [Position], 
+    [ViewDutyLog].[IsPositioning] AS [IsPositioning], 
+    [ViewDutyLog].[Action] AS [Action], 
+    [ViewDutyLog].[FlightStatusId] AS [FlightStatusId], 
+    [ViewDutyLog].[FlightIds] AS [FlightIds], 
+    [ViewDutyLog].[Flights] AS [Flights], 
+    [ViewDutyLog].[Route] AS [Route], 
+    [ViewDutyLog].[InitStart] AS [InitStart], 
+    [ViewDutyLog].[InitEnd] AS [InitEnd], 
+    [ViewDutyLog].[DateStart] AS [DateStart], 
+    [ViewDutyLog].[DateEnd] AS [DateEnd], 
+    [ViewDutyLog].[DutyTypeId] AS [DutyTypeId], 
+    [ViewDutyLog].[Id] AS [Id], 
+    [ViewDutyLog].[DutyType] AS [DutyType]
+    FROM [dbo].[ViewDutyLog] AS [ViewDutyLog]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewFlightLog" EntityType="Self.ViewFlightLog" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewFlightLog].[Id] AS [Id], 
+    [ViewFlightLog].[FlightId] AS [FlightId], 
+    [ViewFlightLog].[FieldName] AS [FieldName], 
+    [ViewFlightLog].[DateCreate] AS [DateCreate], 
+    [ViewFlightLog].[Username] AS [Username], 
+    [ViewFlightLog].[OldValue] AS [OldValue], 
+    [ViewFlightLog].[NewValue] AS [NewValue], 
+    [ViewFlightLog].[Action] AS [Action]
+    FROM [dbo].[ViewFlightLog] AS [ViewFlightLog]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewFlightLogMain" EntityType="Self.ViewFlightLogMain" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewFlightLogMain].[Id] AS [Id], 
+    [ViewFlightLogMain].[FlightId] AS [FlightId], 
+    [ViewFlightLogMain].[Username] AS [Username], 
+    [ViewFlightLogMain].[STD] AS [STD], 
+    [ViewFlightLogMain].[STA] AS [STA], 
+    [ViewFlightLogMain].[FromId] AS [FromId], 
+    [ViewFlightLogMain].[ToId] AS [ToId], 
+    [ViewFlightLogMain].[RegisterId] AS [RegisterId], 
+    [ViewFlightLogMain].[FlightNo] AS [FlightNo], 
+    [ViewFlightLogMain].[iSTD] AS [iSTD], 
+    [ViewFlightLogMain].[iSTA] AS [iSTA], 
+    [ViewFlightLogMain].[iFromId] AS [iFromId], 
+    [ViewFlightLogMain].[iToId] AS [iToId], 
+    [ViewFlightLogMain].[iRegisterId] AS [iRegisterId], 
+    [ViewFlightLogMain].[iFlightNo] AS [iFlightNo], 
+    [ViewFlightLogMain].[DateCreate] AS [DateCreate], 
+    [ViewFlightLogMain].[DateDelete] AS [DateDelete], 
+    [ViewFlightLogMain].[IsDeleted] AS [IsDeleted], 
+    [ViewFlightLogMain].[Register] AS [Register], 
+    [ViewFlightLogMain].[iRegister] AS [iRegister], 
+    [ViewFlightLogMain].[FromIATA] AS [FromIATA], 
+    [ViewFlightLogMain].[iFromIATA] AS [iFromIATA], 
+    [ViewFlightLogMain].[ToIATA] AS [ToIATA], 
+    [ViewFlightLogMain].[iToIATA] AS [iToIATA], 
+    [ViewFlightLogMain].[STDLocal] AS [STDLocal], 
+    [ViewFlightLogMain].[STALocal] AS [STALocal], 
+    [ViewFlightLogMain].[iSTDLocal] AS [iSTDLocal], 
+    [ViewFlightLogMain].[iSTALocal] AS [iSTALocal], 
+    [ViewFlightLogMain].[FlightStatus] AS [FlightStatus], 
+    [ViewFlightLogMain].[FlightStatusID] AS [FlightStatusID]
+    FROM [dbo].[ViewFlightLogMain] AS [ViewFlightLogMain]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewQABYEmployee" EntityType="Self.ViewQABYEmployee" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -2274,6 +2454,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="QAFollowingUps" EntityType="ppaModel.QAFollowingUp" />
           <EntitySet Name="ViewQAFollowingUps" EntityType="ppaModel.ViewQAFollowingUp" />
           <EntitySet Name="ViewQABYEmployees" EntityType="ppaModel.ViewQABYEmployee" />
+          <EntitySet Name="ViewQAByEmployeeCounts" EntityType="ppaModel.ViewQAByEmployeeCount" />
           <EntitySet Name="ViewQAMaintenances" EntityType="ppaModel.ViewQAMaintenance" />
           <FunctionImport Name="QAByEmployeeCount">
             <Parameter Name="Type" Mode="In" Type="Int32" />
@@ -2370,7 +2551,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             <Parameter Name="FlightId" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="ViewQAHazards" EntityType="ppaModel.ViewQAHazard" />
-          <EntitySet Name="ViewQAByEmployeeCounts" EntityType="ppaModel.ViewQAByEmployeeCount" />
+          <EntitySet Name="ViewFlightLogMains" EntityType="ppaModel.ViewFlightLogMain" />
+          <EntitySet Name="ViewFlightLogs" EntityType="ppaModel.ViewFlightLog" />
+          <EntitySet Name="DutyLogs" EntityType="ppaModel.DutyLog" />
+          <EntitySet Name="ViewDutyLogs" EntityType="ppaModel.ViewDutyLog" />
           </EntityContainer>
         <EntityType Name="FlightInformation">
           <Key>
@@ -3728,6 +3912,21 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="ReviewResult" Type="Int32" />
           <Property Name="ReviewResultTitle" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="ViewQAByEmployeeCount">
+          <Key>
+            <PropertyRef Name="type" />
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="ClosedCount" />
+            <PropertyRef Name="InProgressCount" />
+            <PropertyRef Name="NewCount" />
+          </Key>
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="TypeTitle" Type="String" MaxLength="38" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="ClosedCount" Type="Int32" Nullable="false" />
+          <Property Name="InProgressCount" Type="Int32" Nullable="false" />
+          <Property Name="NewCount" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="ViewQAMaintenance">
           <Key>
             <PropertyRef Name="FlightId" />
@@ -4541,16 +4740,104 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="StatusEmployeeName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
           <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="ViewQAByEmployeeCount">
+        <EntityType Name="ViewFlightLogMain">
           <Key>
-            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Register" />
+            <PropertyRef Name="iRegister" />
           </Key>
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="type" Type="Int32" />
-          <Property Name="TypeTitle" Type="String" MaxLength="38" FixedLength="false" Unicode="false" />
-          <Property Name="ClosedCount" Type="Int32" />
-          <Property Name="InProgressCount" Type="Int32" />
-          <Property Name="NewCount" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="STD" Type="DateTime" Precision="7" />
+          <Property Name="STA" Type="DateTime" Precision="7" />
+          <Property Name="FromId" Type="Int32" />
+          <Property Name="ToId" Type="Int32" />
+          <Property Name="RegisterId" Type="Int32" />
+          <Property Name="FlightNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="iSTD" Type="DateTime" Precision="7" />
+          <Property Name="iSTA" Type="DateTime" Precision="7" />
+          <Property Name="iFromId" Type="Int32" />
+          <Property Name="iToId" Type="Int32" />
+          <Property Name="iRegisterId" Type="Int32" />
+          <Property Name="iFlightNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreate" Type="DateTime" Precision="7" />
+          <Property Name="DateDelete" Type="DateTime" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="Register" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="iRegister" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="iFromIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ToIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="iToIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="STDLocal" Type="DateTime" Precision="7" />
+          <Property Name="STALocal" Type="DateTime" Precision="7" />
+          <Property Name="iSTDLocal" Type="DateTime" Precision="7" />
+          <Property Name="iSTALocal" Type="DateTime" Precision="7" />
+          <Property Name="FlightStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlightStatusID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ViewFlightLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="FieldName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreate" Type="DateTime" Precision="7" />
+          <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OldValue" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="NewValue" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="Action" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DutyLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="DateCreate" Type="DateTime" Precision="7" />
+          <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="CrewName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsPositioning" Type="Boolean" />
+          <Property Name="Action" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FlightStatusId" Type="Int32" />
+          <Property Name="FlightIds" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Flights" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Route" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="InitStart" Type="DateTime" Precision="7" />
+          <Property Name="InitEnd" Type="DateTime" Precision="3" />
+          <Property Name="DateStart" Type="DateTime" Precision="7" />
+          <Property Name="DateEnd" Type="DateTime" Precision="7" />
+          <Property Name="DutyTypeId" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="ViewDutyLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="DateCreate" Type="DateTime" Precision="7" />
+          <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="CrewName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsPositioning" Type="Boolean" />
+          <Property Name="Action" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FlightStatusId" Type="Int32" />
+          <Property Name="FlightIds" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Flights" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Route" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="InitStart" Type="DateTime" Precision="7" />
+          <Property Name="InitEnd" Type="DateTime" Precision="3" />
+          <Property Name="DateStart" Type="DateTime" Precision="7" />
+          <Property Name="DateEnd" Type="DateTime" Precision="7" />
+          <Property Name="DutyTypeId" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DutyType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -5473,6 +5760,18 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ViewQAByEmployeeCounts">
+            <EntityTypeMapping TypeName="ppaModel.ViewQAByEmployeeCount">
+              <MappingFragment StoreEntitySet="ViewQAByEmployeeCount">
+                <ScalarProperty Name="NewCount" ColumnName="NewCount" />
+                <ScalarProperty Name="InProgressCount" ColumnName="InProgressCount" />
+                <ScalarProperty Name="ClosedCount" ColumnName="ClosedCount" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="TypeTitle" ColumnName="TypeTitle" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ViewQAMaintenances">
             <EntityTypeMapping TypeName="ppaModel.ViewQAMaintenance">
               <MappingFragment StoreEntitySet="ViewQAMaintenance">
@@ -6075,15 +6374,104 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ViewQAByEmployeeCounts">
-            <EntityTypeMapping TypeName="ppaModel.ViewQAByEmployeeCount">
-              <MappingFragment StoreEntitySet="ViewQAByEmployeeCount">
-                <ScalarProperty Name="NewCount" ColumnName="NewCount" />
-                <ScalarProperty Name="InProgressCount" ColumnName="InProgressCount" />
-                <ScalarProperty Name="ClosedCount" ColumnName="ClosedCount" />
-                <ScalarProperty Name="TypeTitle" ColumnName="TypeTitle" />
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+          <EntitySetMapping Name="ViewFlightLogMains">
+            <EntityTypeMapping TypeName="ppaModel.ViewFlightLogMain">
+              <MappingFragment StoreEntitySet="ViewFlightLogMain">
+                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
+                <ScalarProperty Name="FlightStatus" ColumnName="FlightStatus" />
+                <ScalarProperty Name="iSTALocal" ColumnName="iSTALocal" />
+                <ScalarProperty Name="iSTDLocal" ColumnName="iSTDLocal" />
+                <ScalarProperty Name="STALocal" ColumnName="STALocal" />
+                <ScalarProperty Name="STDLocal" ColumnName="STDLocal" />
+                <ScalarProperty Name="iToIATA" ColumnName="iToIATA" />
+                <ScalarProperty Name="ToIATA" ColumnName="ToIATA" />
+                <ScalarProperty Name="iFromIATA" ColumnName="iFromIATA" />
+                <ScalarProperty Name="FromIATA" ColumnName="FromIATA" />
+                <ScalarProperty Name="iRegister" ColumnName="iRegister" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DateDelete" ColumnName="DateDelete" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="iFlightNo" ColumnName="iFlightNo" />
+                <ScalarProperty Name="iRegisterId" ColumnName="iRegisterId" />
+                <ScalarProperty Name="iToId" ColumnName="iToId" />
+                <ScalarProperty Name="iFromId" ColumnName="iFromId" />
+                <ScalarProperty Name="iSTA" ColumnName="iSTA" />
+                <ScalarProperty Name="iSTD" ColumnName="iSTD" />
+                <ScalarProperty Name="FlightNo" ColumnName="FlightNo" />
+                <ScalarProperty Name="RegisterId" ColumnName="RegisterId" />
+                <ScalarProperty Name="ToId" ColumnName="ToId" />
+                <ScalarProperty Name="FromId" ColumnName="FromId" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewFlightLogs">
+            <EntityTypeMapping TypeName="ppaModel.ViewFlightLog">
+              <MappingFragment StoreEntitySet="ViewFlightLog">
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+                <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DutyLogs">
+            <EntityTypeMapping TypeName="ppaModel.DutyLog">
+              <MappingFragment StoreEntitySet="DutyLog">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DutyTypeId" ColumnName="DutyTypeId" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="InitEnd" ColumnName="InitEnd" />
+                <ScalarProperty Name="InitStart" ColumnName="InitStart" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="Flights" ColumnName="Flights" />
+                <ScalarProperty Name="FlightIds" ColumnName="FlightIds" />
+                <ScalarProperty Name="FlightStatusId" ColumnName="FlightStatusId" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="CrewName" ColumnName="CrewName" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewDutyLogs">
+            <EntityTypeMapping TypeName="ppaModel.ViewDutyLog">
+              <MappingFragment StoreEntitySet="ViewDutyLog">
+                <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DutyTypeId" ColumnName="DutyTypeId" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="InitEnd" ColumnName="InitEnd" />
+                <ScalarProperty Name="InitStart" ColumnName="InitStart" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="Flights" ColumnName="Flights" />
+                <ScalarProperty Name="FlightIds" ColumnName="FlightIds" />
+                <ScalarProperty Name="FlightStatusId" ColumnName="FlightStatusId" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="CrewName" ColumnName="CrewName" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

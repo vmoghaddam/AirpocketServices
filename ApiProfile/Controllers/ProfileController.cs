@@ -343,8 +343,8 @@ namespace ApiProfile.Controllers
                     //fmt
                     case "FMT":
 
-                        person.FMTExpireDate = dto.expire;
-                        person.FMTIssueDate = dto.issue;
+                        person.EGPWSExpireDate = dto.expire;
+                        person.EGPWSIssueDate = dto.issue;
 
                         break;
                     //                      { type: 'DIS-AT', title: 'AIR TRAFFIC', REC: 3 },
@@ -437,6 +437,27 @@ namespace ApiProfile.Controllers
 
                         person.PERExpireDate = dto.expire;
                         person.PERIssueDate = dto.issue;
+
+                        break;
+
+                    case "DIS-PH1":
+
+                        person.Phase1ExpireDate = dto.expire;
+                        person.Phase1IssueDate = dto.issue;
+
+                        break;
+
+                    case "DIS-PH2":
+
+                        person.Phase2ExpireDate = dto.expire;
+                        person.Phase2IssueDate = dto.issue;
+
+                        break;
+
+                    case "DIS-PH3":
+
+                        person.Phase3ExpireDate = dto.expire;
+                        person.Phase3IssueDate = dto.issue;
 
                         break;
                     default:
