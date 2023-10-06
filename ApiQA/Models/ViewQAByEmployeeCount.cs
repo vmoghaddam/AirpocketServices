@@ -14,11 +14,11 @@ namespace ApiQA.Models
     
     public partial class ViewQAByEmployeeCount
     {
-        public int type { get; set; }
-        public string TypeTitle { get; set; }
         public int EmployeeId { get; set; }
-        public int ClosedCount { get; set; }
-        public int InProgressCount { get; set; }
-        public int NewCount { get; set; }
+        public Nullable<int> type { get; set; }
+        public string TypeTitle { get; set; }
+        public Nullable<int> ClosedCount { get; set; }
+        public Nullable<int> InProgressCount { get; set; }
+        public Nullable<int> NewCount { get; set; }
     }
 }

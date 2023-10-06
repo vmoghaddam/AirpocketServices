@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -1965,6 +1966,27 @@ namespace ApiQA.Controllers
                     IsSuccess = false
                 };
             }
+        }
+
+        [HttpPost]
+        [Route("api/qa/uploadfile")]
+        public async Task<IHttpActionResult> Upload()
+        {
+            //var context = new FLYEntities();
+            string key = string.Empty;
+            var Files = HttpContext.Current.Request.Files;
+
+            var docfiles = new List<string>();
+            foreach (string file in Files)
+            {
+                var postedFile = Files[file];
+                key = postedFile.FileName;
+                var filePath = HttpContext.Current.Server.MapPath("~/upload/" + key);
+                postedFile.SaveAs(filePath);
+                docfiles.Add(filePath);
+            }
+
+            return Ok(docfiles);
         }
 
 

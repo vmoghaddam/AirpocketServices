@@ -842,19 +842,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQABYEmployee' does not have a p
 warning 6002: The table/view 'ppa_varesh.dbo.ViewQAByEmployeeCount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewQAByEmployeeCount">
           <Key>
-            <PropertyRef Name="type" />
             <PropertyRef Name="EmployeeId" />
-            <PropertyRef Name="ClosedCount" />
-            <PropertyRef Name="InProgressCount" />
-            <PropertyRef Name="NewCount" />
-            
           </Key>
-          <Property Name="type" Type="int" Nullable="false" />
-          <Property Name="TypeTitle" Type="varchar" MaxLength="38" Nullable="false" />
           <Property Name="EmployeeId" Type="int" Nullable="false" />
-          <Property Name="ClosedCount" Type="int" Nullable="false" />
-          <Property Name="InProgressCount" Type="int" Nullable="false" />
-          <Property Name="NewCount" Type="int" Nullable="false" />
+          <Property Name="type" Type="int" />
+          <Property Name="TypeTitle" Type="varchar" MaxLength="38" />
+          <Property Name="ClosedCount" Type="int" />
+          <Property Name="InProgressCount" Type="int" />
+          <Property Name="NewCount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewQACatering' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1756,9 +1751,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           </EntitySet>
           <EntitySet Name="ViewQAByEmployeeCount" EntityType="Self.ViewQAByEmployeeCount" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [ViewQAByEmployeeCount].[EmployeeId] AS [EmployeeId], 
     [ViewQAByEmployeeCount].[type] AS [type], 
     [ViewQAByEmployeeCount].[TypeTitle] AS [TypeTitle], 
-    [ViewQAByEmployeeCount].[EmployeeId] AS [EmployeeId], 
     [ViewQAByEmployeeCount].[ClosedCount] AS [ClosedCount], 
     [ViewQAByEmployeeCount].[InProgressCount] AS [InProgressCount], 
     [ViewQAByEmployeeCount].[NewCount] AS [NewCount]
@@ -2279,7 +2274,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="QAFollowingUps" EntityType="ppaModel.QAFollowingUp" />
           <EntitySet Name="ViewQAFollowingUps" EntityType="ppaModel.ViewQAFollowingUp" />
           <EntitySet Name="ViewQABYEmployees" EntityType="ppaModel.ViewQABYEmployee" />
-          <EntitySet Name="ViewQAByEmployeeCounts" EntityType="ppaModel.ViewQAByEmployeeCount" />
           <EntitySet Name="ViewQAMaintenances" EntityType="ppaModel.ViewQAMaintenance" />
           <FunctionImport Name="QAByEmployeeCount">
             <Parameter Name="Type" Mode="In" Type="Int32" />
@@ -2376,6 +2370,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             <Parameter Name="FlightId" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="ViewQAHazards" EntityType="ppaModel.ViewQAHazard" />
+          <EntitySet Name="ViewQAByEmployeeCounts" EntityType="ppaModel.ViewQAByEmployeeCount" />
           </EntityContainer>
         <EntityType Name="FlightInformation">
           <Key>
@@ -3733,21 +3728,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="ReviewResult" Type="Int32" />
           <Property Name="ReviewResultTitle" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="ViewQAByEmployeeCount">
-          <Key>
-            <PropertyRef Name="type" />
-            <PropertyRef Name="EmployeeId" />
-            <PropertyRef Name="ClosedCount" />
-            <PropertyRef Name="InProgressCount" />
-            <PropertyRef Name="NewCount" />
-          </Key>
-          <Property Name="type" Type="Int32" Nullable="false" />
-          <Property Name="TypeTitle" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="ClosedCount" Type="Int32" Nullable="false" />
-          <Property Name="InProgressCount" Type="Int32" Nullable="false" />
-          <Property Name="NewCount" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="ViewQAMaintenance">
           <Key>
             <PropertyRef Name="FlightId" />
@@ -4560,6 +4540,17 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="DateSign" Type="DateTime" Precision="3" />
           <Property Name="StatusEmployeeName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
           <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ViewQAByEmployeeCount">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="TypeTitle" Type="String" MaxLength="38" FixedLength="false" Unicode="false" />
+          <Property Name="ClosedCount" Type="Int32" />
+          <Property Name="InProgressCount" Type="Int32" />
+          <Property Name="NewCount" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -5482,18 +5473,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ViewQAByEmployeeCounts">
-            <EntityTypeMapping TypeName="ppaModel.ViewQAByEmployeeCount">
-              <MappingFragment StoreEntitySet="ViewQAByEmployeeCount">
-                <ScalarProperty Name="NewCount" ColumnName="NewCount" />
-                <ScalarProperty Name="InProgressCount" ColumnName="InProgressCount" />
-                <ScalarProperty Name="ClosedCount" ColumnName="ClosedCount" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="TypeTitle" ColumnName="TypeTitle" />
-                <ScalarProperty Name="type" ColumnName="type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViewQAMaintenances">
             <EntityTypeMapping TypeName="ppaModel.ViewQAMaintenance">
               <MappingFragment StoreEntitySet="ViewQAMaintenance">
@@ -6093,6 +6072,18 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewQAByEmployeeCounts">
+            <EntityTypeMapping TypeName="ppaModel.ViewQAByEmployeeCount">
+              <MappingFragment StoreEntitySet="ViewQAByEmployeeCount">
+                <ScalarProperty Name="NewCount" ColumnName="NewCount" />
+                <ScalarProperty Name="InProgressCount" ColumnName="InProgressCount" />
+                <ScalarProperty Name="ClosedCount" ColumnName="ClosedCount" />
+                <ScalarProperty Name="TypeTitle" ColumnName="TypeTitle" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

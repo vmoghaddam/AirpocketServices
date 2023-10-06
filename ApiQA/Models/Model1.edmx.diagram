@@ -27,7 +27,6 @@
         <EntityTypeShape EntityType="ppaModel.QAFollowingUp" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAFollowingUp" Width="1.5" PointX="5.375" PointY="20.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQABYEmployee" Width="1.5" PointX="11.375" PointY="11.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQAByEmployeeCount" Width="1.5" PointX="3.375" PointY="5.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAMaintenance" Width="1.5" PointX="15.375" PointY="13.75" />
         <EntityTypeShape EntityType="ppaModel.QAGetEntites_Result" Width="1.5" PointX="5.375" PointY="3.75" />
         <EntityTypeShape EntityType="ppaModel.QACSR" Width="1.5" PointX="13.75" PointY="25.5" />
@@ -56,6 +55,7 @@
         <AssociationConnector Association="ppaModel.FK__QADispatc__Fligh__77C096E8" />
         <EntityTypeShape EntityType="ppaModel.QAHazard" Width="1.5" PointX="5.375" PointY="8.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAHazard" Width="1.5" PointX="19.375" PointY="13.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewQAByEmployeeCount" Width="1.5" PointX="3.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

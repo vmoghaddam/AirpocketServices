@@ -377,7 +377,7 @@ namespace ApiFDM.Controllers
 
                 }
 
-                var date =  flights[0].DateX.ToString();
+                var date = flights[0].DateX.ToString();
                 int year = DateTime.Parse(date).Year;
                 int month = DateTime.Parse(date).Month;
                 context.SaveChanges();
@@ -624,21 +624,28 @@ namespace ApiFDM.Controllers
         [Route("api/uploadfile")]
         public async Task<IHttpActionResult> Upload()
         {
-            //var context = new FLYEntities();
-            string key = string.Empty;
-            var Files = HttpContext.Current.Request.Files;
-
-            var docfiles = new List<string>();
-            foreach (string file in Files)
+            try
             {
-                var postedFile = Files[file];
-                key = postedFile.FileName;
-                var filePath = HttpContext.Current.Server.MapPath("~/upload/" + key);
-                postedFile.SaveAs(filePath);
-                docfiles.Add(filePath);
-            }
+                //var context = new FLYEntities();
+                string key = string.Empty;
+                var Files = HttpContext.Current.Request.Files;
 
-            return Ok(docfiles);
+                var docfiles = new List<string>();
+                foreach (string file in Files)
+                {
+                    var postedFile = Files[file];
+                    key = postedFile.FileName;
+                    var filePath = HttpContext.Current.Server.MapPath("~/upload/" + key);
+                    postedFile.SaveAs(filePath);
+                    docfiles.Add(filePath);
+                }
+
+                return Ok(docfiles);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex);
+            }
         }
 
         [HttpGet]
@@ -649,8 +656,8 @@ namespace ApiFDM.Controllers
             {
                 var context = new dbEntities();
                 context.Database.CommandTimeout = 200;
-                var result = context.FillFDMCptMonthlyTBL(yf,mf,yt,mt);
-                
+                var result = context.FillFDMCptMonthlyTBL(yf, mf, yt, mt);
+
                 return new DataResponse()
                 {
                     IsSuccess = true,
