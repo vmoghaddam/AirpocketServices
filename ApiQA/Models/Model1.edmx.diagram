@@ -56,6 +56,10 @@
         <AssociationConnector Association="ppaModel.FK__QADispatc__Fligh__77C096E8" />
         <EntityTypeShape EntityType="ppaModel.QAHazard" Width="1.5" PointX="5.375" PointY="8.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAHazard" Width="1.5" PointX="19.375" PointY="13.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewFlightLogMain" Width="1.5" PointX="21.375" PointY="13.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewFlightLog" Width="1.5" PointX="11.375" PointY="21.75" />
+        <EntityTypeShape EntityType="ppaModel.DutyLog" Width="1.5" PointX="21.375" PointY="21.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewDutyLog" Width="1.5" PointX="22.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

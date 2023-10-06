@@ -412,6 +412,13 @@ namespace ApiProfile.ViewModels
         public Nullable<System.DateTime> LAR_ExpireDate { get; set; }
         public Nullable<System.DateTime> LOAD_CONTROL_ExpireDate { get; set; }
 
+        public Nullable<System.DateTime> Phase1IssueDate { get; set; }
+        public Nullable<System.DateTime> Phase1ExpireDate { get; set; }
+        public Nullable<System.DateTime> Phase2IssueDate { get; set; }
+        public Nullable<System.DateTime> Phase2ExpireDate { get; set; }
+        public Nullable<System.DateTime> Phase3IssueDate { get; set; }
+        public Nullable<System.DateTime> Phase3ExpireDate { get; set; }
+
         public string BaseAirline { get; set; }
 
         public Nullable<bool> IsType737 { get; set; }
@@ -922,6 +929,16 @@ namespace ApiProfile.ViewModels
             entity.TRG16ExpireDate = person.TRG16ExpireDate;
 
 
+            entity.Phase1IssueDate = person.Phase1IssueDate;
+            entity.Phase1ExpireDate = person.Phase1ExpireDate;
+
+            entity.Phase2IssueDate = person.Phase2IssueDate;
+            entity.Phase2ExpireDate = person.Phase2ExpireDate;
+
+            entity.Phase3IssueDate = person.Phase3IssueDate;
+            entity.Phase3ExpireDate = person.Phase3ExpireDate;
+
+
 
 
             entity.BaseAirline = person.BaseAirline;
@@ -1338,6 +1355,16 @@ namespace ApiProfile.ViewModels
             person.TRG01ExpireDate = entity.TRG01ExpireDate;
             person.TRG16IssueDate = entity.TRG16IssueDate;
             person.TRG16ExpireDate = entity.TRG16ExpireDate;
+
+
+            person.Phase1IssueDate = entity.Phase1IssueDate;
+            person.Phase1ExpireDate = entity.Phase1ExpireDate;
+
+            person.Phase2IssueDate = entity.Phase2IssueDate;
+            person.Phase2ExpireDate = entity.Phase2ExpireDate;
+
+            person.Phase3IssueDate = entity.Phase3IssueDate;
+            person.Phase3ExpireDate = entity.Phase3ExpireDate;
 
             person.BaseAirline = entity.BaseAirline;
 
