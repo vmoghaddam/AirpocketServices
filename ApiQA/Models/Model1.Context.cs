@@ -67,6 +67,7 @@ namespace ApiQA.Models
         public virtual DbSet<ViewFlightLog> ViewFlightLogs { get; set; }
         public virtual DbSet<DutyLog> DutyLogs { get; set; }
         public virtual DbSet<ViewDutyLog> ViewDutyLogs { get; set; }
+        public virtual DbSet<QAAttachment> QAAttachments { get; set; }
     
         public virtual ObjectResult<QACSRGet_Result1> QACSRGet(Nullable<int> employeeId, Nullable<int> flightId)
         {

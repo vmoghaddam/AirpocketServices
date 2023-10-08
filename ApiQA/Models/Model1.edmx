@@ -322,6 +322,20 @@
           <Property Name="ACTUALTANKERINGFUEL" Type="int" />
           <Property Name="LTR2" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="QAAttachments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="int" />
+          <Property Name="EntityId" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="AttachmentType" Type="varchar" MaxLength="255" />
+          <Property Name="URL" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Lable" Type="nvarchar" MaxLength="255" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="DateAttach" Type="datetime" />
+        </EntityType>
         <EntityType Name="QAAuthCards">
           <Key>
             <PropertyRef Name="Id" />
@@ -1661,6 +1675,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
         <EntityContainer Name="ppaModelStoreContainer">
           <EntitySet Name="DutyLog" EntityType="Self.DutyLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlightInformation" EntityType="Self.FlightInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QAAttachments" EntityType="Self.QAAttachments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QAAuthCards" EntityType="Self.QAAuthCards" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QACatering" EntityType="Self.QACatering" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QAComments" EntityType="Self.QAComments" Schema="dbo" store:Type="Tables" />
@@ -2555,6 +2570,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="ViewFlightLogs" EntityType="ppaModel.ViewFlightLog" />
           <EntitySet Name="DutyLogs" EntityType="ppaModel.DutyLog" />
           <EntitySet Name="ViewDutyLogs" EntityType="ppaModel.ViewDutyLog" />
+          <EntitySet Name="QAAttachments" EntityType="ppaModel.QAAttachment" />
           </EntityContainer>
         <EntityType Name="FlightInformation">
           <Key>
@@ -4839,6 +4855,20 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="DutyType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="QAAttachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="EntityId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="AttachmentType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Lable" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateAttach" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6472,6 +6502,21 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QAAttachments">
+            <EntityTypeMapping TypeName="ppaModel.QAAttachment">
+              <MappingFragment StoreEntitySet="QAAttachments">
+                <ScalarProperty Name="DateAttach" ColumnName="DateAttach" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Lable" ColumnName="Lable" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="AttachmentType" ColumnName="AttachmentType" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
