@@ -1,6 +1,7 @@
 ﻿using ApiQA.Models;
 using ApiQA.ViewModels;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
@@ -2201,6 +2202,46 @@ namespace ApiQA.Controllers
                     IsSuccess = true
                 };
 
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            }
+        }
+
+        [HttpPost]
+        [Route("api/delete/attachment")]
+        public async Task<DataResponse> DeleteAttachment(dynamic dto)
+        {
+            try
+            {
+                int AttachmentId = dto.AttachmentId;
+
+                var filePath = HttpContext.Current.Server.MapPath("~/upload/" + dto.FileName);
+                if (File.Exists(filePath))
+                    File.Delete(filePath);
+
+
+                var file = context.QAAttachments.SingleOrDefault(q => q.Id == AttachmentId);
+                if (file != null)
+                    context.QAAttachments.Remove(file);
+
+               
+
+
+                context.SaveChanges();
+                return new DataResponse()
+                {
+                    Data = file,
+                    IsSuccess = true
+                };
             }
             catch (Exception ex)
             {
