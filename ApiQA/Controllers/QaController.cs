@@ -484,8 +484,13 @@ namespace ApiQA.Controllers
                     foreach (var f in dto.files)
                     {
 
-                        var file = new QAAttachment();
-                        context.QAAttachments.Add(file);
+                        int AttachmentId = f.AttachmentId;
+                        var file = context.QAAttachments.SingleOrDefault(q => q.Id == AttachmentId);
+                        if (file == null)
+                        {
+                            file = new QAAttachment();
+                            context.QAAttachments.Add(file);
+                        }
                         file.EntityId = entity.Id;
                         file.EmployeeId = dto.EmployeeId;
                         file.URL = HttpContext.Current.Server.MapPath("~/upload/" + f.FileName);
@@ -558,8 +563,13 @@ namespace ApiQA.Controllers
                     foreach (var f in dto.files)
                     {
 
-                        var file = new QAAttachment();
-                        context.QAAttachments.Add(file);
+                        int AttachmentId = f.AttachmentId;
+                        var file = context.QAAttachments.SingleOrDefault(q => q.Id == AttachmentId);
+                        if (file == null)
+                        {
+                            file = new QAAttachment();
+                            context.QAAttachments.Add(file);
+                        }
                         file.EntityId = entity.Id;
                         file.EmployeeId = dto.EmployeeId;
                         file.URL = HttpContext.Current.Server.MapPath("~/upload/" + f.FileName);
@@ -689,8 +699,13 @@ namespace ApiQA.Controllers
                     foreach (var f in dto.files)
                     {
 
-                        var file = new QAAttachment();
-                        context.QAAttachments.Add(file);
+                        int AttachmentId = f.AttachmentId;
+                        var file = context.QAAttachments.SingleOrDefault(q => q.Id == AttachmentId);
+                        if (file == null)
+                        {
+                            file = new QAAttachment();
+                            context.QAAttachments.Add(file);
+                        }
                         file.EntityId = entity.Id;
                         file.EmployeeId = dto.EmployeeId;
                         file.URL = HttpContext.Current.Server.MapPath("~/upload/" + f.FileName);
@@ -833,8 +848,13 @@ namespace ApiQA.Controllers
                     foreach (var f in dto.files)
                     {
 
-                        var file = new QAAttachment();
-                        context.QAAttachments.Add(file);
+                        int AttachmentId = f.AttachmentId;
+                        var file = context.QAAttachments.SingleOrDefault(q => q.Id == AttachmentId);
+                        if (file == null)
+                        {
+                            file = new QAAttachment();
+                            context.QAAttachments.Add(file);
+                        }
                         file.EntityId = entity.Id;
                         file.EmployeeId = dto.EmployeeId;
                         file.URL = HttpContext.Current.Server.MapPath("~/upload/" + f.FileName);
@@ -968,8 +988,13 @@ namespace ApiQA.Controllers
                     foreach (var f in dto.files)
                     {
 
-                        var file = new QAAttachment();
-                        context.QAAttachments.Add(file);
+                        int AttachmentId = f.AttachmentId;
+                        var file = context.QAAttachments.SingleOrDefault(q => q.Id == AttachmentId);
+                        if (file == null)
+                        {
+                            file = new QAAttachment();
+                            context.QAAttachments.Add(file);
+                        }
                         file.EntityId = entity.Id;
                         file.EmployeeId = dto.EmployeeId;
                         file.URL = HttpContext.Current.Server.MapPath("~/upload/" + f.FileName);
@@ -1126,8 +1151,13 @@ namespace ApiQA.Controllers
                     foreach (var f in dto.files)
                     {
 
-                        var file = new QAAttachment();
-                        context.QAAttachments.Add(file);
+                        int AttachmentId = f.AttachmentId;
+                        var file = context.QAAttachments.SingleOrDefault(q => q.Id == AttachmentId);
+                        if (file == null)
+                        {
+                            file = new QAAttachment();
+                            context.QAAttachments.Add(file);
+                        }
                         file.EntityId = entity.Id;
                         file.EmployeeId = dto.EmployeeId;
                         file.URL = HttpContext.Current.Server.MapPath("~/upload/" + f.FileName);
