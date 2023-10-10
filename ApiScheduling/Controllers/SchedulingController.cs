@@ -1927,6 +1927,41 @@ namespace ApiScheduling.Controllers
         }
 
 
+
+        [Route("api/stby/activate/test/{crewId}/{fids}/{index}/{rank}/{stbyId}")]
+
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetStbyActivate(int crewId,string fids,int index,int rank,int stbyId)
+        {
+            //internal async Task<CustomActionResult> ActivateStandby(int crewId, int stbyId, string fids, int rank)
+         //   if (dto == null)
+          //      return Exceptions.getNullException(ModelState);
+
+            // int crewId = Convert.ToInt32(dto.crewId);
+            // int stbyId = Convert.ToInt32(dto.stbyId);
+            // string fids = Convert.ToString(dto.fids);
+            // int rank = Convert.ToInt32(dto.rank);
+            string rank2 = ""; //Convert.ToString(dto.rank2);
+             
+            int isgantt = -1;
+            //if (dto.index != null)
+            //{
+            //    index = Convert.ToInt32(dto.index);
+            //}
+
+            //if (dto.isgantt != null)
+            //{
+            //    isgantt = Convert.ToInt32(dto.isgantt);
+            //}
+
+            var result = await ActivateStandby(crewId, stbyId, fids, rank, index, rank2, isgantt);
+
+
+            return result;
+
+        }
+
+
         [Route("api/fdp/stat/{ids}/{dh}")]
 
         public async Task<IHttpActionResult> GetFDPStat(string ids, int dh)
