@@ -19,6 +19,7 @@ namespace XAPI.Models
         {
             this.OFPImportItems = new HashSet<OFPImportItem>();
             this.OFPImportProps = new HashSet<OFPImportProp>();
+            this.OFPPoints = new HashSet<OFPPoint>();
         }
     
         public int Id { get; set; }
@@ -97,5 +98,7 @@ namespace XAPI.Models
         public virtual ICollection<OFPImportItem> OFPImportItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImportProp> OFPImportProps { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OFPPoint> OFPPoints { get; set; }
     }
 }

@@ -440,6 +440,7 @@
           <Property Name="FuelUsedEng1" Type="int" />
           <Property Name="FuelUsedEng2" Type="int" />
           <Property Name="ACTUALTANKERINGFUEL" Type="int" />
+          <Property Name="LTR2" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="OFPImport">
           <Key>
@@ -537,6 +538,32 @@
           <Property Name="DateUpdate" Type="varchar" MaxLength="255" />
           <Property Name="DateUpdateLocal" Type="decimal" Precision="18" Scale="4" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="OFPPoint">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="OFPId" Type="int" Nullable="false" />
+          <Property Name="Plan" Type="varchar" MaxLength="255" />
+          <Property Name="Lat" Type="decimal" Precision="16" Scale="10" />
+          <Property Name="Long" Type="decimal" Precision="16" Scale="10" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WAP" Type="varchar" MaxLength="500" />
+          <Property Name="VIA" Type="varchar" MaxLength="500" />
+          <Property Name="ALT" Type="varchar" MaxLength="500" />
+          <Property Name="WIND" Type="varchar" MaxLength="500" />
+          <Property Name="TRK" Type="varchar" MaxLength="500" />
+          <Property Name="TMP" Type="varchar" MaxLength="500" />
+          <Property Name="BODY" Type="varchar" MaxLength="1000" />
+          <Property Name="FRQ" Type="varchar" MaxLength="500" />
+          <Property Name="MEA" Type="varchar" MaxLength="500" />
+          <Property Name="GMR" Type="varchar" MaxLength="500" />
+          <Property Name="DIS" Type="varchar" MaxLength="255" />
+          <Property Name="TDS" Type="varchar" MaxLength="255" />
+          <Property Name="FRE" Type="varchar" MaxLength="255" />
+          <Property Name="FUS" Type="varchar" MaxLength="255" />
+          <Property Name="TAS" Type="varchar" MaxLength="255" />
+          <Property Name="GSP" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="OFPSkyPuter">
           <Key>
@@ -687,6 +714,44 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="PILOTREQFUEL" Type="int" />
           <Property Name="FuelPlanned" Type="decimal" Precision="18" Scale="4" />
           <Property Name="PF" Type="varchar" MaxLength="255" />
+          <Property Name="OFPTOTALFUEL" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewOFPPoint' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewOFPPoint">
+          <Key>
+            <PropertyRef Name="OFPId" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FlightId" />
+          </Key>
+          <Property Name="OFPId" Type="int" Nullable="false" />
+          <Property Name="Plan" Type="varchar" MaxLength="255" />
+          <Property Name="Lat" Type="decimal" Precision="16" Scale="10" />
+          <Property Name="Long" Type="decimal" Precision="16" Scale="10" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="WAP" Type="varchar" MaxLength="500" />
+          <Property Name="VIA" Type="varchar" MaxLength="500" />
+          <Property Name="ALT" Type="varchar" MaxLength="500" />
+          <Property Name="WIND" Type="varchar" MaxLength="500" />
+          <Property Name="TRK" Type="varchar" MaxLength="500" />
+          <Property Name="TMP" Type="varchar" MaxLength="500" />
+          <Property Name="BODY" Type="varchar" MaxLength="1000" />
+          <Property Name="FRQ" Type="varchar" MaxLength="500" />
+          <Property Name="MEA" Type="varchar" MaxLength="500" />
+          <Property Name="GMR" Type="varchar" MaxLength="500" />
+          <Property Name="DIS" Type="varchar" MaxLength="255" />
+          <Property Name="TDS" Type="varchar" MaxLength="255" />
+          <Property Name="FRE" Type="varchar" MaxLength="255" />
+          <Property Name="FUS" Type="varchar" MaxLength="255" />
+          <Property Name="TAS" Type="varchar" MaxLength="255" />
+          <Property Name="GSP" Type="varchar" MaxLength="255" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
+          <Property Name="Dep" Type="nvarchar" MaxLength="255" />
+          <Property Name="Arr" Type="nvarchar" MaxLength="255" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="FltNo" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="fk_EFB_FI">
           <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="0..1" />
@@ -740,6 +805,20 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_point_ofp">
+          <End Role="OFPImport" Type="Self.OFPImport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OFPPoint" Type="Self.OFPPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OFPImport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OFPPoint">
+              <PropertyRef Name="OFPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ppa_tabanModelStoreContainer">
           <EntitySet Name="EFBDSPRelease" EntityType="Self.EFBDSPRelease" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlightCard" EntityType="Self.FlightCard" Schema="dbo" store:Type="Tables" />
@@ -747,6 +826,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySet Name="OFPImport" EntityType="Self.OFPImport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OFPImportItem" EntityType="Self.OFPImportItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OFPImportProp" EntityType="Self.OFPImportProp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OFPPoint" EntityType="Self.OFPPoint" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OFPSkyPuter" EntityType="Self.OFPSkyPuter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ViewLegTime" EntityType="Self.ViewLegTime" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -870,8 +950,41 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
     [ViewLegTime].[OFPTRIPFUEL] AS [OFPTRIPFUEL], 
     [ViewLegTime].[PILOTREQFUEL] AS [PILOTREQFUEL], 
     [ViewLegTime].[FuelPlanned] AS [FuelPlanned], 
-    [ViewLegTime].[PF] AS [PF]
+    [ViewLegTime].[PF] AS [PF], 
+    [ViewLegTime].[OFPTOTALFUEL] AS [OFPTOTALFUEL]
     FROM [dbo].[ViewLegTime] AS [ViewLegTime]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewOFPPoint" EntityType="Self.ViewOFPPoint" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewOFPPoint].[OFPId] AS [OFPId], 
+    [ViewOFPPoint].[Plan] AS [Plan], 
+    [ViewOFPPoint].[Lat] AS [Lat], 
+    [ViewOFPPoint].[Long] AS [Long], 
+    [ViewOFPPoint].[Id] AS [Id], 
+    [ViewOFPPoint].[WAP] AS [WAP], 
+    [ViewOFPPoint].[VIA] AS [VIA], 
+    [ViewOFPPoint].[ALT] AS [ALT], 
+    [ViewOFPPoint].[WIND] AS [WIND], 
+    [ViewOFPPoint].[TRK] AS [TRK], 
+    [ViewOFPPoint].[TMP] AS [TMP], 
+    [ViewOFPPoint].[BODY] AS [BODY], 
+    [ViewOFPPoint].[FRQ] AS [FRQ], 
+    [ViewOFPPoint].[MEA] AS [MEA], 
+    [ViewOFPPoint].[GMR] AS [GMR], 
+    [ViewOFPPoint].[DIS] AS [DIS], 
+    [ViewOFPPoint].[TDS] AS [TDS], 
+    [ViewOFPPoint].[FRE] AS [FRE], 
+    [ViewOFPPoint].[FUS] AS [FUS], 
+    [ViewOFPPoint].[TAS] AS [TAS], 
+    [ViewOFPPoint].[GSP] AS [GSP], 
+    [ViewOFPPoint].[FlightId] AS [FlightId], 
+    [ViewOFPPoint].[Dep] AS [Dep], 
+    [ViewOFPPoint].[Arr] AS [Arr], 
+    [ViewOFPPoint].[STD] AS [STD], 
+    [ViewOFPPoint].[STA] AS [STA], 
+    [ViewOFPPoint].[Register] AS [Register], 
+    [ViewOFPPoint].[FltNo] AS [FltNo]
+    FROM [dbo].[ViewOFPPoint] AS [ViewOFPPoint]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="fk_EFB_FI" Association="Self.fk_EFB_FI">
             <End Role="FlightInformation" EntitySet="FlightInformation" />
@@ -888,6 +1001,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <AssociationSet Name="fk_ofpp_ofp" Association="Self.fk_ofpp_ofp">
             <End Role="OFPImport" EntitySet="OFPImport" />
             <End Role="OFPImportProp" EntitySet="OFPImportProp" />
+          </AssociationSet>
+          <AssociationSet Name="fk_point_ofp" Association="Self.fk_point_ofp">
+            <End Role="OFPImport" EntitySet="OFPImport" />
+            <End Role="OFPPoint" EntitySet="OFPPoint" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -1025,6 +1142,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="PILOTREQFUEL" Type="Int32" />
           <Property Name="FuelPlanned" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="PF" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OFPTOTALFUEL" Type="Int32" />
         </EntityType>
         <EntityContainer Name="PPAEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ViewLegTimes" EntityType="Self.ViewLegTime" />
@@ -1051,6 +1169,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
             <End Role="OFPImport" EntitySet="OFPImports" />
             <End Role="OFPImportProp" EntitySet="OFPImportProps" />
           </AssociationSet>
+          <EntitySet Name="OFPPoints" EntityType="ppa_tabanModel.OFPPoint" />
+          <AssociationSet Name="fk_point_ofp" Association="ppa_tabanModel.fk_point_ofp">
+            <End Role="OFPImport" EntitySet="OFPImports" />
+            <End Role="OFPPoint" EntitySet="OFPPoints" />
+          </AssociationSet>
+          <EntitySet Name="ViewOFPPoints" EntityType="ppa_tabanModel.ViewOFPPoint" />
           </EntityContainer>
         <EntityType Name="OFPSkyPuter">
           <Key>
@@ -1529,6 +1653,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <Property Name="ACTUALTANKERINGFUEL" Type="Int32" />
           <NavigationProperty Name="EFBDSPReleases" Relationship="ppa_tabanModel.fk_EFB_FI" FromRole="FlightInformation" ToRole="EFBDSPRelease" />
           <NavigationProperty Name="OFPImports" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="FlightInformation" ToRole="OFPImport" />
+          <Property Name="LTR2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="fk_EFB_FI">
           <End Type="ppa_tabanModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
@@ -1619,6 +1744,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <NavigationProperty Name="FlightInformation" Relationship="ppa_tabanModel.fk_ofp_flt" FromRole="OFPImport" ToRole="FlightInformation" />
           <NavigationProperty Name="OFPImportItems" Relationship="ppa_tabanModel.fk_ofpl_ofp" FromRole="OFPImport" ToRole="OFPImportItem" />
           <NavigationProperty Name="OFPImportProps" Relationship="ppa_tabanModel.fk_ofpp_ofp" FromRole="OFPImport" ToRole="OFPImportProp" />
+          <NavigationProperty Name="OFPPoints" Relationship="ppa_tabanModel.fk_point_ofp" FromRole="OFPImport" ToRole="OFPPoint" />
         </EntityType>
         <Association Name="fk_ofp_flt">
           <End Type="ppa_tabanModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
@@ -1660,6 +1786,82 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="OFPPoint">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="OFPId" Type="Int32" Nullable="false" />
+          <Property Name="Plan" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Lat" Type="Decimal" Precision="16" Scale="10" />
+          <Property Name="Long" Type="Decimal" Precision="16" Scale="10" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WAP" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="VIA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ALT" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="WIND" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TRK" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TMP" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="BODY" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="FRQ" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MEA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GMR" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DIS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TDS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FUS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TAS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GSP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OFPImport" Relationship="ppa_tabanModel.fk_point_ofp" FromRole="OFPPoint" ToRole="OFPImport" />
+        </EntityType>
+        <Association Name="fk_point_ofp">
+          <End Type="ppa_tabanModel.OFPImport" Role="OFPImport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppa_tabanModel.OFPPoint" Role="OFPPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OFPImport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OFPPoint">
+              <PropertyRef Name="OFPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ViewOFPPoint">
+          <Key>
+            <PropertyRef Name="OFPId" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FlightId" />
+          </Key>
+          <Property Name="OFPId" Type="Int32" Nullable="false" />
+          <Property Name="Plan" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Lat" Type="Decimal" Precision="16" Scale="10" />
+          <Property Name="Long" Type="Decimal" Precision="16" Scale="10" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="WAP" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="VIA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ALT" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="WIND" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TRK" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TMP" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="BODY" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="FRQ" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MEA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GMR" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DIS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TDS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FUS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TAS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GSP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="Dep" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Arr" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FltNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1669,6 +1871,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="ViewLegTimes">
             <EntityTypeMapping TypeName="ppa_tabanModel.ViewLegTime">
               <MappingFragment StoreEntitySet="ViewLegTime">
+                <ScalarProperty Name="OFPTOTALFUEL" ColumnName="OFPTOTALFUEL" />
                 <ScalarProperty Name="PF" ColumnName="PF" />
                 <ScalarProperty Name="FuelPlanned" ColumnName="FuelPlanned" />
                 <ScalarProperty Name="PILOTREQFUEL" ColumnName="PILOTREQFUEL" />
@@ -1982,6 +2185,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
           <EntitySetMapping Name="FlightInformations">
             <EntityTypeMapping TypeName="ppa_tabanModel.FlightInformation">
               <MappingFragment StoreEntitySet="FlightInformation">
+                <ScalarProperty Name="LTR2" ColumnName="LTR2" />
                 <ScalarProperty Name="ACTUALTANKERINGFUEL" ColumnName="ACTUALTANKERINGFUEL" />
                 <ScalarProperty Name="FuelUsedEng2" ColumnName="FuelUsedEng2" />
                 <ScalarProperty Name="FuelUsedEng1" ColumnName="FuelUsedEng1" />
@@ -2345,6 +2549,67 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primar
                 <ScalarProperty Name="FlightNo" ColumnName="FlightNo" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OFPPoints">
+            <EntityTypeMapping TypeName="ppa_tabanModel.OFPPoint">
+              <MappingFragment StoreEntitySet="OFPPoint">
+                <ScalarProperty Name="GSP" ColumnName="GSP" />
+                <ScalarProperty Name="TAS" ColumnName="TAS" />
+                <ScalarProperty Name="FUS" ColumnName="FUS" />
+                <ScalarProperty Name="FRE" ColumnName="FRE" />
+                <ScalarProperty Name="TDS" ColumnName="TDS" />
+                <ScalarProperty Name="DIS" ColumnName="DIS" />
+                <ScalarProperty Name="GMR" ColumnName="GMR" />
+                <ScalarProperty Name="MEA" ColumnName="MEA" />
+                <ScalarProperty Name="FRQ" ColumnName="FRQ" />
+                <ScalarProperty Name="BODY" ColumnName="BODY" />
+                <ScalarProperty Name="TMP" ColumnName="TMP" />
+                <ScalarProperty Name="TRK" ColumnName="TRK" />
+                <ScalarProperty Name="WIND" ColumnName="WIND" />
+                <ScalarProperty Name="ALT" ColumnName="ALT" />
+                <ScalarProperty Name="VIA" ColumnName="VIA" />
+                <ScalarProperty Name="WAP" ColumnName="WAP" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="Plan" ColumnName="Plan" />
+                <ScalarProperty Name="OFPId" ColumnName="OFPId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewOFPPoints">
+            <EntityTypeMapping TypeName="ppa_tabanModel.ViewOFPPoint">
+              <MappingFragment StoreEntitySet="ViewOFPPoint">
+                <ScalarProperty Name="FltNo" ColumnName="FltNo" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="Arr" ColumnName="Arr" />
+                <ScalarProperty Name="Dep" ColumnName="Dep" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="GSP" ColumnName="GSP" />
+                <ScalarProperty Name="TAS" ColumnName="TAS" />
+                <ScalarProperty Name="FUS" ColumnName="FUS" />
+                <ScalarProperty Name="FRE" ColumnName="FRE" />
+                <ScalarProperty Name="TDS" ColumnName="TDS" />
+                <ScalarProperty Name="DIS" ColumnName="DIS" />
+                <ScalarProperty Name="GMR" ColumnName="GMR" />
+                <ScalarProperty Name="MEA" ColumnName="MEA" />
+                <ScalarProperty Name="FRQ" ColumnName="FRQ" />
+                <ScalarProperty Name="BODY" ColumnName="BODY" />
+                <ScalarProperty Name="TMP" ColumnName="TMP" />
+                <ScalarProperty Name="TRK" ColumnName="TRK" />
+                <ScalarProperty Name="WIND" ColumnName="WIND" />
+                <ScalarProperty Name="ALT" ColumnName="ALT" />
+                <ScalarProperty Name="VIA" ColumnName="VIA" />
+                <ScalarProperty Name="WAP" ColumnName="WAP" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="Plan" ColumnName="Plan" />
+                <ScalarProperty Name="OFPId" ColumnName="OFPId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
