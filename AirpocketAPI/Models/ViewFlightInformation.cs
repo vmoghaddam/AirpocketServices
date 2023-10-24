@@ -42,7 +42,7 @@ namespace AirpocketAPI.Models
         public Nullable<System.DateTime> STA { get; set; }
         public Nullable<System.DateTime> STDLocal { get; set; }
         public Nullable<System.DateTime> STALocal { get; set; }
-        public Nullable<System.DateTime> DATE { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
         public Nullable<int> FlightStatusID { get; set; }
         public Nullable<int> RegisterID { get; set; }
         public Nullable<int> FlightTypeID { get; set; }

@@ -49,6 +49,35 @@ namespace AirpocketAPI.Models
         public string JAPlan1 { get; set; }
         public string JAPlan2 { get; set; }
         public string JFuel { get; set; }
+        public string JCSTBL { get; set; }
+        public string JALDRF { get; set; }
+        public string JWTDRF { get; set; }
+        public string THM { get; set; }
+        public string UNT { get; set; }
+        public string CRW { get; set; }
+        public string RTM { get; set; }
+        public string RTA { get; set; }
+        public string RTB { get; set; }
+        public string RTT { get; set; }
+        public string PLD { get; set; }
+        public string EZFW { get; set; }
+        public string ETOW { get; set; }
+        public string ELDW { get; set; }
+        public string ETD { get; set; }
+        public string ETA { get; set; }
+        public string ALT1 { get; set; }
+        public string ALT2 { get; set; }
+        public string TALT1 { get; set; }
+        public string TALT2 { get; set; }
+        public string FPF { get; set; }
+        public Nullable<int> FuelALT1 { get; set; }
+        public Nullable<int> FuelALT2 { get; set; }
+        public Nullable<int> FuelTOF { get; set; }
+        public Nullable<int> FuelTAXI { get; set; }
+        public Nullable<int> FuelOFFBLOCK { get; set; }
+        public Nullable<int> FuelCONT { get; set; }
+        public Nullable<int> FuelMINTOF { get; set; }
+        public Nullable<int> FuelFINALRES { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImportItem> OFPImportItems { get; set; }

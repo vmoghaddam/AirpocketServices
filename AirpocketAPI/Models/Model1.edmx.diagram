@@ -64,7 +64,6 @@
         <EntityTypeShape EntityType="FLYModel.ViewCrewDutyTimeLine" Width="1.5" PointX="8.375" PointY="32.75" />
         <EntityTypeShape EntityType="FLYModel.DayGP" Width="1.5" PointX="33.375" PointY="0.75" />
         <EntityTypeShape EntityType="FLYModel.ViewEFBASR" Width="1.5" PointX="33.375" PointY="4.75" />
-        <EntityTypeShape EntityType="FLYModel.AppCertificate" Width="1.5" PointX="0.75" PointY="35" />
         <EntityTypeShape EntityType="FLYModel.ViewFlightCockpit" Width="1.5" PointX="15.375" PointY="34.75" />
         <EntityTypeShape EntityType="FLYModel.RptAirportDaily" Width="1.5" PointX="35.375" PointY="0.75" />
         <EntityTypeShape EntityType="FLYModel.Charterer" Width="1.5" PointX="35.375" PointY="8" />
@@ -88,10 +87,6 @@
         <EntityTypeShape EntityType="FLYModel.ViewAssignGrid" Width="1.5" PointX="13.375" PointY="4.75" />
         <EntityTypeShape EntityType="FLYModel.ViewEFBDSPReleas" Width="1.5" PointX="20.375" PointY="40.75" />
         <EntityTypeShape EntityType="FLYModel.EmployeeDocument" Width="1.5" PointX="13.375" PointY="13.75" />
-        <EntityTypeShape EntityType="FLYModel.FlightCharterer" Width="1.5" PointX="41.625" PointY="33.375" />
-        <EntityTypeShape EntityType="FLYModel.FltFMI" Width="1.5" PointX="39.375" PointY="0.75" />
-        <EntityTypeShape EntityType="FLYModel.ViewFlightCharterer" Width="1.5" PointX="41.375" PointY="0.75" />
-        <AssociationConnector Association="FLYModel.fk_chr_chr" />
         <EntityTypeShape EntityType="FLYModel.Ac_MSN" Width="1.5" PointX="0.75" PointY="41.375" />
         <EntityTypeShape EntityType="FLYModel.FDPItem" Width="1.5" PointX="28.625" PointY="43.625" />
         <AssociationConnector Association="FLYModel.fk_fdpitem_fdp" />
@@ -105,15 +100,15 @@
         <AssociationConnector Association="FLYModel.fk_EFB_FI" />
         <AssociationConnector Association="FLYModel.fk_vr_flt" />
         <AssociationConnector Association="FLYModel.fk_fdpitem_flight" />
-        <AssociationConnector Association="FLYModel.fk_chr_flt" />
         <AssociationConnector Association="FLYModel.FK_FlightDelay_FlightInformation" />
         <AssociationConnector Association="FLYModel.fk_mvt_flight" />
         <AssociationConnector Association="FLYModel.fk_mvtapi_flight" />
         <AssociationConnector Association="FLYModel.fk_ofp_flt" />
-        <EntityTypeShape EntityType="FLYModel.ViewFlightInformation" Width="1.5" PointX="35.375" PointY="44.75" />
         <EntityTypeShape EntityType="FLYModel.ViewLegTime" Width="1.5" PointX="45.375" PointY="0.75" />
-        <EntityTypeShape EntityType="FLYModel.AppCrewFlight" Width="1.5" PointX="17.375" PointY="35.75" />
         <EntityTypeShape EntityType="FLYModel.AppLeg" Width="1.5" PointX="41.375" PointY="37.75" />
+        <EntityTypeShape EntityType="FLYModel.AppCertificate" Width="1.5" PointX="5.375" PointY="10.75" />
+        <EntityTypeShape EntityType="FLYModel.ViewFlightInformation" Width="1.5" PointX="43.375" PointY="25.75" />
+        <EntityTypeShape EntityType="FLYModel.AppCrewFlight" Width="1.5" PointX="17.375" PointY="35.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

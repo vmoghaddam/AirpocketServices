@@ -139,9 +139,10 @@ namespace AirpocketAPI.Models
         public string ALT3 { get; set; }
         public string ALT4 { get; set; }
         public string ALT5 { get; set; }
-        public string ATCPlan { get; set; }
         public string ATL { get; set; }
-        public string FromAirportIATA2 { get; set; }
-        public string ToAirportIATA2 { get; set; }
+        public string ATCPlan { get; set; }
+        public Nullable<decimal> FPTripFuel { get; set; }
+        public Nullable<decimal> FPFuel { get; set; }
+        public Nullable<decimal> FuelPlanned { get; set; }
     }
 }

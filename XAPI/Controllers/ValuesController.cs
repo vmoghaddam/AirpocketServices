@@ -324,7 +324,7 @@ namespace XAPI.Controllers
                     }
                     return Ok(true);
                 }
-                else if (dto.plan.Contains("CASPIAN")  )
+                else if (dto.plan.Contains("CASPIAN"))
                 {
                     result = "CASPIAN";
                     var entity = new OFPSkyPuter()
@@ -440,7 +440,7 @@ namespace XAPI.Controllers
                     }
                     return Ok(true);
                 }
-                else if (dto.plan.Contains("AIR1AIR") )
+                else if (dto.plan.Contains("AIR1AIR"))
                 {
                     result = "AIR1AIR";
                     var entity = new OFPSkyPuter()
@@ -832,13 +832,13 @@ namespace XAPI.Controllers
 
         public class GeoPoint
         {
-            
+
             public double Degree { get; set; }
             public double Minute { get; set; }
             public double Second { get; set; }
             public double Decimal { get; set; }
             //N3525.0 E05109.1
-            public static string  ConvertToDecimal(string str)
+            public static string ConvertToDecimal(string str)
             {
                 var prts = str.Split(' ');
                 var lat_str = prts[0].Replace("N", "");
@@ -846,8 +846,8 @@ namespace XAPI.Controllers
                 //= 51° + 34'/60 + 3"/3600
                 var lat_deg = Convert.ToDouble(lat_str.Substring(0, 2));
                 var lat_min = Convert.ToDouble(lat_str.Substring(2, 2));
-                var lat_sec = lat_str.Contains(".") ? Convert.ToDouble(lat_str.Split('.')[1]) : 0 ;
-                var lat_dec =Math.Round( lat_deg + (lat_min * 1.0 / 60) + (lat_sec * 1.0 / 3600),6);
+                var lat_sec = lat_str.Contains(".") ? Convert.ToDouble(lat_str.Split('.')[1]) : 0;
+                var lat_dec = Math.Round(lat_deg + (lat_min * 1.0 / 60) + (lat_sec * 1.0 / 3600), 6);
 
 
                 var long_deg = Convert.ToDouble(long_str.Substring(0, 2));
@@ -1020,50 +1020,57 @@ namespace XAPI.Controllers
                     var prts = _r.Split(';');
                     //  mainPlanPoints.Add(GeoPoint.ConvertToDecimal(prts[1].Replace("GEO=", "")));
                     var _pnt = new OFPPoint();
-                    var latlang = GeoPoint.ConvertToDecimal(prts[1].Replace("GEO=", ""));
-                    _pnt.Lat = Convert.ToDecimal(latlang.Split(' ')[0]);
-                    _pnt.Long = Convert.ToDecimal(latlang.Split(' ')[1]);
+                    try
+                    {
+                        var latlang = GeoPoint.ConvertToDecimal(prts[1].Replace("GEO=", ""));
+                        _pnt.Lat = Convert.ToDecimal(latlang.Split(' ')[0]);
+                        _pnt.Long = Convert.ToDecimal(latlang.Split(' ')[1]);
 
 
-                    var _wap = prts.FirstOrDefault(q => q.StartsWith("WAP"));
-                    _pnt.WAP = _wap == null ? "" : _wap.Split('=')[1];
+                        var _wap = prts.FirstOrDefault(q => q.StartsWith("WAP"));
+                        _pnt.WAP = _wap == null ? "" : _wap.Split('=')[1];
 
 
-                    var _geo = prts.FirstOrDefault(q => q.StartsWith("GEO"));
-                    
+                        var _geo = prts.FirstOrDefault(q => q.StartsWith("GEO"));
 
 
-                    var _frq = prts.FirstOrDefault(q => q.StartsWith("FRQ"));
-                    _pnt.FRQ = _frq == null ? "" : _frq.Split('=')[1];
 
-                    var _via = prts.FirstOrDefault(q => q.StartsWith("VIA"));
-                    _pnt.VIA = _via == null ? "" : _via.Split('=')[1];
-                    var _alt = prts.FirstOrDefault(q => q.StartsWith("ALT"));
-                    _pnt.ALT = _alt == null ? "" : _alt.Split('=')[1];
-                    var _mea = prts.FirstOrDefault(q => q.StartsWith("MEA"));
-                    _pnt.MEA = _mea == null ? "" : _mea.Split('=')[1];
-                    var _gmr = prts.FirstOrDefault(q => q.StartsWith("GMR"));
-                    _pnt.GMR = _gmr == null ? "" : _gmr.Split('=')[1];
-                    var _dis = prts.FirstOrDefault(q => q.StartsWith("DIS"));
-                    _pnt.DIS = _dis == null ? "" : _dis.Split('=')[1];
-                    var _tds = prts.FirstOrDefault(q => q.StartsWith("TDS"));
-                    _pnt.TDS = _tds == null ? "" : _tds.Split('=')[1];
-                    var _wind = prts.FirstOrDefault(q => q.StartsWith("WID"));
-                    _pnt.WIND = _wind == null ? "" : _wind.Split('=')[1];
-                    var _trk = prts.FirstOrDefault(q => q.StartsWith("TRK"));
-                    _pnt.WAP = _wap == null ? "" : _wap.Split('=')[1];
-                    var _tmp = prts.FirstOrDefault(q => q.StartsWith("TMP"));
-                    _pnt.TMP = _tmp == null ? "" : _tmp.Split('=')[1];
-                    var _fre = prts.FirstOrDefault(q => q.StartsWith("FRE"));
-                    _pnt.FRE = _fre == null ? "" : _fre.Split('=')[1];
-                    var _fus = prts.FirstOrDefault(q => q.StartsWith("FUS"));
-                    _pnt.FUS = _fus == null ? "" : _fus.Split('=')[1];
-                    var _tas = prts.FirstOrDefault(q => q.StartsWith("TAS"));
-                    _pnt.TAS = _tas == null ? "" : _tas.Split('=')[1];
-                    var _gsp = prts.FirstOrDefault(q => q.StartsWith("GSP"));
-                    _pnt.GSP = _gsp == null ? "" : _gsp.Split('=')[1];
+                        var _frq = prts.FirstOrDefault(q => q.StartsWith("FRQ"));
+                        _pnt.FRQ = _frq == null ? "" : _frq.Split('=')[1];
 
-                    _pnt.Plan = "MAIN";
+                        var _via = prts.FirstOrDefault(q => q.StartsWith("VIA"));
+                        _pnt.VIA = _via == null ? "" : _via.Split('=')[1];
+                        var _alt = prts.FirstOrDefault(q => q.StartsWith("ALT"));
+                        _pnt.ALT = _alt == null ? "" : _alt.Split('=')[1];
+                        var _mea = prts.FirstOrDefault(q => q.StartsWith("MEA"));
+                        _pnt.MEA = _mea == null ? "" : _mea.Split('=')[1];
+                        var _gmr = prts.FirstOrDefault(q => q.StartsWith("GMR"));
+                        _pnt.GMR = _gmr == null ? "" : _gmr.Split('=')[1];
+                        var _dis = prts.FirstOrDefault(q => q.StartsWith("DIS"));
+                        _pnt.DIS = _dis == null ? "" : _dis.Split('=')[1];
+                        var _tds = prts.FirstOrDefault(q => q.StartsWith("TDS"));
+                        _pnt.TDS = _tds == null ? "" : _tds.Split('=')[1];
+                        var _wind = prts.FirstOrDefault(q => q.StartsWith("WID"));
+                        _pnt.WIND = _wind == null ? "" : _wind.Split('=')[1];
+                        var _trk = prts.FirstOrDefault(q => q.StartsWith("TRK"));
+                        _pnt.WAP = _wap == null ? "" : _wap.Split('=')[1];
+                        var _tmp = prts.FirstOrDefault(q => q.StartsWith("TMP"));
+                        _pnt.TMP = _tmp == null ? "" : _tmp.Split('=')[1];
+                        var _fre = prts.FirstOrDefault(q => q.StartsWith("FRE"));
+                        _pnt.FRE = _fre == null ? "" : _fre.Split('=')[1];
+                        var _fus = prts.FirstOrDefault(q => q.StartsWith("FUS"));
+                        _pnt.FUS = _fus == null ? "" : _fus.Split('=')[1];
+                        var _tas = prts.FirstOrDefault(q => q.StartsWith("TAS"));
+                        _pnt.TAS = _tas == null ? "" : _tas.Split('=')[1];
+                        var _gsp = prts.FirstOrDefault(q => q.StartsWith("GSP"));
+                        _pnt.GSP = _gsp == null ? "" : _gsp.Split('=')[1];
+
+                        _pnt.Plan = "MAIN";
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
                     mplan_points.Add(_pnt);
 
                     foreach (var x in prts)
@@ -1903,17 +1910,17 @@ namespace XAPI.Controllers
                 List<string> errs = new List<string>();
                 foreach (var eve in e.EntityValidationErrors)
                 {
-//Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-//eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    errs.Add(eve.Entry.Entity.GetType().Name+"    " + eve.Entry.State);
+                    //Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    //eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    errs.Add(eve.Entry.Entity.GetType().Name + "    " + eve.Entry.State);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                       // Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                       //     ve.PropertyName, ve.ErrorMessage);
+                        // Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                        //     ve.PropertyName, ve.ErrorMessage);
                         errs.Add(ve.PropertyName + "    " + ve.ErrorMessage);
                     }
                 }
-                return Ok("Not Uploaded " + string.Join(",",errs));
+                return Ok("Not Uploaded " + string.Join(",", errs));
             }
             catch (Exception ex)
             {
@@ -2041,7 +2048,7 @@ namespace XAPI.Controllers
 
         }
 
-        [Route("api/windy/auth")]
+        [Route("api/windy/auth2")]
         [AcceptVerbs("POST")]
         public IHttpActionResult PostWindyAuth(windy_auth_dto dto)
         {
@@ -2074,7 +2081,43 @@ namespace XAPI.Controllers
 
             };
             return Ok(response);
-            
+
+        }
+
+        [Route("api/windy/auth")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetWindyAuth()
+        {
+            //            {
+            //                "paid": true,
+            //    "exceeded": false,
+            //    "domains": "api4.windy.com,api.windy.com,api-staging.windy.com",
+            //    "features": { },
+            //    "apiUser": "admin",
+            //    "id": 0,
+            //    "name": "https:api4.windy.com",
+            //    "key": "PsLAtXpsPTZexBwUkO7Mx5I",
+            //    "auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWlkIjp0cnVlLCJleGNlZWRlZCI6ZmFsc2UsImRvbWFpbnMiOiJhcGk0LndpbmR5LmNvbSxhcGkud2luZHkuY29tLGFwaS1zdGFnaW5nLndpbmR5LmNvbSIsImZlYXR1cmVzIjp7fSwiYXBpVXNlciI6ImFkbWluIiwiaWQiOjAsIm5hbWUiOiJodHRwczphcGk0LndpbmR5LmNvbSIsImtleSI6IlBzTEF0WHBzUFRaZXhCd1VrTzdNeDVJIiwidWEiOiJNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTE3LjAuMC4wIFNhZmFyaS81MzcuMzYgRWRnLzExNy4wLjIwNDUuNjAiLCJpYXQiOjE2OTcxMzI4MjQsImV4cCI6MTY5NzQzMjgyNH0.1SYTh1ePqCsjWuDe07F9Rn2wc1tm9mK9jKOwfqFEm2E"
+            //}
+
+
+            var response = new windy_auth_response()
+            {
+                apiUser = "admin",
+                auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWlkIjp0cnVlLCJleGNlZWRlZCI6ZmFsc2UsImRvbWFpbnMiOiJhcGk0LndpbmR5LmNvbSxhcGkud2luZHkuY29tLGFwaS1zdGFnaW5nLndpbmR5LmNvbSIsImZlYXR1cmVzIjp7fSwiYXBpVXNlciI6ImFkbWluIiwiaWQiOjAsIm5hbWUiOiJodHRwczphcGk0LndpbmR5LmNvbSIsImtleSI6IlBzTEF0WHBzUFRaZXhCd1VrTzdNeDVJIiwidWEiOiJNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTE3LjAuMC4wIFNhZmFyaS81MzcuMzYgRWRnLzExNy4wLjIwNDUuNjAiLCJpYXQiOjE2OTcxMzI4MjQsImV4cCI6MTY5NzQzMjgyNH0.1SYTh1ePqCsjWuDe07F9Rn2wc1tm9mK9jKOwfqFEm2E",
+                domains = "api4.windy.com,api.windy.com,api-staging.windy.com",
+                exceeded = false,
+                features = new windy_auth_feather(),
+                id = 0,
+                key = "PsLAtXpsPTZexBwUkO7Mx5I",
+                name = "https:api4.windy.com",
+                paid = true,
+
+
+
+            };
+            return Ok(response);
+
         }
 
         public static class WebUtils
@@ -2116,7 +2159,7 @@ namespace XAPI.Controllers
                 catch (ArgumentException ex)
                 {
                     throw new InvalidOperationException(
-                         
+
                         "The server returned data in an unknown encoding: " + charsetName
                         );
                 }
@@ -2124,39 +2167,41 @@ namespace XAPI.Controllers
         }
 
         [Route("api/windy/img")]
-        
+
         public async Task<IHttpActionResult> getProductImage(string url)
         {
+            url = url.Replace("xhtt", "htt");
             using (HttpClient client = new HttpClient())
             {
-                 
+
                 HttpResponseMessage _response = await client.GetAsync(url);
                 byte[] content = await _response.Content.ReadAsByteArrayAsync();
 
                 // return Ok(File(content, "image/png"));
 
-                 
-               var response  = new HttpResponseMessage(HttpStatusCode.OK);
+
+                var response = new HttpResponseMessage(HttpStatusCode.OK);
                 Stream stream = new MemoryStream(content);
-                  response.Content = new StreamContent(stream);
+                response.Content = new StreamContent(stream);
 
                 response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
                 response.Content.Headers.ContentLength = stream.Length;
 
                 return ResponseMessage(response);
 
-               // return Ok(true);
+                // return Ok(true);
 
             }
         }
 
 
         [Route("api/windy/url")]
-       // [AcceptVerbs("GET")]
-        public  IHttpActionResult  GetUrl(string url)
+        // [AcceptVerbs("GET")]
+        public IHttpActionResult GetUrl(string url)
         {
             try
             {
+                url = url.Replace("xhtt", "htt");
                 string response = null;
                 using (WebClient webClient = new WebClient())
                 {
@@ -2210,12 +2255,12 @@ namespace XAPI.Controllers
                     return Ok(res);
                 }
             }
-            catch(Exception exxxxx)
+            catch (Exception exxxxx)
             {
                 return Ok(JsonConvert.DeserializeObject(string.Empty));
             }
-           
-          
+
+
 
         }
 
@@ -2224,7 +2269,32 @@ namespace XAPI.Controllers
         public IHttpActionResult Gettest()
         {
 
-            
+            HttpContext.Current.Response.Headers.Add("MaxRecords", "1000");
+            return Ok(true);
+
+        }
+
+        //[HttpGet]
+        //[Route("api/windy/test")]
+        //public HttpResponseMessage Gettest()
+        //{
+        //    // Get students from Database
+
+        //    // Create the response
+        //    var response = Request.CreateResponse(HttpStatusCode.OK, true);
+
+        //    // Set headers for paging
+        //    response.Headers.Add("X-Students-Total-Count", "QWERT");
+
+        //    return response;
+        //}
+
+        [Route("api/windy/connection")]
+        [AcceptVerbs("HEAD")]
+        public IHttpActionResult GetConnection()
+        {
+
+
             return Ok(true);
 
         }
@@ -2865,7 +2935,7 @@ namespace XAPI.Controllers
 
         }
 
-      
+
 
 
         protected void FillError(object sender, FillErrorEventArgs args)

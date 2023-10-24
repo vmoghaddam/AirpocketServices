@@ -123,5 +123,16 @@ namespace AirpocketAPI.Models
         public string TotalRemark { get; set; }
         public string Route { get; set; }
         public string PDate { get; set; }
+        public Nullable<System.DateTime> DateLocal { get; set; }
+        public Nullable<System.DateTime> TakeOffDay { get; set; }
+        public Nullable<System.DateTime> TakeOffDayLocal { get; set; }
+        public Nullable<int> PMonthTakeOff { get; set; }
+        public string PMonthNameTakeOff { get; set; }
+        public string PDayNameTakeOff { get; set; }
+        public string PDateTakeOff { get; set; }
+        public int IsDepInt { get; set; }
+        public int IsArrInt { get; set; }
+        public string XRoute { get; set; }
+        public int FixTime { get; set; }
     }
 }

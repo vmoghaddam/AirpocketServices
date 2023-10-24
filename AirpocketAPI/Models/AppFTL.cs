@@ -37,5 +37,6 @@ namespace AirpocketAPI.Models
         public string JobGroup { get; set; }
         public string JobGroupCode { get; set; }
         public int IsCockpit { get; set; }
+        public Nullable<int> RERRP { get; set; }
     }
 }

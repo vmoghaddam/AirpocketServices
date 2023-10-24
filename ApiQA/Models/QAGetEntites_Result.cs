@@ -27,5 +27,6 @@ namespace ApiQA.Models
         public string FlightNumber { get; set; }
         public Nullable<int> MainStatus { get; set; }
         public string EmployeeStatus { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
     }
 }

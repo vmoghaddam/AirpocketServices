@@ -8738,89 +8738,89 @@ new JsonSerializerSettings
 
         }
 
-        [Route("api/flight/charterers/{id}")]
-        [AcceptVerbs("GET")]
-        public IHttpActionResult GetFlightCharterers(int id)
-        {
-            var context = new AirpocketAPI.Models.FLYEntities();
-            var query = from x in context.ViewFlightCharterers where x.FlightId == id select x;
+        //[Route("api/flight/charterers/{id}")]
+        //[AcceptVerbs("GET")]
+        //public IHttpActionResult GetFlightCharterers(int id)
+        //{
+        //    var context = new AirpocketAPI.Models.FLYEntities();
+        //    var query = from x in context.ViewFlightCharterers where x.FlightId == id select x;
 
 
 
-            var result = query.OrderBy(q => q.Title1).ToList();
+        //    var result = query.OrderBy(q => q.Title1).ToList();
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
 
-        [Route("api/flight/charterers/report")]
-        [AcceptVerbs("GET")]
-        public IHttpActionResult GetFlightCharterersReport(string df, string dt, int chr)
-        {
-            var context = new AirpocketAPI.Models.FLYEntities();
+        //[Route("api/flight/charterers/report")]
+        //[AcceptVerbs("GET")]
+        //public IHttpActionResult GetFlightCharterersReport(string df, string dt, int chr)
+        //{
+        //    var context = new AirpocketAPI.Models.FLYEntities();
 
-            var fp = df.Split('-').Select(q => Convert.ToInt32(q)).ToList();
-            var ft = dt.Split('-').Select(q => Convert.ToInt32(q)).ToList();
-            var _df = new DateTime(fp[0], fp[1], fp[2]);
-            var _dt = new DateTime(ft[0], ft[1], ft[2]);
-            _dt = _dt.AddDays(1);
-            var query = from x in context.ViewFlightCharterers
-                        where x.STDLocal >= _df && x.STDLocal <= _dt
-                        select x;
-            if (chr != -1)
-                query = query.Where(q => q.ChartererId == chr);
-
-
-            var result = query.OrderBy(q => q.STDLocal).ThenBy(q => q.Title1).ToList();
-
-            return Ok(result);
-        }
-
-        [Route("api/flight/charterer/save")]
-        [AcceptVerbs("Post")]
-        public IHttpActionResult PostFlightCharterer(FlightChartererDto dto)
-        {
-            var context = new AirpocketAPI.Models.FLYEntities();
-            FlightCharterer entity = null;
-            if (dto.Id == -1)
-            {
-                entity = new FlightCharterer() { Id = -1 };
-                context.FlightCharterers.Add(entity);
-            }
-            else
-            {
-                entity = context.FlightCharterers.FirstOrDefault(q => q.Id == dto.Id);
-            }
-            entity.FlightId = dto.FlightId;
-            entity.ChartererId = dto.ChartererId;
-            entity.Capacity = dto.Capacity;
-            entity.Adult = dto.Adult;
-            entity.Child = dto.Child;
-            entity.Infanct = dto.Infanct;
-            entity.Remark = dto.Remark;
-
-            context.SaveChanges();
-            var chr = context.ViewFlightCharterers.FirstOrDefault(q => q.Id == entity.Id);
-
-            return Ok(chr);
+        //    var fp = df.Split('-').Select(q => Convert.ToInt32(q)).ToList();
+        //    var ft = dt.Split('-').Select(q => Convert.ToInt32(q)).ToList();
+        //    var _df = new DateTime(fp[0], fp[1], fp[2]);
+        //    var _dt = new DateTime(ft[0], ft[1], ft[2]);
+        //    _dt = _dt.AddDays(1);
+        //    var query = from x in context.ViewFlightCharterers
+        //                where x.STDLocal >= _df && x.STDLocal <= _dt
+        //                select x;
+        //    if (chr != -1)
+        //        query = query.Where(q => q.ChartererId == chr);
 
 
-        }
+        //    var result = query.OrderBy(q => q.STDLocal).ThenBy(q => q.Title1).ToList();
 
-        [Route("api/flight/charterer/delete")]
-        [AcceptVerbs("Post")]
-        public IHttpActionResult PostFlightChartererDelete(dynamic dto)
-        {
-            int Id = Convert.ToInt32(dto.Id);
-            var context = new AirpocketAPI.Models.FLYEntities();
-            var entity = context.FlightCharterers.FirstOrDefault(q => q.Id == Id);
-            context.FlightCharterers.Remove(entity);
+        //    return Ok(result);
+        //}
 
-            context.SaveChanges();
+        //[Route("api/flight/charterer/save")]
+        //[AcceptVerbs("Post")]
+        //public IHttpActionResult PostFlightCharterer(FlightChartererDto dto)
+        //{
+        //    var context = new AirpocketAPI.Models.FLYEntities();
+        //    FlightCharterer entity = null;
+        //    if (dto.Id == -1)
+        //    {
+        //        entity = new FlightCharterer() { Id = -1 };
+        //        context.FlightCharterers.Add(entity);
+        //    }
+        //    else
+        //    {
+        //        entity = context.FlightCharterers.FirstOrDefault(q => q.Id == dto.Id);
+        //    }
+        //    entity.FlightId = dto.FlightId;
+        //    entity.ChartererId = dto.ChartererId;
+        //    entity.Capacity = dto.Capacity;
+        //    entity.Adult = dto.Adult;
+        //    entity.Child = dto.Child;
+        //    entity.Infanct = dto.Infanct;
+        //    entity.Remark = dto.Remark;
 
-            return Ok(true);
+        //    context.SaveChanges();
+        //    var chr = context.ViewFlightCharterers.FirstOrDefault(q => q.Id == entity.Id);
+
+        //    return Ok(chr);
 
 
-        }
+        //}
+
+        //[Route("api/flight/charterer/delete")]
+        //[AcceptVerbs("Post")]
+        //public IHttpActionResult PostFlightChartererDelete(dynamic dto)
+        //{
+        //    int Id = Convert.ToInt32(dto.Id);
+        //    var context = new AirpocketAPI.Models.FLYEntities();
+        //    var entity = context.FlightCharterers.FirstOrDefault(q => q.Id == Id);
+        //    context.FlightCharterers.Remove(entity);
+
+        //    context.SaveChanges();
+
+        //    return Ok(true);
+
+
+        //}
 
 
         [Route("api/ofp/check")]

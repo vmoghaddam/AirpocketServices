@@ -176,5 +176,16 @@ namespace AirpocketAPI.Models
         public string ALT3 { get; set; }
         public string ALT4 { get; set; }
         public string ALT5 { get; set; }
+        public string FromAirportIATA2 { get; set; }
+        public string ToAirportIATA2 { get; set; }
+        public Nullable<decimal> FPTripFuel { get; set; }
+        public string ATL { get; set; }
+        public string ATCPlan { get; set; }
+        public Nullable<decimal> FuelPlanned { get; set; }
+        public Nullable<System.DateTime> DateVisitSPWX { get; set; }
+        public Nullable<System.DateTime> DateVisitDDL { get; set; }
+        public Nullable<System.DateTime> DateVisitNOTAM { get; set; }
+        public Nullable<System.DateTime> DateVisitOTHER { get; set; }
+        public Nullable<System.DateTime> DateVisitPACKINGLIST { get; set; }
     }
 }
