@@ -525,6 +525,189 @@ namespace ApiQA.Controllers
         }
 
         [HttpPost]
+        [Route("api/save/cyber")]
+        public async Task<DataResponse> SaveQACyber(dynamic dto)
+        {
+
+            try
+            {
+                int Id = dto.Id;
+                string Date = dto.DateOccurrenceStr.ToString();
+                var entity = context.QACybers.SingleOrDefault(q => q.Id == Id);
+                if (entity == null)
+                {
+                    entity = new QACyber();
+                    context.QACybers.Add(entity);
+                }
+
+
+
+                entity.AccessDescription = dto.AccessDescription;
+                entity.AccessId = dto.AccessId;
+                entity.AttackDescriptipn = dto.AttackDescriptipn;
+                entity.BreachedDescription = dto.BreachedDescription;
+                entity.ContactInfo = dto.ContactInfo;
+                entity.DateIncident = dto.DateIncident;
+                entity.ImpactDescription = dto.ImpactDescription;
+                entity.IncidentDescription = dto.IncidentDescription;
+                entity.IncidentId = dto.IncidentId;
+                entity.MethodDescription = dto.MethodDescription;
+                entity.MethodId = dto.MethodId;
+                entity.Other = dto.Other;
+                entity.Result = dto.Result;
+                entity.FlightId = dto.FlightId;
+                entity.DateOccurrence = ConvertToDateTime(Date); //DateTime.Parse(Date) ;
+                entity.Name = dto.Name;
+                entity.EmployeeId = dto.EmployeeId;
+                entity.Status = dto.Status;
+                entity.StatusEmployeeId = dto.StatusEmployeeId;
+                entity.DateStatus = dto.DateStatus;
+                if (dto.Signed != null)
+                    entity.DateSign = DateTime.Now;
+                entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
+              
+                context.SaveChanges();
+
+                if (dto.files != null)
+                {
+                    foreach (var f in dto.files)
+                    {
+                        int AttachmentId = f.AttachmentId;
+                        var file = context.QAAttachments.SingleOrDefault(q => q.Id == AttachmentId);
+                        if (file == null)
+                        {
+                            file = new QAAttachment();
+                            context.QAAttachments.Add(file);
+                        }
+                        file.EntityId = entity.Id;
+                        file.EmployeeId = dto.EmployeeId;
+                        file.URL = HttpContext.Current.Server.MapPath("~/upload/" + f.FileName);
+                        file.Lable = f.FileName;
+                        file.DateAttach = DateTime.Now;
+                        file.AttachmentType = f.FileType;
+                        file.Description = f.Description;
+                        file.Type = 7;
+                    }
+
+                }
+
+                context.SaveChanges();
+                dto.Id = entity.Id;
+                return new DataResponse()
+                {
+                    Data = dto,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            }
+        }
+
+        [HttpGet]
+        [Route("api/get/cyber/{employeeId}/{flightId}")]
+        public async Task<DataResponse> GetCyberByFlightId(int employeeId, int flightId)
+        {
+            try
+            {
+                var result = context.QACyberGet(employeeId, flightId).Single();
+               
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = true
+                };
+            }
+        }
+
+        [HttpGet]
+        [Route("api/get/cyber/byid/{Id}")]
+        public async Task<DataResponse> GetCyberById(int Id)
+        {
+            var result = context.ViewQACybers.SingleOrDefault(q => q.Id == Id);
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true
+            };
+        }
+
+        [HttpGet]
+        [Route("api/get/cyber/incident")]
+        public async Task<DataResponse> GetCyberIncident()
+        {
+            var query = from x in context.QAOptions
+                        where x.ParentId == 120
+                        select new
+                        {
+                            x.Id,
+                            x.Title
+                        };
+            return new DataResponse()
+            {
+                Data = query,
+                IsSuccess = true
+            };
+        }
+
+
+        [HttpGet]
+        [Route("api/get/cyber/accessibility")]
+        public async Task<DataResponse> GetCyberAccessibility()
+        {
+            var query = from x in context.QAOptions
+                        where x.ParentId == 128
+                        select new
+                        {
+                            x.Id,
+                            x.Title
+                        };
+            return new DataResponse()
+            {
+                Data = query,
+                IsSuccess = true
+            };
+        }
+
+        [HttpGet]
+        [Route("api/get/cyber/method")]
+        public async Task<DataResponse> GetCyberMethod()
+        {
+            var query = from x in context.QAOptions
+                        where x.ParentId == 133
+                        select new
+                        {
+                            x.Id,
+                            x.Title
+                        };
+            return new DataResponse()
+            {
+                Data = query,
+                IsSuccess = true
+            };
+        }
+
+
+        [HttpPost]
         [Route("api/save/vhr")]
         public async Task<DataResponse> SaveVHR(dynamic dto)
         {
@@ -1943,6 +2126,9 @@ namespace ApiQA.Controllers
                             break;
                         case 6:
                             context.Database.ExecuteSqlCommand("update QADispatch set Status = 1,DateStatus = '" + test + "', StatusEmployeeId= " + dto.EmployeeId + ",Result = '" + dto.Result + "' where Id=" + dto.Id);
+                            break; 
+                        case 7:
+                            context.Database.ExecuteSqlCommand("update QACyber set Status = 1,DateStatus = '" + test + "', StatusEmployeeId= " + dto.EmployeeId + ",Result = '" + dto.Result + "' where Id=" + dto.Id);
                             break;
                     }
                 }

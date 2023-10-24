@@ -25,6 +25,9 @@ namespace ApiQA.Models
             this.QACaterings = new HashSet<QACatering>();
             this.QAMaintenances = new HashSet<QAMaintenance>();
             this.QASecurities = new HashSet<QASecurity>();
+            this.QACybers = new HashSet<QACyber>();
+            this.QACybers1 = new HashSet<QACyber>();
+            this.QACybers2 = new HashSet<QACyber>();
         }
     
         public int Id { get; set; }
@@ -51,5 +54,11 @@ namespace ApiQA.Models
         public virtual ICollection<QAMaintenance> QAMaintenances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QASecurity> QASecurities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QACyber> QACybers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QACyber> QACybers1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QACyber> QACybers2 { get; set; }
     }
 }
