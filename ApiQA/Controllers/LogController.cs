@@ -79,6 +79,67 @@ namespace ApiQA.Controllers
         }
 
 
+        [HttpGet]
+        [Route("api/qa/log/profile/")]
+        public async Task<DataResponse> GetFlightLogProfile(int id/*,DateTime df, DateTime dt*/)
+        {
+            try
+            {
+                //df = df.Date;
+                //dt = dt.Date.AddDays(1);
+                var result = await context.ViewProfileLogs.Where(q => q.PersonId==id).OrderByDescending(q => q.DateCreate).ThenBy(q=>q.CertificateType).ToListAsync();
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+        [HttpGet]
+        [Route("api/qa/profiles/")]
+        public async Task<DataResponse> GetProfiles(string grp)
+        {
+            try
+            {
+                //df = df.Date;
+                //dt = dt.Date.AddDays(1);
+                var query = from x in context.ViewProfiles
+                            select x;
+                if (grp != "-1")
+                    query = query.Where(q => q.JobGroupRoot == grp);
+                var result = await query.OrderBy(q=>q.LastName).ThenBy(q=>q.FirstName) .ToListAsync();
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            }
+        }
+
 
 
 

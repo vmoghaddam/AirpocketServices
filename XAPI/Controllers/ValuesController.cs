@@ -35,6 +35,7 @@ using Newtonsoft.Json.Linq;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Web.Script.Serialization;
+using System.Collections.Specialized;
 
 namespace XAPI.Controllers
 {
@@ -323,7 +324,7 @@ namespace XAPI.Controllers
                     }
                     return Ok(true);
                 }
-                else if (dto.plan.Contains("CASPIAN")  )
+                else if (dto.plan.Contains("CASPIAN"))
                 {
                     result = "CASPIAN";
                     var entity = new OFPSkyPuter()
@@ -439,7 +440,7 @@ namespace XAPI.Controllers
                     }
                     return Ok(true);
                 }
-                else if (dto.plan.Contains("AIR1AIR") )
+                else if (dto.plan.Contains("AIR1AIR"))
                 {
                     result = "AIR1AIR";
                     var entity = new OFPSkyPuter()
@@ -829,6 +830,38 @@ namespace XAPI.Controllers
         }
 
 
+        public class GeoPoint
+        {
+
+            public double Degree { get; set; }
+            public double Minute { get; set; }
+            public double Second { get; set; }
+            public double Decimal { get; set; }
+            //N3525.0 E05109.1
+            public static string ConvertToDecimal(string str)
+            {
+                var prts = str.Split(' ');
+                var lat_str = prts[0].Replace("N", "");
+                var long_str = prts[1].Replace("E0", "");
+                //= 51° + 34'/60 + 3"/3600
+                var lat_deg = Convert.ToDouble(lat_str.Substring(0, 2));
+                var lat_min = Convert.ToDouble(lat_str.Substring(2, 2));
+                var lat_sec = lat_str.Contains(".") ? Convert.ToDouble(lat_str.Split('.')[1]) : 0;
+                var lat_dec = Math.Round(lat_deg + (lat_min * 1.0 / 60) + (lat_sec * 1.0 / 3600), 6);
+
+
+                var long_deg = Convert.ToDouble(long_str.Substring(0, 2));
+                var long_min = Convert.ToDouble(long_str.Substring(2, 2));
+                var long_sec = lat_str.Contains(".") ? Convert.ToDouble(long_str.Split('.')[1]) : 0;
+                var long_dec = long_deg + (long_min * 1.0 / 60) + (long_sec * 1.0 / 3600);
+
+                return lat_dec.ToString() + " " + long_dec.ToString();
+
+            }
+        }
+
+
+        //https://xpi.sbvaresh.ir/api/skyputer
         [Route("api/skyputer/import/{id}")]
         [AcceptVerbs("GET")]
         public IHttpActionResult GetSkyputerImport(int id)
@@ -977,12 +1010,69 @@ namespace XAPI.Controllers
                 var mplnRows = mpln.Split('|').ToList();
                 //WAP=OIKB;COR=N27° 13' 06" ,  E056;FRE= ;VIA=ASMU1A;ALT=CLB;MEA=0;GMR=131;DIS=0;TDS=0;WID=;TRK=;TMP=;TME=00:00:00.0000000;TTM=00:00:00.0000000;FRE=-200;FUS=200;TAS=361;GSP=0
                 List<JObject> mplnpJson = new List<JObject>();
+                List<string> mainPlanPoints = new List<string>();
+                List<OFPPoint> mplan_points = new List<OFPPoint>();
                 var idx = 0;
                 foreach (var r in mplnRows)
                 {
                     var procStr = "";
                     var _r = r.Replace("=;", "= ;");
                     var prts = _r.Split(';');
+                    //  mainPlanPoints.Add(GeoPoint.ConvertToDecimal(prts[1].Replace("GEO=", "")));
+                    var _pnt = new OFPPoint();
+                    try
+                    {
+                        var latlang = GeoPoint.ConvertToDecimal(prts[1].Replace("GEO=", ""));
+                        _pnt.Lat = Convert.ToDecimal(latlang.Split(' ')[0]);
+                        _pnt.Long = Convert.ToDecimal(latlang.Split(' ')[1]);
+
+
+                        var _wap = prts.FirstOrDefault(q => q.StartsWith("WAP"));
+                        _pnt.WAP = _wap == null ? "" : _wap.Split('=')[1];
+
+
+                        var _geo = prts.FirstOrDefault(q => q.StartsWith("GEO"));
+
+
+
+                        var _frq = prts.FirstOrDefault(q => q.StartsWith("FRQ"));
+                        _pnt.FRQ = _frq == null ? "" : _frq.Split('=')[1];
+
+                        var _via = prts.FirstOrDefault(q => q.StartsWith("VIA"));
+                        _pnt.VIA = _via == null ? "" : _via.Split('=')[1];
+                        var _alt = prts.FirstOrDefault(q => q.StartsWith("ALT"));
+                        _pnt.ALT = _alt == null ? "" : _alt.Split('=')[1];
+                        var _mea = prts.FirstOrDefault(q => q.StartsWith("MEA"));
+                        _pnt.MEA = _mea == null ? "" : _mea.Split('=')[1];
+                        var _gmr = prts.FirstOrDefault(q => q.StartsWith("GMR"));
+                        _pnt.GMR = _gmr == null ? "" : _gmr.Split('=')[1];
+                        var _dis = prts.FirstOrDefault(q => q.StartsWith("DIS"));
+                        _pnt.DIS = _dis == null ? "" : _dis.Split('=')[1];
+                        var _tds = prts.FirstOrDefault(q => q.StartsWith("TDS"));
+                        _pnt.TDS = _tds == null ? "" : _tds.Split('=')[1];
+                        var _wind = prts.FirstOrDefault(q => q.StartsWith("WID"));
+                        _pnt.WIND = _wind == null ? "" : _wind.Split('=')[1];
+                        var _trk = prts.FirstOrDefault(q => q.StartsWith("TRK"));
+                        _pnt.WAP = _wap == null ? "" : _wap.Split('=')[1];
+                        var _tmp = prts.FirstOrDefault(q => q.StartsWith("TMP"));
+                        _pnt.TMP = _tmp == null ? "" : _tmp.Split('=')[1];
+                        var _fre = prts.FirstOrDefault(q => q.StartsWith("FRE"));
+                        _pnt.FRE = _fre == null ? "" : _fre.Split('=')[1];
+                        var _fus = prts.FirstOrDefault(q => q.StartsWith("FUS"));
+                        _pnt.FUS = _fus == null ? "" : _fus.Split('=')[1];
+                        var _tas = prts.FirstOrDefault(q => q.StartsWith("TAS"));
+                        _pnt.TAS = _tas == null ? "" : _tas.Split('=')[1];
+                        var _gsp = prts.FirstOrDefault(q => q.StartsWith("GSP"));
+                        _pnt.GSP = _gsp == null ? "" : _gsp.Split('=')[1];
+
+                        _pnt.Plan = "MAIN";
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    mplan_points.Add(_pnt);
+
                     foreach (var x in prts)
                     {
                         var str = x.Replace("\"", "^").Replace("'", "#").Replace("GEO", "COR");
@@ -1791,6 +1881,22 @@ namespace XAPI.Controllers
                 dto.UploadStatus = 1;
                 dto.UploadMessage = "OK";
 
+
+                //foreach(var x in mainPlanPoints)
+                //{
+                //    plan.OFPPoints.Add(new OFPPoint()
+                //    {
+                //        Plan = "MAIN",
+                //        Lat = Convert.ToDecimal(x.Split(' ')[0]),
+                //        Long = Convert.ToDecimal(x.Split(' ')[1]),
+
+                //    });
+
+                //}
+
+                foreach (var x in mplan_points)
+                    plan.OFPPoints.Add(x);
+
                 context.SaveChanges();
 
 
@@ -1804,17 +1910,17 @@ namespace XAPI.Controllers
                 List<string> errs = new List<string>();
                 foreach (var eve in e.EntityValidationErrors)
                 {
-//Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-//eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    errs.Add(eve.Entry.Entity.GetType().Name+"    " + eve.Entry.State);
+                    //Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    //eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    errs.Add(eve.Entry.Entity.GetType().Name + "    " + eve.Entry.State);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                       // Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                       //     ve.PropertyName, ve.ErrorMessage);
+                        // Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                        //     ve.PropertyName, ve.ErrorMessage);
                         errs.Add(ve.PropertyName + "    " + ve.ErrorMessage);
                     }
                 }
-                return Ok("Not Uploaded " + string.Join(",",errs));
+                return Ok("Not Uploaded " + string.Join(",", errs));
             }
             catch (Exception ex)
             {
@@ -1842,6 +1948,14 @@ namespace XAPI.Controllers
 
         }
 
+        [Route("api/ofp/points/{id}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetOFPPoints(int id)
+        {
+            var context = new PPAEntities();
+            var points = context.ViewOFPPoints.Where(q => q.OFPId == id).OrderBy(q => q.Id).ToList();
+            return Ok(points);
+        }
 
 
         [Route("api/appleg/ofp/{flightId}")]
@@ -1910,6 +2024,281 @@ namespace XAPI.Controllers
 
             public string _key { get; set; }
         }
+
+        public class windy_auth_dto
+        {
+            public string hostname { get; set; }
+            public string key { get; set; }
+        }
+        public class windy_auth_feather
+        {
+
+        }
+        public class windy_auth_response
+        {
+            public bool paid { get; set; }
+            public bool exceeded { get; set; }
+            public string domains { get; set; }
+            public windy_auth_feather features { get; set; }
+            public string apiUser { get; set; }
+            public int id { get; set; }
+            public string name { get; set; }
+            public string key { get; set; }
+            public string auth { get; set; }
+
+        }
+
+        [Route("api/windy/auth2")]
+        [AcceptVerbs("POST")]
+        public IHttpActionResult PostWindyAuth(windy_auth_dto dto)
+        {
+            //            {
+            //                "paid": true,
+            //    "exceeded": false,
+            //    "domains": "api4.windy.com,api.windy.com,api-staging.windy.com",
+            //    "features": { },
+            //    "apiUser": "admin",
+            //    "id": 0,
+            //    "name": "https:api4.windy.com",
+            //    "key": "PsLAtXpsPTZexBwUkO7Mx5I",
+            //    "auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWlkIjp0cnVlLCJleGNlZWRlZCI6ZmFsc2UsImRvbWFpbnMiOiJhcGk0LndpbmR5LmNvbSxhcGkud2luZHkuY29tLGFwaS1zdGFnaW5nLndpbmR5LmNvbSIsImZlYXR1cmVzIjp7fSwiYXBpVXNlciI6ImFkbWluIiwiaWQiOjAsIm5hbWUiOiJodHRwczphcGk0LndpbmR5LmNvbSIsImtleSI6IlBzTEF0WHBzUFRaZXhCd1VrTzdNeDVJIiwidWEiOiJNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTE3LjAuMC4wIFNhZmFyaS81MzcuMzYgRWRnLzExNy4wLjIwNDUuNjAiLCJpYXQiOjE2OTcxMzI4MjQsImV4cCI6MTY5NzQzMjgyNH0.1SYTh1ePqCsjWuDe07F9Rn2wc1tm9mK9jKOwfqFEm2E"
+            //}
+
+
+            var response = new windy_auth_response()
+            {
+                apiUser = "admin",
+                auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWlkIjp0cnVlLCJleGNlZWRlZCI6ZmFsc2UsImRvbWFpbnMiOiJhcGk0LndpbmR5LmNvbSxhcGkud2luZHkuY29tLGFwaS1zdGFnaW5nLndpbmR5LmNvbSIsImZlYXR1cmVzIjp7fSwiYXBpVXNlciI6ImFkbWluIiwiaWQiOjAsIm5hbWUiOiJodHRwczphcGk0LndpbmR5LmNvbSIsImtleSI6IlBzTEF0WHBzUFRaZXhCd1VrTzdNeDVJIiwidWEiOiJNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTE3LjAuMC4wIFNhZmFyaS81MzcuMzYgRWRnLzExNy4wLjIwNDUuNjAiLCJpYXQiOjE2OTcxMzI4MjQsImV4cCI6MTY5NzQzMjgyNH0.1SYTh1ePqCsjWuDe07F9Rn2wc1tm9mK9jKOwfqFEm2E",
+                domains = "api4.windy.com,api.windy.com,api-staging.windy.com",
+                exceeded = false,
+                features = new windy_auth_feather(),
+                id = 0,
+                key = "PsLAtXpsPTZexBwUkO7Mx5I",
+                name = "https:api4.windy.com",
+                paid = true,
+
+
+
+            };
+            return Ok(response);
+
+        }
+
+        [Route("api/windy/auth")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetWindyAuth()
+        {
+            //            {
+            //                "paid": true,
+            //    "exceeded": false,
+            //    "domains": "api4.windy.com,api.windy.com,api-staging.windy.com",
+            //    "features": { },
+            //    "apiUser": "admin",
+            //    "id": 0,
+            //    "name": "https:api4.windy.com",
+            //    "key": "PsLAtXpsPTZexBwUkO7Mx5I",
+            //    "auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWlkIjp0cnVlLCJleGNlZWRlZCI6ZmFsc2UsImRvbWFpbnMiOiJhcGk0LndpbmR5LmNvbSxhcGkud2luZHkuY29tLGFwaS1zdGFnaW5nLndpbmR5LmNvbSIsImZlYXR1cmVzIjp7fSwiYXBpVXNlciI6ImFkbWluIiwiaWQiOjAsIm5hbWUiOiJodHRwczphcGk0LndpbmR5LmNvbSIsImtleSI6IlBzTEF0WHBzUFRaZXhCd1VrTzdNeDVJIiwidWEiOiJNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTE3LjAuMC4wIFNhZmFyaS81MzcuMzYgRWRnLzExNy4wLjIwNDUuNjAiLCJpYXQiOjE2OTcxMzI4MjQsImV4cCI6MTY5NzQzMjgyNH0.1SYTh1ePqCsjWuDe07F9Rn2wc1tm9mK9jKOwfqFEm2E"
+            //}
+
+
+            var response = new windy_auth_response()
+            {
+                apiUser = "admin",
+                auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWlkIjp0cnVlLCJleGNlZWRlZCI6ZmFsc2UsImRvbWFpbnMiOiJhcGk0LndpbmR5LmNvbSxhcGkud2luZHkuY29tLGFwaS1zdGFnaW5nLndpbmR5LmNvbSIsImZlYXR1cmVzIjp7fSwiYXBpVXNlciI6ImFkbWluIiwiaWQiOjAsIm5hbWUiOiJodHRwczphcGk0LndpbmR5LmNvbSIsImtleSI6IlBzTEF0WHBzUFRaZXhCd1VrTzdNeDVJIiwidWEiOiJNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTE3LjAuMC4wIFNhZmFyaS81MzcuMzYgRWRnLzExNy4wLjIwNDUuNjAiLCJpYXQiOjE2OTcxMzI4MjQsImV4cCI6MTY5NzQzMjgyNH0.1SYTh1ePqCsjWuDe07F9Rn2wc1tm9mK9jKOwfqFEm2E",
+                domains = "api4.windy.com,api.windy.com,api-staging.windy.com",
+                exceeded = false,
+                features = new windy_auth_feather(),
+                id = 0,
+                key = "PsLAtXpsPTZexBwUkO7Mx5I",
+                name = "https:api4.windy.com",
+                paid = true,
+
+
+
+            };
+            return Ok(response);
+
+        }
+
+        public static class WebUtils
+        {
+            public static Encoding GetEncodingFrom(
+                NameValueCollection responseHeaders,
+                Encoding defaultEncoding = null)
+            {
+                if (responseHeaders == null)
+                    throw new ArgumentNullException("responseHeaders");
+
+                //Note that key lookup is case-insensitive
+                var contentType = responseHeaders["Content-Type"];
+                if (contentType == null)
+                    return defaultEncoding;
+
+                var contentTypeParts = contentType.Split(';');
+                if (contentTypeParts.Length <= 1)
+                    return defaultEncoding;
+
+                var charsetPart =
+                    contentTypeParts.Skip(1).FirstOrDefault(
+                        p => p.TrimStart().StartsWith("charset", StringComparison.InvariantCultureIgnoreCase));
+                if (charsetPart == null)
+                    return defaultEncoding;
+
+                var charsetPartParts = charsetPart.Split('=');
+                if (charsetPartParts.Length != 2)
+                    return defaultEncoding;
+
+                var charsetName = charsetPartParts[1].Trim();
+                if (charsetName == "")
+                    return defaultEncoding;
+
+                try
+                {
+                    return Encoding.GetEncoding(charsetName);
+                }
+                catch (ArgumentException ex)
+                {
+                    throw new InvalidOperationException(
+
+                        "The server returned data in an unknown encoding: " + charsetName
+                        );
+                }
+            }
+        }
+
+        [Route("api/windy/img")]
+
+        public async Task<IHttpActionResult> getProductImage(string url)
+        {
+            url = url.Replace("xhtt", "htt");
+            using (HttpClient client = new HttpClient())
+            {
+
+                HttpResponseMessage _response = await client.GetAsync(url);
+                byte[] content = await _response.Content.ReadAsByteArrayAsync();
+
+                // return Ok(File(content, "image/png"));
+
+
+                var response = new HttpResponseMessage(HttpStatusCode.OK);
+                Stream stream = new MemoryStream(content);
+                response.Content = new StreamContent(stream);
+
+                response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+                response.Content.Headers.ContentLength = stream.Length;
+
+                return ResponseMessage(response);
+
+                // return Ok(true);
+
+            }
+        }
+
+
+        [Route("api/windy/url")]
+        // [AcceptVerbs("GET")]
+        public IHttpActionResult GetUrl(string url)
+        {
+            try
+            {
+                url = url.Replace("xhtt", "htt");
+                string response = null;
+                using (WebClient webClient = new WebClient())
+                {
+                    // webClient.Encoding = Encoding.ASCII;
+                    response = webClient.DownloadString(url);
+
+                    // obj_metar = JsonConvert.DeserializeObject<List<WeatherMetar>>(str_metar);
+
+
+
+                }
+                try
+                {
+                    var js = JsonConvert.DeserializeObject(response);
+                    return Ok(js);
+                }
+                catch (Exception ex)
+                {
+                    string result = "";
+                    string result2 = "";
+                    object res;
+                    //using (var client =new   WebClient())
+                    //{
+                    //    client.Headers.Add("Accept-Language", "en-gb,en;q=0.5");
+                    //    client.Headers.Add("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
+                    //    result =   client.DownloadString(url);
+
+
+                    //}
+
+                    HttpClientHandler handler = new HttpClientHandler()
+                    {
+                        AutomaticDecompression = DecompressionMethods.GZip,
+                    };
+
+
+                    using (var client = new HttpClient(handler))
+                    {
+                        result2 = client.GetStringAsync(url).Result;
+                        try
+                        {
+                            res = JsonConvert.DeserializeObject(result2);
+                        }
+                        catch (Exception exx)
+                        {
+                            res = string.Empty;
+                        }
+
+
+                    }
+                    return Ok(res);
+                }
+            }
+            catch (Exception exxxxx)
+            {
+                return Ok(JsonConvert.DeserializeObject(string.Empty));
+            }
+
+
+
+        }
+
+        [Route("api/windy/test")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult Gettest()
+        {
+
+            HttpContext.Current.Response.Headers.Add("MaxRecords", "1000");
+            return Ok(true);
+
+        }
+
+        //[HttpGet]
+        //[Route("api/windy/test")]
+        //public HttpResponseMessage Gettest()
+        //{
+        //    // Get students from Database
+
+        //    // Create the response
+        //    var response = Request.CreateResponse(HttpStatusCode.OK, true);
+
+        //    // Set headers for paging
+        //    response.Headers.Add("X-Students-Total-Count", "QWERT");
+
+        //    return response;
+        //}
+
+        [Route("api/windy/connection")]
+        [AcceptVerbs("HEAD")]
+        public IHttpActionResult GetConnection()
+        {
+
+
+            return Ok(true);
+
+        }
+
 
 
         [Route("api/skyputer/get")]
@@ -2546,7 +2935,7 @@ namespace XAPI.Controllers
 
         }
 
-      
+
 
 
         protected void FillError(object sender, FillErrorEventArgs args)

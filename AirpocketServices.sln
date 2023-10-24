@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiQA", "ApiQA\ApiQA.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiFDM", "ApiFDM\ApiFDM.csproj", "{A208B146-32CF-460E-A8A8-5B39C034B795}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiMap", "ApiMap\ApiMap.csproj", "{78B7C8D1-2772-4734-9868-4FA0EC210E7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -191,6 +193,14 @@ Global
 		{A208B146-32CF-460E-A8A8-5B39C034B795}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A208B146-32CF-460E-A8A8-5B39C034B795}.Release|x64.ActiveCfg = Release|Any CPU
 		{A208B146-32CF-460E-A8A8-5B39C034B795}.Release|x64.Build.0 = Release|Any CPU
+		{78B7C8D1-2772-4734-9868-4FA0EC210E7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78B7C8D1-2772-4734-9868-4FA0EC210E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78B7C8D1-2772-4734-9868-4FA0EC210E7F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{78B7C8D1-2772-4734-9868-4FA0EC210E7F}.Debug|x64.Build.0 = Debug|Any CPU
+		{78B7C8D1-2772-4734-9868-4FA0EC210E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78B7C8D1-2772-4734-9868-4FA0EC210E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78B7C8D1-2772-4734-9868-4FA0EC210E7F}.Release|x64.ActiveCfg = Release|Any CPU
+		{78B7C8D1-2772-4734-9868-4FA0EC210E7F}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

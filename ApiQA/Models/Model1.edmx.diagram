@@ -60,6 +60,8 @@
         <EntityTypeShape EntityType="ppaModel.ViewFlightLog" Width="1.5" PointX="11.375" PointY="21.75" />
         <EntityTypeShape EntityType="ppaModel.DutyLog" Width="1.5" PointX="21.375" PointY="21.75" />
         <EntityTypeShape EntityType="ppaModel.ViewDutyLog" Width="1.5" PointX="22.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewProfile" Width="1.5" PointX="23.375" PointY="6.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewProfileLog" Width="1.5" PointX="16.375" PointY="22.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

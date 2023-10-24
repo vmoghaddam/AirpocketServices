@@ -32,6 +32,8 @@ namespace AirpocketAPI.Models
         public Nullable<decimal> Longitude { get; set; }
         public Nullable<int> SortIndex { get; set; }
         public Nullable<bool> IsInt { get; set; }
+        public string Country { get; set; }
+        public Nullable<int> UTC { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FlightInformation> FlightInformations { get; set; }

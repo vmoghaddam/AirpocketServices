@@ -14,20 +14,11 @@ namespace AirpocketAPI.Models
     
     public partial class Charterer
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Charterer()
-        {
-            this.FlightCharterers = new HashSet<FlightCharterer>();
-        }
-    
         public int Id { get; set; }
         public string Code { get; set; }
         public string Title1 { get; set; }
         public string Remark { get; set; }
         public string NiraCode { get; set; }
         public string Title2 { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FlightCharterer> FlightCharterers { get; set; }
     }
 }

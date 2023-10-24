@@ -150,5 +150,10 @@ namespace AirpocketAPI.Models
         public Nullable<decimal> FPTripFuel { get; set; }
         public string ATL { get; set; }
         public string ATCPlan { get; set; }
+        public Nullable<decimal> FuelPlanned { get; set; }
+        public Nullable<int> OFPMINTOFFUEL { get; set; }
+        public Nullable<int> OFPOFFBLOCKFUEL { get; set; }
+        public Nullable<int> OFPTRIPFUEL { get; set; }
+        public Nullable<int> PILOTREQFUEL { get; set; }
     }
 }

@@ -21,7 +21,6 @@ namespace AirpocketAPI.Models
             this.EFBDSPReleases = new HashSet<EFBDSPRelease>();
             this.EFBVoyageReports = new HashSet<EFBVoyageReport>();
             this.FDPItems = new HashSet<FDPItem>();
-            this.FlightCharterers = new HashSet<FlightCharterer>();
             this.FlightDelays = new HashSet<FlightDelay>();
             this.MVTs = new HashSet<MVT>();
             this.MVTAPIs = new HashSet<MVTAPI>();
@@ -192,6 +191,122 @@ namespace AirpocketAPI.Models
         public Nullable<int> OCSec { get; set; }
         public Nullable<int> ODSec { get; set; }
         public Nullable<long> CargoCost { get; set; }
+        public Nullable<int> MAXZFW { get; set; }
+        public Nullable<int> MAXLNW { get; set; }
+        public Nullable<System.DateTime> Ready { get; set; }
+        public Nullable<System.DateTime> Start { get; set; }
+        public Nullable<int> CargoPieces { get; set; }
+        public Nullable<int> FreeAWBCount { get; set; }
+        public Nullable<int> FreeAWBPieces { get; set; }
+        public Nullable<int> FreeAWBWeight { get; set; }
+        public Nullable<int> NoShowCount { get; set; }
+        public Nullable<int> NoShowPieces { get; set; }
+        public Nullable<int> NoGoCount { get; set; }
+        public Nullable<int> NoGoPieces { get; set; }
+        public Nullable<int> DSBreakfast { get; set; }
+        public Nullable<int> DSWarmFood { get; set; }
+        public Nullable<int> DSColdFood { get; set; }
+        public Nullable<int> DSRefreshment { get; set; }
+        public Nullable<int> YClass { get; set; }
+        public Nullable<int> CClass { get; set; }
+        public Nullable<int> PaxAdult50 { get; set; }
+        public Nullable<int> PaxChild50 { get; set; }
+        public Nullable<int> PaxInfant50 { get; set; }
+        public Nullable<int> PaxAdult100 { get; set; }
+        public Nullable<int> PaxChild100 { get; set; }
+        public Nullable<int> PaxInfant100 { get; set; }
+        public Nullable<int> PaxVIP { get; set; }
+        public Nullable<int> PaxCIP { get; set; }
+        public Nullable<int> PaxHUM { get; set; }
+        public Nullable<int> PaxUM { get; set; }
+        public Nullable<int> PaxAVI { get; set; }
+        public Nullable<int> PaxWCHR { get; set; }
+        public Nullable<int> PaxSTRC { get; set; }
+        public Nullable<int> PaxPIRLost { get; set; }
+        public Nullable<int> PaxPIRDamage { get; set; }
+        public Nullable<int> PaxPIRFound { get; set; }
+        public Nullable<int> CargoPIRLost { get; set; }
+        public Nullable<int> CargoPIRDamage { get; set; }
+        public Nullable<int> CargoPIRFound { get; set; }
+        public Nullable<int> LimitTag { get; set; }
+        public Nullable<int> RushTag { get; set; }
+        public Nullable<System.DateTime> CLCheckIn { get; set; }
+        public Nullable<System.DateTime> CLPark { get; set; }
+        public Nullable<System.DateTime> CLAddTools { get; set; }
+        public Nullable<System.DateTime> CLBusReady { get; set; }
+        public Nullable<System.DateTime> CLPaxOut { get; set; }
+        public Nullable<System.DateTime> CLDepoOut { get; set; }
+        public Nullable<System.DateTime> CLServicePresence { get; set; }
+        public Nullable<System.DateTime> CLCleaningStart { get; set; }
+        public Nullable<System.DateTime> CLTechReady { get; set; }
+        public Nullable<System.DateTime> CLBagSent { get; set; }
+        public Nullable<System.DateTime> CLCateringLoad { get; set; }
+        public Nullable<System.DateTime> CLFuelStart { get; set; }
+        public Nullable<System.DateTime> CLFuelEnd { get; set; }
+        public Nullable<System.DateTime> CLCleaningEnd { get; set; }
+        public Nullable<System.DateTime> CLBoardingStart { get; set; }
+        public Nullable<System.DateTime> CLBoardingEnd { get; set; }
+        public Nullable<System.DateTime> CLLoadSheetStart { get; set; }
+        public Nullable<System.DateTime> CLGateClosed { get; set; }
+        public Nullable<System.DateTime> CLTrafficCrew { get; set; }
+        public Nullable<System.DateTime> CLLoadCrew { get; set; }
+        public Nullable<System.DateTime> CLForbiddenObj { get; set; }
+        public Nullable<System.DateTime> CLLoadSheetSign { get; set; }
+        public Nullable<System.DateTime> CLLoadingEnd { get; set; }
+        public Nullable<System.DateTime> CLDoorClosed { get; set; }
+        public Nullable<System.DateTime> CLEqDC { get; set; }
+        public Nullable<System.DateTime> CLMotorStart { get; set; }
+        public Nullable<System.DateTime> CLMovingStart { get; set; }
+        public Nullable<System.DateTime> CLACStart { get; set; }
+        public Nullable<System.DateTime> CLACEnd { get; set; }
+        public Nullable<System.DateTime> CLGPUStart { get; set; }
+        public Nullable<System.DateTime> CLGPUEnd { get; set; }
+        public Nullable<int> CLDepStairs { get; set; }
+        public Nullable<int> CLDepGPU { get; set; }
+        public Nullable<int> CLDepCrewCar { get; set; }
+        public Nullable<int> CLDepCrewCarCount { get; set; }
+        public Nullable<int> CLDepCabinService { get; set; }
+        public Nullable<int> CLDepCateringCar { get; set; }
+        public Nullable<int> CLDepPatientCar { get; set; }
+        public Nullable<int> CLDepPaxCar { get; set; }
+        public Nullable<int> CLDepPaxCarCount { get; set; }
+        public Nullable<int> CLDepPushback { get; set; }
+        public Nullable<int> CLDepWaterService { get; set; }
+        public Nullable<int> CLDepAC { get; set; }
+        public Nullable<int> CLDepDeIce { get; set; }
+        public string CLDepEqRemark { get; set; }
+        public Nullable<int> CLArrStairs { get; set; }
+        public Nullable<int> CLArrGPU { get; set; }
+        public Nullable<int> CLArrCrewCar { get; set; }
+        public Nullable<int> CLArrCrewCarCount { get; set; }
+        public Nullable<int> CLArrCabinService { get; set; }
+        public Nullable<int> CLArrPatientCar { get; set; }
+        public Nullable<int> CLArrPaxCar { get; set; }
+        public Nullable<int> CLArrPaxCarCount { get; set; }
+        public Nullable<int> CLArrToiletService { get; set; }
+        public string CLArrEqRemark { get; set; }
+        public Nullable<int> WLCount { get; set; }
+        public Nullable<long> WLCost { get; set; }
+        public Nullable<int> ExBagWeight { get; set; }
+        public Nullable<long> ExBagCost { get; set; }
+        public Nullable<int> TotalTrafficLoad { get; set; }
+        public Nullable<System.DateTime> OLDSTD { get; set; }
+        public Nullable<System.DateTime> OLDSTA { get; set; }
+        public Nullable<int> OLDReg { get; set; }
+        public Nullable<int> NewReg { get; set; }
+        public Nullable<int> NewTime { get; set; }
+        public Nullable<int> UTCSTD { get; set; }
+        public Nullable<int> UTCSTA { get; set; }
+        public Nullable<int> OFPMINTOFFUEL { get; set; }
+        public Nullable<int> OFPOFFBLOCKFUEL { get; set; }
+        public Nullable<int> OFPTRIPFUEL { get; set; }
+        public Nullable<int> PILOTREQFUEL { get; set; }
+        public Nullable<int> FuelRemaining { get; set; }
+        public Nullable<int> FuelUplift { get; set; }
+        public Nullable<int> FuelTotal { get; set; }
+        public Nullable<int> FuelRemained { get; set; }
+        public Nullable<int> FuelUsed { get; set; }
+        public Nullable<int> FuelUpliftLitr { get; set; }
     
         public virtual Ac_MSN Ac_MSN { get; set; }
         public virtual Airport Airport { get; set; }
@@ -204,8 +319,6 @@ namespace AirpocketAPI.Models
         public virtual ICollection<EFBVoyageReport> EFBVoyageReports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FDPItem> FDPItems { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FlightCharterer> FlightCharterers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FlightDelay> FlightDelays { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

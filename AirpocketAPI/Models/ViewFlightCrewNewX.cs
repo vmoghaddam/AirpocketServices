@@ -29,11 +29,13 @@ namespace AirpocketAPI.Models
         public string JobGroupCode { get; set; }
         public int SexId { get; set; }
         public string Sex { get; set; }
-        public Nullable<int> GroupOrder { get; set; }
+        public int GroupOrder { get; set; }
         public int IsCockpit { get; set; }
         public Nullable<long> Rank { get; set; }
         public Nullable<long> RankPosition { get; set; }
         public Nullable<System.DateTime> Pickup { get; set; }
         public Nullable<System.DateTime> PickupLocal { get; set; }
+        public string Code { get; set; }
+        public string PID { get; set; }
     }
 }

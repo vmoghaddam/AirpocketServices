@@ -67,5 +67,6 @@ namespace AirpocketAPI.Models
         public Nullable<int> PFLR { get; set; }
         public Nullable<int> JLBlockTime { get; set; }
         public Nullable<int> JLFlightTime { get; set; }
+        public Nullable<System.DateTime> STDDayLocal { get; set; }
     }
 }
