@@ -428,6 +428,35 @@
           <Property Name="EventTitleId" Type="int" Nullable="false" />
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="QACyber">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="DateOccurrence" Type="datetime2" Precision="0" />
+          <Property Name="JobTitle" Type="varchar" MaxLength="255" />
+          <Property Name="ContactInfo" Type="varchar" MaxLength="255" />
+          <Property Name="DateIncident" Type="datetime2" Precision="0" />
+          <Property Name="IncidentId" Type="int" />
+          <Property Name="IncidentDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="MethodId" Type="int" />
+          <Property Name="MethodDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="AccessId" Type="int" />
+          <Property Name="AccessDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="ImpactDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="BreachedDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="AttackDescriptipn" Type="varchar" MaxLength="255" />
+          <Property Name="Other" Type="varchar" MaxLength="255" />
+          <Property Name="DateSign" Type="datetime2" Precision="0" />
+          <Property Name="Status" Type="int" />
+          <Property Name="DateStatus" Type="datetime" />
+          <Property Name="StatusEmployeeId" Type="int" />
+          <Property Name="Result" Type="nvarchar" MaxLength="4000" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="DateCreation" Type="datetime2" Precision="0" />
+        </EntityType>
         <EntityType Name="QADispatch">
           <Key>
             <PropertyRef Name="Id" />
@@ -1322,6 +1351,49 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQACSREvent' does not have a pri
           <Property Name="QACSRId" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewQACyber' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewQACyber">
+          <Key>
+            <PropertyRef Name="FlightId" />
+            <PropertyRef Name="Register" />
+            <PropertyRef Name="flightCancelled" />
+          </Key>
+          <Property Name="Id" Type="int" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AircraftType" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="DelayBlockOff" Type="int" />
+          <Property Name="DelayTakeoff" Type="int" />
+          <Property Name="FlightStatusID" Type="int" />
+          <Property Name="flightCancelled" Type="int" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="AccessDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="AttackDescriptipn" Type="varchar" MaxLength="255" />
+          <Property Name="BreachedDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="ContactInfo" Type="varchar" MaxLength="255" />
+          <Property Name="DateOccurrence" Type="datetime2" Precision="0" />
+          <Property Name="DateIncident" Type="datetime2" Precision="0" />
+          <Property Name="DateSign" Type="datetime2" Precision="0" />
+          <Property Name="ImpactDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="IncidentDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="JobTitle" Type="varchar" MaxLength="255" />
+          <Property Name="MethodDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="EmployeeName" Type="nvarchar" MaxLength="1003" />
+          <Property Name="Other" Type="varchar" MaxLength="255" />
+          <Property Name="IncidentTitle" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IncidentId" Type="int" />
+          <Property Name="MethodTitle" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MethodId" Type="int" />
+          <Property Name="AccessTitle" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AccessId" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="dateStatus" Type="datetime" />
+          <Property Name="StatusEmployeeId" Type="int" />
+          <Property Name="StatusEmployeeName" Type="nvarchar" MaxLength="1003" />
+          <Property Name="Result" Type="nvarchar" MaxLength="4000" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewQADashCatering' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewQADashCatering">
           <Key>
@@ -1758,6 +1830,54 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__QACyber__AccessI__0E39E7EC">
+          <End Role="QAOption" Type="Self.QAOption" Multiplicity="0..1" />
+          <End Role="QACyber" Type="Self.QACyber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QACyber">
+              <PropertyRef Name="AccessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QACyber__FlightI__0C519F7A">
+          <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="0..1" />
+          <End Role="QACyber" Type="Self.QACyber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QACyber">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QACyber__Inciden__0B5D7B41">
+          <End Role="QAOption" Type="Self.QAOption" Multiplicity="0..1" />
+          <End Role="QACyber" Type="Self.QACyber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QACyber">
+              <PropertyRef Name="IncidentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QACyber__MethodI__0A695708">
+          <End Role="QAOption" Type="Self.QAOption" Multiplicity="0..1" />
+          <End Role="QACyber" Type="Self.QACyber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QACyber">
+              <PropertyRef Name="MethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__QADispatc__Fligh__77C096E8">
           <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="0..1" />
           <End Role="QADispatch" Type="Self.QADispatch" Multiplicity="*" />
@@ -1890,6 +2010,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Parameter Name="EmployeeId" Type="int" Mode="In" />
           <Parameter Name="FlightId" Type="int" Mode="In" />
         </Function>
+        <Function Name="QACyberGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+          <Parameter Name="FlightId" Type="int" Mode="In" />
+        </Function>
         <Function Name="QADispatchGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EmployeeId" Type="int" Mode="In" />
           <Parameter Name="FlightId" Type="int" Mode="In" />
@@ -1921,6 +2045,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="QAComments" EntityType="Self.QAComments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QACSR" EntityType="Self.QACSR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QACSREvent" EntityType="Self.QACSREvent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QACyber" EntityType="Self.QACyber" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QADispatch" EntityType="Self.QADispatch" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QAFollowingUp" EntityType="Self.QAFollowingUp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QAGetEntites_Result" EntityType="Self.QAGetEntites_Result" Schema="dbo" store:Type="Tables" />
@@ -2508,6 +2633,44 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
     [ViewQACSREvent].[QACSRId] AS [QACSRId]
     FROM [dbo].[ViewQACSREvent] AS [ViewQACSREvent]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ViewQACyber" EntityType="Self.ViewQACyber" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewQACyber].[Id] AS [Id], 
+    [ViewQACyber].[FlightId] AS [FlightId], 
+    [ViewQACyber].[Register] AS [Register], 
+    [ViewQACyber].[AircraftType] AS [AircraftType], 
+    [ViewQACyber].[FlightNumber] AS [FlightNumber], 
+    [ViewQACyber].[DelayBlockOff] AS [DelayBlockOff], 
+    [ViewQACyber].[DelayTakeoff] AS [DelayTakeoff], 
+    [ViewQACyber].[FlightStatusID] AS [FlightStatusID], 
+    [ViewQACyber].[flightCancelled] AS [flightCancelled], 
+    [ViewQACyber].[EmployeeId] AS [EmployeeId], 
+    [ViewQACyber].[AccessDescription] AS [AccessDescription], 
+    [ViewQACyber].[AttackDescriptipn] AS [AttackDescriptipn], 
+    [ViewQACyber].[BreachedDescription] AS [BreachedDescription], 
+    [ViewQACyber].[ContactInfo] AS [ContactInfo], 
+    [ViewQACyber].[DateOccurrence] AS [DateOccurrence], 
+    [ViewQACyber].[DateIncident] AS [DateIncident], 
+    [ViewQACyber].[DateSign] AS [DateSign], 
+    [ViewQACyber].[ImpactDescription] AS [ImpactDescription], 
+    [ViewQACyber].[IncidentDescription] AS [IncidentDescription], 
+    [ViewQACyber].[JobTitle] AS [JobTitle], 
+    [ViewQACyber].[MethodDescription] AS [MethodDescription], 
+    [ViewQACyber].[EmployeeName] AS [EmployeeName], 
+    [ViewQACyber].[Other] AS [Other], 
+    [ViewQACyber].[IncidentTitle] AS [IncidentTitle], 
+    [ViewQACyber].[IncidentId] AS [IncidentId], 
+    [ViewQACyber].[MethodTitle] AS [MethodTitle], 
+    [ViewQACyber].[MethodId] AS [MethodId], 
+    [ViewQACyber].[AccessTitle] AS [AccessTitle], 
+    [ViewQACyber].[AccessId] AS [AccessId], 
+    [ViewQACyber].[Status] AS [Status], 
+    [ViewQACyber].[dateStatus] AS [dateStatus], 
+    [ViewQACyber].[StatusEmployeeId] AS [StatusEmployeeId], 
+    [ViewQACyber].[StatusEmployeeName] AS [StatusEmployeeName], 
+    [ViewQACyber].[Result] AS [Result]
+    FROM [dbo].[ViewQACyber] AS [ViewQACyber]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewQADashCatering" EntityType="Self.ViewQADashCatering" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewQADashCatering].[year] AS [year], 
@@ -2852,6 +3015,22 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             <End Role="QACSR" EntitySet="QACSR" />
             <End Role="QACSREvent" EntitySet="QACSREvent" />
           </AssociationSet>
+          <AssociationSet Name="FK__QACyber__AccessI__0E39E7EC" Association="Self.FK__QACyber__AccessI__0E39E7EC">
+            <End Role="QAOption" EntitySet="QAOption" />
+            <End Role="QACyber" EntitySet="QACyber" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QACyber__FlightI__0C519F7A" Association="Self.FK__QACyber__FlightI__0C519F7A">
+            <End Role="FlightInformation" EntitySet="FlightInformation" />
+            <End Role="QACyber" EntitySet="QACyber" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QACyber__Inciden__0B5D7B41" Association="Self.FK__QACyber__Inciden__0B5D7B41">
+            <End Role="QAOption" EntitySet="QAOption" />
+            <End Role="QACyber" EntitySet="QACyber" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QACyber__MethodI__0A695708" Association="Self.FK__QACyber__MethodI__0A695708">
+            <End Role="QAOption" EntitySet="QAOption" />
+            <End Role="QACyber" EntitySet="QACyber" />
+          </AssociationSet>
           <AssociationSet Name="FK__QADispatc__Fligh__77C096E8" Association="Self.FK__QADispatc__Fligh__77C096E8">
             <End Role="FlightInformation" EntitySet="FlightInformation" />
             <End Role="QADispatch" EntitySet="QADispatch" />
@@ -2932,7 +3111,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="ViewQAFollowingUps" EntityType="ppaModel.ViewQAFollowingUp" />
           <EntitySet Name="ViewQABYEmployees" EntityType="ppaModel.ViewQABYEmployee" />
           <EntitySet Name="ViewQAByEmployeeCounts" EntityType="ppaModel.ViewQAByEmployeeCount" />
-          <EntitySet Name="ViewQAMaintenances" EntityType="ppaModel.ViewQAMaintenance" />
           <FunctionImport Name="QAByEmployeeCount">
             <Parameter Name="Type" Mode="In" Type="Int32" />
             <Parameter Name="EntityId" Mode="In" Type="Int32" />
@@ -3035,6 +3213,29 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="QAAttachments" EntityType="ppaModel.QAAttachment" />
           <EntitySet Name="ViewProfiles" EntityType="ppaModel.ViewProfile" />
           <EntitySet Name="ViewProfileLogs" EntityType="ppaModel.ViewProfileLog" />
+          <EntitySet Name="ViewQAMaintenances" EntityType="ppaModel.ViewQAMaintenance" />
+          <EntitySet Name="ViewQACybers" EntityType="ppaModel.ViewQACyber" />
+          <EntitySet Name="QACybers" EntityType="ppaModel.QACyber" />
+          <AssociationSet Name="FK__QACyber__FlightI__0C519F7A" Association="ppaModel.FK__QACyber__FlightI__0C519F7A">
+            <End Role="FlightInformation" EntitySet="FlightInformations" />
+            <End Role="QACyber" EntitySet="QACybers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QACyber__AccessI__0E39E7EC" Association="ppaModel.FK__QACyber__AccessI__0E39E7EC">
+            <End Role="QAOption" EntitySet="QAOptions" />
+            <End Role="QACyber" EntitySet="QACybers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QACyber__Inciden__0B5D7B41" Association="ppaModel.FK__QACyber__Inciden__0B5D7B41">
+            <End Role="QAOption" EntitySet="QAOptions" />
+            <End Role="QACyber" EntitySet="QACybers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QACyber__MethodI__0A695708" Association="ppaModel.FK__QACyber__MethodI__0A695708">
+            <End Role="QAOption" EntitySet="QAOptions" />
+            <End Role="QACyber" EntitySet="QACybers" />
+          </AssociationSet>
+          <FunctionImport Name="QACyberGet" ReturnType="Collection(ppaModel.QACyberGet_Result)">
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
+            <Parameter Name="FlightId" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="FlightInformation">
           <Key>
@@ -3334,6 +3535,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <NavigationProperty Name="QAMaintenances" Relationship="ppaModel.FK__QAMOR__FlightId__10174366" FromRole="FlightInformation" ToRole="QAMaintenance" />
           <NavigationProperty Name="QASecurities" Relationship="ppaModel.FK__QASecurit__Fligh__33607FA3" FromRole="FlightInformation" ToRole="QASecurity" />
           <NavigationProperty Name="QADispatches" Relationship="ppaModel.FK__QADispatc__Fligh__77C096E8" FromRole="FlightInformation" ToRole="QADispatch" />
+          <NavigationProperty Name="QACybers" Relationship="ppaModel.FK__QACyber__FlightI__0C519F7A" FromRole="FlightInformation" ToRole="QACyber" />
           </EntityType>
         <EntityType Name="AppLeg">
           <Key>
@@ -3908,6 +4110,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <NavigationProperty Name="QACaterings" Relationship="ppaModel.FK__QACaterin__Reaso__2E9BCA86" FromRole="QAOption" ToRole="QACatering" />
           <NavigationProperty Name="QAMaintenances" Relationship="ppaModel.FK__QAMOR__Component__110B679F" FromRole="QAOption" ToRole="QAMaintenance" />
           <NavigationProperty Name="QASecurities" Relationship="ppaModel.FK__QASecurit__Reaso__3548C815" FromRole="QAOption" ToRole="QASecurity" />
+          <NavigationProperty Name="QACybers" Relationship="ppaModel.FK__QACyber__AccessI__0E39E7EC" FromRole="QAOption" ToRole="QACyber" />
+          <NavigationProperty Name="QACybers1" Relationship="ppaModel.FK__QACyber__Inciden__0B5D7B41" FromRole="QAOption" ToRole="QACyber" />
+          <NavigationProperty Name="QACybers2" Relationship="ppaModel.FK__QACyber__MethodI__0A695708" FromRole="QAOption" ToRole="QACyber" />
         </EntityType>
         <EntityType Name="QAResponsibilty">
           <Key>
@@ -4406,43 +4611,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="ClosedCount" Type="Int32" Nullable="false" />
           <Property Name="InProgressCount" Type="Int32" Nullable="false" />
           <Property Name="NewCount" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ViewQAMaintenance">
-          <Key>
-            <PropertyRef Name="FlightId" />
-            <PropertyRef Name="Register" />
-          </Key>
-          <Property Name="Id" Type="Int32" />
-          <Property Name="FlightId" Type="Int32" Nullable="false" />
-          <Property Name="DateReport" Type="DateTime" Precision="3" />
-          <Property Name="DateSign" Type="DateTime" Precision="3" />
-          <Property Name="AircraftType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Register" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ComponentSpecificationId" Type="Int32" />
-          <Property Name="ComponentSpecification" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="FlightRoute" Type="String" MaxLength="511" FixedLength="false" Unicode="true" />
-          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ATLNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="TaskNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Reference" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="StationId" Type="Int32" />
-          <Property Name="Station" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="EventDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ActionTakenDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeId" Type="Int32" />
-          <Property Name="Name" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
-          <Property Name="CAALicenceNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="AuthorizationNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="SerialNumber" Type="Int32" />
-          <Property Name="PartNumber" Type="Int32" />
-          <Property Name="EmployeeName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
-          <Property Name="STD" Type="DateTime" Precision="3" />
-          <Property Name="status" Type="Int32" />
-          <Property Name="dateStatus" Type="DateTime" Precision="3" />
-          <Property Name="StatusEmployeeId" Type="Int32" />
-          <Property Name="StatusEmployeeName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
-          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="QAGetEntites_Result">
           <Key>
@@ -5570,6 +5738,195 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="CertificateType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="CertificateTypeId" Type="Int32" />
         </EntityType>
+        <EntityType Name="ViewQAMaintenance">
+          <Key>
+            <PropertyRef Name="FlightId" />
+            <PropertyRef Name="Register" />
+          </Key>
+          <Property Name="Id" Type="Int32" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="DateOccurrence" Type="DateTime" Precision="3" />
+          <Property Name="DateSign" Type="DateTime" Precision="3" />
+          <Property Name="AircraftType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Register" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ComponentSpecificationId" Type="Int32" />
+          <Property Name="ComponentSpecification" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightRoute" Type="String" MaxLength="511" FixedLength="false" Unicode="true" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ATLNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TaskNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Reference" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StationId" Type="Int32" />
+          <Property Name="Station" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EventDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ActionTakenDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="CAALicenceNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AuthorizationNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SerialNumber" Type="Int32" />
+          <Property Name="PartNumber" Type="Int32" />
+          <Property Name="EmployeeName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="dateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="StatusEmployeeName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ViewQACyber">
+          <Key>
+            <PropertyRef Name="FlightId" />
+            <PropertyRef Name="Register" />
+            <PropertyRef Name="flightCancelled" />
+          </Key>
+          <Property Name="Id" Type="Int32" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="Register" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AircraftType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DelayBlockOff" Type="Int32" />
+          <Property Name="DelayTakeoff" Type="Int32" />
+          <Property Name="FlightStatusID" Type="Int32" />
+          <Property Name="flightCancelled" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="AccessDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AttackDescriptipn" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BreachedDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateOccurrence" Type="DateTime" Precision="0" />
+          <Property Name="DateIncident" Type="DateTime" Precision="0" />
+          <Property Name="DateSign" Type="DateTime" Precision="0" />
+          <Property Name="ImpactDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IncidentDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="JobTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MethodDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="Other" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IncidentTitle" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IncidentId" Type="Int32" />
+          <Property Name="MethodTitle" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MethodId" Type="Int32" />
+          <Property Name="AccessTitle" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AccessId" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="dateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="StatusEmployeeName" Type="String" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="QACyber">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateOccurrence" Type="DateTime" Precision="0" />
+          <Property Name="JobTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ContactInfo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateIncident" Type="DateTime" Precision="0" />
+          <Property Name="IncidentId" Type="Int32" />
+          <Property Name="IncidentDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MethodId" Type="Int32" />
+          <Property Name="MethodDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AccessId" Type="Int32" />
+          <Property Name="AccessDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ImpactDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="BreachedDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AttackDescriptipn" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Other" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateSign" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+          <Property Name="Result" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="DateCreation" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.FK__QACyber__FlightI__0C519F7A" FromRole="QACyber" ToRole="FlightInformation" />
+          <NavigationProperty Name="QAOption" Relationship="ppaModel.FK__QACyber__AccessI__0E39E7EC" FromRole="QACyber" ToRole="QAOption" />
+          <NavigationProperty Name="QAOption1" Relationship="ppaModel.FK__QACyber__Inciden__0B5D7B41" FromRole="QACyber" ToRole="QAOption" />
+          <NavigationProperty Name="QAOption2" Relationship="ppaModel.FK__QACyber__MethodI__0A695708" FromRole="QACyber" ToRole="QAOption" />
+        </EntityType>
+        <Association Name="FK__QACyber__FlightI__0C519F7A">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
+          <End Type="ppaModel.QACyber" Role="QACyber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QACyber">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QACyber__AccessI__0E39E7EC">
+          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
+          <End Type="ppaModel.QACyber" Role="QACyber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QACyber">
+              <PropertyRef Name="AccessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QACyber__Inciden__0B5D7B41">
+          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
+          <End Type="ppaModel.QACyber" Role="QACyber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QACyber">
+              <PropertyRef Name="IncidentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QACyber__MethodI__0A695708">
+          <End Type="ppaModel.QAOption" Role="QAOption" Multiplicity="0..1" />
+          <End Type="ppaModel.QACyber" Role="QACyber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QAOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QACyber">
+              <PropertyRef Name="MethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="QACyberGet_Result">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AircraftType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DelayBlockOff" Nullable="true" />
+          <Property Type="Int32" Name="DelayTakeoff" Nullable="true" />
+          <Property Type="Int32" Name="FlightStatusID" Nullable="true" />
+          <Property Type="Int32" Name="flightCancelled" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="AccessDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AttackDescriptipn" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="BreachedDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ContactInfo" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" />
+          <Property Type="DateTime" Name="DateIncident" Nullable="true" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" />
+          <Property Type="String" Name="ImpactDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="IncidentDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="MethodDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Other" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="IncidentTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="IncidentId" Nullable="true" />
+          <Property Type="String" Name="MethodTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="MethodId" Nullable="true" />
+          <Property Type="String" Name="AccessTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="AccessId" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6503,42 +6860,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ViewQAMaintenances">
-            <EntityTypeMapping TypeName="ppaModel.ViewQAMaintenance">
-              <MappingFragment StoreEntitySet="ViewQAMaintenance">
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="StatusEmployeeName" ColumnName="StatusEmployeeName" />
-                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
-                <ScalarProperty Name="dateStatus" ColumnName="dateStatus" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="STD" ColumnName="STD" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="PartNumber" ColumnName="PartNumber" />
-                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
-                <ScalarProperty Name="AuthorizationNo" ColumnName="AuthorizationNo" />
-                <ScalarProperty Name="CAALicenceNo" ColumnName="CAALicenceNo" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="ActionTakenDescription" ColumnName="ActionTakenDescription" />
-                <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
-                <ScalarProperty Name="Station" ColumnName="Station" />
-                <ScalarProperty Name="StationId" ColumnName="StationId" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
-                <ScalarProperty Name="ATLNo" ColumnName="ATLNo" />
-                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
-                <ScalarProperty Name="FlightRoute" ColumnName="FlightRoute" />
-                <ScalarProperty Name="ComponentSpecification" ColumnName="ComponentSpecification" />
-                <ScalarProperty Name="ComponentSpecificationId" ColumnName="ComponentSpecificationId" />
-                <ScalarProperty Name="Register" ColumnName="Register" />
-                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="QAByEmployeeCount" FunctionName="ppaModel.Store.QAByEmployeeCount" />
           <FunctionImportMapping FunctionImportName="QAGetEntities" FunctionName="ppaModel.Store.QAGetEntities" />
           <EntitySetMapping Name="QAGetEntites_Result">
@@ -7448,6 +7769,147 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ViewQAMaintenances">
+            <EntityTypeMapping TypeName="ppaModel.ViewQAMaintenance">
+              <MappingFragment StoreEntitySet="ViewQAMaintenance">
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="StatusEmployeeName" ColumnName="StatusEmployeeName" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="dateStatus" ColumnName="dateStatus" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="PartNumber" ColumnName="PartNumber" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="AuthorizationNo" ColumnName="AuthorizationNo" />
+                <ScalarProperty Name="CAALicenceNo" ColumnName="CAALicenceNo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ActionTakenDescription" ColumnName="ActionTakenDescription" />
+                <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
+                <ScalarProperty Name="Station" ColumnName="Station" />
+                <ScalarProperty Name="StationId" ColumnName="StationId" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
+                <ScalarProperty Name="ATLNo" ColumnName="ATLNo" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="FlightRoute" ColumnName="FlightRoute" />
+                <ScalarProperty Name="ComponentSpecification" ColumnName="ComponentSpecification" />
+                <ScalarProperty Name="ComponentSpecificationId" ColumnName="ComponentSpecificationId" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewQACybers">
+            <EntityTypeMapping TypeName="ppaModel.ViewQACyber">
+              <MappingFragment StoreEntitySet="ViewQACyber">
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="StatusEmployeeName" ColumnName="StatusEmployeeName" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="dateStatus" ColumnName="dateStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AccessId" ColumnName="AccessId" />
+                <ScalarProperty Name="AccessTitle" ColumnName="AccessTitle" />
+                <ScalarProperty Name="MethodId" ColumnName="MethodId" />
+                <ScalarProperty Name="MethodTitle" ColumnName="MethodTitle" />
+                <ScalarProperty Name="IncidentId" ColumnName="IncidentId" />
+                <ScalarProperty Name="IncidentTitle" ColumnName="IncidentTitle" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="MethodDescription" ColumnName="MethodDescription" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="IncidentDescription" ColumnName="IncidentDescription" />
+                <ScalarProperty Name="ImpactDescription" ColumnName="ImpactDescription" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="DateIncident" ColumnName="DateIncident" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="ContactInfo" ColumnName="ContactInfo" />
+                <ScalarProperty Name="BreachedDescription" ColumnName="BreachedDescription" />
+                <ScalarProperty Name="AttackDescriptipn" ColumnName="AttackDescriptipn" />
+                <ScalarProperty Name="AccessDescription" ColumnName="AccessDescription" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="flightCancelled" ColumnName="flightCancelled" />
+                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
+                <ScalarProperty Name="DelayTakeoff" ColumnName="DelayTakeoff" />
+                <ScalarProperty Name="DelayBlockOff" ColumnName="DelayBlockOff" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QACybers">
+            <EntityTypeMapping TypeName="ppaModel.QACyber">
+              <MappingFragment StoreEntitySet="QACyber">
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="AttackDescriptipn" ColumnName="AttackDescriptipn" />
+                <ScalarProperty Name="BreachedDescription" ColumnName="BreachedDescription" />
+                <ScalarProperty Name="ImpactDescription" ColumnName="ImpactDescription" />
+                <ScalarProperty Name="AccessDescription" ColumnName="AccessDescription" />
+                <ScalarProperty Name="AccessId" ColumnName="AccessId" />
+                <ScalarProperty Name="MethodDescription" ColumnName="MethodDescription" />
+                <ScalarProperty Name="MethodId" ColumnName="MethodId" />
+                <ScalarProperty Name="IncidentDescription" ColumnName="IncidentDescription" />
+                <ScalarProperty Name="IncidentId" ColumnName="IncidentId" />
+                <ScalarProperty Name="DateIncident" ColumnName="DateIncident" />
+                <ScalarProperty Name="ContactInfo" ColumnName="ContactInfo" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="QACyberGet" FunctionName="ppaModel.Store.QACyberGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ppaModel.QACyberGet_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="DelayBlockOff" ColumnName="DelayBlockOff" />
+                <ScalarProperty Name="DelayTakeoff" ColumnName="DelayTakeoff" />
+                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
+                <ScalarProperty Name="flightCancelled" ColumnName="flightCancelled" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="AccessDescription" ColumnName="AccessDescription" />
+                <ScalarProperty Name="AttackDescriptipn" ColumnName="AttackDescriptipn" />
+                <ScalarProperty Name="BreachedDescription" ColumnName="BreachedDescription" />
+                <ScalarProperty Name="ContactInfo" ColumnName="ContactInfo" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="DateIncident" ColumnName="DateIncident" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="ImpactDescription" ColumnName="ImpactDescription" />
+                <ScalarProperty Name="IncidentDescription" ColumnName="IncidentDescription" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="MethodDescription" ColumnName="MethodDescription" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="IncidentTitle" ColumnName="IncidentTitle" />
+                <ScalarProperty Name="IncidentId" ColumnName="IncidentId" />
+                <ScalarProperty Name="MethodTitle" ColumnName="MethodTitle" />
+                <ScalarProperty Name="MethodId" ColumnName="MethodId" />
+                <ScalarProperty Name="AccessTitle" ColumnName="AccessTitle" />
+                <ScalarProperty Name="AccessId" ColumnName="AccessId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
