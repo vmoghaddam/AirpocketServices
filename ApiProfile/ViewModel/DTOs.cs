@@ -419,6 +419,16 @@ namespace ApiProfile.ViewModels
         public Nullable<System.DateTime> Phase3IssueDate { get; set; }
         public Nullable<System.DateTime> Phase3ExpireDate { get; set; }
 
+        public Nullable<System.DateTime> TRIIssueDate { get; set; }
+        public Nullable<System.DateTime> TREIssueDate { get; set; }
+        public Nullable<System.DateTime> GroundIssueDate { get; set; }
+        public Nullable<System.DateTime> GroundExpireDate { get; set; }
+        public Nullable<System.DateTime> FirstAidCockpitIssueDate { get; set; }
+        public Nullable<System.DateTime> FirstAidCockpitExpireDate { get; set; }
+
+        public Nullable<System.DateTime> CONVERSION_IssueDate { get; set; }
+        public Nullable<System.DateTime> CONVERSION_ExpireDate { get; set; }
+
         public string BaseAirline { get; set; }
 
         public Nullable<bool> IsType737 { get; set; }
@@ -939,6 +949,16 @@ namespace ApiProfile.ViewModels
             entity.Phase3ExpireDate = person.Phase3ExpireDate;
 
 
+            entity.TRIIssueDate = person.TRIIssueDate;
+            entity.TREIssueDate = person.TREIssueDate;
+            entity.GroundIssueDate = person.GroundIssueDate;
+            entity.GroundExpireDate = person.GroundExpireDate;
+            entity.FirstAidCockpitIssueDate = person.FirstAidCockpitIssueDate;
+            entity.FirstAidCockpitExpireDate = person.FirstAidCockpitExpireDate;
+            entity.CONVERSION_IssueDate = person.CONVERSION_IssueDate;
+            entity.CONVERSION_ExpireDate = person.CONVERSION_ExpireDate;
+
+
 
 
             entity.BaseAirline = person.BaseAirline;
@@ -1365,6 +1385,16 @@ namespace ApiProfile.ViewModels
 
             person.Phase3IssueDate = entity.Phase3IssueDate;
             person.Phase3ExpireDate = entity.Phase3ExpireDate;
+
+            person.TRIIssueDate = entity.TRIIssueDate;
+            person.TREIssueDate = entity.TREIssueDate;
+            person.GroundIssueDate = entity.GroundIssueDate;
+            person.GroundExpireDate = entity.GroundExpireDate;
+            person.FirstAidCockpitIssueDate = entity.FirstAidCockpitIssueDate;
+            person.FirstAidCockpitExpireDate = entity.FirstAidCockpitExpireDate;
+
+            person.CONVERSION_IssueDate = entity.CONVERSION_IssueDate;
+            person.CONVERSION_ExpireDate = entity.CONVERSION_ExpireDate;
 
             person.BaseAirline = entity.BaseAirline;
 

@@ -61,13 +61,21 @@
         <EntityTypeShape EntityType="ppaModel.ViewDutyLog" Width="1.5" PointX="22.375" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewProfile" Width="1.5" PointX="23.375" PointY="6.75" />
         <EntityTypeShape EntityType="ppaModel.ViewProfileLog" Width="1.5" PointX="16.375" PointY="22.75" />
+<<<<<<< HEAD
+=======
+        <EntityTypeShape EntityType="ppaModel.ViewQAMaintenance" Width="1.5" PointX="18.375" PointY="24.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewQACyber" Width="1.5" PointX="25.375" PointY="0.75" />
+>>>>>>> b323c917a437eefc0854a3ce2ec2be57c51c5a76
         <EntityTypeShape EntityType="ppaModel.QACyber" Width="1.5" PointX="22" PointY="77.5" />
         <AssociationConnector Association="ppaModel.FK__QACyber__FlightI__0C519F7A" />
         <AssociationConnector Association="ppaModel.FK__QACyber__AccessI__0E39E7EC" />
         <AssociationConnector Association="ppaModel.FK__QACyber__Inciden__0B5D7B41" />
         <AssociationConnector Association="ppaModel.FK__QACyber__MethodI__0A695708" />
-        <EntityTypeShape EntityType="ppaModel.ViewQACyber" Width="1.5" PointX="18.375" PointY="24.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQAMaintenance" Width="1.5" PointX="25.375" PointY="0.75" />
+<<<<<<< HEAD
+        
+        
+=======
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; b323c917a437eefc0854a3ce2ec2be57c51c5a76
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
