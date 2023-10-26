@@ -28,7 +28,6 @@
         <EntityTypeShape EntityType="ppaModel.ViewQAFollowingUp" Width="1.5" PointX="5.375" PointY="20.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQABYEmployee" Width="1.5" PointX="11.375" PointY="11.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAByEmployeeCount" Width="1.5" PointX="3.375" PointY="5.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQAMaintenance" Width="1.5" PointX="15.375" PointY="13.75" />
         <EntityTypeShape EntityType="ppaModel.QAGetEntites_Result" Width="1.5" PointX="5.375" PointY="3.75" />
         <EntityTypeShape EntityType="ppaModel.QACSR" Width="1.5" PointX="13.75" PointY="25.5" />
         <EntityTypeShape EntityType="ppaModel.QAGroundIAD" Width="1.5" PointX="16" PointY="71.875" />
@@ -62,6 +61,13 @@
         <EntityTypeShape EntityType="ppaModel.ViewDutyLog" Width="1.5" PointX="22.375" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewProfile" Width="1.5" PointX="23.375" PointY="6.75" />
         <EntityTypeShape EntityType="ppaModel.ViewProfileLog" Width="1.5" PointX="16.375" PointY="22.75" />
+        <EntityTypeShape EntityType="ppaModel.QACyber" Width="1.5" PointX="22" PointY="77.5" />
+        <AssociationConnector Association="ppaModel.FK__QACyber__FlightI__0C519F7A" />
+        <AssociationConnector Association="ppaModel.FK__QACyber__AccessI__0E39E7EC" />
+        <AssociationConnector Association="ppaModel.FK__QACyber__Inciden__0B5D7B41" />
+        <AssociationConnector Association="ppaModel.FK__QACyber__MethodI__0A695708" />
+        <EntityTypeShape EntityType="ppaModel.ViewQACyber" Width="1.5" PointX="18.375" PointY="24.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewQAMaintenance" Width="1.5" PointX="25.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
