@@ -329,5 +329,7 @@ namespace ApiQA.Models
         public virtual ICollection<QADispatch> QADispatches { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QACyber> QACybers { get; set; }
+        public virtual Airport Airport { get; set; }
+        public virtual Airport Airport1 { get; set; }
     }
 }

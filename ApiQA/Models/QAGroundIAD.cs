@@ -90,5 +90,6 @@ namespace ApiQA.Models
         public virtual QAOption QAOption1 { get; set; }
         public virtual QAOption QAOption2 { get; set; }
         public virtual QAOption QAOption3 { get; set; }
+        public virtual Airport Airport1 { get; set; }
     }
 }

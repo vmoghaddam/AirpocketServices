@@ -21,9 +21,6 @@ namespace ApiQA.Models
         public string Route { get; set; }
         public Nullable<System.DateTime> DateReport { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public Nullable<int> TelNumber { get; set; }
         public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string Description { get; set; }
         public Nullable<int> EmployeeId { get; set; }
@@ -42,6 +39,8 @@ namespace ApiQA.Models
         public Nullable<int> WorkBreakPeriod { get; set; }
         public Nullable<int> ReasonId { get; set; }
         public string EmployeeName { get; set; }
+        public string Email { get; set; }
+        public string Mobile { get; set; }
         public Nullable<int> status { get; set; }
         public Nullable<System.DateTime> dateStatus { get; set; }
         public Nullable<int> StatusEmployeeId { get; set; }
