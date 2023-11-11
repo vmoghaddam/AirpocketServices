@@ -32,12 +32,11 @@ namespace ApiQA.Models
         public string EventDescription { get; set; }
         public string ActionTakenDescription { get; set; }
         public Nullable<int> EmployeeId { get; set; }
-        public string Name { get; set; }
+        public string EmployeeName { get; set; }
         public string CAALicenceNo { get; set; }
         public string AuthorizationNo { get; set; }
         public Nullable<int> SerialNumber { get; set; }
         public Nullable<int> PartNumber { get; set; }
-        public string EmployeeName { get; set; }
         public Nullable<System.DateTime> STD { get; set; }
         public Nullable<int> status { get; set; }
         public Nullable<System.DateTime> dateStatus { get; set; }

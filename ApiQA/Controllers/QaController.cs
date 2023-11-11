@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Net.Http.Headers;
 
 namespace ApiQA.Controllers
 {
@@ -31,6 +32,40 @@ namespace ApiQA.Controllers
         //}
 
         ppa_entities context = new ppa_entities();
+
+
+        [HttpGet]
+        [Route("api/get/station")]
+        public async Task<DataResponse> GetStation()
+        {
+            try
+            {
+                var entity = from x in context.Airports
+                             where x.Country == "DOM"
+                             select new
+                             {
+                                 x.Id,
+                                 x.Name
+                             };
+                var result = entity.ToList();
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            };
+        }
 
 
         [HttpGet]
@@ -401,9 +436,10 @@ namespace ApiQA.Controllers
                     {
                         int AttachmentId = f.AttachmentId;
                         var file = context.QAAttachments.SingleOrDefault(q => q.Id == AttachmentId);
-                        if(file == null) { 
-                         file = new QAAttachment();
-                        context.QAAttachments.Add(file);
+                        if (file == null)
+                        {
+                            file = new QAAttachment();
+                            context.QAAttachments.Add(file);
                         }
                         file.EntityId = entity.Id;
                         file.EmployeeId = dto.EmployeeId;
@@ -556,6 +592,7 @@ namespace ApiQA.Controllers
                 entity.Other = dto.Other;
                 entity.Result = dto.Result;
                 entity.FlightId = dto.FlightId;
+                entity.JobTitle = dto.JobTitle;
                 entity.DateOccurrence = ConvertToDateTime(Date); //DateTime.Parse(Date) ;
                 entity.Name = dto.Name;
                 entity.EmployeeId = dto.EmployeeId;
@@ -565,7 +602,7 @@ namespace ApiQA.Controllers
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
-              
+
                 context.SaveChanges();
 
                 if (dto.files != null)
@@ -619,7 +656,7 @@ namespace ApiQA.Controllers
             try
             {
                 var result = context.QACyberGet(employeeId, flightId).Single();
-               
+
                 return new DataResponse()
                 {
                     Data = result,
@@ -2126,7 +2163,7 @@ namespace ApiQA.Controllers
                             break;
                         case 6:
                             context.Database.ExecuteSqlCommand("update QADispatch set Status = 1,DateStatus = '" + test + "', StatusEmployeeId= " + dto.EmployeeId + ",Result = '" + dto.Result + "' where Id=" + dto.Id);
-                            break; 
+                            break;
                         case 7:
                             context.Database.ExecuteSqlCommand("update QACyber set Status = 1,DateStatus = '" + test + "', StatusEmployeeId= " + dto.EmployeeId + ",Result = '" + dto.Result + "' where Id=" + dto.Id);
                             break;
@@ -2292,7 +2329,24 @@ namespace ApiQA.Controllers
 
             try
             {
-                var result = context.ViewQAComments.Where(q => q.EntityId == entityId && q.Type == type).ToList();
+                var query = from comments in context.QAComments
+                            join files in context.QAAttachments on comments.id equals files.CommentId into commentAttachmnets
+                            join employee in context.ViewEmployees on comments.EmployeeId equals employee.Id into employeeComment
+                            where comments.EntityId == entityId && comments.Type == type
+
+                            select new
+                            {
+                                Comment = comments.Comment,
+                                CommentId = comments.id,
+                                EmployeeId = comments.EmployeeId,
+                                EmployeeName = employeeComment.Select(q => q.Name).FirstOrDefault(),
+                                DateComment =  comments.DateComment,
+                                Attachments = commentAttachmnets.ToList()
+            
+                            };
+
+                var result = query.ToList();
+
                 return new DataResponse()
                 {
                     Data = result,
@@ -2323,8 +2377,34 @@ namespace ApiQA.Controllers
                 entity.EmployeeId = dto.EmployeeId;
                 entity.Comment = dto.Comment;
                 entity.DateComment = DateTime.Now;
-
                 context.SaveChanges();
+
+                if (dto.files != null)
+                {
+                    foreach (var f in dto.files)
+                    {
+
+                        int AttachmentId = f.AttachmentId;
+                        var file = context.QAAttachments.SingleOrDefault(q => q.Id == AttachmentId);
+                        if (file == null)
+                        {
+                            file = new QAAttachment();
+                            context.QAAttachments.Add(file);
+                        }
+                        file.EntityId = dto.Id;
+                        file.EmployeeId = dto.EmployeeId;
+                        file.URL = HttpContext.Current.Server.MapPath("~/upload/" + f.FileName);
+                        file.Lable = f.FileName;
+                        file.DateAttach = DateTime.Now;
+                        file.AttachmentType = f.FileType;
+                        file.Description = f.Description;
+                        file.Type = dto.Type;
+                        file.CommentId = entity.id;
+                    }
+
+                }
+                context.SaveChanges();
+                dto.Id = entity.EntityId;
                 return new DataResponse()
                 {
                     Data = null,
@@ -2340,6 +2420,49 @@ namespace ApiQA.Controllers
                 };
             }
         }
+
+
+        //[HttpGet]
+        //[Route("api/comment/{id}/{type}/{employeeId}")]
+        //public async Task<DataResponse> qaSaveAttachmentComment(int id, int type, int employeeId)
+        //{
+        //    try
+        //    {
+        //        var comment = context.QAComments.Single(q => q.EntityId == id && q.EmployeeId == employeeId && q.Type == type);
+        //        var files = context.QAAttachments.Where(q => q.EntityId == id && q.EmployeeId == employeeId && q.Type == type).ToList();
+
+        //        foreach (var x in files)
+        //        {
+        //            var entity = new QAAttachmentComment();
+        //            context.QAAttachmentComments.Add(entity);
+        //            entity.CommentId = (int)comment.id;
+        //            entity.AttachmentId = (int)x.Id;
+        //        };
+
+        //        context.SaveChanges();
+
+        //        return new DataResponse()
+        //        {
+        //            Data = null,
+        //            IsSuccess = true
+        //        };
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var msg = ex.Message;
+        //        if (ex.InnerException != null)
+        //            msg += "   Inner: " + ex.InnerException.Message;
+        //        return new DataResponse()
+        //        {
+        //            Data = msg,
+        //            IsSuccess = false
+        //        };
+        //    }
+
+        //}
+
+
 
         [HttpPost]
         [Route("api/qa/uploadfile")]
@@ -2414,7 +2537,7 @@ namespace ApiQA.Controllers
         {
             try
             {
-                var result = context.QAAttachments.Where(q => q.EmployeeId == employeeId && q.EntityId == entityId && q.Type == type).ToList();
+                var result = context.QAAttachments.Where(q => q.EmployeeId == employeeId && q.EntityId == entityId && q.Type == type && q.CommentId == null).ToList();
                 return new DataResponse()
                 {
                     Data = result,
@@ -2452,7 +2575,7 @@ namespace ApiQA.Controllers
                 if (file != null)
                     context.QAAttachments.Remove(file);
 
-               
+
 
 
                 context.SaveChanges();
@@ -2473,6 +2596,21 @@ namespace ApiQA.Controllers
                     IsSuccess = false
                 };
             }
+        }
+
+        [HttpGet]
+        [Route("api/download/qa/{filename}/{filetype}")]
+        public HttpResponseMessage DownloadQAAttachment(string filename, string filetype)
+        {
+            //string filename = "server.txt";
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(new FileStream(HttpContext.Current.Server.MapPath("~/upload/" + filename + "." + filetype), FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = filename + "." + filetype;
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+            return response;
+
         }
 
 

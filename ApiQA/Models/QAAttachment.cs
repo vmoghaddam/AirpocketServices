@@ -14,6 +14,12 @@ namespace ApiQA.Models
     
     public partial class QAAttachment
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public QAAttachment()
+        {
+            this.QAAttachmentComments = new HashSet<QAAttachmentComment>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> Type { get; set; }
         public Nullable<int> EntityId { get; set; }
@@ -23,5 +29,9 @@ namespace ApiQA.Models
         public string Lable { get; set; }
         public string Description { get; set; }
         public Nullable<System.DateTime> DateAttach { get; set; }
+        public Nullable<int> CommentId { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QAAttachmentComment> QAAttachmentComments { get; set; }
     }
 }

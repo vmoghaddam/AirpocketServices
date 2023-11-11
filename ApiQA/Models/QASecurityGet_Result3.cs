@@ -10,17 +10,16 @@
 namespace ApiQA.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ViewQASecurity
+    public partial class QASecurityGet_Result3
     {
         public Nullable<int> Id { get; set; }
-        public int FlightId { get; set; }
+        public Nullable<int> FlightId { get; set; }
         public string FlightNumber { get; set; }
         public string Register { get; set; }
         public string Route { get; set; }
         public string Description { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
         public string InjuryDescription { get; set; }
         public string Place { get; set; }
         public string PreventiveActions { get; set; }
@@ -37,14 +36,11 @@ namespace ApiQA.Models
         public string HandRocket { get; set; }
         public Nullable<bool> InjuryOccuring { get; set; }
         public string Other { get; set; }
-        public Nullable<int> ReasonId { get; set; }
-        public Nullable<int> status { get; set; }
-        public Nullable<System.DateTime> dateStatus { get; set; }
-        public Nullable<int> StatusEmployeeId { get; set; }
-        public string StatusEmployeeName { get; set; }
-        public string Result { get; set; }
+        public string Name { get; set; }
+        public string TelNumber { get; set; }
         public string EmployeeName { get; set; }
-        public string Email { get; set; }
         public string Mobile { get; set; }
+        public string Email { get; set; }
+        public Nullable<int> ReasonId { get; set; }
     }
 }

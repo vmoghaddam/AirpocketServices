@@ -16,11 +16,7 @@ namespace ApiQA.Models
     {
         public int Id { get; set; }
         public Nullable<int> EmployeeId { get; set; }
-        public string EmployeeName { get; set; }
-        public string Name { get; set; }
-        public string TelNumber { get; set; }
-        public string Email { get; set; }
-        public Nullable<System.DateTime> DateReport { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string AffectedArea { get; set; }
         public string HazardDescription { get; set; }
         public string RecommendedAction { get; set; }
@@ -30,5 +26,9 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> DateSign { get; set; }
         public string StatusEmployeeName { get; set; }
         public string Result { get; set; }
+        public Nullable<System.DateTime> DateReport { get; set; }
+        public string EmployeeName { get; set; }
+        public string Email { get; set; }
+        public string Mobile { get; set; }
     }
 }
