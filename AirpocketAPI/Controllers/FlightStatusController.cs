@@ -109,6 +109,36 @@ namespace AirpocketAPI.Controllers
         }
 
 
+        [Route("api/flight/departed")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetDepartedFlight()
+        {
+            var dt = DateTime.Now.Date;
+            var context = new AirpocketAPI.Models.FLYEntities();
+            var result = await context.ExpFlights.Where(q => (q.FlightStatusId == 2 || q.FlightStatusId == 14 || q.FlightStatusId == 20
+               || q.FlightStatusId == 21 || q.FlightStatusId == 23 || q.FlightStatusId == 24 ||  q.FlightStatusId == 25)  && q.DepartureDayLocal==dt).ToListAsync();
+                
+             var flights=result.Select(q => new
+            {
+                q.Id,
+                q.FlightNo,
+                DateStr = ((DateTime)q.STDLocal).ToString("yyyy-MM-dd"),
+                Date= (DateTime)q.STDLocal,
+                q.FlightStatus,
+                q.FlightStatusId,
+                q.Origin,
+                q.Destination,
+                q.Register,
+                Dep=q.Departure,
+                DepLocal=q.DepartureLocal,
+                Arr=q.Arrival,
+                ArrLocal=q.ArrivalLocal,
+             }).ToList ();
+            return Ok(flights);
+        }
+
+
+
     }
 
 

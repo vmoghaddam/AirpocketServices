@@ -4253,6 +4253,7 @@ namespace AirpocketTRN.Services
 
         public async Task<DataResponse> GetCoursePeopleAndSessions(int cid)
         {
+            
             var sessions = await context.CourseSessions.Where(q => q.CourseId == cid).OrderBy(q => q.DateStart).ToListAsync();
             var people = await context.ViewCoursePeoples.Where(q => q.CourseId == cid).OrderBy(q => q.DateStart).ToListAsync();
             //var press = await context.CourseSessionPresences.Where(q => q.CourseId == cid).ToListAsync();
@@ -4271,6 +4272,59 @@ namespace AirpocketTRN.Services
                 },
                 IsSuccess = true,
             };
+        }
+        public async Task<DataResponse> GetCoursePeopleAndSessionsByDate(DateTime dt,int pid)
+        {
+            dt = dt.Date;
+            var d2 = dt.AddDays(1);
+            var query = await (from x in context.CourseSessions
+                        join y in context.ViewCoursePeoples on x.CourseId equals y.CourseId
+                        where x.DateStart >= dt && x.DateEnd <= d2 && y.PersonId == pid
+                        select new
+                        {
+                            y.CourseId,
+                            y.Title,
+                            y.No,
+                            y.Status,
+                            y.Location,
+                            y.Instructor1,
+                            y.Instructor2,
+                            y.CoursePeopleStatus,
+                            x.DateStart,
+                            x.DateEnd,
+
+                        }).ToListAsync();
+            var grps = (from y in query
+                        group y by new
+                        {
+                            y.CourseId,
+                            y.Title,
+                            y.No,
+                            y.Status,
+                            y.Location,
+                            y.Instructor1,
+                            y.Instructor2,
+                            y.CoursePeopleStatus
+                        }
+                     into grp
+                        select new
+                        {
+                            grp.Key.CourseId,
+                            grp.Key.Title,
+                            grp.Key.No,
+                            grp.Key.Status,
+                            grp.Key.Location,
+                            grp.Key.Instructor1,
+                            grp.Key.Instructor2,
+                            grp.Key.CoursePeopleStatus,
+                            Sessions = grp.OrderBy(q=>q.DateStart).Select(q => new { q.DateStart, q.DateEnd }).ToList()
+                        }).ToList();
+            return new DataResponse()
+            {
+                Data = grps,
+                IsSuccess = true,
+            };
+
         }
 
         public async Task<DataResponse> NotifyCoursePeople(int cid, string recs)

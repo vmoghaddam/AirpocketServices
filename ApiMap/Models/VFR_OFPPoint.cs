@@ -7,12 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace XAPI.Models
+namespace ApiMap.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class OFPPoint
+    public partial class VFR_OFPPoint
     {
         public int OFPId { get; set; }
         public string Plan { get; set; }
@@ -35,9 +35,18 @@ namespace XAPI.Models
         public string FUS { get; set; }
         public string TAS { get; set; }
         public string GSP { get; set; }
-        public Nullable<int> TME { get; set; }
         public Nullable<int> TTM { get; set; }
-    
-        public virtual OFPImport OFPImport { get; set; }
+        public Nullable<int> TME { get; set; }
+        public string FlightNo { get; set; }
+        public string Origin { get; set; }
+        public string Destination { get; set; }
+        public Nullable<System.DateTime> DateFlight { get; set; }
+        public Nullable<System.DateTime> DateCreate { get; set; }
+        public Nullable<int> FlightId { get; set; }
+        public string ETA { get; set; }
+        public string ETD { get; set; }
+        public string ALT1 { get; set; }
+        public string ALT2 { get; set; }
+        public string Register { get; set; }
     }
 }

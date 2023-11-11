@@ -197,6 +197,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\FlightRadarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -249,6 +250,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelFMIS.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelMain.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelMain.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelMain.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelMain.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelMain.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelMain.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\OFPImport.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -260,6 +276,12 @@
     </Compile>
     <Compile Include="Models\OFPPoint.cs">
       <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OFPPool.cs">
+      <DependentUpon>ModelMain.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OFPPoolPoint.cs">
+      <DependentUpon>ModelMain.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OFPSkyPuter.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -301,6 +323,16 @@
       <DependentUpon>ModelFMIS.edmx</DependentUpon>
       <LastGenOutput>ModelFMIS.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\ModelMain.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelMain.edmx</DependentUpon>
+      <LastGenOutput>ModelMain.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ModelMain.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelMain.edmx</DependentUpon>
+      <LastGenOutput>ModelMain.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -335,6 +367,13 @@
     </EntityDeploy>
     <Content Include="Models\ModelFMIS.edmx.diagram">
       <DependentUpon>ModelFMIS.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\ModelMain.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelMain.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ModelMain.edmx.diagram">
+      <DependentUpon>ModelMain.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

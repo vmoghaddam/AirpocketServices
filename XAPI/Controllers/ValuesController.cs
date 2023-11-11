@@ -918,6 +918,7 @@ namespace XAPI.Controllers
                 string alt2 = "";
                 var flightDate = DateTime.Parse(dte);
                 var no = fln.Contains(" ") ? fln.Substring(4) : fln.Substring(3);
+                var main_flight_no = fln.Replace(" ", "").ToUpper();
                 if (no.Length == 3 && no.StartsWith("0"))
                     no = "0" + no;
                 var flight = context.ViewLegTimes.Where(q => q.STDDay == flightDate && q.FlightNumber == no && q.FlightStatusID != 4).FirstOrDefault();
@@ -1064,6 +1065,24 @@ namespace XAPI.Controllers
                         _pnt.TAS = _tas == null ? "" : _tas.Split('=')[1];
                         var _gsp = prts.FirstOrDefault(q => q.StartsWith("GSP"));
                         _pnt.GSP = _gsp == null ? "" : _gsp.Split('=')[1];
+
+                        var _tme= prts.FirstOrDefault(q => q.StartsWith("TME"));
+                        if (_tme != null)
+                        {
+                            var _tme_p = _tme.Split('=')[1].Substring(0, 5).Split(':').Select(q=>Convert.ToInt32(q)).ToList();
+                            _pnt.TME = _tme_p[0] * 60 + _tme_p[1];
+                        }
+                        else
+                            _pnt.TME = 0;
+
+                        var _ttm = prts.FirstOrDefault(q => q.StartsWith("TTM"));
+                        if (_ttm != null)
+                        {
+                            var _ttm_p = _ttm.Split('=')[1].Substring(0, 5).Split(':').Select(q => Convert.ToInt32(q)).ToList();
+                            _pnt.TTM = _ttm_p[0] * 60 + _ttm_p[1];
+                        }
+                        else
+                            _pnt.TTM = 0;
 
                         _pnt.Plan = "MAIN";
                     }
@@ -1882,7 +1901,7 @@ namespace XAPI.Controllers
                 dto.UploadMessage = "OK";
 
 
-                //foreach(var x in mainPlanPoints)
+                //foreach (var x in mainPlanPoints)
                 //{
                 //    plan.OFPPoints.Add(new OFPPoint()
                 //    {
@@ -1893,13 +1912,128 @@ namespace XAPI.Controllers
                 //    });
 
                 //}
+                context.SaveChanges();
 
                 foreach (var x in mplan_points)
-                    plan.OFPPoints.Add(x);
+                // plan.OFPPoints.Add(x);
+                {
+                    x.OFPId = plan.Id;
+                    context.OFPPoints.Add(x);
+                }
 
                 context.SaveChanges();
 
+                ppa_main main_context = new ppa_main();
+                var exists = main_context.OFPPools.Where(q => q.FlightNo == main_flight_no && q.FlightId == plan.FlightId).ToList();
+                main_context.OFPPools.RemoveRange(exists);
 
+                var pool_ofp = new OFPPool()
+                {
+                    ALT1 = plan.ALT1,
+                    ALT2 = plan.ALT2,
+                    BaseId = plan.Id,
+                    CRW = plan.CRW,
+                    JALDRF = plan.JALDRF,
+                    JAPlan1 = plan.JAPlan1,
+                    JAPlan2 = plan.JAPlan2,
+                    JCSTBL = plan.JCSTBL,
+                    JFuel = plan.JFuel,
+                    JLDatePICApproved = plan.JLDatePICApproved,
+                    JLSignedBy = plan.JLSignedBy,
+                    JPlan = plan.JPlan,
+                    DateConfirmed = plan.DateConfirmed,
+                    DateCreate = plan.DateCreate,
+                    DateFlight = plan.DateFlight,
+                    DateUpdate = plan.DateUpdate,
+                    Destination = plan.Destination,
+                    DID = plan.DID,
+                    DOW = plan.DOW,
+                    ELDW = plan.ELDW,
+                    ETA = plan.ETA,
+                    ETD = plan.ETD,
+                    ETOW = plan.ETOW,
+                    EZFW = plan.EZFW,
+                    FileName = plan.FileName,
+                    FlightId = plan.FlightId,
+                    FlightNo = main_flight_no,
+                    FLL = plan.FLL,
+                    FPF = plan.FPF,
+                    FPFuel = plan.FPFuel,
+                    FPTripFuel = plan.FPTripFuel,
+                    FuelACTUALTANKERING = plan.FuelACTUALTANKERING,
+                    FuelALT1 = plan.FuelALT1,
+                    FuelALT2 = plan.FuelALT2,
+                    FuelCONT = plan.FuelCONT,
+                    FuelETOPSADDNL = plan.FuelETOPSADDNL,
+                    FuelExtra = plan.FuelExtra,
+                    FuelFINALRES = plan.FuelFINALRES,
+                    FuelMINTOF = plan.FuelMINTOF,
+                    FuelOFFBLOCK = plan.FuelOFFBLOCK,
+                    FuelOPSEXTRA = plan.FuelOPSEXTRA,
+                    FuelTANKERING = plan.FuelTANKERING,
+                    FuelTAXI = plan.FuelTAXI,
+                    FuelTOF = plan.FuelTOF,
+                    FuelTOTALFUEL = plan.FuelTOTALFUEL,
+                    JWTDRF = plan.JWTDRF,
+                    MAXSHEER = plan.MAXSHEER,
+                    MCI = plan.MCI,
+                    MINDIVFUEL = plan.MINDIVFUEL,
+                    Origin = plan.Origin,
+                    PIC = plan.PIC,
+                    PICId = plan.PICId,
+                    PLD = plan.PLD,
+                    RTA = plan.RTA,
+                    RTB = plan.RTB,
+                    RTM = plan.RTM,
+                    RTT = plan.RTT,
+                    Source = plan.Source,
+                    TALT1 = plan.TALT1,
+                    TALT2 = plan.TALT2,
+                    Text = plan.Text,
+                    TextOutput = plan.TextOutput,
+                    THM = plan.THM,
+                    UNT = plan.UNT,
+                    User = plan.User,
+                    UserConfirmed = plan.UserConfirmed,
+                    VDT = plan.VDT,
+                    WDCLB = plan.WDCLB,
+                    WDDES = plan.WDDES,
+                    WDTMP = plan.WDTMP
+
+                };
+                main_context.OFPPools.Add(pool_ofp);
+
+                foreach (var p in mplan_points)
+                {
+                    pool_ofp.OFPPoolPoints.Add(new OFPPoolPoint()
+                    {
+                        ALT = p.ALT,
+                        BODY = p.BODY,
+                        DIS = p.DIS,
+                        FRE = p.FRE,
+                        FRQ = p.FRQ,
+                        FUS = p.FUS,
+                        GMR = p.GMR,
+                        GSP = p.GSP,
+                        Lat = p.Lat,
+                        Long = p.Long,
+                        MEA = p.MEA,
+                        Plan = p.Plan,
+                        TAS = p.TAS,
+                        TDS = p.TDS,
+                        TMP = p.TMP,
+                        TRK = p.TRK,
+                        VIA = p.VIA,
+                        WAP = p.WAP,
+                        WIND = p.WIND,
+                        TME=p.TME,
+                        TTM=p.TTM
+
+                    });
+                }
+
+
+                main_context.SaveChanges();
 
 
 
@@ -1946,6 +2080,139 @@ namespace XAPI.Controllers
 
 
 
+        }
+
+        [Route("api/ofp/pool/import/{id}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetImportToPool(int id)
+        {
+            try
+            {
+                var context = new PPAEntities();
+                ppa_main main_context = new ppa_main();
+                var plan = context.OFPImports.Where(q => q.Id == id).FirstOrDefault();
+                var points = context.OFPPoints.Where(q => q.OFPId == id).OrderBy(q => q.Id).ToList();
+                var exists = main_context.OFPPools.Where(q => q.FlightNo == "VRH" + plan.FlightNo && q.FlightId == plan.FlightId).ToList();
+
+                main_context.OFPPools.RemoveRange(exists);
+
+                var pool_ofp = new OFPPool()
+                {
+                    ALT1 = plan.ALT1,
+                    ALT2 = plan.ALT2,
+                    BaseId = plan.Id,
+                    CRW = plan.CRW,
+                    JALDRF = plan.JALDRF,
+                    JAPlan1 = plan.JAPlan1,
+                    JAPlan2 = plan.JAPlan2,
+                    JCSTBL = plan.JCSTBL,
+                    JFuel = plan.JFuel,
+                    JLDatePICApproved = plan.JLDatePICApproved,
+                    JLSignedBy = plan.JLSignedBy,
+                    JPlan = plan.JPlan,
+                    DateConfirmed = plan.DateConfirmed,
+                    DateCreate = plan.DateCreate,
+                    DateFlight = plan.DateFlight,
+                    DateUpdate = plan.DateUpdate,
+                    Destination = plan.Destination,
+                    DID = plan.DID,
+                    DOW = plan.DOW,
+                    ELDW = plan.ELDW,
+                    ETA = plan.ETA,
+                    ETD = plan.ETD,
+                    ETOW = plan.ETOW,
+                    EZFW = plan.EZFW,
+                    FileName = plan.FileName,
+                    FlightId = plan.FlightId,
+                    FlightNo = "VRH" + plan.FlightNo,
+                    FLL = plan.FLL,
+                    FPF = plan.FPF,
+                    FPFuel = plan.FPFuel,
+                    FPTripFuel = plan.FPTripFuel,
+                    FuelACTUALTANKERING = plan.FuelACTUALTANKERING,
+                    FuelALT1 = plan.FuelALT1,
+                    FuelALT2 = plan.FuelALT2,
+                    FuelCONT = plan.FuelCONT,
+                    FuelETOPSADDNL = plan.FuelETOPSADDNL,
+                    FuelExtra = plan.FuelExtra,
+                    FuelFINALRES = plan.FuelFINALRES,
+                    FuelMINTOF = plan.FuelMINTOF,
+                    FuelOFFBLOCK = plan.FuelOFFBLOCK,
+                    FuelOPSEXTRA = plan.FuelOPSEXTRA,
+                    FuelTANKERING = plan.FuelTANKERING,
+                    FuelTAXI = plan.FuelTAXI,
+                    FuelTOF = plan.FuelTOF,
+                    FuelTOTALFUEL = plan.FuelTOTALFUEL,
+                    JWTDRF = plan.JWTDRF,
+                    MAXSHEER = plan.MAXSHEER,
+                    MCI = plan.MCI,
+                    MINDIVFUEL = plan.MINDIVFUEL,
+                    Origin = plan.Origin,
+                    PIC = plan.PIC,
+                    PICId = plan.PICId,
+                    PLD = plan.PLD,
+                    RTA = plan.RTA,
+                    RTB = plan.RTB,
+                    RTM = plan.RTM,
+                    RTT = plan.RTT,
+                    Source = plan.Source,
+                    TALT1 = plan.TALT1,
+                    TALT2 = plan.TALT2,
+                    Text = plan.Text,
+                    TextOutput = plan.TextOutput,
+                    THM = plan.THM,
+                    UNT = plan.UNT,
+                    User = plan.User,
+                    UserConfirmed = plan.UserConfirmed,
+                    VDT = plan.VDT,
+                    WDCLB = plan.WDCLB,
+                    WDDES = plan.WDDES,
+                    WDTMP = plan.WDTMP
+
+                };
+                main_context.OFPPools.Add(pool_ofp);
+
+                foreach (var p in points)
+                {
+                    pool_ofp.OFPPoolPoints.Add(new OFPPoolPoint()
+                    {
+                        ALT = p.ALT,
+                        BODY = p.BODY,
+                        DIS = p.DIS,
+                        FRE = p.FRE,
+                        FRQ = p.FRQ,
+                        FUS = p.FUS,
+                        GMR = p.GMR,
+                        GSP = p.GSP,
+                        Lat = p.Lat,
+                        Long = p.Long,
+                        MEA = p.MEA,
+                        Plan = p.Plan,
+                        TAS = p.TAS,
+                        TDS = p.TDS,
+                        TMP = p.TMP,
+                        TRK = p.TRK,
+                        VIA = p.VIA,
+                        WAP = p.WAP,
+                        WIND = p.WIND
+
+                    });
+                }
+
+
+                main_context.SaveChanges();
+
+
+
+                return Ok(true);
+            }
+            catch(Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   " + ex.InnerException.Message;
+                return Ok(msg);
+            }
         }
 
         [Route("api/ofp/points/{id}")]

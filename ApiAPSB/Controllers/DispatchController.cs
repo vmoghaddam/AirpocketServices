@@ -55,6 +55,25 @@ namespace ApiAPSB.Controllers
             // return new DataResponse() { IsSuccess = false };
         }
 
+        [Route("api/flight/{fltid}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetFlight(int fltid)
+        {
+            var context = new Models.dbEntities();
+            var flight = await context.AppLegOPS.Where(q => q.ID == fltid).FirstOrDefaultAsync();
+            var crew = await context.XFlightCrews.Where(q => q.FlightId == fltid).OrderBy(q => q.GroupOrder).ToListAsync();
+
+            var result = new
+            {
+                flight,
+                crew
+            };
+
+            return Ok(result);
+
+            // return new DataResponse() { IsSuccess = false };
+        }
+
 
         [Route("api/applegs/{crtbl}")]
 

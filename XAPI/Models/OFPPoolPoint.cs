@@ -12,7 +12,7 @@ namespace XAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class OFPPoint
+    public partial class OFPPoolPoint
     {
         public int OFPId { get; set; }
         public string Plan { get; set; }
@@ -38,6 +38,6 @@ namespace XAPI.Models
         public Nullable<int> TME { get; set; }
         public Nullable<int> TTM { get; set; }
     
-        public virtual OFPImport OFPImport { get; set; }
+        public virtual OFPPool OFPPool { get; set; }
     }
 }

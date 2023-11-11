@@ -20,6 +20,14 @@ namespace ApiAPSB.Models
         public Nullable<System.DateTime> Landing { get; set; }
         public Nullable<System.DateTime> TakeOff { get; set; }
         public Nullable<System.DateTime> BlockOff { get; set; }
+        public Nullable<System.DateTime> BlockOnX { get; set; }
+        public Nullable<System.DateTime> BlockOffX { get; set; }
+        public Nullable<System.DateTime> LandingX { get; set; }
+        public Nullable<System.DateTime> TakeOffX { get; set; }
+        public Nullable<System.DateTime> BlockOnLocalX { get; set; }
+        public Nullable<System.DateTime> BlockOffLocalX { get; set; }
+        public Nullable<System.DateTime> LandingLocalX { get; set; }
+        public Nullable<System.DateTime> TakeOffLocalX { get; set; }
         public Nullable<System.DateTime> BlockOnLocal { get; set; }
         public Nullable<System.DateTime> LandingLocal { get; set; }
         public Nullable<System.DateTime> TakeOffLocal { get; set; }

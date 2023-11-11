@@ -564,6 +564,8 @@
           <Property Name="FUS" Type="varchar" MaxLength="255" />
           <Property Name="TAS" Type="varchar" MaxLength="255" />
           <Property Name="GSP" Type="varchar" MaxLength="255" />
+          <Property Name="TME" Type="int" />
+          <Property Name="TTM" Type="int" />
         </EntityType>
         <EntityType Name="OFPSkyPuter">
           <Key>
@@ -1169,12 +1171,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewOFPPoint' does not have a prima
             <End Role="OFPImport" EntitySet="OFPImports" />
             <End Role="OFPImportProp" EntitySet="OFPImportProps" />
           </AssociationSet>
+          <EntitySet Name="ViewOFPPoints" EntityType="ppa_tabanModel.ViewOFPPoint" />
           <EntitySet Name="OFPPoints" EntityType="ppa_tabanModel.OFPPoint" />
           <AssociationSet Name="fk_point_ofp" Association="ppa_tabanModel.fk_point_ofp">
             <End Role="OFPImport" EntitySet="OFPImports" />
             <End Role="OFPPoint" EntitySet="OFPPoints" />
           </AssociationSet>
-          <EntitySet Name="ViewOFPPoints" EntityType="ppa_tabanModel.ViewOFPPoint" />
           </EntityContainer>
         <EntityType Name="OFPSkyPuter">
           <Key>
@@ -1786,47 +1788,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewOFPPoint' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="OFPPoint">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="OFPId" Type="Int32" Nullable="false" />
-          <Property Name="Plan" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Lat" Type="Decimal" Precision="16" Scale="10" />
-          <Property Name="Long" Type="Decimal" Precision="16" Scale="10" />
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="WAP" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="VIA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="ALT" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="WIND" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="TRK" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="TMP" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="BODY" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="FRQ" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="MEA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="GMR" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="DIS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="TDS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="FRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="FUS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="TAS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="GSP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="OFPImport" Relationship="ppa_tabanModel.fk_point_ofp" FromRole="OFPPoint" ToRole="OFPImport" />
-        </EntityType>
-        <Association Name="fk_point_ofp">
-          <End Type="ppa_tabanModel.OFPImport" Role="OFPImport" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ppa_tabanModel.OFPPoint" Role="OFPPoint" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OFPImport">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OFPPoint">
-              <PropertyRef Name="OFPId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ViewOFPPoint">
           <Key>
             <PropertyRef Name="OFPId" />
@@ -1862,6 +1823,49 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewOFPPoint' does not have a prima
           <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FltNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="OFPPoint">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="OFPId" Type="Int32" Nullable="false" />
+          <Property Name="Plan" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Lat" Type="Decimal" Precision="16" Scale="10" />
+          <Property Name="Long" Type="Decimal" Precision="16" Scale="10" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WAP" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="VIA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ALT" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="WIND" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TRK" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TMP" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="BODY" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="FRQ" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MEA" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GMR" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DIS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TDS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FUS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TAS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GSP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TME" Type="Int32" />
+          <Property Name="TTM" Type="Int32" />
+          <NavigationProperty Name="OFPImport" Relationship="ppa_tabanModel.fk_point_ofp" FromRole="OFPPoint" ToRole="OFPImport" />
+        </EntityType>
+        <Association Name="fk_point_ofp">
+          <End Type="ppa_tabanModel.OFPImport" Role="OFPImport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppa_tabanModel.OFPPoint" Role="OFPPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OFPImport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OFPPoint">
+              <PropertyRef Name="OFPId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2552,9 +2556,16 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewOFPPoint' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OFPPoints">
-            <EntityTypeMapping TypeName="ppa_tabanModel.OFPPoint">
-              <MappingFragment StoreEntitySet="OFPPoint">
+          <EntitySetMapping Name="ViewOFPPoints">
+            <EntityTypeMapping TypeName="ppa_tabanModel.ViewOFPPoint">
+              <MappingFragment StoreEntitySet="ViewOFPPoint">
+                <ScalarProperty Name="FltNo" ColumnName="FltNo" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="Arr" ColumnName="Arr" />
+                <ScalarProperty Name="Dep" ColumnName="Dep" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="GSP" ColumnName="GSP" />
                 <ScalarProperty Name="TAS" ColumnName="TAS" />
                 <ScalarProperty Name="FUS" ColumnName="FUS" />
@@ -2579,16 +2590,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewOFPPoint' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ViewOFPPoints">
-            <EntityTypeMapping TypeName="ppa_tabanModel.ViewOFPPoint">
-              <MappingFragment StoreEntitySet="ViewOFPPoint">
-                <ScalarProperty Name="FltNo" ColumnName="FltNo" />
-                <ScalarProperty Name="Register" ColumnName="Register" />
-                <ScalarProperty Name="STA" ColumnName="STA" />
-                <ScalarProperty Name="STD" ColumnName="STD" />
-                <ScalarProperty Name="Arr" ColumnName="Arr" />
-                <ScalarProperty Name="Dep" ColumnName="Dep" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+          <EntitySetMapping Name="OFPPoints">
+            <EntityTypeMapping TypeName="ppa_tabanModel.OFPPoint">
+              <MappingFragment StoreEntitySet="OFPPoint">
+                <ScalarProperty Name="TTM" ColumnName="TTM" />
+                <ScalarProperty Name="TME" ColumnName="TME" />
                 <ScalarProperty Name="GSP" ColumnName="GSP" />
                 <ScalarProperty Name="TAS" ColumnName="TAS" />
                 <ScalarProperty Name="FUS" ColumnName="FUS" />

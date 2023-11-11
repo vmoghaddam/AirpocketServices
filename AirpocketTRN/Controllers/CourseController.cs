@@ -469,6 +469,16 @@ namespace AirpocketTRN.Controllers
 
             return Ok(result);
         }
+
+        [Route("api/course/person/date")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetCoursePeopleSessionsByDate(DateTime dt,int pid)
+        {
+            var result = await courseService.GetCoursePeopleAndSessionsByDate(dt,pid);
+
+            return Ok(result);
+        }
+
         [Route("api/course/attendance/{cid}/{pid}")]
         [AcceptVerbs("GET")]
         public async Task<IHttpActionResult> GetCourseAttendance(int cid,int pid)
@@ -922,6 +932,23 @@ namespace AirpocketTRN.Controllers
 
             return Ok(result);
         }
+
+
+
+        [Route("api/course/ids")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetCourseIds()
+        {
+            
+
+            FLYEntities context = new FLYEntities();
+            var ids = await context.Courses.OrderByDescending(q => q.Id).Select(q => q.Id).ToListAsync();
+            return Ok(ids);
+        }
+
+
+
+
 
 
     }
