@@ -1895,20 +1895,38 @@ namespace ApiQA.Controllers
         [Route("api/get/qa/catering/report/{ymf}/{ymt}")]
         public async Task<DataResponse> GetCateringReport(int ymf, int ymt)
         {
-            var query = from x in context.ViewQADashCaterings
-                        where x.YearMonth >= ymf && x.YearMonth <= ymt
-                        group x by new { x.ReasonId, x.ReasonTitle } into grp
-                        select new
-                        {
-                            ReasonId = grp.Key.ReasonId,
-                            ReasonTitle = grp.Key.ReasonTitle,
-                            Count = grp.Sum(q => q.Count)
-                        };
+            var dateCount = (from x in context.ViewQADashCaterings
+                             where x.YearMonth >= ymf && x.YearMonth <= ymt
+                             group x by new { x.YearMonth } into grp
+                             select new
+                             {
+                                 YearMonth = grp.Key.YearMonth,
+                                 Count = grp.Sum(q => q.Count),
+                             }).ToList();
 
-            var result = query.ToList();
+            var registerCount = (from x in context.ViewQADashCaterings
+                                 where x.YearMonth >= ymf && x.YearMonth <= ymt
+                                 group x by new { x.Register } into grp
+                                 select new
+                                 {
+                                     Register = grp.Key.Register,
+                                     Count = grp.Sum(q => q.Count),
+                                 }).ToList();
+
+            var routeCount = (from x in context.ViewQADashCaterings
+                              where x.YearMonth >= ymf && x.YearMonth <= ymt
+                              group x by new { x.route } into grp
+                              select new
+                              {
+                                  Route = grp.Key.route,
+                                  Count = grp.Sum(q => q.Count),
+                              }).ToList();
+
+
+            var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = result,
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
                 IsSuccess = true
             };
         }
@@ -1917,20 +1935,38 @@ namespace ApiQA.Controllers
         [Route("api/get/qa/ground/report/{ymf}/{ymt}")]
         public async Task<DataResponse> GetGroundReport(int ymf, int ymt)
         {
-            var query = from x in context.ViewQaDashGrounds
-                        where x.YearMonth >= ymf && x.YearMonth <= ymt
-                        group x by new { x.DamageById, x.DamageByTitle } into grp
-                        select new
-                        {
-                            DamageById = grp.Key.DamageById,
-                            DamageByTitle = grp.Key.DamageByTitle,
-                            Count = grp.Sum(q => q.Count)
-                        };
+            var dateCount = (from x in context.ViewQaDashGrounds
+                             where x.YearMonth >= ymf && x.YearMonth <= ymt
+                             group x by new { x.YearMonth } into grp
+                             select new
+                             {
+                                 YearMonth = grp.Key.YearMonth,
+                                 Count = grp.Sum(q => q.Count),
+                             }).ToList();
 
-            var result = query.ToList();
+            var registerCount = (from x in context.ViewQaDashGrounds
+                                 where x.YearMonth >= ymf && x.YearMonth <= ymt
+                                 group x by new { x.Register } into grp
+                                 select new
+                                 {
+                                     Register = grp.Key.Register,
+                                     Count = grp.Sum(q => q.Count),
+                                 }).ToList();
+
+            var routeCount = (from x in context.ViewQaDashGrounds
+                              where x.YearMonth >= ymf && x.YearMonth <= ymt
+                              group x by new { x.route } into grp
+                              select new
+                              {
+                                  Route = grp.Key.route,
+                                  Count = grp.Sum(q => q.Count),
+                              }).ToList();
+
+
+            var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = result,
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
                 IsSuccess = true
             };
         }
@@ -1940,20 +1976,38 @@ namespace ApiQA.Controllers
         [Route("api/get/qa/security/report/{ymf}/{ymt}")]
         public async Task<DataResponse> GetSecurityReport(int ymf, int ymt)
         {
-            var query = from x in context.ViewQaDashSecurities
-                        where x.YearMonth >= ymf && x.YearMonth <= ymt
-                        group x by new { x.ReasonId, x.ReasonTitle } into grp
-                        select new
-                        {
-                            ReasonId = grp.Key.ReasonId,
-                            ReasonTitle = grp.Key.ReasonTitle,
-                            Count = grp.Sum(q => q.Count)
-                        };
+            var dateCount = (from x in context.ViewQaDashSecurities
+                             where x.YearMonth >= ymf && x.YearMonth <= ymt
+                             group x by new { x.YearMonth } into grp
+                             select new
+                             {
+                                 YearMonth = grp.Key.YearMonth,
+                                 Count = grp.Sum(q => q.Count),
+                             }).ToList();
 
-            var result = query.ToList();
+            var registerCount = (from x in context.ViewQaDashSecurities
+                                 where x.YearMonth >= ymf && x.YearMonth <= ymt
+                                 group x by new { x.Register } into grp
+                                 select new
+                                 {
+                                     Register = grp.Key.Register,
+                                     Count = grp.Sum(q => q.Count),
+                                 }).ToList();
+
+            var routeCount = (from x in context.ViewQaDashSecurities
+                              where x.YearMonth >= ymf && x.YearMonth <= ymt
+                              group x by new { x.route } into grp
+                              select new
+                              {
+                                  Route = grp.Key.route,
+                                  Count = grp.Sum(q => q.Count),
+                              }).ToList();
+
+
+            var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = result,
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
                 IsSuccess = true
             };
         }
@@ -1963,18 +2017,38 @@ namespace ApiQA.Controllers
         [Route("api/get/qa/csr/report/{ymf}/{ymt}")]
         public async Task<DataResponse> GetCSRReport(int ymf, int ymt)
         {
-            var query = from x in context.ViewQaDashCSRs
-                        where x.YearMonth >= ymf && x.YearMonth <= ymt
-                        group x by new { x.YearMonth } into grp
-                        select new
-                        {
-                            YearMonth = grp.Key.YearMonth,
-                            Count = grp.Sum(q => q.Count)
-                        };
-            var result = query.ToList();
+            var dateCount = (from x in context.ViewQaDashCSRs
+                             where x.YearMonth >= ymf && x.YearMonth <= ymt
+                             group x by new { x.YearMonth } into grp
+                             select new
+                             {
+                                 YearMonth = grp.Key.YearMonth,
+                                 Count = grp.Sum(q => q.Count),
+                             }).ToList();
+
+            var registerCount = (from x in context.ViewQaDashCSRs
+                                 where x.YearMonth >= ymf && x.YearMonth <= ymt
+                                 group x by new { x.Register } into grp
+                                 select new
+                                 {
+                                     Register = grp.Key.Register,
+                                     Count = grp.Sum(q => q.Count),
+                                 }).ToList();
+
+            var routeCount = (from x in context.ViewQaDashCSRs
+                              where x.YearMonth >= ymf && x.YearMonth <= ymt
+                              group x by new { x.route } into grp
+                              select new
+                              {
+                                  Route = grp.Key.route,
+                                  Count = grp.Sum(q => q.Count),
+                              }).ToList();
+
+
+            var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = result,
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
                 IsSuccess = true
             };
         }
@@ -1983,39 +2057,102 @@ namespace ApiQA.Controllers
         [Route("api/get/qa/maintenance/report/{ymf}/{ymt}")]
         public async Task<DataResponse> GetMaintenance(int ymf, int ymt)
         {
-            var query = from x in context.ViewQaDashMaintenances
-                        where x.YearMonth >= ymf && x.YearMonth <= ymt
-                        group x by new { x.YearMonth } into grp
-                        select new
-                        {
-                            YearMonth = grp.Key.YearMonth,
-                            Count = grp.Sum(q => q.Count)
-                        };
-            var result = query.ToList();
+            var dateCount = (from x in context.ViewQaDashMaintenances
+                             where x.YearMonth >= ymf && x.YearMonth <= ymt
+                             group x by new { x.YearMonth } into grp
+                             select new
+                             {
+                                 YearMonth = grp.Key.YearMonth,
+                                 Count = grp.Sum(q => q.Count),
+                             }).ToList();
+
+            var registerCount = (from x in context.ViewQaDashMaintenances
+                                 where x.YearMonth >= ymf && x.YearMonth <= ymt
+                                 group x by new { x.Register } into grp
+                                 select new
+                                 {
+                                     Register = grp.Key.Register,
+                                     Count = grp.Sum(q => q.Count),
+                                 }).ToList();
+
+            var routeCount = (from x in context.ViewQaDashMaintenances
+                              where x.YearMonth >= ymf && x.YearMonth <= ymt
+                              group x by new { x.route } into grp
+                              select new
+                              {
+                                  Route = grp.Key.route,
+                                  Count = grp.Sum(q => q.Count),
+                              }).ToList();
+
+
+            var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = result,
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
                 IsSuccess = true
             };
         }
 
 
         [HttpGet]
-        [Route("api/get/qa/maintenance/reg/report/{ymf}/{ymt}")]
-        public async Task<DataResponse> GetMaintenanceByRegister(int ymf, int ymt)
+        [Route("api/get/qa/voluntary/report/{ymf}/{ymt}")]
+        public async Task<DataResponse> GetVoluntaryReport(int ymf, int ymt)
         {
-            var query = from x in context.ViewQaDashMaintenances
-                        where x.YearMonth >= ymf && x.YearMonth <= ymt
-                        group x by new { x.Register } into grp
-                        select new
-                        {
-                            Register = grp.Key.Register,
-                            Count = grp.Sum(q => q.Count)
-                        };
-            var result = query.ToList();
+            var dateCount = (from x in context.ViewQaDashHazards
+                             where x.YearMonth >= ymf && x.YearMonth <= ymt
+                             group x by new { x.YearMonth } into grp
+                             select new
+                             {
+                                 YearMonth = grp.Key.YearMonth,
+                                 Count = grp.Sum(q => q.Count),
+                             }).ToList();
+
+
+
+            var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = result,
+                Data = new { DateCount = dateCount, TotalCount = totalCount },
+                IsSuccess = true
+            };
+        }
+
+        [HttpGet]
+        [Route("api/get/qa/cyber/report/{ymf}/{ymt}")]
+        public async Task<DataResponse> GetCyberReport(int ymf, int ymt)
+        {
+            var dateCount = (from x in context.ViewQADashCybers
+                             where x.YearMonth >= ymf && x.YearMonth <= ymt
+                             group x by new { x.YearMonth } into grp
+                             select new
+                             {
+                                 YearMonth = grp.Key.YearMonth,
+                                 Count = grp.Sum(q => q.Count),
+                             }).ToList();
+
+            var registerCount = (from x in context.ViewQADashCybers
+                                 where x.YearMonth >= ymf && x.YearMonth <= ymt
+                                 group x by new { x.Register } into grp
+                                 select new
+                                 {
+                                     Register = grp.Key.Register,
+                                     Count = grp.Sum(q => q.Count),
+                                 }).ToList();
+
+            var routeCount = (from x in context.ViewQADashCybers
+                              where x.YearMonth >= ymf && x.YearMonth <= ymt
+                              group x by new { x.route } into grp
+                              select new
+                              {
+                                  Route = grp.Key.route,
+                                  Count = grp.Sum(q => q.Count),
+                              }).ToList();
+
+
+            var totalCount = dateCount.Sum(q => q.Count);
+            return new DataResponse()
+            {
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
                 IsSuccess = true
             };
         }
@@ -2024,18 +2161,38 @@ namespace ApiQA.Controllers
         [Route("api/get/qa/dispatch/report/{ymf}/{ymt}")]
         public async Task<DataResponse> GetDispatchReport(int ymf, int ymt)
         {
-            var query = from x in context.ViewQADashDispatches
-                        where x.YearMonth >= ymf && x.YearMonth <= ymt
-                        group x by new { x.YearMonth } into grp
-                        select new
-                        {
-                            YearMonth = grp.Key.YearMonth,
-                            Count = grp.Sum(q => q.Count)
-                        };
-            var result = query.ToList();
+            var dateCount = (from x in context.ViewQADashDispatches
+                             where x.YearMonth >= ymf && x.YearMonth <= ymt
+                             group x by new { x.YearMonth } into grp
+                             select new
+                             {
+                                 YearMonth = grp.Key.YearMonth,
+                                 Count = grp.Sum(q => q.Count),
+                             }).ToList();
+
+            var registerCount = (from x in context.ViewQADashDispatches
+                                 where x.YearMonth >= ymf && x.YearMonth <= ymt
+                                 group x by new { x.Register } into grp
+                                 select new
+                                 {
+                                     Register = grp.Key.Register,
+                                     Count = grp.Sum(q => q.Count),
+                                 }).ToList();
+
+            var routeCount = (from x in context.ViewQADashDispatches
+                              where x.YearMonth >= ymf && x.YearMonth <= ymt
+                              group x by new { x.route } into grp
+                              select new
+                              {
+                                  Route = grp.Key.route,
+                                  Count = grp.Sum(q => q.Count),
+                              }).ToList();
+
+
+            var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = result,
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
                 IsSuccess = true
             };
         }
@@ -2054,6 +2211,8 @@ namespace ApiQA.Controllers
                                 TypeTitle = x.TypeTitle,
                                 Name = x.Name,
                                 ReceiverEmployeeId = x.ReceiverEmployeeId,
+                                JobGroup = x.JobGroup,
+                                Mobile = x.Mobile
                             };
 
                 var ds = query.Select(q => q.ReceiverEmployeeId).ToList();
@@ -2340,9 +2499,9 @@ namespace ApiQA.Controllers
                                 CommentId = comments.id,
                                 EmployeeId = comments.EmployeeId,
                                 EmployeeName = employeeComment.Select(q => q.Name).FirstOrDefault(),
-                                DateComment =  comments.DateComment,
+                                DateComment = comments.DateComment,
                                 Attachments = commentAttachmnets.ToList()
-            
+
                             };
 
                 var result = query.ToList();
@@ -2613,6 +2772,392 @@ namespace ApiQA.Controllers
 
         }
 
+
+        [HttpGet]
+        [Route("api/qa/form/date/{yearmonth}/{type}")]
+        public async Task<DataResponse> GetFormByDate(int yearmonth, int type)
+        {
+            try
+            {
+                int year = (int)Math.Truncate(yearmonth / Math.Pow(10, 2));
+                int month = yearmonth - (year * 100);
+                dynamic result = null;
+
+                switch (type)
+                {
+                    case 0:
+                        result = (from x in context.ViewQACSRs
+                                  where x.DateOccurrence.Value.Year == year && x.DateOccurrence.Value.Month == month && x.DateSign != null
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.EmployeeId,
+                                      x.DateOccurrence,
+                                  }).ToList();
+                        break;
+                    case 1:
+                        result = (from x in context.ViewQAGrounds
+                                  where x.DateOccurrence.Value.Year == year && x.DateOccurrence.Value.Month == month && x.DateSign != null
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.EmployeeId,
+                                      x.DateOccurrence,
+                                  }).ToList();
+                        break;
+                    case 2:
+                        result = (from x in context.ViewQAHazards
+                                  where x.DateOccurrence.Value.Year == year && x.DateOccurrence.Value.Month == month && x.DateSign != null
+                                  select new
+                                  {
+                                      //x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 3:
+                        result = (from x in context.ViewQAMaintenances
+                                  where x.DateOccurrence.Value.Year == year && x.DateOccurrence.Value.Month == month && x.DateSign != null
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 4:
+                        result = (from x in context.ViewQACaterings
+                                  where x.DateOccurrence.Value.Year == year && x.DateOccurrence.Value.Month == month && x.DateSign != null
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 5:
+                        result = (from x in context.ViewQASecurities
+                                  where x.DateOccurrence.Value.Year == year && x.DateOccurrence.Value.Month == month && x.DateSign != null
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 6:
+                        result = (from x in context.ViewQADispatches
+                                  where x.DateOccurrence.Value.Year == year && x.DateOccurrence.Value.Month == month && x.DateSign != null
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 7:
+                        result = (from x in context.ViewQACybers
+                                  where x.DateOccurrence.Value.Year == year && x.DateOccurrence.Value.Month == month && x.DateSign != null
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                }
+
+
+
+
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            }
+        }
+
+        [HttpGet]
+        [Route("api/qa/form/register/{yf}/{yt}/{mf}/{mt}/{register}/{type}")]
+        public async Task<DataResponse> GetFormByRegister(int yf, int mf, int yt, int mt, string register, int type)
+        {
+            try
+            {
+
+                dynamic result = null;
+
+                switch (type)
+                {
+                    case 0:
+                        result = (from x in context.ViewQACSRs
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Register == register && x.DateSign != null
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 1:
+                        result = (from x in context.ViewQAGrounds
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Register == register && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+
+                    case 3:
+                        result = (from x in context.ViewQAMaintenances
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Register == register && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 4:
+                        result = (from x in context.ViewQACaterings
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Register == register && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 5:
+                        result = (from x in context.ViewQASecurities
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Register == register && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 6:
+                        result = (from x in context.ViewQADispatches
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Register == register && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 7:
+                        result = (from x in context.ViewQACybers
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Register == register && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                }
+
+
+
+
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("api/qa/form/route/{yf}/{yt}/{mf}/{mt}/{route}/{type}")]
+        public async Task<DataResponse> GetFormByRoute(int yf, int mf, int yt, int mt, string route, int type)
+        {
+            try
+            {
+
+                dynamic result = null;
+
+                switch (type)
+                {
+                    case 0:
+                        result = (from x in context.ViewQACSRs
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Route == route && x.DateSign != null
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 1:
+                        result = (from x in context.ViewQAGrounds
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Route == route && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+
+                    case 3:
+                        result = (from x in context.ViewQAMaintenances
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Route == route && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 4:
+                        result = (from x in context.ViewQACaterings
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Route == route && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 5:
+                        result = (from x in context.ViewQASecurities
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Route == route && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 6:
+                        result = (from x in context.ViewQADispatches
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Route == route && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                    case 7:
+                        result = (from x in context.ViewQACybers
+                                  where (x.DateOccurrence.Value.Year >= yf && x.DateOccurrence.Value.Month >= mf) && (x.DateOccurrence.Value.Year <= yt && x.DateOccurrence.Value.Month <= mt) && x.Route == route && x.DateSign != null
+
+                                  select new
+                                  {
+                                      x.FlightNumber,
+                                      x.Id,
+                                      x.EmployeeName,
+                                      x.DateOccurrence,
+                                      x.EmployeeId,
+                                  }).ToList();
+                        break;
+                }
+
+
+
+
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            }
+        }
 
 
         public class DataResponse

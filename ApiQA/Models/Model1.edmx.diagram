@@ -7,10 +7,6 @@
       <Diagram DiagramId="4f1c6431bd014f5a8ca17126f48bfc90" Name="Diagram1" ZoomLevel="62">
         <EntityTypeShape EntityType="ppaModel.FlightInformation" Width="1.5" PointX="3" PointY="69.375" />
         <EntityTypeShape EntityType="ppaModel.AppLeg" Width="1.5" PointX="9.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQaDashGround" Width="1.5" PointX="17.75" PointY="3.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQaDashMaintenance" Width="1.5" PointX="17.75" PointY="6.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQaDashSecurity" Width="1.5" PointX="17.75" PointY="10.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQADashDispatch" Width="1.5" PointX="11.375" PointY="17.75" />
         <EntityTypeShape EntityType="ppaModel.QACSREvent" Width="1.5" PointX="16" PointY="33.375" />
         <EntityTypeShape EntityType="ppaModel.QAOption" Width="1.5" PointX="13.75" PointY="32.375" />
         <EntityTypeShape EntityType="ppaModel.QAResponsibilty" Width="1.5" PointX="0.75" PointY="5.75" />
@@ -18,10 +14,6 @@
         <EntityTypeShape EntityType="ppaModel.QAComment" Width="1.5" PointX="13.375" PointY="18.75" />
         <EntityTypeShape EntityType="ppaModel.QAAuthCard" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQACSREvent" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQADashCatering" Width="1.5" PointX="2.75" PointY="9.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQAResponsibility" Width="1.5" PointX="15.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQAGround" Width="1.5" PointX="2.75" PointY="12.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQaDashCSR" Width="1.5" PointX="11.375" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAComment" Width="1.5" PointX="5.375" PointY="16.75" />
         <EntityTypeShape EntityType="ppaModel.QAFollowingUp" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAFollowingUp" Width="1.5" PointX="5.375" PointY="20.75" />
@@ -71,7 +63,7 @@
         
 =======
 
-        <EntityTypeShape EntityType="ppaModel.QAGetEntites_Result" Width="1.5" PointX="0.884566029945652" PointY="0.44184665402483503" />
+        
         <EntityTypeShape EntityType="ppaModel.Airport" Width="1.5" PointX="8.8617354933459946" PointY="10.486073469038155" />
         <AssociationConnector Association="ppaModel.FK__QAGroundI__Airpo__16C440F5" />
         <AssociationConnector Association="ppaModel.FK__QAMOR__StationId__11FF8BD8" />
@@ -79,16 +71,27 @@
         <AssociationConnector Association="ppaModel.fk_flightinformation_toairport" />
         <EntityTypeShape EntityType="ppaModel.QAAttachmentComment" Width="1.5" PointX="2.2457505214241102" PointY="27.071750564068438" />
         <AssociationConnector Association="ppaModel.FK__QAAttachm__Comme__2429290B" />
-        <EntityTypeShape EntityType="ppaModel.ViewQACyber" Width="1.5" PointX="8.8090461626691035" PointY="27.363889483438754" />
-        <EntityTypeShape EntityType="ppaModel.ViewQACatering" Width="1.5" PointX="5.3860356925921682" PointY="11.611235191864537" />
-        <EntityTypeShape EntityType="ppaModel.ViewQACSR" Width="1.5" PointX="2.2029989595538932" PointY="27.723527042066458" />
-        <EntityTypeShape EntityType="ppaModel.ViewQADispatch" Width="1.5" PointX="9.07131467809496" PointY="10.130113010355323" />
-        <EntityTypeShape EntityType="ppaModel.ViewQAHazard" Width="1.5" PointX="8.3532236723011462" PointY="26.977363002941647" />
-        <EntityTypeShape EntityType="ppaModel.ViewQAMaintenance" Width="1.5" PointX="9.2641798617617148" PointY="13.098150944848616" />
-        <EntityTypeShape EntityType="ppaModel.ViewQASecurity" Width="1.5" PointX="1.3265060714103776" PointY="8.0625018962018657" />
         <EntityTypeShape EntityType="ppaModel.QAAttachment" Width="1.5" PointX="7.29832708244134" PointY="31.353529810604421" />
         <AssociationConnector Association="ppaModel.FK__QAAttachm__Attac__233504D2" />
-        <EntityTypeShape EntityType="ppaModel.ViewEmployee" Width="1.5" PointX="1.4272616828918745" PointY="17.886854448303048" />&gt;&gt;&gt;&gt;&gt;&gt;&gt; b323c917a437eefc0854a3ce2ec2be57c51c5a76
+        <EntityTypeShape EntityType="ppaModel.ViewEmployee" Width="1.5" PointX="1.4272616828918745" PointY="17.886854448303048" />
+        <EntityTypeShape EntityType="ppaModel.ViewQaDashCSR" Width="1.5" PointX="8.89253600914615" PointY="11.936053177312042" />
+        <EntityTypeShape EntityType="ppaModel.ViewQADashDispatch" Width="1.5" PointX="5.2891437529070036" PointY="11.63803628628982" />
+        <EntityTypeShape EntityType="ppaModel.ViewQaDashSecurity" Width="1.5" PointX="3.7307535539058754" PointY="20.382673630669096" />
+        <EntityTypeShape EntityType="ppaModel.ViewQADashCyber" Width="1.5" PointX="8.4383596295669481" PointY="31.185293778397746" />
+        <EntityTypeShape EntityType="ppaModel.ViewQaDashHazard" Width="1.5" PointX="10.721097383052621" PointY="19.220336565384798" />
+        <EntityTypeShape EntityType="ppaModel.ViewQaDashGround" Width="1.5" PointX="6.0715500740667583" PointY="11.559274455327202" />
+        <EntityTypeShape EntityType="ppaModel.ViewQaDashMaintenance" Width="1.5" PointX="10.908325664190727" PointY="30.792118518982139" />
+        <EntityTypeShape EntityType="ppaModel.ViewQADashCatering" Width="1.5" PointX="5.6098669625864677" PointY="15.963423080725328" />
+        <EntityTypeShape EntityType="ppaModel.QAGetEntites_Result" Width="1.5" PointX="9.3102426777175822" PointY="24.459216635888076" />
+        <EntityTypeShape EntityType="ppaModel.ViewQACatering" Width="1.5" PointX="8.5316345377506835" PointY="12.87333204451638" />
+        <EntityTypeShape EntityType="ppaModel.ViewQACSR" Width="1.5" PointX="4.87376917566814" PointY="14.468716941060832" />
+        <EntityTypeShape EntityType="ppaModel.ViewQACyber" Width="1.5" PointX="9.6235584363451032" PointY="11.648926770151093" />
+        <EntityTypeShape EntityType="ppaModel.ViewQADispatch" Width="1.5" PointX="1.5977127019305306" PointY="12.542289441703954" />
+        <EntityTypeShape EntityType="ppaModel.ViewQAGround" Width="1.5" PointX="0.081094387956473224" PointY="19.121190065108795" />
+        <EntityTypeShape EntityType="ppaModel.ViewQAHazard" Width="1.5" PointX="0.6055613908011287" PointY="29.240010245349264" />
+        <EntityTypeShape EntityType="ppaModel.ViewQAMaintenance" Width="1.5" PointX="10.638099761045584" PointY="20.39958249982427" />
+        <EntityTypeShape EntityType="ppaModel.ViewQASecurity" Width="1.5" PointX="6.5776024659059953" PointY="25.681820687689736" />
+        <EntityTypeShape EntityType="ppaModel.ViewQAResponsibility" Width="1.5" PointX="1.1505298135571787" PointY="24.870206412333161" />&gt;&gt;&gt;&gt;&gt;&gt;&gt; b323c917a437eefc0854a3ce2ec2be57c51c5a76
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

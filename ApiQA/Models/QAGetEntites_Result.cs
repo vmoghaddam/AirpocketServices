@@ -29,5 +29,8 @@ namespace ApiQA.Models
         public string EmployeeStatus { get; set; }
         public Nullable<System.DateTime> DateOccurrence { get; set; }
         public Nullable<int> EmployeeId { get; set; }
+        public string Register { get; set; }
+        public string Route { get; set; }
+        public Nullable<System.DateTime> FlightDate { get; set; }
     }
 }

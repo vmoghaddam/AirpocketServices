@@ -17,6 +17,9 @@ namespace ApiQA.Models
         public Nullable<int> Id { get; set; }
         public int FlightId { get; set; }
         public string FlightNumber { get; set; }
+        public string Register { get; set; }
+        public string Route { get; set; }
+        public Nullable<System.DateTime> FlightDate { get; set; }
         public Nullable<int> EmployeeId { get; set; }
         public Nullable<int> Type { get; set; }
         public Nullable<System.DateTime> DateReport { get; set; }

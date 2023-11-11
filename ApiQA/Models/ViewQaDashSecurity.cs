@@ -14,11 +14,15 @@ namespace ApiQA.Models
     
     public partial class ViewQaDashSecurity
     {
-        public Nullable<int> year { get; set; }
-        public Nullable<int> month { get; set; }
+        public int year { get; set; }
+        public int month { get; set; }
         public Nullable<int> YearMonth { get; set; }
-        public Nullable<int> ReasonId { get; set; }
+        public int ReasonId { get; set; }
         public string ReasonTitle { get; set; }
+        public string Register { get; set; }
+        public string FromAirportIATA { get; set; }
+        public string ToAirportIATA { get; set; }
+        public string route { get; set; }
         public Nullable<int> Count { get; set; }
     }
 }

@@ -24,7 +24,9 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string FlightNumber { get; set; }
         public int FlightId { get; set; }
-        public string FlightSegment { get; set; }
+        public string Route { get; set; }
+        public string Register { get; set; }
+        public Nullable<System.DateTime> FlightDate { get; set; }
         public string EventLocation { get; set; }
         public string TypeRegisteration { get; set; }
         public string WeatherCondition { get; set; }

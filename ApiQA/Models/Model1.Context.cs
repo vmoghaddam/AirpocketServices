@@ -29,20 +29,12 @@ namespace ApiQA.Models
     
         public virtual DbSet<FlightInformation> FlightInformations { get; set; }
         public virtual DbSet<AppLeg> AppLegs { get; set; }
-        public virtual DbSet<ViewQaDashGround> ViewQaDashGrounds { get; set; }
-        public virtual DbSet<ViewQaDashMaintenance> ViewQaDashMaintenances { get; set; }
-        public virtual DbSet<ViewQaDashSecurity> ViewQaDashSecurities { get; set; }
-        public virtual DbSet<ViewQADashDispatch> ViewQADashDispatches { get; set; }
         public virtual DbSet<QACSREvent> QACSREvents { get; set; }
         public virtual DbSet<QAOption> QAOptions { get; set; }
         public virtual DbSet<QAResponsibilty> QAResponsibilties { get; set; }
         public virtual DbSet<QAComment> QAComments { get; set; }
         public virtual DbSet<QAAuthCard> QAAuthCards { get; set; }
         public virtual DbSet<ViewQACSREvent> ViewQACSREvents { get; set; }
-        public virtual DbSet<ViewQADashCatering> ViewQADashCaterings { get; set; }
-        public virtual DbSet<ViewQAResponsibility> ViewQAResponsibilities { get; set; }
-        public virtual DbSet<ViewQAGround> ViewQAGrounds { get; set; }
-        public virtual DbSet<ViewQaDashCSR> ViewQaDashCSRs { get; set; }
         public virtual DbSet<ViewQAComment> ViewQAComments { get; set; }
         public virtual DbSet<QAFollowingUp> QAFollowingUps { get; set; }
         public virtual DbSet<ViewQAFollowingUp> ViewQAFollowingUps { get; set; }
@@ -63,18 +55,28 @@ namespace ApiQA.Models
         public virtual DbSet<ViewProfile> ViewProfiles { get; set; }
         public virtual DbSet<ViewProfileLog> ViewProfileLogs { get; set; }
         public virtual DbSet<QACyber> QACybers { get; set; }
-        public virtual DbSet<QAGetEntites_Result> QAGetEntites_Result { get; set; }
         public virtual DbSet<Airport> Airports { get; set; }
         public virtual DbSet<QAAttachmentComment> QAAttachmentComments { get; set; }
+        public virtual DbSet<QAAttachment> QAAttachments { get; set; }
+        public virtual DbSet<ViewEmployee> ViewEmployees { get; set; }
+        public virtual DbSet<ViewQaDashCSR> ViewQaDashCSRs { get; set; }
+        public virtual DbSet<ViewQADashDispatch> ViewQADashDispatches { get; set; }
+        public virtual DbSet<ViewQaDashSecurity> ViewQaDashSecurities { get; set; }
+        public virtual DbSet<ViewQADashCyber> ViewQADashCybers { get; set; }
+        public virtual DbSet<ViewQaDashHazard> ViewQaDashHazards { get; set; }
+        public virtual DbSet<ViewQaDashGround> ViewQaDashGrounds { get; set; }
+        public virtual DbSet<ViewQaDashMaintenance> ViewQaDashMaintenances { get; set; }
+        public virtual DbSet<ViewQADashCatering> ViewQADashCaterings { get; set; }
+        public virtual DbSet<QAGetEntites_Result> QAGetEntites_Result { get; set; }
         public virtual DbSet<ViewQACatering> ViewQACaterings { get; set; }
         public virtual DbSet<ViewQACSR> ViewQACSRs { get; set; }
         public virtual DbSet<ViewQACyber> ViewQACybers { get; set; }
         public virtual DbSet<ViewQADispatch> ViewQADispatches { get; set; }
+        public virtual DbSet<ViewQAGround> ViewQAGrounds { get; set; }
         public virtual DbSet<ViewQAHazard> ViewQAHazards { get; set; }
         public virtual DbSet<ViewQAMaintenance> ViewQAMaintenances { get; set; }
         public virtual DbSet<ViewQASecurity> ViewQASecurities { get; set; }
-        public virtual DbSet<QAAttachment> QAAttachments { get; set; }
-        public virtual DbSet<ViewEmployee> ViewEmployees { get; set; }
+        public virtual DbSet<ViewQAResponsibility> ViewQAResponsibilities { get; set; }
     
         public virtual ObjectResult<QAGroundGet_Result1> QAGroundGet(Nullable<int> employeeId, Nullable<int> flightId)
         {
@@ -87,48 +89,6 @@ namespace ApiQA.Models
                 new ObjectParameter("FlightId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QAGroundGet_Result1>("QAGroundGet", employeeIdParameter, flightIdParameter);
-        }
-    
-        public virtual ObjectResult<QAGetEntites_Result> QAGetEntities(Nullable<int> employeeId, Nullable<int> type, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
-        {
-            var employeeIdParameter = employeeId.HasValue ?
-                new ObjectParameter("EmployeeId", employeeId) :
-                new ObjectParameter("EmployeeId", typeof(int));
-    
-            var typeParameter = type.HasValue ?
-                new ObjectParameter("Type", type) :
-                new ObjectParameter("Type", typeof(int));
-    
-            var fromDateParameter = fromDate.HasValue ?
-                new ObjectParameter("FromDate", fromDate) :
-                new ObjectParameter("FromDate", typeof(System.DateTime));
-    
-            var toDateParameter = toDate.HasValue ?
-                new ObjectParameter("ToDate", toDate) :
-                new ObjectParameter("ToDate", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QAGetEntites_Result>("QAGetEntities", employeeIdParameter, typeParameter, fromDateParameter, toDateParameter);
-        }
-    
-        public virtual ObjectResult<QAGetEntites_Result> QAGetEntities(Nullable<int> employeeId, Nullable<int> type, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, MergeOption mergeOption)
-        {
-            var employeeIdParameter = employeeId.HasValue ?
-                new ObjectParameter("EmployeeId", employeeId) :
-                new ObjectParameter("EmployeeId", typeof(int));
-    
-            var typeParameter = type.HasValue ?
-                new ObjectParameter("Type", type) :
-                new ObjectParameter("Type", typeof(int));
-    
-            var fromDateParameter = fromDate.HasValue ?
-                new ObjectParameter("FromDate", fromDate) :
-                new ObjectParameter("FromDate", typeof(System.DateTime));
-    
-            var toDateParameter = toDate.HasValue ?
-                new ObjectParameter("ToDate", toDate) :
-                new ObjectParameter("ToDate", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QAGetEntites_Result>("QAGetEntities", mergeOption, employeeIdParameter, typeParameter, fromDateParameter, toDateParameter);
         }
     
         public virtual int QAByEmployeeCount(Nullable<int> type, Nullable<int> entityId)
@@ -220,6 +180,48 @@ namespace ApiQA.Models
                 new ObjectParameter("FlightId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QADispatchGet_Result9>("QADispatchGet", employeeIdParameter, flightIdParameter);
+        }
+    
+        public virtual ObjectResult<QAGetEntites_Result> QAGetEntities(Nullable<int> employeeId, Nullable<int> type, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var employeeIdParameter = employeeId.HasValue ?
+                new ObjectParameter("EmployeeId", employeeId) :
+                new ObjectParameter("EmployeeId", typeof(int));
+    
+            var typeParameter = type.HasValue ?
+                new ObjectParameter("Type", type) :
+                new ObjectParameter("Type", typeof(int));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QAGetEntites_Result>("QAGetEntities", employeeIdParameter, typeParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<QAGetEntites_Result> QAGetEntities(Nullable<int> employeeId, Nullable<int> type, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, MergeOption mergeOption)
+        {
+            var employeeIdParameter = employeeId.HasValue ?
+                new ObjectParameter("EmployeeId", employeeId) :
+                new ObjectParameter("EmployeeId", typeof(int));
+    
+            var typeParameter = type.HasValue ?
+                new ObjectParameter("Type", type) :
+                new ObjectParameter("Type", typeof(int));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QAGetEntites_Result>("QAGetEntities", mergeOption, employeeIdParameter, typeParameter, fromDateParameter, toDateParameter);
         }
     }
 }

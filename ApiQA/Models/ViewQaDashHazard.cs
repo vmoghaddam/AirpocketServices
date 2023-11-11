@@ -12,17 +12,11 @@ namespace ApiQA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ViewQaDashMaintenance
+    public partial class ViewQaDashHazard
     {
         public int year { get; set; }
         public int month { get; set; }
         public Nullable<int> YearMonth { get; set; }
-        public string Register { get; set; }
-        public string FromAirportIATA { get; set; }
-        public string ToAirportIATA { get; set; }
-        public string route { get; set; }
-        public int ComponentSpecificationId { get; set; }
-        public string ComponentSpecificationTitle { get; set; }
         public Nullable<int> Count { get; set; }
     }
 }

@@ -33,6 +33,7 @@ namespace ApiQA.Models
         public Nullable<int> DelayTakeoff { get; set; }
         public Nullable<int> FlightStatusID { get; set; }
         public int flightCancelled { get; set; }
+        public Nullable<System.DateTime> FlightDate { get; set; }
         public string DamageDetails { get; set; }
         public Nullable<int> EmployeesFatalityNr { get; set; }
         public Nullable<int> EmployeesNonFatalityNr { get; set; }
@@ -98,5 +99,6 @@ namespace ApiQA.Models
         public Nullable<int> StatusEmployeeId { get; set; }
         public string StatusEmployeeName { get; set; }
         public string Result { get; set; }
+        public string Route { get; set; }
     }
 }

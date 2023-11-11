@@ -14,12 +14,16 @@ namespace ApiQA.Models
     
     public partial class ViewQADashDispatch
     {
-        public Nullable<int> type { get; set; }
+        public int type { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
         public Nullable<int> YearMonth { get; set; }
-        public Nullable<int> CatagoryId { get; set; }
+        public int CatagoryId { get; set; }
         public string CategoryTitle { get; set; }
+        public string Register { get; set; }
+        public string FromAirportIATA { get; set; }
+        public string ToAirportIATA { get; set; }
+        public string route { get; set; }
         public Nullable<int> Count { get; set; }
     }
 }

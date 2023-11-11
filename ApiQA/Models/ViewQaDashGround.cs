@@ -14,11 +14,13 @@ namespace ApiQA.Models
     
     public partial class ViewQaDashGround
     {
-        public Nullable<int> year { get; set; }
-        public Nullable<int> month { get; set; }
+        public int year { get; set; }
+        public int month { get; set; }
         public Nullable<int> YearMonth { get; set; }
-        public Nullable<int> DamageById { get; set; }
-        public string DamageByTitle { get; set; }
+        public string Register { get; set; }
+        public string FromAirportIATA { get; set; }
+        public string ToAirportIATA { get; set; }
+        public string route { get; set; }
         public Nullable<int> Count { get; set; }
     }
 }

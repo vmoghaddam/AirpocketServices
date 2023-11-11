@@ -202,5 +202,6 @@ namespace ApiQA.Models
         public Nullable<int> RemainPhase3 { get; set; }
         public Nullable<int> RemainGround { get; set; }
         public Nullable<int> RemainFirstAidCockpit { get; set; }
+        public string UserId { get; set; }
     }
 }

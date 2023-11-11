@@ -17,8 +17,10 @@ namespace ApiQA.Models
         public Nullable<int> Id { get; set; }
         public int FlightId { get; set; }
         public string Register { get; set; }
+        public string Route { get; set; }
         public string AircraftType { get; set; }
         public string FlightNumber { get; set; }
+        public Nullable<System.DateTime> FlightDate { get; set; }
         public Nullable<int> DelayBlockOff { get; set; }
         public Nullable<int> DelayTakeoff { get; set; }
         public Nullable<int> FlightStatusID { get; set; }

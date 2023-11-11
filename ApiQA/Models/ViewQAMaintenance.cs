@@ -22,8 +22,9 @@ namespace ApiQA.Models
         public string Register { get; set; }
         public Nullable<int> ComponentSpecificationId { get; set; }
         public string ComponentSpecification { get; set; }
-        public string FlightRoute { get; set; }
+        public string Route { get; set; }
         public string FlightNumber { get; set; }
+        public Nullable<System.DateTime> FlightDate { get; set; }
         public string ATLNo { get; set; }
         public string TaskNo { get; set; }
         public string Reference { get; set; }

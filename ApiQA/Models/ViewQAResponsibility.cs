@@ -20,5 +20,7 @@ namespace ApiQA.Models
         public string Remarks { get; set; }
         public Nullable<bool> IsResponsible { get; set; }
         public string Name { get; set; }
+        public string JobGroup { get; set; }
+        public string Mobile { get; set; }
     }
 }

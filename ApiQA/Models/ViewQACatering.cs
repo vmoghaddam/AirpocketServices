@@ -19,6 +19,7 @@ namespace ApiQA.Models
         public string FlightNumber { get; set; }
         public string Register { get; set; }
         public string Route { get; set; }
+        public Nullable<System.DateTime> FlightDate { get; set; }
         public Nullable<System.DateTime> DateReport { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
         public Nullable<System.DateTime> DateOccurrence { get; set; }
