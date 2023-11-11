@@ -1941,13 +1941,16 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQaDashMaintenance' does not hav
             
             <PropertyRef Name="ComponentSpecificationId" />
             <PropertyRef Name="ComponentSpecificationTitle" />
+            <PropertyRef Name="Register" />
+            <PropertyRef Name="FromAirportIATA" />
+            <PropertyRef Name="ToAirportIATA" />
           </Key>
           <Property Name="year" Type="int" Nullable="false" />
           <Property Name="month" Type="int" Nullable="false" />
           <Property Name="YearMonth" Type="int" />
-          <Property Name="Register" Type="nvarchar" MaxLength="50" />
-          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" />
-          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="route" Type="nvarchar" MaxLength="511" />
           <Property Name="ComponentSpecificationId" Type="int" Nullable="false" />
           <Property Name="ComponentSpecificationTitle" Type="nvarchar" MaxLength="1000" Nullable="false" />
@@ -7315,13 +7318,16 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Key>
             <PropertyRef Name="ComponentSpecificationId" />
             <PropertyRef Name="ComponentSpecificationTitle" />
+            <PropertyRef Name="Register" />
+            <PropertyRef Name="FromAirportIATA" />
+            <PropertyRef Name="ToAirportIATA" />
           </Key>
           <Property Name="year" Type="Int32" Nullable="false" />
           <Property Name="month" Type="Int32" Nullable="false" />
           <Property Name="YearMonth" Type="Int32" />
-          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="route" Type="String" MaxLength="511" FixedLength="false" Unicode="true" />
           <Property Name="ComponentSpecificationId" Type="Int32" Nullable="false" />
           <Property Name="ComponentSpecificationTitle" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />

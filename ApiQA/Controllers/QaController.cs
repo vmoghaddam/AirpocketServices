@@ -1810,7 +1810,9 @@ namespace ApiQA.Controllers
         {
             try
             {
-                var ds = context.QAGetEntities((int?)dto.employeeId, (int?)dto.type, (DateTime?)dto.dt_from, (DateTime?)dto.dt_to).ToList();
+                var df = ((DateTime)dto.dt_from).Date;
+                var dt = ((DateTime)dto.dt_to).Date.AddDays(1);
+                var ds = context.QAGetEntities((int?)dto.employeeId, (int?)dto.type, df, dt).ToList();
                 var result = new
                 {
                     New = ds.Where(q => q.Category == "New"),
@@ -2057,8 +2059,11 @@ namespace ApiQA.Controllers
         [Route("api/get/qa/maintenance/report/{ymf}/{ymt}")]
         public async Task<DataResponse> GetMaintenance(int ymf, int ymt)
         {
-            var dateCount = (from x in context.ViewQaDashMaintenances
-                             where x.YearMonth >= ymf && x.YearMonth <= ymt
+            var records = (from x in context.ViewQaDashMaintenances
+                           where x.YearMonth >= ymf && x.YearMonth <= ymt
+                           select x).ToList();
+            var dateCount = (from x in records
+                            // where x.YearMonth >= ymf && x.YearMonth <= ymt
                              group x by new { x.YearMonth } into grp
                              select new
                              {
@@ -2066,8 +2071,8 @@ namespace ApiQA.Controllers
                                  Count = grp.Sum(q => q.Count),
                              }).ToList();
 
-            var registerCount = (from x in context.ViewQaDashMaintenances
-                                 where x.YearMonth >= ymf && x.YearMonth <= ymt
+            var registerCount = (from x in records
+                                     //where x.YearMonth >= ymf && x.YearMonth <= ymt
                                  group x by new { x.Register } into grp
                                  select new
                                  {
@@ -2075,8 +2080,8 @@ namespace ApiQA.Controllers
                                      Count = grp.Sum(q => q.Count),
                                  }).ToList();
 
-            var routeCount = (from x in context.ViewQaDashMaintenances
-                              where x.YearMonth >= ymf && x.YearMonth <= ymt
+            var routeCount = (from x in records
+                                  // where x.YearMonth >= ymf && x.YearMonth <= ymt
                               group x by new { x.route } into grp
                               select new
                               {
@@ -2084,11 +2089,29 @@ namespace ApiQA.Controllers
                                   Count = grp.Sum(q => q.Count),
                               }).ToList();
 
+            var components = (from x in records
+                              group x by new { x.ComponentSpecificationTitle,x.ComponentSpecificationId} into grp
+                              select new
+                              {
+                                  Component = string.IsNullOrEmpty(grp.Key.ComponentSpecificationTitle)?"Unknown": grp.Key.ComponentSpecificationTitle,
+                                  ComponentId=grp.Key.ComponentSpecificationId,
+                                  Count = grp.Sum(q => q.Count),
+                              }).ToList();
+            var components_regs = (from x in records
+                              group x by new { x.ComponentSpecificationTitle, x.ComponentSpecificationId,x.Register } into grp
+                              select new
+                              {
+                                  Component = string.IsNullOrEmpty(grp.Key.ComponentSpecificationTitle) ? "Unknown" : grp.Key.ComponentSpecificationTitle,
+                                  ComponentId = grp.Key.ComponentSpecificationId,
+                                  Register=grp.Key.Register,
+                                  Count = grp.Sum(q => q.Count),
+                              }).ToList();
+
 
             var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount,components,components_regs },
                 IsSuccess = true
             };
         }
