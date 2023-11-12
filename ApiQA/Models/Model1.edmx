@@ -4078,10 +4078,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             <End Role="QAOption" EntitySet="QAOptions" />
             <End Role="QACSREvent" EntitySet="QACSREvents" />
           </AssociationSet>
-          <FunctionImport Name="QAGroundGet" ReturnType="Collection(ppaModel.QAGroundGet_Result1)">
-            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
-            <Parameter Name="FlightId" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="QAComments" EntityType="ppaModel.QAComment" />
           <EntitySet Name="QAAuthCards" EntityType="ppaModel.QAAuthCard" />
           <EntitySet Name="ViewQACSREvents" EntityType="ppaModel.ViewQACSREvent" />
@@ -4198,30 +4194,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             <Parameter Name="Type" Mode="In" Type="Int32" />
             <Parameter Name="EntityId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="QACateringGet" ReturnType="Collection(ppaModel.QACateringGet_Result3)">
-            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
-            <Parameter Name="FlightId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="QACSRGet" ReturnType="Collection(ppaModel.QACSRGet_Result2)">
-            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
-            <Parameter Name="FlightId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="QACyberGet" ReturnType="Collection(ppaModel.QACyberGet_Result1)">
-            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
-            <Parameter Name="FlightId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="QAMaintenanceGet" ReturnType="Collection(ppaModel.QAMaintenanceGet_Result3)">
-            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
-            <Parameter Name="FlightId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="QASecurityGet" ReturnType="Collection(ppaModel.QASecurityGet_Result3)">
-            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
-            <Parameter Name="FlightId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="QADispatchGet" ReturnType="Collection(ppaModel.QADispatchGet_Result9)">
-            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
-            <Parameter Name="FlightId" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="QAAttachmentComments" EntityType="ppaModel.QAAttachmentComment" />
           <AssociationSet Name="FK__QAAttachm__Comme__2429290B" Association="ppaModel.FK__QAAttachm__Comme__2429290B">
             <End Role="QAComment" EntitySet="QAComments" />
@@ -4257,6 +4229,34 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="ViewQAResponsibilities" EntityType="ppaModel.ViewQAResponsibility" />
+          <FunctionImport Name="QACateringGet" ReturnType="Collection(ppaModel.QACateringGet_Result5)">
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
+            <Parameter Name="FlightId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QACSRGet" ReturnType="Collection(ppaModel.QACSRGet_Result4)">
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
+            <Parameter Name="FlightId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QACyberGet" ReturnType="Collection(ppaModel.QACyberGet_Result3)">
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
+            <Parameter Name="FlightId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QADispatchGet" ReturnType="Collection(ppaModel.QADispatchGet_Result11)">
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
+            <Parameter Name="FlightId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QAGroundGet" ReturnType="Collection(ppaModel.QAGroundGet_Result3)">
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
+            <Parameter Name="FlightId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QAMaintenanceGet" ReturnType="Collection(ppaModel.QAMaintenanceGet_Result5)">
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
+            <Parameter Name="FlightId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QASecurityGet" ReturnType="Collection(ppaModel.QASecurityGet_Result5)">
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
+            <Parameter Name="FlightId" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="FlightInformation">
           <Key>
@@ -7736,6 +7736,525 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Mobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="QACateringGet_Result4">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Route" Nullable="true" MaxLength="511" />
+          <Property Type="DateTime" Name="STDDayLocal" Nullable="true" />
+          <Property Type="DateTime" Name="DateReport" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="Equipment" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="InjuryDescription" Nullable="true" />
+          <Property Type="Boolean" Name="IsCausedInjury" Nullable="true" />
+          <Property Type="String" Name="Place" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="PreventiveActions" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ReasonDescription" Nullable="true" />
+          <Property Type="String" Name="SaftyEquipmentType" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="SaftyEquipmentUseage" Nullable="true" />
+          <Property Type="String" Name="Transporter" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Trolley" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TrolleyEquipmentTransporterDecs" Nullable="true" />
+          <Property Type="Boolean" Name="WorkBreak" Nullable="true" />
+          <Property Type="Int32" Name="WorkBreakPeriod" Nullable="true" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="ReasonId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="QACSRGet_Result3">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="BOX" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="RefNumber" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ReportFiledBy" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" Precision="23" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="String" Name="FlightSegment" Nullable="true" MaxLength="511" />
+          <Property Type="DateTime" Name="STDDayLocal" Nullable="true" />
+          <Property Type="String" Name="EventLocation" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TypeRegisteration" Nullable="true" MaxLength="101" />
+          <Property Type="String" Name="WeatherCondition" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="PaxTotal" Nullable="true" />
+          <Property Type="Int32" Name="PhaseId" Nullable="true" />
+          <Property Type="String" Name="PhaseTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="Recommendation" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="Describtion" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateCreation" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Recived" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FollowUp" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="EventTitleRemark" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AircraftType" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="String" Name="CSRPhaseTitle" Nullable="true" MaxLength="1000" />
+        </ComplexType>
+        <ComplexType Name="QACyberGet_Result2">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="DateTime" Name="STDDayLocal" Nullable="true" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AircraftType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DelayBlockOff" Nullable="true" />
+          <Property Type="Int32" Name="DelayTakeoff" Nullable="true" />
+          <Property Type="Int32" Name="FlightStatusID" Nullable="true" />
+          <Property Type="Int32" Name="flightCancelled" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="AccessDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AttackDescriptipn" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="BreachedDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ContactInfo" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" />
+          <Property Type="DateTime" Name="DateIncident" Nullable="true" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ImpactDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="IncidentDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="MethodDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Other" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="IncidentTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="IncidentId" Nullable="true" />
+          <Property Type="String" Name="MethodTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="MethodId" Nullable="true" />
+          <Property Type="String" Name="AccessTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="AccessId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="QADispatchGet_Result10">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="DateTime" Name="STDDayLocal" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Type" Nullable="true" />
+          <Property Type="DateTime" Name="DateReport" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="OPTimeReceived" Nullable="true" Precision="23" />
+          <Property Type="String" Name="OPReportedBy" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="OPLocation" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="CatagoryId" Nullable="true" />
+          <Property Type="Boolean" Name="OPCancelled" Nullable="true" />
+          <Property Type="DateTime" Name="OPCancelledTime" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="OPACChanged" Nullable="true" />
+          <Property Type="DateTime" Name="OPACChangedTime" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="OPCrewChanged" Nullable="true" />
+          <Property Type="DateTime" Name="OPCrewChangedTime" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="OPFlightPerformed" Nullable="true" />
+          <Property Type="DateTime" Name="OPFlightPerformedTime" Nullable="true" Precision="23" />
+          <Property Type="String" Name="OPSummary" Nullable="true" />
+          <Property Type="String" Name="DISLocation" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="DISTimeDuration" Nullable="true" />
+          <Property Type="String" Name="DISActionResult" Nullable="true" />
+          <Property Type="String" Name="Remarks" Nullable="true" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="QAGroundGet_Result2">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="DateTime" Name="STDDayLocal" Nullable="true" />
+          <Property Type="Int32" Name="AirportId" Nullable="true" />
+          <Property Type="String" Name="Airport" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AirportName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DamageById" Nullable="true" />
+          <Property Type="String" Name="DamageBy" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" Precision="23" />
+          <Property Type="String" Name="OperationPhase" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Area" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AircraftType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ScheduledGroundTime" Nullable="true" />
+          <Property Type="Int32" Name="DelayBlockOff" Nullable="true" />
+          <Property Type="Int32" Name="DelayTakeoff" Nullable="true" />
+          <Property Type="Int32" Name="FlightStatusID" Nullable="true" />
+          <Property Type="Int32" Name="flightCancelled" Nullable="false" />
+          <Property Type="String" Name="DamageDetails" Nullable="true" />
+          <Property Type="Int32" Name="EmployeesFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="EmployeesNonFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="PassengersFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="PassengersNonFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="OthersFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="OthersNonFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="VETyresCon" Nullable="true" />
+          <Property Type="Int32" Name="VEBrakesCon" Nullable="true" />
+          <Property Type="Int32" Name="VESteeringCon" Nullable="true" />
+          <Property Type="Int32" Name="VELightsCon" Nullable="true" />
+          <Property Type="Int32" Name="VEWipersCon" Nullable="true" />
+          <Property Type="Int32" Name="VEProtectionCon" Nullable="true" />
+          <Property Type="Int32" Name="VEWarningDevicesCon" Nullable="true" />
+          <Property Type="Int32" Name="VEStabilizersCon" Nullable="true" />
+          <Property Type="Int32" Name="VETowHitchCon" Nullable="true" />
+          <Property Type="Int32" Name="VEFieldofVisionCon" Nullable="true" />
+          <Property Type="Int32" Name="VEFromDrivingPoCon" Nullable="true" />
+          <Property Type="String" Name="VESerialFleetNr" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="VEType" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="VEOwner" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="VEArea" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="VEAge" Nullable="true" />
+          <Property Type="String" Name="VELastOverhaul" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="VERemarks" Nullable="true" />
+          <Property Type="String" Name="PersonnelName1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelJobTitle1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelCompany1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelStaffNr1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelLicense1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelName2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelJobTitle2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelCompany2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelStaffNr2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelLicense2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelName3" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelJobTitle3" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelCompany3" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelStaffNr3" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelLicense3" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="WXVisibilityM" Nullable="true" />
+          <Property Type="Int32" Name="WXVisibilityKM" Nullable="true" />
+          <Property Type="Int32" Name="WXWind" Nullable="true" />
+          <Property Type="Int32" Name="WXTemperature" Nullable="true" />
+          <Property Type="String" Name="WXWeatherTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="WXWeatherId" Nullable="true" />
+          <Property Type="String" Name="WXSurfaceTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="WXSurfaceId" Nullable="true" />
+          <Property Type="String" Name="WXLightingTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="WXLightingId" Nullable="true" />
+          <Property Type="String" Name="ContributoryFactors" Nullable="true" />
+          <Property Type="String" Name="SketchURL" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Event" Nullable="true" />
+          <Property Type="String" Name="CorrectiveActionTaken" Nullable="true" />
+          <Property Type="String" Name="OtherSuggestions" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="String" Name="DamageRemark" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="QAMaintenanceGet_Result4">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" Precision="23" />
+          <Property Type="String" Name="AircraftType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComponentSpecificationId" Nullable="true" />
+          <Property Type="String" Name="ComponentSpecification" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="FlightRoute" Nullable="true" MaxLength="511" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="STDDayLocal" Nullable="true" />
+          <Property Type="String" Name="ATLNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TaskNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="StationId" Nullable="true" />
+          <Property Type="String" Name="Station" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="EventDescription" Nullable="true" />
+          <Property Type="String" Name="ActionTakenDescription" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="CAALicenceNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="AuthorizationNo" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="SerialNumber" Nullable="true" />
+          <Property Type="Int32" Name="PartNumber" Nullable="true" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="DateTime" Name="STD" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="QASecurityGet_Result4">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Route" Nullable="true" MaxLength="511" />
+          <Property Type="DateTime" Name="STDDayLocal" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="InjuryDescription" Nullable="true" />
+          <Property Type="String" Name="Place" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="PreventiveActions" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ReasonDescription" Nullable="true" />
+          <Property Type="Boolean" Name="WorkBreak" Nullable="true" />
+          <Property Type="Int32" Name="WorkBreakPeriod" Nullable="true" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateReport" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Camera" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="CarryingBox" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Comail" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="EquipmentDescription" Nullable="true" />
+          <Property Type="String" Name="HandRocket" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="InjuryOccuring" Nullable="true" />
+          <Property Type="String" Name="Other" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="TelNumber" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="ReasonId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="QACateringGet_Result5">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Route" Nullable="true" MaxLength="511" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" />
+          <Property Type="DateTime" Name="DateReport" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="Equipment" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="InjuryDescription" Nullable="true" />
+          <Property Type="Boolean" Name="IsCausedInjury" Nullable="true" />
+          <Property Type="String" Name="Place" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="PreventiveActions" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ReasonDescription" Nullable="true" />
+          <Property Type="String" Name="SaftyEquipmentType" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="SaftyEquipmentUseage" Nullable="true" />
+          <Property Type="String" Name="Transporter" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Trolley" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TrolleyEquipmentTransporterDecs" Nullable="true" />
+          <Property Type="Boolean" Name="WorkBreak" Nullable="true" />
+          <Property Type="Int32" Name="WorkBreakPeriod" Nullable="true" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="ReasonId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="QACSRGet_Result4">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="BOX" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="RefNumber" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ReportFiledBy" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="String" Name="FlightSegment" Nullable="true" MaxLength="511" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" />
+          <Property Type="String" Name="EventLocation" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TypeRegisteration" Nullable="true" MaxLength="101" />
+          <Property Type="String" Name="WeatherCondition" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="PaxTotal" Nullable="true" />
+          <Property Type="Int32" Name="PhaseId" Nullable="true" />
+          <Property Type="String" Name="PhaseTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="Recommendation" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="Describtion" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateCreation" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Recived" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FollowUp" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="EventTitleRemark" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AircraftType" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="String" Name="CSRPhaseTitle" Nullable="true" MaxLength="1000" />
+        </ComplexType>
+        <ComplexType Name="QACyberGet_Result3">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AircraftType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DelayBlockOff" Nullable="true" />
+          <Property Type="Int32" Name="DelayTakeoff" Nullable="true" />
+          <Property Type="Int32" Name="FlightStatusID" Nullable="true" />
+          <Property Type="Int32" Name="flightCancelled" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="AccessDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AttackDescriptipn" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="BreachedDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ContactInfo" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="DateIncident" Nullable="true" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ImpactDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="IncidentDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="MethodDescription" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Other" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="IncidentTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="IncidentId" Nullable="true" />
+          <Property Type="String" Name="MethodTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="MethodId" Nullable="true" />
+          <Property Type="String" Name="AccessTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="AccessId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="QADispatchGet_Result11">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Type" Nullable="true" />
+          <Property Type="DateTime" Name="DateReport" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="OPTimeReceived" Nullable="true" Precision="23" />
+          <Property Type="String" Name="OPReportedBy" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="OPLocation" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="CatagoryId" Nullable="true" />
+          <Property Type="Boolean" Name="OPCancelled" Nullable="true" />
+          <Property Type="DateTime" Name="OPCancelledTime" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="OPACChanged" Nullable="true" />
+          <Property Type="DateTime" Name="OPACChangedTime" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="OPCrewChanged" Nullable="true" />
+          <Property Type="DateTime" Name="OPCrewChangedTime" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="OPFlightPerformed" Nullable="true" />
+          <Property Type="DateTime" Name="OPFlightPerformedTime" Nullable="true" Precision="23" />
+          <Property Type="String" Name="OPSummary" Nullable="true" />
+          <Property Type="String" Name="DISLocation" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="DISTimeDuration" Nullable="true" />
+          <Property Type="String" Name="DISActionResult" Nullable="true" />
+          <Property Type="String" Name="Remarks" Nullable="true" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="QAGroundGet_Result3">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" />
+          <Property Type="Int32" Name="AirportId" Nullable="true" />
+          <Property Type="String" Name="Airport" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AirportName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DamageById" Nullable="true" />
+          <Property Type="String" Name="DamageBy" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="OperationPhase" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Area" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AircraftType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ScheduledGroundTime" Nullable="true" />
+          <Property Type="Int32" Name="DelayBlockOff" Nullable="true" />
+          <Property Type="Int32" Name="DelayTakeoff" Nullable="true" />
+          <Property Type="Int32" Name="FlightStatusID" Nullable="true" />
+          <Property Type="Int32" Name="flightCancelled" Nullable="false" />
+          <Property Type="String" Name="DamageDetails" Nullable="true" />
+          <Property Type="Int32" Name="EmployeesFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="EmployeesNonFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="PassengersFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="PassengersNonFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="OthersFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="OthersNonFatalityNr" Nullable="true" />
+          <Property Type="Int32" Name="VETyresCon" Nullable="true" />
+          <Property Type="Int32" Name="VEBrakesCon" Nullable="true" />
+          <Property Type="Int32" Name="VESteeringCon" Nullable="true" />
+          <Property Type="Int32" Name="VELightsCon" Nullable="true" />
+          <Property Type="Int32" Name="VEWipersCon" Nullable="true" />
+          <Property Type="Int32" Name="VEProtectionCon" Nullable="true" />
+          <Property Type="Int32" Name="VEWarningDevicesCon" Nullable="true" />
+          <Property Type="Int32" Name="VEStabilizersCon" Nullable="true" />
+          <Property Type="Int32" Name="VETowHitchCon" Nullable="true" />
+          <Property Type="Int32" Name="VEFieldofVisionCon" Nullable="true" />
+          <Property Type="Int32" Name="VEFromDrivingPoCon" Nullable="true" />
+          <Property Type="String" Name="VESerialFleetNr" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="VEType" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="VEOwner" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="VEArea" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="VEAge" Nullable="true" />
+          <Property Type="String" Name="VELastOverhaul" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="VERemarks" Nullable="true" />
+          <Property Type="String" Name="PersonnelName1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelJobTitle1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelCompany1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelStaffNr1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelLicense1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelName2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelJobTitle2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelCompany2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelStaffNr2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelLicense2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelName3" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelJobTitle3" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelCompany3" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelStaffNr3" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PersonnelLicense3" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="WXVisibilityM" Nullable="true" />
+          <Property Type="Int32" Name="WXVisibilityKM" Nullable="true" />
+          <Property Type="Int32" Name="WXWind" Nullable="true" />
+          <Property Type="Int32" Name="WXTemperature" Nullable="true" />
+          <Property Type="String" Name="WXWeatherTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="WXWeatherId" Nullable="true" />
+          <Property Type="String" Name="WXSurfaceTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="WXSurfaceId" Nullable="true" />
+          <Property Type="String" Name="WXLightingTitle" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="WXLightingId" Nullable="true" />
+          <Property Type="String" Name="ContributoryFactors" Nullable="true" />
+          <Property Type="String" Name="SketchURL" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Event" Nullable="true" />
+          <Property Type="String" Name="CorrectiveActionTaken" Nullable="true" />
+          <Property Type="String" Name="OtherSuggestions" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="String" Name="DamageRemark" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="QAMaintenanceGet_Result5">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="String" Name="AircraftType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ComponentSpecificationId" Nullable="true" />
+          <Property Type="String" Name="ComponentSpecification" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="FlightRoute" Nullable="true" MaxLength="511" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" />
+          <Property Type="String" Name="ATLNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TaskNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="StationId" Nullable="true" />
+          <Property Type="String" Name="Station" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="EventDescription" Nullable="true" />
+          <Property Type="String" Name="ActionTakenDescription" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="CAALicenceNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="AuthorizationNo" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="SerialNumber" Nullable="true" />
+          <Property Type="Int32" Name="PartNumber" Nullable="true" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="DateTime" Name="STD" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="QASecurityGet_Result5">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="FlightId" Nullable="true" />
+          <Property Type="String" Name="FlightNumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Register" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Route" Nullable="true" MaxLength="511" />
+          <Property Type="DateTime" Name="DateOccurrence" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="InjuryDescription" Nullable="true" />
+          <Property Type="String" Name="Place" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="PreventiveActions" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ReasonDescription" Nullable="true" />
+          <Property Type="Boolean" Name="WorkBreak" Nullable="true" />
+          <Property Type="Int32" Name="WorkBreakPeriod" Nullable="true" />
+          <Property Type="DateTime" Name="DateSign" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateReport" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Camera" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="CarryingBox" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Comail" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="EquipmentDescription" Nullable="true" />
+          <Property Type="String" Name="HandRocket" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="InjuryOccuring" Nullable="true" />
+          <Property Type="String" Name="Other" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="TelNumber" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="1003" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="ReasonId" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8238,89 +8757,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="QAGroundGet" FunctionName="ppaModel.Store.QAGroundGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ppaModel.QAGroundGet_Result1">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="AirportId" ColumnName="AirportId" />
-                <ScalarProperty Name="Airport" ColumnName="Airport" />
-                <ScalarProperty Name="AirportName" ColumnName="AirportName" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="DamageById" ColumnName="DamageById" />
-                <ScalarProperty Name="DamageBy" ColumnName="DamageBy" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="OperationPhase" ColumnName="OperationPhase" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="Register" ColumnName="Register" />
-                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
-                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
-                <ScalarProperty Name="ScheduledGroundTime" ColumnName="ScheduledGroundTime" />
-                <ScalarProperty Name="DelayBlockOff" ColumnName="DelayBlockOff" />
-                <ScalarProperty Name="DelayTakeoff" ColumnName="DelayTakeoff" />
-                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
-                <ScalarProperty Name="flightCancelled" ColumnName="flightCancelled" />
-                <ScalarProperty Name="DamageDetails" ColumnName="DamageDetails" />
-                <ScalarProperty Name="EmployeesFatalityNr" ColumnName="EmployeesFatalityNr" />
-                <ScalarProperty Name="EmployeesNonFatalityNr" ColumnName="EmployeesNonFatalityNr" />
-                <ScalarProperty Name="PassengersFatalityNr" ColumnName="PassengersFatalityNr" />
-                <ScalarProperty Name="PassengersNonFatalityNr" ColumnName="PassengersNonFatalityNr" />
-                <ScalarProperty Name="OthersFatalityNr" ColumnName="OthersFatalityNr" />
-                <ScalarProperty Name="OthersNonFatalityNr" ColumnName="OthersNonFatalityNr" />
-                <ScalarProperty Name="VETyresCon" ColumnName="VETyresCon" />
-                <ScalarProperty Name="VEBrakesCon" ColumnName="VEBrakesCon" />
-                <ScalarProperty Name="VESteeringCon" ColumnName="VESteeringCon" />
-                <ScalarProperty Name="VELightsCon" ColumnName="VELightsCon" />
-                <ScalarProperty Name="VEWipersCon" ColumnName="VEWipersCon" />
-                <ScalarProperty Name="VEProtectionCon" ColumnName="VEProtectionCon" />
-                <ScalarProperty Name="VEWarningDevicesCon" ColumnName="VEWarningDevicesCon" />
-                <ScalarProperty Name="VEStabilizersCon" ColumnName="VEStabilizersCon" />
-                <ScalarProperty Name="VETowHitchCon" ColumnName="VETowHitchCon" />
-                <ScalarProperty Name="VEFieldofVisionCon" ColumnName="VEFieldofVisionCon" />
-                <ScalarProperty Name="VEFromDrivingPoCon" ColumnName="VEFromDrivingPoCon" />
-                <ScalarProperty Name="VESerialFleetNr" ColumnName="VESerialFleetNr" />
-                <ScalarProperty Name="VEType" ColumnName="VEType" />
-                <ScalarProperty Name="VEOwner" ColumnName="VEOwner" />
-                <ScalarProperty Name="VEArea" ColumnName="VEArea" />
-                <ScalarProperty Name="VEAge" ColumnName="VEAge" />
-                <ScalarProperty Name="VELastOverhaul" ColumnName="VELastOverhaul" />
-                <ScalarProperty Name="VERemarks" ColumnName="VERemarks" />
-                <ScalarProperty Name="PersonnelName1" ColumnName="PersonnelName1" />
-                <ScalarProperty Name="PersonnelJobTitle1" ColumnName="PersonnelJobTitle1" />
-                <ScalarProperty Name="PersonnelCompany1" ColumnName="PersonnelCompany1" />
-                <ScalarProperty Name="PersonnelStaffNr1" ColumnName="PersonnelStaffNr1" />
-                <ScalarProperty Name="PersonnelLicense1" ColumnName="PersonnelLicense1" />
-                <ScalarProperty Name="PersonnelName2" ColumnName="PersonnelName2" />
-                <ScalarProperty Name="PersonnelJobTitle2" ColumnName="PersonnelJobTitle2" />
-                <ScalarProperty Name="PersonnelCompany2" ColumnName="PersonnelCompany2" />
-                <ScalarProperty Name="PersonnelStaffNr2" ColumnName="PersonnelStaffNr2" />
-                <ScalarProperty Name="PersonnelLicense2" ColumnName="PersonnelLicense2" />
-                <ScalarProperty Name="PersonnelName3" ColumnName="PersonnelName3" />
-                <ScalarProperty Name="PersonnelJobTitle3" ColumnName="PersonnelJobTitle3" />
-                <ScalarProperty Name="PersonnelCompany3" ColumnName="PersonnelCompany3" />
-                <ScalarProperty Name="PersonnelStaffNr3" ColumnName="PersonnelStaffNr3" />
-                <ScalarProperty Name="PersonnelLicense3" ColumnName="PersonnelLicense3" />
-                <ScalarProperty Name="WXVisibilityM" ColumnName="WXVisibilityM" />
-                <ScalarProperty Name="WXVisibilityKM" ColumnName="WXVisibilityKM" />
-                <ScalarProperty Name="WXWind" ColumnName="WXWind" />
-                <ScalarProperty Name="WXTemperature" ColumnName="WXTemperature" />
-                <ScalarProperty Name="WXWeatherTitle" ColumnName="WXWeatherTitle" />
-                <ScalarProperty Name="WXWeatherId" ColumnName="WXWeatherId" />
-                <ScalarProperty Name="WXSurfaceTitle" ColumnName="WXSurfaceTitle" />
-                <ScalarProperty Name="WXSurfaceId" ColumnName="WXSurfaceId" />
-                <ScalarProperty Name="WXLightingTitle" ColumnName="WXLightingTitle" />
-                <ScalarProperty Name="WXLightingId" ColumnName="WXLightingId" />
-                <ScalarProperty Name="ContributoryFactors" ColumnName="ContributoryFactors" />
-                <ScalarProperty Name="SketchURL" ColumnName="SketchURL" />
-                <ScalarProperty Name="Event" ColumnName="Event" />
-                <ScalarProperty Name="CorrectiveActionTaken" ColumnName="CorrectiveActionTaken" />
-                <ScalarProperty Name="OtherSuggestions" ColumnName="OtherSuggestions" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="DamageRemark" ColumnName="DamageRemark" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="QAComments">
             <EntityTypeMapping TypeName="ppaModel.QAComment">
               <MappingFragment StoreEntitySet="QAComments">
@@ -9086,207 +9522,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="QAByEmployeeCount" FunctionName="ppaModel.Store.QAByEmployeeCount" />
-          <FunctionImportMapping FunctionImportName="QACateringGet" FunctionName="ppaModel.Store.QACateringGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ppaModel.QACateringGet_Result3">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
-                <ScalarProperty Name="Register" ColumnName="Register" />
-                <ScalarProperty Name="Route" ColumnName="Route" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="Equipment" ColumnName="Equipment" />
-                <ScalarProperty Name="InjuryDescription" ColumnName="InjuryDescription" />
-                <ScalarProperty Name="IsCausedInjury" ColumnName="IsCausedInjury" />
-                <ScalarProperty Name="Place" ColumnName="Place" />
-                <ScalarProperty Name="PreventiveActions" ColumnName="PreventiveActions" />
-                <ScalarProperty Name="ReasonDescription" ColumnName="ReasonDescription" />
-                <ScalarProperty Name="SaftyEquipmentType" ColumnName="SaftyEquipmentType" />
-                <ScalarProperty Name="SaftyEquipmentUseage" ColumnName="SaftyEquipmentUseage" />
-                <ScalarProperty Name="Transporter" ColumnName="Transporter" />
-                <ScalarProperty Name="Trolley" ColumnName="Trolley" />
-                <ScalarProperty Name="TrolleyEquipmentTransporterDecs" ColumnName="TrolleyEquipmentTransporterDecs" />
-                <ScalarProperty Name="WorkBreak" ColumnName="WorkBreak" />
-                <ScalarProperty Name="WorkBreakPeriod" ColumnName="WorkBreakPeriod" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="QACSRGet" FunctionName="ppaModel.Store.QACSRGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ppaModel.QACSRGet_Result2">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="BOX" ColumnName="BOX" />
-                <ScalarProperty Name="RefNumber" ColumnName="RefNumber" />
-                <ScalarProperty Name="ReportFiledBy" ColumnName="ReportFiledBy" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="FlightSegment" ColumnName="FlightSegment" />
-                <ScalarProperty Name="EventLocation" ColumnName="EventLocation" />
-                <ScalarProperty Name="TypeRegisteration" ColumnName="TypeRegisteration" />
-                <ScalarProperty Name="WeatherCondition" ColumnName="WeatherCondition" />
-                <ScalarProperty Name="PaxTotal" ColumnName="PaxTotal" />
-                <ScalarProperty Name="PhaseId" ColumnName="PhaseId" />
-                <ScalarProperty Name="PhaseTitle" ColumnName="PhaseTitle" />
-                <ScalarProperty Name="Recommendation" ColumnName="Recommendation" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="Describtion" ColumnName="Describtion" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
-                <ScalarProperty Name="Recived" ColumnName="Recived" />
-                <ScalarProperty Name="FollowUp" ColumnName="FollowUp" />
-                <ScalarProperty Name="EventTitleRemark" ColumnName="EventTitleRemark" />
-                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
-                <ScalarProperty Name="Register" ColumnName="Register" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="CSRPhaseTitle" ColumnName="CSRPhaseTitle" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="QACyberGet" FunctionName="ppaModel.Store.QACyberGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ppaModel.QACyberGet_Result1">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="Register" ColumnName="Register" />
-                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
-                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
-                <ScalarProperty Name="DelayBlockOff" ColumnName="DelayBlockOff" />
-                <ScalarProperty Name="DelayTakeoff" ColumnName="DelayTakeoff" />
-                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
-                <ScalarProperty Name="flightCancelled" ColumnName="flightCancelled" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="AccessDescription" ColumnName="AccessDescription" />
-                <ScalarProperty Name="AttackDescriptipn" ColumnName="AttackDescriptipn" />
-                <ScalarProperty Name="BreachedDescription" ColumnName="BreachedDescription" />
-                <ScalarProperty Name="ContactInfo" ColumnName="ContactInfo" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="DateIncident" ColumnName="DateIncident" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="ImpactDescription" ColumnName="ImpactDescription" />
-                <ScalarProperty Name="IncidentDescription" ColumnName="IncidentDescription" />
-                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-                <ScalarProperty Name="MethodDescription" ColumnName="MethodDescription" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Other" ColumnName="Other" />
-                <ScalarProperty Name="IncidentTitle" ColumnName="IncidentTitle" />
-                <ScalarProperty Name="IncidentId" ColumnName="IncidentId" />
-                <ScalarProperty Name="MethodTitle" ColumnName="MethodTitle" />
-                <ScalarProperty Name="MethodId" ColumnName="MethodId" />
-                <ScalarProperty Name="AccessTitle" ColumnName="AccessTitle" />
-                <ScalarProperty Name="AccessId" ColumnName="AccessId" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="QAMaintenanceGet" FunctionName="ppaModel.Store.QAMaintenanceGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ppaModel.QAMaintenanceGet_Result3">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
-                <ScalarProperty Name="Register" ColumnName="Register" />
-                <ScalarProperty Name="ComponentSpecificationId" ColumnName="ComponentSpecificationId" />
-                <ScalarProperty Name="ComponentSpecification" ColumnName="ComponentSpecification" />
-                <ScalarProperty Name="FlightRoute" ColumnName="FlightRoute" />
-                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
-                <ScalarProperty Name="ATLNo" ColumnName="ATLNo" />
-                <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="StationId" ColumnName="StationId" />
-                <ScalarProperty Name="Station" ColumnName="Station" />
-                <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
-                <ScalarProperty Name="ActionTakenDescription" ColumnName="ActionTakenDescription" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="CAALicenceNo" ColumnName="CAALicenceNo" />
-                <ScalarProperty Name="AuthorizationNo" ColumnName="AuthorizationNo" />
-                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
-                <ScalarProperty Name="PartNumber" ColumnName="PartNumber" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="STD" ColumnName="STD" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="QASecurityGet" FunctionName="ppaModel.Store.QASecurityGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ppaModel.QASecurityGet_Result3">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
-                <ScalarProperty Name="Register" ColumnName="Register" />
-                <ScalarProperty Name="Route" ColumnName="Route" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="InjuryDescription" ColumnName="InjuryDescription" />
-                <ScalarProperty Name="Place" ColumnName="Place" />
-                <ScalarProperty Name="PreventiveActions" ColumnName="PreventiveActions" />
-                <ScalarProperty Name="ReasonDescription" ColumnName="ReasonDescription" />
-                <ScalarProperty Name="WorkBreak" ColumnName="WorkBreak" />
-                <ScalarProperty Name="WorkBreakPeriod" ColumnName="WorkBreakPeriod" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="Camera" ColumnName="Camera" />
-                <ScalarProperty Name="CarryingBox" ColumnName="CarryingBox" />
-                <ScalarProperty Name="Comail" ColumnName="Comail" />
-                <ScalarProperty Name="EquipmentDescription" ColumnName="EquipmentDescription" />
-                <ScalarProperty Name="HandRocket" ColumnName="HandRocket" />
-                <ScalarProperty Name="InjuryOccuring" ColumnName="InjuryOccuring" />
-                <ScalarProperty Name="Other" ColumnName="Other" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="QADispatchGet" FunctionName="ppaModel.Store.QADispatchGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ppaModel.QADispatchGet_Result9">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
-                <ScalarProperty Name="OPTimeReceived" ColumnName="OPTimeReceived" />
-                <ScalarProperty Name="OPReportedBy" ColumnName="OPReportedBy" />
-                <ScalarProperty Name="OPLocation" ColumnName="OPLocation" />
-                <ScalarProperty Name="CatagoryId" ColumnName="CatagoryId" />
-                <ScalarProperty Name="OPCancelled" ColumnName="OPCancelled" />
-                <ScalarProperty Name="OPCancelledTime" ColumnName="OPCancelledTime" />
-                <ScalarProperty Name="OPACChanged" ColumnName="OPACChanged" />
-                <ScalarProperty Name="OPACChangedTime" ColumnName="OPACChangedTime" />
-                <ScalarProperty Name="OPCrewChanged" ColumnName="OPCrewChanged" />
-                <ScalarProperty Name="OPCrewChangedTime" ColumnName="OPCrewChangedTime" />
-                <ScalarProperty Name="OPFlightPerformed" ColumnName="OPFlightPerformed" />
-                <ScalarProperty Name="OPFlightPerformedTime" ColumnName="OPFlightPerformedTime" />
-                <ScalarProperty Name="OPSummary" ColumnName="OPSummary" />
-                <ScalarProperty Name="DISLocation" ColumnName="DISLocation" />
-                <ScalarProperty Name="DISTimeDuration" ColumnName="DISTimeDuration" />
-                <ScalarProperty Name="DISActionResult" ColumnName="DISActionResult" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="QAAttachmentComments">
             <EntityTypeMapping TypeName="ppaModel.QAAttachmentComment">
               <MappingFragment StoreEntitySet="QAAttachmentComment">
@@ -10153,6 +10388,290 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="QACateringGet" FunctionName="ppaModel.Store.QACateringGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ppaModel.QACateringGet_Result5">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Equipment" ColumnName="Equipment" />
+                <ScalarProperty Name="InjuryDescription" ColumnName="InjuryDescription" />
+                <ScalarProperty Name="IsCausedInjury" ColumnName="IsCausedInjury" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="PreventiveActions" ColumnName="PreventiveActions" />
+                <ScalarProperty Name="ReasonDescription" ColumnName="ReasonDescription" />
+                <ScalarProperty Name="SaftyEquipmentType" ColumnName="SaftyEquipmentType" />
+                <ScalarProperty Name="SaftyEquipmentUseage" ColumnName="SaftyEquipmentUseage" />
+                <ScalarProperty Name="Transporter" ColumnName="Transporter" />
+                <ScalarProperty Name="Trolley" ColumnName="Trolley" />
+                <ScalarProperty Name="TrolleyEquipmentTransporterDecs" ColumnName="TrolleyEquipmentTransporterDecs" />
+                <ScalarProperty Name="WorkBreak" ColumnName="WorkBreak" />
+                <ScalarProperty Name="WorkBreakPeriod" ColumnName="WorkBreakPeriod" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="QACSRGet" FunctionName="ppaModel.Store.QACSRGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ppaModel.QACSRGet_Result4">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BOX" ColumnName="BOX" />
+                <ScalarProperty Name="RefNumber" ColumnName="RefNumber" />
+                <ScalarProperty Name="ReportFiledBy" ColumnName="ReportFiledBy" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="FlightSegment" ColumnName="FlightSegment" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="EventLocation" ColumnName="EventLocation" />
+                <ScalarProperty Name="TypeRegisteration" ColumnName="TypeRegisteration" />
+                <ScalarProperty Name="WeatherCondition" ColumnName="WeatherCondition" />
+                <ScalarProperty Name="PaxTotal" ColumnName="PaxTotal" />
+                <ScalarProperty Name="PhaseId" ColumnName="PhaseId" />
+                <ScalarProperty Name="PhaseTitle" ColumnName="PhaseTitle" />
+                <ScalarProperty Name="Recommendation" ColumnName="Recommendation" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Describtion" ColumnName="Describtion" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="Recived" ColumnName="Recived" />
+                <ScalarProperty Name="FollowUp" ColumnName="FollowUp" />
+                <ScalarProperty Name="EventTitleRemark" ColumnName="EventTitleRemark" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="CSRPhaseTitle" ColumnName="CSRPhaseTitle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="QACyberGet" FunctionName="ppaModel.Store.QACyberGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ppaModel.QACyberGet_Result3">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="DelayBlockOff" ColumnName="DelayBlockOff" />
+                <ScalarProperty Name="DelayTakeoff" ColumnName="DelayTakeoff" />
+                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
+                <ScalarProperty Name="flightCancelled" ColumnName="flightCancelled" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="AccessDescription" ColumnName="AccessDescription" />
+                <ScalarProperty Name="AttackDescriptipn" ColumnName="AttackDescriptipn" />
+                <ScalarProperty Name="BreachedDescription" ColumnName="BreachedDescription" />
+                <ScalarProperty Name="ContactInfo" ColumnName="ContactInfo" />
+                <ScalarProperty Name="DateIncident" ColumnName="DateIncident" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="ImpactDescription" ColumnName="ImpactDescription" />
+                <ScalarProperty Name="IncidentDescription" ColumnName="IncidentDescription" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="MethodDescription" ColumnName="MethodDescription" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="IncidentTitle" ColumnName="IncidentTitle" />
+                <ScalarProperty Name="IncidentId" ColumnName="IncidentId" />
+                <ScalarProperty Name="MethodTitle" ColumnName="MethodTitle" />
+                <ScalarProperty Name="MethodId" ColumnName="MethodId" />
+                <ScalarProperty Name="AccessTitle" ColumnName="AccessTitle" />
+                <ScalarProperty Name="AccessId" ColumnName="AccessId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="QADispatchGet" FunctionName="ppaModel.Store.QADispatchGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ppaModel.QADispatchGet_Result11">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="OPTimeReceived" ColumnName="OPTimeReceived" />
+                <ScalarProperty Name="OPReportedBy" ColumnName="OPReportedBy" />
+                <ScalarProperty Name="OPLocation" ColumnName="OPLocation" />
+                <ScalarProperty Name="CatagoryId" ColumnName="CatagoryId" />
+                <ScalarProperty Name="OPCancelled" ColumnName="OPCancelled" />
+                <ScalarProperty Name="OPCancelledTime" ColumnName="OPCancelledTime" />
+                <ScalarProperty Name="OPACChanged" ColumnName="OPACChanged" />
+                <ScalarProperty Name="OPACChangedTime" ColumnName="OPACChangedTime" />
+                <ScalarProperty Name="OPCrewChanged" ColumnName="OPCrewChanged" />
+                <ScalarProperty Name="OPCrewChangedTime" ColumnName="OPCrewChangedTime" />
+                <ScalarProperty Name="OPFlightPerformed" ColumnName="OPFlightPerformed" />
+                <ScalarProperty Name="OPFlightPerformedTime" ColumnName="OPFlightPerformedTime" />
+                <ScalarProperty Name="OPSummary" ColumnName="OPSummary" />
+                <ScalarProperty Name="DISLocation" ColumnName="DISLocation" />
+                <ScalarProperty Name="DISTimeDuration" ColumnName="DISTimeDuration" />
+                <ScalarProperty Name="DISActionResult" ColumnName="DISActionResult" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="QAGroundGet" FunctionName="ppaModel.Store.QAGroundGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ppaModel.QAGroundGet_Result3">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="AirportId" ColumnName="AirportId" />
+                <ScalarProperty Name="Airport" ColumnName="Airport" />
+                <ScalarProperty Name="AirportName" ColumnName="AirportName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="DamageById" ColumnName="DamageById" />
+                <ScalarProperty Name="DamageBy" ColumnName="DamageBy" />
+                <ScalarProperty Name="OperationPhase" ColumnName="OperationPhase" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="ScheduledGroundTime" ColumnName="ScheduledGroundTime" />
+                <ScalarProperty Name="DelayBlockOff" ColumnName="DelayBlockOff" />
+                <ScalarProperty Name="DelayTakeoff" ColumnName="DelayTakeoff" />
+                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
+                <ScalarProperty Name="flightCancelled" ColumnName="flightCancelled" />
+                <ScalarProperty Name="DamageDetails" ColumnName="DamageDetails" />
+                <ScalarProperty Name="EmployeesFatalityNr" ColumnName="EmployeesFatalityNr" />
+                <ScalarProperty Name="EmployeesNonFatalityNr" ColumnName="EmployeesNonFatalityNr" />
+                <ScalarProperty Name="PassengersFatalityNr" ColumnName="PassengersFatalityNr" />
+                <ScalarProperty Name="PassengersNonFatalityNr" ColumnName="PassengersNonFatalityNr" />
+                <ScalarProperty Name="OthersFatalityNr" ColumnName="OthersFatalityNr" />
+                <ScalarProperty Name="OthersNonFatalityNr" ColumnName="OthersNonFatalityNr" />
+                <ScalarProperty Name="VETyresCon" ColumnName="VETyresCon" />
+                <ScalarProperty Name="VEBrakesCon" ColumnName="VEBrakesCon" />
+                <ScalarProperty Name="VESteeringCon" ColumnName="VESteeringCon" />
+                <ScalarProperty Name="VELightsCon" ColumnName="VELightsCon" />
+                <ScalarProperty Name="VEWipersCon" ColumnName="VEWipersCon" />
+                <ScalarProperty Name="VEProtectionCon" ColumnName="VEProtectionCon" />
+                <ScalarProperty Name="VEWarningDevicesCon" ColumnName="VEWarningDevicesCon" />
+                <ScalarProperty Name="VEStabilizersCon" ColumnName="VEStabilizersCon" />
+                <ScalarProperty Name="VETowHitchCon" ColumnName="VETowHitchCon" />
+                <ScalarProperty Name="VEFieldofVisionCon" ColumnName="VEFieldofVisionCon" />
+                <ScalarProperty Name="VEFromDrivingPoCon" ColumnName="VEFromDrivingPoCon" />
+                <ScalarProperty Name="VESerialFleetNr" ColumnName="VESerialFleetNr" />
+                <ScalarProperty Name="VEType" ColumnName="VEType" />
+                <ScalarProperty Name="VEOwner" ColumnName="VEOwner" />
+                <ScalarProperty Name="VEArea" ColumnName="VEArea" />
+                <ScalarProperty Name="VEAge" ColumnName="VEAge" />
+                <ScalarProperty Name="VELastOverhaul" ColumnName="VELastOverhaul" />
+                <ScalarProperty Name="VERemarks" ColumnName="VERemarks" />
+                <ScalarProperty Name="PersonnelName1" ColumnName="PersonnelName1" />
+                <ScalarProperty Name="PersonnelJobTitle1" ColumnName="PersonnelJobTitle1" />
+                <ScalarProperty Name="PersonnelCompany1" ColumnName="PersonnelCompany1" />
+                <ScalarProperty Name="PersonnelStaffNr1" ColumnName="PersonnelStaffNr1" />
+                <ScalarProperty Name="PersonnelLicense1" ColumnName="PersonnelLicense1" />
+                <ScalarProperty Name="PersonnelName2" ColumnName="PersonnelName2" />
+                <ScalarProperty Name="PersonnelJobTitle2" ColumnName="PersonnelJobTitle2" />
+                <ScalarProperty Name="PersonnelCompany2" ColumnName="PersonnelCompany2" />
+                <ScalarProperty Name="PersonnelStaffNr2" ColumnName="PersonnelStaffNr2" />
+                <ScalarProperty Name="PersonnelLicense2" ColumnName="PersonnelLicense2" />
+                <ScalarProperty Name="PersonnelName3" ColumnName="PersonnelName3" />
+                <ScalarProperty Name="PersonnelJobTitle3" ColumnName="PersonnelJobTitle3" />
+                <ScalarProperty Name="PersonnelCompany3" ColumnName="PersonnelCompany3" />
+                <ScalarProperty Name="PersonnelStaffNr3" ColumnName="PersonnelStaffNr3" />
+                <ScalarProperty Name="PersonnelLicense3" ColumnName="PersonnelLicense3" />
+                <ScalarProperty Name="WXVisibilityM" ColumnName="WXVisibilityM" />
+                <ScalarProperty Name="WXVisibilityKM" ColumnName="WXVisibilityKM" />
+                <ScalarProperty Name="WXWind" ColumnName="WXWind" />
+                <ScalarProperty Name="WXTemperature" ColumnName="WXTemperature" />
+                <ScalarProperty Name="WXWeatherTitle" ColumnName="WXWeatherTitle" />
+                <ScalarProperty Name="WXWeatherId" ColumnName="WXWeatherId" />
+                <ScalarProperty Name="WXSurfaceTitle" ColumnName="WXSurfaceTitle" />
+                <ScalarProperty Name="WXSurfaceId" ColumnName="WXSurfaceId" />
+                <ScalarProperty Name="WXLightingTitle" ColumnName="WXLightingTitle" />
+                <ScalarProperty Name="WXLightingId" ColumnName="WXLightingId" />
+                <ScalarProperty Name="ContributoryFactors" ColumnName="ContributoryFactors" />
+                <ScalarProperty Name="SketchURL" ColumnName="SketchURL" />
+                <ScalarProperty Name="Event" ColumnName="Event" />
+                <ScalarProperty Name="CorrectiveActionTaken" ColumnName="CorrectiveActionTaken" />
+                <ScalarProperty Name="OtherSuggestions" ColumnName="OtherSuggestions" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="DamageRemark" ColumnName="DamageRemark" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="QAMaintenanceGet" FunctionName="ppaModel.Store.QAMaintenanceGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ppaModel.QAMaintenanceGet_Result5">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="ComponentSpecificationId" ColumnName="ComponentSpecificationId" />
+                <ScalarProperty Name="ComponentSpecification" ColumnName="ComponentSpecification" />
+                <ScalarProperty Name="FlightRoute" ColumnName="FlightRoute" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="ATLNo" ColumnName="ATLNo" />
+                <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="StationId" ColumnName="StationId" />
+                <ScalarProperty Name="Station" ColumnName="Station" />
+                <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
+                <ScalarProperty Name="ActionTakenDescription" ColumnName="ActionTakenDescription" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="CAALicenceNo" ColumnName="CAALicenceNo" />
+                <ScalarProperty Name="AuthorizationNo" ColumnName="AuthorizationNo" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="PartNumber" ColumnName="PartNumber" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="QASecurityGet" FunctionName="ppaModel.Store.QASecurityGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ppaModel.QASecurityGet_Result5">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="DateOccurrence" ColumnName="DateOccurrence" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="InjuryDescription" ColumnName="InjuryDescription" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="PreventiveActions" ColumnName="PreventiveActions" />
+                <ScalarProperty Name="ReasonDescription" ColumnName="ReasonDescription" />
+                <ScalarProperty Name="WorkBreak" ColumnName="WorkBreak" />
+                <ScalarProperty Name="WorkBreakPeriod" ColumnName="WorkBreakPeriod" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="Camera" ColumnName="Camera" />
+                <ScalarProperty Name="CarryingBox" ColumnName="CarryingBox" />
+                <ScalarProperty Name="Comail" ColumnName="Comail" />
+                <ScalarProperty Name="EquipmentDescription" ColumnName="EquipmentDescription" />
+                <ScalarProperty Name="HandRocket" ColumnName="HandRocket" />
+                <ScalarProperty Name="InjuryOccuring" ColumnName="InjuryOccuring" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

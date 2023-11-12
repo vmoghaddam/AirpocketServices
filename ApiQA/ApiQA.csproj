@@ -240,6 +240,12 @@
     <Compile Include="Models\QACateringGet_Result3.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\QACateringGet_Result4.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QACateringGet_Result5.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QAComment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -258,6 +264,12 @@
     <Compile Include="Models\QACSRGet_Result2.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\QACSRGet_Result3.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QACSRGet_Result4.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QACyber.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -265,6 +277,12 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\QACyberGet_Result1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QACyberGet_Result2.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QACyberGet_Result3.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\QADispatch.cs">
@@ -277,6 +295,12 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\QADispatchGet_Result1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QADispatchGet_Result10.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QADispatchGet_Result11.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\QADispatchGet_Result2.cs">
@@ -315,6 +339,12 @@
     <Compile Include="Models\QAGroundGet_Result1.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\QAGroundGet_Result2.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QAGroundGet_Result3.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QAGroundIAD.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -336,6 +366,12 @@
     <Compile Include="Models\QAMaintenanceGet_Result3.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\QAMaintenanceGet_Result4.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QAMaintenanceGet_Result5.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QAOption.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -355,6 +391,12 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\QASecurityGet_Result3.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QASecurityGet_Result4.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QASecurityGet_Result5.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewDutyLog.cs">
