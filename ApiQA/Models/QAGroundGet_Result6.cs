@@ -10,24 +10,33 @@
 namespace ApiQA.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class QAGroundIAD
+    public partial class QAGroundGet_Result6
     {
-        public int Id { get; set; }
-        public int FlightId { get; set; }
+        public Nullable<int> Id { get; set; }
+        public Nullable<int> FlightId { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public Nullable<int> AirportId { get; set; }
+        public string Airport { get; set; }
+        public string AirportName { get; set; }
         public string Title { get; set; }
         public Nullable<int> DamageById { get; set; }
-        public Nullable<System.DateTime> DateOccurrence { get; set; }
+        public string DamageBy { get; set; }
         public string OperationPhase { get; set; }
         public string Area { get; set; }
+        public string Register { get; set; }
+        public string AircraftType { get; set; }
+        public string FlightNumber { get; set; }
+        public Nullable<int> DelayBlockOff { get; set; }
+        public Nullable<int> DelayTakeoff { get; set; }
+        public Nullable<int> FlightStatusID { get; set; }
+        public int flightCancelled { get; set; }
         public string DamageDetails { get; set; }
         public Nullable<int> EmployeesFatalityNr { get; set; }
-        public Nullable<int> PassengersFatalityNr { get; set; }
-        public Nullable<int> OthersFatalityNr { get; set; }
         public Nullable<int> EmployeesNonFatalityNr { get; set; }
+        public Nullable<int> PassengersFatalityNr { get; set; }
         public Nullable<int> PassengersNonFatalityNr { get; set; }
+        public Nullable<int> OthersFatalityNr { get; set; }
         public Nullable<int> OthersNonFatalityNr { get; set; }
         public Nullable<int> VETyresCon { get; set; }
         public Nullable<int> VEBrakesCon { get; set; }
@@ -48,49 +57,39 @@ namespace ApiQA.Models
         public string VELastOverhaul { get; set; }
         public string VERemarks { get; set; }
         public string PersonnelName1 { get; set; }
-        public string PersonnelName2 { get; set; }
-        public string PersonnelName3 { get; set; }
         public string PersonnelJobTitle1 { get; set; }
-        public string PersonnelJobTitle2 { get; set; }
-        public string PersonnelJobTitle3 { get; set; }
         public string PersonnelCompany1 { get; set; }
-        public string PersonnelCompany2 { get; set; }
-        public string PersonnelCompany3 { get; set; }
         public string PersonnelStaffNr1 { get; set; }
-        public string PersonnelStaffNr2 { get; set; }
-        public string PersonnelStaffNr3 { get; set; }
         public string PersonnelLicense1 { get; set; }
+        public string PersonnelName2 { get; set; }
+        public string PersonnelJobTitle2 { get; set; }
+        public string PersonnelCompany2 { get; set; }
+        public string PersonnelStaffNr2 { get; set; }
         public string PersonnelLicense2 { get; set; }
+        public string PersonnelName3 { get; set; }
+        public string PersonnelJobTitle3 { get; set; }
+        public string PersonnelCompany3 { get; set; }
+        public string PersonnelStaffNr3 { get; set; }
         public string PersonnelLicense3 { get; set; }
         public Nullable<int> WXVisibilityM { get; set; }
+        public Nullable<int> WXVisibilityKM { get; set; }
         public Nullable<int> WXWind { get; set; }
         public Nullable<int> WXTemperature { get; set; }
+        public string WXWeatherTitle { get; set; }
         public Nullable<int> WXWeatherId { get; set; }
+        public string WXSurfaceTitle { get; set; }
         public Nullable<int> WXSurfaceId { get; set; }
+        public string WXLightingTitle { get; set; }
         public Nullable<int> WXLightingId { get; set; }
         public string ContributoryFactors { get; set; }
         public string SketchURL { get; set; }
         public string Event { get; set; }
         public string CorrectiveActionTaken { get; set; }
         public string OtherSuggestions { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
-        public string Airport { get; set; }
-        public Nullable<int> WXVisibilityKM { get; set; }
         public string DamageRemark { get; set; }
-        public Nullable<int> Status { get; set; }
-        public Nullable<System.DateTime> DateStatus { get; set; }
-        public Nullable<int> StatusEmployeeId { get; set; }
-        public string Result { get; set; }
-        public Nullable<System.DateTime> DateCreation { get; set; }
         public Nullable<System.TimeSpan> FlightDelay { get; set; }
         public Nullable<System.TimeSpan> ScheduledGroundTime { get; set; }
-    
-        public virtual Airport Airport1 { get; set; }
-        public virtual FlightInformation FlightInformation { get; set; }
-        public virtual QAOption QAOption { get; set; }
-        public virtual QAOption QAOption1 { get; set; }
-        public virtual QAOption QAOption2 { get; set; }
-        public virtual QAOption QAOption3 { get; set; }
     }
 }

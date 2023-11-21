@@ -28,7 +28,6 @@ namespace ApiQA.Models
         public string Register { get; set; }
         public string AircraftType { get; set; }
         public string FlightNumber { get; set; }
-        public Nullable<int> ScheduledGroundTime { get; set; }
         public Nullable<int> DelayBlockOff { get; set; }
         public Nullable<int> DelayTakeoff { get; set; }
         public Nullable<int> FlightStatusID { get; set; }
@@ -100,5 +99,7 @@ namespace ApiQA.Models
         public string StatusEmployeeName { get; set; }
         public string Result { get; set; }
         public string Route { get; set; }
+        public Nullable<System.TimeSpan> FlightDelay { get; set; }
+        public Nullable<System.TimeSpan> ScheduledGroundTime { get; set; }
     }
 }

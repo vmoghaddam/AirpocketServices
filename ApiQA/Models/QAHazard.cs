@@ -30,5 +30,6 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> DateSign { get; set; }
         public string Result { get; set; }
         public Nullable<System.DateTime> DateCreation { get; set; }
+        public string RelatedDepartment { get; set; }
     }
 }

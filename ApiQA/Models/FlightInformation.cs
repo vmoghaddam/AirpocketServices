@@ -17,13 +17,13 @@ namespace ApiQA.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public FlightInformation()
         {
-            this.QACSRs = new HashSet<QACSR>();
-            this.QAGroundIADs = new HashSet<QAGroundIAD>();
             this.QACaterings = new HashSet<QACatering>();
+            this.QAGroundIADs = new HashSet<QAGroundIAD>();
+            this.QACybers = new HashSet<QACyber>();
             this.QAMaintenances = new HashSet<QAMaintenance>();
             this.QASecurities = new HashSet<QASecurity>();
             this.QADispatches = new HashSet<QADispatch>();
-            this.QACybers = new HashSet<QACyber>();
+            this.QACSRs = new HashSet<QACSR>();
         }
     
         public int ID { get; set; }
@@ -315,12 +315,14 @@ namespace ApiQA.Models
         public Nullable<int> ACTUALTANKERINGFUEL { get; set; }
         public string LTR2 { get; set; }
     
+        public virtual Airport Airport { get; set; }
+        public virtual Airport Airport1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QACSR> QACSRs { get; set; }
+        public virtual ICollection<QACatering> QACaterings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QAGroundIAD> QAGroundIADs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QACatering> QACaterings { get; set; }
+        public virtual ICollection<QACyber> QACybers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QAMaintenance> QAMaintenances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -328,8 +330,6 @@ namespace ApiQA.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QADispatch> QADispatches { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QACyber> QACybers { get; set; }
-        public virtual Airport Airport { get; set; }
-        public virtual Airport Airport1 { get; set; }
+        public virtual ICollection<QACSR> QACSRs { get; set; }
     }
 }

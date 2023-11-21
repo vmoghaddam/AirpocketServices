@@ -203,5 +203,12 @@ namespace ApiQA.Models
         public Nullable<int> RemainGround { get; set; }
         public Nullable<int> RemainFirstAidCockpit { get; set; }
         public string UserId { get; set; }
+        public Nullable<int> RemainTypeFoker50 { get; set; }
+        public Nullable<int> RemainTypeFoker100 { get; set; }
+        public string Reserved1 { get; set; }
+        public string Reserved2 { get; set; }
+        public string Reserved3 { get; set; }
+        public string Reserved4 { get; set; }
+        public string Reserved5 { get; set; }
     }
 }

@@ -10,27 +10,24 @@
 namespace ApiQA.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ViewQACyber
+    public partial class QACyberGet_Result4
     {
         public Nullable<int> Id { get; set; }
-        public int FlightId { get; set; }
+        public Nullable<int> FlightId { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string Register { get; set; }
-        public string Route { get; set; }
         public string AircraftType { get; set; }
         public string FlightNumber { get; set; }
-        public Nullable<System.DateTime> FlightDate { get; set; }
         public Nullable<int> DelayBlockOff { get; set; }
         public Nullable<int> DelayTakeoff { get; set; }
         public Nullable<int> FlightStatusID { get; set; }
         public int flightCancelled { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
         public string AccessDescription { get; set; }
         public string AttackDescriptipn { get; set; }
         public string BreachedDescription { get; set; }
         public string ContactInfo { get; set; }
-        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public Nullable<System.DateTime> DateIncident { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
         public string ImpactDescription { get; set; }
@@ -38,8 +35,8 @@ namespace ApiQA.Models
         public string JobTitle { get; set; }
         public string MethodDescription { get; set; }
         public string EmployeeName { get; set; }
-        public string Email { get; set; }
         public string Mobile { get; set; }
+        public string Email { get; set; }
         public string Other { get; set; }
         public string IncidentTitle { get; set; }
         public Nullable<int> IncidentId { get; set; }
@@ -47,11 +44,6 @@ namespace ApiQA.Models
         public Nullable<int> MethodId { get; set; }
         public string AccessTitle { get; set; }
         public Nullable<int> AccessId { get; set; }
-        public Nullable<int> Status { get; set; }
-        public Nullable<System.DateTime> dateStatus { get; set; }
-        public Nullable<int> StatusEmployeeId { get; set; }
-        public string StatusEmployeeName { get; set; }
-        public string Result { get; set; }
         public string AccessMeasure { get; set; }
     }
 }

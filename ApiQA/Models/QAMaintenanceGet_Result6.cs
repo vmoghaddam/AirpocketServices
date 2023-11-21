@@ -10,36 +10,32 @@
 namespace ApiQA.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class QAMaintenance
+    public partial class QAMaintenanceGet_Result6
     {
-        public int Id { get; set; }
-        public int FlightId { get; set; }
-        public Nullable<System.DateTime> DateOccurrence { get; set; }
+        public Nullable<int> Id { get; set; }
+        public Nullable<int> FlightId { get; set; }
+        public string AircraftType { get; set; }
+        public string Register { get; set; }
         public Nullable<int> ComponentSpecificationId { get; set; }
+        public string ComponentSpecification { get; set; }
+        public string FlightRoute { get; set; }
+        public string FlightNumber { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string ATLNo { get; set; }
         public string TaskNo { get; set; }
         public string Reference { get; set; }
         public Nullable<int> StationId { get; set; }
+        public string Station { get; set; }
         public string EventDescription { get; set; }
         public string ActionTakenDescription { get; set; }
-        public string Name { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
         public string CAALicenceNo { get; set; }
         public string AuthorizationNo { get; set; }
         public Nullable<int> SerialNumber { get; set; }
         public Nullable<int> PartNumber { get; set; }
-        public Nullable<int> Status { get; set; }
-        public Nullable<System.DateTime> DateStatus { get; set; }
-        public Nullable<int> StatusEmployeeId { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
-        public string Result { get; set; }
-        public Nullable<System.DateTime> DateCreation { get; set; }
-        public Nullable<System.DateTime> DateHazard { get; set; }
-    
-        public virtual Airport Airport { get; set; }
-        public virtual FlightInformation FlightInformation { get; set; }
-        public virtual QAOption QAOption { get; set; }
+        public string EmployeeName { get; set; }
+        public Nullable<System.DateTime> STD { get; set; }
     }
 }

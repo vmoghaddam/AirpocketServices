@@ -45,7 +45,7 @@ namespace ApiQA.Controllers
                              select new
                              {
                                  x.Id,
-                                 x.Name
+                                 x.IATA
                              };
                 var result = entity.ToList();
                 return new DataResponse()
@@ -112,6 +112,24 @@ namespace ApiQA.Controllers
         {
             var query = from x in context.QAOptions
                         where x.ParentId == 16
+                        select new
+                        {
+                            Title = x.Title,
+                            Id = x.Id
+                        };
+            return new DataResponse()
+            {
+                Data = query,
+                IsSuccess = true
+            };
+        }
+
+        [HttpGet]
+        [Route("api/get/csr/reporter")]
+        public async Task<DataResponse> CSRReporter()
+        {
+            var query = from x in context.QAOptions
+                        where x.ParentId == 138
                         select new
                         {
                             Title = x.Title,
@@ -375,6 +393,14 @@ namespace ApiQA.Controllers
             return dt;
         }
 
+        TimeSpan ConvertToTimeSpan(string str)
+        {
+            var parts = str.Split(':').Select(q => Convert.ToInt32(q)).ToList();
+            var ts = new TimeSpan(parts[0], parts[1], parts[2]);
+            return ts;
+        }
+
+
         [HttpPost]
         [Route("api/save/csr")]
         public async Task<DataResponse> SaveQACSR(dynamic dto)
@@ -416,6 +442,7 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
+                entity.ReporterId = dto.ReporterId;
                 //entity.DateSign = dto.DateSign;
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
@@ -580,6 +607,7 @@ namespace ApiQA.Controllers
 
                 entity.AccessDescription = dto.AccessDescription;
                 entity.AccessId = dto.AccessId;
+                entity.AccessMeasure = dto.AccessMeasure;
                 entity.AttackDescriptipn = dto.AttackDescriptipn;
                 entity.BreachedDescription = dto.BreachedDescription;
                 entity.ContactInfo = dto.ContactInfo;
@@ -771,7 +799,7 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
-                //entity.DateSign = dto.DateSign;
+                entity.RelatedDepartment = dto.RelatedDepartment;
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
@@ -836,6 +864,8 @@ namespace ApiQA.Controllers
             {
                 int Id = dto.Id;
                 string Date = dto.DateOccurrenceStr.ToString();
+                string FlightDelay = dto.FlightDelay.ToString();
+                string ScheduleGroundTime = dto.ScheduledGroundTime.ToString();
                 var entity = context.QAGroundIADs.SingleOrDefault(q => q.Id == Id);
                 if (entity == null)
                 {
@@ -844,6 +874,7 @@ namespace ApiQA.Controllers
                 }
                 entity.Airport = dto.Airport;
                 entity.AirportId = dto.AirportId;
+                entity.Title = dto.Title;
                 entity.Area = dto.Area;
                 entity.ContributoryFactors = dto.ContributoryFactors;
                 entity.CorrectiveActionTaken = dto.CorrectiveActionTaken;
@@ -877,7 +908,8 @@ namespace ApiQA.Controllers
                 entity.PersonnelLicense3 = dto.PersonnelLicense3;
                 entity.PersonnelName3 = dto.PersonnelName3;
                 entity.PersonnelStaffNr3 = dto.PersonnelStaffNr3;
-                entity.ScheduledGroundTime = dto.ScheduledGroundTime;
+                entity.ScheduledGroundTime = ConvertToTimeSpan(ScheduleGroundTime);
+                entity.FlightDelay = ConvertToTimeSpan(FlightDelay);
                 entity.VEAge = dto.VEAge;
                 entity.VEArea = dto.VEArea;
                 entity.VEBrakesCon = dto.VEBrakesCon;
@@ -1038,6 +1070,7 @@ namespace ApiQA.Controllers
                 entity.Equipment = dto.Equipment;
                 entity.EmployeeId = dto.EmployeeId;
                 entity.InjuryDescription = dto.InjuryDescription;
+                entity.InjeryOccurring = dto.InjeryOccurring;
                 entity.Place = dto.Place;
                 entity.PreventiveActions = dto.PreventiveActions;
                 entity.ReasonDescription = dto.ReasonDescription;
@@ -1177,6 +1210,7 @@ namespace ApiQA.Controllers
                 entity.Camera = dto.Camera;
                 entity.CarryingBox = dto.CarryingBox;
                 entity.InjuryDescription = dto.InjuryDescription;
+                entity.InjuryOccuring = dto.InjuryOccuring;
                 entity.Place = dto.Place;
                 entity.PreventiveActions = dto.PreventiveActions;
                 entity.ReasonDescription = dto.ReasonDescription;
@@ -1341,6 +1375,7 @@ namespace ApiQA.Controllers
 
                 entity.DateReport = dto.DateReport;
                 entity.DISActionResult = dto.DISActionResult;
+                entity.JobPosition = dto.JobPosition;
                 entity.CatagoryId = dto.CatagoryId;
                 entity.DateOccurrence = ConvertToDateTime(Date);
                 entity.DISLocation = dto.DISLocation;
@@ -2063,7 +2098,7 @@ namespace ApiQA.Controllers
                            where x.YearMonth >= ymf && x.YearMonth <= ymt
                            select x).ToList();
             var dateCount = (from x in records
-                            // where x.YearMonth >= ymf && x.YearMonth <= ymt
+                                 // where x.YearMonth >= ymf && x.YearMonth <= ymt
                              group x by new { x.YearMonth } into grp
                              select new
                              {
@@ -2090,28 +2125,28 @@ namespace ApiQA.Controllers
                               }).ToList();
 
             var components = (from x in records
-                              group x by new { x.ComponentSpecificationTitle,x.ComponentSpecificationId} into grp
-                              select new
-                              {
-                                  Component = string.IsNullOrEmpty(grp.Key.ComponentSpecificationTitle)?"Unknown": grp.Key.ComponentSpecificationTitle,
-                                  ComponentId=grp.Key.ComponentSpecificationId,
-                                  Count = grp.Sum(q => q.Count),
-                              }).ToList();
-            var components_regs = (from x in records
-                              group x by new { x.ComponentSpecificationTitle, x.ComponentSpecificationId,x.Register } into grp
+                              group x by new { x.ComponentSpecificationTitle, x.ComponentSpecificationId } into grp
                               select new
                               {
                                   Component = string.IsNullOrEmpty(grp.Key.ComponentSpecificationTitle) ? "Unknown" : grp.Key.ComponentSpecificationTitle,
                                   ComponentId = grp.Key.ComponentSpecificationId,
-                                  Register=grp.Key.Register,
                                   Count = grp.Sum(q => q.Count),
                               }).ToList();
+            var components_regs = (from x in records
+                                   group x by new { x.ComponentSpecificationTitle, x.ComponentSpecificationId, x.Register } into grp
+                                   select new
+                                   {
+                                       Component = string.IsNullOrEmpty(grp.Key.ComponentSpecificationTitle) ? "Unknown" : grp.Key.ComponentSpecificationTitle,
+                                       ComponentId = grp.Key.ComponentSpecificationId,
+                                       Register = grp.Key.Register,
+                                       Count = grp.Sum(q => q.Count),
+                                   }).ToList();
 
 
             var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount,components,components_regs },
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount, components, components_regs },
                 IsSuccess = true
             };
         }
@@ -2543,6 +2578,34 @@ namespace ApiQA.Controllers
                     IsSuccess = false
                 };
             }
+        }
+
+        [HttpGet]
+        [Route("api/qa/get/employee/{EmployeeId}")]
+        public async Task<DataResponse> GetEmployeeInformation(int EmployeeId)
+        {
+
+            try
+            {
+                var result = context.ViewEmployees.Single(q => q.Id == EmployeeId);
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            }
+
         }
 
 

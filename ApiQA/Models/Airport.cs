@@ -17,10 +17,10 @@ namespace ApiQA.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Airport()
         {
-            this.QAGroundIADs = new HashSet<QAGroundIAD>();
-            this.QAMaintenances = new HashSet<QAMaintenance>();
             this.FlightInformations = new HashSet<FlightInformation>();
             this.FlightInformations1 = new HashSet<FlightInformation>();
+            this.QAGroundIADs = new HashSet<QAGroundIAD>();
+            this.QAMaintenances = new HashSet<QAMaintenance>();
         }
     
         public int Id { get; set; }
@@ -39,12 +39,12 @@ namespace ApiQA.Models
         public string Category { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QAGroundIAD> QAGroundIADs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QAMaintenance> QAMaintenances { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FlightInformation> FlightInformations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FlightInformation> FlightInformations1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QAGroundIAD> QAGroundIADs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QAMaintenance> QAMaintenances { get; set; }
     }
 }
