@@ -10,43 +10,37 @@
 namespace ApiQA.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ViewQACatering
+    public partial class QASecurityGet_Result9
     {
-        public int Id { get; set; }
+        public Nullable<int> Id { get; set; }
         public Nullable<int> FlightId { get; set; }
         public string FlightNumber { get; set; }
         public string Register { get; set; }
         public string Route { get; set; }
-        public Nullable<System.DateTime> FlightDate { get; set; }
-        public Nullable<System.DateTime> DateReport { get; set; }
-        public Nullable<System.DateTime> DateSign { get; set; }
         public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string Description { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
-        public string Equipment { get; set; }
+        public int EmployeeId { get; set; }
         public string InjuryDescription { get; set; }
-        public Nullable<bool> IsCausedInjury { get; set; }
         public string Place { get; set; }
         public string PreventiveActions { get; set; }
         public string ReasonDescription { get; set; }
-        public string SaftyEquipmentType { get; set; }
-        public Nullable<bool> SaftyEquipmentUseage { get; set; }
-        public string Transporter { get; set; }
-        public string Trolley { get; set; }
-        public string TrolleyEquipmentTransporterDecs { get; set; }
         public Nullable<bool> WorkBreak { get; set; }
         public Nullable<int> WorkBreakPeriod { get; set; }
-        public Nullable<int> ReasonId { get; set; }
-        public string EmployeeName { get; set; }
-        public string Email { get; set; }
+        public Nullable<System.DateTime> DateSign { get; set; }
+        public Nullable<System.DateTime> DateReport { get; set; }
+        public string Camera { get; set; }
+        public string CarryingBox { get; set; }
+        public string Comail { get; set; }
+        public string EquipmentDescription { get; set; }
+        public string HandRocket { get; set; }
+        public Nullable<bool> InjuryOccuring { get; set; }
+        public string Other { get; set; }
+        public string Name { get; set; }
         public string TelNumber { get; set; }
-        public Nullable<int> status { get; set; }
-        public Nullable<System.DateTime> dateStatus { get; set; }
-        public Nullable<int> StatusEmployeeId { get; set; }
-        public string StatusEmployeeName { get; set; }
-        public string Result { get; set; }
-        public Nullable<bool> InjeryOccurring { get; set; }
+        public string EmployeeName { get; set; }
+        public string Mobile { get; set; }
+        public string Email { get; set; }
+        public Nullable<int> ReasonId { get; set; }
     }
 }

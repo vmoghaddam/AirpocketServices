@@ -21,6 +21,10 @@ namespace ApiQA.Models
         public string FromAirportIATA { get; set; }
         public string ToAirportIATA { get; set; }
         public string route { get; set; }
+        public string Airport { get; set; }
+        public string DamageBy { get; set; }
         public Nullable<int> Count { get; set; }
+        public Nullable<int> FatalityCount { get; set; }
+        public Nullable<int> InjuredCount { get; set; }
     }
 }

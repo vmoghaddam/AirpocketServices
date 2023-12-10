@@ -39,6 +39,8 @@ namespace ApiQA.Models
         public Nullable<int> EmployeeId { get; set; }
         public Nullable<System.DateTime> DateCreation { get; set; }
         public string AccessMeasure { get; set; }
+        public string Email { get; set; }
+        public string Mobile { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
         public virtual QAOption QAOption { get; set; }

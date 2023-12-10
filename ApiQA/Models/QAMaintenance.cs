@@ -15,7 +15,7 @@ namespace ApiQA.Models
     public partial class QAMaintenance
     {
         public int Id { get; set; }
-        public int FlightId { get; set; }
+        public Nullable<int> FlightId { get; set; }
         public Nullable<System.DateTime> DateOccurrence { get; set; }
         public Nullable<int> ComponentSpecificationId { get; set; }
         public string ATLNo { get; set; }

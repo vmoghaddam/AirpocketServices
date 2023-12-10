@@ -12,17 +12,13 @@ namespace ApiQA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ViewQaDashCSR
+    public partial class ViewQADashCSREvent
     {
         public int year { get; set; }
         public int month { get; set; }
         public Nullable<int> YearMonth { get; set; }
-        public string Register { get; set; }
-        public string FromAirportIATA { get; set; }
-        public string ToAirportIATA { get; set; }
-        public string route { get; set; }
-        public int FlightPhaseId { get; set; }
-        public string FlightPhase { get; set; }
+        public int EventTitleId { get; set; }
+        public string EventTitle { get; set; }
         public Nullable<int> Count { get; set; }
     }
 }

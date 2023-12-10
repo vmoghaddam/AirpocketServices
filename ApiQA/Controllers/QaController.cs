@@ -393,10 +393,17 @@ namespace ApiQA.Controllers
             return dt;
         }
 
+        TimeSpan ConvertToTime(string str)
+        {
+            var prts = str.Split('-').Select(q => Convert.ToInt32(q)).ToList();
+            var dt = new TimeSpan(prts[0], prts[1], 0);
+            return dt;
+        }
+
         TimeSpan ConvertToTimeSpan(string str)
         {
             var parts = str.Split(':').Select(q => Convert.ToInt32(q)).ToList();
-            var ts = new TimeSpan(parts[0], parts[1], parts[2]);
+            var ts = new TimeSpan(parts[0], parts[1], 0);
             return ts;
         }
 
@@ -527,7 +534,7 @@ namespace ApiQA.Controllers
                 entity.StationId = dto.StationId;
                 entity.EventDescription = dto.EventDescription;
                 entity.ActionTakenDescription = dto.ActionTakenDescription;
-                entity.Name = dto.Name;
+                entity.Name = dto.EmployeeName;
                 entity.CAALicenceNo = dto.CAALicenceNo;
                 entity.AuthorizationNo = dto.AuthorizationNo;
                 entity.SerialNumber = dto.SerialNumber;
@@ -622,7 +629,9 @@ namespace ApiQA.Controllers
                 entity.FlightId = dto.FlightId;
                 entity.JobTitle = dto.JobTitle;
                 entity.DateOccurrence = ConvertToDateTime(Date); //DateTime.Parse(Date) ;
-                entity.Name = dto.Name;
+                entity.Name = dto.EmployeeName;
+                entity.Email = dto.Email;
+                entity.Mobile = dto.Mobile;
                 entity.EmployeeId = dto.EmployeeId;
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
@@ -787,7 +796,7 @@ namespace ApiQA.Controllers
                     entity = new QAHazard();
                     context.QAHazards.Add(entity);
                 }
-                entity.Name = dto.Name;
+                entity.Name = dto.EmployeeName;
                 entity.Email = dto.Email;
                 entity.TelNumber = dto.TelNumber;
                 entity.DateOccurrence = dto.DateOccurrence;
@@ -835,7 +844,7 @@ namespace ApiQA.Controllers
                 return new DataResponse()
                 {
                     Data = dto,
-                    IsSuccess = false
+                    IsSuccess = true
                 };
 
             }
@@ -1090,7 +1099,7 @@ namespace ApiQA.Controllers
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
-                entity.Name = dto.Name;
+                entity.Name = dto.EmployeeName;
                 entity.Email = dto.Email;
                 entity.TelNumber = dto.TelNumber;
 
@@ -1232,7 +1241,7 @@ namespace ApiQA.Controllers
                     entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
                 entity.Email = dto.Email;
-                entity.Name = dto.Name;
+                entity.Name = dto.EmployeeName;
                 entity.TelNumber = dto.TelNumber;
 
                 context.SaveChanges();
@@ -1376,7 +1385,8 @@ namespace ApiQA.Controllers
                 entity.DateReport = dto.DateReport;
                 entity.DISActionResult = dto.DISActionResult;
                 entity.JobPosition = dto.JobPosition;
-                entity.CatagoryId = dto.CatagoryId;
+                entity.DisCatagoryId = dto.DisCatagoryId;
+                entity.OpCatagoryId = dto.OpCatagoryId;
                 entity.DateOccurrence = ConvertToDateTime(Date);
                 entity.DISLocation = dto.DISLocation;
                 entity.DISTimeDuration = dto.DISTimeDuration;
@@ -1391,11 +1401,25 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
-                //entity.DateSign = dto.DateSign;
+                entity.ReporterName = dto.ReporterName;
+                entity.ReporterPosition = dto.ReporterPosition;
+                entity.ACChanged = dto.ACChanged;
+                if (dto.ACChangedTimeStr != "Invalid date")
+                    entity.ACChangedTime = ConvertToTimeSpan(dto.ACChangedTimeStr.ToString());
+                entity.CrewChanged = dto.CrewChanged;
+                if (dto.CrewChangedTimeStr != "Invalid date")
+                    entity.CrewChangedTime = ConvertToTimeSpan(dto.CrewChangedTimeStr.ToString());
+                entity.FlightCancelled = dto.FlightCancelled;
+                if (dto.FlightCancelledTimeStr != "Invalid date")
+                    entity.FlightCancelledTime = ConvertToTimeSpan(dto.FlightCancelledTimeStr.ToString());
+                entity.FlightPerFormed = dto.FlightPerFormed;
+                if (dto.FlightPerFormedTimeStr != "Invalid date")
+                    entity.FlightPerFormedTime = ConvertToTimeSpan(dto.FlightPerFormedTimeStr.ToString());
+                entity.PIC = dto.PIC;
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
-                entity.Name = dto.Name;
+                entity.Name = dto.EmployeeName;
                 entity.Email = dto.Email;
                 entity.TelNumber = dto.TelNumber;
 
@@ -1960,10 +1984,20 @@ namespace ApiQA.Controllers
                               }).ToList();
 
 
+            var reasonTitle = (from x in context.ViewQaDashSecurities
+                               where x.YearMonth >= ymf && x.YearMonth <= ymt
+                               group x by new { x.ReasonTitle } into grp
+                               select new
+                               {
+                                   ReasonTitle = grp.Key.ReasonTitle,
+                                   Count = grp.Sum(q => q.Count),
+                               }).ToList();
+
+
             var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, TotalCount = totalCount, ReasonTitle = reasonTitle, RouteCount = routeCount },
                 IsSuccess = true
             };
         }
@@ -1979,6 +2013,8 @@ namespace ApiQA.Controllers
                              {
                                  YearMonth = grp.Key.YearMonth,
                                  Count = grp.Sum(q => q.Count),
+                                 InjuredCount = grp.Sum(q => q.InjuredCount),
+                                 FatalityCount = grp.Sum(q => q.FatalityCount)
                              }).ToList();
 
             var registerCount = (from x in context.ViewQaDashGrounds
@@ -1988,6 +2024,8 @@ namespace ApiQA.Controllers
                                  {
                                      Register = grp.Key.Register,
                                      Count = grp.Sum(q => q.Count),
+                                     InjuredCount = grp.Sum(q => q.InjuredCount),
+                                     FatalityCount = grp.Sum(q => q.FatalityCount)
                                  }).ToList();
 
             var routeCount = (from x in context.ViewQaDashGrounds
@@ -1997,13 +2035,27 @@ namespace ApiQA.Controllers
                               {
                                   Route = grp.Key.route,
                                   Count = grp.Sum(q => q.Count),
+                                  InjuredCount = grp.Sum(q => q.InjuredCount),
+                                  FatalityCount = grp.Sum(q => q.FatalityCount)
                               }).ToList();
+
+            var damageByCount = (from x in context.ViewQaDashGrounds
+                                 where x.YearMonth >= ymf && x.YearMonth <= ymt
+                                 group x by new { x.DamageBy } into grp
+                                 select new
+                                 {
+                                     DamageBy = grp.Key.DamageBy,
+                                     Count = grp.Sum(q => q.Count),
+                                     InjuredCount = grp.Sum(q => q.InjuredCount),
+                                     FatalityCount = grp.Sum(q => q.FatalityCount)
+                                 }).ToList();
+
 
 
             var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount, DamageByCount = damageByCount },
                 IsSuccess = true
             };
         }
@@ -2040,11 +2092,20 @@ namespace ApiQA.Controllers
                                   Count = grp.Sum(q => q.Count),
                               }).ToList();
 
+            var reasonTitle = (from x in context.ViewQaDashSecurities
+                               where x.YearMonth >= ymf && x.YearMonth <= ymt
+                               group x by new { x.ReasonTitle } into grp
+                               select new
+                               {
+                                   ReasonTitle = grp.Key.ReasonTitle,
+                                   Count = grp.Sum(q => q.Count),
+                               }).ToList();
+
 
             var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount, ReasonTitle = reasonTitle },
                 IsSuccess = true
             };
         }
@@ -2081,11 +2142,41 @@ namespace ApiQA.Controllers
                                   Count = grp.Sum(q => q.Count),
                               }).ToList();
 
+            var flightPhase = (from x in context.ViewQaDashCSRs
+                               where x.YearMonth >= ymf && x.YearMonth <= ymt
+                               group x by new { x.FlightPhase } into grp
+                               select new
+                               {
+                                   Route = grp.Key.FlightPhase,
+                                   Count = grp.Sum(q => q.Count),
+                               }).ToList();
+
 
             var totalCount = dateCount.Sum(q => q.Count);
             return new DataResponse()
             {
-                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount },
+                Data = new { DateCount = dateCount, RegisterCount = registerCount, RouteCount = routeCount, TotalCount = totalCount, FlightPhase = flightPhase },
+                IsSuccess = true
+            };
+        }
+
+
+        [HttpGet]
+        [Route("api/qa/csr/event/report/{ymf}/{ymt}")]
+        public async Task<DataResponse> CSREventReport(int ymf, int ymt)
+        {
+            var EventCount = (from x in context.ViewQADashCSREvents
+                              where x.YearMonth >= ymf && x.YearMonth <= ymt
+                              group x by new { x.EventTitle } into grp
+                              select new
+                              {
+                                  EventTitle = grp.Key.EventTitle,
+                                  Count = grp.Sum(q => q.Count),
+                              }).ToList();
+
+            return new DataResponse()
+            {
+                Data = EventCount,
                 IsSuccess = true
             };
         }

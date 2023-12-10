@@ -29,7 +29,7 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> DateReport { get; set; }
         public string EmployeeName { get; set; }
         public string Email { get; set; }
-        public string Mobile { get; set; }
+        public string TelNumber { get; set; }
         public string RelatedDepartment { get; set; }
     }
 }

@@ -10,21 +10,18 @@
 namespace ApiQA.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ViewQAMaintenance
+    public partial class QAMaintenanceGet_Result12
     {
-        public int Id { get; set; }
+        public Nullable<int> Id { get; set; }
         public Nullable<int> FlightId { get; set; }
-        public Nullable<System.DateTime> DateOccurrence { get; set; }
-        public Nullable<System.DateTime> DateSign { get; set; }
         public string AircraftType { get; set; }
         public string Register { get; set; }
         public Nullable<int> ComponentSpecificationId { get; set; }
         public string ComponentSpecification { get; set; }
-        public string Route { get; set; }
+        public string FlightRoute { get; set; }
         public string FlightNumber { get; set; }
-        public Nullable<System.DateTime> FlightDate { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string ATLNo { get; set; }
         public string TaskNo { get; set; }
         public string Reference { get; set; }
@@ -32,17 +29,13 @@ namespace ApiQA.Models
         public string Station { get; set; }
         public string EventDescription { get; set; }
         public string ActionTakenDescription { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
-        public string EmployeeName { get; set; }
+        public int EmployeeId { get; set; }
         public string CAALicenceNo { get; set; }
         public string AuthorizationNo { get; set; }
         public Nullable<int> SerialNumber { get; set; }
         public Nullable<int> PartNumber { get; set; }
+        public Nullable<System.DateTime> DateSign { get; set; }
+        public string EmployeeName { get; set; }
         public Nullable<System.DateTime> STD { get; set; }
-        public Nullable<int> status { get; set; }
-        public Nullable<System.DateTime> dateStatus { get; set; }
-        public Nullable<int> StatusEmployeeId { get; set; }
-        public string StatusEmployeeName { get; set; }
-        public string Result { get; set; }
     }
 }

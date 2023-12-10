@@ -14,8 +14,8 @@ namespace ApiQA.Models
     
     public partial class ViewQAGround
     {
-        public Nullable<int> Id { get; set; }
-        public int FlightId { get; set; }
+        public int Id { get; set; }
+        public Nullable<int> FlightId { get; set; }
         public Nullable<int> AirportId { get; set; }
         public string Airport { get; set; }
         public string AirportName { get; set; }

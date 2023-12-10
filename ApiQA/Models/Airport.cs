@@ -37,6 +37,7 @@ namespace ApiQA.Models
         public string Country { get; set; }
         public Nullable<int> UTC { get; set; }
         public string Category { get; set; }
+        public string TimeZone { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FlightInformation> FlightInformations { get; set; }

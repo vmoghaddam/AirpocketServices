@@ -23,7 +23,7 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> OPTimeReceived { get; set; }
         public string OPReportedBy { get; set; }
         public string OPLocation { get; set; }
-        public Nullable<int> CatagoryId { get; set; }
+        public Nullable<int> DisCatagoryId { get; set; }
         public string OPSummary { get; set; }
         public string DISLocation { get; set; }
         public Nullable<int> DISTimeDuration { get; set; }
@@ -39,6 +39,18 @@ namespace ApiQA.Models
         public string Name { get; set; }
         public string TelNumber { get; set; }
         public string JobPosition { get; set; }
+        public Nullable<int> OpCatagoryId { get; set; }
+        public string ReporterName { get; set; }
+        public string ReporterPosition { get; set; }
+        public string PIC { get; set; }
+        public Nullable<bool> FlightCancelled { get; set; }
+        public Nullable<System.TimeSpan> FlightCancelledTime { get; set; }
+        public Nullable<bool> ACChanged { get; set; }
+        public Nullable<System.TimeSpan> ACChangedTime { get; set; }
+        public Nullable<bool> CrewChanged { get; set; }
+        public Nullable<System.TimeSpan> CrewChangedTime { get; set; }
+        public Nullable<bool> FlightPerFormed { get; set; }
+        public Nullable<System.TimeSpan> FlightPerFormedTime { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
     }

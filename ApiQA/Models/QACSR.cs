@@ -34,7 +34,7 @@ namespace ApiQA.Models
         public Nullable<int> EmployeeId { get; set; }
         public string Describtion { get; set; }
         public string Recommendation { get; set; }
-        public int FlightId { get; set; }
+        public Nullable<int> FlightId { get; set; }
         public string Recived { get; set; }
         public string FollowUp { get; set; }
         public string EventTitleRemark { get; set; }
