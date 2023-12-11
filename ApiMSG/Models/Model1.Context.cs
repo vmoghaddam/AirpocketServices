@@ -30,9 +30,16 @@ namespace ApiMSG.Models
         public virtual DbSet<ViewLegTime> ViewLegTimes { get; set; }
         public virtual DbSet<ViewFlightDelayCode> ViewFlightDelayCodes { get; set; }
         public virtual DbSet<NiraHistory> NiraHistories { get; set; }
-        public virtual DbSet<ViewNiraFlight> ViewNiraFlights { get; set; }
+        public virtual DbSet<ViewNotificationTrn> ViewNotificationTrns { get; set; }
+        public virtual DbSet<ViewNotificationTrnCount> ViewNotificationTrnCounts { get; set; }
+        public virtual DbSet<ViewCertificateHistory> ViewCertificateHistories { get; set; }
+        public virtual DbSet<NotificationTrn> NotificationTrns { get; set; }
         public virtual DbSet<BulkMsg> BulkMsgs { get; set; }
         public virtual DbSet<BulkMsgUsername> BulkMsgUsernames { get; set; }
         public virtual DbSet<ViewNira> ViewNiras { get; set; }
+        public virtual DbSet<ViewNiraFlight> ViewNiraFlights { get; set; }
+        public virtual DbSet<Manager> Managers { get; set; }
+        public virtual DbSet<ManagerGroup> ManagerGroups { get; set; }
+        public virtual DbSet<ViewProfile> ViewProfiles { get; set; }
     }
 }

@@ -214,6 +214,9 @@
     <Compile Include="Models\FlightInformation.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FlightPax.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FlightStatusLog.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -250,7 +253,13 @@
     <Compile Include="Models\ViewFlightInformation.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewFlightPax.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewFlightsGantt.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewFlightsGanttNew.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewLegTime.cs">

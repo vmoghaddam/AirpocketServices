@@ -1140,10 +1140,10 @@ namespace ApiMSG
     }
     public class Magfa
     {
-        string username = "atlas_82173";// "varesh_85972"; //ConfigurationManager.AppSettings["magfa_user"];/* "taban";*/ //ConfigurationManager.AppSettings["magfa_user"]; //"caspianline"; //"flypersia_48000";
-        string password = "Ot9V0CWKbH1HUQGK";// "oJTyaWoLnQycrfdX"; //ConfigurationManager.AppSettings["magfa_pass"];/*"ZIECXHgRSJT1QLMy";*/ //ConfigurationManager.AppSettings["magfa_pass"]; // "ZQMihTmdLqCbnbrW"; //"YYDWMU5BAJQQHCuG";
-        string domain = "http://atlasairplus.com/";// "magfa";// "tabanair"; /*"tabanair";*/
-        string senderNumber = "300082173";//"300085972";// ConfigurationManager.AppSettings["magfa_no"]; /*"30006327";*/ // ConfigurationManager.AppSettings["magfa_no"]; // "3000748907"; //"300048000";
+        string username = "flypersia_48000"; //"atlas_82173";// "varesh_85972"; //ConfigurationManager.AppSettings["magfa_user"];/* "taban";*/ //ConfigurationManager.AppSettings["magfa_user"]; //"caspianline"; //"flypersia_48000";
+        string password = "YYDWMU5BAJQQHCuG"; //"Ot9V0CWKbH1HUQGK";// "oJTyaWoLnQycrfdX"; //ConfigurationManager.AppSettings["magfa_pass"];/*"ZIECXHgRSJT1QLMy";*/ //ConfigurationManager.AppSettings["magfa_pass"]; // "ZQMihTmdLqCbnbrW"; //"YYDWMU5BAJQQHCuG";
+        string domain = "magfa"; //"http://atlasairplus.com/";// "magfa";// "tabanair"; /*"tabanair";*/
+        string senderNumber = "300048000"; //"300082173";//"300085972";// ConfigurationManager.AppSettings["magfa_no"]; /*"30006327";*/ // ConfigurationManager.AppSettings["magfa_no"]; // "3000748907"; //"300048000";
         public List<string> getStatus(List<Int64> refIds)
         {
 
@@ -1210,39 +1210,47 @@ namespace ApiMSG
         }
         public string getStatus(Int64 refid)
         {
-            com.magfa.sms.SoapSmsQueuableImplementationService sq = new com.magfa.sms.SoapSmsQueuableImplementationService();
-            sq.Credentials = new System.Net.NetworkCredential(username, password);
-            sq.PreAuthenticate = true;
-
-            var response = sq.getMessageStatus(refid);
-
-
-            var str = "Unknown";
-            switch (response)
+            try
             {
-                case 1:
-                    str = "Delivered";
-                    break;
-                case 2:
-                    str = "Not Delivered To Phone";
-                    break;
-                case 8:
-                    str = "Delivered To ICT";
-                    break;
-                case 16:
-                    str = "Not Delivered To ICT";
-                    break;
-                case 0:
-                    str = "Sending Queue";
-                    break;
-                default:
-                    break;
+                com.magfa.sms.SoapSmsQueuableImplementationService sq = new com.magfa.sms.SoapSmsQueuableImplementationService();
+                sq.Credentials = new System.Net.NetworkCredential(username, password);
+                sq.PreAuthenticate = true;
+
+                var response = sq.getMessageStatus(refid);
+
+
+                var str = "Unknown";
+                switch (response)
+                {
+                    case 1:
+                        str = "Delivered";
+                        break;
+                    case 2:
+                        str = "Not Delivered To Phone";
+                        break;
+                    case 8:
+                        str = "Delivered To ICT";
+                        break;
+                    case 16:
+                        str = "Not Delivered To ICT";
+                        break;
+                    case 0:
+                        str = "Sending Queue";
+                        break;
+                    default:
+                        break;
+                }
+
+
+
+
+                return str;
             }
-
-
-
-
-            return str;
+            catch(Exception ex)
+            {
+                return "UNKNOWN-ERROR";
+            }
+           
         }
         public long[] enqueue(int count, String recipientNumber, String text)
         {

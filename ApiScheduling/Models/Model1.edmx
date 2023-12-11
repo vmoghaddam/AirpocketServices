@@ -204,7 +204,7 @@
           <Property Name="FDPId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.AppFTL' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.AppFTL' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AppFTL">
           <Key>
             <PropertyRef Name="CDate" />
@@ -238,10 +238,9 @@ warning 6002: The table/view 'ppa_dev.dbo.AppFTL' does not have a primary key de
           <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
           <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
           <Property Name="IsCockpit" Type="int" Nullable="false" />
-          <Property Name="RERRP" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.AppFTLAbs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.AppFTLAbs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AppFTLAbs">
           <Key>
             <PropertyRef Name="CDate" />
@@ -266,7 +265,7 @@ warning 6002: The table/view 'ppa_dev.dbo.AppFTLAbs' does not have a primary key
           <Property Name="Ratio" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.FTLFlightTimeRatioMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.FTLFlightTimeRatioMonthly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FTLFlightTimeRatioMonthly">
           <Key>
             <PropertyRef Name="CrewId" />
@@ -281,7 +280,7 @@ warning 6002: The table/view 'ppa_dev.dbo.FTLFlightTimeRatioMonthly' does not ha
           <Property Name="Ratio" Type="numeric" Precision="24" Scale="12" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.HelperMaxFDP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.HelperMaxFDP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="HelperMaxFDP">
           <Key>
             <PropertyRef Name="Id" />
@@ -292,7 +291,7 @@ warning 6002: The table/view 'ppa_dev.dbo.HelperMaxFDP' does not have a primary 
           <Property Name="MaxFDPExtended" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.SchFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.SchFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SchFlight">
           <Key>
             <PropertyRef Name="ID" />
@@ -324,7 +323,7 @@ warning 6002: The table/view 'ppa_dev.dbo.SchFlight' does not have a primary key
           <Property Name="ACType" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.ViewCrewDuty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewDuty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewCrewDuty">
           <Key>
             <PropertyRef Name="Id" />
@@ -406,7 +405,7 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewCrewDuty' does not have a primary 
           <Property Name="BaseAirportId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.ViewCrewDutyNoReg' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewDutyNoReg' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewCrewDutyNoReg">
           <Key>
             <PropertyRef Name="Id" />
@@ -488,7 +487,7 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewCrewDutyNoReg' does not have a pri
           <Property Name="IsVisitedStr" Type="varchar" MaxLength="11" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.ViewCrewDutyTimeLineNew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewDutyTimeLineNew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewCrewDutyTimeLineNew">
           <Key>
             <PropertyRef Name="Id" />
@@ -552,10 +551,30 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewCrewDutyTimeLineNew' does not have
           <Property Name="JobGroup" Type="nvarchar" MaxLength="500" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.ViewCrewValidFTL' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewValidFTL' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewCrewValidFTL">
           <Key>
             <PropertyRef Name="Id" />
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="SexId" Type="int" Nullable="false" />
@@ -632,10 +651,8 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewCrewValidFTL' does not have a prim
           <Property Name="OPCIssued" Type="datetime" />
           <Property Name="OPCExpired" Type="datetime" />
           <Property Name="LPRExpired" Type="datetime" />
-          <Property Name="FirstAidExpired" Type="datetime" />
-          <Property Name="FirstAidIssued" Type="datetime" />
-          <Property Name="PassportExpired" Type="date" />
-          <Property Name="PassportIssued" Type="date" />
+          <Property Name="FirstAidExpired" Type="date" />
+          <Property Name="FirstAidIssued" Type="date" />
           <Property Name="LicenceExpired" Type="datetime" />
           <Property Name="LicenceIssued" Type="datetime" />
           <Property Name="TREExpired" Type="datetime" />
@@ -644,9 +661,11 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewCrewValidFTL' does not have a prim
           <Property Name="TypeMDExpired" Type="datetime2" Precision="7" />
           <Property Name="IsCockpit" Type="int" Nullable="false" />
           <Property Name="IsCabin" Type="int" Nullable="false" />
+          <Property Name="PassportExpired" Type="date" />
+          <Property Name="PassportIssued" Type="date" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.ViewEmployeeLight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployeeLight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewEmployeeLight">
           <Key>
             <PropertyRef Name="Id" />
@@ -690,7 +709,7 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewEmployeeLight' does not have a pri
           <Property Name="GroupId" Type="int" />
           <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
           <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
-          <Property Name="JobGroupRoot" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="JobGroupRoot" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="MarriageId" Type="int" Nullable="false" />
           <Property Name="NID" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="SexId" Type="int" Nullable="false" />
@@ -773,7 +792,7 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewEmployeeLight' does not have a pri
           <Property Name="JobGroupCode2" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.ViewFDPItem2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPItem2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFDPItem2">
           <Key>
             <PropertyRef Name="Id" />
@@ -817,7 +836,7 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewFDPItem2' does not have a primary 
           <Property Name="RankDesc" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.ViewFDPLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFDPLog">
           <Key>
             <PropertyRef Name="Id" />
@@ -825,8 +844,10 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewFDPLog' does not have a primary ke
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="FDPId" Type="int" />
           <Property Name="CrewId" Type="int" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
           <Property Name="Name" Type="nvarchar" MaxLength="1001" />
           <Property Name="DutyType" Type="int" />
+          <Property Name="DutyTypeTitle" Type="nvarchar" MaxLength="1000" />
           <Property Name="DateStart" Type="datetime" />
           <Property Name="DateEnd" Type="datetime" />
           <Property Name="InitStart" Type="datetime" />
@@ -849,7 +870,7 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewFDPLog' does not have a primary ke
           <Property Name="DateAction" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.ViewFDPRest' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPRest' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFDPRest">
           <Key>
             <PropertyRef Name="Id" />
@@ -957,7 +978,83 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewFDPRest' does not have a primary k
           <Property Name="CustomerId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightCrewX' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewFlightCrewX">
+          <Key>
+            <PropertyRef Name="FDPId" />
+            <PropertyRef Name="FDPItemId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="SexId" />
+            <PropertyRef Name="GroupOrder" />
+            <PropertyRef Name="IsCockpit" />
+            <PropertyRef Name="FlightStatus" />
+            <PropertyRef Name="NightTime" />
+          </Key>
+          <Property Name="FDPId" Type="int" Nullable="false" />
+          <Property Name="FDPItemId" Type="int" Nullable="false" />
+          <Property Name="CrewId" Type="int" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="IsPositioning" Type="bit" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="Position" Type="varchar" MaxLength="7" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1001" Nullable="false" />
+          <Property Name="ScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
+          <Property Name="SexId" Type="int" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="1000" />
+          <Property Name="GroupOrder" Type="int" Nullable="false" />
+          <Property Name="IsCockpit" Type="int" Nullable="false" />
+          <Property Name="STDDay" Type="date" />
+          <Property Name="STDDayEnd" Type="datetime" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="FromAirport" Type="int" />
+          <Property Name="ToAirport" Type="int" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="STDLocal" Type="datetime" />
+          <Property Name="STALocal" Type="datetime" />
+          <Property Name="Register" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisterId" Type="int" />
+          <Property Name="ChocksOut" Type="datetime" />
+          <Property Name="ChocksIn" Type="datetime" />
+          <Property Name="TakeOff" Type="datetime" />
+          <Property Name="Landing" Type="datetime" />
+          <Property Name="ChocksOutLocal" Type="datetime" />
+          <Property Name="ChocksInLocal" Type="datetime" />
+          <Property Name="TakeOffLocal" Type="datetime" />
+          <Property Name="LandingLocal" Type="datetime" />
+          <Property Name="BlockTime" Type="int" />
+          <Property Name="FlightTime" Type="int" />
+          <Property Name="FlightTimeActual" Type="int" />
+          <Property Name="Fixtime" Type="int" />
+          <Property Name="SITATime" Type="int" />
+          <Property Name="FlightStatus" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="FlightStatusId" Type="int" />
+          <Property Name="Airline" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AirlineOperatorsID" Type="int" />
+          <Property Name="CPCrewId" Type="int" />
+          <Property Name="CPInstructor" Type="varchar" MaxLength="500" />
+          <Property Name="CPP1" Type="varchar" MaxLength="500" />
+          <Property Name="CPP2" Type="varchar" MaxLength="500" />
+          <Property Name="CPSCCM" Type="varchar" MaxLength="500" />
+          <Property Name="CPISCCM" Type="varchar" MaxLength="500" />
+          <Property Name="SplitDuty" Type="bit" />
+          <Property Name="NightTime" Type="int" Nullable="false" />
+          <Property Name="DayTime" Type="int" />
+          <Property Name="NightTakeOff" Type="int" />
+          <Property Name="DayTakeOff" Type="int" />
+          <Property Name="NightLanding" Type="int" />
+          <Property Name="DayLanding" Type="int" />
+          <Property Name="Pickup" Type="datetime" />
+          <Property Name="PickupLocal" Type="datetime" />
+          <Property Name="DateConfirmed" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewLegTime">
           <Key>
             <PropertyRef Name="ID" />
@@ -967,6 +1064,7 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
             <PropertyRef Name="taskId" />
             <PropertyRef Name="BaggageWeight" />
             <PropertyRef Name="CargoWeight" />
+            
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="FlightId" Type="int" Nullable="false" />
@@ -1062,7 +1160,7 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
           <Property Name="TotalSeat" Type="int" />
           <Property Name="BaggageWeight" Type="int" Nullable="false" />
           <Property Name="CargoWeight" Type="int" Nullable="false" />
-          <Property Name="Freight" Type="int" />
+          <Property Name="Freight" Type="int" Nullable="false" />
           <Property Name="FlightDate" Type="datetime" />
           <Property Name="CargoCount" Type="int" />
           <Property Name="BaggageCount" Type="int" />
@@ -1083,17 +1181,24 @@ warning 6002: The table/view 'ppa_dev.dbo.ViewLegTime' does not have a primary k
           <Property Name="CPRegister" Type="varchar" MaxLength="500" />
           <Property Name="DepCountry" Type="varchar" MaxLength="255" />
           <Property Name="ArrCountry" Type="varchar" MaxLength="255" />
+          <Property Name="OFPMINTOFFUEL" Type="int" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="int" />
+          <Property Name="OFPTRIPFUEL" Type="int" />
+          <Property Name="PILOTREQFUEL" Type="int" />
+          <Property Name="FuelPlanned" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="PF" Type="varchar" MaxLength="255" />
+          <Property Name="OFPTOTALFUEL" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="XFlightCrew">
           <Key>
             <PropertyRef Name="Name" />
             <PropertyRef Name="JobGroupCode" />
             <PropertyRef Name="JobGroup" />
+            <PropertyRef Name="SexId" />
             <PropertyRef Name="GroupOrder" />
             <PropertyRef Name="IsCockpit" />
-            <PropertyRef Name="SexId" />
           </Key>
           <Property Name="CrewId" Type="int" />
           <Property Name="FlightId" Type="int" />
@@ -1231,8 +1336,7 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
     [AppFTL].[ScheduleName] AS [ScheduleName], 
     [AppFTL].[JobGroup] AS [JobGroup], 
     [AppFTL].[JobGroupCode] AS [JobGroupCode], 
-    [AppFTL].[IsCockpit] AS [IsCockpit], 
-    [AppFTL].[RERRP] AS [RERRP]
+    [AppFTL].[IsCockpit] AS [IsCockpit]
     FROM [dbo].[AppFTL] AS [AppFTL]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="AppFTLAbs" EntityType="Self.AppFTLAbs" store:Type="Views" store:Schema="dbo">
@@ -1567,8 +1671,6 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
     [ViewCrewValidFTL].[LPRExpired] AS [LPRExpired], 
     [ViewCrewValidFTL].[FirstAidExpired] AS [FirstAidExpired], 
     [ViewCrewValidFTL].[FirstAidIssued] AS [FirstAidIssued], 
-    [ViewCrewValidFTL].[PassportExpired] AS [PassportExpired], 
-    [ViewCrewValidFTL].[PassportIssued] AS [PassportIssued], 
     [ViewCrewValidFTL].[LicenceExpired] AS [LicenceExpired], 
     [ViewCrewValidFTL].[LicenceIssued] AS [LicenceIssued], 
     [ViewCrewValidFTL].[TREExpired] AS [TREExpired], 
@@ -1576,7 +1678,9 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
     [ViewCrewValidFTL].[Type737Expired] AS [Type737Expired], 
     [ViewCrewValidFTL].[TypeMDExpired] AS [TypeMDExpired], 
     [ViewCrewValidFTL].[IsCockpit] AS [IsCockpit], 
-    [ViewCrewValidFTL].[IsCabin] AS [IsCabin]
+    [ViewCrewValidFTL].[IsCabin] AS [IsCabin], 
+    [ViewCrewValidFTL].[PassportExpired] AS [PassportExpired], 
+    [ViewCrewValidFTL].[PassportIssued] AS [PassportIssued]
     FROM [dbo].[ViewCrewValidFTL] AS [ViewCrewValidFTL]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewEmployeeLight" EntityType="Self.ViewEmployeeLight" store:Type="Views" store:Schema="dbo">
@@ -1723,8 +1827,10 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
     [ViewFDPLog].[Id] AS [Id], 
     [ViewFDPLog].[FDPId] AS [FDPId], 
     [ViewFDPLog].[CrewId] AS [CrewId], 
+    [ViewFDPLog].[JobGroup] AS [JobGroup], 
     [ViewFDPLog].[Name] AS [Name], 
     [ViewFDPLog].[DutyType] AS [DutyType], 
+    [ViewFDPLog].[DutyTypeTitle] AS [DutyTypeTitle], 
     [ViewFDPLog].[DateStart] AS [DateStart], 
     [ViewFDPLog].[DateEnd] AS [DateEnd], 
     [ViewFDPLog].[InitStart] AS [InitStart], 
@@ -1842,6 +1948,72 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
     [ViewFDPRest].[CustomerId] AS [CustomerId]
     FROM [dbo].[ViewFDPRest] AS [ViewFDPRest]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ViewFlightCrewX" EntityType="Self.ViewFlightCrewX" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewFlightCrewX].[FDPId] AS [FDPId], 
+    [ViewFlightCrewX].[FDPItemId] AS [FDPItemId], 
+    [ViewFlightCrewX].[CrewId] AS [CrewId], 
+    [ViewFlightCrewX].[FlightId] AS [FlightId], 
+    [ViewFlightCrewX].[IsPositioning] AS [IsPositioning], 
+    [ViewFlightCrewX].[PositionId] AS [PositionId], 
+    [ViewFlightCrewX].[Position] AS [Position], 
+    [ViewFlightCrewX].[Name] AS [Name], 
+    [ViewFlightCrewX].[ScheduleName] AS [ScheduleName], 
+    [ViewFlightCrewX].[GroupId] AS [GroupId], 
+    [ViewFlightCrewX].[JobGroup] AS [JobGroup], 
+    [ViewFlightCrewX].[JobGroupCode] AS [JobGroupCode], 
+    [ViewFlightCrewX].[SexId] AS [SexId], 
+    [ViewFlightCrewX].[Sex] AS [Sex], 
+    [ViewFlightCrewX].[GroupOrder] AS [GroupOrder], 
+    [ViewFlightCrewX].[IsCockpit] AS [IsCockpit], 
+    [ViewFlightCrewX].[STDDay] AS [STDDay], 
+    [ViewFlightCrewX].[STDDayEnd] AS [STDDayEnd], 
+    [ViewFlightCrewX].[FlightNumber] AS [FlightNumber], 
+    [ViewFlightCrewX].[FromAirportIATA] AS [FromAirportIATA], 
+    [ViewFlightCrewX].[ToAirportIATA] AS [ToAirportIATA], 
+    [ViewFlightCrewX].[FromAirport] AS [FromAirport], 
+    [ViewFlightCrewX].[ToAirport] AS [ToAirport], 
+    [ViewFlightCrewX].[STD] AS [STD], 
+    [ViewFlightCrewX].[STA] AS [STA], 
+    [ViewFlightCrewX].[STDLocal] AS [STDLocal], 
+    [ViewFlightCrewX].[STALocal] AS [STALocal], 
+    [ViewFlightCrewX].[Register] AS [Register], 
+    [ViewFlightCrewX].[RegisterId] AS [RegisterId], 
+    [ViewFlightCrewX].[ChocksOut] AS [ChocksOut], 
+    [ViewFlightCrewX].[ChocksIn] AS [ChocksIn], 
+    [ViewFlightCrewX].[TakeOff] AS [TakeOff], 
+    [ViewFlightCrewX].[Landing] AS [Landing], 
+    [ViewFlightCrewX].[ChocksOutLocal] AS [ChocksOutLocal], 
+    [ViewFlightCrewX].[ChocksInLocal] AS [ChocksInLocal], 
+    [ViewFlightCrewX].[TakeOffLocal] AS [TakeOffLocal], 
+    [ViewFlightCrewX].[LandingLocal] AS [LandingLocal], 
+    [ViewFlightCrewX].[BlockTime] AS [BlockTime], 
+    [ViewFlightCrewX].[FlightTime] AS [FlightTime], 
+    [ViewFlightCrewX].[FlightTimeActual] AS [FlightTimeActual], 
+    [ViewFlightCrewX].[Fixtime] AS [Fixtime], 
+    [ViewFlightCrewX].[SITATime] AS [SITATime], 
+    [ViewFlightCrewX].[FlightStatus] AS [FlightStatus], 
+    [ViewFlightCrewX].[FlightStatusId] AS [FlightStatusId], 
+    [ViewFlightCrewX].[Airline] AS [Airline], 
+    [ViewFlightCrewX].[AirlineOperatorsID] AS [AirlineOperatorsID], 
+    [ViewFlightCrewX].[CPCrewId] AS [CPCrewId], 
+    [ViewFlightCrewX].[CPInstructor] AS [CPInstructor], 
+    [ViewFlightCrewX].[CPP1] AS [CPP1], 
+    [ViewFlightCrewX].[CPP2] AS [CPP2], 
+    [ViewFlightCrewX].[CPSCCM] AS [CPSCCM], 
+    [ViewFlightCrewX].[CPISCCM] AS [CPISCCM], 
+    [ViewFlightCrewX].[SplitDuty] AS [SplitDuty], 
+    [ViewFlightCrewX].[NightTime] AS [NightTime], 
+    [ViewFlightCrewX].[DayTime] AS [DayTime], 
+    [ViewFlightCrewX].[NightTakeOff] AS [NightTakeOff], 
+    [ViewFlightCrewX].[DayTakeOff] AS [DayTakeOff], 
+    [ViewFlightCrewX].[NightLanding] AS [NightLanding], 
+    [ViewFlightCrewX].[DayLanding] AS [DayLanding], 
+    [ViewFlightCrewX].[Pickup] AS [Pickup], 
+    [ViewFlightCrewX].[PickupLocal] AS [PickupLocal], 
+    [ViewFlightCrewX].[DateConfirmed] AS [DateConfirmed]
+    FROM [dbo].[ViewFlightCrewX] AS [ViewFlightCrewX]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewLegTime" EntityType="Self.ViewLegTime" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewLegTime].[ID] AS [ID], 
@@ -1958,7 +2130,14 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
     [ViewLegTime].[CargoCost] AS [CargoCost], 
     [ViewLegTime].[CPRegister] AS [CPRegister], 
     [ViewLegTime].[DepCountry] AS [DepCountry], 
-    [ViewLegTime].[ArrCountry] AS [ArrCountry]
+    [ViewLegTime].[ArrCountry] AS [ArrCountry], 
+    [ViewLegTime].[OFPMINTOFFUEL] AS [OFPMINTOFFUEL], 
+    [ViewLegTime].[OFPOFFBLOCKFUEL] AS [OFPOFFBLOCKFUEL], 
+    [ViewLegTime].[OFPTRIPFUEL] AS [OFPTRIPFUEL], 
+    [ViewLegTime].[PILOTREQFUEL] AS [PILOTREQFUEL], 
+    [ViewLegTime].[FuelPlanned] AS [FuelPlanned], 
+    [ViewLegTime].[PF] AS [PF], 
+    [ViewLegTime].[OFPTOTALFUEL] AS [OFPTOTALFUEL]
     FROM [dbo].[ViewLegTime] AS [ViewLegTime]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="XFlightCrew" EntityType="Self.XFlightCrew" store:Type="Views" store:Schema="dbo">
@@ -2060,8 +2239,9 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
             <End Role="FDP" EntitySet="FDPs" />
             <End Role="OffItem" EntitySet="OffItems" />
           </AssociationSet>
-          <EntitySet Name="AppFTLs" EntityType="dbModel.AppFTL" />
           <EntitySet Name="ViewCrewValidFTLs" EntityType="dbModel.ViewCrewValidFTL" />
+          <EntitySet Name="ViewFlightCrewXes" EntityType="dbModel.ViewFlightCrewX" />
+          <EntitySet Name="AppFTLs" EntityType="dbModel.AppFTL" />
           </EntityContainer>
         <EntityType Name="ViewFDPLog">
           <Key>
@@ -2092,6 +2272,8 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
           <Property Name="UserName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Action" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="DateAction" Type="DateTime" Precision="3" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DutyTypeTitle" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="FDPExtra">
           <Key>
@@ -2301,7 +2483,7 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
           <Property Name="TotalSeat" Type="Int32" />
           <Property Name="BaggageWeight" Type="Int32" Nullable="false" />
           <Property Name="CargoWeight" Type="Int32" Nullable="false" />
-          <Property Name="Freight" Type="Int32" />
+          <Property Name="Freight" Type="Int32" Nullable="false" />
           <Property Name="FlightDate" Type="DateTime" Precision="3" />
           <Property Name="CargoCount" Type="Int32" />
           <Property Name="BaggageCount" Type="Int32" />
@@ -2322,6 +2504,13 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
           <Property Name="CPRegister" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="DepCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ArrCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OFPMINTOFFUEL" Type="Int32" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="Int32" />
+          <Property Name="OFPTRIPFUEL" Type="Int32" />
+          <Property Name="PILOTREQFUEL" Type="Int32" />
+          <Property Name="FuelPlanned" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="PF" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OFPTOTALFUEL" Type="Int32" />
         </EntityType>
         <EntityType Name="FDPMaxDaily">
           <Key>
@@ -2537,7 +2726,7 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
           <Property Name="GroupId" Type="Int32" />
           <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
           <Property Name="MarriageId" Type="Int32" Nullable="false" />
           <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="SexId" Type="Int32" Nullable="false" />
@@ -3109,41 +3298,6 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="AppFTL">
-          <Key>
-            <PropertyRef Name="CDate" />
-            <PropertyRef Name="CrewId" />
-            <PropertyRef Name="FirstName" />
-            <PropertyRef Name="LastName" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="NID" />
-            <PropertyRef Name="IsCockpit" />
-          </Key>
-          <Property Name="CDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CrewId" Type="Int32" Nullable="false" />
-          <Property Name="Duty7" Type="Double" />
-          <Property Name="Duty7Remain" Type="Double" />
-          <Property Name="Duty14" Type="Double" />
-          <Property Name="Duty14Remain" Type="Double" />
-          <Property Name="Duty28" Type="Double" />
-          <Property Name="Duty28Remain" Type="Double" />
-          <Property Name="Flight28" Type="Double" />
-          <Property Name="Flight28Remain" Type="Double" />
-          <Property Name="FlightYear" Type="Double" />
-          <Property Name="FlightYearRemain" Type="Double" />
-          <Property Name="FlightCYear" Type="Double" />
-          <Property Name="FlightCYearRemain" Type="Double" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
-          <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Mobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="IsCockpit" Type="Int32" Nullable="false" />
-          <Property Name="RERRP" Type="Int32" />
-        </EntityType>
         <EntityType Name="ViewCrewValidFTL">
           <Key>
             <PropertyRef Name="Id" />
@@ -3223,8 +3377,8 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
           <Property Name="OPCIssued" Type="DateTime" Precision="3" />
           <Property Name="OPCExpired" Type="DateTime" Precision="3" />
           <Property Name="LPRExpired" Type="DateTime" Precision="3" />
-          <Property Name="FirstAidExpired" Type="DateTime" Precision="3" />
-          <Property Name="FirstAidIssued" Type="DateTime" Precision="3" />
+          <Property Name="FirstAidExpired" Type="DateTime" Precision="0" />
+          <Property Name="FirstAidIssued" Type="DateTime" Precision="0" />
           <Property Name="PassportExpired" Type="DateTime" Precision="0" />
           <Property Name="PassportIssued" Type="DateTime" Precision="0" />
           <Property Name="LicenceExpired" Type="DateTime" Precision="3" />
@@ -3236,6 +3390,114 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
           <Property Name="IsCockpit" Type="Int32" Nullable="false" />
           <Property Name="IsCabin" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="ViewFlightCrewX">
+          <Key>
+            <PropertyRef Name="FDPId" />
+            <PropertyRef Name="FDPItemId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="SexId" />
+            <PropertyRef Name="GroupOrder" />
+            <PropertyRef Name="IsCockpit" />
+            <PropertyRef Name="FlightStatus" />
+            <PropertyRef Name="NightTime" />
+          </Key>
+          <Property Name="FDPId" Type="Int32" Nullable="false" />
+          <Property Name="FDPItemId" Type="Int32" Nullable="false" />
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="IsPositioning" Type="Boolean" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1001" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SexId" Type="Int32" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="GroupOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsCockpit" Type="Int32" Nullable="false" />
+          <Property Name="STDDay" Type="DateTime" Precision="0" />
+          <Property Name="STDDayEnd" Type="DateTime" Precision="3" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirport" Type="Int32" />
+          <Property Name="ToAirport" Type="Int32" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="STDLocal" Type="DateTime" Precision="3" />
+          <Property Name="STALocal" Type="DateTime" Precision="3" />
+          <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterId" Type="Int32" />
+          <Property Name="ChocksOut" Type="DateTime" Precision="3" />
+          <Property Name="ChocksIn" Type="DateTime" Precision="3" />
+          <Property Name="TakeOff" Type="DateTime" Precision="3" />
+          <Property Name="Landing" Type="DateTime" Precision="3" />
+          <Property Name="ChocksOutLocal" Type="DateTime" Precision="3" />
+          <Property Name="ChocksInLocal" Type="DateTime" Precision="3" />
+          <Property Name="TakeOffLocal" Type="DateTime" Precision="3" />
+          <Property Name="LandingLocal" Type="DateTime" Precision="3" />
+          <Property Name="BlockTime" Type="Int32" />
+          <Property Name="FlightTime" Type="Int32" />
+          <Property Name="FlightTimeActual" Type="Int32" />
+          <Property Name="Fixtime" Type="Int32" />
+          <Property Name="SITATime" Type="Int32" />
+          <Property Name="FlightStatus" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="FlightStatusId" Type="Int32" />
+          <Property Name="Airline" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AirlineOperatorsID" Type="Int32" />
+          <Property Name="CPCrewId" Type="Int32" />
+          <Property Name="CPInstructor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CPP1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CPP2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CPSCCM" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CPISCCM" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SplitDuty" Type="Boolean" />
+          <Property Name="NightTime" Type="Int32" Nullable="false" />
+          <Property Name="DayTime" Type="Int32" />
+          <Property Name="NightTakeOff" Type="Int32" />
+          <Property Name="DayTakeOff" Type="Int32" />
+          <Property Name="NightLanding" Type="Int32" />
+          <Property Name="DayLanding" Type="Int32" />
+          <Property Name="Pickup" Type="DateTime" Precision="3" />
+          <Property Name="PickupLocal" Type="DateTime" Precision="3" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="AppFTL">
+          <Key>
+            <PropertyRef Name="CDate" />
+            <PropertyRef Name="CrewId" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="NID" />
+            <PropertyRef Name="IsCockpit" />
+          </Key>
+          <Property Name="CDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CrewId" Type="Int32" Nullable="false" />
+          <Property Name="Duty7" Type="Double" />
+          <Property Name="Duty7Remain" Type="Double" />
+          <Property Name="Duty14" Type="Double" />
+          <Property Name="Duty14Remain" Type="Double" />
+          <Property Name="Duty28" Type="Double" />
+          <Property Name="Duty28Remain" Type="Double" />
+          <Property Name="Flight28" Type="Double" />
+          <Property Name="Flight28Remain" Type="Double" />
+          <Property Name="FlightYear" Type="Double" />
+          <Property Name="FlightYearRemain" Type="Double" />
+          <Property Name="FlightCYear" Type="Double" />
+          <Property Name="FlightCYearRemain" Type="Double" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1003" FixedLength="false" Unicode="true" />
+          <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsCockpit" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3245,6 +3507,8 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
           <EntitySetMapping Name="ViewFDPLogs">
             <EntityTypeMapping TypeName="dbModel.ViewFDPLog">
               <MappingFragment StoreEntitySet="ViewFDPLog">
+                <ScalarProperty Name="DutyTypeTitle" ColumnName="DutyTypeTitle" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
                 <ScalarProperty Name="DateAction" ColumnName="DateAction" />
                 <ScalarProperty Name="Action" ColumnName="Action" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -3379,6 +3643,13 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
           <EntitySetMapping Name="ViewLegTimes">
             <EntityTypeMapping TypeName="dbModel.ViewLegTime">
               <MappingFragment StoreEntitySet="ViewLegTime">
+                <ScalarProperty Name="OFPTOTALFUEL" ColumnName="OFPTOTALFUEL" />
+                <ScalarProperty Name="PF" ColumnName="PF" />
+                <ScalarProperty Name="FuelPlanned" ColumnName="FuelPlanned" />
+                <ScalarProperty Name="PILOTREQFUEL" ColumnName="PILOTREQFUEL" />
+                <ScalarProperty Name="OFPTRIPFUEL" ColumnName="OFPTRIPFUEL" />
+                <ScalarProperty Name="OFPOFFBLOCKFUEL" ColumnName="OFPOFFBLOCKFUEL" />
+                <ScalarProperty Name="OFPMINTOFFUEL" ColumnName="OFPMINTOFFUEL" />
                 <ScalarProperty Name="ArrCountry" ColumnName="ArrCountry" />
                 <ScalarProperty Name="DepCountry" ColumnName="DepCountry" />
                 <ScalarProperty Name="CPRegister" ColumnName="CPRegister" />
@@ -4130,36 +4401,6 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AppFTLs">
-            <EntityTypeMapping TypeName="dbModel.AppFTL">
-              <MappingFragment StoreEntitySet="AppFTL">
-                <ScalarProperty Name="RERRP" ColumnName="RERRP" />
-                <ScalarProperty Name="IsCockpit" ColumnName="IsCockpit" />
-                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
-                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
-                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="NID" ColumnName="NID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="FlightCYearRemain" ColumnName="FlightCYearRemain" />
-                <ScalarProperty Name="FlightCYear" ColumnName="FlightCYear" />
-                <ScalarProperty Name="FlightYearRemain" ColumnName="FlightYearRemain" />
-                <ScalarProperty Name="FlightYear" ColumnName="FlightYear" />
-                <ScalarProperty Name="Flight28Remain" ColumnName="Flight28Remain" />
-                <ScalarProperty Name="Flight28" ColumnName="Flight28" />
-                <ScalarProperty Name="Duty28Remain" ColumnName="Duty28Remain" />
-                <ScalarProperty Name="Duty28" ColumnName="Duty28" />
-                <ScalarProperty Name="Duty14Remain" ColumnName="Duty14Remain" />
-                <ScalarProperty Name="Duty14" ColumnName="Duty14" />
-                <ScalarProperty Name="Duty7Remain" ColumnName="Duty7Remain" />
-                <ScalarProperty Name="Duty7" ColumnName="Duty7" />
-                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
-                <ScalarProperty Name="CDate" ColumnName="CDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViewCrewValidFTLs">
             <EntityTypeMapping TypeName="dbModel.ViewCrewValidFTL">
               <MappingFragment StoreEntitySet="ViewCrewValidFTL">
@@ -4250,6 +4491,103 @@ warning 6002: The table/view 'ppa_dev.dbo.XFlightCrew' does not have a primary k
                 <ScalarProperty Name="PID" ColumnName="PID" />
                 <ScalarProperty Name="SexId" ColumnName="SexId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewFlightCrewXes">
+            <EntityTypeMapping TypeName="dbModel.ViewFlightCrewX">
+              <MappingFragment StoreEntitySet="ViewFlightCrewX">
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="PickupLocal" ColumnName="PickupLocal" />
+                <ScalarProperty Name="Pickup" ColumnName="Pickup" />
+                <ScalarProperty Name="DayLanding" ColumnName="DayLanding" />
+                <ScalarProperty Name="NightLanding" ColumnName="NightLanding" />
+                <ScalarProperty Name="DayTakeOff" ColumnName="DayTakeOff" />
+                <ScalarProperty Name="NightTakeOff" ColumnName="NightTakeOff" />
+                <ScalarProperty Name="DayTime" ColumnName="DayTime" />
+                <ScalarProperty Name="NightTime" ColumnName="NightTime" />
+                <ScalarProperty Name="SplitDuty" ColumnName="SplitDuty" />
+                <ScalarProperty Name="CPISCCM" ColumnName="CPISCCM" />
+                <ScalarProperty Name="CPSCCM" ColumnName="CPSCCM" />
+                <ScalarProperty Name="CPP2" ColumnName="CPP2" />
+                <ScalarProperty Name="CPP1" ColumnName="CPP1" />
+                <ScalarProperty Name="CPInstructor" ColumnName="CPInstructor" />
+                <ScalarProperty Name="CPCrewId" ColumnName="CPCrewId" />
+                <ScalarProperty Name="AirlineOperatorsID" ColumnName="AirlineOperatorsID" />
+                <ScalarProperty Name="Airline" ColumnName="Airline" />
+                <ScalarProperty Name="FlightStatusId" ColumnName="FlightStatusId" />
+                <ScalarProperty Name="FlightStatus" ColumnName="FlightStatus" />
+                <ScalarProperty Name="SITATime" ColumnName="SITATime" />
+                <ScalarProperty Name="Fixtime" ColumnName="Fixtime" />
+                <ScalarProperty Name="FlightTimeActual" ColumnName="FlightTimeActual" />
+                <ScalarProperty Name="FlightTime" ColumnName="FlightTime" />
+                <ScalarProperty Name="BlockTime" ColumnName="BlockTime" />
+                <ScalarProperty Name="LandingLocal" ColumnName="LandingLocal" />
+                <ScalarProperty Name="TakeOffLocal" ColumnName="TakeOffLocal" />
+                <ScalarProperty Name="ChocksInLocal" ColumnName="ChocksInLocal" />
+                <ScalarProperty Name="ChocksOutLocal" ColumnName="ChocksOutLocal" />
+                <ScalarProperty Name="Landing" ColumnName="Landing" />
+                <ScalarProperty Name="TakeOff" ColumnName="TakeOff" />
+                <ScalarProperty Name="ChocksIn" ColumnName="ChocksIn" />
+                <ScalarProperty Name="ChocksOut" ColumnName="ChocksOut" />
+                <ScalarProperty Name="RegisterId" ColumnName="RegisterId" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="STALocal" ColumnName="STALocal" />
+                <ScalarProperty Name="STDLocal" ColumnName="STDLocal" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="ToAirport" ColumnName="ToAirport" />
+                <ScalarProperty Name="FromAirport" ColumnName="FromAirport" />
+                <ScalarProperty Name="ToAirportIATA" ColumnName="ToAirportIATA" />
+                <ScalarProperty Name="FromAirportIATA" ColumnName="FromAirportIATA" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="STDDayEnd" ColumnName="STDDayEnd" />
+                <ScalarProperty Name="STDDay" ColumnName="STDDay" />
+                <ScalarProperty Name="IsCockpit" ColumnName="IsCockpit" />
+                <ScalarProperty Name="GroupOrder" ColumnName="GroupOrder" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="SexId" ColumnName="SexId" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="FDPItemId" ColumnName="FDPItemId" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppFTLs">
+            <EntityTypeMapping TypeName="dbModel.AppFTL">
+              <MappingFragment StoreEntitySet="AppFTL">
+                <ScalarProperty Name="IsCockpit" ColumnName="IsCockpit" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="NID" ColumnName="NID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="FlightCYearRemain" ColumnName="FlightCYearRemain" />
+                <ScalarProperty Name="FlightCYear" ColumnName="FlightCYear" />
+                <ScalarProperty Name="FlightYearRemain" ColumnName="FlightYearRemain" />
+                <ScalarProperty Name="FlightYear" ColumnName="FlightYear" />
+                <ScalarProperty Name="Flight28Remain" ColumnName="Flight28Remain" />
+                <ScalarProperty Name="Flight28" ColumnName="Flight28" />
+                <ScalarProperty Name="Duty28Remain" ColumnName="Duty28Remain" />
+                <ScalarProperty Name="Duty28" ColumnName="Duty28" />
+                <ScalarProperty Name="Duty14Remain" ColumnName="Duty14Remain" />
+                <ScalarProperty Name="Duty14" ColumnName="Duty14" />
+                <ScalarProperty Name="Duty7Remain" ColumnName="Duty7Remain" />
+                <ScalarProperty Name="Duty7" ColumnName="Duty7" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

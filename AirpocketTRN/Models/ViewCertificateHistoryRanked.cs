@@ -21,12 +21,14 @@ namespace AirpocketTRN.Models
         public Nullable<System.DateTime> DateExpire { get; set; }
         public Nullable<int> ExpireYear { get; set; }
         public Nullable<int> ExpireMonth { get; set; }
+        public Nullable<int> ExpireDay { get; set; }
         public int PersonId { get; set; }
         public string Remark { get; set; }
         public Nullable<System.DateTime> DateIssueOld { get; set; }
         public Nullable<System.DateTime> DateExpireOld { get; set; }
         public string CertificateType { get; set; }
         public Nullable<int> CertificateTypeId { get; set; }
+        public Nullable<int> CertificateTypeId2 { get; set; }
         public Nullable<int> Remain { get; set; }
         public Nullable<bool> InActive { get; set; }
         public string LastName { get; set; }

@@ -447,6 +447,9 @@
     <Compile Include="Models\ViewFDRReport.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewFlightCharterer.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewFlightCockpit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

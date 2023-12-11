@@ -45,7 +45,10 @@ namespace ApiLog.Models
         public virtual DbSet<ViewEFBDSPReleas> ViewEFBDSPReleases { get; set; }
         public virtual DbSet<AppCrewFlight> AppCrewFlights { get; set; }
         public virtual DbSet<AppLeg> AppLegs { get; set; }
+        public virtual DbSet<ViewFlightPax> ViewFlightPaxes { get; set; }
         public virtual DbSet<FlightInformation> FlightInformations { get; set; }
         public virtual DbSet<ViewFlightsGantt> ViewFlightsGantts { get; set; }
+        public virtual DbSet<FlightPax> FlightPaxes { get; set; }
+        public virtual DbSet<ViewFlightsGanttNew> ViewFlightsGanttNews { get; set; }
     }
 }

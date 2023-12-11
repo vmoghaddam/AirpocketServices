@@ -73,5 +73,6 @@ namespace AirpocketTRN.Models
         public string Instructor2 { get; set; }
         public Nullable<int> Instructor2Id { get; set; }
         public Nullable<int> Instructor1Id { get; set; }
+        public string ProfileGroup { get; set; }
     }
 }

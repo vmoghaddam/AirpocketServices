@@ -87,8 +87,10 @@ namespace ApiPlanning.Controllers
         {
             List<DateTime> result = new List<DateTime>();
             var minDate = start.Date;
-            var maxDate = end.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-            while (minDate <= maxDate)
+            //var maxDate = end.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+            var maxDate = end.Date.AddDays(1);
+            //  while (minDate <= maxDate)
+            while (minDate < maxDate)
             {
                 switch (type)
                 {
@@ -109,12 +111,19 @@ namespace ApiPlanning.Controllers
         }
 
         [Route("api/plan/group/save/utc")]
-        //kakoli9
+        //2023-11-23
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> PostFlightGroupUTC(ViewModels.FlightDto dto)
         {
             try
             {
+                List<string> messages = new List<string>();
+
+                var time_mode = dto.time_mode;
+                var apts = apt_info.get_apts();
+                var apt_from = apts.FirstOrDefault(q => q.Id == dto.FromAirportId);
+                var apt_to = apts.FirstOrDefault(q => q.Id == dto.ToAirportId);
+
                 var _context = new Models.dbEntities();
                 bool isUtc = true;
 
@@ -124,8 +133,24 @@ namespace ApiPlanning.Controllers
                 //if (validate.Code != HttpStatusCode.OK)
                 //    return validate;
                 var nowOffset = isUtc ? 0 : TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalMinutes;
+
                 dto.STD = parseDate(dto.STDRAW);
                 dto.STA = parseDate(dto.STARAW);
+                if (time_mode == "lcb")
+                {
+                    var _offset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalMinutes;
+                    dto.STD = ((DateTime)dto.STD).AddMinutes(_offset);
+                    dto.STA = ((DateTime)dto.STA).AddMinutes(_offset);
+                }
+                else if (time_mode == "lcl")
+                {
+                    var from_offset = apt_from == null ? -210 : -1 * apt_from.UTC;
+                    var to_offset = apt_to == null ? -210 : -1 * apt_to.UTC;
+                    dto.STD = ((DateTime)dto.STD).AddMinutes(from_offset);
+                    dto.STA = ((DateTime)dto.STA).AddMinutes(to_offset);
+                }
+
+
                 dto.RefDate = parseDate(dto.RefDateRAW);
                 dto.IntervalFrom = parseDate(dto.IntervalFromRAW);
                 dto.IntervalTo = parseDate(dto.IntervalToRAW);
@@ -147,6 +172,19 @@ namespace ApiPlanning.Controllers
 
                 var intervalDays = GetInvervalDates((int)dto.Interval, (DateTime)dto.IntervalFrom, (DateTime)dto.IntervalTo, dto.Days);
 
+                var i_dates = intervalDays.Select(q => (Nullable<DateTime>)q).ToList();
+
+                var _exist_flights = await (from x in _context.ViewFlightsGantts
+                                    where i_dates.Contains(x.Date) && x.FlightNumber == dto.FlightNumber
+                                    select new { x.Date, x.FlightNumber,x.STD}).ToListAsync();
+                var exist_flights = _exist_flights.Select(q => q.Date).ToList();
+
+                foreach(var x in _exist_flights)
+                {
+                    messages.Add(((DateTime)x.STD).ToString("yyyy-MMM-dd HH:mm") + "(utc) " + x.FlightNumber + ": Duplicated Flight Number Error.");
+                }
+                intervalDays = intervalDays.Where(q => !exist_flights.Contains(q)).ToList();
+
 
                 FlightInformation entity = null;
                 // FlightChangeHistory changeLog = null;
@@ -159,24 +197,30 @@ namespace ApiPlanning.Controllers
                     entity = new FlightInformation();
                     _context.FlightInformations.Add(entity);
                     flights.Add(entity);
-                    if (entity.STD != null)
-                    {
-                        var oldSTD = ((DateTime)entity.STD).AddMinutes(270).Date;
-                        var newSTD = ((DateTime)dto.STD).AddMinutes(270).Date;
-                        if (oldSTD != newSTD)
-                        {
-                            entity.FlightDate = oldSTD;
-                        }
-                    }
+                    //if (entity.STD != null)
+                    //{
+                    //    var oldSTD = ((DateTime)entity.STD).AddMinutes(270).Date;
+                    //    var newSTD = ((DateTime)dto.STD).AddMinutes(270).Date;
+                    //    if (oldSTD != newSTD)
+                    //    {
+                    //        entity.FlightDate = oldSTD;
+                    //    }
+                    //}
 
 
                     ViewModels.FlightDto.Fill(entity, dto);
                     var _fltDate = new DateTime(dt.Year, dt.Month, dt.Day, 1, 0, 0);
                     var fltOffset = isUtc ? 0 : -1 * TimeZoneInfo.Local.GetUtcOffset(_fltDate).TotalMinutes;
                     entity.FlightGroupID = flightGroup;
-                    var _std = new DateTime(dt.Year, dt.Month, dt.Day, (int)dto.STDHH, (int)dto.STDMM, 0);
-                    _std = _std.AddDays(_addDay).AddMinutes(fltOffset);
-                    entity.STD = _std;
+                   
+                    
+                   // var _std = new DateTime(dt.Year, dt.Month, dt.Day, (int)dto.STDHH, (int)dto.STDMM, 0);
+                   // _std = _std.AddDays(_addDay).AddMinutes(fltOffset);
+                    
+                    
+                   // entity.STD = _std;
+
+                    entity.STD= new DateTime(dt.Year, dt.Month, dt.Day, stdHours, stdMinutes, 0);
 
                     entity.STA = ((DateTime)entity.STD).AddMinutes(duration);
                     entity.ChocksOut = entity.STD;
@@ -235,7 +279,8 @@ namespace ApiPlanning.Controllers
                 {
                     flights = odtos,
                     resgroups,
-                    ressq
+                    ressq,
+                    messages
                 };
 
                 return Ok(/*entity*/oresult);
@@ -257,6 +302,14 @@ namespace ApiPlanning.Controllers
         {
             try
             {
+                List<string> messages = new List<string>();
+
+
+                var time_mode = dto.time_mode;
+                var apts = apt_info.get_apts();
+                var apt_from = apts.FirstOrDefault(q => q.Id == dto.FromAirportId);
+                var apt_to = apts.FirstOrDefault(q => q.Id == dto.ToAirportId);
+
                 var _context = new Models.dbEntities();
 
                 //var validate = unitOfWork.FlightRepository.ValidateFlight(dto);
@@ -266,13 +319,35 @@ namespace ApiPlanning.Controllers
                 var nowOffset = isUtc ? 0 : TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalMinutes;
                 dto.STD = parseDate(dto.STDRAW);
                 dto.STA = parseDate(dto.STARAW);
+
+                if (time_mode == "lcb")
+                {
+                    var _offset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalMinutes;
+                    dto.STD = ((DateTime)dto.STD).AddMinutes(_offset);
+                    dto.STA = ((DateTime)dto.STA).AddMinutes(_offset);
+                }
+                else if (time_mode == "lcl")
+                {
+                    var from_offset = apt_from == null ? -210 : -1 * apt_from.UTC;
+                    var to_offset = apt_to == null ? -210 : -1 * apt_to.UTC;
+                    dto.STD = ((DateTime)dto.STD).AddMinutes(from_offset);
+                    dto.STA = ((DateTime)dto.STA).AddMinutes(to_offset);
+                }
+
+
+
                 dto.RefDate = parseDate(dto.RefDateRAW);
                 dto.IntervalFrom = parseDate(dto.IntervalFromRAW);
                 dto.IntervalTo = parseDate(dto.IntervalToRAW);
                 dto.Days = isUtc ? dto.DaysUTC.ToList() : dto.Days;
 
                 var intervalDays =  GetInvervalDates((int)dto.Interval, (DateTime)dto.IntervalFrom, (DateTime)dto.IntervalTo, dto.Days).Select(q => (Nullable<DateTime>)q).ToList();
+                var i_dates = intervalDays.Select(q => (Nullable<DateTime>)q).ToList();
 
+                var exist_flights = await (from x in _context.ViewFlightsGantts
+                                           where i_dates.Contains(x.Date) && x.FlightNumber == dto.FlightNumber
+                                           select new { x.ID, x.Date }).ToListAsync();
+                //intervalDays = intervalDays.Where(q => !exist_flights.Contains(q)).ToList();
 
                 var baseFlight = await _context.FlightInformations.Where(q => q.ID == dto.ID).FirstOrDefaultAsync();
                 if (baseFlight == null)
@@ -306,20 +381,37 @@ namespace ApiPlanning.Controllers
                 var duration = (((DateTime)dto.STA) - ((DateTime)dto.STD)).TotalMinutes;
 
                 int utcDiff = 0;
-                if (flights.Count > 0)
-                {
-                    var firstFlight = flights.First();
-                    var __d1 = ((DateTime)firstFlight.STD).Date;
-                    var __d2 = ((DateTime)dto.STD).Date;
-                    if (__d1 > __d2)
-                        utcDiff = -1;
-                    if (((DateTime)firstFlight.STD).Date < ((DateTime)dto.STD).Date)
-                        utcDiff = 1;
+                //if (flights.Count > 0)
+                //{
+                //    var firstFlight = flights.First();
+                //    var __d1 = ((DateTime)firstFlight.STD).Date;
+                //    var __d2 = ((DateTime)dto.STD).Date;
+                //    if (__d1 > __d2)
+                //        utcDiff = -1;
+                //    if (((DateTime)firstFlight.STD).Date < ((DateTime)dto.STD).Date)
+                //        utcDiff = 1;
 
-                }
+                //}
+
+                var nflts = flightIds.Select(q => (Nullable<int>)q).ToList();
+                var fdpitems = await _context.FDPItems.Where(q => nflts.Contains(q.FlightId)).Select(q => q.FlightId).ToListAsync();
+
+
 
                 foreach (var entity in flights)
                 {
+                    var check_exist = exist_flights.FirstOrDefault(q => q.Date ==((DateTime) entity.STD).Date && q.ID!=entity.ID);
+                    if (check_exist != null)
+                    {
+                        messages.Add(((DateTime)entity.STD).ToString("yyyy-MMM-dd HH:mm") + "(utc) " + entity.FlightNumber + ": Duplicated Flight Number Error.");
+                        continue;
+                    }
+                    var fdpitem = fdpitems.FirstOrDefault(q => q == entity.ID);
+                    if (fdpitem != null)
+                    {
+                        messages.Add(((DateTime)entity.STD).ToString("yyyy-MMM-dd HH:mm") + "(utc) " + entity.FlightNumber +": Flight Crew(s) Error.");
+                        continue; 
+                    }
 
                     var flt_stdHours = ((DateTime)entity.STD).Hour;
                     var flt_stdMinutes = ((DateTime)entity.STD).Minute;
@@ -360,20 +452,21 @@ namespace ApiPlanning.Controllers
 
                         var newSTD = new DateTime(oldSTD.Year, oldSTD.Month, oldSTD.Day, stdHours, stdMinutes, 0);
                         var newSTA = newSTD.AddMinutes(duration);
-                        if (oldSTD.AddMinutes(270).Date != newSTD.AddMinutes(270).Date)
-                            entity.FlightDate = oldSTD.AddDays(utcDiff);
+                       // if (oldSTD.AddMinutes(270).Date != newSTD.AddMinutes(270).Date)
+                       //     entity.FlightDate = oldSTD.AddDays(utcDiff);
                         ViewModels.FlightDto.FillForGroupUpdate(entity, dto);
                         
 
                         var _fltDate = new DateTime(oldSTD.Year, oldSTD.Month, oldSTD.Day, 1, 0, 0);
-                        
-                       
-                        var fltOffset = isUtc ? 0 : -1 * TimeZoneInfo.Local.GetUtcOffset(_fltDate).TotalMinutes;
-                        var _std = new DateTime(oldSTD.Year, oldSTD.Month, oldSTD.Day, (int)dto.STDHH, (int)dto.STDMM, 0);
+
+
+                        //var fltOffset = isUtc ? 0 : -1 * TimeZoneInfo.Local.GetUtcOffset(_fltDate).TotalMinutes;
+                        //var _std = new DateTime(oldSTD.Year, oldSTD.Month, oldSTD.Day, (int)dto.STDHH, (int)dto.STDMM, 0);
 
                         // _std = _std.AddMinutes(fltOffset);
-                        _std = _std.AddDays(_addDay).AddDays(utcDiff).AddMinutes(fltOffset);
+                        //_std = _std.AddDays(_addDay).AddDays(utcDiff).AddMinutes(fltOffset);
 
+                        var _std = newSTD;
 
                         entity.STD = _std; //newSTD;
                         entity.STA = _std.AddMinutes(duration); //newSTA;
@@ -456,7 +549,8 @@ namespace ApiPlanning.Controllers
                     flights = odtos,
                     flight = oflight,
                     resgroups,
-                    ressq
+                    ressq,
+                    messages
                 };
 
                 return Ok(/*entity*/oresult);

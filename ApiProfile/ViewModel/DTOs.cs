@@ -429,6 +429,11 @@ namespace ApiProfile.ViewModels
         public Nullable<System.DateTime> CONVERSION_IssueDate { get; set; }
         public Nullable<System.DateTime> CONVERSION_ExpireDate { get; set; }
 
+        public Nullable<System.DateTime> TypeFoker50IssueDate { get; set; }
+        public Nullable<System.DateTime> TypeFoker100IssueDate { get; set; }
+        public Nullable<System.DateTime> TypeFoker50ExpireDate { get; set; }
+        public Nullable<System.DateTime> TypeFoker100ExpireDate { get; set; }
+
         public string BaseAirline { get; set; }
 
         public Nullable<bool> IsType737 { get; set; }
@@ -451,7 +456,20 @@ namespace ApiProfile.ViewModels
             set { aircraftTypes = value; }
         }
 
-       
+        List<PersonAircraftType2> aircraftTypes2 = null;
+        public List<PersonAircraftType2> AircraftTypes2
+        {
+            get
+            {
+                if (aircraftTypes2 == null)
+                    aircraftTypes2 = new List<PersonAircraftType2>();
+                return aircraftTypes2;
+
+            }
+            set { aircraftTypes2 = value; }
+        }
+
+
         //List<ViewCertificate> certificates = null;
         //public List<ViewCertificate> Certificates
         //{
@@ -958,6 +976,11 @@ namespace ApiProfile.ViewModels
             entity.CONVERSION_IssueDate = person.CONVERSION_IssueDate;
             entity.CONVERSION_ExpireDate = person.CONVERSION_ExpireDate;
 
+            entity.TypeFoker100ExpireDate = person.TypeFoker100ExpireDate;
+            entity.TypeFoker100IssueDate = person.TypeFoker100IssueDate;
+            entity.TypeFoker50ExpireDate = person.TypeFoker50ExpireDate;
+            entity.TypeFoker50IssueDate = person.TypeFoker50IssueDate;
+
 
 
 
@@ -1396,6 +1419,11 @@ namespace ApiProfile.ViewModels
             person.CONVERSION_IssueDate = entity.CONVERSION_IssueDate;
             person.CONVERSION_ExpireDate = entity.CONVERSION_ExpireDate;
 
+            person.TypeFoker100ExpireDate = entity.TypeFoker100ExpireDate;
+            person.TypeFoker100IssueDate = entity.TypeFoker100IssueDate;
+            person.TypeFoker50ExpireDate = entity.TypeFoker50ExpireDate;
+            person.TypeFoker50IssueDate = entity.TypeFoker50IssueDate;
+
             person.BaseAirline = entity.BaseAirline;
 
             person.IsType737 = entity.IsType737;
@@ -1517,6 +1545,36 @@ namespace ApiProfile.ViewModels
             return result;
 
         }
+    }
+
+
+    public partial class PersonAircraftType2
+    {
+        public string AircraftType { get; set; }
+         
+        public int AircraftTypeId { get; set; }
+        public static void FillDto(Models.ViewPersonAircraftType entity, ViewModels.PersonAircraftType2 viewpersonaircrafttype)
+        {
+            viewpersonaircrafttype.AircraftType = entity.AircraftType;
+          
+            viewpersonaircrafttype.AircraftTypeId = entity.AircraftTypeId;
+           
+        }
+        public static ViewModels.PersonAircraftType2 GetDto(Models.ViewPersonAircraftType entity)
+        {
+            var result = new ViewModels.PersonAircraftType2();
+            FillDto(entity, result);
+            return result;
+        }
+        public static List<ViewModels.PersonAircraftType2> GetDtos(List<Models.ViewPersonAircraftType> entities)
+        {
+            var result = new List<ViewModels.PersonAircraftType2>();
+            foreach (var x in entities)
+                result.Add(GetDto(x));
+            return result;
+
+        }
+
     }
 
     public partial class PersonDocument

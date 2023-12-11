@@ -86,6 +86,7 @@ namespace ApiProfile.Controllers
             ViewModels.Person.FillDto(entity, employee.Person);
             var actypes = await context.ViewPersonAircraftTypes.Where(q => q.PersonId == entity.Id).ToListAsync();
             employee.Person.AircraftTypes = ViewModels.PersonAircraftType.GetDtos(actypes);
+            employee.Person.AircraftTypes2 = ViewModels.PersonAircraftType2.GetDtos(actypes);
 
             var doc = await context.ViewPersonDocuments.Where(q => q.PersonId == entity.Id).ToListAsync();
             var docIds = doc.Select(q => q.Id).ToList();
@@ -562,7 +563,13 @@ namespace ApiProfile.Controllers
         }
         public void FillAircraftTypes(dbEntities context, Models.Person person, ViewModels.Employee dto)
         {
+
+
+
             var existing = context.PersonAircraftTypes.Where(q => q.PersonId == person.Id).ToList();
+            context.PersonAircraftTypes.RemoveRange(existing);
+
+            /*
             var deleted = (from x in existing
                            where dto.Person.AircraftTypes.FirstOrDefault(q => q.Id == x.Id) == null
                            select x).ToList();
@@ -573,32 +580,35 @@ namespace ApiProfile.Controllers
                           where dto.Person.AircraftTypes.FirstOrDefault(q => q.Id == x.Id) != null
                           select x).ToList();
             foreach (var x in deleted)
-                context.PersonAircraftTypes.Remove(x);
+                context.PersonAircraftTypes.Remove(x);*/
+            List<PersonAircraftType2> added = new List<PersonAircraftType2>();
+            if (dto.Person.AircraftTypes.Count > 0)
+                added = dto.Person.AircraftTypes.Select(q => new PersonAircraftType2() { AircraftType = q.AircraftType, AircraftTypeId = q.AircraftTypeId }).ToList();
+            else
+                added = dto.Person.AircraftTypes2.Select(q => new PersonAircraftType2() { AircraftType = q.AircraftType, AircraftTypeId = q.AircraftTypeId }).ToList();
+
             foreach (var x in added)
                 context.PersonAircraftTypes.Add(new Models.PersonAircraftType()
                 {
                     Person = person,
                     AircraftTypeId = x.AircraftTypeId,
-                    IsActive = x.IsActive,
-                    Remark = x.Remark,
-                    DateLimitBegin = x.DateLimitBegin,
-                    DateLimitEnd = x.DateLimitEnd
+                    IsActive = true,
+                    Remark = "",
+                   // DateLimitBegin = DateTime.Now.AddYears(-5),
+                   // DateLimitEnd = x.DateLimitEnd
 
-                });
-            foreach (var x in edited)
-            {
-                var item = dto.Person.AircraftTypes.FirstOrDefault(q => q.Id == x.Id);
-                if (item != null)
-                {
-                    x.AircraftTypeId = item.AircraftTypeId;
-                    x.DateLimitBegin = item.DateLimitBegin;
-                    x.DateLimitEnd = item.DateLimitEnd;
-                    x.IsActive = item.IsActive;
-                    x.Remark = item.Remark;
+                }) ;
+            
 
-                }
-            }
+
+
+
         }
+
+
+        
+
+
         public void FillDocuments(dbEntities context, Models.Person person, ViewModels.Employee dto)
         {
             var existing = context.PersonDocuments.Include("Documents").Where(q => q.PersonId == person.Id).ToList();

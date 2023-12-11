@@ -27,93 +27,103 @@ namespace ApiCAO.Controllers
         [AcceptVerbs("GET")]
         public IHttpActionResult GetNiraConflicts(DateTime dfrom, DateTime dto)
         {
-            var _dfrom = dfrom.Date.ToString("yyyy-MM-dd");
-            var _dto = dto.Date.ToString("yyyy-MM-dd");
-
-            string nira_url = "http://iv.nirasoft.ir:882/NRSCWS.jsp?ModuleType=SP&ModuleName=FlightsForAirPocket"
-                + "&OfficeUser=Thr003.airpocket&OfficePass=nira123"
-                + "&FlightNo=&FromDate="+_dfrom+"&ToDate="+_dto;
-
-            List<NRSCRSFlightDataX> nira_flights = new List<NRSCRSFlightDataX>();
-
-            using (WebClient client = new WebClient())
+            try
             {
-                client.Headers["Content-type"] = "application/json";
-                client.Encoding = Encoding.UTF8;
-                string json = client.DownloadString(nira_url);
-                var obj = JsonConvert.DeserializeObject<NRSCWSResultX>(json);
-                nira_flights = obj.NRSFlightsForAirPocket;
-                foreach(var x in nira_flights)
+                var _dfrom = dfrom.Date.ToString("yyyy-MM-dd");
+                var _dto = dto.Date.ToString("yyyy-MM-dd");
+
+                string nira_url = "http://iv.nirasoft.ir:882/NRSCWS.jsp?ModuleType=SP&ModuleName=FlightsForAirPocket"
+                    + "&OfficeUser=Thr003.airpocket&OfficePass=nira123"
+                    + "&FlightNo=&FromDate=" + _dfrom + "&ToDate=" + _dto;
+
+                List<NRSCRSFlightDataX> nira_flights = new List<NRSCRSFlightDataX>();
+
+                using (WebClient client = new WebClient())
                 {
-                    x.AircraftCode =string.IsNullOrEmpty( x.AircraftCode)?"": x.AircraftCode.Replace("EP-", "");
-                    if (!string.IsNullOrEmpty(x.FlightNo))
+                    client.Headers["Content-type"] = "application/json";
+                    client.Encoding = Encoding.UTF8;
+                    string json = client.DownloadString(nira_url);
+                    var obj = JsonConvert.DeserializeObject<NRSCWSResultX>(json);
+                    nira_flights = obj.NRSFlightsForAirPocket;
+                    foreach (var x in nira_flights)
                     {
-                        if (x.FlightNo.Length == 2)
-                            x.FlightNo = "00" + x.FlightNo;
-                        if (x.FlightNo.Length == 3)
-                            x.FlightNo = "0" + x.FlightNo;
+                        x.AircraftCode = string.IsNullOrEmpty(x.AircraftCode) ? "" : x.AircraftCode.Replace("EP-", "");
+                        if (!string.IsNullOrEmpty(x.FlightNo))
+                        {
+                            if (x.FlightNo.Length == 2)
+                                x.FlightNo = "00" + x.FlightNo;
+                            if (x.FlightNo.Length == 3)
+                                x.FlightNo = "0" + x.FlightNo;
+                        }
+
+                        x.DepartureDateTimeUTC = x.DepartureDateTime.AddMinutes(-210);
+                        x.ArrivalDateTimeUTC = x.ArrivalDateTime.AddMinutes(-210);
+
                     }
-                   
-                    x.DepartureDateTimeUTC = x.DepartureDateTime.AddMinutes(-210);
-                    x.ArrivalDateTimeUTC = x.ArrivalDateTime.AddMinutes(-210);
+
 
                 }
 
-
-            }
-
-            var df  = dfrom.Date;
-            var dt = dto.Date.AddDays(1);
-            ppa_entities context = new ppa_entities();
-            var flights = context.ViewLegTimes.Where(q => q.STDLocal >= df && q.STDLocal <dt && (q.FlightStatusID == 1 || q.FlightStatusID == 5)).OrderBy(q=>q.Register).ThenBy(q=>q.STD).ToList();
+                var df = dfrom.Date;
+                var dt = dto.Date.AddDays(1);
+                ppa_entities context = new ppa_entities();
+                var flights = context.ViewLegTimes.Where(q => q.STDLocal >= df && q.STDLocal < dt && (q.FlightStatusID == 1 || q.FlightStatusID == 5)).OrderBy(q => q.Register).ThenBy(q => q.STD).ToList();
 
 
-            List<NiraConflictResult> conflictResult = new List<NiraConflictResult>();
+                List<NiraConflictResult> conflictResult = new List<NiraConflictResult>();
 
 
 
-            foreach (var aflt in flights)
-            {
-                //var niraflt = niraFlights.FirstOrDefault(q => q.FlightNo.PadLeft(4, '0') == aflt.FlightNumber && q.STDDay == ((DateTime)aflt.STDLocal).Date);
-                var nira_flight = nira_flights.Where(q => q.FleetWatchKey == aflt.ID.ToString()).FirstOrDefault();
-                var conflict = new NiraConflictResult()
+                foreach (var aflt in flights)
                 {
-                    Date = ((DateTime)aflt.STDLocal).Date,
-                    AirPocket = new _FLT()
+                    //var niraflt = niraFlights.FirstOrDefault(q => q.FlightNo.PadLeft(4, '0') == aflt.FlightNumber && q.STDDay == ((DateTime)aflt.STDLocal).Date);
+                    var nira_flight = nira_flights.Where(q => q.FleetWatchKey == aflt.ID.ToString()).FirstOrDefault();
+                    var conflict = new NiraConflictResult()
                     {
-                        FlightId = aflt.ID,
-                        Destination = aflt.ToAirportIATA,
-                        Origin = aflt.FromAirportIATA,
-                        FlightNo = aflt.FlightNumber,
-                        Register = aflt.Register,
-                        STA = ((DateTime)aflt.ChocksIn).AddMinutes(210), //(DateTime)aflt.STALocal,
-                        STD = ((DateTime)aflt.ChocksOut).AddMinutes(210), //(DateTime)aflt.STDLocal,
-                        STAUtc = (DateTime)aflt.ChocksIn,
-                        STDUtc = (DateTime)aflt.ChocksOut,
-                        StatusId = aflt.FlightStatusID,
-                        Status =aflt.FlightStatus, //aflt.FlightStatusID == 1 ? "SCHEDULED" : "CNL",
-                    },
-                };
-                if (nira_flight != null)
-                {
-                    conflict.Nira = new _FLT()
-                    {
-                        Destination = nira_flight.Destination,
-                        FlightNo = nira_flight.FlightNo,
-                        Origin = nira_flight.Origin,
-                        Register = nira_flight.AircraftCode,
-                        STA = nira_flight.ArrivalDateTime,
-                        STD = nira_flight.DepartureDateTime,
-                        STAUtc = nira_flight.ArrivalDateTimeUTC,
-                        STDUtc = nira_flight.DepartureDateTimeUTC,
-                        StatusId = -1,
-                        Status ="-",
+                        Date = ((DateTime)aflt.STDLocal).Date,
+                        AirPocket = new _FLT()
+                        {
+                            FlightId = aflt.ID,
+                            Destination = aflt.ToAirportIATA,
+                            Origin = aflt.FromAirportIATA,
+                            FlightNo = aflt.FlightNumber,
+                            Register = aflt.Register,
+                            // STA = ((DateTime)aflt.ChocksIn).AddMinutes(210), //(DateTime)aflt.STALocal,
+                            // STD = ((DateTime)aflt.ChocksOut).AddMinutes(210), //(DateTime)aflt.STDLocal,
+                            STA = ((DateTime)aflt.ArrivalLocal),
+                            STD = ((DateTime)aflt.DepartureLocal),
+                            STAUtc = aflt.ChocksIn!=null?(DateTime)aflt.ChocksIn: (DateTime)aflt.STA,
+                            STDUtc = aflt.ChocksOut!=null?(DateTime)aflt.ChocksOut: (DateTime)aflt.STD,
+                            StatusId = aflt.FlightStatusID,
+                            Status = aflt.FlightStatus, //aflt.FlightStatusID == 1 ? "SCHEDULED" : "CNL",
+                        },
                     };
+                    if (nira_flight != null)
+                    {
+                        conflict.Nira = new _FLT()
+                        {
+                            Destination = nira_flight.Destination,
+                            FlightNo = nira_flight.FlightNo,
+                            Origin = nira_flight.Origin,
+                            Register = nira_flight.AircraftCode,
+                            STA = nira_flight.ArrivalDateTime,
+                            STD = nira_flight.DepartureDateTime,
+                            STAUtc = nira_flight.ArrivalDateTimeUTC,
+                            STDUtc = nira_flight.DepartureDateTimeUTC,
+                            StatusId = -1,
+                            Status = "-",
+                        };
+                    }
+                    conflictResult.Add(conflict);
                 }
-                conflictResult.Add(conflict);
-            }
 
-            return Ok(conflictResult);
+                return Ok(conflictResult);
+            }
+            catch(Exception ex)
+            {
+                return (Ok(ex.Message));
+            }
+          
 
            
         }

@@ -61,6 +61,7 @@
           <Property Name="CPT2Limit" Type="int" />
           <Property Name="CPT3Limit" Type="int" />
           <Property Name="CPT4Limit" Type="int" />
+          <Property Name="AircraftType" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="CrewPickupSMS">
           <Key>
@@ -302,6 +303,9 @@
           <Property Name="STD" Type="datetime" />
           <Property Name="STA" Type="datetime" />
           <Property Name="OutOfHomeBase" Type="bit" />
+          <Property Name="InitPosition" Type="varchar" MaxLength="500" />
+          <Property Name="PLNEnd" Type="datetime" />
+          <Property Name="PLNRest" Type="datetime" />
         </EntityType>
         <EntityType Name="FDPExtra">
           <Key>
@@ -646,12 +650,55 @@
           <Property Name="NewTime" Type="int" />
           <Property Name="UTCSTD" Type="int" />
           <Property Name="UTCSTA" Type="int" />
+          <Property Name="OFPMINTOFFUEL" Type="int" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="int" />
+          <Property Name="OFPTRIPFUEL" Type="int" />
+          <Property Name="PILOTREQFUEL" Type="int" />
+          <Property Name="OFPExtra" Type="int" />
+          <Property Name="OFPCONTFUEL" Type="int" />
+          <Property Name="OFPALT1FUEL" Type="int" />
+          <Property Name="OFPALT2FUEL" Type="int" />
+          <Property Name="OFPFINALRESFUEL" Type="int" />
+          <Property Name="OFPTAXIFUEL" Type="int" />
+          <Property Name="OFPETOPSADDNLFUEL" Type="int" />
+          <Property Name="OFPOPSEXTRAFUEL" Type="int" />
+          <Property Name="OFPTANKERINGFUEL" Type="int" />
+          <Property Name="OFPTOTALFUEL" Type="int" />
+          <Property Name="FuelUsedEng1" Type="int" />
+          <Property Name="FuelUsedEng2" Type="int" />
+          <Property Name="ACTUALTANKERINGFUEL" Type="int" />
+          <Property Name="LTR2" Type="varchar" MaxLength="255" />
           <Property Name="FuelRemaining" Type="int" />
           <Property Name="FuelUplift" Type="int" />
           <Property Name="FuelTotal" Type="int" />
           <Property Name="FuelRemained" Type="int" />
           <Property Name="FuelUsed" Type="int" />
           <Property Name="FuelUpliftLitr" Type="int" />
+        </EntityType>
+        <EntityType Name="FlightPax">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
+          <Property Name="RES_Adult" Type="int" />
+          <Property Name="RES_Child" Type="int" />
+          <Property Name="RES_Infant" Type="int" />
+          <Property Name="STN_Adult" Type="int" />
+          <Property Name="STN_Child" Type="int" />
+          <Property Name="STN_Infant" Type="int" />
+          <Property Name="CHR_Adult" Type="int" />
+          <Property Name="CHR_Child" Type="int" />
+          <Property Name="CHR_Infant" Type="int" />
+          <Property Name="FOC_Adult" Type="int" />
+          <Property Name="FOC_Child" Type="int" />
+          <Property Name="FOC_Infant" Type="int" />
+          <Property Name="OA_Adult" Type="int" />
+          <Property Name="OA_Child" Type="int" />
+          <Property Name="OA_Infant" Type="int" />
+          <Property Name="AirportId" Type="int" />
+          <Property Name="Cargo" Type="int" />
+          <Property Name="Baggage" Type="int" />
         </EntityType>
         <EntityType Name="FlightStatusLog">
           <Key>
@@ -674,7 +721,7 @@
           <Property Name="Remark" Type="varchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_amw.dbo.AppCrewFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.AppCrewFlight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AppCrewFlight">
           <Key>
             <PropertyRef Name="FDPId" />
@@ -694,6 +741,7 @@ warning 6002: The table/view 'ppa_amw.dbo.AppCrewFlight' does not have a primary
             <PropertyRef Name="IPScheduleName" />
             <PropertyRef Name="P1ScheduleName" />
             <PropertyRef Name="P2ScheduleName" />
+            <PropertyRef Name="OFPTANKERINGFUEL" />
           </Key>
           <Property Name="FDPId" Type="int" Nullable="false" />
           <Property Name="Id" Type="int" />
@@ -801,13 +849,13 @@ warning 6002: The table/view 'ppa_amw.dbo.AppCrewFlight' does not have a primary
           <Property Name="PF" Type="varchar" MaxLength="255" />
           <Property Name="IPName" Type="nvarchar" MaxLength="1001" />
           <Property Name="IPId" Type="int" />
-          <Property Name="IPScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="IPScheduleName" Type="nvarchar" MaxLength="1001" Nullable="false" />
           <Property Name="P1Name" Type="nvarchar" MaxLength="1001" />
           <Property Name="P1Id" Type="int" />
-          <Property Name="P1ScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="P1ScheduleName" Type="nvarchar" MaxLength="1001" Nullable="false" />
           <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
           <Property Name="P2Id" Type="int" />
-          <Property Name="P2ScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="P2ScheduleName" Type="nvarchar" MaxLength="1001" Nullable="false" />
           <Property Name="PIC" Type="nvarchar" MaxLength="1001" />
           <Property Name="PICId" Type="int" />
           <Property Name="SIC" Type="varchar" MaxLength="500" />
@@ -823,11 +871,31 @@ warning 6002: The table/view 'ppa_amw.dbo.AppCrewFlight' does not have a primary
           <Property Name="ATL" Type="varchar" MaxLength="1000" />
           <Property Name="ATCPlan" Type="varchar" MaxLength="3000" />
           <Property Name="FPTripFuel" Type="decimal" Precision="18" Scale="4" />
-          <Property Name="FPFuel" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FPFuel" Type="decimal" Precision="18" Scale="0" />
           <Property Name="FuelPlanned" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="OFPExtra" Type="int" />
+          <Property Name="OFPCONTFUEL" Type="int" />
+          <Property Name="OFPALT1FUEL" Type="int" />
+          <Property Name="OFPALT2FUEL" Type="int" />
+          <Property Name="OFPFINALRESFUEL" Type="int" />
+          <Property Name="OFPTAXIFUEL" Type="int" />
+          <Property Name="OFPETOPSADDNLFUEL" Type="int" />
+          <Property Name="OFPOPSEXTRAFUEL" Type="int" />
+          <Property Name="OFPTANKERINGFUEL" Type="int" Nullable="false" />
+          <Property Name="OFPTOTALFUEL" Type="int" />
+          <Property Name="OFPMINTOFFUEL" Type="int" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="int" />
+          <Property Name="OFPTRIPFUEL" Type="int" />
+          <Property Name="PILOTREQFUEL" Type="int" />
+          <Property Name="FuelUsedEng1" Type="int" />
+          <Property Name="FuelUsedEng2" Type="int" />
+          <Property Name="ACTUALTANKERINGFUEL" Type="int" />
+          <Property Name="TANKERINGDIFF" Type="int" />
+          <Property Name="ACTUALTOTALFUEL" Type="int" />
+          <Property Name="LTR2" Type="varchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_amw.dbo.AppLeg' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.AppLeg' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AppLeg">
           <Key>
             <PropertyRef Name="ID" />
@@ -842,6 +910,7 @@ warning 6002: The table/view 'ppa_amw.dbo.AppLeg' does not have a primary key de
             <PropertyRef Name="IPScheduleName" />
             <PropertyRef Name="P1ScheduleName" />
             <PropertyRef Name="P2ScheduleName" />
+            <PropertyRef Name="OFPTANKERINGFUEL" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="FlightId" Type="int" Nullable="false" />
@@ -909,7 +978,7 @@ warning 6002: The table/view 'ppa_amw.dbo.AppLeg' does not have a primary key de
           <Property Name="FlightDate" Type="datetime" />
           <Property Name="CargoCount" Type="int" />
           <Property Name="BaggageCount" Type="int" />
-          <Property Name="FPFuel" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FPFuel" Type="decimal" Precision="18" Scale="0" />
           <Property Name="AirlineOperatorsID" Type="int" />
           <Property Name="Airline" Type="nvarchar" MaxLength="1000" />
           <Property Name="CPCrewId" Type="int" />
@@ -980,9 +1049,33 @@ warning 6002: The table/view 'ppa_amw.dbo.AppLeg' does not have a primary key de
           <Property Name="ATL" Type="varchar" MaxLength="1000" />
           <Property Name="ATCPlan" Type="varchar" MaxLength="3000" />
           <Property Name="FuelPlanned" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="OFPExtra" Type="int" />
+          <Property Name="OFPCONTFUEL" Type="int" />
+          <Property Name="OFPALT1FUEL" Type="int" />
+          <Property Name="OFPALT2FUEL" Type="int" />
+          <Property Name="OFPFINALRESFUEL" Type="int" />
+          <Property Name="OFPTAXIFUEL" Type="int" />
+          <Property Name="OFPETOPSADDNLFUEL" Type="int" />
+          <Property Name="OFPOPSEXTRAFUEL" Type="int" />
+          <Property Name="OFPTANKERINGFUEL" Type="int" Nullable="false" />
+          <Property Name="OFPTOTALFUEL" Type="int" />
+          <Property Name="OFPMINTOFFUEL" Type="int" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="int" />
+          <Property Name="OFPTRIPFUEL" Type="int" />
+          <Property Name="PILOTREQFUEL" Type="int" />
+          <Property Name="FuelUsedEng1" Type="int" />
+          <Property Name="FuelUsedEng2" Type="int" />
+          <Property Name="ACTUALTANKERINGFUEL" Type="int" />
+          <Property Name="TANKERINGDIFF" Type="int" />
+          <Property Name="ACTUALTOTALFUEL" Type="int" />
+          <Property Name="LTR2" Type="varchar" MaxLength="255" />
+          <Property Name="BlockOffStation" Type="datetime" />
+          <Property Name="BlockOnStation" Type="datetime" />
+          <Property Name="LandingStation" Type="datetime" />
+          <Property Name="TakeoffStation" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_amw.dbo.HelperMaxFDP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.HelperMaxFDP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="HelperMaxFDP">
           <Key>
             <PropertyRef Name="Id" />
@@ -993,13 +1086,14 @@ warning 6002: The table/view 'ppa_amw.dbo.HelperMaxFDP' does not have a primary 
           <Property Name="MaxFDPExtended" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_amw.dbo.ViewEFBDSPReleases' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBDSPReleases' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewEFBDSPReleases">
           <Key>
+            
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="FlightId" Type="int" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
           <Property Name="ActualWXDSP" Type="bit" />
           <Property Name="ActualWXCPT" Type="bit" />
           <Property Name="ActualWXDSPRemark" Type="nvarchar" MaxLength="1000" />
@@ -1038,7 +1132,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewEFBDSPReleases' does not have a pr
           <Property Name="JeppesenAirwayManualCPTRemark" Type="nvarchar" MaxLength="1000" />
           <Property Name="MinFuelRequiredDSP" Type="bit" />
           <Property Name="MinFuelRequiredCPT" Type="bit" />
-          <Property Name="MinFuelRequiredPilotReq" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MinFuelRequiredPilotReq" Type="decimal" Precision="18" Scale="4" />
           <Property Name="GeneralDeclarationDSP" Type="bit" />
           <Property Name="GeneralDeclarationCPT" Type="bit" />
           <Property Name="GeneralDeclarationDSPRemark" Type="nvarchar" MaxLength="1000" />
@@ -1085,7 +1179,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewEFBDSPReleases' does not have a pr
           <Property Name="IPADCPTRemark" Type="nvarchar" MaxLength="1000" />
           <Property Name="DateConfirmed" Type="date" />
           <Property Name="DispatcherId" Type="int" />
-          <Property Name="DSPName" Type="varchar" MaxLength="255" />
+          <Property Name="DSPName" Type="nvarchar" MaxLength="1001" />
           <Property Name="DSPPID" Type="nvarchar" MaxLength="500" />
           <Property Name="DSPNID" Type="nvarchar" MaxLength="500" />
           <Property Name="DSPMobile" Type="nvarchar" MaxLength="500" />
@@ -1126,9 +1220,11 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewEFBDSPReleases' does not have a pr
           <Property Name="VldRampPassFOORemark" Type="varchar" MaxLength="255" />
           <Property Name="VldRampPassCMDRRemark" Type="varchar" MaxLength="255" />
           <Property Name="Note" Type="varchar(max)" />
+          <Property Name="MinFuelRequiredCFP" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="OFPTOTALFUEL" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_amw.dbo.ViewEmployeeLight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployeeLight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewEmployeeLight">
           <Key>
             <PropertyRef Name="Id" />
@@ -1172,7 +1268,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewEmployeeLight' does not have a pri
           <Property Name="GroupId" Type="int" />
           <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
           <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
-          <Property Name="JobGroupRoot" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="JobGroupRoot" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="MarriageId" Type="int" Nullable="false" />
           <Property Name="NID" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="SexId" Type="int" Nullable="false" />
@@ -1255,7 +1351,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewEmployeeLight' does not have a pri
           <Property Name="JobGroupCode2" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_amw.dbo.ViewFDPItem' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPItem' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFDPItem">
           <Key>
             <PropertyRef Name="Id" />
@@ -1298,7 +1394,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewFDPItem' does not have a primary k
           <Property Name="Position" Type="varchar" MaxLength="7" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_amw.dbo.ViewFlightInformation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightInformation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFlightInformation">
           <Key>
             <PropertyRef Name="ID" />
@@ -1486,9 +1582,38 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewFlightInformation' does not have a
           <Property Name="JLBlockTime" Type="int" />
           <Property Name="JLFlightTime" Type="int" />
           <Property Name="CargoCost" Type="bigint" />
+          <Property Name="OFPTRIPFUEL" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_amw.dbo.ViewFlightsGantt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightPax' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewFlightPax">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FlightId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
+          <Property Name="RES_Adult" Type="int" />
+          <Property Name="RES_Child" Type="int" />
+          <Property Name="RES_Infant" Type="int" />
+          <Property Name="STN_Adult" Type="int" />
+          <Property Name="STN_Child" Type="int" />
+          <Property Name="STN_Infant" Type="int" />
+          <Property Name="CHR_Adult" Type="int" />
+          <Property Name="CHR_Child" Type="int" />
+          <Property Name="CHR_Infant" Type="int" />
+          <Property Name="FOC_Adult" Type="int" />
+          <Property Name="FOC_Child" Type="int" />
+          <Property Name="FOC_Infant" Type="int" />
+          <Property Name="OA_Adult" Type="int" />
+          <Property Name="OA_Child" Type="int" />
+          <Property Name="OA_Infant" Type="int" />
+          <Property Name="AirportId" Type="int" />
+          <Property Name="Cargo" Type="int" />
+          <Property Name="Baggage" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGantt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewFlightsGantt">
           <Key>
             <PropertyRef Name="ID" />
@@ -1528,6 +1653,12 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewFlightsGantt' does not have a prim
             <PropertyRef Name="BaseName" />
             <PropertyRef Name="FixTime" />
             <PropertyRef Name="NightTime" />
+            <PropertyRef Name="FuelRemaining" />
+            <PropertyRef Name="FuelRemained" />
+            <PropertyRef Name="FuelUplift" />
+            <PropertyRef Name="FuelUpliftLitr" />
+            <PropertyRef Name="FuelUsed" />
+            <PropertyRef Name="FuelTotal" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="FlightPlanId" Type="int" />
@@ -1806,15 +1937,129 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewFlightsGantt' does not have a prim
           <Property Name="ExBagWeight" Type="int" />
           <Property Name="ExBagCost" Type="bigint" />
           <Property Name="TotalTrafficLoad" Type="int" />
-          <Property Name="FuelRemaining" Type="int" />
-          <Property Name="FuelRemained" Type="int" />
-          <Property Name="FuelUplift" Type="int" />
-          <Property Name="FuelUpliftLitr" Type="int" />
-          <Property Name="FuelUsed" Type="int" />
-          <Property Name="FuelTotal" Type="int" />
+          <Property Name="FuelRemaining" Type="int" Nullable="false" />
+          <Property Name="FuelRemained" Type="int" Nullable="false" />
+          <Property Name="FuelUplift" Type="int" Nullable="false" />
+          <Property Name="FuelUpliftLitr" Type="int" Nullable="false" />
+          <Property Name="FuelUsed" Type="int" Nullable="false" />
+          <Property Name="FuelTotal" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_amw.dbo.ViewLegTime' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGanttNew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewFlightsGanttNew">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="FlightPlanId" Type="int" />
+          <Property Name="BaggageCount" Type="int" />
+          <Property Name="CargoUnitID" Type="int" />
+          <Property Name="CargoUnit" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CargoWeight" Type="int" />
+          <Property Name="PaxChild" Type="int" />
+          <Property Name="PaxInfant" Type="int" />
+          <Property Name="PaxAdult" Type="int" />
+          <Property Name="FuelArrival" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FuelActual" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FuelPlanned" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="GWLand" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="GWTO" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="FlightH" Type="int" />
+          <Property Name="FlightM" Type="tinyint" />
+          <Property Name="ChocksIn" Type="datetime" />
+          <Property Name="Landing" Type="datetime" />
+          <Property Name="Takeoff" Type="datetime" />
+          <Property Name="ChocksOut" Type="datetime" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="STDLocal" Type="datetime" />
+          <Property Name="STALocal" Type="datetime" />
+          <Property Name="Date" Type="date" />
+          <Property Name="FlightStatusID" Type="int" Nullable="false" />
+          <Property Name="RegisterID" Type="int" />
+          <Property Name="FlightTypeID" Type="int" Nullable="false" />
+          <Property Name="FlightType" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="OTypeId" Type="int" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="FromAirport" Type="int" />
+          <Property Name="ToAirport" Type="int" />
+          <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" />
+          <Property Name="AircraftType" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="OAircraftType" Type="nvarchar" MaxLength="255" />
+          <Property Name="Register" Type="nvarchar" MaxLength="53" />
+          <Property Name="MSN" Type="int" />
+          <Property Name="FlightStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="notes" Type="varchar" MaxLength="1" />
+          <Property Name="taskName" Type="varchar" MaxLength="21" />
+          <Property Name="startDate" Type="datetime" />
+          <Property Name="PlanId" Type="int" Nullable="false" />
+          <Property Name="CargoCount" Type="int" />
+          <Property Name="BaggageWeight" Type="int" />
+          <Property Name="FuelUnitID" Type="int" />
+          <Property Name="FuelUnit" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ArrivalRemark" Type="nvarchar" MaxLength="2000" />
+          <Property Name="DepartureRemark" Type="nvarchar" MaxLength="2000" />
+          <Property Name="TotalSeat" Type="int" />
+          <Property Name="EstimatedDelay" Type="int" Nullable="false" />
+          <Property Name="TotalPax" Type="int" />
+          <Property Name="PaxOver" Type="int" Nullable="false" />
+          <Property Name="DateStatus" Type="datetime" />
+          <Property Name="FlightStatusUserId" Type="int" />
+          <Property Name="STDDay" Type="date" />
+          <Property Name="STADay" Type="date" />
+          <Property Name="DelayOffBlock" Type="int" />
+          <Property Name="DelayTakeoff" Type="int" />
+          <Property Name="DelayOnBlock" Type="int" />
+          <Property Name="DelayLanding" Type="int" />
+          <Property Name="CancelReasonId" Type="int" />
+          <Property Name="CancelRemark" Type="nvarchar" MaxLength="500" />
+          <Property Name="CancelDate" Type="datetime" />
+          <Property Name="CancelReason" Type="nvarchar" MaxLength="1000" />
+          <Property Name="RedirectReasonId" Type="int" />
+          <Property Name="RedirectRemark" Type="nvarchar" MaxLength="500" />
+          <Property Name="RedirectDate" Type="datetime" />
+          <Property Name="RedirectReason" Type="nvarchar" MaxLength="1000" />
+          <Property Name="RampReasonId" Type="int" />
+          <Property Name="RampRemark" Type="varchar" MaxLength="500" />
+          <Property Name="RampDate" Type="datetime" />
+          <Property Name="RampReason" Type="nvarchar" MaxLength="1000" />
+          <Property Name="OSTA" Type="datetime" />
+          <Property Name="OToAirportId" Type="int" />
+          <Property Name="OToAirportIATA" Type="varchar" MaxLength="255" />
+          <Property Name="FPFuel" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Defuel" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Departure" Type="datetime" />
+          <Property Name="Arrival" Type="datetime" />
+          <Property Name="DepartureLocal" Type="datetime" />
+          <Property Name="ArrivalLocal" Type="datetime" />
+          <Property Name="BlockTime" Type="int" />
+          <Property Name="FlightTime" Type="int" />
+          <Property Name="FlightTimeActual" Type="int" />
+          <Property Name="UsedFuel" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="JLBLHH" Type="int" />
+          <Property Name="JLBLMM" Type="int" />
+          <Property Name="PFLR" Type="int" />
+          <Property Name="ChrAdult" Type="int" />
+          <Property Name="ChrChild" Type="int" />
+          <Property Name="ChrInfant" Type="int" />
+          <Property Name="ChrCapacity" Type="int" />
+          <Property Name="ChrTitle" Type="varchar" MaxLength="500" />
+          <Property Name="ChrCode" Type="varchar" MaxLength="255" />
+          <Property Name="DefaultChrId" Type="int" />
+          <Property Name="CargoCost" Type="bigint" />
+          <Property Name="FuelDensity" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="SerialNo" Type="varchar" MaxLength="255" />
+          <Property Name="LTR" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FuelDeparture" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Ready" Type="datetime" />
+          <Property Name="Start" Type="datetime" />
+          <Property Name="CargoPieces" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewLegTime' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewLegTime">
           <Key>
             <PropertyRef Name="ID" />
@@ -1824,6 +2069,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewLegTime' does not have a primary k
             <PropertyRef Name="taskId" />
             <PropertyRef Name="BaggageWeight" />
             <PropertyRef Name="CargoWeight" />
+            
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="FlightId" Type="int" Nullable="false" />
@@ -1919,7 +2165,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewLegTime' does not have a primary k
           <Property Name="TotalSeat" Type="int" />
           <Property Name="BaggageWeight" Type="int" Nullable="false" />
           <Property Name="CargoWeight" Type="int" Nullable="false" />
-          <Property Name="Freight" Type="int" />
+          <Property Name="Freight" Type="int" Nullable="false" />
           <Property Name="FlightDate" Type="datetime" />
           <Property Name="CargoCount" Type="int" />
           <Property Name="BaggageCount" Type="int" />
@@ -1940,9 +2186,16 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewLegTime' does not have a primary k
           <Property Name="CPRegister" Type="varchar" MaxLength="500" />
           <Property Name="DepCountry" Type="varchar" MaxLength="255" />
           <Property Name="ArrCountry" Type="varchar" MaxLength="255" />
+          <Property Name="OFPMINTOFFUEL" Type="int" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="int" />
+          <Property Name="OFPTRIPFUEL" Type="int" />
+          <Property Name="PILOTREQFUEL" Type="int" />
+          <Property Name="FuelPlanned" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="PF" Type="varchar" MaxLength="255" />
+          <Property Name="OFPTOTALFUEL" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewRegisterGround">
           <Key>
             <PropertyRef Name="RegisterId" />
@@ -2132,6 +2385,20 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_fpax_flt">
+          <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FlightPax" Type="Self.FlightPax" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightPax">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="off_fdp">
           <End Role="FDP" Type="Self.FDP" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2169,6 +2436,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <EntitySet Name="FlightChangeHistory" EntityType="Self.FlightChangeHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlightDelay" EntityType="Self.FlightDelay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlightInformation" EntityType="Self.FlightInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlightPax" EntityType="Self.FlightPax" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlightStatusLog" EntityType="Self.FlightStatusLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OffItem" EntityType="Self.OffItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AppCrewFlight" EntityType="Self.AppCrewFlight" store:Type="Views" store:Schema="dbo">
@@ -2302,7 +2570,27 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
     [AppCrewFlight].[ATCPlan] AS [ATCPlan], 
     [AppCrewFlight].[FPTripFuel] AS [FPTripFuel], 
     [AppCrewFlight].[FPFuel] AS [FPFuel], 
-    [AppCrewFlight].[FuelPlanned] AS [FuelPlanned]
+    [AppCrewFlight].[FuelPlanned] AS [FuelPlanned], 
+    [AppCrewFlight].[OFPExtra] AS [OFPExtra], 
+    [AppCrewFlight].[OFPCONTFUEL] AS [OFPCONTFUEL], 
+    [AppCrewFlight].[OFPALT1FUEL] AS [OFPALT1FUEL], 
+    [AppCrewFlight].[OFPALT2FUEL] AS [OFPALT2FUEL], 
+    [AppCrewFlight].[OFPFINALRESFUEL] AS [OFPFINALRESFUEL], 
+    [AppCrewFlight].[OFPTAXIFUEL] AS [OFPTAXIFUEL], 
+    [AppCrewFlight].[OFPETOPSADDNLFUEL] AS [OFPETOPSADDNLFUEL], 
+    [AppCrewFlight].[OFPOPSEXTRAFUEL] AS [OFPOPSEXTRAFUEL], 
+    [AppCrewFlight].[OFPTANKERINGFUEL] AS [OFPTANKERINGFUEL], 
+    [AppCrewFlight].[OFPTOTALFUEL] AS [OFPTOTALFUEL], 
+    [AppCrewFlight].[OFPMINTOFFUEL] AS [OFPMINTOFFUEL], 
+    [AppCrewFlight].[OFPOFFBLOCKFUEL] AS [OFPOFFBLOCKFUEL], 
+    [AppCrewFlight].[OFPTRIPFUEL] AS [OFPTRIPFUEL], 
+    [AppCrewFlight].[PILOTREQFUEL] AS [PILOTREQFUEL], 
+    [AppCrewFlight].[FuelUsedEng1] AS [FuelUsedEng1], 
+    [AppCrewFlight].[FuelUsedEng2] AS [FuelUsedEng2], 
+    [AppCrewFlight].[ACTUALTANKERINGFUEL] AS [ACTUALTANKERINGFUEL], 
+    [AppCrewFlight].[TANKERINGDIFF] AS [TANKERINGDIFF], 
+    [AppCrewFlight].[ACTUALTOTALFUEL] AS [ACTUALTOTALFUEL], 
+    [AppCrewFlight].[LTR2] AS [LTR2]
     FROM [dbo].[AppCrewFlight] AS [AppCrewFlight]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="AppLeg" EntityType="Self.AppLeg" store:Type="Views" store:Schema="dbo">
@@ -2443,7 +2731,31 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
     [AppLeg].[FPTripFuel] AS [FPTripFuel], 
     [AppLeg].[ATL] AS [ATL], 
     [AppLeg].[ATCPlan] AS [ATCPlan], 
-    [AppLeg].[FuelPlanned] AS [FuelPlanned]
+    [AppLeg].[FuelPlanned] AS [FuelPlanned], 
+    [AppLeg].[OFPExtra] AS [OFPExtra], 
+    [AppLeg].[OFPCONTFUEL] AS [OFPCONTFUEL], 
+    [AppLeg].[OFPALT1FUEL] AS [OFPALT1FUEL], 
+    [AppLeg].[OFPALT2FUEL] AS [OFPALT2FUEL], 
+    [AppLeg].[OFPFINALRESFUEL] AS [OFPFINALRESFUEL], 
+    [AppLeg].[OFPTAXIFUEL] AS [OFPTAXIFUEL], 
+    [AppLeg].[OFPETOPSADDNLFUEL] AS [OFPETOPSADDNLFUEL], 
+    [AppLeg].[OFPOPSEXTRAFUEL] AS [OFPOPSEXTRAFUEL], 
+    [AppLeg].[OFPTANKERINGFUEL] AS [OFPTANKERINGFUEL], 
+    [AppLeg].[OFPTOTALFUEL] AS [OFPTOTALFUEL], 
+    [AppLeg].[OFPMINTOFFUEL] AS [OFPMINTOFFUEL], 
+    [AppLeg].[OFPOFFBLOCKFUEL] AS [OFPOFFBLOCKFUEL], 
+    [AppLeg].[OFPTRIPFUEL] AS [OFPTRIPFUEL], 
+    [AppLeg].[PILOTREQFUEL] AS [PILOTREQFUEL], 
+    [AppLeg].[FuelUsedEng1] AS [FuelUsedEng1], 
+    [AppLeg].[FuelUsedEng2] AS [FuelUsedEng2], 
+    [AppLeg].[ACTUALTANKERINGFUEL] AS [ACTUALTANKERINGFUEL], 
+    [AppLeg].[TANKERINGDIFF] AS [TANKERINGDIFF], 
+    [AppLeg].[ACTUALTOTALFUEL] AS [ACTUALTOTALFUEL], 
+    [AppLeg].[LTR2] AS [LTR2], 
+    [AppLeg].[BlockOffStation] AS [BlockOffStation], 
+    [AppLeg].[BlockOnStation] AS [BlockOnStation], 
+    [AppLeg].[LandingStation] AS [LandingStation], 
+    [AppLeg].[TakeoffStation] AS [TakeoffStation]
     FROM [dbo].[AppLeg] AS [AppLeg]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="HelperMaxFDP" EntityType="Self.HelperMaxFDP" store:Type="Views" store:Schema="dbo">
@@ -2583,7 +2895,9 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
     [ViewEFBDSPReleases].[VldRampPassCMDR] AS [VldRampPassCMDR], 
     [ViewEFBDSPReleases].[VldRampPassFOORemark] AS [VldRampPassFOORemark], 
     [ViewEFBDSPReleases].[VldRampPassCMDRRemark] AS [VldRampPassCMDRRemark], 
-    [ViewEFBDSPReleases].[Note] AS [Note]
+    [ViewEFBDSPReleases].[Note] AS [Note], 
+    [ViewEFBDSPReleases].[MinFuelRequiredCFP] AS [MinFuelRequiredCFP], 
+    [ViewEFBDSPReleases].[OFPTOTALFUEL] AS [OFPTOTALFUEL]
     FROM [dbo].[ViewEFBDSPReleases] AS [ViewEFBDSPReleases]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewEmployeeLight" EntityType="Self.ViewEmployeeLight" store:Type="Views" store:Schema="dbo">
@@ -2901,8 +3215,33 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
     [ViewFlightInformation].[JLLanding] AS [JLLanding], 
     [ViewFlightInformation].[JLBlockTime] AS [JLBlockTime], 
     [ViewFlightInformation].[JLFlightTime] AS [JLFlightTime], 
-    [ViewFlightInformation].[CargoCost] AS [CargoCost]
+    [ViewFlightInformation].[CargoCost] AS [CargoCost], 
+    [ViewFlightInformation].[OFPTRIPFUEL] AS [OFPTRIPFUEL]
     FROM [dbo].[ViewFlightInformation] AS [ViewFlightInformation]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewFlightPax" EntityType="Self.ViewFlightPax" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewFlightPax].[Id] AS [Id], 
+    [ViewFlightPax].[FlightId] AS [FlightId], 
+    [ViewFlightPax].[RES_Adult] AS [RES_Adult], 
+    [ViewFlightPax].[RES_Child] AS [RES_Child], 
+    [ViewFlightPax].[RES_Infant] AS [RES_Infant], 
+    [ViewFlightPax].[STN_Adult] AS [STN_Adult], 
+    [ViewFlightPax].[STN_Child] AS [STN_Child], 
+    [ViewFlightPax].[STN_Infant] AS [STN_Infant], 
+    [ViewFlightPax].[CHR_Adult] AS [CHR_Adult], 
+    [ViewFlightPax].[CHR_Child] AS [CHR_Child], 
+    [ViewFlightPax].[CHR_Infant] AS [CHR_Infant], 
+    [ViewFlightPax].[FOC_Adult] AS [FOC_Adult], 
+    [ViewFlightPax].[FOC_Child] AS [FOC_Child], 
+    [ViewFlightPax].[FOC_Infant] AS [FOC_Infant], 
+    [ViewFlightPax].[OA_Adult] AS [OA_Adult], 
+    [ViewFlightPax].[OA_Child] AS [OA_Child], 
+    [ViewFlightPax].[OA_Infant] AS [OA_Infant], 
+    [ViewFlightPax].[AirportId] AS [AirportId], 
+    [ViewFlightPax].[Cargo] AS [Cargo], 
+    [ViewFlightPax].[Baggage] AS [Baggage]
+    FROM [dbo].[ViewFlightPax] AS [ViewFlightPax]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewFlightsGantt" EntityType="Self.ViewFlightsGantt" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -3191,6 +3530,117 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
     [ViewFlightsGantt].[FuelTotal] AS [FuelTotal]
     FROM [dbo].[ViewFlightsGantt] AS [ViewFlightsGantt]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ViewFlightsGanttNew" EntityType="Self.ViewFlightsGanttNew" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewFlightsGanttNew].[ID] AS [ID], 
+    [ViewFlightsGanttNew].[FlightPlanId] AS [FlightPlanId], 
+    [ViewFlightsGanttNew].[BaggageCount] AS [BaggageCount], 
+    [ViewFlightsGanttNew].[CargoUnitID] AS [CargoUnitID], 
+    [ViewFlightsGanttNew].[CargoUnit] AS [CargoUnit], 
+    [ViewFlightsGanttNew].[CargoWeight] AS [CargoWeight], 
+    [ViewFlightsGanttNew].[PaxChild] AS [PaxChild], 
+    [ViewFlightsGanttNew].[PaxInfant] AS [PaxInfant], 
+    [ViewFlightsGanttNew].[PaxAdult] AS [PaxAdult], 
+    [ViewFlightsGanttNew].[FuelArrival] AS [FuelArrival], 
+    [ViewFlightsGanttNew].[FuelActual] AS [FuelActual], 
+    [ViewFlightsGanttNew].[FuelPlanned] AS [FuelPlanned], 
+    [ViewFlightsGanttNew].[GWLand] AS [GWLand], 
+    [ViewFlightsGanttNew].[GWTO] AS [GWTO], 
+    [ViewFlightsGanttNew].[FlightH] AS [FlightH], 
+    [ViewFlightsGanttNew].[FlightM] AS [FlightM], 
+    [ViewFlightsGanttNew].[ChocksIn] AS [ChocksIn], 
+    [ViewFlightsGanttNew].[Landing] AS [Landing], 
+    [ViewFlightsGanttNew].[Takeoff] AS [Takeoff], 
+    [ViewFlightsGanttNew].[ChocksOut] AS [ChocksOut], 
+    [ViewFlightsGanttNew].[STD] AS [STD], 
+    [ViewFlightsGanttNew].[STA] AS [STA], 
+    [ViewFlightsGanttNew].[STDLocal] AS [STDLocal], 
+    [ViewFlightsGanttNew].[STALocal] AS [STALocal], 
+    [ViewFlightsGanttNew].[Date] AS [Date], 
+    [ViewFlightsGanttNew].[FlightStatusID] AS [FlightStatusID], 
+    [ViewFlightsGanttNew].[RegisterID] AS [RegisterID], 
+    [ViewFlightsGanttNew].[FlightTypeID] AS [FlightTypeID], 
+    [ViewFlightsGanttNew].[FlightType] AS [FlightType], 
+    [ViewFlightsGanttNew].[TypeId] AS [TypeId], 
+    [ViewFlightsGanttNew].[OTypeId] AS [OTypeId], 
+    [ViewFlightsGanttNew].[FlightNumber] AS [FlightNumber], 
+    [ViewFlightsGanttNew].[FromAirport] AS [FromAirport], 
+    [ViewFlightsGanttNew].[ToAirport] AS [ToAirport], 
+    [ViewFlightsGanttNew].[FromAirportIATA] AS [FromAirportIATA], 
+    [ViewFlightsGanttNew].[ToAirportIATA] AS [ToAirportIATA], 
+    [ViewFlightsGanttNew].[AircraftType] AS [AircraftType], 
+    [ViewFlightsGanttNew].[OAircraftType] AS [OAircraftType], 
+    [ViewFlightsGanttNew].[Register] AS [Register], 
+    [ViewFlightsGanttNew].[MSN] AS [MSN], 
+    [ViewFlightsGanttNew].[FlightStatus] AS [FlightStatus], 
+    [ViewFlightsGanttNew].[status] AS [status], 
+    [ViewFlightsGanttNew].[notes] AS [notes], 
+    [ViewFlightsGanttNew].[taskName] AS [taskName], 
+    [ViewFlightsGanttNew].[startDate] AS [startDate], 
+    [ViewFlightsGanttNew].[PlanId] AS [PlanId], 
+    [ViewFlightsGanttNew].[CargoCount] AS [CargoCount], 
+    [ViewFlightsGanttNew].[BaggageWeight] AS [BaggageWeight], 
+    [ViewFlightsGanttNew].[FuelUnitID] AS [FuelUnitID], 
+    [ViewFlightsGanttNew].[FuelUnit] AS [FuelUnit], 
+    [ViewFlightsGanttNew].[ArrivalRemark] AS [ArrivalRemark], 
+    [ViewFlightsGanttNew].[DepartureRemark] AS [DepartureRemark], 
+    [ViewFlightsGanttNew].[TotalSeat] AS [TotalSeat], 
+    [ViewFlightsGanttNew].[EstimatedDelay] AS [EstimatedDelay], 
+    [ViewFlightsGanttNew].[TotalPax] AS [TotalPax], 
+    [ViewFlightsGanttNew].[PaxOver] AS [PaxOver], 
+    [ViewFlightsGanttNew].[DateStatus] AS [DateStatus], 
+    [ViewFlightsGanttNew].[FlightStatusUserId] AS [FlightStatusUserId], 
+    [ViewFlightsGanttNew].[STDDay] AS [STDDay], 
+    [ViewFlightsGanttNew].[STADay] AS [STADay], 
+    [ViewFlightsGanttNew].[DelayOffBlock] AS [DelayOffBlock], 
+    [ViewFlightsGanttNew].[DelayTakeoff] AS [DelayTakeoff], 
+    [ViewFlightsGanttNew].[DelayOnBlock] AS [DelayOnBlock], 
+    [ViewFlightsGanttNew].[DelayLanding] AS [DelayLanding], 
+    [ViewFlightsGanttNew].[CancelReasonId] AS [CancelReasonId], 
+    [ViewFlightsGanttNew].[CancelRemark] AS [CancelRemark], 
+    [ViewFlightsGanttNew].[CancelDate] AS [CancelDate], 
+    [ViewFlightsGanttNew].[CancelReason] AS [CancelReason], 
+    [ViewFlightsGanttNew].[RedirectReasonId] AS [RedirectReasonId], 
+    [ViewFlightsGanttNew].[RedirectRemark] AS [RedirectRemark], 
+    [ViewFlightsGanttNew].[RedirectDate] AS [RedirectDate], 
+    [ViewFlightsGanttNew].[RedirectReason] AS [RedirectReason], 
+    [ViewFlightsGanttNew].[RampReasonId] AS [RampReasonId], 
+    [ViewFlightsGanttNew].[RampRemark] AS [RampRemark], 
+    [ViewFlightsGanttNew].[RampDate] AS [RampDate], 
+    [ViewFlightsGanttNew].[RampReason] AS [RampReason], 
+    [ViewFlightsGanttNew].[OSTA] AS [OSTA], 
+    [ViewFlightsGanttNew].[OToAirportId] AS [OToAirportId], 
+    [ViewFlightsGanttNew].[OToAirportIATA] AS [OToAirportIATA], 
+    [ViewFlightsGanttNew].[FPFuel] AS [FPFuel], 
+    [ViewFlightsGanttNew].[Defuel] AS [Defuel], 
+    [ViewFlightsGanttNew].[Departure] AS [Departure], 
+    [ViewFlightsGanttNew].[Arrival] AS [Arrival], 
+    [ViewFlightsGanttNew].[DepartureLocal] AS [DepartureLocal], 
+    [ViewFlightsGanttNew].[ArrivalLocal] AS [ArrivalLocal], 
+    [ViewFlightsGanttNew].[BlockTime] AS [BlockTime], 
+    [ViewFlightsGanttNew].[FlightTime] AS [FlightTime], 
+    [ViewFlightsGanttNew].[FlightTimeActual] AS [FlightTimeActual], 
+    [ViewFlightsGanttNew].[UsedFuel] AS [UsedFuel], 
+    [ViewFlightsGanttNew].[JLBLHH] AS [JLBLHH], 
+    [ViewFlightsGanttNew].[JLBLMM] AS [JLBLMM], 
+    [ViewFlightsGanttNew].[PFLR] AS [PFLR], 
+    [ViewFlightsGanttNew].[ChrAdult] AS [ChrAdult], 
+    [ViewFlightsGanttNew].[ChrChild] AS [ChrChild], 
+    [ViewFlightsGanttNew].[ChrInfant] AS [ChrInfant], 
+    [ViewFlightsGanttNew].[ChrCapacity] AS [ChrCapacity], 
+    [ViewFlightsGanttNew].[ChrTitle] AS [ChrTitle], 
+    [ViewFlightsGanttNew].[ChrCode] AS [ChrCode], 
+    [ViewFlightsGanttNew].[DefaultChrId] AS [DefaultChrId], 
+    [ViewFlightsGanttNew].[CargoCost] AS [CargoCost], 
+    [ViewFlightsGanttNew].[FuelDensity] AS [FuelDensity], 
+    [ViewFlightsGanttNew].[SerialNo] AS [SerialNo], 
+    [ViewFlightsGanttNew].[LTR] AS [LTR], 
+    [ViewFlightsGanttNew].[FuelDeparture] AS [FuelDeparture], 
+    [ViewFlightsGanttNew].[Ready] AS [Ready], 
+    [ViewFlightsGanttNew].[Start] AS [Start], 
+    [ViewFlightsGanttNew].[CargoPieces] AS [CargoPieces]
+    FROM [dbo].[ViewFlightsGanttNew] AS [ViewFlightsGanttNew]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewLegTime" EntityType="Self.ViewLegTime" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewLegTime].[ID] AS [ID], 
@@ -3307,7 +3757,14 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
     [ViewLegTime].[CargoCost] AS [CargoCost], 
     [ViewLegTime].[CPRegister] AS [CPRegister], 
     [ViewLegTime].[DepCountry] AS [DepCountry], 
-    [ViewLegTime].[ArrCountry] AS [ArrCountry]
+    [ViewLegTime].[ArrCountry] AS [ArrCountry], 
+    [ViewLegTime].[OFPMINTOFFUEL] AS [OFPMINTOFFUEL], 
+    [ViewLegTime].[OFPOFFBLOCKFUEL] AS [OFPOFFBLOCKFUEL], 
+    [ViewLegTime].[OFPTRIPFUEL] AS [OFPTRIPFUEL], 
+    [ViewLegTime].[PILOTREQFUEL] AS [PILOTREQFUEL], 
+    [ViewLegTime].[FuelPlanned] AS [FuelPlanned], 
+    [ViewLegTime].[PF] AS [PF], 
+    [ViewLegTime].[OFPTOTALFUEL] AS [OFPTOTALFUEL]
     FROM [dbo].[ViewLegTime] AS [ViewLegTime]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewRegisterGround" EntityType="Self.ViewRegisterGround" store:Type="Views" store:Schema="dbo">
@@ -3385,6 +3842,10 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
             <End Role="FlightInformation" EntitySet="FlightInformation" />
             <End Role="FlightStatusLog" EntitySet="FlightStatusLog" />
           </AssociationSet>
+          <AssociationSet Name="fk_fpax_flt" Association="Self.fk_fpax_flt">
+            <End Role="FlightInformation" EntitySet="FlightInformation" />
+            <End Role="FlightPax" EntitySet="FlightPax" />
+          </AssociationSet>
           <AssociationSet Name="off_fdp" Association="Self.off_fdp">
             <End Role="FDP" EntitySet="FDP" />
             <End Role="OffItem" EntitySet="OffItem" />
@@ -3454,6 +3915,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="CPT2Limit" Type="Int32" />
           <Property Name="CPT3Limit" Type="Int32" />
           <Property Name="CPT4Limit" Type="Int32" />
+          <Property Name="AircraftType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FlightInformations" Relationship="ppaModel.FK_FlightInformation_Ac_MSN" FromRole="Ac_MSN" ToRole="FlightInformation" />
         </EntityType>
         <EntityType Name="Employee">
@@ -3621,7 +4083,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="TotalSeat" Type="Int32" />
           <Property Name="BaggageWeight" Type="Int32" Nullable="false" />
           <Property Name="CargoWeight" Type="Int32" Nullable="false" />
-          <Property Name="Freight" Type="Int32" />
+          <Property Name="Freight" Type="Int32" Nullable="false" />
           <Property Name="FlightDate" Type="DateTime" Precision="3" />
           <Property Name="CargoCount" Type="Int32" />
           <Property Name="BaggageCount" Type="Int32" />
@@ -3642,6 +4104,13 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="CPRegister" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="DepCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ArrCountry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OFPMINTOFFUEL" Type="Int32" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="Int32" />
+          <Property Name="OFPTRIPFUEL" Type="Int32" />
+          <Property Name="PILOTREQFUEL" Type="Int32" />
+          <Property Name="FuelPlanned" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="PF" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OFPTOTALFUEL" Type="Int32" />
         </EntityType>
         <EntityContainer Name="ppa_entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Ac_MSN" EntityType="Self.Ac_MSN" />
@@ -3692,7 +4161,9 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <EntitySet Name="ViewEFBDSPReleases" EntityType="ppaModel.ViewEFBDSPReleas" />
           <EntitySet Name="AppCrewFlights" EntityType="ppaModel.AppCrewFlight" />
           <EntitySet Name="AppLegs" EntityType="ppaModel.AppLeg" />
+          <EntitySet Name="ViewFlightPaxes" EntityType="ppaModel.ViewFlightPax" />
           <EntitySet Name="FlightInformations" EntityType="ppaModel.FlightInformation" />
+          <EntitySet Name="ViewFlightsGantts" EntityType="ppaModel.ViewFlightsGantt" />
           <AssociationSet Name="FK_FlightInformation_Ac_MSN" Association="ppaModel.FK_FlightInformation_Ac_MSN">
             <End Role="Ac_MSN" EntitySet="Ac_MSN" />
             <End Role="FlightInformation" EntitySet="FlightInformations" />
@@ -3717,7 +4188,12 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
             <End Role="FlightInformation" EntitySet="FlightInformations" />
             <End Role="OffItem" EntitySet="OffItems" />
           </AssociationSet>
-          <EntitySet Name="ViewFlightsGantts" EntityType="ppaModel.ViewFlightsGantt" />
+          <EntitySet Name="FlightPaxes" EntityType="ppaModel.FlightPax" />
+          <AssociationSet Name="fk_fpax_flt" Association="ppaModel.fk_fpax_flt">
+            <End Role="FlightInformation" EntitySet="FlightInformations" />
+            <End Role="FlightPax" EntitySet="FlightPaxes" />
+          </AssociationSet>
+          <EntitySet Name="ViewFlightsGanttNews" EntityType="ppaModel.ViewFlightsGanttNew" />
           </EntityContainer>
         <EntityType Name="FDP">
           <Key>
@@ -3792,6 +4268,9 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="STD" Type="DateTime" Precision="3" />
           <Property Name="STA" Type="DateTime" Precision="3" />
           <Property Name="OutOfHomeBase" Type="Boolean" />
+          <Property Name="InitPosition" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PLNEnd" Type="DateTime" Precision="3" />
+          <Property Name="PLNRest" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="fk_fdp_employee">
           <End Type="ppaModel.Employee" Role="Employee" Multiplicity="0..1">
@@ -4202,6 +4681,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="JLBlockTime" Type="Int32" />
           <Property Name="JLFlightTime" Type="Int32" />
           <Property Name="CargoCost" Type="Int64" />
+          <Property Name="OFPTRIPFUEL" Type="Int32" />
         </EntityType>
         <EntityType Name="FDPItem">
           <Key>
@@ -4425,7 +4905,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="GroupId" Type="Int32" />
           <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
           <Property Name="MarriageId" Type="Int32" Nullable="false" />
           <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="SexId" Type="Int32" Nullable="false" />
@@ -4512,7 +4992,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="FlightId" Type="Int32" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
           <Property Name="ActualWXDSP" Type="Boolean" />
           <Property Name="ActualWXCPT" Type="Boolean" />
           <Property Name="ActualWXDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -4551,7 +5031,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="JeppesenAirwayManualCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="MinFuelRequiredDSP" Type="Boolean" />
           <Property Name="MinFuelRequiredCPT" Type="Boolean" />
-          <Property Name="MinFuelRequiredPilotReq" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MinFuelRequiredPilotReq" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="GeneralDeclarationDSP" Type="Boolean" />
           <Property Name="GeneralDeclarationCPT" Type="Boolean" />
           <Property Name="GeneralDeclarationDSPRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -4598,7 +5078,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="IPADCPTRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="DateConfirmed" Type="DateTime" Precision="0" />
           <Property Name="DispatcherId" Type="Int32" />
-          <Property Name="DSPName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DSPName" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="DSPPID" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="DSPNID" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="DSPMobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
@@ -4639,6 +5119,8 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="VldRampPassFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VldRampPassCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MinFuelRequiredCFP" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="OFPTOTALFUEL" Type="Int32" />
         </EntityType>
         <EntityType Name="AppCrewFlight">
           <Key>
@@ -4659,6 +5141,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
             <PropertyRef Name="IPScheduleName" />
             <PropertyRef Name="P1ScheduleName" />
             <PropertyRef Name="P2ScheduleName" />
+            <PropertyRef Name="OFPTANKERINGFUEL" />
           </Key>
           <Property Name="FDPId" Type="Int32" Nullable="false" />
           <Property Name="Id" Type="Int32" />
@@ -4766,13 +5249,13 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="PF" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="IPName" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="IPId" Type="Int32" />
-          <Property Name="IPScheduleName" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IPScheduleName" Type="String" Nullable="false" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="P1Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="P1Id" Type="Int32" />
-          <Property Name="P1ScheduleName" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="P1ScheduleName" Type="String" Nullable="false" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="P2Id" Type="Int32" />
-          <Property Name="P2ScheduleName" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="P2ScheduleName" Type="String" Nullable="false" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="PIC" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="PICId" Type="Int32" />
           <Property Name="SIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
@@ -4788,8 +5271,28 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="ATL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="ATCPlan" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
           <Property Name="FPTripFuel" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="FPFuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FPFuel" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="FuelPlanned" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="OFPExtra" Type="Int32" />
+          <Property Name="OFPCONTFUEL" Type="Int32" />
+          <Property Name="OFPALT1FUEL" Type="Int32" />
+          <Property Name="OFPALT2FUEL" Type="Int32" />
+          <Property Name="OFPFINALRESFUEL" Type="Int32" />
+          <Property Name="OFPTAXIFUEL" Type="Int32" />
+          <Property Name="OFPETOPSADDNLFUEL" Type="Int32" />
+          <Property Name="OFPOPSEXTRAFUEL" Type="Int32" />
+          <Property Name="OFPTANKERINGFUEL" Type="Int32" Nullable="false" />
+          <Property Name="OFPTOTALFUEL" Type="Int32" />
+          <Property Name="OFPMINTOFFUEL" Type="Int32" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="Int32" />
+          <Property Name="OFPTRIPFUEL" Type="Int32" />
+          <Property Name="PILOTREQFUEL" Type="Int32" />
+          <Property Name="FuelUsedEng1" Type="Int32" />
+          <Property Name="FuelUsedEng2" Type="Int32" />
+          <Property Name="ACTUALTANKERINGFUEL" Type="Int32" />
+          <Property Name="TANKERINGDIFF" Type="Int32" />
+          <Property Name="ACTUALTOTALFUEL" Type="Int32" />
+          <Property Name="LTR2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="AppLeg">
           <Key>
@@ -4805,6 +5308,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
             <PropertyRef Name="IPScheduleName" />
             <PropertyRef Name="P1ScheduleName" />
             <PropertyRef Name="P2ScheduleName" />
+            <PropertyRef Name="OFPTANKERINGFUEL" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="FlightId" Type="Int32" Nullable="false" />
@@ -4872,7 +5376,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="FlightDate" Type="DateTime" Precision="3" />
           <Property Name="CargoCount" Type="Int32" />
           <Property Name="BaggageCount" Type="Int32" />
-          <Property Name="FPFuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FPFuel" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="AirlineOperatorsID" Type="Int32" />
           <Property Name="Airline" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="CPCrewId" Type="Int32" />
@@ -4943,6 +5447,56 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="ATL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="ATCPlan" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
           <Property Name="FuelPlanned" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="OFPExtra" Type="Int32" />
+          <Property Name="OFPCONTFUEL" Type="Int32" />
+          <Property Name="OFPALT1FUEL" Type="Int32" />
+          <Property Name="OFPALT2FUEL" Type="Int32" />
+          <Property Name="OFPFINALRESFUEL" Type="Int32" />
+          <Property Name="OFPTAXIFUEL" Type="Int32" />
+          <Property Name="OFPETOPSADDNLFUEL" Type="Int32" />
+          <Property Name="OFPOPSEXTRAFUEL" Type="Int32" />
+          <Property Name="OFPTANKERINGFUEL" Type="Int32" Nullable="false" />
+          <Property Name="OFPTOTALFUEL" Type="Int32" />
+          <Property Name="OFPMINTOFFUEL" Type="Int32" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="Int32" />
+          <Property Name="OFPTRIPFUEL" Type="Int32" />
+          <Property Name="PILOTREQFUEL" Type="Int32" />
+          <Property Name="FuelUsedEng1" Type="Int32" />
+          <Property Name="FuelUsedEng2" Type="Int32" />
+          <Property Name="ACTUALTANKERINGFUEL" Type="Int32" />
+          <Property Name="TANKERINGDIFF" Type="Int32" />
+          <Property Name="ACTUALTOTALFUEL" Type="Int32" />
+          <Property Name="LTR2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BlockOffStation" Type="DateTime" Precision="3" />
+          <Property Name="BlockOnStation" Type="DateTime" Precision="3" />
+          <Property Name="LandingStation" Type="DateTime" Precision="3" />
+          <Property Name="TakeoffStation" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ViewFlightPax">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FlightId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="RES_Adult" Type="Int32" />
+          <Property Name="RES_Child" Type="Int32" />
+          <Property Name="RES_Infant" Type="Int32" />
+          <Property Name="STN_Adult" Type="Int32" />
+          <Property Name="STN_Child" Type="Int32" />
+          <Property Name="STN_Infant" Type="Int32" />
+          <Property Name="CHR_Adult" Type="Int32" />
+          <Property Name="CHR_Child" Type="Int32" />
+          <Property Name="CHR_Infant" Type="Int32" />
+          <Property Name="FOC_Adult" Type="Int32" />
+          <Property Name="FOC_Child" Type="Int32" />
+          <Property Name="FOC_Infant" Type="Int32" />
+          <Property Name="OA_Adult" Type="Int32" />
+          <Property Name="OA_Child" Type="Int32" />
+          <Property Name="OA_Infant" Type="Int32" />
+          <Property Name="AirportId" Type="Int32" />
+          <Property Name="Cargo" Type="Int32" />
+          <Property Name="Baggage" Type="Int32" />
         </EntityType>
         <EntityType Name="FlightInformation">
           <Key>
@@ -5218,6 +5772,24 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="NewTime" Type="Int32" />
           <Property Name="UTCSTD" Type="Int32" />
           <Property Name="UTCSTA" Type="Int32" />
+          <Property Name="OFPMINTOFFUEL" Type="Int32" />
+          <Property Name="OFPOFFBLOCKFUEL" Type="Int32" />
+          <Property Name="OFPTRIPFUEL" Type="Int32" />
+          <Property Name="PILOTREQFUEL" Type="Int32" />
+          <Property Name="OFPExtra" Type="Int32" />
+          <Property Name="OFPCONTFUEL" Type="Int32" />
+          <Property Name="OFPALT1FUEL" Type="Int32" />
+          <Property Name="OFPALT2FUEL" Type="Int32" />
+          <Property Name="OFPFINALRESFUEL" Type="Int32" />
+          <Property Name="OFPTAXIFUEL" Type="Int32" />
+          <Property Name="OFPETOPSADDNLFUEL" Type="Int32" />
+          <Property Name="OFPOPSEXTRAFUEL" Type="Int32" />
+          <Property Name="OFPTANKERINGFUEL" Type="Int32" />
+          <Property Name="OFPTOTALFUEL" Type="Int32" />
+          <Property Name="FuelUsedEng1" Type="Int32" />
+          <Property Name="FuelUsedEng2" Type="Int32" />
+          <Property Name="ACTUALTANKERINGFUEL" Type="Int32" />
+          <Property Name="LTR2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="FuelRemaining" Type="Int32" />
           <Property Name="FuelUplift" Type="Int32" />
           <Property Name="FuelTotal" Type="Int32" />
@@ -5230,85 +5802,8 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <NavigationProperty Name="FlightDelays" Relationship="ppaModel.FK_FlightDelay_FlightInformation" FromRole="FlightInformation" ToRole="FlightDelay" />
           <NavigationProperty Name="FlightStatusLogs" Relationship="ppaModel.FK_FlightStatusLog_FlightInformation" FromRole="FlightInformation" ToRole="FlightStatusLog" />
           <NavigationProperty Name="OffItems" Relationship="ppaModel.off_flight" FromRole="FlightInformation" ToRole="OffItem" />
+          <NavigationProperty Name="FlightPaxes" Relationship="ppaModel.fk_fpax_flt" FromRole="FlightInformation" ToRole="FlightPax" />
         </EntityType>
-        <Association Name="FK_FlightInformation_Ac_MSN">
-          <End Type="ppaModel.Ac_MSN" Role="Ac_MSN" Multiplicity="0..1" />
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ac_MSN">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FlightInformation">
-              <PropertyRef Name="RegisterID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_EFB_FI">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
-          <End Type="ppaModel.EFBDSPRelease" Role="EFBDSPRelease" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EFBDSPRelease">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_fdpitem_flight">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ppaModel.FDPItem" Role="FDPItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FDPItem">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FlightDelay_FlightInformation">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ppaModel.FlightDelay" Role="FlightDelay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FlightDelay">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FlightStatusLog_FlightInformation">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ppaModel.FlightStatusLog" Role="FlightStatusLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FlightStatusLog">
-              <PropertyRef Name="FlightID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="off_flight">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
-          <End Type="ppaModel.OffItem" Role="OffItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OffItem">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ViewFlightsGantt">
           <Key>
             <PropertyRef Name="ID" />
@@ -5348,6 +5843,12 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
             <PropertyRef Name="BaseName" />
             <PropertyRef Name="FixTime" />
             <PropertyRef Name="NightTime" />
+            <PropertyRef Name="FuelRemaining" />
+            <PropertyRef Name="FuelRemained" />
+            <PropertyRef Name="FuelUplift" />
+            <PropertyRef Name="FuelUpliftLitr" />
+            <PropertyRef Name="FuelUsed" />
+            <PropertyRef Name="FuelTotal" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="FlightPlanId" Type="Int32" />
@@ -5626,12 +6127,242 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <Property Name="ExBagWeight" Type="Int32" />
           <Property Name="ExBagCost" Type="Int64" />
           <Property Name="TotalTrafficLoad" Type="Int32" />
-          <Property Name="FuelRemaining" Type="Int32" />
-          <Property Name="FuelRemained" Type="Int32" />
-          <Property Name="FuelUplift" Type="Int32" />
-          <Property Name="FuelUpliftLitr" Type="Int32" />
-          <Property Name="FuelUsed" Type="Int32" />
-          <Property Name="FuelTotal" Type="Int32" />
+          <Property Name="FuelRemaining" Type="Int32" Nullable="false" />
+          <Property Name="FuelRemained" Type="Int32" Nullable="false" />
+          <Property Name="FuelUplift" Type="Int32" Nullable="false" />
+          <Property Name="FuelUpliftLitr" Type="Int32" Nullable="false" />
+          <Property Name="FuelUsed" Type="Int32" Nullable="false" />
+          <Property Name="FuelTotal" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_FlightInformation_Ac_MSN">
+          <End Type="ppaModel.Ac_MSN" Role="Ac_MSN" Multiplicity="0..1" />
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ac_MSN">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightInformation">
+              <PropertyRef Name="RegisterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EFB_FI">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
+          <End Type="ppaModel.EFBDSPRelease" Role="EFBDSPRelease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EFBDSPRelease">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fdpitem_flight">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppaModel.FDPItem" Role="FDPItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FDPItem">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FlightDelay_FlightInformation">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppaModel.FlightDelay" Role="FlightDelay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightDelay">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FlightStatusLog_FlightInformation">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppaModel.FlightStatusLog" Role="FlightStatusLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightStatusLog">
+              <PropertyRef Name="FlightID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="off_flight">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
+          <End Type="ppaModel.OffItem" Role="OffItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OffItem">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FlightPax">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="RES_Adult" Type="Int32" />
+          <Property Name="RES_Child" Type="Int32" />
+          <Property Name="RES_Infant" Type="Int32" />
+          <Property Name="STN_Adult" Type="Int32" />
+          <Property Name="STN_Child" Type="Int32" />
+          <Property Name="STN_Infant" Type="Int32" />
+          <Property Name="CHR_Adult" Type="Int32" />
+          <Property Name="CHR_Child" Type="Int32" />
+          <Property Name="CHR_Infant" Type="Int32" />
+          <Property Name="FOC_Adult" Type="Int32" />
+          <Property Name="FOC_Child" Type="Int32" />
+          <Property Name="FOC_Infant" Type="Int32" />
+          <Property Name="OA_Adult" Type="Int32" />
+          <Property Name="OA_Child" Type="Int32" />
+          <Property Name="OA_Infant" Type="Int32" />
+          <Property Name="AirportId" Type="Int32" />
+          <Property Name="Cargo" Type="Int32" />
+          <Property Name="Baggage" Type="Int32" />
+          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.fk_fpax_flt" FromRole="FlightPax" ToRole="FlightInformation" />
+        </EntityType>
+        <Association Name="fk_fpax_flt">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppaModel.FlightPax" Role="FlightPax" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightPax">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ViewFlightsGanttNew">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="FlightPlanId" Type="Int32" />
+          <Property Name="BaggageCount" Type="Int32" />
+          <Property Name="CargoUnitID" Type="Int32" />
+          <Property Name="CargoUnit" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CargoWeight" Type="Int32" />
+          <Property Name="PaxChild" Type="Int32" />
+          <Property Name="PaxInfant" Type="Int32" />
+          <Property Name="PaxAdult" Type="Int32" />
+          <Property Name="FuelArrival" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FuelActual" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FuelPlanned" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="GWLand" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="GWTO" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="FlightH" Type="Int32" />
+          <Property Name="FlightM" Type="Byte" />
+          <Property Name="ChocksIn" Type="DateTime" Precision="3" />
+          <Property Name="Landing" Type="DateTime" Precision="3" />
+          <Property Name="Takeoff" Type="DateTime" Precision="3" />
+          <Property Name="ChocksOut" Type="DateTime" Precision="3" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="STDLocal" Type="DateTime" Precision="3" />
+          <Property Name="STALocal" Type="DateTime" Precision="3" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="FlightStatusID" Type="Int32" Nullable="false" />
+          <Property Name="RegisterID" Type="Int32" />
+          <Property Name="FlightTypeID" Type="Int32" Nullable="false" />
+          <Property Name="FlightType" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="OTypeId" Type="Int32" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromAirport" Type="Int32" />
+          <Property Name="ToAirport" Type="Int32" />
+          <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AircraftType" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="OAircraftType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Register" Type="String" MaxLength="53" FixedLength="false" Unicode="true" />
+          <Property Name="MSN" Type="Int32" />
+          <Property Name="FlightStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="notes" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="taskName" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="startDate" Type="DateTime" Precision="3" />
+          <Property Name="PlanId" Type="Int32" Nullable="false" />
+          <Property Name="CargoCount" Type="Int32" />
+          <Property Name="BaggageWeight" Type="Int32" />
+          <Property Name="FuelUnitID" Type="Int32" />
+          <Property Name="FuelUnit" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ArrivalRemark" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="DepartureRemark" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="TotalSeat" Type="Int32" />
+          <Property Name="EstimatedDelay" Type="Int32" Nullable="false" />
+          <Property Name="TotalPax" Type="Int32" />
+          <Property Name="PaxOver" Type="Int32" Nullable="false" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="FlightStatusUserId" Type="Int32" />
+          <Property Name="STDDay" Type="DateTime" Precision="0" />
+          <Property Name="STADay" Type="DateTime" Precision="0" />
+          <Property Name="DelayOffBlock" Type="Int32" />
+          <Property Name="DelayTakeoff" Type="Int32" />
+          <Property Name="DelayOnBlock" Type="Int32" />
+          <Property Name="DelayLanding" Type="Int32" />
+          <Property Name="CancelReasonId" Type="Int32" />
+          <Property Name="CancelRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CancelDate" Type="DateTime" Precision="3" />
+          <Property Name="CancelReason" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RedirectReasonId" Type="Int32" />
+          <Property Name="RedirectRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RedirectDate" Type="DateTime" Precision="3" />
+          <Property Name="RedirectReason" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RampReasonId" Type="Int32" />
+          <Property Name="RampRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RampDate" Type="DateTime" Precision="3" />
+          <Property Name="RampReason" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="OSTA" Type="DateTime" Precision="3" />
+          <Property Name="OToAirportId" Type="Int32" />
+          <Property Name="OToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FPFuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Defuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Departure" Type="DateTime" Precision="3" />
+          <Property Name="Arrival" Type="DateTime" Precision="3" />
+          <Property Name="DepartureLocal" Type="DateTime" Precision="3" />
+          <Property Name="ArrivalLocal" Type="DateTime" Precision="3" />
+          <Property Name="BlockTime" Type="Int32" />
+          <Property Name="FlightTime" Type="Int32" />
+          <Property Name="FlightTimeActual" Type="Int32" />
+          <Property Name="UsedFuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="JLBLHH" Type="Int32" />
+          <Property Name="JLBLMM" Type="Int32" />
+          <Property Name="PFLR" Type="Int32" />
+          <Property Name="ChrAdult" Type="Int32" />
+          <Property Name="ChrChild" Type="Int32" />
+          <Property Name="ChrInfant" Type="Int32" />
+          <Property Name="ChrCapacity" Type="Int32" />
+          <Property Name="ChrTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ChrCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DefaultChrId" Type="Int32" />
+          <Property Name="CargoCost" Type="Int64" />
+          <Property Name="FuelDensity" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SerialNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LTR" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FuelDeparture" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Ready" Type="DateTime" Precision="3" />
+          <Property Name="Start" Type="DateTime" Precision="3" />
+          <Property Name="CargoPieces" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -5642,6 +6373,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <EntitySetMapping Name="Ac_MSN">
             <EntityTypeMapping TypeName="ppaModel.Ac_MSN">
               <MappingFragment StoreEntitySet="Ac_MSN">
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AC_ModelID" ColumnName="AC_ModelID" />
                 <ScalarProperty Name="pkAircraftMSN" ColumnName="pkAircraftMSN" />
@@ -5761,6 +6493,13 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <EntitySetMapping Name="ViewLegTimes">
             <EntityTypeMapping TypeName="ppaModel.ViewLegTime">
               <MappingFragment StoreEntitySet="ViewLegTime">
+                <ScalarProperty Name="OFPTOTALFUEL" ColumnName="OFPTOTALFUEL" />
+                <ScalarProperty Name="PF" ColumnName="PF" />
+                <ScalarProperty Name="FuelPlanned" ColumnName="FuelPlanned" />
+                <ScalarProperty Name="PILOTREQFUEL" ColumnName="PILOTREQFUEL" />
+                <ScalarProperty Name="OFPTRIPFUEL" ColumnName="OFPTRIPFUEL" />
+                <ScalarProperty Name="OFPOFFBLOCKFUEL" ColumnName="OFPOFFBLOCKFUEL" />
+                <ScalarProperty Name="OFPMINTOFFUEL" ColumnName="OFPMINTOFFUEL" />
                 <ScalarProperty Name="ArrCountry" ColumnName="ArrCountry" />
                 <ScalarProperty Name="DepCountry" ColumnName="DepCountry" />
                 <ScalarProperty Name="CPRegister" ColumnName="CPRegister" />
@@ -5882,6 +6621,9 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <EntitySetMapping Name="FDPs">
             <EntityTypeMapping TypeName="ppaModel.FDP">
               <MappingFragment StoreEntitySet="FDP">
+                <ScalarProperty Name="PLNRest" ColumnName="PLNRest" />
+                <ScalarProperty Name="PLNEnd" ColumnName="PLNEnd" />
+                <ScalarProperty Name="InitPosition" ColumnName="InitPosition" />
                 <ScalarProperty Name="OutOfHomeBase" ColumnName="OutOfHomeBase" />
                 <ScalarProperty Name="STA" ColumnName="STA" />
                 <ScalarProperty Name="STD" ColumnName="STD" />
@@ -6092,6 +6834,7 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <EntitySetMapping Name="ViewFlightInformations">
             <EntityTypeMapping TypeName="ppaModel.ViewFlightInformation">
               <MappingFragment StoreEntitySet="ViewFlightInformation">
+                <ScalarProperty Name="OFPTRIPFUEL" ColumnName="OFPTRIPFUEL" />
                 <ScalarProperty Name="CargoCost" ColumnName="CargoCost" />
                 <ScalarProperty Name="JLFlightTime" ColumnName="JLFlightTime" />
                 <ScalarProperty Name="JLBlockTime" ColumnName="JLBlockTime" />
@@ -6527,6 +7270,8 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <EntitySetMapping Name="ViewEFBDSPReleases">
             <EntityTypeMapping TypeName="ppaModel.ViewEFBDSPReleas">
               <MappingFragment StoreEntitySet="ViewEFBDSPReleases">
+                <ScalarProperty Name="OFPTOTALFUEL" ColumnName="OFPTOTALFUEL" />
+                <ScalarProperty Name="MinFuelRequiredCFP" ColumnName="MinFuelRequiredCFP" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="VldRampPassCMDRRemark" ColumnName="VldRampPassCMDRRemark" />
                 <ScalarProperty Name="VldRampPassFOORemark" ColumnName="VldRampPassFOORemark" />
@@ -6661,6 +7406,26 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <EntitySetMapping Name="AppCrewFlights">
             <EntityTypeMapping TypeName="ppaModel.AppCrewFlight">
               <MappingFragment StoreEntitySet="AppCrewFlight">
+                <ScalarProperty Name="LTR2" ColumnName="LTR2" />
+                <ScalarProperty Name="ACTUALTOTALFUEL" ColumnName="ACTUALTOTALFUEL" />
+                <ScalarProperty Name="TANKERINGDIFF" ColumnName="TANKERINGDIFF" />
+                <ScalarProperty Name="ACTUALTANKERINGFUEL" ColumnName="ACTUALTANKERINGFUEL" />
+                <ScalarProperty Name="FuelUsedEng2" ColumnName="FuelUsedEng2" />
+                <ScalarProperty Name="FuelUsedEng1" ColumnName="FuelUsedEng1" />
+                <ScalarProperty Name="PILOTREQFUEL" ColumnName="PILOTREQFUEL" />
+                <ScalarProperty Name="OFPTRIPFUEL" ColumnName="OFPTRIPFUEL" />
+                <ScalarProperty Name="OFPOFFBLOCKFUEL" ColumnName="OFPOFFBLOCKFUEL" />
+                <ScalarProperty Name="OFPMINTOFFUEL" ColumnName="OFPMINTOFFUEL" />
+                <ScalarProperty Name="OFPTOTALFUEL" ColumnName="OFPTOTALFUEL" />
+                <ScalarProperty Name="OFPTANKERINGFUEL" ColumnName="OFPTANKERINGFUEL" />
+                <ScalarProperty Name="OFPOPSEXTRAFUEL" ColumnName="OFPOPSEXTRAFUEL" />
+                <ScalarProperty Name="OFPETOPSADDNLFUEL" ColumnName="OFPETOPSADDNLFUEL" />
+                <ScalarProperty Name="OFPTAXIFUEL" ColumnName="OFPTAXIFUEL" />
+                <ScalarProperty Name="OFPFINALRESFUEL" ColumnName="OFPFINALRESFUEL" />
+                <ScalarProperty Name="OFPALT2FUEL" ColumnName="OFPALT2FUEL" />
+                <ScalarProperty Name="OFPALT1FUEL" ColumnName="OFPALT1FUEL" />
+                <ScalarProperty Name="OFPCONTFUEL" ColumnName="OFPCONTFUEL" />
+                <ScalarProperty Name="OFPExtra" ColumnName="OFPExtra" />
                 <ScalarProperty Name="FuelPlanned" ColumnName="FuelPlanned" />
                 <ScalarProperty Name="FPFuel" ColumnName="FPFuel" />
                 <ScalarProperty Name="FPTripFuel" ColumnName="FPTripFuel" />
@@ -6797,6 +7562,30 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
           <EntitySetMapping Name="AppLegs">
             <EntityTypeMapping TypeName="ppaModel.AppLeg">
               <MappingFragment StoreEntitySet="AppLeg">
+                <ScalarProperty Name="TakeoffStation" ColumnName="TakeoffStation" />
+                <ScalarProperty Name="LandingStation" ColumnName="LandingStation" />
+                <ScalarProperty Name="BlockOnStation" ColumnName="BlockOnStation" />
+                <ScalarProperty Name="BlockOffStation" ColumnName="BlockOffStation" />
+                <ScalarProperty Name="LTR2" ColumnName="LTR2" />
+                <ScalarProperty Name="ACTUALTOTALFUEL" ColumnName="ACTUALTOTALFUEL" />
+                <ScalarProperty Name="TANKERINGDIFF" ColumnName="TANKERINGDIFF" />
+                <ScalarProperty Name="ACTUALTANKERINGFUEL" ColumnName="ACTUALTANKERINGFUEL" />
+                <ScalarProperty Name="FuelUsedEng2" ColumnName="FuelUsedEng2" />
+                <ScalarProperty Name="FuelUsedEng1" ColumnName="FuelUsedEng1" />
+                <ScalarProperty Name="PILOTREQFUEL" ColumnName="PILOTREQFUEL" />
+                <ScalarProperty Name="OFPTRIPFUEL" ColumnName="OFPTRIPFUEL" />
+                <ScalarProperty Name="OFPOFFBLOCKFUEL" ColumnName="OFPOFFBLOCKFUEL" />
+                <ScalarProperty Name="OFPMINTOFFUEL" ColumnName="OFPMINTOFFUEL" />
+                <ScalarProperty Name="OFPTOTALFUEL" ColumnName="OFPTOTALFUEL" />
+                <ScalarProperty Name="OFPTANKERINGFUEL" ColumnName="OFPTANKERINGFUEL" />
+                <ScalarProperty Name="OFPOPSEXTRAFUEL" ColumnName="OFPOPSEXTRAFUEL" />
+                <ScalarProperty Name="OFPETOPSADDNLFUEL" ColumnName="OFPETOPSADDNLFUEL" />
+                <ScalarProperty Name="OFPTAXIFUEL" ColumnName="OFPTAXIFUEL" />
+                <ScalarProperty Name="OFPFINALRESFUEL" ColumnName="OFPFINALRESFUEL" />
+                <ScalarProperty Name="OFPALT2FUEL" ColumnName="OFPALT2FUEL" />
+                <ScalarProperty Name="OFPALT1FUEL" ColumnName="OFPALT1FUEL" />
+                <ScalarProperty Name="OFPCONTFUEL" ColumnName="OFPCONTFUEL" />
+                <ScalarProperty Name="OFPExtra" ColumnName="OFPExtra" />
                 <ScalarProperty Name="FuelPlanned" ColumnName="FuelPlanned" />
                 <ScalarProperty Name="ATCPlan" ColumnName="ATCPlan" />
                 <ScalarProperty Name="ATL" ColumnName="ATL" />
@@ -6937,6 +7726,32 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ViewFlightPaxes">
+            <EntityTypeMapping TypeName="ppaModel.ViewFlightPax">
+              <MappingFragment StoreEntitySet="ViewFlightPax">
+                <ScalarProperty Name="Baggage" ColumnName="Baggage" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="AirportId" ColumnName="AirportId" />
+                <ScalarProperty Name="OA_Infant" ColumnName="OA_Infant" />
+                <ScalarProperty Name="OA_Child" ColumnName="OA_Child" />
+                <ScalarProperty Name="OA_Adult" ColumnName="OA_Adult" />
+                <ScalarProperty Name="FOC_Infant" ColumnName="FOC_Infant" />
+                <ScalarProperty Name="FOC_Child" ColumnName="FOC_Child" />
+                <ScalarProperty Name="FOC_Adult" ColumnName="FOC_Adult" />
+                <ScalarProperty Name="CHR_Infant" ColumnName="CHR_Infant" />
+                <ScalarProperty Name="CHR_Child" ColumnName="CHR_Child" />
+                <ScalarProperty Name="CHR_Adult" ColumnName="CHR_Adult" />
+                <ScalarProperty Name="STN_Infant" ColumnName="STN_Infant" />
+                <ScalarProperty Name="STN_Child" ColumnName="STN_Child" />
+                <ScalarProperty Name="STN_Adult" ColumnName="STN_Adult" />
+                <ScalarProperty Name="RES_Infant" ColumnName="RES_Infant" />
+                <ScalarProperty Name="RES_Child" ColumnName="RES_Child" />
+                <ScalarProperty Name="RES_Adult" ColumnName="RES_Adult" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="FlightInformations">
             <EntityTypeMapping TypeName="ppaModel.FlightInformation">
               <MappingFragment StoreEntitySet="FlightInformation">
@@ -6946,6 +7761,24 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
                 <ScalarProperty Name="FuelTotal" ColumnName="FuelTotal" />
                 <ScalarProperty Name="FuelUplift" ColumnName="FuelUplift" />
                 <ScalarProperty Name="FuelRemaining" ColumnName="FuelRemaining" />
+                <ScalarProperty Name="LTR2" ColumnName="LTR2" />
+                <ScalarProperty Name="ACTUALTANKERINGFUEL" ColumnName="ACTUALTANKERINGFUEL" />
+                <ScalarProperty Name="FuelUsedEng2" ColumnName="FuelUsedEng2" />
+                <ScalarProperty Name="FuelUsedEng1" ColumnName="FuelUsedEng1" />
+                <ScalarProperty Name="OFPTOTALFUEL" ColumnName="OFPTOTALFUEL" />
+                <ScalarProperty Name="OFPTANKERINGFUEL" ColumnName="OFPTANKERINGFUEL" />
+                <ScalarProperty Name="OFPOPSEXTRAFUEL" ColumnName="OFPOPSEXTRAFUEL" />
+                <ScalarProperty Name="OFPETOPSADDNLFUEL" ColumnName="OFPETOPSADDNLFUEL" />
+                <ScalarProperty Name="OFPTAXIFUEL" ColumnName="OFPTAXIFUEL" />
+                <ScalarProperty Name="OFPFINALRESFUEL" ColumnName="OFPFINALRESFUEL" />
+                <ScalarProperty Name="OFPALT2FUEL" ColumnName="OFPALT2FUEL" />
+                <ScalarProperty Name="OFPALT1FUEL" ColumnName="OFPALT1FUEL" />
+                <ScalarProperty Name="OFPCONTFUEL" ColumnName="OFPCONTFUEL" />
+                <ScalarProperty Name="OFPExtra" ColumnName="OFPExtra" />
+                <ScalarProperty Name="PILOTREQFUEL" ColumnName="PILOTREQFUEL" />
+                <ScalarProperty Name="OFPTRIPFUEL" ColumnName="OFPTRIPFUEL" />
+                <ScalarProperty Name="OFPOFFBLOCKFUEL" ColumnName="OFPOFFBLOCKFUEL" />
+                <ScalarProperty Name="OFPMINTOFFUEL" ColumnName="OFPMINTOFFUEL" />
                 <ScalarProperty Name="UTCSTA" ColumnName="UTCSTA" />
                 <ScalarProperty Name="UTCSTD" ColumnName="UTCSTD" />
                 <ScalarProperty Name="NewTime" ColumnName="NewTime" />
@@ -7493,6 +8326,145 @@ warning 6002: The table/view 'ppa_amw.dbo.ViewRegisterGround' does not have a pr
                 <ScalarProperty Name="GWTO" ColumnName="GWTO" />
                 <ScalarProperty Name="GWLand" ColumnName="GWLand" />
                 <ScalarProperty Name="FuelVariance" ColumnName="FuelVariance" />
+                <ScalarProperty Name="FuelPlanned" ColumnName="FuelPlanned" />
+                <ScalarProperty Name="FuelActual" ColumnName="FuelActual" />
+                <ScalarProperty Name="FuelArrival" ColumnName="FuelArrival" />
+                <ScalarProperty Name="PaxAdult" ColumnName="PaxAdult" />
+                <ScalarProperty Name="PaxInfant" ColumnName="PaxInfant" />
+                <ScalarProperty Name="PaxChild" ColumnName="PaxChild" />
+                <ScalarProperty Name="CargoWeight" ColumnName="CargoWeight" />
+                <ScalarProperty Name="CargoUnit" ColumnName="CargoUnit" />
+                <ScalarProperty Name="CargoUnitID" ColumnName="CargoUnitID" />
+                <ScalarProperty Name="BaggageCount" ColumnName="BaggageCount" />
+                <ScalarProperty Name="FlightPlanId" ColumnName="FlightPlanId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlightPaxes">
+            <EntityTypeMapping TypeName="ppaModel.FlightPax">
+              <MappingFragment StoreEntitySet="FlightPax">
+                <ScalarProperty Name="Baggage" ColumnName="Baggage" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="AirportId" ColumnName="AirportId" />
+                <ScalarProperty Name="OA_Infant" ColumnName="OA_Infant" />
+                <ScalarProperty Name="OA_Child" ColumnName="OA_Child" />
+                <ScalarProperty Name="OA_Adult" ColumnName="OA_Adult" />
+                <ScalarProperty Name="FOC_Infant" ColumnName="FOC_Infant" />
+                <ScalarProperty Name="FOC_Child" ColumnName="FOC_Child" />
+                <ScalarProperty Name="FOC_Adult" ColumnName="FOC_Adult" />
+                <ScalarProperty Name="CHR_Infant" ColumnName="CHR_Infant" />
+                <ScalarProperty Name="CHR_Child" ColumnName="CHR_Child" />
+                <ScalarProperty Name="CHR_Adult" ColumnName="CHR_Adult" />
+                <ScalarProperty Name="STN_Infant" ColumnName="STN_Infant" />
+                <ScalarProperty Name="STN_Child" ColumnName="STN_Child" />
+                <ScalarProperty Name="STN_Adult" ColumnName="STN_Adult" />
+                <ScalarProperty Name="RES_Infant" ColumnName="RES_Infant" />
+                <ScalarProperty Name="RES_Child" ColumnName="RES_Child" />
+                <ScalarProperty Name="RES_Adult" ColumnName="RES_Adult" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewFlightsGanttNews">
+            <EntityTypeMapping TypeName="ppaModel.ViewFlightsGanttNew">
+              <MappingFragment StoreEntitySet="ViewFlightsGanttNew">
+                <ScalarProperty Name="CargoPieces" ColumnName="CargoPieces" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="Ready" ColumnName="Ready" />
+                <ScalarProperty Name="FuelDeparture" ColumnName="FuelDeparture" />
+                <ScalarProperty Name="LTR" ColumnName="LTR" />
+                <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+                <ScalarProperty Name="FuelDensity" ColumnName="FuelDensity" />
+                <ScalarProperty Name="CargoCost" ColumnName="CargoCost" />
+                <ScalarProperty Name="DefaultChrId" ColumnName="DefaultChrId" />
+                <ScalarProperty Name="ChrCode" ColumnName="ChrCode" />
+                <ScalarProperty Name="ChrTitle" ColumnName="ChrTitle" />
+                <ScalarProperty Name="ChrCapacity" ColumnName="ChrCapacity" />
+                <ScalarProperty Name="ChrInfant" ColumnName="ChrInfant" />
+                <ScalarProperty Name="ChrChild" ColumnName="ChrChild" />
+                <ScalarProperty Name="ChrAdult" ColumnName="ChrAdult" />
+                <ScalarProperty Name="PFLR" ColumnName="PFLR" />
+                <ScalarProperty Name="JLBLMM" ColumnName="JLBLMM" />
+                <ScalarProperty Name="JLBLHH" ColumnName="JLBLHH" />
+                <ScalarProperty Name="UsedFuel" ColumnName="UsedFuel" />
+                <ScalarProperty Name="FlightTimeActual" ColumnName="FlightTimeActual" />
+                <ScalarProperty Name="FlightTime" ColumnName="FlightTime" />
+                <ScalarProperty Name="BlockTime" ColumnName="BlockTime" />
+                <ScalarProperty Name="ArrivalLocal" ColumnName="ArrivalLocal" />
+                <ScalarProperty Name="DepartureLocal" ColumnName="DepartureLocal" />
+                <ScalarProperty Name="Arrival" ColumnName="Arrival" />
+                <ScalarProperty Name="Departure" ColumnName="Departure" />
+                <ScalarProperty Name="Defuel" ColumnName="Defuel" />
+                <ScalarProperty Name="FPFuel" ColumnName="FPFuel" />
+                <ScalarProperty Name="OToAirportIATA" ColumnName="OToAirportIATA" />
+                <ScalarProperty Name="OToAirportId" ColumnName="OToAirportId" />
+                <ScalarProperty Name="OSTA" ColumnName="OSTA" />
+                <ScalarProperty Name="RampReason" ColumnName="RampReason" />
+                <ScalarProperty Name="RampDate" ColumnName="RampDate" />
+                <ScalarProperty Name="RampRemark" ColumnName="RampRemark" />
+                <ScalarProperty Name="RampReasonId" ColumnName="RampReasonId" />
+                <ScalarProperty Name="RedirectReason" ColumnName="RedirectReason" />
+                <ScalarProperty Name="RedirectDate" ColumnName="RedirectDate" />
+                <ScalarProperty Name="RedirectRemark" ColumnName="RedirectRemark" />
+                <ScalarProperty Name="RedirectReasonId" ColumnName="RedirectReasonId" />
+                <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
+                <ScalarProperty Name="CancelDate" ColumnName="CancelDate" />
+                <ScalarProperty Name="CancelRemark" ColumnName="CancelRemark" />
+                <ScalarProperty Name="CancelReasonId" ColumnName="CancelReasonId" />
+                <ScalarProperty Name="DelayLanding" ColumnName="DelayLanding" />
+                <ScalarProperty Name="DelayOnBlock" ColumnName="DelayOnBlock" />
+                <ScalarProperty Name="DelayTakeoff" ColumnName="DelayTakeoff" />
+                <ScalarProperty Name="DelayOffBlock" ColumnName="DelayOffBlock" />
+                <ScalarProperty Name="STADay" ColumnName="STADay" />
+                <ScalarProperty Name="STDDay" ColumnName="STDDay" />
+                <ScalarProperty Name="FlightStatusUserId" ColumnName="FlightStatusUserId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="PaxOver" ColumnName="PaxOver" />
+                <ScalarProperty Name="TotalPax" ColumnName="TotalPax" />
+                <ScalarProperty Name="EstimatedDelay" ColumnName="EstimatedDelay" />
+                <ScalarProperty Name="TotalSeat" ColumnName="TotalSeat" />
+                <ScalarProperty Name="DepartureRemark" ColumnName="DepartureRemark" />
+                <ScalarProperty Name="ArrivalRemark" ColumnName="ArrivalRemark" />
+                <ScalarProperty Name="FuelUnit" ColumnName="FuelUnit" />
+                <ScalarProperty Name="FuelUnitID" ColumnName="FuelUnitID" />
+                <ScalarProperty Name="BaggageWeight" ColumnName="BaggageWeight" />
+                <ScalarProperty Name="CargoCount" ColumnName="CargoCount" />
+                <ScalarProperty Name="PlanId" ColumnName="PlanId" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="taskName" ColumnName="taskName" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="FlightStatus" ColumnName="FlightStatus" />
+                <ScalarProperty Name="MSN" ColumnName="MSN" />
+                <ScalarProperty Name="Register" ColumnName="Register" />
+                <ScalarProperty Name="OAircraftType" ColumnName="OAircraftType" />
+                <ScalarProperty Name="AircraftType" ColumnName="AircraftType" />
+                <ScalarProperty Name="ToAirportIATA" ColumnName="ToAirportIATA" />
+                <ScalarProperty Name="FromAirportIATA" ColumnName="FromAirportIATA" />
+                <ScalarProperty Name="ToAirport" ColumnName="ToAirport" />
+                <ScalarProperty Name="FromAirport" ColumnName="FromAirport" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="OTypeId" ColumnName="OTypeId" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="FlightType" ColumnName="FlightType" />
+                <ScalarProperty Name="FlightTypeID" ColumnName="FlightTypeID" />
+                <ScalarProperty Name="RegisterID" ColumnName="RegisterID" />
+                <ScalarProperty Name="FlightStatusID" ColumnName="FlightStatusID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="STALocal" ColumnName="STALocal" />
+                <ScalarProperty Name="STDLocal" ColumnName="STDLocal" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="ChocksOut" ColumnName="ChocksOut" />
+                <ScalarProperty Name="Takeoff" ColumnName="Takeoff" />
+                <ScalarProperty Name="Landing" ColumnName="Landing" />
+                <ScalarProperty Name="ChocksIn" ColumnName="ChocksIn" />
+                <ScalarProperty Name="FlightM" ColumnName="FlightM" />
+                <ScalarProperty Name="FlightH" ColumnName="FlightH" />
+                <ScalarProperty Name="GWTO" ColumnName="GWTO" />
+                <ScalarProperty Name="GWLand" ColumnName="GWLand" />
                 <ScalarProperty Name="FuelPlanned" ColumnName="FuelPlanned" />
                 <ScalarProperty Name="FuelActual" ColumnName="FuelActual" />
                 <ScalarProperty Name="FuelArrival" ColumnName="FuelArrival" />

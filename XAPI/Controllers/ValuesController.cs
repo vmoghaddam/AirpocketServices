@@ -2224,6 +2224,15 @@ namespace XAPI.Controllers
             return Ok(points);
         }
 
+        [Route("api/ofp/points/flight/{id}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetOFPPointsByFlight(int id)
+        {
+            var context = new PPAEntities();
+            var points = context.ViewOFPPoints.Where(q => q.FlightId == id).OrderBy(q => q.Id).ToList();
+            return Ok(points);
+        }
+
 
         [Route("api/appleg/ofp/{flightId}")]
         [AcceptVerbs("GET")]

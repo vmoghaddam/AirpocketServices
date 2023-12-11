@@ -187,5 +187,13 @@ namespace AirpocketAPI.Models
         public Nullable<System.DateTime> DateVisitNOTAM { get; set; }
         public Nullable<System.DateTime> DateVisitOTHER { get; set; }
         public Nullable<System.DateTime> DateVisitPACKINGLIST { get; set; }
+        public Nullable<System.DateTime> BlockOnX { get; set; }
+        public Nullable<System.DateTime> BlockOffX { get; set; }
+        public Nullable<System.DateTime> LandingX { get; set; }
+        public Nullable<System.DateTime> TakeOffX { get; set; }
+        public Nullable<System.DateTime> BlockOnLocalX { get; set; }
+        public Nullable<System.DateTime> BlockOffLocalX { get; set; }
+        public Nullable<System.DateTime> LandingLocalX { get; set; }
+        public Nullable<System.DateTime> TakeOffLocalX { get; set; }
     }
 }

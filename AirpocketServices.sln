@@ -41,6 +41,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiFDM", "ApiFDM\ApiFDM.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiMap", "ApiMap\ApiMap.csproj", "{78B7C8D1-2772-4734-9868-4FA0EC210E7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiFuel", "ApiFuel\ApiFuel.csproj", "{67E16793-CDB2-44B8-AB8D-0F0302C80684}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiLibrary", "ApiLibrary\ApiLibrary.csproj", "{09957983-1B51-4F53-AE3E-DC1750E00594}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -201,6 +205,22 @@ Global
 		{78B7C8D1-2772-4734-9868-4FA0EC210E7F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{78B7C8D1-2772-4734-9868-4FA0EC210E7F}.Release|x64.ActiveCfg = Release|Any CPU
 		{78B7C8D1-2772-4734-9868-4FA0EC210E7F}.Release|x64.Build.0 = Release|Any CPU
+		{67E16793-CDB2-44B8-AB8D-0F0302C80684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67E16793-CDB2-44B8-AB8D-0F0302C80684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67E16793-CDB2-44B8-AB8D-0F0302C80684}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{67E16793-CDB2-44B8-AB8D-0F0302C80684}.Debug|x64.Build.0 = Debug|Any CPU
+		{67E16793-CDB2-44B8-AB8D-0F0302C80684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67E16793-CDB2-44B8-AB8D-0F0302C80684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67E16793-CDB2-44B8-AB8D-0F0302C80684}.Release|x64.ActiveCfg = Release|Any CPU
+		{67E16793-CDB2-44B8-AB8D-0F0302C80684}.Release|x64.Build.0 = Release|Any CPU
+		{09957983-1B51-4F53-AE3E-DC1750E00594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09957983-1B51-4F53-AE3E-DC1750E00594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09957983-1B51-4F53-AE3E-DC1750E00594}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{09957983-1B51-4F53-AE3E-DC1750E00594}.Debug|x64.Build.0 = Debug|Any CPU
+		{09957983-1B51-4F53-AE3E-DC1750E00594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09957983-1B51-4F53-AE3E-DC1750E00594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09957983-1B51-4F53-AE3E-DC1750E00594}.Release|x64.ActiveCfg = Release|Any CPU
+		{09957983-1B51-4F53-AE3E-DC1750E00594}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

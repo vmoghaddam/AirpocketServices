@@ -190,5 +190,25 @@ namespace AirpocketTRN.Models
         public Nullable<int> RemainEFB { get; set; }
         public Nullable<int> RemainSafetyPilot { get; set; }
         public Nullable<int> RemainRouteCheck { get; set; }
+        public Nullable<int> RemainPROFICIENCY_ASSESSMENT { get; set; }
+        public Nullable<int> RemainMP { get; set; }
+        public Nullable<int> RemainCALR { get; set; }
+        public Nullable<int> RemainSpecialApproval { get; set; }
+        public Nullable<int> RemainTRG01 { get; set; }
+        public Nullable<int> RemainTRG16 { get; set; }
+        public Nullable<int> RemainLOAD_CONTROL { get; set; }
+        public Nullable<int> RemainPhase1 { get; set; }
+        public Nullable<int> RemainPhase2 { get; set; }
+        public Nullable<int> RemainPhase3 { get; set; }
+        public Nullable<int> RemainGround { get; set; }
+        public Nullable<int> RemainFirstAidCockpit { get; set; }
+        public string UserId { get; set; }
+        public Nullable<int> RemainTypeFoker50 { get; set; }
+        public Nullable<int> RemainTypeFoker100 { get; set; }
+        public string Reserved1 { get; set; }
+        public string Reserved2 { get; set; }
+        public string Reserved3 { get; set; }
+        public string Reserved4 { get; set; }
+        public string Reserved5 { get; set; }
     }
 }

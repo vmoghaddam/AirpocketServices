@@ -86,6 +86,9 @@ namespace ApiLog.Models
         public Nullable<System.DateTime> STD { get; set; }
         public Nullable<System.DateTime> STA { get; set; }
         public Nullable<bool> OutOfHomeBase { get; set; }
+        public string InitPosition { get; set; }
+        public Nullable<System.DateTime> PLNEnd { get; set; }
+        public Nullable<System.DateTime> PLNRest { get; set; }
     
         public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

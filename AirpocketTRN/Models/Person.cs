@@ -472,6 +472,37 @@ namespace AirpocketTRN.Models
         public Nullable<System.DateTime> SafetyPilotExpireDate { get; set; }
         public Nullable<System.DateTime> RouteCheckIssueDate { get; set; }
         public Nullable<System.DateTime> RouteCheckExpireDate { get; set; }
+        public string Category { get; set; }
+        public Nullable<System.DateTime> PROFICIENCY_ASSESSMENT_IsuueDate { get; set; }
+        public Nullable<System.DateTime> PROFICIENCY_ASSESSMENT_ExpireDate { get; set; }
+        public Nullable<System.DateTime> MPIssueDate { get; set; }
+        public Nullable<System.DateTime> MPExpireDate { get; set; }
+        public Nullable<System.DateTime> CALRIssueDate { get; set; }
+        public Nullable<System.DateTime> CALRExpireDate { get; set; }
+        public Nullable<System.DateTime> SpecialApprovalIssueDate { get; set; }
+        public Nullable<System.DateTime> SpecialApprovalExpireDate { get; set; }
+        public Nullable<System.DateTime> TRG01IssueDate { get; set; }
+        public Nullable<System.DateTime> TRG01ExpireDate { get; set; }
+        public Nullable<System.DateTime> TRG16IssueDate { get; set; }
+        public Nullable<System.DateTime> TRG16ExpireDate { get; set; }
+        public Nullable<System.DateTime> FDMFAMIssueDate { get; set; }
+        public Nullable<System.DateTime> FDMFAMExpireDate { get; set; }
+        public Nullable<System.DateTime> Phase1IssueDate { get; set; }
+        public Nullable<System.DateTime> Phase1ExpireDate { get; set; }
+        public Nullable<System.DateTime> Phase2IssueDate { get; set; }
+        public Nullable<System.DateTime> Phase2ExpireDate { get; set; }
+        public Nullable<System.DateTime> Phase3IssueDate { get; set; }
+        public Nullable<System.DateTime> Phase3ExpireDate { get; set; }
+        public Nullable<System.DateTime> TRIIssueDate { get; set; }
+        public Nullable<System.DateTime> TREIssueDate { get; set; }
+        public Nullable<System.DateTime> GroundIssueDate { get; set; }
+        public Nullable<System.DateTime> GroundExpireDate { get; set; }
+        public Nullable<System.DateTime> FirstAidCockpitIssueDate { get; set; }
+        public Nullable<System.DateTime> FirstAidCockpitExpireDate { get; set; }
+        public Nullable<System.DateTime> TypeFoker50IssueDate { get; set; }
+        public Nullable<System.DateTime> TypeFoker100IssueDate { get; set; }
+        public Nullable<System.DateTime> TypeFoker50ExpireDate { get; set; }
+        public Nullable<System.DateTime> TypeFoker100ExpireDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CertificateHistory> CertificateHistories { get; set; }

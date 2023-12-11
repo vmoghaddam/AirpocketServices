@@ -20,6 +20,7 @@ namespace AirpocketAPI.Models
         public string PDATE { get; set; }
         public string FlightNumber { get; set; }
         public string Register { get; set; }
+        public string AircraftType { get; set; }
         public string Route { get; set; }
         public string STD { get; set; }
         public string STA { get; set; }

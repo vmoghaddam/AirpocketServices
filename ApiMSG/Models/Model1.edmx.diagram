@@ -10,10 +10,18 @@
         <EntityTypeShape EntityType="ppa_vareshModel.ViewLegTime" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ppa_vareshModel.ViewFlightDelayCode" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="ppa_vareshModel.NiraHistory" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ppa_vareshModel.ViewNiraFlight" Width="1.5" PointX="7.375" PointY="5.75" />
-        <EntityTypeShape EntityType="ppa_vareshModel.BulkMsg" Width="1.5" PointX="9.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ppa_vareshModel.BulkMsgUsername" Width="1.5" PointX="9.375" PointY="4.75" />
-        <EntityTypeShape EntityType="ppa_vareshModel.ViewNira" Width="1.5" PointX="9.375" PointY="7.75" />
+        <EntityTypeShape EntityType="ppa_vareshModel.ViewNotificationTrn" Width="1.5" PointX="11.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ppa_vareshModel.ViewNotificationTrnCount" Width="1.5" PointX="11.375" PointY="11.75" />
+        <EntityTypeShape EntityType="ppa_vareshModel.ViewCertificateHistory" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ppa_vareshModel.NotificationTrn" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ppa_vareshModel.BulkMsg" Width="1.5" PointX="7.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ppa_vareshModel.BulkMsgUsername" Width="1.5" PointX="7.375" PointY="9.75" />
+        <EntityTypeShape EntityType="ppa_vareshModel.ViewNira" Width="1.5" PointX="7.375" PointY="12.75" />
+        <EntityTypeShape EntityType="ppa_vareshModel.ViewNiraFlight" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ppa_vareshModel.Manager" Width="1.5" PointX="13.375" PointY="6" />
+        <EntityTypeShape EntityType="ppa_vareshModel.ManagerGroup" Width="1.5" PointX="15.625" PointY="5.875" />
+        <AssociationConnector Association="ppa_vareshModel.fk_mnggrp_mng" />
+        <EntityTypeShape EntityType="ppa_vareshModel.ViewProfile" Width="1.5" PointX="13.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

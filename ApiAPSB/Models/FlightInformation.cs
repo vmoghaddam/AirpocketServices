@@ -17,9 +17,9 @@ namespace ApiAPSB.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public FlightInformation()
         {
-            this.EFBDSPReleases = new HashSet<EFBDSPRelease>();
             this.FDPItems = new HashSet<FDPItem>();
             this.OFPImports = new HashSet<OFPImport>();
+            this.EFBDSPReleases = new HashSet<EFBDSPRelease>();
         }
     
         public int ID { get; set; }
@@ -310,12 +310,18 @@ namespace ApiAPSB.Models
         public Nullable<int> FuelUsedEng2 { get; set; }
         public Nullable<int> ACTUALTANKERINGFUEL { get; set; }
         public string LTR2 { get; set; }
+        public Nullable<int> FuelRemaining { get; set; }
+        public Nullable<int> FuelUplift { get; set; }
+        public Nullable<int> FuelTotal { get; set; }
+        public Nullable<int> FuelRemained { get; set; }
+        public Nullable<int> FuelUsed { get; set; }
+        public Nullable<int> FuelUpliftLitr { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EFBDSPRelease> EFBDSPReleases { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FDPItem> FDPItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImport> OFPImports { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EFBDSPRelease> EFBDSPReleases { get; set; }
     }
 }

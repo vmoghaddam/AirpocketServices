@@ -94,6 +94,8 @@ namespace ApiPlanning.ViewModels
         public string ChrCode { get; set; }
         public string ChrTitle { get; set; }
 
+        public string time_mode { get; set; }
+
 
 
 
@@ -195,7 +197,7 @@ namespace ApiPlanning.ViewModels
         {
             //entity.ID = flightinformation.ID;
             //entity.TypeID = flightinformation.TypeID;
-            //entity.RegisterID = flightinformation.RegisterID;
+            entity.RegisterID = flightinformation.RegisterID;
             entity.FlightTypeID = flightinformation.FlightTypeID;
             entity.FlightStatusID = flightinformation.FlightStatusID;
             entity.AirlineOperatorsID = flightinformation.AirlineOperatorsID;
@@ -624,7 +626,10 @@ namespace ApiPlanning.ViewModels
             //    viewflightinformation.GWTO = 180;
             //else
             //    viewflightinformation.GWTO = tzoffset2;
-            if (entity.GWLand != entity.FlightHPlanned && !string.IsNullOrEmpty(entity.FromAirportName))
+            
+            
+            
+            /*if (entity.GWLand != entity.FlightHPlanned && !string.IsNullOrEmpty(entity.FromAirportName))
             {
                 viewflightinformation.GWLand = Helper.GetTimeOffset((DateTime)entity.STD, entity.FromAirportName, (decimal)entity.GWLand);
             }
@@ -638,7 +643,7 @@ namespace ApiPlanning.ViewModels
             }
             else
                 viewflightinformation.GWTO = entity.GWTO;
-
+            */
 
             viewflightinformation.FlightH = entity.FlightH;
             viewflightinformation.FlightM = entity.FlightM;
@@ -1618,4 +1623,221 @@ namespace ApiPlanning.ViewModels
         }
     }
 
+    public class apt_info
+    {
+        public static List<apt_info> get_apts()
+        {
+            List<apt_info> apt_infos = new List<apt_info>();
+            apt_infos.Add(new apt_info() { Id = 100860, IATA = "IDR", ICAO = "VAID", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 100869, IATA = "CCU", ICAO = "VECC", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 100871, IATA = "IMF", ICAO = "VEIM", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 100872, IATA = "DIB", ICAO = "VEMN", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 101153, IATA = "PAT", ICAO = "VEPT", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 101173, IATA = "TRV", ICAO = "VOTV", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102203, IATA = "KSQ", ICAO = "UTSK", UTC = 300, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102210, IATA = "IXU", ICAO = "VAAU", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102211, IATA = "BHU", ICAO = "VABV", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102212, IATA = "IXY", ICAO = "VAKE", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102217, IATA = "GAU", ICAO = "VEGT", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102222, IATA = "IXC", ICAO = "VICG", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102337, IATA = "HBX", ICAO = "VOHB", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102338, IATA = "PNQ", ICAO = "VAPO", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102342, IATA = "IXB", ICAO = "VEBD", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102347, IATA = "BEK", ICAO = "VIBY", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102351, IATA = "JDH", ICAO = "VIJO", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102352, IATA = "JAI", ICAO = "VIJP", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102353, IATA = "IXJ", ICAO = "VIJU", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102361, IATA = "BPM", ICAO = "VOHY", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102411, IATA = "IXL", ICAO = "VILH", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102413, IATA = "LKO", ICAO = "VILK", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102423, IATA = "PNY", ICAO = "VOPC", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 102595, IATA = "TIR", ICAO = "VOTP", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103298, IATA = "BOM", ICAO = "VABB", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103301, IATA = "PAB", ICAO = "VEBU", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103304, IATA = "UDR", ICAO = "VAUD", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103308, IATA = "IXA", ICAO = "VEAT", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103311, IATA = "AJL", ICAO = "VELP", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103317, IATA = "AIP", ICAO = "VIAX", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103318, IATA = "DEL", ICAO = "VIDP", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103320, IATA = "KTU", ICAO = "VIKO", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103322, IATA = "BEP", ICAO = "VOBI", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103324, IATA = "IXM", ICAO = "VOMD", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103942, IATA = "BHJ", ICAO = "VABJ", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103943, IATA = "BDQ", ICAO = "VABO", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103944, IATA = "BHO", ICAO = "VABP", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103945, IATA = "JGA", ICAO = "VAJM", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103965, IATA = "PBD", ICAO = "VAPR", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103968, IATA = "SSE", ICAO = "VASL", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103979, IATA = "ATQ", ICAO = "VIAR", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103980, IATA = "BKB", ICAO = "VIBK", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 103986, IATA = "SXR", ICAO = "VISR", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104173, IATA = "BBI", ICAO = "VEBS", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104176, IATA = "ZER", ICAO = "VEZO", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104189, IATA = "COK", ICAO = "VOCI", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104193, IATA = "RJA", ICAO = "VORY", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104696, IATA = "AKD", ICAO = "VAAK", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104698, IATA = "IXG", ICAO = "VOBM", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104708, IATA = "GOP", ICAO = "VEGK", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104709, IATA = "JRH", ICAO = "VEJT", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104710, IATA = "IXS", ICAO = "VEKU", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104712, IATA = "IXR", ICAO = "VERC", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104715, IATA = "VTZ", ICAO = "VOVZ", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104729, IATA = "IXE", ICAO = "VOML", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104730, IATA = "MAA", ICAO = "VOMM", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104731, IATA = "IXZ", ICAO = "VOPB", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104733, IATA = "SXV", ICAO = "VOSM", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 104970, IATA = "TJV", ICAO = "VOTJ", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 105422, IATA = "CII", ICAO = "LTBD", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 107922, IATA = "BTZ", ICAO = "LTBE", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 108051, IATA = "ONQ", ICAO = "LTAS", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 109695, IATA = "IXN", ICAO = "VEKW", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 109696, IATA = "IXT", ICAO = "VEPG", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 112410, IATA = "LDA", ICAO = "VEMH", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 112865, IATA = "RMD", ICAO = "VORG", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 113603, IATA = "NKT", ICAO = "LTCV", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 113739, IATA = "RDP", ICAO = "VEDG", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 114867, IATA = "MYQ", ICAO = "VOMY", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 114936, IATA = "YKO", ICAO = "LTCW", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 116997, IATA = "PYB", ICAO = "VEJP", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 117025, IATA = "RGH", ICAO = "VEBG", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 118687, IATA = "REW", ICAO = "VA1G", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 119080, IATA = "SAG", ICAO = "VASD", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 119746, IATA = "KQH", ICAO = "VIKG", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 120195, IATA = "WGC", ICAO = "VOWA", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 120807, IATA = "CNN", ICAO = "VOKN", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 121310, IATA = "HYD", ICAO = "VOHS", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 121768, IATA = "TEI", ICAO = "VETJ", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 124763, IATA = "LTU", ICAO = "VALT", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 130448, IATA = "ANK", ICAO = "LTAD", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 130451, IATA = "UAB", ICAO = "LTAG", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 130465, IATA = "TJK", ICAO = "LTAW", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 130761, IATA = "DIY", ICAO = "LTCC", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 131026, IATA = "VAN", ICAO = "LTCI", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 131031, IATA = "BAL", ICAO = "LTCJ", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 131212, IATA = "AOE", ICAO = "LTBY", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 131222, IATA = "ERC", ICAO = "LTCD", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 131377, IATA = "NVY", ICAO = "VONV", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 131737, IATA = "GZP", ICAO = "LTFG", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 132024, IATA = "ESB", ICAO = "LTAC", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 132293, IATA = "KYA", ICAO = "LTAN", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 132297, IATA = "MZH", ICAO = "LTAP", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 132314, IATA = "NAV", ICAO = "LTAZ", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 132316, IATA = "IST", ICAO = "LTBA", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 132636, IATA = "DOH", ICAO = "OTHH", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 132649, IATA = "OGU", ICAO = "LTCB", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 132779, IATA = "TEQ", ICAO = "LTBU", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 132869, IATA = "USQ", ICAO = "LTBO", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 132875, IATA = "DLM", ICAO = "LTBS", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133030, IATA = "BUZ", ICAO = "OIBB", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133037, IATA = "JWN", ICAO = "OITZ", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133133, IATA = "AWZ", ICAO = "OIAW", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133138, IATA = "BND", ICAO = "OIKB", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133139, IATA = "SXZ", ICAO = "LTCL", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133191, IATA = "AFY", ICAO = "LTAH", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133209, IATA = "MLX", ICAO = "LTAT", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133212, IATA = "ASR", ICAO = "LTAU", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133336, IATA = "XQC", ICAO = "ORBD", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133338, IATA = "ALP", ICAO = "OSAP", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133385, IATA = "AZD", ICAO = "OIYY", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133405, IATA = "DAM", ICAO = "OSDI", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133426, IATA = "MSR", ICAO = "LTCK", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133430, IATA = "KCM", ICAO = "LTCN", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133432, IATA = "ADF", ICAO = "LTCP", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133807, IATA = "TZX", ICAO = "LTCG", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133829, IATA = "ISE", ICAO = "LTFC", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133833, IATA = "BJV", ICAO = "LTFE", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 133884, IATA = "CKZ", ICAO = "LTBH", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 134144, IATA = "YEI", ICAO = "LTBR", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 134404, IATA = "ERZ", ICAO = "LTCE", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 134408, IATA = "KSY", ICAO = "LTCF", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 134437, IATA = "EDO", ICAO = "LTFD", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 135159, IATA = "IQA", ICAO = "ORAA", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 135490, IATA = "AHB", ICAO = "OEAB", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 135493, IATA = "GIZ", ICAO = "OEGN", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 135500, IATA = "IFN", ICAO = "OIFM", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 135502, IATA = "THR", ICAO = "OIII", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 135504, IATA = "LRR", ICAO = "OISL", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 135507, IATA = "OMH", ICAO = "OITR", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 135749, IATA = "BGW", ICAO = "ORBI", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 135856, IATA = "YNB", ICAO = "OEYN", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 135857, IATA = "ABD", ICAO = "OIAA", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 135866, IATA = "SYZ", ICAO = "OISS", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 136633, IATA = "HAS", ICAO = "OEHL", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 136644, IATA = "KSH", ICAO = "OICC", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 136647, IATA = "RAS", ICAO = "OIGG", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 137172, IATA = "IGD", ICAO = "LTCT", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 137983, IATA = "ADA", ICAO = "LTAF", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 138001, IATA = "DNZ", ICAO = "LTAY", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 138016, IATA = "ADB", ICAO = "LTBJ", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 138611, IATA = "EZS", ICAO = "LTCA", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 138623, IATA = "SFQ", ICAO = "LTCH", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 138895, IATA = "SZF", ICAO = "LTFH", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 138897, IATA = "SAW", ICAO = "LTFJ", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 140850, IATA = "RAH", ICAO = "OERF", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 140853, IATA = "TUU", ICAO = "OETB", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 140857, IATA = "KIH", ICAO = "OIBK", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 140866, IATA = "IKA", ICAO = "OIIE", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 140870, IATA = "MHD", ICAO = "OIMM", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 140874, IATA = "SRY", ICAO = "OINZ", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 141866, IATA = "EVN", ICAO = "UDYZ", UTC = 240, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 146698, IATA = "DYU", ICAO = "UTDD", UTC = 300, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 146703, IATA = "AMD", ICAO = "VAAH", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 146706, IATA = "RAJ", ICAO = "VARK", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 146707, IATA = "RPR", ICAO = "VERP", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 146710, IATA = "SHL", ICAO = "VEBI", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 146713, IATA = "IXW", ICAO = "VEJS", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 146715, IATA = "DMU", ICAO = "VEMR", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 146724, IATA = "DED", ICAO = "VIDN", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 146725, IATA = "GWL", ICAO = "VIGR", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 146726, IATA = "IXP", ICAO = "VIPK", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 146728, IATA = "CJB", ICAO = "VOCB", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 147260, IATA = "KFS", ICAO = "LTAL", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 147392, IATA = "NOP", ICAO = "LTCM", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 150788, IATA = "DEP", ICAO = "VEDZ", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 150792, IATA = "GNY", ICAO = "LTCS", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 150903, IATA = "AYT", ICAO = "LTAI", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 150905, IATA = "GZT", ICAO = "LTAJ", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 150913, IATA = "VAS", ICAO = "LTAR", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 151013, IATA = "MQM", ICAO = "LTCR", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 151296, IATA = "AFZ", ICAO = "OIMS", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 151299, IATA = "ADU", ICAO = "OITL", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 151300, IATA = "TBZ", ICAO = "OITT", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 151311, IATA = "KIK", ICAO = "ORKK", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152331, IATA = "ZBR", ICAO = "OIZC", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152334, IATA = "GSM", ICAO = "OIKQ", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152335, IATA = "PGU", ICAO = "OIBP", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152337, IATA = "MRX", ICAO = "OIAM", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152340, IATA = "NJF", ICAO = "ORNI", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152349, IATA = "JED", ICAO = "OEJN", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152352, IATA = "KWI", ICAO = "OKKK", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152356, IATA = "RUH", ICAO = "OERK", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152362, IATA = "BUS", ICAO = "UGSB", UTC = 240, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152366, IATA = "TBS", ICAO = "UGTB", UTC = 240, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152370, IATA = "AMM", ICAO = "OJAI", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152378, IATA = "ELQ", ICAO = "OEGS", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152379, IATA = "FRU", ICAO = "UCFM", UTC = 360, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152380, IATA = "GOI", ICAO = "VOGO", UTC = 330, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152381, IATA = "LVP", ICAO = "OIBV", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152383, IATA = "FEG", ICAO = "UTFF", UTC = 300, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152384, IATA = "PDV", ICAO = "LBPD", UTC = 180, TIMEZONE = "E. Europe Standard Time" });
+            apt_infos.Add(new apt_info() { Id = 152385, IATA = "KHY", ICAO = "OITK", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152386, IATA = "BSR", ICAO = "ORMM", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152387, IATA = "EBL", ICAO = "ORER", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152388, IATA = "ISU", ICAO = "ORSU", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152389, IATA = "RZR", ICAO = "OINR", UTC = 210, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152390, IATA = "NMA", ICAO = "UTFN", UTC = 300, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152391, IATA = "ADJ", ICAO = "OJAM", UTC = 180, TIMEZONE = "" });
+            apt_infos.Add(new apt_info() { Id = 152392, IATA = "MD", ICAO = "OIMD", UTC = 210, TIMEZONE = "" });
+
+
+            return apt_infos;
+
+        }
+
+        public string IATA { get; set; }
+        public string ICAO { get; set; }
+        public int Id { get; set; }
+        public int UTC { get; set; }
+        public string TIMEZONE { get; set; }
+    }
 }

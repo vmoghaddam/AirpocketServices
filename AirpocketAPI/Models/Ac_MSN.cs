@@ -72,6 +72,7 @@ namespace AirpocketAPI.Models
         public Nullable<int> CPT2Limit { get; set; }
         public Nullable<int> CPT3Limit { get; set; }
         public Nullable<int> CPT4Limit { get; set; }
+        public string AircraftType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FlightInformation> FlightInformations { get; set; }

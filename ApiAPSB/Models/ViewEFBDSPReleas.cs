@@ -144,5 +144,9 @@ namespace ApiAPSB.Models
         public string Note { get; set; }
         public Nullable<decimal> MinFuelRequiredCFP { get; set; }
         public Nullable<int> OFPTOTALFUEL { get; set; }
+        public string SgnDSPLicNo { get; set; }
+        public string SgnCPTLicNo { get; set; }
+        public Nullable<System.DateTime> JLDSPSignDate { get; set; }
+        public string SGNDSPName { get; set; }
     }
 }

@@ -342,7 +342,10 @@ namespace ApiMSG.Controllers
             var flight = context.ViewNiras.FirstOrDefault(q => q.ID == id);
             if (flight == null)
                 return Ok(-1);
-            if (flight.Delay > 30 && (flight.FlightStatusID == 1) /*&& notifiedDelay != xdelay*/ && ((DateTime)flight.STD - DateTime.UtcNow).TotalHours > 1)
+            if (
+                  (flight.Delay > 30 && (flight.FlightStatusID == 1)  && ((DateTime)flight.STD - DateTime.UtcNow).TotalHours > 1)
+                  || (flight.Delay<=-15)
+               )
             {
                 var _std = (DateTime)flight.STDLocal;
                 var date = (_std).Year + "-" + (_std).Month.ToString().PadLeft(2, '0') + "-" + (_std).Day.ToString().PadLeft(2, '0');

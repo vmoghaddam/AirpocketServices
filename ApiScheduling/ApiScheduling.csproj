@@ -290,6 +290,9 @@
     <Compile Include="Models\ViewFDPRest.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewFlightCrewX.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewLegTime.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -42,13 +42,13 @@ namespace AirpocketTRN.Controllers
 
         [Route("api/trn/stat/coursepeople")]
         [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> GetTrnStatCoursePeople(string df, string dt, int? ct, int? status, int? cstatus, string cls, int? pid,int? inst1,int? inst2,int? rank,int? active,string grp)
+        public async Task<IHttpActionResult> GetTrnStatCoursePeople(string df, string dt, int? ct, int? status, int? cstatus, string cls, int? pid,int? inst1,int? inst2,int? rank,int? active,string grp,string dep)
         {
             var fp = df.Split('-').Select(q=>Convert.ToInt32(q)).ToList();
             var ft = dt.Split('-').Select(q => Convert.ToInt32(q)).ToList();
             var _df = new DateTime(fp[0], fp[1], fp[2]);
             var _dt = new DateTime(ft[0], ft[1], ft[2]);
-            var result = await courseService.GetTrnStatCoursePeople(_df,_dt,ct,status,cstatus,cls,pid,inst1,inst2,rank,active,grp);
+            var result = await courseService.GetTrnStatCoursePeople(_df,_dt,ct,status,cstatus,cls,pid,inst1,inst2,rank,active,grp,dep);
 
             return Ok(result);
         }
@@ -291,39 +291,39 @@ namespace AirpocketTRN.Controllers
             return Ok(result.Data);
         }
 
-        [Route("api/trn/schedule/{year}/{month}")]
+        [Route("api/trn/schedule/{year}/{month}/{mng_id}")]
         [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> GetTrainingSchedule(int year,int month)
+        public async Task<IHttpActionResult> GetTrainingSchedule(int year,int month,int mng_id)
         {
-            var result = await courseService.GetTrainingSchedule(  year,  month);
+            var result = await courseService.GetTrainingSchedule(  year,  month,mng_id);
 
             return Ok(result.Data);
         }
 
-        [Route("api/trn/schedule/year/{year}")]
+        [Route("api/trn/schedule/year/{year}/{mng_id}")]
         [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> GetTrainingScheduleYear(int year )
+        public async Task<IHttpActionResult> GetTrainingScheduleYear(int year,int mng_id )
         {
-            var result = await courseService.GetTrainingSchedule(year );
+            var result = await courseService.GetTrainingSchedule(year,mng_id );
 
             return Ok(result.Data);
         }
 
         //GetTrainingExpiredCertificateTypes
-        [Route("api/trn/schedule/year/type/{year}/{type}")]
+        [Route("api/trn/schedule/year/type/{year}/{type}/{mng_id}")]
         [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> GetTrainingExpiredCertificateTypes(int year, int type)
+        public async Task<IHttpActionResult> GetTrainingExpiredCertificateTypes(int year, int type,int mng_id)
         {
-            var result = await courseService.GetTrainingExpiredCertificateTypes(year, type);
+            var result = await courseService.GetTrainingExpiredCertificateTypes(year, type,mng_id);
 
             return Ok(result.Data);
         }
 
-        [Route("api/trn/schedule/year/month/type/{year}/{month}/{type}")]
+        [Route("api/trn/schedule/year/month/type/{year}/{month}/{type}/{mng_id}")]
         [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> GetTrainingExpiredCertificateTypes(int year,int month, int type)
+        public async Task<IHttpActionResult> GetTrainingExpiredCertificateTypes(int year,int month, int type, int mng_id)
         {
-            var result = await courseService.GetTrainingExpiredCertificateTypes(year,month, type);
+            var result = await courseService.GetTrainingExpiredCertificateTypes(year,month, type, mng_id);
 
             return Ok(result.Data);
         }
@@ -534,7 +534,8 @@ namespace AirpocketTRN.Controllers
         [AcceptVerbs("GET")]
         public async Task<IHttpActionResult> GetPersonMandatoryCourses(int type,int group)
         {
-            var result = await courseService.GetPersonMandatoryCoursesByType(type,group);
+            //var result = await courseService.GetPersonMandatoryCoursesByType(type,group);
+            var result = await courseService.GetCertificateHistoryByTypeGroup(type, group);
 
             return Ok(result);
         }
@@ -944,6 +945,16 @@ namespace AirpocketTRN.Controllers
             FLYEntities context = new FLYEntities();
             var ids = await context.Courses.OrderByDescending(q => q.Id).Select(q => q.Id).ToListAsync();
             return Ok(ids);
+        }
+
+
+        [Route("api/trn/manager/groups/{mng_id}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetManagerGroups(  int mng_id)
+        {
+            var result = await courseService.GetManagerGroups(  mng_id);
+
+            return Ok(result.Data);
         }
 
 

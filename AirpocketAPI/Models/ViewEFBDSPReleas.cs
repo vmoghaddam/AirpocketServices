@@ -15,7 +15,7 @@ namespace AirpocketAPI.Models
     public partial class ViewEFBDSPReleas
     {
         public int Id { get; set; }
-        public Nullable<int> FlightId { get; set; }
+        public int FlightId { get; set; }
         public Nullable<bool> ActualWXDSP { get; set; }
         public Nullable<bool> ActualWXCPT { get; set; }
         public string ActualWXDSPRemark { get; set; }
@@ -143,5 +143,6 @@ namespace AirpocketAPI.Models
         public string VldRampPassCMDRRemark { get; set; }
         public string Note { get; set; }
         public Nullable<decimal> MinFuelRequiredCFP { get; set; }
+        public Nullable<int> OFPTOTALFUEL { get; set; }
     }
 }

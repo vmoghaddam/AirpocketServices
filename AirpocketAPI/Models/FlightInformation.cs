@@ -307,6 +307,20 @@ namespace AirpocketAPI.Models
         public Nullable<int> FuelRemained { get; set; }
         public Nullable<int> FuelUsed { get; set; }
         public Nullable<int> FuelUpliftLitr { get; set; }
+        public Nullable<int> OFPExtra { get; set; }
+        public Nullable<int> OFPCONTFUEL { get; set; }
+        public Nullable<int> OFPALT1FUEL { get; set; }
+        public Nullable<int> OFPALT2FUEL { get; set; }
+        public Nullable<int> OFPFINALRESFUEL { get; set; }
+        public Nullable<int> OFPTAXIFUEL { get; set; }
+        public Nullable<int> OFPETOPSADDNLFUEL { get; set; }
+        public Nullable<int> OFPOPSEXTRAFUEL { get; set; }
+        public Nullable<int> OFPTANKERINGFUEL { get; set; }
+        public Nullable<int> OFPTOTALFUEL { get; set; }
+        public Nullable<int> FuelUsedEng1 { get; set; }
+        public Nullable<int> FuelUsedEng2 { get; set; }
+        public Nullable<int> ACTUALTANKERINGFUEL { get; set; }
+        public string LTR2 { get; set; }
     
         public virtual Ac_MSN Ac_MSN { get; set; }
         public virtual Airport Airport { get; set; }

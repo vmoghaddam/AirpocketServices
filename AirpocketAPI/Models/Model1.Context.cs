@@ -61,7 +61,6 @@ namespace AirpocketAPI.Models
         public virtual DbSet<ViewFlightCrewNew> ViewFlightCrewNews { get; set; }
         public virtual DbSet<RosterDailyReport> RosterDailyReports { get; set; }
         public virtual DbSet<FTLSummary> FTLSummaries { get; set; }
-        public virtual DbSet<AppFTL> AppFTLs { get; set; }
         public virtual DbSet<AppCrewTime> AppCrewTimes { get; set; }
         public virtual DbSet<EFBASR> EFBASRs { get; set; }
         public virtual DbSet<EFBVoyageReport> EFBVoyageReports { get; set; }
@@ -81,7 +80,6 @@ namespace AirpocketAPI.Models
         public virtual DbSet<Charterer> Charterers { get; set; }
         public virtual DbSet<ViewTimeTable> ViewTimeTables { get; set; }
         public virtual DbSet<ViewCrewList> ViewCrewLists { get; set; }
-        public virtual DbSet<ReportRoster> ReportRosters { get; set; }
         public virtual DbSet<ViewCrewDuty> ViewCrewDuties { get; set; }
         public virtual DbSet<NiraHistory> NiraHistories { get; set; }
         public virtual DbSet<ViewFlightDelay> ViewFlightDelays { get; set; }
@@ -106,5 +104,8 @@ namespace AirpocketAPI.Models
         public virtual DbSet<AppCertificate> AppCertificates { get; set; }
         public virtual DbSet<ViewFlightInformation> ViewFlightInformations { get; set; }
         public virtual DbSet<AppCrewFlight> AppCrewFlights { get; set; }
+        public virtual DbSet<ReportRoster> ReportRosters { get; set; }
+        public virtual DbSet<AppFTL> AppFTLs { get; set; }
+        public virtual DbSet<ViewFlightCharterer> ViewFlightCharterers { get; set; }
     }
 }

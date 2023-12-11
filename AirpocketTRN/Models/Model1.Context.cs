@@ -66,7 +66,6 @@ namespace AirpocketTRN.Models
         public virtual DbSet<TeacherDocument> TeacherDocuments { get; set; }
         public virtual DbSet<ViewTeacherDocument> ViewTeacherDocuments { get; set; }
         public virtual DbSet<ViewPersonDocumentFileX> ViewPersonDocumentFileXes { get; set; }
-        public virtual DbSet<ViewCoursePeople> ViewCoursePeoples { get; set; }
         public virtual DbSet<Charterer> Charterers { get; set; }
         public virtual DbSet<EmployeeDocument> EmployeeDocuments { get; set; }
         public virtual DbSet<Course> Courses { get; set; }
@@ -75,7 +74,6 @@ namespace AirpocketTRN.Models
         public virtual DbSet<CourseDocument> CourseDocuments { get; set; }
         public virtual DbSet<CourseRemainingNotification> CourseRemainingNotifications { get; set; }
         public virtual DbSet<ViewCourseDocument> ViewCourseDocuments { get; set; }
-        public virtual DbSet<ViewCoursePeopleRankedByStart> ViewCoursePeopleRankedByStarts { get; set; }
         public virtual DbSet<ViewCourseRemaining> ViewCourseRemainings { get; set; }
         public virtual DbSet<ViewMandatoryCourse> ViewMandatoryCourses { get; set; }
         public virtual DbSet<ViewMandatoryCourseEmployee> ViewMandatoryCourseEmployees { get; set; }
@@ -87,9 +85,14 @@ namespace AirpocketTRN.Models
         public virtual DbSet<TrnDbAppFieldMapping> TrnDbAppFieldMappings { get; set; }
         public virtual DbSet<ViewCourseSMSHistoryRanked> ViewCourseSMSHistoryRankeds { get; set; }
         public virtual DbSet<CertificateType> CertificateTypes { get; set; }
-        public virtual DbSet<ViewCertificateHistoryRanked> ViewCertificateHistoryRankeds { get; set; }
         public virtual DbSet<ViewCourseNew> ViewCourseNews { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<ViewProfile> ViewProfiles { get; set; }
+        public virtual DbSet<ViewCertificateHistoryRanked> ViewCertificateHistoryRankeds { get; set; }
+        public virtual DbSet<Manager> Managers { get; set; }
+        public virtual DbSet<ManagerGroup> ManagerGroups { get; set; }
+        public virtual DbSet<ViewCoursePeople> ViewCoursePeoples { get; set; }
+        public virtual DbSet<ViewCertificateHistory> ViewCertificateHistories { get; set; }
+        public virtual DbSet<ViewCoursePeopleRankedByStart> ViewCoursePeopleRankedByStarts { get; set; }
     }
 }

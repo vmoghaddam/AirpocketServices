@@ -499,6 +499,10 @@ namespace ApiProfile.Models
         public Nullable<System.DateTime> GroundExpireDate { get; set; }
         public Nullable<System.DateTime> FirstAidCockpitIssueDate { get; set; }
         public Nullable<System.DateTime> FirstAidCockpitExpireDate { get; set; }
+        public Nullable<System.DateTime> TypeFoker50IssueDate { get; set; }
+        public Nullable<System.DateTime> TypeFoker100IssueDate { get; set; }
+        public Nullable<System.DateTime> TypeFoker50ExpireDate { get; set; }
+        public Nullable<System.DateTime> TypeFoker100ExpireDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CertificateHistory> CertificateHistories { get; set; }

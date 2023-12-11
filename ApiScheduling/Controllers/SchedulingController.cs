@@ -74,18 +74,18 @@ namespace ApiScheduling.Controllers
                 // return result.OrderBy(q => q.STD);
                 return Ok(query);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var msg = ex.Message;
                 if (ex.InnerException != null)
                     msg += ex.InnerException.Message;
                 return Ok(msg);
             }
-           
+
 
         }
 
-        public int getGroupOrderIndex (string grp,string pos)
+        public int getGroupOrderIndex(string grp, string pos)
         {
             switch (grp)
             {
@@ -126,11 +126,11 @@ namespace ApiScheduling.Controllers
                         select y;
             var result = query.ToList();
             var grps = (from x in result
-                        group x by new { x.InitFlts,x.InitRoute } into grp
+                        group x by new { x.InitFlts, x.InitRoute } into grp
                         select new
                         {
                             flts = grp.Key.InitFlts.Replace("*1", "(DH)"),
-                            route=grp.Key.InitRoute,
+                            route = grp.Key.InitRoute,
                             item = grp.Select(q => new
                             {
                                 q.ActualEnd,
@@ -154,7 +154,7 @@ namespace ApiScheduling.Controllers
                                 q.InitGroup,
                                 q.InitRank,
                                 FDPId = q.Id
-                            }).Distinct().OrderBy(q=>getGroupOrderIndex(q.InitGroup,q.InitPosition)).ToList()
+                            }).Distinct().OrderBy(q => getGroupOrderIndex(q.InitGroup, q.InitPosition)).ToList()
                         }).OrderBy(q => q.flts).ToList();
 
             return Ok(grps);
@@ -221,7 +221,7 @@ namespace ApiScheduling.Controllers
                             _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "SCC" || q.JobGroup == "CCI" || q.JobGroup == "CCE");
                             break;
                         case "11":
-                            _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM"  || q.JobGroup == "SCC" || q.JobGroup == "CCI"
+                            _query = _query.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM" || q.JobGroup == "SCC" || q.JobGroup == "CCI"
                             || q.JobGroup == "CCE" || q.JobGroup == "CC");
                             break;
                         case "7":
@@ -262,7 +262,7 @@ namespace ApiScheduling.Controllers
                 // return result.OrderBy(q => q.STD);
                 return Ok(resources);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var msg = ex.Message;
                 if (ex.InnerException != null)
@@ -406,7 +406,7 @@ namespace ApiScheduling.Controllers
             //this.context.Database.CommandTimeout = 160;
             var dt = df.AddDays(1);
             var context = new Models.dbEntities();
-            var query = context.SchFlights.Where(q => q.STDLocal  >= df && q.STDLocal<=dt ).OrderBy(q=>q.FlightNumber).ToList();
+            var query = context.SchFlights.Where(q => q.STDLocal >= df && q.STDLocal <= dt).OrderBy(q => q.FlightNumber).ToList();
             //var result = (from x in query
             //              group x by new { x.ACType, x.ACTypeId, x.Register, x.RegisterID } into grp
             //              select new
@@ -1220,6 +1220,7 @@ namespace ApiScheduling.Controllers
             var context = new Models.dbEntities();
             var extendedRERRP = 0;
             var timeline = 0;
+
             if (dto.EXTRERRP != null)
                 extendedRERRP = Convert.ToInt32(dto.EXTRERRP);
             if (dto.TIMELINE != null)
@@ -1255,6 +1256,7 @@ namespace ApiScheduling.Controllers
             }
             if (duty.DutyType == 10000 || duty.DutyType == 10001)
             {
+                /*
                 var _start = ((DateTime)duty.InitStart).AddMinutes(utcdiff);
                 DateTime _end;
                 if (extendedRERRP == 0)
@@ -1278,7 +1280,7 @@ namespace ApiScheduling.Controllers
                     _end = _end.AddMinutes(_lnr);
                 }
                 duty.DateStart = _start.AddMinutes(-utcdiff);
-                duty.DateEnd = _end.AddMinutes(-utcdiff);
+                duty.DateEnd = _end.AddMinutes(-utcdiff);*/
                 duty.InitStart = duty.DateStart;
                 duty.InitEnd = duty.DateEnd;
                 duty.InitRestTo = duty.DateEnd;
@@ -1490,7 +1492,7 @@ namespace ApiScheduling.Controllers
 
         [Route("api/roster/stby/save")]
         [AcceptVerbs("POST")]
-
+        //goh
         public async Task<IHttpActionResult> PostRosterSTBYSave(dynamic dto)
         {
             var context = new Models.dbEntities();
@@ -1503,6 +1505,19 @@ namespace ApiScheduling.Controllers
 
             var sbc_start = 6 * 60;
             var sbc_duration = 11 * 60 + 59;
+
+
+            var _from = string.Empty;
+            var _end = string.Empty;
+            if (dto.date_from != null)
+            {
+                _from = Convert.ToString(dto.date_from);
+            }
+            if (dto.date_end != null)
+            {
+                _end = Convert.ToString(dto.date_end);
+            }
+
 
 
             DateTime day = (Convert.ToDateTime(dto.date));
@@ -1525,20 +1540,32 @@ namespace ApiScheduling.Controllers
             //caspian
             var start = day.AddMinutes(sbam_start);
             var end = start.AddMinutes(sbam_durattion);
+            if (type == 1168)
+            {
+                start = toDateTime(_from).AddMinutes(-210);
+                end = toDateTime(_end).AddMinutes(-210);
+            }
             if (type == 1167)
             {
-                start = day.AddMinutes(sbpm_start);
-                end = start.AddMinutes(sbpm_duration);
+                // start = day.AddMinutes(sbpm_start);
+                // end = start.AddMinutes(sbpm_duration);
+                start = toDateTime(_from).AddMinutes(-210);
+                end = toDateTime(_end).AddMinutes(-210);
             }
             if (type == 300013)
             {
-                start = day.AddMinutes(sbc_start);
-                end = start.AddMinutes(sbc_duration);
+                //start = day.AddMinutes(sbc_start);
+                // end = start.AddMinutes(sbc_duration);
+                start = toDateTime(_from).AddMinutes(-210);
+                end = toDateTime(_end).AddMinutes(-210);
             }
             if (type == 1170)
             {
-                start = day.AddMinutes(res_start);
-                end = start.AddMinutes(res_duration);
+                //start = day.AddMinutes(res_start);
+                //end = start.AddMinutes(res_duration);
+                start = toDateTime(_from).AddMinutes(-210);
+                end = toDateTime(_end).AddMinutes(-210);
+
             }
 
             var duty = new FDP();
@@ -1613,8 +1640,10 @@ namespace ApiScheduling.Controllers
 
             if (isgantt == 0)
             {
-                var view = await context.ViewCrewDutyNoRegs.FirstOrDefaultAsync(q => q.Id == duty.Id);
-                return new CustomActionResult(HttpStatusCode.OK, view);
+                //var view = await context.ViewCrewDutyNoRegs.FirstOrDefaultAsync(q => q.Id == duty.Id);
+                // return new CustomActionResult(HttpStatusCode.OK, view);
+                var result = await context.ViewCrewDuties.FirstOrDefaultAsync(q => q.Id == duty.Id);
+                return new CustomActionResult(HttpStatusCode.OK, result);
             }
             else
             {
@@ -1931,18 +1960,18 @@ namespace ApiScheduling.Controllers
         [Route("api/stby/activate/test/{crewId}/{fids}/{index}/{rank}/{stbyId}")]
 
         [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> GetStbyActivate(int crewId,string fids,int index,int rank,int stbyId)
+        public async Task<IHttpActionResult> GetStbyActivate(int crewId, string fids, int index, int rank, int stbyId)
         {
             //internal async Task<CustomActionResult> ActivateStandby(int crewId, int stbyId, string fids, int rank)
-         //   if (dto == null)
-          //      return Exceptions.getNullException(ModelState);
+            //   if (dto == null)
+            //      return Exceptions.getNullException(ModelState);
 
             // int crewId = Convert.ToInt32(dto.crewId);
             // int stbyId = Convert.ToInt32(dto.stbyId);
             // string fids = Convert.ToString(dto.fids);
             // int rank = Convert.ToInt32(dto.rank);
             string rank2 = ""; //Convert.ToString(dto.rank2);
-             
+
             int isgantt = -1;
             //if (dto.index != null)
             //{
@@ -2053,13 +2082,13 @@ namespace ApiScheduling.Controllers
                 var ftlYearFrom = new DateTime(stdday.Year, 1, 1);
                 var ftlYearTo = (new DateTime(stdday.Year + 1, 1, 1)).AddDays(-1);
                 _ln = 7;
-               // var _rerrp = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate == ftlDateFrom && q.RERRP > 0).FirstOrDefaultAsync();
-               // if (_rerrp == null && (dto.IsAdmin == null || dto.IsAdmin == 0))
-               // {
-               //     return new CustomActionResult(HttpStatusCode.OK, new
-               //     {
-               //         Code = 308,
-               //         message = "RERRP Error. "
+                // var _rerrp = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate == ftlDateFrom && q.RERRP > 0).FirstOrDefaultAsync();
+                // if (_rerrp == null && (dto.IsAdmin == null || dto.IsAdmin == 0))
+                // {
+                //     return new CustomActionResult(HttpStatusCode.OK, new
+                //     {
+                //         Code = 308,
+                //         message = "RERRP Error. "
 
                 //    });
                 //}
@@ -2417,7 +2446,7 @@ namespace ApiScheduling.Controllers
                         else
                         {
                             if (_interupted.DutyType == 1167 || _interupted.DutyType == 1168)
-                                return new CustomActionResult(HttpStatusCode.OK, new { Code = 501, data = /*_interupted*/new { Id=_interupted.Id } });
+                                return new CustomActionResult(HttpStatusCode.OK, new { Code = 501, data = /*_interupted*/new { Id = _interupted.Id } });
                             else if (_interupted.DutyType == 5000)
                                 return new CustomActionResult(HttpStatusCode.OK, new
                                 {
@@ -2722,7 +2751,7 @@ namespace ApiScheduling.Controllers
 
 
                 int iiii = 0;
-                var msg = line+"   "+_ln+"   "+ ex.Message;
+                var msg = line + "   " + _ln + "   " + ex.Message;
                 if (ex.InnerException != null)
                     msg += " IINER:" + ex.InnerException.Message;
                 return new CustomActionResult(HttpStatusCode.OK, msg);
@@ -2772,6 +2801,203 @@ namespace ApiScheduling.Controllers
 
         }
 
+        public class appAll
+        {
+            public DateTime? Start { get; set; }
+            public DateTime? End { get; set; }
+            public int? Type { get; set; }
+            public string TypeStr { get; set; }
+
+            public int? Total { get; set; }
+        }
+        [Route("api/scheduling/crew/calndar/{id}")]
+        [AcceptVerbs("GET")]
+        //nookp
+        public IHttpActionResult GetCrewCalndar(int id)
+        {
+
+            var context = new Models.dbEntities();
+
+            try
+            {
+                context.Database.CommandTimeout = 160;
+
+
+                var query = (
+                    from x in context.ViewFlightCrewXes
+
+                    where x.CrewId == id //&& x.DateConfirmed != null
+                    group x by new { x.STDDay, x.STDDayEnd } into grp
+                    select new appAll() { Start = grp.Key.STDDay, End = grp.Key.STDDayEnd, Total = grp.Count(), Type = 1165 }
+
+                    ).ToList();
+
+                var dayOffs = context.FDPs.Where(q => q.CrewId == id && (q.DutyType == 10000 || q.DutyType == 10001 || q.DutyType == 100008 || q.DutyType == 300009) && q.DateConfirmed != null).ToList();
+                var ds = dayOffs.Select(q => new appAll()
+                {
+                    Start = ((DateTime)q.DateStart).AddMinutes(210),
+                    End = ((DateTime)q.DateEnd).AddMinutes(210),
+                    Total = 0,
+                    Type = 10000,
+
+                }).ToList();
+
+                var allowedTypes = new List<int>() {
+                    1167,
+                    1168,
+                    5001,
+                    5000,
+                    300008,
+                    1170,
+                    1169,
+                    100002,
+                    100001,
+                    100003,
+                    100004,
+                    100005,
+                    100006 
+                //rerrp
+                ,10000
+                //rerrp2
+                ,10001
+                //ground
+                ,100000
+                //meeting
+                ,100001
+                //req off
+                ,100008
+                //refuse
+                ,100009
+                //duty
+                ,300008
+                //rest
+                ,300009
+                //oa stby
+                ,300010
+                //stby c
+                ,300013
+                //off
+                ,1166
+
+                };
+                //var others = this.context.FDPs.Where(q => q.CrewId == id && (q.DutyType != 1165 && q.DutyType != 10001 && q.DutyType != 10000)).ToList();
+                var others = context.FDPs.Where(q => q.CrewId == id && allowedTypes.Contains(q.DutyType) && q.DateConfirmed != null).ToList();
+                var ds2 = others.Select(q => new appAll()
+                {
+                    Start = ((DateTime)q.DateStart).AddMinutes(210),
+                    End = ((DateTime)q.DateEnd).AddMinutes(210),
+                    Total = 0,
+                    Type = q.DutyType,
+
+                }).ToList();
+                foreach (var x in ds2)
+                {
+                    switch (x.Type)
+                    {
+
+
+
+
+
+
+                        case 100003:
+                            x.TypeStr = "SIM";
+                            break;
+                        case 100004:
+                        case 100005:
+                        case 100006:
+                            x.TypeStr = "EXP";
+                            break;
+                        //rerrp
+
+                        case 10000:
+                            x.TypeStr = "RERRP";
+                            break;
+                        //rerrp2
+
+                        case 10001:
+                            x.TypeStr = "RERRP";
+                            break;
+
+
+                        //ground
+
+                        case 100000:
+                            x.TypeStr = "GRND";
+                            break;
+
+                        //meeting
+                        case 100001:
+                            x.TypeStr = "MTG";
+                            break;
+                        //req off
+                        case 100008:
+                        case 1166:
+                            x.TypeStr = "OFF";
+                            break;
+
+                        case 100009:
+                            x.TypeStr = "REF";
+                            break;
+
+                        case 100002:
+                            x.TypeStr = "SICK";
+                            break;
+                        case 1167:
+                            x.TypeStr = "STBP";
+                            break;
+                        case 300010:
+                            x.TypeStr = "STBO";
+                            break;
+                        case 1168:
+                            x.TypeStr = "STBA";
+                            break;
+                        case 300013:
+                            x.TypeStr = "STB";
+                            break;
+                        case 5001:
+                            x.TypeStr = "OFC";
+                            break;
+                        case 5000:
+                            x.TypeStr = "TRN";
+                            break;
+                        case 300008:
+                            x.TypeStr = "DTY";
+                            break;
+                        case 300009:
+                            x.TypeStr = "RST";
+                            break;
+                        case 1169:
+                            x.TypeStr = "VAC";
+                            break;
+                        case 1170:
+                            x.TypeStr = "RES";
+                            break;
+                        
+                        default:
+                            x.TypeStr = "DTY";
+                            break;
+                    }
+                }
+
+                query = query
+                    //.Concat(ds)
+                    .Concat(ds2).ToList();
+
+                return Ok(query);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   " + ex.InnerException.Message;
+                return Ok(msg);
+            }
+
+
+
+        }
+
 
 
         DateTime toDate(string dt, string t)
@@ -2781,6 +3007,17 @@ namespace ApiScheduling.Controllers
             var day = Convert.ToInt32(dt.Substring(6, 2));
             var hour = Convert.ToInt32(t.Substring(0, 2));
             var minute = Convert.ToInt32(t.Substring(2, 2));
+
+            return new DateTime(year, month, day, hour, minute, 0);
+        }
+
+        DateTime toDateTime(string dt)
+        {
+            var year = Convert.ToInt32(dt.Substring(0, 4));
+            var month = Convert.ToInt32(dt.Substring(4, 2));
+            var day = Convert.ToInt32(dt.Substring(6, 2));
+            var hour = Convert.ToInt32(dt.Substring(8, 2));
+            var minute = Convert.ToInt32(dt.Substring(10, 2));
 
             return new DateTime(year, month, day, hour, minute, 0);
         }

@@ -1386,7 +1386,9 @@ namespace ApiLog.ViewModels
             //   viewflightinformation.GWLand = 180;
             // else
             //    viewflightinformation.GWLand = tzoffset2;
-            if (entity.GWLand != entity.FlightHPlanned && !string.IsNullOrEmpty(entity.FromAirportName))
+           
+            
+            /*if (entity.GWLand != entity.FlightHPlanned && !string.IsNullOrEmpty(entity.FromAirportName))
             {
                 viewflightinformation.GWLand = Helper.GetTimeOffset((DateTime) entity.STD, entity.FromAirportName,(decimal) entity.GWLand);
             }
@@ -1400,6 +1402,7 @@ namespace ApiLog.ViewModels
             }
             else
                 viewflightinformation.GWTO = entity.GWTO;
+            */
             ///////////////////////////
 
 
@@ -1771,6 +1774,9 @@ namespace ApiLog.ViewModels
             return viewflightinformation;
         }
     }
+
+
+
 
 
     public class CustomActionResult : IHttpActionResult

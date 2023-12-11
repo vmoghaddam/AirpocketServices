@@ -81,5 +81,6 @@ namespace AirpocketTRN.Models
         public string JobGroupCode2 { get; set; }
         public Nullable<int> ExamResult { get; set; }
         public Nullable<System.DateTime> ExamDate { get; set; }
+        public Nullable<int> Year { get; set; }
     }
 }

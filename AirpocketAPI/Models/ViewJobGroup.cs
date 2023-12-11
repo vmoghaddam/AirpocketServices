@@ -32,5 +32,6 @@ namespace AirpocketAPI.Models
         public Nullable<int> Manager { get; set; }
         public string ManagerTitle { get; set; }
         public string ManagerFullCode2 { get; set; }
+        public string ParentCode2 { get; set; }
     }
 }

@@ -5364,6 +5364,882 @@ namespace AirpocketAPI.Controllers
             return response;
         }
 
+        //Form Number DR-02
+        [Route("api/xls/roster/all/daily/dr02")]
+        [AcceptVerbs("GET")]
+        public HttpResponseMessage GetXLSRosterAllDailyDr02(DateTime df, int rev)
+        {
+            //bolan
+            var context = new AirpocketAPI.Models.FLYEntities();
+            context.Database.CommandTimeout = 500;
+            df = ((DateTime)df).Date;
+            var dt = df.AddDays(1);
+            var fdps = (from x in context.ViewFDPRests
+                        where x.DutyType == 1165 && x.STDLocal >= df && x.STDLocal < dt
+                        select x.Id).ToList();
+            var fdpitems = (from x in context.FDPItems
+                            where fdps.Contains(x.FDPId)
+                            select x.FlightId).ToList();
+            var query = from x in context.ReportRosters
+                            //where x.STDDay == df
+                        where fdpitems.Contains(x.ID)
+                        orderby x.Register, x.STDx
+                        select x;
+
+            var result = query.ToList();
+            var main = result.Select(q => new
+            {
+                q.ID,
+                q.FlightNumber,
+                q.Register,
+                q.AircraftType,
+                q.FromAirportIATA,
+                Base = q.FromAirportIATA == "IKA" ? "THR" : q.FromAirportIATA,
+                q.ToAirportIATA,
+                DepLocal = q.STDLOC,
+                ArrLocal = q.STALOC,
+                Dep = q.STD,
+                Arr = q.STA,
+                q.STDx,
+                q.STAx,
+                q.STDLocal,
+                q.STALocal,
+                q.IP,
+                q.CPT,
+                q.FO,
+                q.SAFETY,
+                q.CHECK,
+                q.OBS,
+                q.ISCCM,
+                q.SCCM,
+                q.CCM,
+                q.CHECKC,
+                q.OBSC,
+                q.FM,
+                q.POSITIONING,
+                q.POSITIONINGCABIN,
+                q.POSITIONINGCOCKPIT,
+                q.PDATE
+
+            }).ToList();
+
+
+
+            var regs = (from x in main
+
+                        group x by new { x.Register, x.AircraftType } into grp
+                        select new
+                        {
+                            grp.Key.Register,
+                            grp.Key.AircraftType,
+                            Items = grp.OrderBy(q => q.STDx).ToList(),
+                            Base = grp.OrderBy(q => q.STDx).First().Base
+                        }
+                       )
+                       //.OrderByDescending(q => q.Base)
+                       .OrderBy(q => q.AircraftType).ThenBy(q => q.Register)
+                       .ToList();
+            var dqs = context.ViewCrewDuties.Where(x => (df >= x.DateLocal && df <= x.DateLocal2)).ToList();
+
+            var dutiesQuery = (from x in /*context.ViewCrewDuties*/ dqs
+                               where (df >= x.DateLocal && df <= x.DateLocal2) && (x.DutyType == 1167 || x.DutyType == 1168 || x.DutyType == 1170 || x.DutyType == 5000 || x.DutyType == 5001
+                               || x.DutyType == 100001
+                               || x.DutyType == 100003
+                               || x.DutyType == 1166
+                               || x.DutyType == 10000
+                                || x.DutyType == 10001
+                                 || x.DutyType == 100007
+
+                                 || x.DutyType == 300009
+
+                                 || x.DutyType == 1169
+
+                                 || x.DutyType == 100002
+
+                                   || x.DutyType == 100000
+
+                                    || x.DutyType == 5000
+
+                                    || x.DutyType == 100003
+                                    || x.DutyType == 300013
+
+                               )
+                               select x).ToList();
+
+            // var off = dutiesQuery.Where(q => (q.DutyType == 1166 || q.DutyType == 10000 || q.DutyType == 10001 || q.DutyType == 100007) && q.IsCockpit == 1).ToList();
+            // var off_mhd = off.Where(q => q.BaseAirportId == 140870).ToList();
+            // var off_thr = off.Where(q => q.BaseAirportId == 135502).ToList();
+            // var rest = dutiesQuery.Where(q => q.DutyType == 300009 && q.IsCockpit == 1).ToList();
+            // var rest_mhd = rest.Where(q => q.BaseAirportId == 140870).ToList();
+            // var rest_thr = rest.Where(q => q.BaseAirportId == 135502).ToList();
+            var rsv = dutiesQuery.Where(q => q.DutyType == 1170 && q.IsCockpit == 1).ToList();
+            // var rsv_mhd = rsv.Where(q => q.BaseAirportId == 140870).ToList();
+            // var rsv_thr = rsv.Where(q => q.BaseAirportId == 135502).ToList();
+            // var vac = dutiesQuery.Where(q => q.DutyType == 1169 && q.IsCockpit == 1).ToList();
+            // var sick = dutiesQuery.Where(q => q.DutyType == 100002 && q.IsCockpit == 1).ToList();
+            // var ground = dutiesQuery.Where(q => q.DutyType == 100000 && q.IsCockpit == 1).ToList();
+            var trn = dutiesQuery.Where(q => q.DutyType == 5000 && q.IsCockpit == 1).ToList();
+            // var sim = dutiesQuery.Where(q => q.DutyType == 100003 && q.IsCockpit == 1).ToList();
+            // var office = dutiesQuery.Where(q => q.DutyType == 5001 && q.IsCockpit == 1).ToList();
+            //140870
+            var stbyam_thr = from x in dutiesQuery
+                             where x.DutyType == 1168 //&& x.BaseAirportId == 135502
+                             orderby x.OrderIndex, x.ScheduleName
+                             select x;
+            /*var stbyam_mhd = from x in dutiesQuery
+                             where x.DutyType == 1168 && x.BaseAirportId == 140870
+                             orderby x.OrderIndex, x.ScheduleName
+                             select x;*/
+
+            var stbypm_thr = from x in dutiesQuery
+                             where x.DutyType == 1167 //&& x.BaseAirportId == 135502
+                             orderby x.OrderIndex, x.ScheduleName
+                             select x;
+            var stbydaily = from x in dutiesQuery
+                            where x.DutyType == 300013 //&& x.BaseAirportId == 135502
+                            orderby x.OrderIndex, x.ScheduleName
+                            select x;
+            /* var stbypm_mhd = from x in dutiesQuery
+                              where x.DutyType == 1167 && x.BaseAirportId == 140870
+                              orderby x.OrderIndex, x.ScheduleName
+                              select x;*/
+
+            var am_cockpit = stbyam_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").ToList();
+            //  var am_sccm_mhd = stbyam_mhd/*.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1")*/.ToList();
+            var pm_cockpit = stbypm_thr.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").ToList();
+            var daily_cockpit = stbydaily.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1" || q.JobGroup == "P2").ToList();
+
+            // var pm_sccm_mhd = stbypm_mhd/*.Where(q => q.JobGroup == "IP" || q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1")*/.ToList();
+
+
+            //  var am_ccm_thr = stbyam_thr.Where(q => q.JobGroup == "P2").ToList();
+            // var am_ccm_mhd = stbyam_mhd.Where(q => q.JobGroup == "P2").ToList();
+            //var pm_ccm_thr = stbypm_thr.Where(q => q.JobGroup == "P2").ToList();
+            // var pm_ccm_mhd = stbypm_mhd.Where(q => q.JobGroup == "P2").ToList();
+            var am_cabin = stbyam_thr.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").ToList();
+            var pm_cabin = stbypm_thr.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").ToList();
+            var daily_cabin = stbydaily.Where(q => q.JobGroup == "ISCCM" || q.JobGroup == "SCCM" || q.JobGroup == "CCM").ToList();
+
+            Workbook workbook = new Workbook();
+            var mappedPathSource = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "drc-02" + ".xlsx");
+            workbook.LoadFromFile(mappedPathSource);
+            Worksheet sheet = workbook.Worksheets[0];
+
+            sheet.Range[3, 2].Text = ((DateTime)df).ToString("ddd").ToUpper() + " (" + main.First().PDATE + ") " + ((DateTime)df).ToString("yyyy-MMM-dd").ToUpper()
+
+                + (rev > 0 ? " REVISION:" + rev : "");
+            // sheet.Range[3, 10].Text = ((DateTime)df).ToString("dddd");
+
+            var regcnt = 0;
+            var ln = 8;
+            var positioning = (from q in main
+                               where !string.IsNullOrEmpty(q.POSITIONING)
+                               orderby q.STDLocal
+                               select "[" + q.FlightNumber + "(" + q.FromAirportIATA + "-" + q.ToAirportIATA + " " + q.DepLocal + "): " + q.POSITIONING + "]").ToList();
+
+            //if (rev>0)
+            //{
+            //    sheet.Range[3, 2].Text = "Revision";
+            //    sheet.Range[3, 4].Text = rev.ToString();
+            //}
+            foreach (var line in regs)
+            {
+                foreach (var flt in line.Items)
+                {
+                    sheet.InsertRow(ln);
+                    var rowHeight = sheet.Rows[ln - 1].RowHeight;
+                    var rh = 25;
+                    sheet.Rows[ln - 1].RowHeight = rh;
+                    sheet.Rows[ln - 1].Style.Font.Size = 12;
+                    sheet.Rows[ln - 1].Style.VerticalAlignment = VerticalAlignType.Center;
+                    sheet.Range[ln, 2].Text = flt.FlightNumber;
+
+                    sheet.Range[ln, 3].Text = flt.AircraftType;
+
+                    sheet.Range[ln, 4].Text = flt.Register;
+
+                    sheet.Range[ln, 5].Text = flt.FromAirportIATA;
+                    sheet.Range[ln, 6].Text = flt.ToAirportIATA;
+
+                    sheet.Range[ln, 7].Text = flt.DepLocal;
+                    sheet.Range[ln, 8].Text = flt.ArrLocal;
+                    sheet.Range[ln, 9].Text = flt.Dep;
+
+                    sheet.Range[ln, 10].Text = flt.Arr;
+
+
+                    sheet.Range[ln, 11].Text = string.IsNullOrEmpty(flt.IP) ? "" : flt.IP;
+
+                    sheet.Range[ln, 12].Text = string.IsNullOrEmpty(flt.CPT) ? "" : flt.CPT;
+
+                    sheet.Range[ln, 13].Text = string.IsNullOrEmpty(flt.FO) ? "" : flt.FO;
+
+                    sheet.Range[ln, 14].Text = string.IsNullOrEmpty(flt.SAFETY) ? "" : flt.SAFETY;
+                    sheet.Range[ln, 14].AutoFitColumns();
+
+                    sheet.Range[ln, 15].Text = string.IsNullOrEmpty(flt.CHECK) ? "" : flt.CHECK;
+                    sheet.Range[ln, 15].AutoFitColumns();
+
+                    sheet.Range[ln, 16].Text = string.IsNullOrEmpty(flt.OBS) ? "" : flt.OBS;
+                    sheet.Range[ln, 16].AutoFitColumns();
+
+                    //16 IFP
+                    sheet.Range[ln, 17].Text = string.IsNullOrEmpty(flt.ISCCM) ? "" : flt.ISCCM;
+                    sheet.Range[ln, 17].AutoFitColumns();
+                    //17 FP
+                    sheet.Range[ln, 18].Text = string.IsNullOrEmpty(flt.SCCM) ? "" : flt.SCCM;
+                    //18 FA
+                    sheet.Range[ln, 19].Text = string.IsNullOrEmpty(flt.CCM) ? "" : flt.CCM;
+                    sheet.Range[ln, 19].AutoFitColumns();
+
+                    sheet.Range[ln, 20].Text = string.IsNullOrEmpty(flt.CHECKC) ? "" : flt.CHECKC;
+                    sheet.Range[ln, 20].AutoFitColumns();
+
+
+                    sheet.Range[ln, 21].Text = string.IsNullOrEmpty(flt.OBSC) ? "" : flt.OBSC;
+                    sheet.Range[ln, 21].AutoFitColumns();
+                    // sheet.Range[ln, 16].Text = string.IsNullOrEmpty(flt.POSITIONINGCOCKPIT) ? "" : flt.POSITIONINGCOCKPIT;
+                    sheet.Range[ln, 22].Text = string.IsNullOrEmpty(flt.FM) ? "" : flt.FM;
+
+                    sheet.Range[ln, 22].AutoFitColumns();
+                    sheet.Range[ln, 22].IsWrapText = true;
+
+
+
+                    sheet.Range["B" + ln + ":V" + ln].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range["B" + ln + ":V" + ln].BorderInside(LineStyleType.Thin, Color.Black);
+                    sheet.Range["B" + ln + ":V" + ln].BorderAround(LineStyleType.Thin, Color.Black);
+                    ln++;
+
+                }
+
+                if (regcnt != regs.Count - 1)
+                {
+                    sheet.InsertRow(ln);
+
+                    sheet.Range["B" + (ln) + ":V" + ln].Style.Color = Color.Silver;
+                }
+
+                ln++;
+                regcnt++;
+            }
+
+
+
+            sheet.Range[ln, 5].Text = string.Join(", ", am_cockpit.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            ln++;
+            sheet.Range[ln, 5].Text = string.Join(", ", am_cabin.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            ln++;
+            sheet.Range[ln, 5].Text = string.Join(", ", pm_cockpit.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            ln++;
+
+            sheet.Range[ln, 5].Text = string.Join(", ", pm_cabin.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            ln++;
+
+            sheet.Range[ln, 5].Text = string.Join(", ", daily_cockpit.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            ln++;
+
+            sheet.Range[ln, 5].Text = string.Join(", ", daily_cabin.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            ln++;
+
+
+
+            sheet.Range[ln, 5].Text = string.Join(", ", rsv.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            ln++;
+            sheet.Range[ln, 5].Text = string.Join(", ", trn.Select(q => q.ScheduleName));
+            ln++;
+            sheet.Range[ln, 5].Text = string.Join(" ", positioning);
+            ln++;
+
+
+            var hasObsC = main.FirstOrDefault(q => !string.IsNullOrEmpty(q.OBSC));
+            if (hasObsC == null)
+            {
+                sheet.DeleteColumn(21);
+            }
+
+            if (main.FirstOrDefault(q => !string.IsNullOrEmpty(q.CHECKC)) == null)
+            {
+                sheet.DeleteColumn(20);
+            }
+
+            if (main.FirstOrDefault(q => !string.IsNullOrEmpty(q.ISCCM)) == null)
+            {
+                sheet.DeleteColumn(17);
+            }
+
+            if (main.FirstOrDefault(q => !string.IsNullOrEmpty(q.OBS)) == null)
+            {
+                sheet.DeleteColumn(16);
+            }
+            if (main.FirstOrDefault(q => !string.IsNullOrEmpty(q.CHECK)) == null)
+            {
+                sheet.DeleteColumn(15);
+            }
+            if (main.FirstOrDefault(q => !string.IsNullOrEmpty(q.SAFETY)) == null)
+            {
+                sheet.DeleteColumn(14);
+            }
+
+            if (main.FirstOrDefault(q => !string.IsNullOrEmpty(q.IP)) == null)
+            {
+                sheet.DeleteColumn(11);
+            }
+
+
+            sheet.DeleteColumn(9);
+            sheet.DeleteColumn(9);
+
+            // sheet.Range[ln, 5].Text = string.Join(", ", off.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+            // ln++;
+            // sheet.Range[ln, 5].Text = string.Join(", ", rest.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            //ln++;
+
+
+            //sheet.Range[ln, 5].Text = string.Join(", ", am_sccm_mhd.Select(q => q.ScheduleName));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", pm_sccm_mhd.Select(q => q.ScheduleName));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", am_ccm_mhd.Select(q => q.ScheduleName));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", pm_ccm_mhd.Select(q => q.ScheduleName));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", rsv_mhd.Select(q => q.ScheduleName));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", off_mhd.Select(q => q.ScheduleName));
+            //ln++;
+            //sheet.Range[ln, 5].Text = string.Join(", ", rest_mhd.Select(q => q.ScheduleName));
+
+            //ln++;
+            //  ln = ln + 7;
+            // sheet.Range[ln, 5].Text = string.Join(", ", ground.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            // ln++;
+            // sheet.Range[ln, 5].Text = string.Join(", ", sick.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            //  ln++;
+            // sheet.Range[ln, 5].Text = string.Join(", ", vac.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            // ln++;
+            // sheet.Range[ln, 5].Text = string.Join(", ", sim.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            // ln++;
+            // sheet.Range[ln, 5].Text = string.Join(", ", office.Select(q => q.ScheduleName + "(" + q.JobGroup + ")"));
+
+            // sheet.Range["B5:N" + ln].BorderInside(LineStyleType.Thin, Color.Black);
+            //sheet.Range["B5:N" + ln].BorderAround(LineStyleType.Medium, Color.Black);
+            var name = "drc-" + ((DateTime)df).ToString("yyyy-MMM-dd");
+            var mappedPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + name + ".xlsx");
+
+
+
+            workbook.SaveToFile(mappedPath, ExcelVersion.Version2016);
+
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(new FileStream(mappedPath, FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = name + ".xlsx";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+
+            return response;
+        }
+
+
+
+
+        [Route("api/xls/roster/all/daily/dr03")]
+        [AcceptVerbs("GET")]
+        public HttpResponseMessage GetXLSRosterAllDailyDr02(DateTime df)
+        {
+            //bolan
+            var context = new AirpocketAPI.Models.FLYEntities();
+            context.Database.CommandTimeout = 500;
+            df = ((DateTime)df).Date;
+            var dt = df.AddDays(1);
+            var fdps = (from x in context.ViewFDPRests
+                        where x.DutyType == 1165 && x.STDLocal >= df && x.STDLocal < dt
+                        select x.Id).ToList();
+            var fdpitems = (from x in context.FDPItems
+                            where fdps.Contains(x.FDPId)
+                            select x.FlightId).ToList();
+            var query = from x in context.ReportRosters
+                            //where x.STDDay == df
+                        where fdpitems.Contains(x.ID)
+                        orderby x.Register, x.STDx
+                        select x;
+
+            var result = query.ToList();
+            var main = result.Select(q => new
+            {
+                q.ID,
+                q.FlightNumber,
+                q.Register,
+                q.AircraftType,
+                q.FromAirportIATA,
+                Base = q.FromAirportIATA == "IKA" ? "THR" : q.FromAirportIATA,
+                q.ToAirportIATA,
+                DepLocal = q.STDLOC,
+                ArrLocal = q.STALOC,
+                Dep = q.STD,
+                Arr = q.STA,
+                q.STDx,
+                q.STAx,
+                q.STDLocal,
+                q.STALocal,
+                q.IP,
+                q.CPT,
+                q.FO,
+                q.SAFETY,
+                q.CHECK,
+                q.OBS,
+                q.ISCCM,
+                q.SCCM,
+                q.CCM,
+                q.CHECKC,
+                q.OBSC,
+                q.FM,
+                q.POSITIONING,
+                q.POSITIONINGCABIN,
+                q.POSITIONINGCOCKPIT,
+                q.PDATE
+
+            }).ToList();
+
+
+
+            var regs = (from x in main
+
+                        group x by new { x.Register, x.AircraftType } into grp
+                        select new
+                        {
+                            grp.Key.Register,
+                            grp.Key.AircraftType,
+                            //grp.Key.CPT,
+                            Items = grp.OrderBy(q => q.STDx).ToList(),
+                            Base = grp.OrderBy(q => q.STDx).First().Base
+                        }
+                       )
+                       //.OrderByDescending(q => q.Base)
+                       .OrderBy(q => q.AircraftType).ThenBy(q => q.Register)
+                       .ToList();
+
+
+
+
+
+
+            Workbook workbook = new Workbook();
+            var mappedPathSource = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "drc-03" + ".xlsx");
+            workbook.LoadFromFile(mappedPathSource);
+            Worksheet sheet = workbook.Worksheets[0];
+
+
+
+
+            var regcnt = 0;
+            var ln = 5;
+            var positioning = (from q in main
+                               where !string.IsNullOrEmpty(q.POSITIONING)
+                               orderby q.STDLocal
+                               select "[" + q.FlightNumber + "(" + q.FromAirportIATA + "-" + q.ToAirportIATA + " " + q.DepLocal + "): " + q.POSITIONING + "]").ToList();
+
+            var _types = (from x in regs
+                          group x by new { x.AircraftType } into grp
+                          select new
+                          {
+                              grp.Key.AircraftType,
+                              items = grp.ToList()
+                          }).ToList();
+            bool hasIP = false;
+            bool hasObs = false;
+            bool hasIFP = false;
+            bool hasObsc = false;
+            bool hasSO = false;
+            List<int> t_rows = new List<int>();
+            foreach (var act in _types)
+            {
+                sheet.InsertRow(ln);
+                sheet.Range[ln, 2].Text = act.AircraftType;
+
+                sheet.Range["B" + ln + ":Y" + ln].Merge();
+                sheet.Range[ln, 2].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[ln, 2].Style.VerticalAlignment = VerticalAlignType.Top;
+                sheet.Range[ln, 2].Style.Font.IsBold = true;
+                t_rows.Add(ln);
+                ln++;
+               // sheet.Range["B" + (ln - 1) + ":Y" + (ln - 1)].Style.Color = Color.Silver;
+                //2023-12-02
+                var cpt_merge_start = ln;
+                var fo_merge_start = ln;
+                var ip_merge_start = ln;
+                var obs_merge_start = ln;
+                var so_merge_start = ln;
+                var ifp_merge_start = ln;
+                var fp_merge_start = ln;
+                var fa_merge_start = ln;
+                var obsc_merge_start = ln;
+                var dh_merge_start = ln;
+                var fm_merge_start = ln;
+
+                foreach (var line in act.items)
+                {
+                    var reg_start = ln;
+                    //sheet.Range[ln, 16].Text = line.CPT;
+                      cpt_merge_start = ln;
+                      fo_merge_start = ln;
+                      ip_merge_start = ln;
+                      obs_merge_start = ln;
+                      so_merge_start = ln;
+                      ifp_merge_start = ln;
+                      fp_merge_start = ln;
+                      fa_merge_start = ln;
+                      obsc_merge_start = ln;
+                      dh_merge_start = ln;
+                      fm_merge_start = ln;
+
+                    var cpt = line.Items[0].CPT;
+                    var fo = line.Items[0].FO;
+                    var ip = line.Items[0].IP;
+                    var so = line.Items[0].SAFETY;
+                    var obs = line.Items[0].CHECK;
+                    if (!string.IsNullOrEmpty(obs)) obs += "," + line.Items[0].OBS; else obs = line.Items[0].OBS;
+                    var ifp = line.Items[0].ISCCM;
+                    var fp = line.Items[0].SCCM;
+                    var fa = line.Items[0].CCM;
+                    var obsc = line.Items[0].CHECKC;
+                    var fm = line.Items[0].FM;
+
+                    if (!string.IsNullOrEmpty(obsc)) obsc += "," + line.Items[0].OBSC; else obsc = line.Items[0].OBSC;
+                    var dh = line.Items[0].POSITIONING;
+
+                    foreach (var flt in line.Items)
+                    {
+                        sheet.InsertRow(ln);
+                        sheet.Range[ln, 2].Text = flt.Register;
+                        sheet.Range[ln, 3].Text = flt.FlightNumber;
+                        sheet.Range[ln, 4].Text = flt.FromAirportIATA + "-" + flt.ToAirportIATA;
+                        sheet.Range[ln, 5].Text = ((DateTime)flt.STDLocal).ToString("HH:mm");
+                        sheet.Range[ln, 8].Text = ((DateTime)flt.STALocal).ToString("HH:mm");
+
+                        hasIP = hasIP || !string.IsNullOrEmpty(flt.IP);
+                        sheet.Range[ln, 15].Text = flt.IP ?? "";
+                        if (ip != flt.IP)
+                        {
+                            sheet.Range["O" + (ip_merge_start) + ":O" + (ln - 1)].Merge();
+                            sheet.Range[ip_merge_start, 15].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                            sheet.Range[ip_merge_start, 15].Style.VerticalAlignment = VerticalAlignType.Center;
+                            ip = flt.IP;
+                            ip_merge_start = ln;
+                        }
+
+
+                        sheet.Range[ln, 16].Text = flt.CPT ?? "";
+                        if (cpt != flt.CPT)
+                        {
+                            sheet.Range["P" + (cpt_merge_start) + ":P" + (ln - 1)].Merge();
+                            sheet.Range[cpt_merge_start, 16].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                            sheet.Range[cpt_merge_start, 16].Style.VerticalAlignment = VerticalAlignType.Center;
+                            cpt = flt.CPT;
+                            cpt_merge_start = ln;
+                        }
+
+                        sheet.Range[ln, 17].Text = flt.FO ?? "";
+                        if (fo != flt.FO)
+                        {
+                            sheet.Range["Q" + (fo_merge_start) + ":Q" + (ln - 1)].Merge();
+                            sheet.Range[fo_merge_start, 17].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                            sheet.Range[fo_merge_start, 17].Style.VerticalAlignment = VerticalAlignType.Center;
+                            fo = flt.FO;
+                            fo_merge_start = ln;
+                        }
+
+                        hasSO = hasSO || !string.IsNullOrEmpty(flt.SAFETY);
+                        sheet.Range[ln, 18].Text = flt.SAFETY ?? "";
+                        if (so != flt.SAFETY)
+                        {
+                            sheet.Range["R" + (so_merge_start) + ":R" + (ln - 1)].Merge();
+                            sheet.Range[so_merge_start, 18].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                            sheet.Range[so_merge_start, 18].Style.VerticalAlignment = VerticalAlignType.Center;
+                            so = flt.SAFETY;
+                            so_merge_start = ln;
+                        }
+
+
+                        var _obs = flt.CHECK ?? "";
+                        if (!string.IsNullOrEmpty(_obs))
+                            _obs += "," + (flt.OBS ?? "");
+                        else
+                            _obs += (flt.OBS ?? "");
+
+                        hasObs = hasObs || !string.IsNullOrEmpty(_obs);
+                        sheet.Range[ln, 19].Text = _obs;
+                        if (string.IsNullOrEmpty(_obs)) _obs = null;
+                        if (obs != _obs)
+                        {
+                            sheet.Range["S" + (obs_merge_start) + ":S" + (ln - 1)].Merge();
+                            sheet.Range[obs_merge_start, 19].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                            sheet.Range[obs_merge_start, 19].Style.VerticalAlignment = VerticalAlignType.Center;
+                            obs = _obs;
+                            obs_merge_start = ln;
+                        }
+
+
+
+                        sheet.Range[ln, 20].Text = flt.ISCCM ?? "";
+                        hasIFP = hasIFP || !string.IsNullOrEmpty(flt.ISCCM);
+                        if (ifp != flt.ISCCM)
+                        {
+                            sheet.Range["T" + (ifp_merge_start) + ":T" + (ln - 1)].Merge();
+                            sheet.Range[ifp_merge_start, 20].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                            sheet.Range[ifp_merge_start, 20].Style.VerticalAlignment = VerticalAlignType.Center;
+                            ifp = flt.ISCCM;
+                            ifp_merge_start = ln;
+                        }
+
+                        sheet.Range[ln, 21].Text = flt.SCCM ?? "";
+                        if (fp != flt.SCCM)
+                        {
+                            sheet.Range["U" + (fp_merge_start) + ":U" + (ln - 1)].Merge();
+                            sheet.Range[fp_merge_start, 21].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                            sheet.Range[fp_merge_start, 21].Style.VerticalAlignment = VerticalAlignType.Center;
+                            fp = flt.SCCM;
+                            fp_merge_start = ln;
+                        }
+
+
+                        sheet.Range[ln, 22].Text = flt.CCM ?? "";
+                        if (fa != flt.CCM)
+                        {
+                            sheet.Range["V" + (fa_merge_start) + ":V" + (ln - 1)].Merge();
+                            sheet.Range[fa_merge_start, 22].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                            sheet.Range[fa_merge_start, 22].Style.VerticalAlignment = VerticalAlignType.Center;
+                            fa = flt.CCM;
+                            fa_merge_start = ln;
+                        }
+
+
+                        var _obsc = flt.CHECKC ?? "";
+                        if (!string.IsNullOrEmpty(_obsc))
+                            _obsc += "," + (flt.OBSC ?? "");
+                        else
+                            _obsc += (flt.OBSC ?? "");
+                        hasObsc = hasObsc || !string.IsNullOrEmpty(_obsc);
+                        sheet.Range[ln, 23].Text = _obsc;
+                        if (string.IsNullOrEmpty(_obsc)) _obsc = null;
+                        if (obsc != _obsc)
+                        {
+                            sheet.Range["W" + (obs_merge_start) + ":W" + (ln - 1)].Merge();
+                            sheet.Range[obsc_merge_start, 23].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                            sheet.Range[obsc_merge_start, 23].Style.VerticalAlignment = VerticalAlignType.Center;
+                            obsc = _obsc;
+                            obsc_merge_start = ln;
+                        }
+
+
+                        sheet.Range[ln, 25].Text = flt.POSITIONING ?? "";
+                        if (dh != flt.POSITIONING)
+                        {
+                            sheet.Range["Y" + (dh_merge_start) + ":Y" + (ln - 1)].Merge();
+                            sheet.Range[dh_merge_start, 25].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                            sheet.Range[dh_merge_start, 25].Style.VerticalAlignment = VerticalAlignType.Center;
+                            dh = flt.POSITIONING;
+                            dh_merge_start = ln;
+                        }
+
+
+                        sheet.Range[ln, 24].Text = flt.FM ?? "";
+                        if (fm != flt.FM)
+                        {
+                            sheet.Range["X" + (fm_merge_start) + ":X" + (ln - 1)].Merge();
+                            sheet.Range[fm_merge_start, 24].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                            sheet.Range[fm_merge_start, 24].Style.VerticalAlignment = VerticalAlignType.Center;
+                            fm = flt.FM;
+                            fm_merge_start = ln;
+                        }
+                        if (flt != line.Items.Last())
+                        {
+                            // sheet.Range["B" + ln + ":Y" + ln].BorderInside(LineStyleType.Thin, Color.Black);
+                            //   sheet.Range["B" + ln + ":Y" + ln].BorderAround(LineStyleType.Thin, Color.Black);
+                            sheet.Range["B" + (ln) + ":Y" + (ln)].Borders[BordersLineType.EdgeLeft].LineStyle = LineStyleType.Thin;
+                            sheet.Range["B" + (ln) + ":Y" + (ln)].Borders[BordersLineType.EdgeRight].LineStyle = LineStyleType.Thin;
+                            sheet.Range["B" + (ln) + ":Y" + (ln)].Borders[BordersLineType.EdgeTop].LineStyle = LineStyleType.Thin;
+                            sheet.Range["B" + (ln) + ":Y" + (ln)].Borders[BordersLineType.EdgeBottom].LineStyle = LineStyleType.Thin;
+                        }
+                        else
+                        {
+                             //sheet.Range["B" + ln + ":Y" + ln].BorderInside(LineStyleType.Thin, Color.Black);
+                          
+
+                            sheet.Range["B" + (ln) + ":Y" + (ln)].Borders[BordersLineType.EdgeLeft].LineStyle = LineStyleType.Thin;
+                            sheet.Range["B" + (ln) + ":Y" + (ln)].Borders[BordersLineType.EdgeRight].LineStyle = LineStyleType.Thin;
+                            sheet.Range["B" + (ln) + ":Y" + (ln)].Borders[BordersLineType.EdgeTop].LineStyle = LineStyleType.Thin;
+                            sheet.Range["B" + (ln) + ":Y" + (ln)].Borders[BordersLineType.EdgeBottom].LineStyle = LineStyleType.Thick;
+                        }
+
+
+                        ln++;
+                    }
+                    sheet.Range["B" + reg_start + ":B" + (ln - 1)].Merge();
+                    sheet.Range[reg_start, 2].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[reg_start, 2].Style.VerticalAlignment = VerticalAlignType.Center;
+
+                    //ip
+                    sheet.Range["O" + (ip_merge_start) + ":O" + (ln - 1)].Merge();
+                    sheet.Range[ip_merge_start, 15].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[ip_merge_start, 15].Style.VerticalAlignment = VerticalAlignType.Center;
+
+                    //cpt
+                    sheet.Range["P" + (cpt_merge_start) + ":P" + (ln - 1)].Merge();
+                    sheet.Range[cpt_merge_start, 16].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[cpt_merge_start, 16].Style.VerticalAlignment = VerticalAlignType.Center;
+                    //fo
+                    sheet.Range["Q" + (fo_merge_start) + ":Q" + (ln - 1)].Merge();
+                    sheet.Range[fo_merge_start, 17].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[fo_merge_start, 17].Style.VerticalAlignment = VerticalAlignType.Center;
+                    //sq
+                    sheet.Range["R" + (so_merge_start) + ":R" + (ln - 1)].Merge();
+                    sheet.Range[so_merge_start, 18].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[so_merge_start, 18].Style.VerticalAlignment = VerticalAlignType.Center;
+                    //obs-chek
+                    sheet.Range["S" + (obs_merge_start) + ":S" + (ln - 1)].Merge();
+                    sheet.Range[obs_merge_start, 19].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[obs_merge_start, 19].Style.VerticalAlignment = VerticalAlignType.Center;
+                    //ifp
+                    sheet.Range["T" + (ifp_merge_start) + ":T" + (ln - 1)].Merge();
+                    sheet.Range[ifp_merge_start, 20].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[ifp_merge_start, 20].Style.VerticalAlignment = VerticalAlignType.Center;
+                    //fp
+                    sheet.Range["U" + (fp_merge_start) + ":U" + (ln - 1)].Merge();
+                    sheet.Range[fp_merge_start, 21].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[fp_merge_start, 21].Style.VerticalAlignment = VerticalAlignType.Center;
+                    //fa
+                    sheet.Range["V" + (fa_merge_start) + ":V" + (ln - 1)].Merge();
+                    sheet.Range[fa_merge_start, 22].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[fa_merge_start, 22].Style.VerticalAlignment = VerticalAlignType.Center;
+                    //obs-chek
+                    sheet.Range["W" + (obsc_merge_start) + ":W" + (ln - 1)].Merge();
+                    sheet.Range[obsc_merge_start, 23].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[obsc_merge_start, 23].Style.VerticalAlignment = VerticalAlignType.Center;
+
+                    //dh
+                    sheet.Range["Y" + (dh_merge_start) + ":Y" + (ln - 1)].Merge();
+                    sheet.Range[dh_merge_start, 25].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[dh_merge_start, 25].Style.VerticalAlignment = VerticalAlignType.Center;
+                    //fm
+                    sheet.Range["X" + (fm_merge_start) + ":X" + (ln - 1)].Merge();
+                    sheet.Range[fm_merge_start, 24].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[fm_merge_start, 24].Style.VerticalAlignment = VerticalAlignType.Center;
+
+
+
+
+                 //   sheet.Range["B" + (ln -1 ) + ":Y" + (ln-1  )].Borders[BordersLineType.EdgeBottom].LineStyle = LineStyleType.Thick;
+                        //.li(LineStyleType.Thin, Color.Black);
+
+
+                }
+
+                //ip
+                sheet.Range["O" + (ip_merge_start) + ":O" + (ln - 1)].Merge();
+                sheet.Range[ip_merge_start, 15].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[ip_merge_start, 15].Style.VerticalAlignment = VerticalAlignType.Center;
+                //cpt
+                sheet.Range["P" + (cpt_merge_start) + ":P" + (ln - 1)].Merge();
+                sheet.Range[cpt_merge_start, 16].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[cpt_merge_start, 16].Style.VerticalAlignment = VerticalAlignType.Center;
+
+                //fo
+                sheet.Range["Q" + (fo_merge_start) + ":Q" + (ln - 1)].Merge();
+                sheet.Range[fo_merge_start, 17].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[fo_merge_start, 17].Style.VerticalAlignment = VerticalAlignType.Center;
+                //sq
+                sheet.Range["R" + (so_merge_start) + ":R" + (ln - 1)].Merge();
+                sheet.Range[so_merge_start, 18].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[so_merge_start, 18].Style.VerticalAlignment = VerticalAlignType.Center;
+                //obs-chek
+                sheet.Range["S" + (obs_merge_start) + ":S" + (ln - 1)].Merge();
+                sheet.Range[obs_merge_start, 19].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[obs_merge_start, 19].Style.VerticalAlignment = VerticalAlignType.Center;
+                //ifp
+                sheet.Range["T" + (ifp_merge_start) + ":T" + (ln - 1)].Merge();
+                sheet.Range[ifp_merge_start, 20].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[ifp_merge_start, 20].Style.VerticalAlignment = VerticalAlignType.Center;
+                //fp
+                sheet.Range["U" + (fp_merge_start) + ":U" + (ln - 1)].Merge();
+                sheet.Range[fp_merge_start, 21].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[fp_merge_start, 21].Style.VerticalAlignment = VerticalAlignType.Center;
+                //fa
+                sheet.Range["V" + (fa_merge_start) + ":V" + (ln - 1)].Merge();
+                sheet.Range[fa_merge_start, 22].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[fa_merge_start, 22].Style.VerticalAlignment = VerticalAlignType.Center;
+                //obs-chek
+                sheet.Range["W" + (obsc_merge_start) + ":W" + (ln - 1)].Merge();
+                sheet.Range[obsc_merge_start, 23].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[obsc_merge_start, 23].Style.VerticalAlignment = VerticalAlignType.Center;
+                //dh
+                sheet.Range["Y" + (dh_merge_start) + ":Y" + (ln - 1)].Merge();
+                sheet.Range[dh_merge_start, 25].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[dh_merge_start, 25].Style.VerticalAlignment = VerticalAlignType.Center;
+                //fm
+                sheet.Range["X" + (fm_merge_start) + ":X" + (ln - 1)].Merge();
+                sheet.Range[fm_merge_start, 24].Style.HorizontalAlignment = HorizontalAlignType.Center;
+                sheet.Range[fm_merge_start, 24].Style.VerticalAlignment = VerticalAlignType.Center;
+
+
+
+            }
+
+            for (int i = 14; i <= 24; i++)
+            {
+                sheet.Columns[i].AutoFitColumns();
+                sheet.Columns[i].IsWrapText = true;
+            }
+
+            foreach(var n in t_rows)
+            {
+                sheet.Range["B" + (n  ) + ":Y" + (n )].Style.Color = Color.Silver;
+            }
+
+            if (!hasObsc)
+                sheet.DeleteColumn(23);
+
+            if (!hasIFP)
+                sheet.DeleteColumn(20);
+
+            if (!hasObs)
+                sheet.DeleteColumn(19);
+
+            if (!hasSO)
+                sheet.DeleteColumn(18);
+
+            if (!hasIP)
+                sheet.DeleteColumn(15);
+
+            sheet.Range[3, 15].Text = "CREW";
+
+            //  sheet.Range[3, 2].Text = ((DateTime)df).ToString("ddd").ToUpper() + " (" + main.First().PDATE + ") " + ((DateTime)df).ToString("yyyy-MMM-dd").ToUpper()
+            sheet.Range[2, 4].Text = ((DateTime)df).ToString("yyyy-MMM-dd").ToUpper();
+            sheet.Range[2, 7].Text = main.First().PDATE;
+            sheet.Range[2, 10].Text = ((DateTime)df).ToString("dddd").ToUpper();
+            var name = "drd-" + ((DateTime)df).ToString("yyyy-MMM-dd");
+            var mappedPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + name + ".xlsx");
+
+
+
+            workbook.SaveToFile(mappedPath, ExcelVersion.Version2016);
+
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(new FileStream(mappedPath, FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = name + ".xlsx";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+
+            return response;
+        }
+
         [Route("api/xls/roster/sec/daily")]
         [AcceptVerbs("GET")]
         public HttpResponseMessage GetXLSRosterSecDaily(DateTime df)
@@ -6586,7 +7462,7 @@ new JsonSerializerSettings
                 query = query.Where(q => q.DutyType == type);
 
             var duties = query.OrderBy(q => q.GroupOrder).ThenBy(q => q.ScheduleName).ToList();
-           var resuorces = duties.Select(q => new {q.CrewId, id=q.CrewId, text=q.ScheduleName }).ToList();
+            var resuorces = duties.Select(q => new { q.CrewId, id = q.CrewId, text = q.ScheduleName }).ToList();
 
 
 
@@ -6608,7 +7484,7 @@ new JsonSerializerSettings
             return Ok(new
             {
                 duties,
-                 resources
+                resources
             });
 
         }
@@ -6900,7 +7776,7 @@ new JsonSerializerSettings
             }
             var positioning = string.Join(" ", obsList);
             var dutiesQuery = (from x in context.ViewCrewDuties
-                               where x.DateLocal == df && (x.DutyType == 1167 || x.DutyType == 1168 || x.DutyType== 300013 ||  x.DutyType == 1170 || x.DutyType == 5000 || x.DutyType == 5001
+                               where x.DateLocal == df && (x.DutyType == 1167 || x.DutyType == 1168 || x.DutyType == 300013 || x.DutyType == 1170 || x.DutyType == 5000 || x.DutyType == 5001
                                || x.DutyType == 100001 || x.DutyType == 100003)
                                select x).ToList();
             var duties = (from x in dutiesQuery
@@ -7924,7 +8800,7 @@ new JsonSerializerSettings
                 prms.Add("title", "PersonelClassSessions");
             prms.Add("filters", "");
 
-            var result = CallWebMethod("https://192.168.101.33/IdeaWeb/Apps/Services/TrainingWS.asmx/GetTotalDataJson", prms);
+            var result = CallWebMethod("https://192.168.101.133/IdeaWeb/Apps/Services/TrainingWS.asmx/GetTotalDataJson", prms);
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(result);
 
@@ -7947,7 +8823,7 @@ new JsonSerializerSettings
 
 
 
-            WebService ws = new WebService("https://192.168.101.33/IdeaWeb/Apps/Services/TrainingWS.asmx", "GetTotalDataJson");
+            WebService ws = new WebService("https://192.168.101.133/IdeaWeb/Apps/Services/TrainingWS.asmx", "GetTotalDataJson");
             if (prm == "unique")
                 ws.Params.Add("title", "PersonelUniquePassCourse");
             if (prm == "all")
@@ -7979,7 +8855,7 @@ new JsonSerializerSettings
             var level = "a";
             try
             {
-                WebService ws = new WebService("https://192.168.101.33/IdeaWeb/Apps/Services/TrainingWS.asmx", "GetTotalDataJson");
+                WebService ws = new WebService("https://192.168.101.133/IdeaWeb/Apps/Services/TrainingWS.asmx", "GetTotalDataJson");
                 if (prm == "unique")
                     ws.Params.Add("title", "PersonelUniquePassCourse");
                 if (prm == "all")
@@ -8738,19 +9614,19 @@ new JsonSerializerSettings
 
         }
 
-        //[Route("api/flight/charterers/{id}")]
-        //[AcceptVerbs("GET")]
-        //public IHttpActionResult GetFlightCharterers(int id)
-        //{
-        //    var context = new AirpocketAPI.Models.FLYEntities();
-        //    var query = from x in context.ViewFlightCharterers where x.FlightId == id select x;
+        [Route("api/flight/charterers/{id}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetFlightCharterers(int id)
+        {
+            var context = new AirpocketAPI.Models.FLYEntities();
+            var query = from x in context.ViewFlightCharterers where x.FlightId == id select x;
 
 
 
-        //    var result = query.OrderBy(q => q.Title1).ToList();
+            var result = query.OrderBy(q => q.Title1).ToList();
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
         //[Route("api/flight/charterers/report")]
         //[AcceptVerbs("GET")]

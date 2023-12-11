@@ -696,12 +696,26 @@ namespace AirpocketTRN.Services
             };
         }
 
-        public async Task<DataResponse> GetTrainingExpiredCertificateTypes(int year, int certificate_type_id)
+        public async Task<DataResponse> GetTrainingExpiredCertificateTypes(int year, int certificate_type_id, int mng_id)
         {
             //var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear == year && q.ExpireMonth == month).ToListAsync();
+            Manager mng = null;
+            List<string> mng_grps = null;
+            List<int> filter_employee_ids = null;
+            if (mng_id != -1)
+            {
+                mng = await context.Managers.FirstOrDefaultAsync(q => q.EmployeeId == mng_id);
+                mng_grps = await context.ManagerGroups.Where(q => q.ManagerId == mng_id).Select(q => q.ProfileGroup).ToListAsync();
+
+                
+                filter_employee_ids = await context.ViewProfiles.Where(q => mng_grps.Contains(q.JobGroupRoot)).Select(q => q.PersonId).ToListAsync();
+            }
+
             var query = from x in context.ViewCertificateHistoryRankeds
                         where x.ExpireYear == year
                         select x;
+            if (filter_employee_ids != null)
+                query = query.Where(q => filter_employee_ids.Contains(q.PersonId));
             if (certificate_type_id != -1)
                 query = query.Where(q => q.CertificateTypeId == certificate_type_id);
             var ds = await query.ToListAsync();
@@ -738,12 +752,22 @@ namespace AirpocketTRN.Services
         }
 
 
-        public async Task<DataResponse> GetTrainingExpiredCertificateTypes(int year, int month, int certificate_type_id)
+        public async Task<DataResponse> GetTrainingExpiredCertificateTypes(int year, int month, int certificate_type_id,int mng_id)
         {
             //var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear == year && q.ExpireMonth == month).ToListAsync();
             var query = from x in context.ViewCertificateHistoryRankeds
                         where x.ExpireYear == year && x.ExpireMonth == month
                         select x;
+
+            if (mng_id != -1)
+            {
+                var mng = await context.Managers.FirstOrDefaultAsync(q => q.EmployeeId == mng_id);
+                var mng_grps = await context.ManagerGroups.Where(q => q.ManagerId == mng_id).Select(q => q.ProfileGroup).ToListAsync();
+                var filter_employee_ids = await context.ViewProfiles.Where(q => mng_grps.Contains(q.JobGroupRoot)).Select(q => q.PersonId).ToListAsync();
+                query = query.Where(q => filter_employee_ids.Contains(q.PersonId));
+            }
+
+
             if (certificate_type_id != -1)
                 query = query.Where(q => q.CertificateTypeId == certificate_type_id);
             var ds = await query.ToListAsync();
@@ -867,12 +891,33 @@ namespace AirpocketTRN.Services
         }
 
 
-        public async Task<DataResponse> GetTrainingSchedule(int year, int month)
+        public async Task<DataResponse> GetTrainingSchedule(int year, int month,int mng_id)
         {
-            var session_query = await (from x in context.ViewCourseSessions
-                                       where x.Year == year && x.Month == month
-                                       select x).ToListAsync();
-            var sessions = (from x in session_query
+            Manager mng = null;
+            List<string> mng_grps = null;
+            List<int> filter_course_ids = null;
+            List<int> filter_employee_ids = null;
+            if (mng_id != -1)
+            {
+                mng = await context.Managers.FirstOrDefaultAsync(q => q.EmployeeId == mng_id);
+                mng_grps = await context.ManagerGroups.Where(q => q.ManagerId == mng_id).Select(q => q.ProfileGroup).ToListAsync();
+
+                var course_people_query = from x in context.ViewCoursePeoples
+                                          where mng_grps.Contains(x.JobGroupRoot) && x.Year==year
+                                          select x;
+                 
+                filter_course_ids =await course_people_query.Select(q => q.CourseId).Distinct().ToListAsync();
+                filter_employee_ids = await context.ViewProfiles.Where(q => mng_grps.Contains(q.JobGroupRoot)).Select(q => q.PersonId).ToListAsync();
+            }
+
+            var session_query = from x in context.ViewCourseSessions
+                                where x.Year == year && x.Month == month
+                                select x;
+            if (mng_id != -1)
+                session_query = session_query.Where(q => filter_course_ids.Contains(q.CourseId));
+
+            var session_query_list = await (session_query).ToListAsync();
+            var sessions = (from x in session_query_list
                             group x by new { ((DateTime)x.DateStart).Date } into grp
                             select new
                             {
@@ -892,7 +937,13 @@ namespace AirpocketTRN.Services
                                 }).OrderBy(w => w.DateStart).ThenBy(w => w.Title).ToList()
                             }).OrderBy(q => q.Date).ToList();
 
-            var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear == year && q.ExpireMonth == month).ToListAsync();
+            var expiring_employees_query = from q in context.ViewCertificateHistoryRankeds
+                                           where q.ExpireYear == year && q.ExpireMonth == month
+                                           select q;
+            if (mng_id != -1)
+                expiring_employees_query = expiring_employees_query.Where(q => filter_employee_ids.Contains(q.PersonId));
+
+            var expiring_employees = await expiring_employees_query.ToListAsync();
             //kosu
             var dates = getCalendarExpired(expiring_employees, null);
 
@@ -911,12 +962,35 @@ namespace AirpocketTRN.Services
         }
 
 
-        public async Task<DataResponse> GetTrainingSchedule(int year)
+        public async Task<DataResponse> GetTrainingSchedule(int year,int mng_id)
         {
-            var course_query = await (from x in context.ViewCourseNews
-                                      where x.Year == year
-                                      select x).ToListAsync();
-            var courses = (from x in course_query
+            List<ViewCoursePeople> course_people = new List<ViewCoursePeople>();
+            Manager mng = null;
+            List<string> mng_grps = null;
+            List<int> filter_course_ids = null;
+            List<int> filter_employee_ids = null;
+            if (mng_id != -1)
+            {
+                mng = await context.Managers.FirstOrDefaultAsync(q => q.EmployeeId == mng_id);
+                mng_grps = await context.ManagerGroups.Where(q => q.ManagerId == mng_id).Select(q=>q.ProfileGroup).ToListAsync();
+
+                var course_people_query = from x in context.ViewCoursePeoples
+                                          where mng_grps.Contains(x.JobGroupRoot) && x.Year==year
+                                          select x;
+                course_people = await course_people_query.ToListAsync();
+                filter_course_ids = course_people.Select(q => q.CourseId).Distinct().ToList();
+                filter_employee_ids = await context.ViewProfiles.Where(q=>mng_grps.Contains(q.JobGroupRoot)).Select(q => q.PersonId).ToListAsync();
+            }
+
+            var course_query = (from x in context.ViewCourseNews
+                                where x.Year == year
+                                select x);
+            if (filter_course_ids != null)
+                course_query = course_query.Where(q => filter_course_ids.Contains(q.Id));
+
+            var course_query_list = await course_query.ToListAsync();
+
+            var courses = (from x in course_query_list
                            group x by new { x.Year, ((DateTime)x.DateStart).Month, x.CourseType } into grp
                            select new
                            {
@@ -943,8 +1017,14 @@ namespace AirpocketTRN.Services
                                }).OrderBy(w => w.DateStart).ThenBy(w => w.Title).ToList()
                            }).OrderBy(q => q.Month).ToList();
 
-            var expiring_employees = await context.ViewCertificateHistoryRankeds.Where(q => /*q.InActive == false &&*/  q.ExpireYear == year).ToListAsync();
-            //kosu
+            var expiring_employees_query = from x in context.ViewCertificateHistoryRankeds
+                                           where x.ExpireYear == year
+                                           select x;
+            if (filter_employee_ids != null)
+                expiring_employees_query = expiring_employees_query.Where(q => filter_employee_ids.Contains(q.PersonId));
+             
+            var expiring_employees = await expiring_employees_query.ToListAsync();
+             
             var dates = getCalendarExpired(expiring_employees, null);
 
 
@@ -1291,6 +1371,17 @@ namespace AirpocketTRN.Services
         {
             var result = await context.ViewMandatoryCourseEmployees.Where(q => q.CourseTypeId == type && q.GroupId == group).OrderBy(q => q.ValidStatus).ThenBy(q => q.Remains).ThenBy(q => q.Name).ToListAsync();
 
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+        public async Task<DataResponse> GetCertificateHistoryByTypeGroup(int type, int group)
+        {
+            //var result = await context.ViewMandatoryCourseEmployees.Where(q => q.CourseTypeId == type && q.GroupId == group).OrderBy(q => q.ValidStatus).ThenBy(q => q.Remains).ThenBy(q => q.Name).ToListAsync();
+            var result = await context.ViewCertificateHistories.Where(q => q.RankOrder == 1 && q.InActive == false && q.CertificateTypeId == type && q.JobGroupId == group)
+                .OrderBy(q => q.Remain).ThenBy(q => q.LastName).ToListAsync();
             return new DataResponse()
             {
                 Data = result,
@@ -5009,7 +5100,7 @@ namespace AirpocketTRN.Services
         }
 
 
-        public async Task<DataResponse> GetTrnStatCoursePeople(DateTime df, DateTime dt, int? ct, int? status, int? cstatus, string cls, int? pid, int? inst1, int? inst2, int? rank, int? active, string grp)
+        public async Task<DataResponse> GetTrnStatCoursePeople(DateTime df, DateTime dt, int? ct, int? status, int? cstatus, string cls, int? pid, int? inst1, int? inst2, int? rank, int? active, string grp,string dep)
         {
             var _df = df.Date;
             var _dt = dt.Date.AddDays(1);
@@ -5052,7 +5143,10 @@ namespace AirpocketTRN.Services
 
             if (grp != "-1")
             {
-                query = query.Where(q => q.JobGroupCode.StartsWith(grp));
+                if (dep == "-1")
+                    query = query.Where(q => q.JobGroupCode.StartsWith(grp));
+                else
+                    query = query.Where(q => q.ProfileGroup == grp);
 
             }
 
@@ -5115,6 +5209,27 @@ namespace AirpocketTRN.Services
                 IsSuccess = saveResult.IsSuccess,
             };
         }
+
+
+        public async Task<DataResponse> GetManagerGroups(int mng_id)
+        {
+
+
+            var query =await context.ManagerGroups.Where(q => q.ManagerId == mng_id).Select(q=>q.ProfileGroup).ToListAsync();
+
+             
+
+            return new DataResponse()
+            {
+                Data = query,
+                IsSuccess = true,
+            };
+
+        }
+
+
+
+
 
 
     }

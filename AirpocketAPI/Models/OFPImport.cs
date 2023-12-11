@@ -78,6 +78,19 @@ namespace AirpocketAPI.Models
         public Nullable<int> FuelCONT { get; set; }
         public Nullable<int> FuelMINTOF { get; set; }
         public Nullable<int> FuelFINALRES { get; set; }
+        public string VDT { get; set; }
+        public string MAXSHEER { get; set; }
+        public string MINDIVFUEL { get; set; }
+        public string WDTMP { get; set; }
+        public string DID { get; set; }
+        public string WDCLB { get; set; }
+        public string WDDES { get; set; }
+        public Nullable<int> FuelExtra { get; set; }
+        public Nullable<int> FuelETOPSADDNL { get; set; }
+        public Nullable<int> FuelOPSEXTRA { get; set; }
+        public Nullable<int> FuelTANKERING { get; set; }
+        public Nullable<int> FuelTOTALFUEL { get; set; }
+        public Nullable<int> FuelACTUALTANKERING { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImportItem> OFPImportItems { get; set; }
