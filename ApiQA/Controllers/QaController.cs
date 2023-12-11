@@ -450,6 +450,8 @@ namespace ApiQA.Controllers
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
                 entity.ReporterId = dto.ReporterId;
+                entity.DelayReason = dto.DelayReason;
+                entity.Delay = dto.Delay;
                 //entity.DateSign = dto.DateSign;
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
@@ -542,6 +544,8 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
+                entity.DelayReason = dto.DelayReason;
+                entity.Delay = dto.Delay;
                 //entity.DateSign = dto.DateSign;
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
@@ -636,6 +640,8 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
+                entity.DelayReason = dto.DelayReason;
+                entity.Delay = dto.Delay;
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
@@ -809,6 +815,8 @@ namespace ApiQA.Controllers
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
                 entity.RelatedDepartment = dto.RelatedDepartment;
+                entity.DelayReason = dto.DelayReason;
+                entity.Delay = dto.Delay;
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
@@ -949,6 +957,8 @@ namespace ApiQA.Controllers
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;
+                entity.DelayReason = dto.DelayReason;
+                entity.Delay = dto.Delay;
                 //entity.DateSign = dto.DateSign;
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
@@ -1095,6 +1105,8 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
+                entity.DelayReason = dto.DelayReason;
+                entity.Delay = dto.Delay;
                 //entity.DateSign = dto.DateSign;
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
@@ -1236,6 +1248,8 @@ namespace ApiQA.Controllers
                 entity.Status = dto.Status;
                 entity.StatusEmployeeId = dto.StatusEmployeeId;
                 entity.DateStatus = dto.DateStatus;
+                entity.DelayReason = dto.DelayReason;
+                entity.Delay = dto.Delay;
                 //entity.DateSign = dto.DateSign;
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
@@ -1416,6 +1430,8 @@ namespace ApiQA.Controllers
                 if (dto.FlightPerFormedTimeStr != "Invalid date")
                     entity.FlightPerFormedTime = ConvertToTimeSpan(dto.FlightPerFormedTimeStr.ToString());
                 entity.PIC = dto.PIC;
+                entity.DelayReason = dto.DelayReason;
+                entity.Delay = dto.Delay;
                 if (dto.Signed != null)
                     entity.DateSign = DateTime.Now;
                 entity.DateCreation = Id == -1 ? DateTime.Now : entity.DateCreation;

@@ -31,5 +31,7 @@ namespace ApiQA.Models
         public string Email { get; set; }
         public string TelNumber { get; set; }
         public string RelatedDepartment { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
     }
 }

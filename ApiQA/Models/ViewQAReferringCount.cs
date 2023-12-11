@@ -12,17 +12,14 @@ namespace ApiQA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QAAttachment
+    public partial class ViewQAReferringCount
     {
-        public int Id { get; set; }
+        public Nullable<int> EmployeeId { get; set; }
         public Nullable<int> Type { get; set; }
         public Nullable<int> EntityId { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
-        public string AttachmentType { get; set; }
-        public string URL { get; set; }
-        public string Lable { get; set; }
-        public string Description { get; set; }
-        public Nullable<System.DateTime> DateAttach { get; set; }
-        public Nullable<int> CommentId { get; set; }
+        public int ReferCount { get; set; }
+        public int DeterminedCount { get; set; }
+        public int ClosedCount { get; set; }
+        public Nullable<int> ReviewResult { get; set; }
     }
 }

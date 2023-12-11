@@ -31,6 +31,8 @@ namespace ApiQA.Models
         public Nullable<int> DisCatagoryId { get; set; }
         public Nullable<int> OpCatagoryId { get; set; }
         public string EmployeeName { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
         public string Email { get; set; }
         public string Mobile { get; set; }
         public Nullable<bool> OPCancelled { get; set; }

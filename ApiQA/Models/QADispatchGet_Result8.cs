@@ -15,17 +15,19 @@ namespace ApiQA.Models
     {
         public Nullable<int> Id { get; set; }
         public Nullable<int> FlightId { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
+        public string JobPosition { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
         public Nullable<int> Type { get; set; }
         public Nullable<System.DateTime> DateReport { get; set; }
-        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public Nullable<System.DateTime> OPTimeReceived { get; set; }
         public string OPReportedBy { get; set; }
         public string OPLocation { get; set; }
-        public Nullable<int> CatagoryId { get; set; }
+        public Nullable<int> DisCatagoryId { get; set; }
+        public Nullable<int> OpCatagoryId { get; set; }
         public Nullable<bool> OPCancelled { get; set; }
         public Nullable<System.DateTime> OPCancelledTime { get; set; }
         public Nullable<bool> OPACChanged { get; set; }
@@ -34,14 +36,24 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> OPCrewChangedTime { get; set; }
         public Nullable<bool> OPFlightPerformed { get; set; }
         public Nullable<System.DateTime> OPFlightPerformedTime { get; set; }
+        public string PIC { get; set; }
+        public Nullable<bool> FlightCancelled { get; set; }
+        public Nullable<System.TimeSpan> FlightCancelledTime { get; set; }
+        public Nullable<bool> ACChanged { get; set; }
+        public Nullable<System.TimeSpan> ACChangedTime { get; set; }
+        public Nullable<bool> CrewChanged { get; set; }
+        public Nullable<System.TimeSpan> CrewChangedTime { get; set; }
+        public Nullable<bool> FlightPerformed { get; set; }
+        public Nullable<System.TimeSpan> FlightPerformedTime { get; set; }
         public string OPSummary { get; set; }
         public string DISLocation { get; set; }
         public Nullable<int> DISTimeDuration { get; set; }
         public string DISActionResult { get; set; }
         public string Remarks { get; set; }
-        public string Email1 { get; set; }
-        public string TelNumber { get; set; }
-        public string Name { get; set; }
+        public string ReporterName { get; set; }
+        public string ReporterPosition { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
     }
 }

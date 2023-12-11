@@ -12,13 +12,12 @@ namespace ApiQA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QAAttachmentComment
+    public partial class QAReceiverComment
     {
         public int Id { get; set; }
-        public int AttachmentId { get; set; }
-        public int CommentId { get; set; }
+        public Nullable<int> CommentId { get; set; }
+        public Nullable<int> ReceiverEmployeeId { get; set; }
     
         public virtual QAComment QAComment { get; set; }
-        public virtual QAAttachment QAAttachment { get; set; }
     }
 }

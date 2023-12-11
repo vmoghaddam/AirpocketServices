@@ -47,6 +47,8 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> dateStatus { get; set; }
         public Nullable<int> StatusEmployeeId { get; set; }
         public string StatusEmployeeName { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
         public string Result { get; set; }
     }
 }

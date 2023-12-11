@@ -28,19 +28,18 @@ namespace ApiQA.Models
         public string BreachedDescription { get; set; }
         public string ContactInfo { get; set; }
         public Nullable<System.DateTime> DateOccurrence { get; set; }
-        public Nullable<System.DateTime> DateIncident { get; set; }
-        public Nullable<System.DateTime> DateSign { get; set; }
+        public Nullable<System.DateTime> DateReport { get; set; }
         public string ImpactDescription { get; set; }
         public string IncidentDescription { get; set; }
         public string JobTitle { get; set; }
         public string MethodDescription { get; set; }
         public string Name { get; set; }
         public string Other { get; set; }
-        public string IncidentTitle { get; set; }
+        public string Title { get; set; }
         public Nullable<int> IncidentId { get; set; }
-        public string MethodTitle { get; set; }
+        public string Title1 { get; set; }
         public Nullable<int> MethodId { get; set; }
-        public string AccessTitle { get; set; }
+        public string Title2 { get; set; }
         public Nullable<int> AccessId { get; set; }
     }
 }

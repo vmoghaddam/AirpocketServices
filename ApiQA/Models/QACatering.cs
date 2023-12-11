@@ -44,6 +44,8 @@ namespace ApiQA.Models
         public string Email { get; set; }
         public string TelNumber { get; set; }
         public Nullable<bool> InjeryOccurring { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
         public virtual QAOption QAOption { get; set; }

@@ -17,7 +17,7 @@ namespace ApiQA.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public QAComment()
         {
-            this.QAAttachmentComments = new HashSet<QAAttachmentComment>();
+            this.QAReceiverComments = new HashSet<QAReceiverComment>();
         }
     
         public int id { get; set; }
@@ -28,6 +28,6 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> DateComment { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QAAttachmentComment> QAAttachmentComments { get; set; }
+        public virtual ICollection<QAReceiverComment> QAReceiverComments { get; set; }
     }
 }

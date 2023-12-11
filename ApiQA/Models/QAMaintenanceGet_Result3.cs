@@ -15,13 +15,13 @@ namespace ApiQA.Models
     {
         public Nullable<int> Id { get; set; }
         public Nullable<int> FlightId { get; set; }
-        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string AircraftType { get; set; }
         public string Register { get; set; }
         public Nullable<int> ComponentSpecificationId { get; set; }
         public string ComponentSpecification { get; set; }
         public string FlightRoute { get; set; }
         public string FlightNumber { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string ATLNo { get; set; }
         public string TaskNo { get; set; }
         public string Reference { get; set; }
@@ -36,6 +36,8 @@ namespace ApiQA.Models
         public Nullable<int> PartNumber { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
         public string EmployeeName { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
         public Nullable<System.DateTime> STD { get; set; }
     }
 }

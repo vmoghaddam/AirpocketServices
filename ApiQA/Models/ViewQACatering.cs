@@ -48,5 +48,7 @@ namespace ApiQA.Models
         public string StatusEmployeeName { get; set; }
         public string Result { get; set; }
         public Nullable<bool> InjeryOccurring { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
     }
 }

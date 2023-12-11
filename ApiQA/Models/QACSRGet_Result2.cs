@@ -18,10 +18,10 @@ namespace ApiQA.Models
         public string BOX { get; set; }
         public string RefNumber { get; set; }
         public string ReportFiledBy { get; set; }
-        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string FlightNumber { get; set; }
         public Nullable<int> FlightId { get; set; }
         public string FlightSegment { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string EventLocation { get; set; }
         public string TypeRegisteration { get; set; }
         public string WeatherCondition { get; set; }
@@ -36,9 +36,12 @@ namespace ApiQA.Models
         public string Recived { get; set; }
         public string FollowUp { get; set; }
         public string EventTitleRemark { get; set; }
+        public Nullable<int> ReporterId { get; set; }
         public string AircraftType { get; set; }
         public string Register { get; set; }
         public string EmployeeName { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
         public string CSRPhaseTitle { get; set; }
     }
 }

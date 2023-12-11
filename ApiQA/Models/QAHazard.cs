@@ -31,5 +31,7 @@ namespace ApiQA.Models
         public string Result { get; set; }
         public Nullable<System.DateTime> DateCreation { get; set; }
         public string RelatedDepartment { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
     }
 }

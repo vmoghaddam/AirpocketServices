@@ -85,12 +85,14 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> DateCreation { get; set; }
         public Nullable<System.TimeSpan> FlightDelay { get; set; }
         public Nullable<System.TimeSpan> ScheduledGroundTime { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
     
-        public virtual Airport Airport1 { get; set; }
         public virtual FlightInformation FlightInformation { get; set; }
         public virtual QAOption QAOption { get; set; }
         public virtual QAOption QAOption1 { get; set; }
         public virtual QAOption QAOption2 { get; set; }
         public virtual QAOption QAOption3 { get; set; }
+        public virtual Airport Airport1 { get; set; }
     }
 }

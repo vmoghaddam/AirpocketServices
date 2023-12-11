@@ -37,9 +37,11 @@ namespace ApiQA.Models
         public string Result { get; set; }
         public Nullable<System.DateTime> DateCreation { get; set; }
         public Nullable<System.DateTime> DateHazard { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
     
-        public virtual Airport Airport { get; set; }
         public virtual FlightInformation FlightInformation { get; set; }
         public virtual QAOption QAOption { get; set; }
+        public virtual Airport Airport { get; set; }
     }
 }

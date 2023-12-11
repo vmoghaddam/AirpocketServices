@@ -101,5 +101,7 @@ namespace ApiQA.Models
         public string Route { get; set; }
         public Nullable<System.TimeSpan> FlightDelay { get; set; }
         public Nullable<System.TimeSpan> ScheduledGroundTime { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
     }
 }

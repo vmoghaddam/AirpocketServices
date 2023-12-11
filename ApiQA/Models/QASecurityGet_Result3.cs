@@ -18,6 +18,7 @@ namespace ApiQA.Models
         public string FlightNumber { get; set; }
         public string Register { get; set; }
         public string Route { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string Description { get; set; }
         public int EmployeeId { get; set; }
         public string InjuryDescription { get; set; }
@@ -28,7 +29,6 @@ namespace ApiQA.Models
         public Nullable<int> WorkBreakPeriod { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
         public Nullable<System.DateTime> DateReport { get; set; }
-        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string Camera { get; set; }
         public string CarryingBox { get; set; }
         public string Comail { get; set; }
@@ -36,11 +36,11 @@ namespace ApiQA.Models
         public string HandRocket { get; set; }
         public Nullable<bool> InjuryOccuring { get; set; }
         public string Other { get; set; }
-        public string Name { get; set; }
-        public string TelNumber { get; set; }
         public string EmployeeName { get; set; }
-        public string Mobile { get; set; }
+        public string TelNumber { get; set; }
         public string Email { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
         public Nullable<int> ReasonId { get; set; }
     }
 }

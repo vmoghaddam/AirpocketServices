@@ -15,20 +15,18 @@ namespace ApiQA.Models
     {
         public Nullable<int> Id { get; set; }
         public Nullable<int> FlightId { get; set; }
-        public Nullable<System.DateTime> STDDayLocal { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public Nullable<int> AirportId { get; set; }
         public string Airport { get; set; }
         public string AirportName { get; set; }
         public string Title { get; set; }
         public Nullable<int> DamageById { get; set; }
         public string DamageBy { get; set; }
-        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string OperationPhase { get; set; }
         public string Area { get; set; }
         public string Register { get; set; }
         public string AircraftType { get; set; }
         public string FlightNumber { get; set; }
-        public Nullable<int> ScheduledGroundTime { get; set; }
         public Nullable<int> DelayBlockOff { get; set; }
         public Nullable<int> DelayTakeoff { get; set; }
         public Nullable<int> FlightStatusID { get; set; }
@@ -91,5 +89,9 @@ namespace ApiQA.Models
         public int EmployeeId { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
         public string DamageRemark { get; set; }
+        public Nullable<System.TimeSpan> FlightDelay { get; set; }
+        public Nullable<System.TimeSpan> ScheduledGroundTime { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
     }
 }
