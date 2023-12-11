@@ -79,6 +79,7 @@
         <EntityTypeShape EntityType="ppaModel.ViewQaDashHazard" Width="1.5" PointX="16.75" PointY="4.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQaDashMaintenance" Width="1.5" PointX="16.75" PointY="7.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQaDashSecurity" Width="1.5" PointX="17.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ppaModel.QAFeedback" Width="1.5" PointX="18.375" PointY="15.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

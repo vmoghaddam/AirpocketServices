@@ -78,6 +78,7 @@ namespace ApiQA.Models
         public virtual DbSet<ViewQaDashHazard> ViewQaDashHazards { get; set; }
         public virtual DbSet<ViewQaDashMaintenance> ViewQaDashMaintenances { get; set; }
         public virtual DbSet<ViewQaDashSecurity> ViewQaDashSecurities { get; set; }
+        public virtual DbSet<QAFeedback> QAFeedbacks { get; set; }
     
         public virtual int QAByEmployeeCount(Nullable<int> type, Nullable<int> entityId)
         {

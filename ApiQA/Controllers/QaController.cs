@@ -85,6 +85,40 @@ namespace ApiQA.Controllers
             };
         }
 
+        [HttpPost]
+        [Route("api/qa/save/feedback")]
+        public async Task<DataResponse> SaveFeedBack(dynamic dto)
+        {
+            try
+            {
+                var entity = new QAFeedback();
+                context.QAFeedbacks.Add(entity);
+
+                entity.FormId = dto.EntityId;
+                entity.FormType = dto.Type;
+                entity.DateCreate = DateTime.Now;
+                entity.CreatorId = -1;
+                entity.Feedback = dto.Feedback;
+
+                context.SaveChanges();
+
+                return new DataResponse() { Data = entity, IsSuccess = true };
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = true
+                };
+            }
+        }
+
+
 
         [HttpGet]
         [Route("api/get/csr/flightphase")]

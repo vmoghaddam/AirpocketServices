@@ -539,6 +539,17 @@
           <Property Name="DelayReason" Type="nvarchar" MaxLength="255" />
           <Property Name="Delay" Type="int" />
         </EntityType>
+        <EntityType Name="QAFeedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormId" Type="int" Nullable="false" />
+          <Property Name="FormType" Type="int" Nullable="false" />
+          <Property Name="Feedback" Type="nvarchar" MaxLength="2000" />
+          <Property Name="DateCreate" Type="datetime2" Precision="7" />
+          <Property Name="CreatorId" Type="int" />
+        </EntityType>
         <EntityType Name="QAFollowingUp">
           <Key>
             <PropertyRef Name="Id" />
@@ -2723,6 +2734,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="QACSREvent" EntityType="Self.QACSREvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QACyber" EntityType="Self.QACyber" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QADispatch" EntityType="Self.QADispatch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QAFeedback" EntityType="Self.QAFeedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QAFollowingUp" EntityType="Self.QAFollowingUp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QAGetEntites_Result" EntityType="Self.QAGetEntites_Result" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QAGroundIAD" EntityType="Self.QAGroundIAD" Schema="dbo" store:Type="Tables" />
@@ -4401,6 +4413,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="ViewQaDashHazards" EntityType="ppaModel.ViewQaDashHazard" />
           <EntitySet Name="ViewQaDashMaintenances" EntityType="ppaModel.ViewQaDashMaintenance" />
           <EntitySet Name="ViewQaDashSecurities" EntityType="ppaModel.ViewQaDashSecurity" />
+          <EntitySet Name="QAFeedbacks" EntityType="ppaModel.QAFeedback" />
           </EntityContainer>
         <EntityType Name="FlightInformation">
           <Key>
@@ -8144,6 +8157,17 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="route" Type="String" MaxLength="511" FixedLength="false" Unicode="true" />
           <Property Name="Count" Type="Int32" />
         </EntityType>
+        <EntityType Name="QAFeedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormId" Type="Int32" Nullable="false" />
+          <Property Name="FormType" Type="Int32" Nullable="false" />
+          <Property Name="Feedback" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreate" Type="DateTime" Precision="7" />
+          <Property Name="CreatorId" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10689,6 +10713,18 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
                 <ScalarProperty Name="YearMonth" ColumnName="YearMonth" />
                 <ScalarProperty Name="month" ColumnName="month" />
                 <ScalarProperty Name="year" ColumnName="year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QAFeedbacks">
+            <EntityTypeMapping TypeName="ppaModel.QAFeedback">
+              <MappingFragment StoreEntitySet="QAFeedback">
+                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+                <ScalarProperty Name="FormType" ColumnName="FormType" />
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
