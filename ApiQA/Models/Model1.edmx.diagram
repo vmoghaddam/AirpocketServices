@@ -20,7 +20,6 @@
         <EntityTypeShape EntityType="ppaModel.ViewQAFollowingUp" Width="1.5" PointX="5.375" PointY="20.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQABYEmployee" Width="1.5" PointX="11.375" PointY="11.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAByEmployeeCount" Width="1.5" PointX="3.375" PointY="5.75" />
-        <EntityTypeShape EntityType="ppaModel.ViewQaReportsByCreator" Width="1.5" PointX="19.375" PointY="19.75" />
         <EntityTypeShape EntityType="ppaModel.ViewFlightLogMain" Width="1.5" PointX="21.375" PointY="13.75" />
         <EntityTypeShape EntityType="ppaModel.ViewFlightLog" Width="1.5" PointX="11.375" PointY="21.75" />
         <EntityTypeShape EntityType="ppaModel.DutyLog" Width="1.5" PointX="21.375" PointY="21.75" />
@@ -80,6 +79,8 @@
         <EntityTypeShape EntityType="ppaModel.ViewQaDashMaintenance" Width="1.5" PointX="16.75" PointY="7.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQaDashSecurity" Width="1.5" PointX="17.75" PointY="11.75" />
         <EntityTypeShape EntityType="ppaModel.QAFeedback" Width="1.5" PointX="18.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewQaFeedback" Width="1.5" PointX="11.375" PointY="25.75" />
+        <EntityTypeShape EntityType="ppaModel.ViewQaReportsByCreator" Width="1.5" PointX="26.375" PointY="8.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

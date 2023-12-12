@@ -469,6 +469,35 @@ namespace XAPI.Controllers
                     }
                     return Ok(true);
                 }
+                else if (dto.plan.Contains("AVA AIR"))
+                {
+                    result = "AVA AIR";
+                    var entity = new OFPSkyPuter()
+                    {
+                        OFP = dto.plan,
+                        DateCreate = DateTime.Now,
+                        UploadStatus = 0,
+
+
+                    };
+                    var ctx = new PPAEntities();
+                    ctx.Database.CommandTimeout = 1000;
+                    ctx.OFPSkyPuters.Add(entity);
+                    ctx.SaveChanges();
+
+
+                    string responsebody = "NO";
+                    using (WebClient client = new WebClient())
+                    {
+                        var reqparm = new System.Collections.Specialized.NameValueCollection();
+                        reqparm.Add("key", dto.key);
+                        reqparm.Add("plan", dto.plan);
+                        byte[] responsebytes = client.UploadValues("https://xpiava.skybag.app/api/skyputer/ava", "POST", reqparm);
+                        responsebody = Encoding.UTF8.GetString(responsebytes);
+
+                    }
+                    return Ok(true);
+                }
                 else
                 {
                     var entity = new OFPSkyPuter()
@@ -731,6 +760,53 @@ namespace XAPI.Controllers
         }
 
 
+        [Route("api/skyputer/ava")]
+        [AcceptVerbs("POST")]
+        public IHttpActionResult PostSkyputerAVA(skyputer dto)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(dto.key))
+                    return Ok("Authorization key not found.");
+                if (string.IsNullOrEmpty(dto.plan))
+                    return Ok("Plan cannot be empty.");
+                if (dto.key != "Skyputer@1359#")
+                    return Ok("Authorization key is wrong.");
+
+
+
+                var entity = new OFPSkyPuter()
+                {
+                    OFP = dto.plan,
+                    DateCreate = DateTime.Now,
+                    UploadStatus = 0,
+
+
+                };
+                var ctx = new PPAEntities();
+                ctx.Database.CommandTimeout = 1000;
+                ctx.OFPSkyPuters.Add(entity);
+                ctx.SaveChanges();
+                new Thread(async () =>
+                {
+                    GetSkyputerImport(entity.Id);
+                }).Start();
+                return Ok(true);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += " Inner: " + ex.InnerException.Message;
+                return Ok(msg);
+            }
+
+        }
+
+
         [Route("api/skyputer/atlas")]
         [AcceptVerbs("POST")]
         public IHttpActionResult PostSkyputerATLAS(skyputer dto)
@@ -913,7 +989,7 @@ namespace XAPI.Controllers
 
                 var fpf = infoRows.FirstOrDefault(q => q.StartsWith("FPF")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("FPF")).Split('=')[1];
 
-                // var vdt= infoRows.FirstOrDefault(q => q.StartsWith("VDT")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("VDT")).Split('=')[1];
+                // var vdt= infoRows.FirstOrDefault(q => q.StartsWith/av("VDT")) == null ? "" : infoRows.FirstOrDefault(q => q.StartsWith("VDT")).Split('=')[1];
                 string alt1 = "";
                 string alt2 = "";
                 var flightDate = DateTime.Parse(dte);
@@ -921,6 +997,10 @@ namespace XAPI.Controllers
                 var main_flight_no = fln.Replace(" ", "").ToUpper();
                 if (no.Length == 3 && no.StartsWith("0"))
                     no = "0" + no;
+                no = no.Replace(" ", "");
+                if (no.StartsWith("A"))
+                    no = no.Replace("A", "");
+              //  var _flt_flt = context.ViewLegTimes.OrderByDescending(q => q.STD).Take(10).ToList();
                 var flight = context.ViewLegTimes.Where(q => q.STDDay == flightDate && q.FlightNumber == no && q.FlightStatusID != 4).FirstOrDefault();
                 var fltobj = context.FlightInformations.Where(q => q.ID == flight.ID).FirstOrDefault();
                 var cplan = context.OFPImports.FirstOrDefault(q => q.FlightId == flight.ID);

@@ -78,9 +78,11 @@ namespace ApiQA.Controllers
                          where x.CreatorId == cid
                          orderby x.DateCreation descending, x.Status
                          select x).ToList();
+            var keys = query.Select(q => q.EntityId + "_" + q.type).ToList();
+            var feedbacks = context.ViewQaFeedbacks.Where(q => keys.Contains(q.FormKey)).ToList();
             return new DataResponse()
             {
-                Data = query,
+                Data =new { query, feedbacks },
                 IsSuccess = true
             };
         }

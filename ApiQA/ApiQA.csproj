@@ -439,6 +439,9 @@
     <Compile Include="Models\ViewQADispatch.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewQaFeedback.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewQAFollowingUp.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

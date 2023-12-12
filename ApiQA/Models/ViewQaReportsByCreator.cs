@@ -30,5 +30,6 @@ namespace ApiQA.Models
         public string Route { get; set; }
         public Nullable<System.DateTime> STDLocal { get; set; }
         public string Register { get; set; }
+        public Nullable<System.DateTime> DateSign { get; set; }
     }
 }
