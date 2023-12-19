@@ -23,5 +23,7 @@ namespace ApiQA.Models
         public string Comment { get; set; }
         public Nullable<System.DateTime> DateStatus { get; set; }
         public Nullable<int> ParentId { get; set; }
+        public Nullable<System.DateTime> DeadLine { get; set; }
+        public Nullable<int> Priority { get; set; }
     }
 }

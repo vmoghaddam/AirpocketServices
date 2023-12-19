@@ -16,7 +16,6 @@
         <EntityTypeShape EntityType="ppaModel.ViewQACSREvent" Width="1.5" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAResponsibility" Width="1.5" PointX="15.75" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAComment" Width="1.5" PointX="5.375" PointY="16.75" />
-        <EntityTypeShape EntityType="ppaModel.QAFollowingUp" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAFollowingUp" Width="1.5" PointX="5.375" PointY="20.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQABYEmployee" Width="1.5" PointX="11.375" PointY="11.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQAByEmployeeCount" Width="1.5" PointX="3.375" PointY="5.75" />
@@ -78,9 +77,10 @@
         <EntityTypeShape EntityType="ppaModel.ViewQaDashHazard" Width="1.5" PointX="16.75" PointY="4.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQaDashMaintenance" Width="1.5" PointX="16.75" PointY="7.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQaDashSecurity" Width="1.5" PointX="17.75" PointY="11.75" />
-        <EntityTypeShape EntityType="ppaModel.QAFeedback" Width="1.5" PointX="18.375" PointY="15.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQaFeedback" Width="1.5" PointX="11.375" PointY="25.75" />
         <EntityTypeShape EntityType="ppaModel.ViewQaReportsByCreator" Width="1.5" PointX="26.375" PointY="8.75" />
+        <EntityTypeShape EntityType="ppaModel.QAFollowingUp" Width="1.5" PointX="18.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ppaModel.QAFeedback" Width="1.5" PointX="18.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

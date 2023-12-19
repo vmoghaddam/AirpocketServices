@@ -563,6 +563,8 @@
           <Property Name="Comment" Type="nvarchar(max)" />
           <Property Name="DateStatus" Type="datetime" />
           <Property Name="ParentId" Type="int" />
+          <Property Name="DeadLine" Type="datetime" />
+          <Property Name="Priority" Type="int" />
         </EntityType>
         <EntityType Name="QAGetEntites_Result">
           <Key>
@@ -4271,7 +4273,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="ViewQACSREvents" EntityType="ppaModel.ViewQACSREvent" />
           <EntitySet Name="ViewQAResponsibilities" EntityType="ppaModel.ViewQAResponsibility" />
           <EntitySet Name="ViewQAComments" EntityType="ppaModel.ViewQAComment" />
-          <EntitySet Name="QAFollowingUps" EntityType="ppaModel.QAFollowingUp" />
           <EntitySet Name="ViewQAFollowingUps" EntityType="ppaModel.ViewQAFollowingUp" />
           <EntitySet Name="ViewQABYEmployees" EntityType="ppaModel.ViewQABYEmployee" />
           <EntitySet Name="ViewQAByEmployeeCounts" EntityType="ppaModel.ViewQAByEmployeeCount" />
@@ -4441,9 +4442,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="ViewQaDashHazards" EntityType="ppaModel.ViewQaDashHazard" />
           <EntitySet Name="ViewQaDashMaintenances" EntityType="ppaModel.ViewQaDashMaintenance" />
           <EntitySet Name="ViewQaDashSecurities" EntityType="ppaModel.ViewQaDashSecurity" />
-          <EntitySet Name="QAFeedbacks" EntityType="ppaModel.QAFeedback" />
           <EntitySet Name="ViewQaFeedbacks" EntityType="ppaModel.ViewQaFeedback" />
           <EntitySet Name="ViewQaReportsByCreators" EntityType="ppaModel.ViewQaReportsByCreator" />
+          <EntitySet Name="QAFollowingUps" EntityType="ppaModel.QAFollowingUp" />
+          <EntitySet Name="QAFeedbacks" EntityType="ppaModel.QAFeedback" />
           </EntityContainer>
         <EntityType Name="FlightInformation">
           <Key>
@@ -5574,20 +5576,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="Comment" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="DateComment" Type="DateTime" Precision="3" />
           <Property Name="ReceiverList" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="QAFollowingUp">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="Int32" />
-          <Property Name="EntityId" Type="Int32" />
-          <Property Name="ReferrerId" Type="Int32" />
-          <Property Name="ReferredId" Type="Int32" />
-          <Property Name="ReviewResult" Type="Int32" />
-          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DateStatus" Type="DateTime" Precision="3" />
-          <Property Name="ParentId" Type="Int32" />
         </EntityType>
         <EntityType Name="ViewQAFollowingUp">
           <Key>
@@ -8162,17 +8150,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="route" Type="String" MaxLength="511" FixedLength="false" Unicode="true" />
           <Property Name="Count" Type="Int32" />
         </EntityType>
-        <EntityType Name="QAFeedback">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FormId" Type="Int32" Nullable="false" />
-          <Property Name="FormType" Type="Int32" Nullable="false" />
-          <Property Name="Feedback" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="DateCreate" Type="DateTime" Precision="7" />
-          <Property Name="CreatorId" Type="Int32" />
-        </EntityType>
         <EntityType Name="ViewQaFeedback">
           <Key>
             <PropertyRef Name="Id" />
@@ -8212,6 +8189,33 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="STDLocal" Type="DateTime" Precision="3" />
           <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DateSign" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="QAFollowingUp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="EntityId" Type="Int32" />
+          <Property Name="ReferrerId" Type="Int32" />
+          <Property Name="ReferredId" Type="Int32" />
+          <Property Name="ReviewResult" Type="Int32" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="DeadLine" Type="DateTime" Precision="3" />
+          <Property Name="Priority" Type="Int32" />
+        </EntityType>
+        <EntityType Name="QAFeedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormId" Type="Int32" Nullable="false" />
+          <Property Name="FormType" Type="Int32" Nullable="false" />
+          <Property Name="Feedback" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreate" Type="DateTime" Precision="7" />
+          <Property Name="CreatorId" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -8778,21 +8782,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="QAFollowingUps">
-            <EntityTypeMapping TypeName="ppaModel.QAFollowingUp">
-              <MappingFragment StoreEntitySet="QAFollowingUp">
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
-                <ScalarProperty Name="ReferredId" ColumnName="ReferredId" />
-                <ScalarProperty Name="ReferrerId" ColumnName="ReferrerId" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -10739,18 +10728,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QAFeedbacks">
-            <EntityTypeMapping TypeName="ppaModel.QAFeedback">
-              <MappingFragment StoreEntitySet="QAFeedback">
-                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
-                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
-                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
-                <ScalarProperty Name="FormType" ColumnName="FormType" />
-                <ScalarProperty Name="FormId" ColumnName="FormId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViewQaFeedbacks">
             <EntityTypeMapping TypeName="ppaModel.ViewQaFeedback">
               <MappingFragment StoreEntitySet="ViewQaFeedback">
@@ -10784,6 +10761,35 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
                 <ScalarProperty Name="TypeTitle" ColumnName="TypeTitle" />
                 <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QAFollowingUps">
+            <EntityTypeMapping TypeName="ppaModel.QAFollowingUp">
+              <MappingFragment StoreEntitySet="QAFollowingUp">
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="DeadLine" ColumnName="DeadLine" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
+                <ScalarProperty Name="ReferredId" ColumnName="ReferredId" />
+                <ScalarProperty Name="ReferrerId" ColumnName="ReferrerId" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QAFeedbacks">
+            <EntityTypeMapping TypeName="ppaModel.QAFeedback">
+              <MappingFragment StoreEntitySet="QAFeedback">
+                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+                <ScalarProperty Name="FormType" ColumnName="FormType" />
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

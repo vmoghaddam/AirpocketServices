@@ -82,7 +82,7 @@ namespace ApiQA.Controllers
             var feedbacks = context.ViewQaFeedbacks.Where(q => keys.Contains(q.FormKey)).ToList();
             return new DataResponse()
             {
-                Data =new { query, feedbacks },
+                Data = new { query, feedbacks },
                 IsSuccess = true
             };
         }
@@ -120,7 +120,60 @@ namespace ApiQA.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/qa/delete/feedback/{id}")]
+        public async Task<DataResponse> DeleteFeedBack(int id)
+        {
+            try
+            {
+                var entity = context.QAFeedbacks.Single(q => q.Id == id);
+                context.QAFeedbacks.Remove(entity);
 
+                context.SaveChanges();
+
+                return new DataResponse() { Data = entity, IsSuccess = true };
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = true
+                };
+            }
+        }
+
+        [HttpGet]
+        [Route("api/qa/get/feedback/{entityid}/{type}")]
+        public async Task<DataResponse> GetFeedBack(int entityid, int type)
+        {
+            try
+            {
+                var entity = context.ViewQaFeedbacks.Where(q => q.FormId == entityid && q.FormType == type).OrderByDescending(q => q.DateCreate).ToList();
+                return new DataResponse()
+                {
+                    Data = entity,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = true
+                };
+            }
+
+
+        }
 
         [HttpGet]
         [Route("api/get/csr/flightphase")]
@@ -1553,6 +1606,8 @@ namespace ApiQA.Controllers
                     entity.ReferredId = x.ReceiverEmployeeId;
                     entity.ReferrerId = null;
                     entity.ReviewResult = 2;
+                    entity.Priority = dto.Priority;
+                    entity.DeadLine = dto.DeadLine;
                 };
 
 
@@ -2444,6 +2499,8 @@ namespace ApiQA.Controllers
             public int ReferrerId { get; set; }
             public int Type { get; set; }
             public string Comment { get; set; }
+            public int Priority { get; set; }
+            public DateTime DeadLine { get; set; }
         }
 
 
@@ -2474,6 +2531,8 @@ namespace ApiQA.Controllers
                     entity.ReviewResult = 2;
                     entity.Comment = x.Comment;
                     entity.ParentId = parentId;
+                    entity.DeadLine = x.DeadLine;
+                    entity.Priority = x.Priority;
                 };
                 context.SaveChanges();
 
