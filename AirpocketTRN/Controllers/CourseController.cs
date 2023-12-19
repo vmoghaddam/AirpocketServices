@@ -40,6 +40,9 @@ namespace AirpocketTRN.Controllers
             courseService = new CourseService();
         }
 
+
+
+
         [Route("api/trn/stat/coursepeople")]
         [AcceptVerbs("GET")]
         public async Task<IHttpActionResult> GetTrnStatCoursePeople(string df, string dt, int? ct, int? status, int? cstatus, string cls, int? pid,int? inst1,int? inst2,int? rank,int? active,string grp,string dep)
@@ -827,7 +830,23 @@ namespace AirpocketTRN.Controllers
             }
             return outPut;
         }
+        // FLYEntities context = new FLYEntities();
+        //[Route("api/manager/groups/{mng_id}")]
+        //[AcceptVerbs("GET")]
+        //public async Task<IHttpActionResult> GetManagerGroups(int mng_id)
+        //{
+        //    FLYEntities context = new FLYEntities();
+        //    List<string> result = new List<string>();
+        //    if (mng_id != -1)
+        //    {
+        //        var mng = await context.Managers.FirstOrDefaultAsync(q => q.EmployeeId == mng_id);
+        //        result = await context.ManagerGroups.Where(q => q.ManagerId == mng_id).Select(q => q.ProfileGroup).ToListAsync();
 
+                
+        //    }
+
+        //    return Ok(result);
+        //}
 
         [Route("api/certificate/url/{pid}/{tid}")]
         [AcceptVerbs("GET")]

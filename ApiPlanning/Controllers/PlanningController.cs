@@ -394,7 +394,11 @@ namespace ApiPlanning.Controllers
                 //}
 
                 var nflts = flightIds.Select(q => (Nullable<int>)q).ToList();
-                var fdpitems = await _context.FDPItems.Where(q => nflts.Contains(q.FlightId)).Select(q => q.FlightId).ToListAsync();
+                //var fdpitems = await _context.FDPItems.Where(q => nflts.Contains(q.FlightId)).Select(q => q.FlightId).ToListAsync();
+                var fdpitems = await (from fi in _context.FDPItems
+                                      join f in _context.FDPs on fi.FDPId equals f.Id
+                                      where nflts.Contains(fi.FlightId) && f.IsTemplate == false
+                                      select fi.FlightId).ToListAsync();
 
 
 

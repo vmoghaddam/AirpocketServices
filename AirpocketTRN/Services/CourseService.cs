@@ -1455,6 +1455,7 @@ namespace AirpocketTRN.Services
         //09-11
         public async Task<DataResponse> GetTrainingCard(int pid)
         {
+            pid = (pid - 1237) / 2;
             var person = await context.People.Where(q => q.Id == pid).FirstOrDefaultAsync();
             var employee = await context.ViewEmployees.Where(q => q.PersonId == pid).FirstOrDefaultAsync();
             var result = await context.ViewCoursePeoplePassedRankeds.Where(q => q.PersonId == pid && q.RankLast == 1).OrderBy(q => q.DateExpire).ToListAsync();

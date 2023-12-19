@@ -6030,7 +6030,7 @@ namespace AirpocketAPI.Controllers
                         if (string.IsNullOrEmpty(_obsc)) _obsc = null;
                         if (obsc != _obsc)
                         {
-                            sheet.Range["W" + (obs_merge_start) + ":W" + (ln - 1)].Merge();
+                            sheet.Range["W" + (obsc_merge_start) + ":W" + (ln - 1)].Merge();
                             sheet.Range[obsc_merge_start, 23].Style.HorizontalAlignment = HorizontalAlignType.Center;
                             sheet.Range[obsc_merge_start, 23].Style.VerticalAlignment = VerticalAlignType.Center;
                             obsc = _obsc;

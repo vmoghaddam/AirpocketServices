@@ -915,9 +915,9 @@ namespace ApiLog.Controllers
 
                 foreach (var x in flightsdto)
                 {
-                    
+
                     x.resourceId.Add((int)x.RegisterID);
-                   
+
                 }
 
 
@@ -1039,13 +1039,14 @@ namespace ApiLog.Controllers
                 //)
                 //);
 
-            //    var raw_query = await context.Database.SqlQuery<ViewFlightsGanttNew>("select top 1000 * from ViewFlightsGanttNew ").ToListAsync();
-                var flightsQuery = context.ViewFlightsGanttNews.Where(q =>  
+                //    var raw_query = await context.Database.SqlQuery<ViewFlightsGanttNew>("select top 1000 * from ViewFlightsGanttNew ").ToListAsync();
+                var flightsQuery = context.ViewFlightsGanttNews.Where(q =>
                (
-                  (q.STD >= dateFrom && q.STD <= dateTo)  
-                   || (q.STA >= dateFrom && q.STA <= dateTo) 
+                  (q.STD >= dateFrom && q.STD <= dateTo)
+                   || (q.STA >= dateFrom && q.STA <= dateTo)
                )
-               ).Select(q=>new {
+               ).Select(q => new
+               {
                    q.ID,
                    q.FlightPlanId,
                    q.BaggageCount,
@@ -1085,7 +1086,7 @@ namespace ApiLog.Controllers
                    q.AircraftType,
                    q.OAircraftType,
                    q.Register,
-                  // q.MSN,
+                   // q.MSN,
                    q.FlightStatus,
                    q.status,
                    q.notes,
@@ -1099,25 +1100,25 @@ namespace ApiLog.Controllers
                    q.ArrivalRemark,
                    q.DepartureRemark,
                    q.TotalSeat,
-                  // q.EstimatedDelay,
+                   // q.EstimatedDelay,
                    q.TotalPax,
                    q.PaxOver,
                    //q.DateStatus,
                    //q.FlightStatusUserId,
                    q.STDDay,
                    q.STADay,
-                    q.DelayOffBlock,
-                  // q.DelayTakeoff,
-                  // q.DelayOnBlock,
-                  // q.DelayLanding,
+                   q.DelayOffBlock,
+                   // q.DelayTakeoff,
+                   // q.DelayOnBlock,
+                   // q.DelayLanding,
                    q.CancelReasonId,
                    //q.CancelRemark,
-                  // q.CancelDate,
+                   // q.CancelDate,
                    //q.CancelReason,
                    q.RedirectReasonId,
-                  // q.RedirectRemark,
-                  // q.RedirectDate,
-                  // q.RedirectReason,
+                   // q.RedirectRemark,
+                   // q.RedirectDate,
+                   // q.RedirectReason,
                    q.RampReasonId,
                    //q.RampRemark,
                    //q.RampDate,
@@ -1135,9 +1136,9 @@ namespace ApiLog.Controllers
                    q.FlightTime,
                    q.FlightTimeActual,
                    q.UsedFuel,
-                  // q.JLBLHH,
-                  // q.JLBLMM,
-                  // q.PFLR,
+                   // q.JLBLHH,
+                   // q.JLBLMM,
+                   // q.PFLR,
                    q.ChrAdult,
                    q.ChrChild,
                    q.ChrInfant,
@@ -1150,8 +1151,8 @@ namespace ApiLog.Controllers
                    q.SerialNo,
                    q.LTR,
                    q.FuelDeparture,
-                  // q.Ready,
-                  // q.Start,
+                   // q.Ready,
+                   // q.Start,
                    q.CargoPieces,
                })
                     .AsNoTracking();
@@ -1159,7 +1160,7 @@ namespace ApiLog.Controllers
 
                 int utc = 1;
                 int? doUtc = utc;
-               // if (cid != -1)
+                // if (cid != -1)
                 //    flightsQuery = flightsQuery.Where(q => q.CustomerId == cid);
 
 
@@ -1215,14 +1216,14 @@ namespace ApiLog.Controllers
 
                 //foreach (var x in flightsdto)
                 //{
-                    
+
                 //    x.resourceId.Add((int)x.RegisterID);
-                   
+
                 //}
 
 
                 var fromAirport = (from x in flights
-                                   group x by new { x.FromAirport, x.FromAirportIATA  } into g
+                                   group x by new { x.FromAirport, x.FromAirportIATA } into g
                                    select new BaseSummary()
                                    {
                                        BaseId = g.Key.FromAirport,
@@ -1240,7 +1241,7 @@ namespace ApiLog.Controllers
 
                                    }).ToList();
                 var toAirport = (from x in flights
-                                 group x by new { x.ToAirport, x.ToAirportIATA  } into g
+                                 group x by new { x.ToAirport, x.ToAirportIATA } into g
                                  select new BaseSummary()
                                  {
                                      BaseId = g.Key.ToAirport,
@@ -1509,7 +1510,7 @@ namespace ApiLog.Controllers
 
         [AcceptVerbs("POST")]
         [Route("api/log/flight/pax/save/")]
-        public async Task<IHttpActionResult> PostFlightPaxSave( pax_dto pax_dto)
+        public async Task<IHttpActionResult> PostFlightPaxSave(pax_dto pax_dto)
         {
             var context = new ppa_entities();
 
@@ -1521,7 +1522,7 @@ namespace ApiLog.Controllers
             {
                 context.FlightPaxes.Add(new FlightPax()
                 {
-                   // Id = -1,
+                    // Id = -1,
                     AirportId = x.AirportId,
                     Baggage = x.Baggage,
                     FlightId = x.FlightId,
@@ -1540,7 +1541,15 @@ namespace ApiLog.Controllers
                     RES_Infant = x.RES_Infant,
                     STN_Adult = x.STN_Adult,
                     STN_Child = x.STN_Child,
-                    STN_Infant = x.STN_Infant
+                    STN_Infant = x.STN_Infant,
+                    ACM = x.ACM,
+                    DSP = x.DSP,
+                    FM = x.FM,
+                    FSG = x.FSG,
+                    MOC = x.MOC,
+                    WCR = x.WCR,
+                    ToAirportId = x.ToAirportId,
+                    FlightId2=x.FlightId2,
                 });
             }
 
@@ -1556,7 +1565,68 @@ namespace ApiLog.Controllers
         {
 
             var context = new ppa_entities();
-            var result = await context.ViewFlightPaxes.Where(q => q.FlightId == id).ToListAsync();
+            var flight = context.FlightInformations.Where(q => q.ID == id).FirstOrDefault();
+            var next_flight = context.FlightInformations.Where(q => q.RegisterID == flight.RegisterID && q.STD > flight.STD).OrderBy(q => q.STD).Take(1).FirstOrDefault();
+            if (next_flight != null && ((DateTime)next_flight.STD).Date != ((DateTime)flight.STD).Date)
+                next_flight = null;
+            if (next_flight != null && next_flight.ToAirportId == flight.FromAirportId)
+                next_flight = null;
+            var recs = await context.ViewFlightPaxes.Where(q => q.FlightId == id).ToListAsync();
+            List<ViewFlightPax> result = new List<ViewFlightPax>();
+
+            
+
+            var main_route = recs.Where(q => q.AirportId == flight.FromAirportId && q.ToAirportId == flight.ToAirportId).FirstOrDefault();
+            if (main_route == null)
+                result.Insert(0, new ViewFlightPax()
+                {
+                    FlightId = id,
+                    Id = -1,
+                    AirportId = flight.FromAirportId,
+                    ToAirportId = flight.ToAirportId,
+                    Total_CHR = 0,
+                    Total_FOC = 0,
+                    Total_OA = 0,
+                    Total_Pax = 0,
+                    Total_RES = 0,
+                    Total_Rev = 0,
+                    Total_STN = 0,
+
+
+                });
+            else
+                result.Add(main_route);
+
+            if (next_flight != null)
+            {
+                var next_route = recs.Where(q => q.AirportId == flight.FromAirportId && q.ToAirportId == next_flight.ToAirportId).FirstOrDefault();
+                if (next_route == null)
+                {
+                    result.Add(new ViewFlightPax()
+                    {
+                        FlightId = id,
+                        Id = -2,
+                        AirportId = flight.FromAirportId,
+                        ToAirportId = next_flight.ToAirportId,
+                        Total_CHR = 0,
+                        Total_FOC = 0,
+                        Total_OA = 0,
+                        Total_Pax = 0,
+                        Total_RES = 0,
+                        Total_Rev = 0,
+                        Total_STN = 0,
+                        FlightId2 = next_flight.ID,
+
+
+                    });
+                }
+                else
+                    result.Add(next_route);
+            }
+
+            var pre_flight= await context.ViewFlightPaxes.Where(q => q.FlightId2 == id).FirstOrDefaultAsync();
+            if (pre_flight != null)
+                result.Add(pre_flight);
             return Ok(result);
         }
 

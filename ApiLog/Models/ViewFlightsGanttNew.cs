@@ -46,8 +46,8 @@ namespace ApiLog.Models
         public int TypeId { get; set; }
         public Nullable<int> OTypeId { get; set; }
         public string FlightNumber { get; set; }
-        public Nullable<int> FromAirport { get; set; }
-        public Nullable<int> ToAirport { get; set; }
+        public int FromAirport { get; set; }
+        public int ToAirport { get; set; }
         public string FromAirportIATA { get; set; }
         public string ToAirportIATA { get; set; }
         public string AircraftType { get; set; }
@@ -112,7 +112,7 @@ namespace ApiLog.Models
         public Nullable<int> ChrCapacity { get; set; }
         public string ChrTitle { get; set; }
         public string ChrCode { get; set; }
-        public Nullable<int> DefaultChrId { get; set; }
+        public int DefaultChrId { get; set; }
         public Nullable<long> CargoCost { get; set; }
         public Nullable<decimal> FuelDensity { get; set; }
         public string SerialNo { get; set; }

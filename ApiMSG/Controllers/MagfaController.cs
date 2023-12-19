@@ -45,13 +45,43 @@ namespace ApiMSG.Controllers
         [AcceptVerbs("GET")]
         public IHttpActionResult GetMagfaTest()
         {
-            Magfa m = new Magfa();
+            MagfaNew m = new MagfaNew();
             var smsResult= m.enqueue(1, "09124449584", "HELO APIMSG")[0];
             var refids = new List<Int64>() { smsResult };
             System.Threading.Thread.Sleep(5000);
             //var status = m.getStatus(refids);
 
             return Ok(refids);
+        }
+
+        [Route("api/qa/feedback/first/{no}/{eid}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetQAFeedbackFirst(string no,string eid)
+        {
+            var _no = no;
+            
+            if (eid != "-1" && _no=="-1")
+            {
+                try
+                {
+                    var _eid = Convert.ToInt32(eid);
+                    var context = new ppa_vareshEntities();
+                    _no = context.ViewProfiles.Where(q => q.Id == _eid).FirstOrDefault().Mobile;
+                }
+                catch(Exception ex)
+                {
+
+                }
+               
+            }
+            var msg = "ضمن سپاس از ارسال گزارش، پس از بررسی و اقدامات انجام شده، حصول نتیجه در صورت لزوم به شما ابلاغ خواهد شد. با تشکر، مدیریت ایمنی و تضمین کیفیت هواپیمایی وارش";
+            MagfaNew m = new MagfaNew();
+            var smsResult = m.enqueue(1, _no, msg)[0];
+            var refids = new List<Int64>() { smsResult };
+            System.Threading.Thread.Sleep(5000);
+            //var status = m.getStatus(refids);
+
+            return Ok(new { refids ,_no,no,eid});
         }
 
 

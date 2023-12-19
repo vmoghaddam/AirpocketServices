@@ -34,5 +34,25 @@ namespace ApiLog.Models
         public Nullable<int> AirportId { get; set; }
         public Nullable<int> Cargo { get; set; }
         public Nullable<int> Baggage { get; set; }
+        public Nullable<int> ToAirportId { get; set; }
+        public Nullable<int> FM { get; set; }
+        public Nullable<int> DSP { get; set; }
+        public Nullable<int> FSG { get; set; }
+        public Nullable<int> WCR { get; set; }
+        public Nullable<int> MOC { get; set; }
+        public Nullable<int> ACM { get; set; }
+        public Nullable<int> FlightId2 { get; set; }
+        public Nullable<int> Total_RES { get; set; }
+        public Nullable<int> Total_STN { get; set; }
+        public Nullable<int> Total_CHR { get; set; }
+        public Nullable<int> Total_FOC { get; set; }
+        public Nullable<int> Total_OA { get; set; }
+        public Nullable<int> Rev_RES { get; set; }
+        public Nullable<int> Rev_STN { get; set; }
+        public Nullable<int> Rev_CHR { get; set; }
+        public Nullable<int> Rev_FOC { get; set; }
+        public Nullable<int> Rev_OA { get; set; }
+        public Nullable<int> Total_Pax { get; set; }
+        public Nullable<int> Total_Rev { get; set; }
     }
 }

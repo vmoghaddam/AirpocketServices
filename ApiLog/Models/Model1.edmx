@@ -220,6 +220,10 @@
           <Property Name="VldRampPassFOORemark" Type="varchar" MaxLength="255" />
           <Property Name="VldRampPassCMDRRemark" Type="varchar" MaxLength="255" />
           <Property Name="Note" Type="varchar(max)" />
+          <Property Name="SgnDSPLicNo" Type="varchar" MaxLength="500" />
+          <Property Name="SgnCPTLicNo" Type="varchar" MaxLength="500" />
+          <Property Name="JLDSPSignDate" Type="datetime" />
+          <Property Name="SGNDSPName" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -699,6 +703,14 @@
           <Property Name="AirportId" Type="int" />
           <Property Name="Cargo" Type="int" />
           <Property Name="Baggage" Type="int" />
+          <Property Name="ToAirportId" Type="int" />
+          <Property Name="FM" Type="int" />
+          <Property Name="DSP" Type="int" />
+          <Property Name="FSG" Type="int" />
+          <Property Name="WCR" Type="int" />
+          <Property Name="MOC" Type="int" />
+          <Property Name="ACM" Type="int" />
+          <Property Name="FlightId2" Type="int" />
         </EntityType>
         <EntityType Name="FlightStatusLog">
           <Key>
@@ -1220,8 +1232,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBDSPReleases' does not have a
           <Property Name="VldRampPassFOORemark" Type="varchar" MaxLength="255" />
           <Property Name="VldRampPassCMDRRemark" Type="varchar" MaxLength="255" />
           <Property Name="Note" Type="varchar(max)" />
-          <Property Name="MinFuelRequiredCFP" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="MinFuelRequiredCFP" Type="decimal" Precision="18" Scale="0" />
           <Property Name="OFPTOTALFUEL" Type="int" />
+          <Property Name="SgnDSPLicNo" Type="varchar" MaxLength="500" />
+          <Property Name="SgnCPTLicNo" Type="varchar" MaxLength="500" />
+          <Property Name="JLDSPSignDate" Type="datetime" />
+          <Property Name="SGNDSPName" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployeeLight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1611,6 +1627,26 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightPax' does not have a prim
           <Property Name="AirportId" Type="int" />
           <Property Name="Cargo" Type="int" />
           <Property Name="Baggage" Type="int" />
+          <Property Name="ToAirportId" Type="int" />
+          <Property Name="FM" Type="int" />
+          <Property Name="DSP" Type="int" />
+          <Property Name="FSG" Type="int" />
+          <Property Name="WCR" Type="int" />
+          <Property Name="MOC" Type="int" />
+          <Property Name="ACM" Type="int" />
+          <Property Name="FlightId2" Type="int" />
+          <Property Name="Total_RES" Type="int" />
+          <Property Name="Total_STN" Type="int" />
+          <Property Name="Total_CHR" Type="int" />
+          <Property Name="Total_FOC" Type="int" />
+          <Property Name="Total_OA" Type="int" />
+          <Property Name="Rev_RES" Type="int" />
+          <Property Name="Rev_STN" Type="int" />
+          <Property Name="Rev_CHR" Type="int" />
+          <Property Name="Rev_FOC" Type="int" />
+          <Property Name="Rev_OA" Type="int" />
+          <Property Name="Total_Pax" Type="int" />
+          <Property Name="Total_Rev" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGantt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1949,12 +1985,30 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGanttNew' does not have 
         <EntityType Name="ViewFlightsGanttNew">
           <Key>
             <PropertyRef Name="ID" />
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="FlightPlanId" Type="int" />
           <Property Name="BaggageCount" Type="int" />
           <Property Name="CargoUnitID" Type="int" />
-          <Property Name="CargoUnit" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CargoUnit" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="CargoWeight" Type="int" />
           <Property Name="PaxChild" Type="int" />
           <Property Name="PaxInfant" Type="int" />
@@ -1982,8 +2036,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGanttNew' does not have 
           <Property Name="TypeId" Type="int" Nullable="false" />
           <Property Name="OTypeId" Type="int" />
           <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
-          <Property Name="FromAirport" Type="int" />
-          <Property Name="ToAirport" Type="int" />
+          <Property Name="FromAirport" Type="int" Nullable="false" />
+          <Property Name="ToAirport" Type="int" Nullable="false" />
           <Property Name="FromAirportIATA" Type="nvarchar" MaxLength="255" />
           <Property Name="ToAirportIATA" Type="nvarchar" MaxLength="255" />
           <Property Name="AircraftType" Type="varchar" MaxLength="5" Nullable="false" />
@@ -1999,7 +2053,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGanttNew' does not have 
           <Property Name="CargoCount" Type="int" />
           <Property Name="BaggageWeight" Type="int" />
           <Property Name="FuelUnitID" Type="int" />
-          <Property Name="FuelUnit" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FuelUnit" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="ArrivalRemark" Type="nvarchar" MaxLength="2000" />
           <Property Name="DepartureRemark" Type="nvarchar" MaxLength="2000" />
           <Property Name="TotalSeat" Type="int" />
@@ -2017,15 +2071,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGanttNew' does not have 
           <Property Name="CancelReasonId" Type="int" />
           <Property Name="CancelRemark" Type="nvarchar" MaxLength="500" />
           <Property Name="CancelDate" Type="datetime" />
-          <Property Name="CancelReason" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CancelReason" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="RedirectReasonId" Type="int" />
           <Property Name="RedirectRemark" Type="nvarchar" MaxLength="500" />
           <Property Name="RedirectDate" Type="datetime" />
-          <Property Name="RedirectReason" Type="nvarchar" MaxLength="1000" />
+          <Property Name="RedirectReason" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="RampReasonId" Type="int" />
           <Property Name="RampRemark" Type="varchar" MaxLength="500" />
           <Property Name="RampDate" Type="datetime" />
-          <Property Name="RampReason" Type="nvarchar" MaxLength="1000" />
+          <Property Name="RampReason" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="OSTA" Type="datetime" />
           <Property Name="OToAirportId" Type="int" />
           <Property Name="OToAirportIATA" Type="varchar" MaxLength="255" />
@@ -2048,7 +2102,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightsGanttNew' does not have 
           <Property Name="ChrCapacity" Type="int" />
           <Property Name="ChrTitle" Type="varchar" MaxLength="500" />
           <Property Name="ChrCode" Type="varchar" MaxLength="255" />
-          <Property Name="DefaultChrId" Type="int" />
+          <Property Name="DefaultChrId" Type="int" Nullable="false" />
           <Property Name="CargoCost" Type="bigint" />
           <Property Name="FuelDensity" Type="decimal" Precision="18" Scale="4" />
           <Property Name="SerialNo" Type="varchar" MaxLength="255" />
@@ -2897,7 +2951,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
     [ViewEFBDSPReleases].[VldRampPassCMDRRemark] AS [VldRampPassCMDRRemark], 
     [ViewEFBDSPReleases].[Note] AS [Note], 
     [ViewEFBDSPReleases].[MinFuelRequiredCFP] AS [MinFuelRequiredCFP], 
-    [ViewEFBDSPReleases].[OFPTOTALFUEL] AS [OFPTOTALFUEL]
+    [ViewEFBDSPReleases].[OFPTOTALFUEL] AS [OFPTOTALFUEL], 
+    [ViewEFBDSPReleases].[SgnDSPLicNo] AS [SgnDSPLicNo], 
+    [ViewEFBDSPReleases].[SgnCPTLicNo] AS [SgnCPTLicNo], 
+    [ViewEFBDSPReleases].[JLDSPSignDate] AS [JLDSPSignDate], 
+    [ViewEFBDSPReleases].[SGNDSPName] AS [SGNDSPName]
     FROM [dbo].[ViewEFBDSPReleases] AS [ViewEFBDSPReleases]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewEmployeeLight" EntityType="Self.ViewEmployeeLight" store:Type="Views" store:Schema="dbo">
@@ -3240,7 +3298,27 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
     [ViewFlightPax].[OA_Infant] AS [OA_Infant], 
     [ViewFlightPax].[AirportId] AS [AirportId], 
     [ViewFlightPax].[Cargo] AS [Cargo], 
-    [ViewFlightPax].[Baggage] AS [Baggage]
+    [ViewFlightPax].[Baggage] AS [Baggage], 
+    [ViewFlightPax].[ToAirportId] AS [ToAirportId], 
+    [ViewFlightPax].[FM] AS [FM], 
+    [ViewFlightPax].[DSP] AS [DSP], 
+    [ViewFlightPax].[FSG] AS [FSG], 
+    [ViewFlightPax].[WCR] AS [WCR], 
+    [ViewFlightPax].[MOC] AS [MOC], 
+    [ViewFlightPax].[ACM] AS [ACM], 
+    [ViewFlightPax].[FlightId2] AS [FlightId2], 
+    [ViewFlightPax].[Total_RES] AS [Total_RES], 
+    [ViewFlightPax].[Total_STN] AS [Total_STN], 
+    [ViewFlightPax].[Total_CHR] AS [Total_CHR], 
+    [ViewFlightPax].[Total_FOC] AS [Total_FOC], 
+    [ViewFlightPax].[Total_OA] AS [Total_OA], 
+    [ViewFlightPax].[Rev_RES] AS [Rev_RES], 
+    [ViewFlightPax].[Rev_STN] AS [Rev_STN], 
+    [ViewFlightPax].[Rev_CHR] AS [Rev_CHR], 
+    [ViewFlightPax].[Rev_FOC] AS [Rev_FOC], 
+    [ViewFlightPax].[Rev_OA] AS [Rev_OA], 
+    [ViewFlightPax].[Total_Pax] AS [Total_Pax], 
+    [ViewFlightPax].[Total_Rev] AS [Total_Rev]
     FROM [dbo].[ViewFlightPax] AS [ViewFlightPax]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewFlightsGantt" EntityType="Self.ViewFlightsGantt" store:Type="Views" store:Schema="dbo">
@@ -4161,7 +4239,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <EntitySet Name="ViewEFBDSPReleases" EntityType="ppaModel.ViewEFBDSPReleas" />
           <EntitySet Name="AppCrewFlights" EntityType="ppaModel.AppCrewFlight" />
           <EntitySet Name="AppLegs" EntityType="ppaModel.AppLeg" />
-          <EntitySet Name="ViewFlightPaxes" EntityType="ppaModel.ViewFlightPax" />
           <EntitySet Name="FlightInformations" EntityType="ppaModel.FlightInformation" />
           <EntitySet Name="ViewFlightsGantts" EntityType="ppaModel.ViewFlightsGantt" />
           <AssociationSet Name="FK_FlightInformation_Ac_MSN" Association="ppaModel.FK_FlightInformation_Ac_MSN">
@@ -4188,12 +4265,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
             <End Role="FlightInformation" EntitySet="FlightInformations" />
             <End Role="OffItem" EntitySet="OffItems" />
           </AssociationSet>
+          <EntitySet Name="ViewFlightsGanttNews" EntityType="ppaModel.ViewFlightsGanttNew" />
           <EntitySet Name="FlightPaxes" EntityType="ppaModel.FlightPax" />
+          <EntitySet Name="ViewFlightPaxes" EntityType="ppaModel.ViewFlightPax" />
           <AssociationSet Name="fk_fpax_flt" Association="ppaModel.fk_fpax_flt">
             <End Role="FlightInformation" EntitySet="FlightInformations" />
             <End Role="FlightPax" EntitySet="FlightPaxes" />
           </AssociationSet>
-          <EntitySet Name="ViewFlightsGanttNews" EntityType="ppaModel.ViewFlightsGanttNew" />
           </EntityContainer>
         <EntityType Name="FDP">
           <Key>
@@ -4849,6 +4927,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Employee" Relationship="ppaModel.fk_EFB_EMP" FromRole="EFBDSPRelease" ToRole="Employee" />
           <NavigationProperty Name="FlightInformation" Relationship="ppaModel.fk_EFB_FI" FromRole="EFBDSPRelease" ToRole="FlightInformation" />
+          <Property Name="SgnDSPLicNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SgnCPTLicNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JLDSPSignDate" Type="DateTime" Precision="3" />
+          <Property Name="SGNDSPName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="fk_EFB_EMP">
           <End Type="ppaModel.Employee" Role="Employee" Multiplicity="0..1" />
@@ -5119,8 +5201,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="VldRampPassFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VldRampPassCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="MinFuelRequiredCFP" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="MinFuelRequiredCFP" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="OFPTOTALFUEL" Type="Int32" />
+          <Property Name="SgnDSPLicNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SgnCPTLicNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JLDSPSignDate" Type="DateTime" Precision="3" />
+          <Property Name="SGNDSPName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="AppCrewFlight">
           <Key>
@@ -5471,32 +5557,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="BlockOnStation" Type="DateTime" Precision="3" />
           <Property Name="LandingStation" Type="DateTime" Precision="3" />
           <Property Name="TakeoffStation" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="ViewFlightPax">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="FlightId" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FlightId" Type="Int32" Nullable="false" />
-          <Property Name="RES_Adult" Type="Int32" />
-          <Property Name="RES_Child" Type="Int32" />
-          <Property Name="RES_Infant" Type="Int32" />
-          <Property Name="STN_Adult" Type="Int32" />
-          <Property Name="STN_Child" Type="Int32" />
-          <Property Name="STN_Infant" Type="Int32" />
-          <Property Name="CHR_Adult" Type="Int32" />
-          <Property Name="CHR_Child" Type="Int32" />
-          <Property Name="CHR_Infant" Type="Int32" />
-          <Property Name="FOC_Adult" Type="Int32" />
-          <Property Name="FOC_Child" Type="Int32" />
-          <Property Name="FOC_Infant" Type="Int32" />
-          <Property Name="OA_Adult" Type="Int32" />
-          <Property Name="OA_Child" Type="Int32" />
-          <Property Name="OA_Infant" Type="Int32" />
-          <Property Name="AirportId" Type="Int32" />
-          <Property Name="Cargo" Type="Int32" />
-          <Property Name="Baggage" Type="Int32" />
         </EntityType>
         <EntityType Name="FlightInformation">
           <Key>
@@ -6212,46 +6272,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="FlightPax">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FlightId" Type="Int32" Nullable="false" />
-          <Property Name="RES_Adult" Type="Int32" />
-          <Property Name="RES_Child" Type="Int32" />
-          <Property Name="RES_Infant" Type="Int32" />
-          <Property Name="STN_Adult" Type="Int32" />
-          <Property Name="STN_Child" Type="Int32" />
-          <Property Name="STN_Infant" Type="Int32" />
-          <Property Name="CHR_Adult" Type="Int32" />
-          <Property Name="CHR_Child" Type="Int32" />
-          <Property Name="CHR_Infant" Type="Int32" />
-          <Property Name="FOC_Adult" Type="Int32" />
-          <Property Name="FOC_Child" Type="Int32" />
-          <Property Name="FOC_Infant" Type="Int32" />
-          <Property Name="OA_Adult" Type="Int32" />
-          <Property Name="OA_Child" Type="Int32" />
-          <Property Name="OA_Infant" Type="Int32" />
-          <Property Name="AirportId" Type="Int32" />
-          <Property Name="Cargo" Type="Int32" />
-          <Property Name="Baggage" Type="Int32" />
-          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.fk_fpax_flt" FromRole="FlightPax" ToRole="FlightInformation" />
-        </EntityType>
-        <Association Name="fk_fpax_flt">
-          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ppaModel.FlightPax" Role="FlightPax" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FlightPax">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ViewFlightsGanttNew">
           <Key>
             <PropertyRef Name="ID" />
@@ -6260,7 +6280,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="FlightPlanId" Type="Int32" />
           <Property Name="BaggageCount" Type="Int32" />
           <Property Name="CargoUnitID" Type="Int32" />
-          <Property Name="CargoUnit" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CargoUnit" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CargoWeight" Type="Int32" />
           <Property Name="PaxChild" Type="Int32" />
           <Property Name="PaxInfant" Type="Int32" />
@@ -6288,8 +6308,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="TypeId" Type="Int32" Nullable="false" />
           <Property Name="OTypeId" Type="Int32" />
           <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FromAirport" Type="Int32" />
-          <Property Name="ToAirport" Type="Int32" />
+          <Property Name="FromAirport" Type="Int32" Nullable="false" />
+          <Property Name="ToAirport" Type="Int32" Nullable="false" />
           <Property Name="FromAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="AircraftType" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
@@ -6305,7 +6325,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="CargoCount" Type="Int32" />
           <Property Name="BaggageWeight" Type="Int32" />
           <Property Name="FuelUnitID" Type="Int32" />
-          <Property Name="FuelUnit" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FuelUnit" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ArrivalRemark" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="DepartureRemark" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="TotalSeat" Type="Int32" />
@@ -6323,15 +6343,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="CancelReasonId" Type="Int32" />
           <Property Name="CancelRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="CancelDate" Type="DateTime" Precision="3" />
-          <Property Name="CancelReason" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CancelReason" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="RedirectReasonId" Type="Int32" />
           <Property Name="RedirectRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="RedirectDate" Type="DateTime" Precision="3" />
-          <Property Name="RedirectReason" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RedirectReason" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="RampReasonId" Type="Int32" />
           <Property Name="RampRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="RampDate" Type="DateTime" Precision="3" />
-          <Property Name="RampReason" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RampReason" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="OSTA" Type="DateTime" Precision="3" />
           <Property Name="OToAirportId" Type="Int32" />
           <Property Name="OToAirportIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -6354,7 +6374,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="ChrCapacity" Type="Int32" />
           <Property Name="ChrTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="ChrCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="DefaultChrId" Type="Int32" />
+          <Property Name="DefaultChrId" Type="Int32" Nullable="false" />
           <Property Name="CargoCost" Type="Int64" />
           <Property Name="FuelDensity" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="SerialNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -6364,6 +6384,100 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <Property Name="Start" Type="DateTime" Precision="3" />
           <Property Name="CargoPieces" Type="Int32" />
         </EntityType>
+        <EntityType Name="FlightPax">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="RES_Adult" Type="Int32" />
+          <Property Name="RES_Child" Type="Int32" />
+          <Property Name="RES_Infant" Type="Int32" />
+          <Property Name="STN_Adult" Type="Int32" />
+          <Property Name="STN_Child" Type="Int32" />
+          <Property Name="STN_Infant" Type="Int32" />
+          <Property Name="CHR_Adult" Type="Int32" />
+          <Property Name="CHR_Child" Type="Int32" />
+          <Property Name="CHR_Infant" Type="Int32" />
+          <Property Name="FOC_Adult" Type="Int32" />
+          <Property Name="FOC_Child" Type="Int32" />
+          <Property Name="FOC_Infant" Type="Int32" />
+          <Property Name="OA_Adult" Type="Int32" />
+          <Property Name="OA_Child" Type="Int32" />
+          <Property Name="OA_Infant" Type="Int32" />
+          <Property Name="AirportId" Type="Int32" />
+          <Property Name="Cargo" Type="Int32" />
+          <Property Name="Baggage" Type="Int32" />
+          <Property Name="ToAirportId" Type="Int32" />
+          <Property Name="FM" Type="Int32" />
+          <Property Name="DSP" Type="Int32" />
+          <Property Name="FSG" Type="Int32" />
+          <Property Name="WCR" Type="Int32" />
+          <Property Name="MOC" Type="Int32" />
+          <Property Name="ACM" Type="Int32" />
+          <Property Name="FlightId2" Type="Int32" />
+          <NavigationProperty Name="FlightInformation" Relationship="ppaModel.fk_fpax_flt" FromRole="FlightPax" ToRole="FlightInformation" />
+        </EntityType>
+        <EntityType Name="ViewFlightPax">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FlightId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="RES_Adult" Type="Int32" />
+          <Property Name="RES_Child" Type="Int32" />
+          <Property Name="RES_Infant" Type="Int32" />
+          <Property Name="STN_Adult" Type="Int32" />
+          <Property Name="STN_Child" Type="Int32" />
+          <Property Name="STN_Infant" Type="Int32" />
+          <Property Name="CHR_Adult" Type="Int32" />
+          <Property Name="CHR_Child" Type="Int32" />
+          <Property Name="CHR_Infant" Type="Int32" />
+          <Property Name="FOC_Adult" Type="Int32" />
+          <Property Name="FOC_Child" Type="Int32" />
+          <Property Name="FOC_Infant" Type="Int32" />
+          <Property Name="OA_Adult" Type="Int32" />
+          <Property Name="OA_Child" Type="Int32" />
+          <Property Name="OA_Infant" Type="Int32" />
+          <Property Name="AirportId" Type="Int32" />
+          <Property Name="Cargo" Type="Int32" />
+          <Property Name="Baggage" Type="Int32" />
+          <Property Name="ToAirportId" Type="Int32" />
+          <Property Name="FM" Type="Int32" />
+          <Property Name="DSP" Type="Int32" />
+          <Property Name="FSG" Type="Int32" />
+          <Property Name="WCR" Type="Int32" />
+          <Property Name="MOC" Type="Int32" />
+          <Property Name="ACM" Type="Int32" />
+          <Property Name="FlightId2" Type="Int32" />
+          <Property Name="Total_RES" Type="Int32" />
+          <Property Name="Total_STN" Type="Int32" />
+          <Property Name="Total_CHR" Type="Int32" />
+          <Property Name="Total_FOC" Type="Int32" />
+          <Property Name="Total_OA" Type="Int32" />
+          <Property Name="Rev_RES" Type="Int32" />
+          <Property Name="Rev_STN" Type="Int32" />
+          <Property Name="Rev_CHR" Type="Int32" />
+          <Property Name="Rev_FOC" Type="Int32" />
+          <Property Name="Rev_OA" Type="Int32" />
+          <Property Name="Total_Pax" Type="Int32" />
+          <Property Name="Total_Rev" Type="Int32" />
+        </EntityType>
+        <Association Name="fk_fpax_flt">
+          <End Type="ppaModel.FlightInformation" Role="FlightInformation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ppaModel.FlightPax" Role="FlightPax" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightPax">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7035,6 +7149,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <EntitySetMapping Name="EFBDSPReleases">
             <EntityTypeMapping TypeName="ppaModel.EFBDSPRelease">
               <MappingFragment StoreEntitySet="EFBDSPRelease">
+                <ScalarProperty Name="SGNDSPName" ColumnName="SGNDSPName" />
+                <ScalarProperty Name="JLDSPSignDate" ColumnName="JLDSPSignDate" />
+                <ScalarProperty Name="SgnCPTLicNo" ColumnName="SgnCPTLicNo" />
+                <ScalarProperty Name="SgnDSPLicNo" ColumnName="SgnDSPLicNo" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="VldRampPassCMDRRemark" ColumnName="VldRampPassCMDRRemark" />
                 <ScalarProperty Name="VldRampPassFOORemark" ColumnName="VldRampPassFOORemark" />
@@ -7270,6 +7388,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
           <EntitySetMapping Name="ViewEFBDSPReleases">
             <EntityTypeMapping TypeName="ppaModel.ViewEFBDSPReleas">
               <MappingFragment StoreEntitySet="ViewEFBDSPReleases">
+                <ScalarProperty Name="SGNDSPName" ColumnName="SGNDSPName" />
+                <ScalarProperty Name="JLDSPSignDate" ColumnName="JLDSPSignDate" />
+                <ScalarProperty Name="SgnCPTLicNo" ColumnName="SgnCPTLicNo" />
+                <ScalarProperty Name="SgnDSPLicNo" ColumnName="SgnDSPLicNo" />
                 <ScalarProperty Name="OFPTOTALFUEL" ColumnName="OFPTOTALFUEL" />
                 <ScalarProperty Name="MinFuelRequiredCFP" ColumnName="MinFuelRequiredCFP" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
@@ -7723,32 +7845,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
                 <ScalarProperty Name="BlockOn" ColumnName="BlockOn" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ViewFlightPaxes">
-            <EntityTypeMapping TypeName="ppaModel.ViewFlightPax">
-              <MappingFragment StoreEntitySet="ViewFlightPax">
-                <ScalarProperty Name="Baggage" ColumnName="Baggage" />
-                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
-                <ScalarProperty Name="AirportId" ColumnName="AirportId" />
-                <ScalarProperty Name="OA_Infant" ColumnName="OA_Infant" />
-                <ScalarProperty Name="OA_Child" ColumnName="OA_Child" />
-                <ScalarProperty Name="OA_Adult" ColumnName="OA_Adult" />
-                <ScalarProperty Name="FOC_Infant" ColumnName="FOC_Infant" />
-                <ScalarProperty Name="FOC_Child" ColumnName="FOC_Child" />
-                <ScalarProperty Name="FOC_Adult" ColumnName="FOC_Adult" />
-                <ScalarProperty Name="CHR_Infant" ColumnName="CHR_Infant" />
-                <ScalarProperty Name="CHR_Child" ColumnName="CHR_Child" />
-                <ScalarProperty Name="CHR_Adult" ColumnName="CHR_Adult" />
-                <ScalarProperty Name="STN_Infant" ColumnName="STN_Infant" />
-                <ScalarProperty Name="STN_Child" ColumnName="STN_Child" />
-                <ScalarProperty Name="STN_Adult" ColumnName="STN_Adult" />
-                <ScalarProperty Name="RES_Infant" ColumnName="RES_Infant" />
-                <ScalarProperty Name="RES_Child" ColumnName="RES_Child" />
-                <ScalarProperty Name="RES_Adult" ColumnName="RES_Adult" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8341,32 +8437,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FlightPaxes">
-            <EntityTypeMapping TypeName="ppaModel.FlightPax">
-              <MappingFragment StoreEntitySet="FlightPax">
-                <ScalarProperty Name="Baggage" ColumnName="Baggage" />
-                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
-                <ScalarProperty Name="AirportId" ColumnName="AirportId" />
-                <ScalarProperty Name="OA_Infant" ColumnName="OA_Infant" />
-                <ScalarProperty Name="OA_Child" ColumnName="OA_Child" />
-                <ScalarProperty Name="OA_Adult" ColumnName="OA_Adult" />
-                <ScalarProperty Name="FOC_Infant" ColumnName="FOC_Infant" />
-                <ScalarProperty Name="FOC_Child" ColumnName="FOC_Child" />
-                <ScalarProperty Name="FOC_Adult" ColumnName="FOC_Adult" />
-                <ScalarProperty Name="CHR_Infant" ColumnName="CHR_Infant" />
-                <ScalarProperty Name="CHR_Child" ColumnName="CHR_Child" />
-                <ScalarProperty Name="CHR_Adult" ColumnName="CHR_Adult" />
-                <ScalarProperty Name="STN_Infant" ColumnName="STN_Infant" />
-                <ScalarProperty Name="STN_Child" ColumnName="STN_Child" />
-                <ScalarProperty Name="STN_Adult" ColumnName="STN_Adult" />
-                <ScalarProperty Name="RES_Infant" ColumnName="RES_Infant" />
-                <ScalarProperty Name="RES_Child" ColumnName="RES_Child" />
-                <ScalarProperty Name="RES_Adult" ColumnName="RES_Adult" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViewFlightsGanttNews">
             <EntityTypeMapping TypeName="ppaModel.ViewFlightsGanttNew">
               <MappingFragment StoreEntitySet="ViewFlightsGanttNew">
@@ -8477,6 +8547,86 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRegisterGround' does not have a
                 <ScalarProperty Name="BaggageCount" ColumnName="BaggageCount" />
                 <ScalarProperty Name="FlightPlanId" ColumnName="FlightPlanId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlightPaxes">
+            <EntityTypeMapping TypeName="ppaModel.FlightPax">
+              <MappingFragment StoreEntitySet="FlightPax">
+                <ScalarProperty Name="FlightId2" ColumnName="FlightId2" />
+                <ScalarProperty Name="ACM" ColumnName="ACM" />
+                <ScalarProperty Name="MOC" ColumnName="MOC" />
+                <ScalarProperty Name="WCR" ColumnName="WCR" />
+                <ScalarProperty Name="FSG" ColumnName="FSG" />
+                <ScalarProperty Name="DSP" ColumnName="DSP" />
+                <ScalarProperty Name="FM" ColumnName="FM" />
+                <ScalarProperty Name="ToAirportId" ColumnName="ToAirportId" />
+                <ScalarProperty Name="Baggage" ColumnName="Baggage" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="AirportId" ColumnName="AirportId" />
+                <ScalarProperty Name="OA_Infant" ColumnName="OA_Infant" />
+                <ScalarProperty Name="OA_Child" ColumnName="OA_Child" />
+                <ScalarProperty Name="OA_Adult" ColumnName="OA_Adult" />
+                <ScalarProperty Name="FOC_Infant" ColumnName="FOC_Infant" />
+                <ScalarProperty Name="FOC_Child" ColumnName="FOC_Child" />
+                <ScalarProperty Name="FOC_Adult" ColumnName="FOC_Adult" />
+                <ScalarProperty Name="CHR_Infant" ColumnName="CHR_Infant" />
+                <ScalarProperty Name="CHR_Child" ColumnName="CHR_Child" />
+                <ScalarProperty Name="CHR_Adult" ColumnName="CHR_Adult" />
+                <ScalarProperty Name="STN_Infant" ColumnName="STN_Infant" />
+                <ScalarProperty Name="STN_Child" ColumnName="STN_Child" />
+                <ScalarProperty Name="STN_Adult" ColumnName="STN_Adult" />
+                <ScalarProperty Name="RES_Infant" ColumnName="RES_Infant" />
+                <ScalarProperty Name="RES_Child" ColumnName="RES_Child" />
+                <ScalarProperty Name="RES_Adult" ColumnName="RES_Adult" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewFlightPaxes">
+            <EntityTypeMapping TypeName="ppaModel.ViewFlightPax">
+              <MappingFragment StoreEntitySet="ViewFlightPax">
+                <ScalarProperty Name="Total_Rev" ColumnName="Total_Rev" />
+                <ScalarProperty Name="Total_Pax" ColumnName="Total_Pax" />
+                <ScalarProperty Name="Rev_OA" ColumnName="Rev_OA" />
+                <ScalarProperty Name="Rev_FOC" ColumnName="Rev_FOC" />
+                <ScalarProperty Name="Rev_CHR" ColumnName="Rev_CHR" />
+                <ScalarProperty Name="Rev_STN" ColumnName="Rev_STN" />
+                <ScalarProperty Name="Rev_RES" ColumnName="Rev_RES" />
+                <ScalarProperty Name="Total_OA" ColumnName="Total_OA" />
+                <ScalarProperty Name="Total_FOC" ColumnName="Total_FOC" />
+                <ScalarProperty Name="Total_CHR" ColumnName="Total_CHR" />
+                <ScalarProperty Name="Total_STN" ColumnName="Total_STN" />
+                <ScalarProperty Name="Total_RES" ColumnName="Total_RES" />
+                <ScalarProperty Name="FlightId2" ColumnName="FlightId2" />
+                <ScalarProperty Name="ACM" ColumnName="ACM" />
+                <ScalarProperty Name="MOC" ColumnName="MOC" />
+                <ScalarProperty Name="WCR" ColumnName="WCR" />
+                <ScalarProperty Name="FSG" ColumnName="FSG" />
+                <ScalarProperty Name="DSP" ColumnName="DSP" />
+                <ScalarProperty Name="FM" ColumnName="FM" />
+                <ScalarProperty Name="ToAirportId" ColumnName="ToAirportId" />
+                <ScalarProperty Name="Baggage" ColumnName="Baggage" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="AirportId" ColumnName="AirportId" />
+                <ScalarProperty Name="OA_Infant" ColumnName="OA_Infant" />
+                <ScalarProperty Name="OA_Child" ColumnName="OA_Child" />
+                <ScalarProperty Name="OA_Adult" ColumnName="OA_Adult" />
+                <ScalarProperty Name="FOC_Infant" ColumnName="FOC_Infant" />
+                <ScalarProperty Name="FOC_Child" ColumnName="FOC_Child" />
+                <ScalarProperty Name="FOC_Adult" ColumnName="FOC_Adult" />
+                <ScalarProperty Name="CHR_Infant" ColumnName="CHR_Infant" />
+                <ScalarProperty Name="CHR_Child" ColumnName="CHR_Child" />
+                <ScalarProperty Name="CHR_Adult" ColumnName="CHR_Adult" />
+                <ScalarProperty Name="STN_Infant" ColumnName="STN_Infant" />
+                <ScalarProperty Name="STN_Child" ColumnName="STN_Child" />
+                <ScalarProperty Name="STN_Adult" ColumnName="STN_Adult" />
+                <ScalarProperty Name="RES_Infant" ColumnName="RES_Infant" />
+                <ScalarProperty Name="RES_Child" ColumnName="RES_Child" />
+                <ScalarProperty Name="RES_Adult" ColumnName="RES_Adult" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
