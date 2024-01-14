@@ -76,5 +76,13 @@ namespace AirpocketAPI.Models
         public int IsConfirmed { get; set; }
         public string UserName { get; set; }
         public Nullable<int> BaseAirportId { get; set; }
+        public string PosFrom { get; set; }
+        public string PosTo { get; set; }
+        public Nullable<System.DateTime> PosDep { get; set; }
+        public Nullable<System.DateTime> PosArr { get; set; }
+        public string PosAirline { get; set; }
+        public Nullable<int> PosFDPId { get; set; }
+        public string PosRemark { get; set; }
+        public string PosTicketUrl { get; set; }
     }
 }

@@ -32,5 +32,8 @@ namespace ApiQA.Models
         public string Register { get; set; }
         public string Route { get; set; }
         public Nullable<System.DateTime> FlightDate { get; set; }
+        public Nullable<System.DateTime> DateSign { get; set; }
+        public Nullable<System.DateTime> DeadLine { get; set; }
+        public Nullable<int> Priority { get; set; }
     }
 }

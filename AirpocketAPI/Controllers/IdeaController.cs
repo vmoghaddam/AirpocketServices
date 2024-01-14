@@ -66,7 +66,7 @@ namespace AirpocketAPI.Controllers
         public IHttpActionResult GetIdeaSessions(string year)
         {
             // string apiUrl = "http://fleet.caspianairlines.com/airpocketexternal/api/idea/alt/sessions/obj/"+year;
-            string apiUrl = "http://172.16.103.37/airpocketexternal/api/idea/alt/sessions/obj/" + year;
+            string apiUrl = "http://172.16.103.37/zidea/api/idea/alt/sessions/obj/" + year;
             var input = new
             {
 
@@ -99,7 +99,7 @@ namespace AirpocketAPI.Controllers
                 return BadRequest("Not Authenticated");
 
             //string apiUrl = "http://fleet.caspianairlines.com/airpocketexternal/api/idea/alt/sessions/obj/"+year;
-            string apiUrl = "http://172.16.103.37/airpocketexternal/api/idea/alt/sessions/obj/" + year;
+            string apiUrl = "http://172.16.103.37/zidea/api/idea/alt/sessions/obj/" + year;
             var input = new
             {
 
@@ -211,7 +211,7 @@ namespace AirpocketAPI.Controllers
                 return BadRequest("Not Authenticated");
 
             //string apiUrl = "http://fleet.caspianairlines.com/airpocketexternal/api/idea/alt/sessions/obj/" + year;
-            string apiUrl = "http://172.16.103.37/airpocketexternal/api/idea/alt/sessions/obj/" + year;
+            string apiUrl = "http://172.16.103.37/zidea/api/idea/alt/sessions/obj/" + year;
             var input = new
             {
 
@@ -697,7 +697,7 @@ namespace AirpocketAPI.Controllers
         public IHttpActionResult GetIdeaUnique(string year)
         {
             //string apiUrl = "http://fleet.caspianairlines.com/airpocketexternal/api/idea/alt/unique/obj/"+year;
-            string apiUrl = "http://172.16.103.37/airpocketexternal/api/idea/alt/unique/obj/" + year;
+            string apiUrl = "http://172.16.103.37/zidea/api/idea/alt/unique/obj/" + year;
             var input = new
             {
 
@@ -768,7 +768,7 @@ namespace AirpocketAPI.Controllers
                 return BadRequest("Not Authenticated");
 
             // string apiUrl = "http://fleet.caspianairlines.com/airpocketexternal/api/idea/alt/unique/obj/"+year;
-            string apiUrl = "http://172.16.103.37/airpocketexternal/api/idea/alt/unique/obj/" + year;
+            string apiUrl = "http://172.16.103.37/zidea/api/idea/alt/unique/obj/" + year;
             var input = new
             {
 
@@ -1138,7 +1138,7 @@ namespace AirpocketAPI.Controllers
         public IHttpActionResult GetIdeaAll(string year)
         {
           //  string apiUrl = "http://fleet.caspianairlines.com/airpocketexternal/api/idea/alt/all/obj/"+year;
-            string apiUrl = "http://172.16.103.37/airpocketexternal/api/idea/alt/all/obj/" + year;
+            string apiUrl = "http://172.16.103.37/zidea/api/idea/alt/all/obj/" + year;
             var input = new
             {
 
@@ -1170,7 +1170,7 @@ namespace AirpocketAPI.Controllers
                 return BadRequest("Not Authenticated");
 
             // string apiUrl = "http://fleet.caspianairlines.com/airpocketexternal/api/idea/alt/all/obj/"+year;
-            string apiUrl = "http://172.16.103.37/airpocketexternal/api/idea/alt/all/obj/" + year;
+            string apiUrl = "http://172.16.103.37/zidea/api/idea/alt/all/obj/" + year;
             var input = new
             {
 

@@ -257,6 +257,17 @@
           <Property Name="IDX" Type="int" />
           <Property Name="Mandatory" Type="int" />
         </EntityType>
+        <EntityType Name="CourseTypeApplicable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseTypeId" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="Remark" Type="varchar" MaxLength="500" />
+          <Property Name="IsApplicable" Type="bit" Nullable="false" />
+          <Property Name="TrainingGroup" Type="varchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="CourseTypeJobGroup">
           <Key>
             <PropertyRef Name="CourseTypeId" />
@@ -362,6 +373,14 @@
           <Property Name="InitPosition" Type="varchar" MaxLength="500" />
           <Property Name="PLNEnd" Type="datetime" />
           <Property Name="PLNRest" Type="datetime" />
+          <Property Name="PosFrom" Type="varchar" MaxLength="255" />
+          <Property Name="PosTo" Type="varchar" MaxLength="255" />
+          <Property Name="PosDep" Type="datetime" />
+          <Property Name="PosArr" Type="datetime" />
+          <Property Name="PosAirline" Type="varchar" MaxLength="500" />
+          <Property Name="PosFDPId" Type="int" />
+          <Property Name="PosRemark" Type="varchar" MaxLength="500" />
+          <Property Name="PosTicketUrl" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="FDPItem">
           <Key>
@@ -396,6 +415,7 @@
           <Property Name="IsSelectable" Type="bit" />
           <Property Name="FullCode2Temp" Type="varchar" MaxLength="255" />
           <Property Name="CodeTemp" Type="varchar" MaxLength="255" />
+          <Property Name="ParentTitle" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="Manager">
           <Key>
@@ -899,6 +919,12 @@
           <Property Name="TypeFoker100IssueDate" Type="datetime2" Precision="7" />
           <Property Name="TypeFoker50ExpireDate" Type="datetime2" Precision="7" />
           <Property Name="TypeFoker100ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="SMSL2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="SMSL2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="SMSL3IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="SMSL3ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="AMPIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="AMPExpireDate" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -1044,6 +1070,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.GRPCourseTypeExpiringGroup' does no
           <Property Name="JobGroupMain" Type="nvarchar" MaxLength="500" />
           <Property Name="JobGroupMainCode" Type="varchar" MaxLength="500" />
           <Property Name="Mandatory" Type="int" />
+          <Property Name="CertificateTypeId" Type="int" />
           <Property Name="EmployeesCount" Type="int" />
           <Property Name="ValidCount" Type="int" />
           <Property Name="ExpiredCount" Type="int" />
@@ -1896,6 +1923,28 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewCourseType' does not have a pri
           <Property Name="MapIntervals" Type="varchar" MaxLength="8000" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewCourseTypeApplicable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewCourseTypeApplicable">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CourseTypeId" />
+            <PropertyRef Name="IsApplicable" />
+            <PropertyRef Name="CertificateId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CourseTypeId" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="Remark" Type="varchar" MaxLength="500" />
+          <Property Name="IsApplicable" Type="bit" Nullable="false" />
+          <Property Name="TrainingGroup" Type="varchar" MaxLength="500" />
+          <Property Name="CourseType" Type="nvarchar" MaxLength="500" />
+          <Property Name="Certificate" Type="varchar" MaxLength="255" />
+          <Property Name="CertificateId" Type="int" Nullable="false" />
+          <Property Name="IssueField" Type="varchar" MaxLength="500" />
+          <Property Name="ExpireField" Type="varchar" MaxLength="500" />
+          <Property Name="CertificateId2" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewCourseTypeJobGroup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewCourseTypeJobGroup">
           <Key>
@@ -1925,7 +1974,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployee' does not have a prima
             
             <PropertyRef Name="IsActive" />
             <PropertyRef Name="IsDeleted" />
-            <PropertyRef Name="JobGroupRoot" />
             <PropertyRef Name="MarriageId" />
             <PropertyRef Name="NID" />
             <PropertyRef Name="SexId" />
@@ -1985,6 +2033,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployee' does not have a prima
             <PropertyRef Name="FlightSum" />
             <PropertyRef Name="FlightEarly" />
             <PropertyRef Name="FlightLate" />
+            <PropertyRef Name="JobGroupRoot" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="PID" Type="nvarchar" MaxLength="500" Nullable="false" />
@@ -2012,7 +2061,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployee' does not have a prima
           <Property Name="C3GroupId" Type="int" />
           <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
           <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
-          <Property Name="JobGroupRoot" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="JobGroupRoot" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="MarriageId" Type="int" Nullable="false" />
           <Property Name="NID" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="SexId" Type="int" Nullable="false" />
@@ -2686,6 +2735,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPRest' does not have a primar
           <Property Name="UserName" Type="varchar" MaxLength="500" />
           <Property Name="UPD" Type="int" />
           <Property Name="CustomerId" Type="int" />
+          <Property Name="PosFrom" Type="varchar" MaxLength="255" />
+          <Property Name="PosTo" Type="varchar" MaxLength="255" />
+          <Property Name="PosDep" Type="datetime" />
+          <Property Name="PosArr" Type="datetime" />
+          <Property Name="PosAirline" Type="varchar" MaxLength="500" />
+          <Property Name="PosFDPId" Type="int" />
+          <Property Name="PosRemark" Type="varchar" MaxLength="500" />
+          <Property Name="PosTicketUrl" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewJobGroup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3019,6 +3076,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="JobGroup" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="JobGroupCode" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="JobGroupRoot" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="PostRoot" Type="varchar" MaxLength="10" />
           <Property Name="NID" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="500" Nullable="false" />
@@ -3048,7 +3106,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="RemainDG" Type="int" />
           <Property Name="RemainCRM" Type="int" />
           <Property Name="RemainCCRM" Type="int" />
-          <Property Name="RemainSMS" Type="int" />
           <Property Name="RemainAvSec" Type="int" />
           <Property Name="RemainUpsetRecoveryTraining" Type="int" />
           <Property Name="RemainColdWeather" Type="int" />
@@ -3199,6 +3256,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="Reserved3" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="Reserved4" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="Reserved5" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="PostCode" Type="varchar" MaxLength="500" />
+          <Property Name="PostTitle" Type="nvarchar" MaxLength="500" />
+          <Property Name="RemainSMSL2L3" Type="int" />
+          <Property Name="RemainSMS" Type="int" />
+          <Property Name="RemainTRG07A" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewSyllabus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3707,6 +3769,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <EntitySet Name="CourseSMSHistory" EntityType="Self.CourseSMSHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseSyllabus" EntityType="Self.CourseSyllabus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseType" EntityType="Self.CourseType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CourseTypeApplicable" EntityType="Self.CourseTypeApplicable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseTypeJobGroup" EntityType="Self.CourseTypeJobGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeDocument" EntityType="Self.EmployeeDocument" Schema="dbo" store:Type="Tables" />
@@ -3804,6 +3867,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
     [GRPCourseTypeExpiringGroup].[JobGroupMain] AS [JobGroupMain], 
     [GRPCourseTypeExpiringGroup].[JobGroupMainCode] AS [JobGroupMainCode], 
     [GRPCourseTypeExpiringGroup].[Mandatory] AS [Mandatory], 
+    [GRPCourseTypeExpiringGroup].[CertificateTypeId] AS [CertificateTypeId], 
     [GRPCourseTypeExpiringGroup].[EmployeesCount] AS [EmployeesCount], 
     [GRPCourseTypeExpiringGroup].[ValidCount] AS [ValidCount], 
     [GRPCourseTypeExpiringGroup].[ExpiredCount] AS [ExpiredCount], 
@@ -4468,6 +4532,22 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
     [ViewCourseType].[MapIntervals] AS [MapIntervals]
     FROM [dbo].[ViewCourseType] AS [ViewCourseType]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ViewCourseTypeApplicable" EntityType="Self.ViewCourseTypeApplicable" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewCourseTypeApplicable].[Id] AS [Id], 
+    [ViewCourseTypeApplicable].[CourseTypeId] AS [CourseTypeId], 
+    [ViewCourseTypeApplicable].[GroupId] AS [GroupId], 
+    [ViewCourseTypeApplicable].[Remark] AS [Remark], 
+    [ViewCourseTypeApplicable].[IsApplicable] AS [IsApplicable], 
+    [ViewCourseTypeApplicable].[TrainingGroup] AS [TrainingGroup], 
+    [ViewCourseTypeApplicable].[CourseType] AS [CourseType], 
+    [ViewCourseTypeApplicable].[Certificate] AS [Certificate], 
+    [ViewCourseTypeApplicable].[CertificateId] AS [CertificateId], 
+    [ViewCourseTypeApplicable].[IssueField] AS [IssueField], 
+    [ViewCourseTypeApplicable].[ExpireField] AS [ExpireField], 
+    [ViewCourseTypeApplicable].[CertificateId2] AS [CertificateId2]
+    FROM [dbo].[ViewCourseTypeApplicable] AS [ViewCourseTypeApplicable]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewCourseTypeJobGroup" EntityType="Self.ViewCourseTypeJobGroup" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewCourseTypeJobGroup].[Title] AS [Title], 
@@ -5106,7 +5186,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
     [ViewFDPRest].[IsConfirmed] AS [IsConfirmed], 
     [ViewFDPRest].[UserName] AS [UserName], 
     [ViewFDPRest].[UPD] AS [UPD], 
-    [ViewFDPRest].[CustomerId] AS [CustomerId]
+    [ViewFDPRest].[CustomerId] AS [CustomerId], 
+    [ViewFDPRest].[PosFrom] AS [PosFrom], 
+    [ViewFDPRest].[PosTo] AS [PosTo], 
+    [ViewFDPRest].[PosDep] AS [PosDep], 
+    [ViewFDPRest].[PosArr] AS [PosArr], 
+    [ViewFDPRest].[PosAirline] AS [PosAirline], 
+    [ViewFDPRest].[PosFDPId] AS [PosFDPId], 
+    [ViewFDPRest].[PosRemark] AS [PosRemark], 
+    [ViewFDPRest].[PosTicketUrl] AS [PosTicketUrl]
     FROM [dbo].[ViewFDPRest] AS [ViewFDPRest]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewJobGroup" EntityType="Self.ViewJobGroup" store:Type="Views" store:Schema="dbo">
@@ -5371,6 +5459,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
     [ViewProfile].[JobGroup] AS [JobGroup], 
     [ViewProfile].[JobGroupCode] AS [JobGroupCode], 
     [ViewProfile].[JobGroupRoot] AS [JobGroupRoot], 
+    [ViewProfile].[PostRoot] AS [PostRoot], 
     [ViewProfile].[NID] AS [NID], 
     [ViewProfile].[FirstName] AS [FirstName], 
     [ViewProfile].[LastName] AS [LastName], 
@@ -5400,7 +5489,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
     [ViewProfile].[RemainDG] AS [RemainDG], 
     [ViewProfile].[RemainCRM] AS [RemainCRM], 
     [ViewProfile].[RemainCCRM] AS [RemainCCRM], 
-    [ViewProfile].[RemainSMS] AS [RemainSMS], 
     [ViewProfile].[RemainAvSec] AS [RemainAvSec], 
     [ViewProfile].[RemainUpsetRecoveryTraining] AS [RemainUpsetRecoveryTraining], 
     [ViewProfile].[RemainColdWeather] AS [RemainColdWeather], 
@@ -5550,7 +5638,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
     [ViewProfile].[Reserved2] AS [Reserved2], 
     [ViewProfile].[Reserved3] AS [Reserved3], 
     [ViewProfile].[Reserved4] AS [Reserved4], 
-    [ViewProfile].[Reserved5] AS [Reserved5]
+    [ViewProfile].[Reserved5] AS [Reserved5], 
+    [ViewProfile].[PostCode] AS [PostCode], 
+    [ViewProfile].[PostTitle] AS [PostTitle], 
+    [ViewProfile].[RemainSMSL2L3] AS [RemainSMSL2L3], 
+    [ViewProfile].[RemainSMS] AS [RemainSMS], 
+    [ViewProfile].[RemainTRG07A] AS [RemainTRG07A]
     FROM [dbo].[ViewProfile] AS [ViewProfile]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewSyllabus" EntityType="Self.ViewSyllabus" store:Type="Views" store:Schema="dbo">
@@ -5811,7 +5904,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <EntitySet Name="ViewEmployeeTrainings" EntityType="FLYModel.ViewEmployeeTraining" />
           <EntitySet Name="ViewJobGroupMains" EntityType="FLYModel.ViewJobGroupMain" />
           <EntitySet Name="GRPCourseTypeExpirings" EntityType="FLYModel.GRPCourseTypeExpiring" />
-          <EntitySet Name="GRPCourseTypeExpiringGroups" EntityType="FLYModel.GRPCourseTypeExpiringGroup" />
           <EntitySet Name="GRPCourseTypeExpiringMainGroups" EntityType="FLYModel.GRPCourseTypeExpiringMainGroup" />
           <EntitySet Name="ViewEmployees" EntityType="FLYModel.ViewEmployee" />
           <EntitySet Name="GRPGroupsCourseTypeExpirings" EntityType="FLYModel.GRPGroupsCourseTypeExpiring" />
@@ -5948,6 +6040,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <EntitySet Name="ViewCoursePeoples" EntityType="FLYModel.ViewCoursePeople" />
           <EntitySet Name="ViewCertificateHistories" EntityType="FLYModel.ViewCertificateHistory" />
           <EntitySet Name="ViewCoursePeopleRankedByStarts" EntityType="FLYModel.ViewCoursePeopleRankedByStart" />
+          <EntitySet Name="GRPCourseTypeExpiringGroups" EntityType="FLYModel.GRPCourseTypeExpiringGroup" />
+          <EntitySet Name="CourseTypeApplicables" EntityType="FLYModel.CourseTypeApplicable" />
+          <EntitySet Name="ViewCourseTypeApplicables" EntityType="FLYModel.ViewCourseTypeApplicable" />
           </EntityContainer>
         <EntityType Name="ViewLegTime">
           <Key>
@@ -6195,6 +6290,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="InitPosition" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="PLNEnd" Type="DateTime" Precision="3" />
           <Property Name="PLNRest" Type="DateTime" Precision="3" />
+          <Property Name="PosFrom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosTo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosDep" Type="DateTime" Precision="3" />
+          <Property Name="PosArr" Type="DateTime" Precision="3" />
+          <Property Name="PosAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosFDPId" Type="Int32" />
+          <Property Name="PosRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosTicketUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="FDPItem">
           <Key>
@@ -6470,6 +6573,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="UserName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="UPD" Type="Int32" />
           <Property Name="CustomerId" Type="Int32" />
+          <Property Name="PosFrom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosTo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosDep" Type="DateTime" Precision="3" />
+          <Property Name="PosArr" Type="DateTime" Precision="3" />
+          <Property Name="PosAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosFDPId" Type="Int32" />
+          <Property Name="PosRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosTicketUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CourseSession">
           <Key>
@@ -6881,27 +6992,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="ExpiringCount" Type="Int32" />
           <Property Name="UnknownCount" Type="Int32" />
         </EntityType>
-        <EntityType Name="GRPCourseTypeExpiringGroup">
-          <Key>
-            <PropertyRef Name="TypeId" />
-            <PropertyRef Name="JobGroupId" />
-            <PropertyRef Name="JobGroup" />
-            <PropertyRef Name="JobGroupCode" />
-          </Key>
-          <Property Name="TypeId" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="JobGroupId" Type="Int32" Nullable="false" />
-          <Property Name="JobGroup" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="JobGroupCode" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="JobGroupCode2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="JobGroupMain" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="JobGroupMainCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Mandatory" Type="Int32" />
-          <Property Name="EmployeesCount" Type="Int32" />
-          <Property Name="ValidCount" Type="Int32" />
-          <Property Name="ExpiredCount" Type="Int32" />
-          <Property Name="ExpiringCount" Type="Int32" />
-        </EntityType>
         <EntityType Name="GRPCourseTypeExpiringMainGroup">
           <Key>
             <PropertyRef Name="TypeId" />
@@ -6991,7 +7081,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="GroupId" Type="Int32" />
           <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MarriageId" Type="Int32" Nullable="false" />
           <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="SexId" Type="Int32" Nullable="false" />
@@ -7981,6 +8071,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="IsSelectable" Type="Boolean" />
           <Property Name="FullCode2Temp" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="CodeTemp" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ParentTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ViewJobGroup">
           <Key>
@@ -8962,6 +9053,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="TypeFoker100IssueDate" Type="DateTime" Precision="7" />
           <Property Name="TypeFoker50ExpireDate" Type="DateTime" Precision="7" />
           <Property Name="TypeFoker100ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="SMSL2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="SMSL2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="SMSL3IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="SMSL3ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="AMPIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="AMPExpireDate" Type="DateTime" Precision="7" />
         </EntityType>
         <EntityType Name="ViewProfile">
           <Key>
@@ -9178,6 +9275,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="Reserved3" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="Reserved4" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="Reserved5" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PostRoot" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PostCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PostTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RemainSMSL2L3" Type="Int32" />
+          <Property Name="RemainTRG07A" Type="Int32" />
         </EntityType>
         <Association Name="FK_CH_PERSON">
           <End Type="FLYModel.Person" Role="Person" Multiplicity="1" />
@@ -9584,6 +9686,59 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <Property Name="Instructor1Id" Type="Int32" />
           <Property Name="ProfileGroup" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="GRPCourseTypeExpiringGroup">
+          <Key>
+            <PropertyRef Name="TypeId" />
+            <PropertyRef Name="JobGroupId" />
+            <PropertyRef Name="JobGroup" />
+            <PropertyRef Name="JobGroupCode" />
+          </Key>
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupId" Type="Int32" Nullable="false" />
+          <Property Name="JobGroup" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupCode" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroupCode2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroupMain" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroupMainCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Mandatory" Type="Int32" />
+          <Property Name="CertificateTypeId" Type="Int32" />
+          <Property Name="EmployeesCount" Type="Int32" />
+          <Property Name="ValidCount" Type="Int32" />
+          <Property Name="ExpiredCount" Type="Int32" />
+          <Property Name="ExpiringCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CourseTypeApplicable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseTypeId" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsApplicable" Type="Boolean" Nullable="false" />
+          <Property Name="TrainingGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewCourseTypeApplicable">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CourseTypeId" />
+            <PropertyRef Name="IsApplicable" />
+            <PropertyRef Name="CertificateId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CourseTypeId" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsApplicable" Type="Boolean" Nullable="false" />
+          <Property Name="TrainingGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CourseType" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Certificate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CertificateId" Type="Int32" Nullable="false" />
+          <Property Name="IssueField" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ExpireField" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CertificateId2" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9761,6 +9916,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <EntitySetMapping Name="FDPs">
             <EntityTypeMapping TypeName="FLYModel.FDP">
               <MappingFragment StoreEntitySet="FDP">
+                <ScalarProperty Name="PosTicketUrl" ColumnName="PosTicketUrl" />
+                <ScalarProperty Name="PosRemark" ColumnName="PosRemark" />
+                <ScalarProperty Name="PosFDPId" ColumnName="PosFDPId" />
+                <ScalarProperty Name="PosAirline" ColumnName="PosAirline" />
+                <ScalarProperty Name="PosArr" ColumnName="PosArr" />
+                <ScalarProperty Name="PosDep" ColumnName="PosDep" />
+                <ScalarProperty Name="PosTo" ColumnName="PosTo" />
+                <ScalarProperty Name="PosFrom" ColumnName="PosFrom" />
                 <ScalarProperty Name="PLNRest" ColumnName="PLNRest" />
                 <ScalarProperty Name="PLNEnd" ColumnName="PLNEnd" />
                 <ScalarProperty Name="InitPosition" ColumnName="InitPosition" />
@@ -9952,6 +10115,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <EntitySetMapping Name="ViewFDPRests">
             <EntityTypeMapping TypeName="FLYModel.ViewFDPRest">
               <MappingFragment StoreEntitySet="ViewFDPRest">
+                <ScalarProperty Name="PosTicketUrl" ColumnName="PosTicketUrl" />
+                <ScalarProperty Name="PosRemark" ColumnName="PosRemark" />
+                <ScalarProperty Name="PosFDPId" ColumnName="PosFDPId" />
+                <ScalarProperty Name="PosAirline" ColumnName="PosAirline" />
+                <ScalarProperty Name="PosArr" ColumnName="PosArr" />
+                <ScalarProperty Name="PosDep" ColumnName="PosDep" />
+                <ScalarProperty Name="PosTo" ColumnName="PosTo" />
+                <ScalarProperty Name="PosFrom" ColumnName="PosFrom" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="UPD" ColumnName="UPD" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -10373,25 +10544,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
                 <ScalarProperty Name="ValidCount" ColumnName="ValidCount" />
                 <ScalarProperty Name="EmployeesCount" ColumnName="EmployeesCount" />
                 <ScalarProperty Name="Mandatory" ColumnName="Mandatory" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GRPCourseTypeExpiringGroups">
-            <EntityTypeMapping TypeName="FLYModel.GRPCourseTypeExpiringGroup">
-              <MappingFragment StoreEntitySet="GRPCourseTypeExpiringGroup">
-                <ScalarProperty Name="ExpiringCount" ColumnName="ExpiringCount" />
-                <ScalarProperty Name="ExpiredCount" ColumnName="ExpiredCount" />
-                <ScalarProperty Name="ValidCount" ColumnName="ValidCount" />
-                <ScalarProperty Name="EmployeesCount" ColumnName="EmployeesCount" />
-                <ScalarProperty Name="Mandatory" ColumnName="Mandatory" />
-                <ScalarProperty Name="JobGroupMainCode" ColumnName="JobGroupMainCode" />
-                <ScalarProperty Name="JobGroupMain" ColumnName="JobGroupMain" />
-                <ScalarProperty Name="JobGroupCode2" ColumnName="JobGroupCode2" />
-                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
-                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
-                <ScalarProperty Name="JobGroupId" ColumnName="JobGroupId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="TypeId" ColumnName="TypeId" />
               </MappingFragment>
@@ -11209,6 +11361,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <EntitySetMapping Name="JobGroups">
             <EntityTypeMapping TypeName="FLYModel.JobGroup">
               <MappingFragment StoreEntitySet="JobGroup">
+                <ScalarProperty Name="ParentTitle" ColumnName="ParentTitle" />
                 <ScalarProperty Name="CodeTemp" ColumnName="CodeTemp" />
                 <ScalarProperty Name="FullCode2Temp" ColumnName="FullCode2Temp" />
                 <ScalarProperty Name="IsSelectable" ColumnName="IsSelectable" />
@@ -11608,6 +11761,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="FLYModel.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="AMPExpireDate" ColumnName="AMPExpireDate" />
+                <ScalarProperty Name="AMPIssueDate" ColumnName="AMPIssueDate" />
+                <ScalarProperty Name="SMSL3ExpireDate" ColumnName="SMSL3ExpireDate" />
+                <ScalarProperty Name="SMSL3IssueDate" ColumnName="SMSL3IssueDate" />
+                <ScalarProperty Name="SMSL2ExpireDate" ColumnName="SMSL2ExpireDate" />
+                <ScalarProperty Name="SMSL2IssueDate" ColumnName="SMSL2IssueDate" />
                 <ScalarProperty Name="TypeFoker100ExpireDate" ColumnName="TypeFoker100ExpireDate" />
                 <ScalarProperty Name="TypeFoker50ExpireDate" ColumnName="TypeFoker50ExpireDate" />
                 <ScalarProperty Name="TypeFoker100IssueDate" ColumnName="TypeFoker100IssueDate" />
@@ -12094,6 +12253,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
           <EntitySetMapping Name="ViewProfiles">
             <EntityTypeMapping TypeName="FLYModel.ViewProfile">
               <MappingFragment StoreEntitySet="ViewProfile">
+                <ScalarProperty Name="RemainTRG07A" ColumnName="RemainTRG07A" />
+                <ScalarProperty Name="RemainSMSL2L3" ColumnName="RemainSMSL2L3" />
+                <ScalarProperty Name="PostTitle" ColumnName="PostTitle" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="PostRoot" ColumnName="PostRoot" />
                 <ScalarProperty Name="Reserved5" ColumnName="Reserved5" />
                 <ScalarProperty Name="Reserved4" ColumnName="Reserved4" />
                 <ScalarProperty Name="Reserved3" ColumnName="Reserved3" />
@@ -12561,6 +12725,56 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTeacherDocument' does not have 
                 <ScalarProperty Name="CourseTypeId" ColumnName="CourseTypeId" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GRPCourseTypeExpiringGroups">
+            <EntityTypeMapping TypeName="FLYModel.GRPCourseTypeExpiringGroup">
+              <MappingFragment StoreEntitySet="GRPCourseTypeExpiringGroup">
+                <ScalarProperty Name="ExpiringCount" ColumnName="ExpiringCount" />
+                <ScalarProperty Name="ExpiredCount" ColumnName="ExpiredCount" />
+                <ScalarProperty Name="ValidCount" ColumnName="ValidCount" />
+                <ScalarProperty Name="EmployeesCount" ColumnName="EmployeesCount" />
+                <ScalarProperty Name="CertificateTypeId" ColumnName="CertificateTypeId" />
+                <ScalarProperty Name="Mandatory" ColumnName="Mandatory" />
+                <ScalarProperty Name="JobGroupMainCode" ColumnName="JobGroupMainCode" />
+                <ScalarProperty Name="JobGroupMain" ColumnName="JobGroupMain" />
+                <ScalarProperty Name="JobGroupCode2" ColumnName="JobGroupCode2" />
+                <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="JobGroupId" ColumnName="JobGroupId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseTypeApplicables">
+            <EntityTypeMapping TypeName="FLYModel.CourseTypeApplicable">
+              <MappingFragment StoreEntitySet="CourseTypeApplicable">
+                <ScalarProperty Name="TrainingGroup" ColumnName="TrainingGroup" />
+                <ScalarProperty Name="IsApplicable" ColumnName="IsApplicable" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="CourseTypeId" ColumnName="CourseTypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewCourseTypeApplicables">
+            <EntityTypeMapping TypeName="FLYModel.ViewCourseTypeApplicable">
+              <MappingFragment StoreEntitySet="ViewCourseTypeApplicable">
+                <ScalarProperty Name="CertificateId2" ColumnName="CertificateId2" />
+                <ScalarProperty Name="ExpireField" ColumnName="ExpireField" />
+                <ScalarProperty Name="IssueField" ColumnName="IssueField" />
+                <ScalarProperty Name="CertificateId" ColumnName="CertificateId" />
+                <ScalarProperty Name="Certificate" ColumnName="Certificate" />
+                <ScalarProperty Name="CourseType" ColumnName="CourseType" />
+                <ScalarProperty Name="TrainingGroup" ColumnName="TrainingGroup" />
+                <ScalarProperty Name="IsApplicable" ColumnName="IsApplicable" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="CourseTypeId" ColumnName="CourseTypeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -109,6 +109,35 @@ namespace ApiQA.Controllers
 
 
         [HttpGet]
+        [Route("api/qa/log/profile/duty/")]
+        public async Task<DataResponse> GetFlightLogProfileDuty(int id/*,DateTime df, DateTime dt*/)
+        {
+            try
+            {
+                //df = df.Date;
+                //dt = dt.Date.AddDays(1);
+                var result = await context.ViewDutyLogGroups.Where(q => q.CrewId == id).OrderByDescending(q => q.DateCreate).ToListAsync();
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+        [HttpGet]
         [Route("api/qa/profiles/")]
         public async Task<DataResponse> GetProfiles(string grp)
         {
@@ -121,6 +150,41 @@ namespace ApiQA.Controllers
                 if (grp != "-1")
                     query = query.Where(q => q.JobGroupRoot == grp);
                 var result = await query.OrderBy(q=>q.LastName).ThenBy(q=>q.FirstName) .ToListAsync();
+                return new DataResponse()
+                {
+                    Data = result,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   Inner: " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+        [HttpGet]
+        [Route("api/qa/profiles/crew/")]
+        public async Task<DataResponse> GetProfilesCrew(string grp)
+        {
+            try
+            {
+                //df = df.Date;
+                //dt = dt.Date.AddDays(1);
+                var grps = new List<string>() {"TRE","TRI","P1","P2" };
+                var query = from x in context.ViewProfiles
+                            where grps.Contains(x.JobGroup)
+                            select x;
+                if (grp != "-1")
+                    query = query.Where(q => q.JobGroup == grp);
+                var result = await query.OrderBy(q => q.LastName).ThenBy(q => q.FirstName).ToListAsync();
                 return new DataResponse()
                 {
                     Data = result,

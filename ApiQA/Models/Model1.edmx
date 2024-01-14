@@ -48,6 +48,7 @@
           <Property Name="DateEnd" Type="datetime2" Precision="7" />
           <Property Name="DutyTypeId" Type="int" />
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DutyId" Type="int" />
         </EntityType>
         <EntityType Name="FlightInformation">
           <Key>
@@ -563,6 +564,8 @@
           <Property Name="Comment" Type="nvarchar(max)" />
           <Property Name="DateStatus" Type="datetime" />
           <Property Name="ParentId" Type="int" />
+          <Property Name="DeadLine" Type="datetime" />
+          <Property Name="Priority" Type="int" />
         </EntityType>
         <EntityType Name="QAGetEntites_Result">
           <Key>
@@ -586,6 +589,9 @@
           <Property Name="Register" Type="varchar" MaxLength="255" />
           <Property Name="Route" Type="varchar" MaxLength="255" />
           <Property Name="FlightDate" Type="datetime2" Precision="7" />
+          <Property Name="DateSign" Type="datetime2" Precision="0" />
+          <Property Name="DeadLine" Type="datetime2" Precision="7" />
+          <Property Name="Priority" Type="int" />
         </EntityType>
         <EntityType Name="QAGroundIAD">
           <Key>
@@ -985,7 +991,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewDutyLog' does not have a primar
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="FlightId" Type="int" />
-          <Property Name="DateCreate" Type="datetime2" Precision="7" />
+          <Property Name="DateCreate" Type="datetime" />
           <Property Name="Username" Type="varchar" MaxLength="500" />
           <Property Name="CrewId" Type="int" />
           <Property Name="CrewName" Type="varchar" MaxLength="500" />
@@ -1004,6 +1010,52 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewDutyLog' does not have a primar
           <Property Name="DutyTypeId" Type="int" />
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="DutyType" Type="nvarchar" MaxLength="1000" />
+          <Property Name="DutyId" Type="int" />
+          <Property Name="RelatedFDP_Id" Type="int" />
+          <Property Name="RelatedFDP_DutyTypeId" Type="int" />
+          <Property Name="RelatedFDP_InitStart" Type="datetime" />
+          <Property Name="RelatedFDP_InitEnd" Type="datetime" />
+          <Property Name="RelatedFDP_InitRestTo" Type="datetime" />
+          <Property Name="RelatedFDP_Flts" Type="varchar" MaxLength="500" />
+          <Property Name="RelatedFDP_Route" Type="varchar" MaxLength="500" />
+          <Property Name="Log2_Id" Type="int" />
+          <Property Name="Log2_DateCreate" Type="datetime2" Precision="7" />
+          <Property Name="RelatedFDP_DutyType" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewDutyLogGroup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewDutyLogGroup">
+          <Key>
+            <PropertyRef Name="DateCreate" />
+            <PropertyRef Name="CrewId" />
+            <PropertyRef Name="DutyTypeId" />
+          </Key>
+          <Property Name="DateCreate" Type="datetime" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="500" />
+          <Property Name="CrewId" Type="int" Nullable="false" />
+          <Property Name="CrewName" Type="varchar" MaxLength="500" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="Position" Type="varchar" MaxLength="500" />
+          <Property Name="IsPositioning" Type="bit" />
+          <Property Name="Action" Type="varchar" MaxLength="255" />
+          <Property Name="FlightIds" Type="varchar" MaxLength="1000" />
+          <Property Name="Flights" Type="varchar" MaxLength="1000" />
+          <Property Name="Route" Type="varchar" MaxLength="1000" />
+          <Property Name="InitStart" Type="datetime2" Precision="7" />
+          <Property Name="InitEnd" Type="datetime" />
+          <Property Name="DateStart" Type="datetime2" Precision="7" />
+          <Property Name="DateEnd" Type="datetime2" Precision="7" />
+          <Property Name="DutyTypeId" Type="int" Nullable="false" />
+          <Property Name="DutyType" Type="nvarchar" MaxLength="1000" />
+          <Property Name="RelatedFDP_Id" Type="int" />
+          <Property Name="RelatedFDP_DutyTypeId" Type="int" />
+          <Property Name="RelatedFDP_InitStart" Type="datetime" />
+          <Property Name="RelatedFDP_InitEnd" Type="datetime" />
+          <Property Name="RelatedFDP_InitRestTo" Type="datetime" />
+          <Property Name="RelatedFDP_Flts" Type="varchar" MaxLength="500" />
+          <Property Name="RelatedFDP_Route" Type="varchar" MaxLength="500" />
+          <Property Name="Log2_DateCreate" Type="datetime2" Precision="7" />
+          <Property Name="RelatedFDP_DutyType" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployee' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1016,7 +1068,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployee' does not have a prima
             <PropertyRef Name="ExpCompany" />
             <PropertyRef Name="IsActive" />
             <PropertyRef Name="IsDeleted" />
-            <PropertyRef Name="JobGroupRoot" />
             <PropertyRef Name="MarriageId" />
             <PropertyRef Name="NID" />
             <PropertyRef Name="SexId" />
@@ -1076,6 +1127,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployee' does not have a prima
             <PropertyRef Name="FlightSum" />
             <PropertyRef Name="FlightEarly" />
             <PropertyRef Name="FlightLate" />
+            <PropertyRef Name="JobGroupRoot" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="PID" Type="nvarchar" MaxLength="500" Nullable="false" />
@@ -1103,7 +1155,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployee' does not have a prima
           <Property Name="C3GroupId" Type="int" />
           <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
           <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
-          <Property Name="JobGroupRoot" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="JobGroupRoot" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="MarriageId" Type="int" Nullable="false" />
           <Property Name="NID" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="SexId" Type="int" Nullable="false" />
@@ -1425,6 +1477,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightLogMain' does not have a 
             <PropertyRef Name="Id" />
             <PropertyRef Name="Register" />
             <PropertyRef Name="iRegister" />
+            
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="FlightId" Type="int" />
@@ -1454,7 +1507,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFlightLogMain' does not have a 
           <Property Name="STALocal" Type="datetime2" Precision="7" />
           <Property Name="iSTDLocal" Type="datetime2" Precision="7" />
           <Property Name="iSTALocal" Type="datetime2" Precision="7" />
-          <Property Name="FlightStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlightStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="FlightStatusID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -1494,6 +1547,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="JobGroup" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="JobGroupCode" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="JobGroupRoot" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="PostRoot" Type="varchar" MaxLength="10" />
           <Property Name="NID" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="500" Nullable="false" />
@@ -1523,7 +1577,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="RemainDG" Type="int" />
           <Property Name="RemainCRM" Type="int" />
           <Property Name="RemainCCRM" Type="int" />
-          <Property Name="RemainSMS" Type="int" />
           <Property Name="RemainAvSec" Type="int" />
           <Property Name="RemainUpsetRecoveryTraining" Type="int" />
           <Property Name="RemainColdWeather" Type="int" />
@@ -1674,6 +1727,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewProfile' does not have a primar
           <Property Name="Reserved3" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="Reserved4" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="Reserved5" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="PostCode" Type="varchar" MaxLength="500" />
+          <Property Name="PostTitle" Type="nvarchar" MaxLength="500" />
+          <Property Name="RemainSMSL2L3" Type="int" />
+          <Property Name="RemainSMS" Type="int" />
+          <Property Name="RemainSMSL1L2L3" Type="int" />
+          <Property Name="RemainTRG07A" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewProfileLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1722,6 +1781,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQABYEmployee' does not have a p
           <Property Name="EntityId" Type="int" />
           <Property Name="Type" Type="int" />
           <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="Priority" Type="int" />
+          <Property Name="DeadLine" Type="datetime" />
           <Property Name="Category" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="ReviewResult" Type="int" />
           <Property Name="ReviewResultTitle" Type="varchar" MaxLength="6" Nullable="false" />
@@ -2955,8 +3016,49 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
     [ViewDutyLog].[DateEnd] AS [DateEnd], 
     [ViewDutyLog].[DutyTypeId] AS [DutyTypeId], 
     [ViewDutyLog].[Id] AS [Id], 
-    [ViewDutyLog].[DutyType] AS [DutyType]
+    [ViewDutyLog].[DutyType] AS [DutyType], 
+    [ViewDutyLog].[DutyId] AS [DutyId], 
+    [ViewDutyLog].[RelatedFDP_Id] AS [RelatedFDP_Id], 
+    [ViewDutyLog].[RelatedFDP_DutyTypeId] AS [RelatedFDP_DutyTypeId], 
+    [ViewDutyLog].[RelatedFDP_InitStart] AS [RelatedFDP_InitStart], 
+    [ViewDutyLog].[RelatedFDP_InitEnd] AS [RelatedFDP_InitEnd], 
+    [ViewDutyLog].[RelatedFDP_InitRestTo] AS [RelatedFDP_InitRestTo], 
+    [ViewDutyLog].[RelatedFDP_Flts] AS [RelatedFDP_Flts], 
+    [ViewDutyLog].[RelatedFDP_Route] AS [RelatedFDP_Route], 
+    [ViewDutyLog].[Log2_Id] AS [Log2_Id], 
+    [ViewDutyLog].[Log2_DateCreate] AS [Log2_DateCreate], 
+    [ViewDutyLog].[RelatedFDP_DutyType] AS [RelatedFDP_DutyType]
     FROM [dbo].[ViewDutyLog] AS [ViewDutyLog]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewDutyLogGroup" EntityType="Self.ViewDutyLogGroup" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewDutyLogGroup].[DateCreate] AS [DateCreate], 
+    [ViewDutyLogGroup].[Username] AS [Username], 
+    [ViewDutyLogGroup].[CrewId] AS [CrewId], 
+    [ViewDutyLogGroup].[CrewName] AS [CrewName], 
+    [ViewDutyLogGroup].[PositionId] AS [PositionId], 
+    [ViewDutyLogGroup].[Position] AS [Position], 
+    [ViewDutyLogGroup].[IsPositioning] AS [IsPositioning], 
+    [ViewDutyLogGroup].[Action] AS [Action], 
+    [ViewDutyLogGroup].[FlightIds] AS [FlightIds], 
+    [ViewDutyLogGroup].[Flights] AS [Flights], 
+    [ViewDutyLogGroup].[Route] AS [Route], 
+    [ViewDutyLogGroup].[InitStart] AS [InitStart], 
+    [ViewDutyLogGroup].[InitEnd] AS [InitEnd], 
+    [ViewDutyLogGroup].[DateStart] AS [DateStart], 
+    [ViewDutyLogGroup].[DateEnd] AS [DateEnd], 
+    [ViewDutyLogGroup].[DutyTypeId] AS [DutyTypeId], 
+    [ViewDutyLogGroup].[DutyType] AS [DutyType], 
+    [ViewDutyLogGroup].[RelatedFDP_Id] AS [RelatedFDP_Id], 
+    [ViewDutyLogGroup].[RelatedFDP_DutyTypeId] AS [RelatedFDP_DutyTypeId], 
+    [ViewDutyLogGroup].[RelatedFDP_InitStart] AS [RelatedFDP_InitStart], 
+    [ViewDutyLogGroup].[RelatedFDP_InitEnd] AS [RelatedFDP_InitEnd], 
+    [ViewDutyLogGroup].[RelatedFDP_InitRestTo] AS [RelatedFDP_InitRestTo], 
+    [ViewDutyLogGroup].[RelatedFDP_Flts] AS [RelatedFDP_Flts], 
+    [ViewDutyLogGroup].[RelatedFDP_Route] AS [RelatedFDP_Route], 
+    [ViewDutyLogGroup].[Log2_DateCreate] AS [Log2_DateCreate], 
+    [ViewDutyLogGroup].[RelatedFDP_DutyType] AS [RelatedFDP_DutyType]
+    FROM [dbo].[ViewDutyLogGroup] AS [ViewDutyLogGroup]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewEmployee" EntityType="Self.ViewEmployee" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -3351,6 +3453,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
     [ViewProfile].[JobGroup] AS [JobGroup], 
     [ViewProfile].[JobGroupCode] AS [JobGroupCode], 
     [ViewProfile].[JobGroupRoot] AS [JobGroupRoot], 
+    [ViewProfile].[PostRoot] AS [PostRoot], 
     [ViewProfile].[NID] AS [NID], 
     [ViewProfile].[FirstName] AS [FirstName], 
     [ViewProfile].[LastName] AS [LastName], 
@@ -3380,7 +3483,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
     [ViewProfile].[RemainDG] AS [RemainDG], 
     [ViewProfile].[RemainCRM] AS [RemainCRM], 
     [ViewProfile].[RemainCCRM] AS [RemainCCRM], 
-    [ViewProfile].[RemainSMS] AS [RemainSMS], 
     [ViewProfile].[RemainAvSec] AS [RemainAvSec], 
     [ViewProfile].[RemainUpsetRecoveryTraining] AS [RemainUpsetRecoveryTraining], 
     [ViewProfile].[RemainColdWeather] AS [RemainColdWeather], 
@@ -3530,7 +3632,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
     [ViewProfile].[Reserved2] AS [Reserved2], 
     [ViewProfile].[Reserved3] AS [Reserved3], 
     [ViewProfile].[Reserved4] AS [Reserved4], 
-    [ViewProfile].[Reserved5] AS [Reserved5]
+    [ViewProfile].[Reserved5] AS [Reserved5], 
+    [ViewProfile].[PostCode] AS [PostCode], 
+    [ViewProfile].[PostTitle] AS [PostTitle], 
+    [ViewProfile].[RemainSMSL2L3] AS [RemainSMSL2L3], 
+    [ViewProfile].[RemainSMS] AS [RemainSMS], 
+    [ViewProfile].[RemainSMSL1L2L3] AS [RemainSMSL1L2L3], 
+    [ViewProfile].[RemainTRG07A] AS [RemainTRG07A]
     FROM [dbo].[ViewProfile] AS [ViewProfile]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewProfileLog" EntityType="Self.ViewProfileLog" store:Type="Views" store:Schema="dbo">
@@ -3571,6 +3679,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
     [ViewQABYEmployee].[EntityId] AS [EntityId], 
     [ViewQABYEmployee].[Type] AS [Type], 
     [ViewQABYEmployee].[Comment] AS [Comment], 
+    [ViewQABYEmployee].[Priority] AS [Priority], 
+    [ViewQABYEmployee].[DeadLine] AS [DeadLine], 
     [ViewQABYEmployee].[Category] AS [Category], 
     [ViewQABYEmployee].[ReviewResult] AS [ReviewResult], 
     [ViewQABYEmployee].[ReviewResultTitle] AS [ReviewResultTitle]
@@ -4282,7 +4392,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="ViewFlightLogMains" EntityType="ppaModel.ViewFlightLogMain" />
           <EntitySet Name="ViewFlightLogs" EntityType="ppaModel.ViewFlightLog" />
           <EntitySet Name="DutyLogs" EntityType="ppaModel.DutyLog" />
-          <EntitySet Name="ViewDutyLogs" EntityType="ppaModel.ViewDutyLog" />
           <EntitySet Name="QAAttachments" EntityType="ppaModel.QAAttachment" />
           <EntitySet Name="QACaterings" EntityType="ppaModel.QACatering" />
           <EntitySet Name="QACSRs" EntityType="ppaModel.QACSR" />
@@ -4444,6 +4553,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySet Name="QAFeedbacks" EntityType="ppaModel.QAFeedback" />
           <EntitySet Name="ViewQaFeedbacks" EntityType="ppaModel.ViewQaFeedback" />
           <EntitySet Name="ViewQaReportsByCreators" EntityType="ppaModel.ViewQaReportsByCreator" />
+          <EntitySet Name="ViewDutyLogs" EntityType="ppaModel.ViewDutyLog" />
+          <EntitySet Name="ViewDutyLogGroups" EntityType="ppaModel.ViewDutyLogGroup" />
           </EntityContainer>
         <EntityType Name="FlightInformation">
           <Key>
@@ -5588,6 +5699,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DateStatus" Type="DateTime" Precision="3" />
           <Property Name="ParentId" Type="Int32" />
+          <Property Name="DeadLine" Type="DateTime" Precision="3" />
+          <Property Name="Priority" Type="Int32" />
         </EntityType>
         <EntityType Name="ViewQAFollowingUp">
           <Key>
@@ -5620,6 +5733,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="Category" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="ReviewResult" Type="Int32" />
           <Property Name="ReviewResultTitle" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="Priority" Type="Int32" />
+          <Property Name="DeadLine" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="ViewQAByEmployeeCount">
           <Key>
@@ -5838,7 +5953,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="STALocal" Type="DateTime" Precision="7" />
           <Property Name="iSTDLocal" Type="DateTime" Precision="7" />
           <Property Name="iSTALocal" Type="DateTime" Precision="7" />
-          <Property Name="FlightStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlightStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FlightStatusID" Type="Int32" />
         </EntityType>
         <EntityType Name="ViewFlightLog">
@@ -5877,31 +5992,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="DateEnd" Type="DateTime" Precision="7" />
           <Property Name="DutyTypeId" Type="Int32" />
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
-        <EntityType Name="ViewDutyLog">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="FlightId" Type="Int32" />
-          <Property Name="DateCreate" Type="DateTime" Precision="7" />
-          <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="CrewId" Type="Int32" />
-          <Property Name="CrewName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="PositionId" Type="Int32" />
-          <Property Name="Position" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="IsPositioning" Type="Boolean" />
-          <Property Name="Action" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="FlightStatusId" Type="Int32" />
-          <Property Name="FlightIds" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="Flights" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="Route" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="InitStart" Type="DateTime" Precision="7" />
-          <Property Name="InitEnd" Type="DateTime" Precision="3" />
-          <Property Name="DateStart" Type="DateTime" Precision="7" />
-          <Property Name="DateEnd" Type="DateTime" Precision="7" />
-          <Property Name="DutyTypeId" Type="Int32" />
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="DutyType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DutyId" Type="Int32" />
         </EntityType>
         <EntityType Name="QAAttachment">
           <Key>
@@ -7444,7 +7535,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="C3GroupId" Type="Int32" />
           <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MarriageId" Type="Int32" Nullable="false" />
           <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="SexId" Type="Int32" Nullable="false" />
@@ -7766,6 +7857,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="Register" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Route" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="FlightDate" Type="DateTime" Precision="7" />
+          <Property Name="DateSign" Type="DateTime" Precision="0" />
+          <Property Name="DeadLine" Type="DateTime" Precision="7" />
+          <Property Name="Priority" Type="Int32" />
         </EntityType>
         <EntityType Name="ViewProfile">
           <Key>
@@ -7982,6 +8076,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="Reserved3" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="Reserved4" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="Reserved5" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PostRoot" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PostCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PostTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RemainSMSL2L3" Type="Int32" />
+          <Property Name="RemainSMSL1L2L3" Type="Int32" />
+          <Property Name="RemainTRG07A" Type="Int32" />
         </EntityType>
         <EntityType Name="ViewProfileLog">
           <Key>
@@ -8212,6 +8312,75 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <Property Name="STDLocal" Type="DateTime" Precision="3" />
           <Property Name="Register" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DateSign" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ViewDutyLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="DateCreate" Type="DateTime" Precision="3" />
+          <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="CrewName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsPositioning" Type="Boolean" />
+          <Property Name="Action" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FlightStatusId" Type="Int32" />
+          <Property Name="FlightIds" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Flights" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Route" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="InitStart" Type="DateTime" Precision="7" />
+          <Property Name="InitEnd" Type="DateTime" Precision="3" />
+          <Property Name="DateStart" Type="DateTime" Precision="7" />
+          <Property Name="DateEnd" Type="DateTime" Precision="7" />
+          <Property Name="DutyTypeId" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DutyType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DutyId" Type="Int32" />
+          <Property Name="RelatedFDP_Id" Type="Int32" />
+          <Property Name="RelatedFDP_DutyTypeId" Type="Int32" />
+          <Property Name="RelatedFDP_InitStart" Type="DateTime" Precision="3" />
+          <Property Name="RelatedFDP_InitEnd" Type="DateTime" Precision="3" />
+          <Property Name="RelatedFDP_InitRestTo" Type="DateTime" Precision="3" />
+          <Property Name="RelatedFDP_Flts" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RelatedFDP_Route" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Log2_Id" Type="Int32" />
+          <Property Name="Log2_DateCreate" Type="DateTime" Precision="7" />
+          <Property Name="RelatedFDP_DutyType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ViewDutyLogGroup">
+          <Key>
+            <PropertyRef Name="DateCreate" />
+            <PropertyRef Name="CrewId" />
+            <PropertyRef Name="DutyTypeId" />
+          </Key>
+          <Property Name="DateCreate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CrewId" Type="Int32" Nullable="false" />
+          <Property Name="CrewName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsPositioning" Type="Boolean" />
+          <Property Name="Action" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FlightIds" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Flights" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Route" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="InitStart" Type="DateTime" Precision="7" />
+          <Property Name="InitEnd" Type="DateTime" Precision="3" />
+          <Property Name="DateStart" Type="DateTime" Precision="7" />
+          <Property Name="DateEnd" Type="DateTime" Precision="7" />
+          <Property Name="DutyTypeId" Type="Int32" Nullable="false" />
+          <Property Name="DutyType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RelatedFDP_Id" Type="Int32" />
+          <Property Name="RelatedFDP_DutyTypeId" Type="Int32" />
+          <Property Name="RelatedFDP_InitStart" Type="DateTime" Precision="3" />
+          <Property Name="RelatedFDP_InitEnd" Type="DateTime" Precision="3" />
+          <Property Name="RelatedFDP_InitRestTo" Type="DateTime" Precision="3" />
+          <Property Name="RelatedFDP_Flts" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RelatedFDP_Route" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Log2_DateCreate" Type="DateTime" Precision="7" />
+          <Property Name="RelatedFDP_DutyType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -8787,6 +8956,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySetMapping Name="QAFollowingUps">
             <EntityTypeMapping TypeName="ppaModel.QAFollowingUp">
               <MappingFragment StoreEntitySet="QAFollowingUp">
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="DeadLine" ColumnName="DeadLine" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
@@ -8820,6 +8991,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySetMapping Name="ViewQABYEmployees">
             <EntityTypeMapping TypeName="ppaModel.ViewQABYEmployee">
               <MappingFragment StoreEntitySet="ViewQABYEmployee">
+                <ScalarProperty Name="DeadLine" ColumnName="DeadLine" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
                 <ScalarProperty Name="ReviewResultTitle" ColumnName="ReviewResultTitle" />
                 <ScalarProperty Name="ReviewResult" ColumnName="ReviewResult" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
@@ -8896,32 +9069,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySetMapping Name="DutyLogs">
             <EntityTypeMapping TypeName="ppaModel.DutyLog">
               <MappingFragment StoreEntitySet="DutyLog">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DutyTypeId" ColumnName="DutyTypeId" />
-                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
-                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
-                <ScalarProperty Name="InitEnd" ColumnName="InitEnd" />
-                <ScalarProperty Name="InitStart" ColumnName="InitStart" />
-                <ScalarProperty Name="Route" ColumnName="Route" />
-                <ScalarProperty Name="Flights" ColumnName="Flights" />
-                <ScalarProperty Name="FlightIds" ColumnName="FlightIds" />
-                <ScalarProperty Name="FlightStatusId" ColumnName="FlightStatusId" />
-                <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
-                <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
-                <ScalarProperty Name="CrewName" ColumnName="CrewName" />
-                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
-                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ViewDutyLogs">
-            <EntityTypeMapping TypeName="ppaModel.ViewDutyLog">
-              <MappingFragment StoreEntitySet="ViewDutyLog">
-                <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+                <ScalarProperty Name="DutyId" ColumnName="DutyId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DutyTypeId" ColumnName="DutyTypeId" />
                 <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
@@ -10346,6 +10494,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySetMapping Name="QAGetEntites_Result">
             <EntityTypeMapping TypeName="ppaModel.QAGetEntites_Result">
               <MappingFragment StoreEntitySet="QAGetEntites_Result">
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="DeadLine" ColumnName="DeadLine" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
                 <ScalarProperty Name="FlightDate" ColumnName="FlightDate" />
                 <ScalarProperty Name="Route" ColumnName="Route" />
                 <ScalarProperty Name="Register" ColumnName="Register" />
@@ -10371,6 +10522,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
           <EntitySetMapping Name="ViewProfiles">
             <EntityTypeMapping TypeName="ppaModel.ViewProfile">
               <MappingFragment StoreEntitySet="ViewProfile">
+                <ScalarProperty Name="RemainTRG07A" ColumnName="RemainTRG07A" />
+                <ScalarProperty Name="RemainSMSL1L2L3" ColumnName="RemainSMSL1L2L3" />
+                <ScalarProperty Name="RemainSMSL2L3" ColumnName="RemainSMSL2L3" />
+                <ScalarProperty Name="PostTitle" ColumnName="PostTitle" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="PostRoot" ColumnName="PostRoot" />
                 <ScalarProperty Name="Reserved5" ColumnName="Reserved5" />
                 <ScalarProperty Name="Reserved4" ColumnName="Reserved4" />
                 <ScalarProperty Name="Reserved3" ColumnName="Reserved3" />
@@ -10784,6 +10941,75 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewQASecurity' does not have a pri
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
                 <ScalarProperty Name="TypeTitle" ColumnName="TypeTitle" />
                 <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewDutyLogs">
+            <EntityTypeMapping TypeName="ppaModel.ViewDutyLog">
+              <MappingFragment StoreEntitySet="ViewDutyLog">
+                <ScalarProperty Name="RelatedFDP_DutyType" ColumnName="RelatedFDP_DutyType" />
+                <ScalarProperty Name="Log2_DateCreate" ColumnName="Log2_DateCreate" />
+                <ScalarProperty Name="Log2_Id" ColumnName="Log2_Id" />
+                <ScalarProperty Name="RelatedFDP_Route" ColumnName="RelatedFDP_Route" />
+                <ScalarProperty Name="RelatedFDP_Flts" ColumnName="RelatedFDP_Flts" />
+                <ScalarProperty Name="RelatedFDP_InitRestTo" ColumnName="RelatedFDP_InitRestTo" />
+                <ScalarProperty Name="RelatedFDP_InitEnd" ColumnName="RelatedFDP_InitEnd" />
+                <ScalarProperty Name="RelatedFDP_InitStart" ColumnName="RelatedFDP_InitStart" />
+                <ScalarProperty Name="RelatedFDP_DutyTypeId" ColumnName="RelatedFDP_DutyTypeId" />
+                <ScalarProperty Name="RelatedFDP_Id" ColumnName="RelatedFDP_Id" />
+                <ScalarProperty Name="DutyId" ColumnName="DutyId" />
+                <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DutyTypeId" ColumnName="DutyTypeId" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="InitEnd" ColumnName="InitEnd" />
+                <ScalarProperty Name="InitStart" ColumnName="InitStart" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="Flights" ColumnName="Flights" />
+                <ScalarProperty Name="FlightIds" ColumnName="FlightIds" />
+                <ScalarProperty Name="FlightStatusId" ColumnName="FlightStatusId" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="CrewName" ColumnName="CrewName" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewDutyLogGroups">
+            <EntityTypeMapping TypeName="ppaModel.ViewDutyLogGroup">
+              <MappingFragment StoreEntitySet="ViewDutyLogGroup">
+                <ScalarProperty Name="RelatedFDP_DutyType" ColumnName="RelatedFDP_DutyType" />
+                <ScalarProperty Name="Log2_DateCreate" ColumnName="Log2_DateCreate" />
+                <ScalarProperty Name="RelatedFDP_Route" ColumnName="RelatedFDP_Route" />
+                <ScalarProperty Name="RelatedFDP_Flts" ColumnName="RelatedFDP_Flts" />
+                <ScalarProperty Name="RelatedFDP_InitRestTo" ColumnName="RelatedFDP_InitRestTo" />
+                <ScalarProperty Name="RelatedFDP_InitEnd" ColumnName="RelatedFDP_InitEnd" />
+                <ScalarProperty Name="RelatedFDP_InitStart" ColumnName="RelatedFDP_InitStart" />
+                <ScalarProperty Name="RelatedFDP_DutyTypeId" ColumnName="RelatedFDP_DutyTypeId" />
+                <ScalarProperty Name="RelatedFDP_Id" ColumnName="RelatedFDP_Id" />
+                <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+                <ScalarProperty Name="DutyTypeId" ColumnName="DutyTypeId" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="InitEnd" ColumnName="InitEnd" />
+                <ScalarProperty Name="InitStart" ColumnName="InitStart" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="Flights" ColumnName="Flights" />
+                <ScalarProperty Name="FlightIds" ColumnName="FlightIds" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="IsPositioning" ColumnName="IsPositioning" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="CrewName" ColumnName="CrewName" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

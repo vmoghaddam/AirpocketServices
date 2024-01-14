@@ -197,7 +197,7 @@ namespace ApiMSG.Controllers
 
                         {
 
-
+                            message.CC.Add("v.moghaddam59@gmail.com");
                             smtp.Send(message);
 
 

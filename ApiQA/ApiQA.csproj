@@ -372,6 +372,9 @@
     <Compile Include="Models\ViewDutyLog.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewDutyLogGroup.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewEmployee.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -33,6 +33,7 @@ namespace AirpocketTRN.Models
         public Nullable<bool> IsSelectable { get; set; }
         public string FullCode2Temp { get; set; }
         public string CodeTemp { get; set; }
+        public string ParentTitle { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseTypeJobGroup> CourseTypeJobGroups { get; set; }

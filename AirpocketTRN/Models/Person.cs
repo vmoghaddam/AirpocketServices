@@ -503,6 +503,12 @@ namespace AirpocketTRN.Models
         public Nullable<System.DateTime> TypeFoker100IssueDate { get; set; }
         public Nullable<System.DateTime> TypeFoker50ExpireDate { get; set; }
         public Nullable<System.DateTime> TypeFoker100ExpireDate { get; set; }
+        public Nullable<System.DateTime> SMSL2IssueDate { get; set; }
+        public Nullable<System.DateTime> SMSL2ExpireDate { get; set; }
+        public Nullable<System.DateTime> SMSL3IssueDate { get; set; }
+        public Nullable<System.DateTime> SMSL3ExpireDate { get; set; }
+        public Nullable<System.DateTime> AMPIssueDate { get; set; }
+        public Nullable<System.DateTime> AMPExpireDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CertificateHistory> CertificateHistories { get; set; }

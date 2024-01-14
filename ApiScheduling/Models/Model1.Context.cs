@@ -41,15 +41,15 @@ namespace ApiScheduling.Models
         public virtual DbSet<ViewEmployeeLight> ViewEmployeeLights { get; set; }
         public virtual DbSet<OffItem> OffItems { get; set; }
         public virtual DbSet<HelperMaxFDP> HelperMaxFDPs { get; set; }
-        public virtual DbSet<ViewCrewDuty> ViewCrewDuties { get; set; }
         public virtual DbSet<XFlightCrew> XFlightCrews { get; set; }
         public virtual DbSet<AppFTLAb> AppFTLAbs { get; set; }
         public virtual DbSet<FTLFlightTimeRatioMonthly> FTLFlightTimeRatioMonthlies { get; set; }
         public virtual DbSet<ViewCrewDutyTimeLineNew> ViewCrewDutyTimeLineNews { get; set; }
-        public virtual DbSet<ViewFDPRest> ViewFDPRests { get; set; }
-        public virtual DbSet<FDP> FDPs { get; set; }
         public virtual DbSet<ViewCrewValidFTL> ViewCrewValidFTLs { get; set; }
         public virtual DbSet<ViewFlightCrewX> ViewFlightCrewXes { get; set; }
         public virtual DbSet<AppFTL> AppFTLs { get; set; }
+        public virtual DbSet<FDP> FDPs { get; set; }
+        public virtual DbSet<ViewCrewDuty> ViewCrewDuties { get; set; }
+        public virtual DbSet<ViewFDPRest> ViewFDPRests { get; set; }
     }
 }

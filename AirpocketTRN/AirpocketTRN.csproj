@@ -263,6 +263,9 @@
     <Compile Include="Models\CourseType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CourseTypeApplicable.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CourseTypeJobGroup.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -387,6 +390,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewCourseType.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewCourseTypeApplicable.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewCourseTypeJobGroup.cs">

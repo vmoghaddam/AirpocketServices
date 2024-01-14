@@ -25,6 +25,10 @@ namespace AirpocketTRN.ViewModels
         public int? Duration { get; set; }
         public int? CertificateTypeId { get; set; }
         public int? Mandatory { get; set; }
+        public List<string> not_applicables
+        {
+            get; set;
+        }
 
         public string Category { get; set; }
         public List<RelatedJobGroupSimple> JobGroups { get; set; }

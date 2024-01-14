@@ -23,6 +23,7 @@ namespace AirpocketTRN.Models
         public string JobGroupMain { get; set; }
         public string JobGroupMainCode { get; set; }
         public Nullable<int> Mandatory { get; set; }
+        public Nullable<int> CertificateTypeId { get; set; }
         public Nullable<int> EmployeesCount { get; set; }
         public Nullable<int> ValidCount { get; set; }
         public Nullable<int> ExpiredCount { get; set; }

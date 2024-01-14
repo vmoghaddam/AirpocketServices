@@ -25,6 +25,7 @@ namespace AirpocketAPI.Models
             this.MVTs = new HashSet<MVT>();
             this.MVTAPIs = new HashSet<MVTAPI>();
             this.OFPImports = new HashSet<OFPImport>();
+            this.FlightCharterers = new HashSet<FlightCharterer>();
         }
     
         public int ID { get; set; }
@@ -341,5 +342,7 @@ namespace AirpocketAPI.Models
         public virtual ICollection<MVTAPI> MVTAPIs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFPImport> OFPImports { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FlightCharterer> FlightCharterers { get; set; }
     }
 }

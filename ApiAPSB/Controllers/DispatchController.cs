@@ -1165,7 +1165,7 @@ namespace ApiAPSB.Controllers
 
 
 
-                var employee = context.ViewEmployees.Where(q => q.UserId == userid).FirstOrDefault();
+                var employee = context.ViewEmployees.Where(q => q.UserId == userid || q.PersonId.ToString()==userid).FirstOrDefault();
                 if (employee != null)
                 {
                     if (!employee.LicenceTitle.ToLower().Contains(lic_no.ToLower()))
@@ -1200,6 +1200,22 @@ namespace ApiAPSB.Controllers
                 var appcrewflight = context.AppCrewFlights.Where(q => q.FlightId == appleg.FlightId && q.CrewId == appleg.PICId).FirstOrDefault();
                 var fdpitems = context.FDPItems.Where(q => q.FDPId == appcrewflight.FDPId).ToList();
                 var fltIds = fdpitems.Select(q => q.FlightId).ToList();
+
+                var ofp_req_fuel = context.FlightInformations.Where(q => fltIds.Contains(q.ID)).OrderBy(q => q.ChocksOut).FirstOrDefault();
+                if (ofp_req_fuel != null)
+                {
+                    if (ofp_req_fuel.FuelPlanned==null || ofp_req_fuel.OFPTOTALFUEL == null)
+                    {
+                        return Ok(
+                            new
+                            {
+                                done = false,
+                                code = 200,
+                                message = "The OFP FUEL and REQUESTED FUEL can not be empty."
+                            }
+                        );
+                    }
+                }
 
                 var drs = context.EFBDSPReleases.Where(q => fltIds.Contains(q.FlightId)).ToList();
 
@@ -1275,7 +1291,7 @@ namespace ApiAPSB.Controllers
                 var ofps = context.OFPImports.Where(q => fids.Contains(q.FlightId)).ToList();
                 foreach(var ofp in ofps)
                 {
-                    ofp.PIC =employee!=null? employee.Name? lic_no;
+                    ofp.PIC =employee!=null? employee.Name: lic_no;
                     ofp.PICId = employee.Id;
                     ofp.JLDatePICApproved = DateTime.UtcNow;
                     ofp.JLSignedBy = lic_no;
@@ -1435,6 +1451,7 @@ namespace ApiAPSB.Controllers
         {
             public string name { get; set; }
             public string value { get; set; }
+            public int id { get; set; }
 
         }
 
@@ -1449,6 +1466,16 @@ namespace ApiAPSB.Controllers
             public bool rvsm_grnd { get; set; }
             public bool rvsm_prelevel { get; set; }
             public bool rvsm_flight { get; set; }
+            public bool takeoff { get; set; }
+            public int? id { get; set; }
+            public bool has_error
+            {
+                get
+                {
+                    return toc || tod || toc_tod || rvsm_flight || rvsm_flight || rvsm_prelevel || takeoff;
+                         
+                }
+            }
 
         }
         [Route("api/ofps/validate/{fids}")]
@@ -1474,6 +1501,8 @@ namespace ApiAPSB.Controllers
                 var flight_ids = ofpImports.Select(q => q.FlightId).ToList();
                 var flights =   _context.FlightInformations.Where(q => flight_ids.Contains(q.ID)).ToList ();
 
+
+
                 var ofpImportIds = ofpImports.Select(q => q.Id).ToList();
 
                 var ofpProps =    _context.OFPImportProps.Where(q => (q.PropName.Contains("mpln") || q.PropName.Contains("rvsm")) && ofpImportIds.Contains(q.OFPId)).ToList ();
@@ -1484,24 +1513,66 @@ namespace ApiAPSB.Controllers
                                   {
                                       grp.Key.OFPId,
                                       ofp = ofpImports.FirstOrDefault(q => q.Id == grp.Key.OFPId),
-                                      items = grp.OrderBy(q => q.Id).Select(q => new _h_prop() { name = q.PropName, value = q.PropValue }).ToList(),
+                                     // flight=flights.FirstOrDefault(q=>q.ID== ofpImports.FirstOrDefault(q => q.Id == grp.Key.OFPId).FlightId),
+                                      items = grp.OrderBy(q => q.Id).Select(q => new _h_prop() { name = q.PropName, value = q.PropValue,id=q.Id }).ToList(),
 
                                   }).ToList();
 
                 List<_h_error> errors = new List<_h_error>();
+                foreach (var _flt in groupProps)
+                {
+                    errors.Add(new _h_error()
+                    {
+                        flight_no = _flt.ofp.FlightNo,
+                         id = _flt.ofp.FlightId,
+
+                    }) ;
+                     
+                }
+
+
+
+
+
                 foreach (var x in groupProps)
                 {
+                    var first_point = x.items.ToList().OrderBy(q => q.id).FirstOrDefault();
+                    if (first_point != null)
+                    {
+                        var origin = first_point.name.Substring(0, 18);
+                        var takeoff_point = x.items.Where(q => q.name.StartsWith(origin) && q.name.Contains("_rem")).FirstOrDefault();
+                        if (string.IsNullOrEmpty(takeoff_point.value))
+                        {
+                            //errors.Add(new _h_error()
+                            //{
+                            //    flight_no = x.ofp.FlightNo,
+                            //    route = x.ofp.Origin + "-" + x.ofp.Destination,
+                            //    takeoff=true,
+                            //});
+                            var _err = errors.Where(q => q.flight_no == x.ofp.FlightNo).FirstOrDefault();
+                            if (_err != null)
+                            {
+                                _err.takeoff = true;
+                            }
+                        }
+                    }
                     var _toc = x.items.Where(q => q.name.Contains("toc_ata")).FirstOrDefault();
                     var _tod = x.items.Where(q => q.name.Contains("tod_ata")).FirstOrDefault();
                     if (string.IsNullOrEmpty(_toc.value) || string.IsNullOrEmpty(_tod.value))
                     {
-                        errors.Add(new _h_error()
+                        //errors.Add(new _h_error()
+                        //{
+                        //    flight_no = x.ofp.FlightNo,
+                        //    route = x.ofp.Origin + "-" + x.ofp.Destination,
+                        //    toc = string.IsNullOrEmpty(_toc.value),
+                        //    tod = string.IsNullOrEmpty(_tod.value),
+                        //});
+                        var _err = errors.Where(q => q.flight_no == x.ofp.FlightNo).FirstOrDefault();
+                        if (_err != null)
                         {
-                            flight_no = x.ofp.FlightNo,
-                            route = x.ofp.Origin + "-" + x.ofp.Destination,
-                            toc = string.IsNullOrEmpty(_toc.value),
-                            tod = string.IsNullOrEmpty(_tod.value),
-                        });
+                            _err.toc = string.IsNullOrEmpty(_toc.value);
+                            _err.tod = string.IsNullOrEmpty(_tod.value);
+                        }
                     }
                     else
                     {
@@ -1530,14 +1601,20 @@ namespace ApiAPSB.Controllers
 
                         if (hrs2 >= 1 && /*filled < hrs - 1*/filled < hrs2_int + 2)
                         {
-                            errors.Add(new _h_error()
+                            //errors.Add(new _h_error()
+                            //{
+                            //    flight_no = x.ofp.FlightNo,
+                            //    route = x.ofp.Origin + "-" + x.ofp.Destination,
+                            //    toc = false,
+                            //    tod = false,
+                            //    toc_tod = true,
+                            //});
+                            var _err = errors.Where(q => q.flight_no == x.ofp.FlightNo).FirstOrDefault();
+                            if (_err != null)
                             {
-                                flight_no = x.ofp.FlightNo,
-                                route = x.ofp.Origin + "-" + x.ofp.Destination,
-                                toc = false,
-                                tod = false,
-                                toc_tod = true,
-                            });
+                                _err.toc_tod = true;
+                                 
+                            }
                         }
                     }
                     if (rvsm_check)
@@ -1546,41 +1623,55 @@ namespace ApiAPSB.Controllers
                         var rvsm_grns_props_null = rvsm_grnd_props.Where(q => string.IsNullOrEmpty(q.value)).Count();
                         if (rvsm_grns_props_null > 0)
                         {
-                            errors.Add(new _h_error()
-                            {
-                                flight_no = x.ofp.FlightNo,
-                                route = x.ofp.Origin + "-" + x.ofp.Destination,
-                                rvsm_grnd = true,
+                            //errors.Add(new _h_error()
+                            //{
+                            //    flight_no = x.ofp.FlightNo,
+                            //    route = x.ofp.Origin + "-" + x.ofp.Destination,
+                            //    rvsm_grnd = true,
 
-                            });
+                            //});
+                            var _err = errors.Where(q => q.flight_no == x.ofp.FlightNo).FirstOrDefault();
+                            if (_err != null)
+                            {
+                                _err.rvsm_grnd = true;
+
+                            }
                         }
 
 
-                        var rvsm_prelevel_props = x.items.Where(q => q.name.Contains("rvsm_flt") && q.name.Contains("4")).ToList();
-                        var rvsm_prelevel_props_null = rvsm_prelevel_props.Where(q => string.IsNullOrEmpty(q.value)).Count();
-                        if (rvsm_prelevel_props_null > 0)
-                        {
-                            errors.Add(new _h_error()
-                            {
-                                flight_no = x.ofp.FlightNo,
-                                route = x.ofp.Origin + "-" + x.ofp.Destination,
-                                rvsm_prelevel = true,
+                        //var rvsm_prelevel_props = x.items.Where(q => q.name.Contains("rvsm_flt") && q.name.Contains("4")).ToList();
+                        //var rvsm_prelevel_props_null = rvsm_prelevel_props.Where(q => string.IsNullOrEmpty(q.value)).Count();
+                        //if (rvsm_prelevel_props_null > 0)
+                        //{
+                        //    errors.Add(new _h_error()
+                        //    {
+                        //        flight_no = x.ofp.FlightNo,
+                        //        route = x.ofp.Origin + "-" + x.ofp.Destination,
+                        //        rvsm_prelevel = true,
 
-                            });
-                        }
+                        //    });
+                        //}
 
                         var rvsm_flt_l= x.items.Where(q => q.name.EndsWith("rvsm_flt_l")).FirstOrDefault().value;
                         var rvsm_flt_stby = x.items.Where(q => q.name.EndsWith("rvsm_flt_stby")).FirstOrDefault().value;
                         var rvsm_flt_r = x.items.Where(q => q.name.EndsWith("rvsm_flt_r")).FirstOrDefault().value;
                         var rvsm_flt_time = x.items.Where(q => q.name.EndsWith("rvsm_flt_time")).FirstOrDefault().value;
                         if (string.IsNullOrEmpty(rvsm_flt_l) || string.IsNullOrEmpty(rvsm_flt_stby) || string.IsNullOrEmpty(rvsm_flt_r) || string.IsNullOrEmpty(rvsm_flt_time))
-                            errors.Add(new _h_error()
-                            {
-                                flight_no = x.ofp.FlightNo,
-                                route = x.ofp.Origin + "-" + x.ofp.Destination,
-                                rvsm_flight = true,
+                        {
+                            //errors.Add(new _h_error()
+                            //{
+                            //    flight_no = x.ofp.FlightNo,
+                            //    route = x.ofp.Origin + "-" + x.ofp.Destination,
+                            //    rvsm_flight = true,
 
-                            });
+                            //});
+                            var _err = errors.Where(q => q.flight_no == x.ofp.FlightNo).FirstOrDefault();
+                            if (_err != null)
+                            {
+                                _err.rvsm_flight = true;
+
+                            }
+                        }
 
 
 

@@ -383,6 +383,10 @@
           <Property Name="VldRampPassFOORemark" Type="varchar" MaxLength="255" />
           <Property Name="VldRampPassCMDRRemark" Type="varchar" MaxLength="255" />
           <Property Name="Note" Type="varchar(max)" />
+          <Property Name="SgnDSPLicNo" Type="varchar" MaxLength="500" />
+          <Property Name="SgnCPTLicNo" Type="varchar" MaxLength="500" />
+          <Property Name="JLDSPSignDate" Type="datetime" />
+          <Property Name="SGNDSPName" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="EFBFlightIrregularity">
           <Key>
@@ -513,6 +517,14 @@
           <Property Name="InitPosition" Type="varchar" MaxLength="500" />
           <Property Name="PLNEnd" Type="datetime" />
           <Property Name="PLNRest" Type="datetime" />
+          <Property Name="PosFrom" Type="varchar" MaxLength="255" />
+          <Property Name="PosTo" Type="varchar" MaxLength="255" />
+          <Property Name="PosDep" Type="datetime" />
+          <Property Name="PosArr" Type="datetime" />
+          <Property Name="PosAirline" Type="varchar" MaxLength="500" />
+          <Property Name="PosFDPId" Type="int" />
+          <Property Name="PosRemark" Type="varchar" MaxLength="500" />
+          <Property Name="PosTicketUrl" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="FDPItem">
           <Key>
@@ -530,6 +542,20 @@
           <Property Name="RosterPositionId" Type="int" />
           <Property Name="Pickup" Type="datetime" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="FlightCharterer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
+          <Property Name="ChartererId" Type="int" Nullable="false" />
+          <Property Name="Book" Type="int" />
+          <Property Name="Capacity" Type="int" />
+          <Property Name="Remark" Type="varchar" MaxLength="500" />
+          <Property Name="Adult" Type="int" />
+          <Property Name="Child" Type="int" />
+          <Property Name="Infanct" Type="int" />
         </EntityType>
         <EntityType Name="FlightDelay">
           <Key>
@@ -1662,6 +1688,10 @@
           <Property Name="TypeFoker100IssueDate" Type="datetime2" Precision="7" />
           <Property Name="TypeFoker50ExpireDate" Type="datetime2" Precision="7" />
           <Property Name="TypeFoker100ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="SMSL2IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="SMSL2ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="SMSL3IssueDate" Type="datetime2" Precision="7" />
+          <Property Name="SMSL3ExpireDate" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="PersonHistory">
           <Key>
@@ -1951,6 +1981,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.AppFTL' does not have a primary key
           <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
           <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
           <Property Name="IsCockpit" Type="int" Nullable="false" />
+          <Property Name="RERRP" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.AppFTLAbs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2784,7 +2815,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewDuty' does not have a prima
           <Property Name="DateStartDay" Type="int" />
           <Property Name="RestUntil" Type="datetime" />
           <Property Name="RestUntilLocal" Type="datetime" />
-          <Property Name="Remark2" Type="nvarchar" MaxLength="500" />
+          <Property Name="Remark2" Type="nvarchar" MaxLength="1013" />
           <Property Name="InitFlts" Type="varchar" MaxLength="500" />
           <Property Name="InitRoute" Type="varchar" MaxLength="500" />
           <Property Name="CanceledNo" Type="varchar" MaxLength="500" />
@@ -2805,6 +2836,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewDuty' does not have a prima
           <Property Name="IsConfirmed" Type="int" Nullable="false" />
           <Property Name="UserName" Type="varchar" MaxLength="500" />
           <Property Name="BaseAirportId" Type="int" />
+          <Property Name="PosFrom" Type="varchar" MaxLength="255" />
+          <Property Name="PosTo" Type="varchar" MaxLength="255" />
+          <Property Name="PosDep" Type="datetime" />
+          <Property Name="PosArr" Type="datetime" />
+          <Property Name="PosAirline" Type="varchar" MaxLength="500" />
+          <Property Name="PosFDPId" Type="int" />
+          <Property Name="PosRemark" Type="varchar" MaxLength="500" />
+          <Property Name="PosTicketUrl" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewDutyTimeLine' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3527,8 +3566,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBDSPReleases' does not have a
           <Property Name="VldRampPassFOORemark" Type="varchar" MaxLength="255" />
           <Property Name="VldRampPassCMDRRemark" Type="varchar" MaxLength="255" />
           <Property Name="Note" Type="varchar(max)" />
-          <Property Name="MinFuelRequiredCFP" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="MinFuelRequiredCFP" Type="decimal" Precision="18" Scale="0" />
           <Property Name="OFPTOTALFUEL" Type="int" />
+          <Property Name="SgnDSPLicNo" Type="varchar" MaxLength="500" />
+          <Property Name="SgnCPTLicNo" Type="varchar" MaxLength="500" />
+          <Property Name="JLDSPSignDate" Type="datetime" />
+          <Property Name="SGNDSPName" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployeeLight' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3779,6 +3822,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewFDPRest' does not have a primar
           <Property Name="UserName" Type="varchar" MaxLength="500" />
           <Property Name="UPD" Type="int" />
           <Property Name="CustomerId" Type="int" />
+          <Property Name="PosFrom" Type="varchar" MaxLength="255" />
+          <Property Name="PosTo" Type="varchar" MaxLength="255" />
+          <Property Name="PosDep" Type="datetime" />
+          <Property Name="PosArr" Type="datetime" />
+          <Property Name="PosAirline" Type="varchar" MaxLength="500" />
+          <Property Name="PosFDPId" Type="int" />
+          <Property Name="PosRemark" Type="varchar" MaxLength="500" />
+          <Property Name="PosTicketUrl" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewFDRReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -4978,6 +5029,34 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_chr_chr">
+          <End Role="Charterer" Type="Self.Charterer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FlightCharterer" Type="Self.FlightCharterer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Charterer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FlightCharterer">
+              <PropertyRef Name="ChartererId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_chr_flt">
+          <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FlightCharterer" Type="Self.FlightCharterer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightCharterer">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DOC_DOC">
           <End Role="Document" Type="Self.Document" Multiplicity="0..1" />
           <End Role="Document1" Type="Self.Document" Multiplicity="*" />
@@ -5266,6 +5345,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySet Name="EmployeeDocument" EntityType="Self.EmployeeDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FDP" EntityType="Self.FDP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FDPItem" EntityType="Self.FDPItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlightCharterer" EntityType="Self.FlightCharterer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlightDelay" EntityType="Self.FlightDelay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlightInformation" EntityType="Self.FlightInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FTLSummary" EntityType="Self.FTLSummary" Schema="dbo" store:Type="Tables" />
@@ -5504,7 +5584,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
     [AppFTL].[ScheduleName] AS [ScheduleName], 
     [AppFTL].[JobGroup] AS [JobGroup], 
     [AppFTL].[JobGroupCode] AS [JobGroupCode], 
-    [AppFTL].[IsCockpit] AS [IsCockpit]
+    [AppFTL].[IsCockpit] AS [IsCockpit], 
+    [AppFTL].[RERRP] AS [RERRP]
     FROM [dbo].[AppFTL] AS [AppFTL]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="AppFTLAbs" EntityType="Self.AppFTLAbs" store:Type="Views" store:Schema="dbo">
@@ -6241,7 +6322,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
     [ViewCrewDuty].[ConfirmedBy] AS [ConfirmedBy], 
     [ViewCrewDuty].[IsConfirmed] AS [IsConfirmed], 
     [ViewCrewDuty].[UserName] AS [UserName], 
-    [ViewCrewDuty].[BaseAirportId] AS [BaseAirportId]
+    [ViewCrewDuty].[BaseAirportId] AS [BaseAirportId], 
+    [ViewCrewDuty].[PosFrom] AS [PosFrom], 
+    [ViewCrewDuty].[PosTo] AS [PosTo], 
+    [ViewCrewDuty].[PosDep] AS [PosDep], 
+    [ViewCrewDuty].[PosArr] AS [PosArr], 
+    [ViewCrewDuty].[PosAirline] AS [PosAirline], 
+    [ViewCrewDuty].[PosFDPId] AS [PosFDPId], 
+    [ViewCrewDuty].[PosRemark] AS [PosRemark], 
+    [ViewCrewDuty].[PosTicketUrl] AS [PosTicketUrl]
     FROM [dbo].[ViewCrewDuty] AS [ViewCrewDuty]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewCrewDutyTimeLine" EntityType="Self.ViewCrewDutyTimeLine" store:Type="Views" store:Schema="dbo">
@@ -6863,7 +6952,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
     [ViewEFBDSPReleases].[VldRampPassCMDRRemark] AS [VldRampPassCMDRRemark], 
     [ViewEFBDSPReleases].[Note] AS [Note], 
     [ViewEFBDSPReleases].[MinFuelRequiredCFP] AS [MinFuelRequiredCFP], 
-    [ViewEFBDSPReleases].[OFPTOTALFUEL] AS [OFPTOTALFUEL]
+    [ViewEFBDSPReleases].[OFPTOTALFUEL] AS [OFPTOTALFUEL], 
+    [ViewEFBDSPReleases].[SgnDSPLicNo] AS [SgnDSPLicNo], 
+    [ViewEFBDSPReleases].[SgnCPTLicNo] AS [SgnCPTLicNo], 
+    [ViewEFBDSPReleases].[JLDSPSignDate] AS [JLDSPSignDate], 
+    [ViewEFBDSPReleases].[SGNDSPName] AS [SGNDSPName]
     FROM [dbo].[ViewEFBDSPReleases] AS [ViewEFBDSPReleases]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewEmployeeLight" EntityType="Self.ViewEmployeeLight" store:Type="Views" store:Schema="dbo">
@@ -7069,7 +7162,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
     [ViewFDPRest].[IsConfirmed] AS [IsConfirmed], 
     [ViewFDPRest].[UserName] AS [UserName], 
     [ViewFDPRest].[UPD] AS [UPD], 
-    [ViewFDPRest].[CustomerId] AS [CustomerId]
+    [ViewFDPRest].[CustomerId] AS [CustomerId], 
+    [ViewFDPRest].[PosFrom] AS [PosFrom], 
+    [ViewFDPRest].[PosTo] AS [PosTo], 
+    [ViewFDPRest].[PosDep] AS [PosDep], 
+    [ViewFDPRest].[PosArr] AS [PosArr], 
+    [ViewFDPRest].[PosAirline] AS [PosAirline], 
+    [ViewFDPRest].[PosFDPId] AS [PosFDPId], 
+    [ViewFDPRest].[PosRemark] AS [PosRemark], 
+    [ViewFDPRest].[PosTicketUrl] AS [PosTicketUrl]
     FROM [dbo].[ViewFDPRest] AS [ViewFDPRest]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewFDRReport" EntityType="Self.ViewFDRReport" store:Type="Views" store:Schema="dbo">
@@ -8074,6 +8175,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
             <End Role="Document" EntitySet="Document" />
             <End Role="BookFile" EntitySet="BookFile" />
           </AssociationSet>
+          <AssociationSet Name="fk_chr_chr" Association="Self.fk_chr_chr">
+            <End Role="Charterer" EntitySet="Charterer" />
+            <End Role="FlightCharterer" EntitySet="FlightCharterer" />
+          </AssociationSet>
+          <AssociationSet Name="fk_chr_flt" Association="Self.fk_chr_flt">
+            <End Role="FlightInformation" EntitySet="FlightInformation" />
+            <End Role="FlightCharterer" EntitySet="FlightCharterer" />
+          </AssociationSet>
           <AssociationSet Name="FK_DOC_DOC" Association="Self.FK_DOC_DOC">
             <End Role="Document" EntitySet="Document" />
             <End Role="Document1" EntitySet="Document" />
@@ -8378,6 +8487,15 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySet Name="ReportRosters" EntityType="FLYModel.ReportRoster" />
           <EntitySet Name="AppFTLs" EntityType="FLYModel.AppFTL" />
           <EntitySet Name="ViewFlightCharterers" EntityType="FLYModel.ViewFlightCharterer" />
+          <EntitySet Name="FlightCharterers" EntityType="FLYModel.FlightCharterer" />
+          <AssociationSet Name="fk_chr_chr" Association="FLYModel.fk_chr_chr">
+            <End Role="Charterer" EntitySet="Charterers" />
+            <End Role="FlightCharterer" EntitySet="FlightCharterers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_chr_flt" Association="FLYModel.fk_chr_flt">
+            <End Role="FlightInformation" EntitySet="FlightInformations" />
+            <End Role="FlightCharterer" EntitySet="FlightCharterers" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="DlyGrpFlight">
           <Key>
@@ -8739,6 +8857,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="InitPosition" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="PLNEnd" Type="DateTime" Precision="3" />
           <Property Name="PLNRest" Type="DateTime" Precision="3" />
+          <Property Name="PosFrom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosTo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosDep" Type="DateTime" Precision="3" />
+          <Property Name="PosArr" Type="DateTime" Precision="3" />
+          <Property Name="PosAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosFDPId" Type="Int32" />
+          <Property Name="PosRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosTicketUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="IdeaSessionItem">
           <Key>
@@ -9023,6 +9149,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="UserName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="UPD" Type="Int32" />
           <Property Name="CustomerId" Type="Int32" />
+          <Property Name="PosFrom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosTo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosDep" Type="DateTime" Precision="3" />
+          <Property Name="PosArr" Type="DateTime" Precision="3" />
+          <Property Name="PosAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosFDPId" Type="Int32" />
+          <Property Name="PosRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosTicketUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="IdeaSessionUpdateError">
           <Key>
@@ -10634,6 +10768,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="NiraCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Title2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FlightCharterers" Relationship="FLYModel.fk_chr_chr" FromRole="Charterer" ToRole="FlightCharterer" />
         </EntityType>
         <EntityType Name="ViewTimeTable">
           <Key>
@@ -10810,7 +10945,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="DateStartDay" Type="Int32" />
           <Property Name="RestUntil" Type="DateTime" Precision="3" />
           <Property Name="RestUntilLocal" Type="DateTime" Precision="3" />
-          <Property Name="Remark2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Remark2" Type="String" MaxLength="1013" FixedLength="false" Unicode="true" />
           <Property Name="InitFlts" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="InitRoute" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="CanceledNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
@@ -10831,6 +10966,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="IsConfirmed" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="BaseAirportId" Type="Int32" />
+          <Property Name="PosFrom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosTo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosDep" Type="DateTime" Precision="3" />
+          <Property Name="PosArr" Type="DateTime" Precision="3" />
+          <Property Name="PosAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosFDPId" Type="Int32" />
+          <Property Name="PosRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosTicketUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="NiraHistory">
           <Key>
@@ -11555,6 +11698,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="TypeFoker100IssueDate" Type="DateTime" Precision="7" />
           <Property Name="TypeFoker50ExpireDate" Type="DateTime" Precision="7" />
           <Property Name="TypeFoker100ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="SMSL2IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="SMSL2ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="SMSL3IssueDate" Type="DateTime" Precision="7" />
+          <Property Name="SMSL3ExpireDate" Type="DateTime" Precision="7" />
         </EntityType>
         <EntityType Name="OFPImportProp">
           <Key>
@@ -11857,8 +12004,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="VldRampPassFOORemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VldRampPassCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="MinFuelRequiredCFP" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="MinFuelRequiredCFP" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="OFPTOTALFUEL" Type="Int32" />
+          <Property Name="SgnDSPLicNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SgnCPTLicNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JLDSPSignDate" Type="DateTime" Precision="3" />
+          <Property Name="SGNDSPName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EmployeeDocument">
           <Key>
@@ -12231,6 +12382,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="VldRampPassCMDRRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FlightInformation" Relationship="FLYModel.fk_EFB_FI" FromRole="EFBDSPRelease" ToRole="FlightInformation" />
+          <Property Name="SgnDSPLicNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SgnCPTLicNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="JLDSPSignDate" Type="DateTime" Precision="3" />
+          <Property Name="SGNDSPName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="FlightInformation">
           <Key>
@@ -12541,6 +12696,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="FuelUsedEng2" Type="Int32" />
           <Property Name="ACTUALTANKERINGFUEL" Type="Int32" />
           <Property Name="LTR2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FlightCharterers" Relationship="FLYModel.fk_chr_flt" FromRole="FlightInformation" ToRole="FlightCharterer" />
         </EntityType>
         <Association Name="FK_FlightInformation_Ac_MSN">
           <End Type="FLYModel.Ac_MSN" Role="Ac_MSN" Multiplicity="0..1" />
@@ -13454,6 +13610,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="IsCockpit" Type="Int32" Nullable="false" />
+          <Property Name="RERRP" Type="Int32" />
         </EntityType>
         <EntityType Name="ViewFlightCharterer">
           <Key>
@@ -13524,6 +13681,50 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="PDate" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="FlightCharterer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="ChartererId" Type="Int32" Nullable="false" />
+          <Property Name="Book" Type="Int32" />
+          <Property Name="Capacity" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Adult" Type="Int32" />
+          <Property Name="Child" Type="Int32" />
+          <Property Name="Infanct" Type="Int32" />
+          <NavigationProperty Name="Charterer" Relationship="FLYModel.fk_chr_chr" FromRole="FlightCharterer" ToRole="Charterer" />
+          <NavigationProperty Name="FlightInformation" Relationship="FLYModel.fk_chr_flt" FromRole="FlightCharterer" ToRole="FlightInformation" />
+        </EntityType>
+        <Association Name="fk_chr_chr">
+          <End Type="FLYModel.Charterer" Role="Charterer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FLYModel.FlightCharterer" Role="FlightCharterer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Charterer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FlightCharterer">
+              <PropertyRef Name="ChartererId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_chr_flt">
+          <End Type="FLYModel.FlightInformation" Role="FlightInformation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FLYModel.FlightCharterer" Role="FlightCharterer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightCharterer">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -13848,6 +14049,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySetMapping Name="FDPs">
             <EntityTypeMapping TypeName="FLYModel.FDP">
               <MappingFragment StoreEntitySet="FDP">
+                <ScalarProperty Name="PosTicketUrl" ColumnName="PosTicketUrl" />
+                <ScalarProperty Name="PosRemark" ColumnName="PosRemark" />
+                <ScalarProperty Name="PosFDPId" ColumnName="PosFDPId" />
+                <ScalarProperty Name="PosAirline" ColumnName="PosAirline" />
+                <ScalarProperty Name="PosArr" ColumnName="PosArr" />
+                <ScalarProperty Name="PosDep" ColumnName="PosDep" />
+                <ScalarProperty Name="PosTo" ColumnName="PosTo" />
+                <ScalarProperty Name="PosFrom" ColumnName="PosFrom" />
                 <ScalarProperty Name="PLNRest" ColumnName="PLNRest" />
                 <ScalarProperty Name="PLNEnd" ColumnName="PLNEnd" />
                 <ScalarProperty Name="InitPosition" ColumnName="InitPosition" />
@@ -14035,6 +14244,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySetMapping Name="ViewFDPRests">
             <EntityTypeMapping TypeName="FLYModel.ViewFDPRest">
               <MappingFragment StoreEntitySet="ViewFDPRest">
+                <ScalarProperty Name="PosTicketUrl" ColumnName="PosTicketUrl" />
+                <ScalarProperty Name="PosRemark" ColumnName="PosRemark" />
+                <ScalarProperty Name="PosFDPId" ColumnName="PosFDPId" />
+                <ScalarProperty Name="PosAirline" ColumnName="PosAirline" />
+                <ScalarProperty Name="PosArr" ColumnName="PosArr" />
+                <ScalarProperty Name="PosDep" ColumnName="PosDep" />
+                <ScalarProperty Name="PosTo" ColumnName="PosTo" />
+                <ScalarProperty Name="PosFrom" ColumnName="PosFrom" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="UPD" ColumnName="UPD" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -15656,6 +15873,14 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySetMapping Name="ViewCrewDuties">
             <EntityTypeMapping TypeName="FLYModel.ViewCrewDuty">
               <MappingFragment StoreEntitySet="ViewCrewDuty">
+                <ScalarProperty Name="PosTicketUrl" ColumnName="PosTicketUrl" />
+                <ScalarProperty Name="PosRemark" ColumnName="PosRemark" />
+                <ScalarProperty Name="PosFDPId" ColumnName="PosFDPId" />
+                <ScalarProperty Name="PosAirline" ColumnName="PosAirline" />
+                <ScalarProperty Name="PosArr" ColumnName="PosArr" />
+                <ScalarProperty Name="PosDep" ColumnName="PosDep" />
+                <ScalarProperty Name="PosTo" ColumnName="PosTo" />
+                <ScalarProperty Name="PosFrom" ColumnName="PosFrom" />
                 <ScalarProperty Name="BaseAirportId" ColumnName="BaseAirportId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
@@ -15923,6 +16148,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="FLYModel.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="SMSL3ExpireDate" ColumnName="SMSL3ExpireDate" />
+                <ScalarProperty Name="SMSL3IssueDate" ColumnName="SMSL3IssueDate" />
+                <ScalarProperty Name="SMSL2ExpireDate" ColumnName="SMSL2ExpireDate" />
+                <ScalarProperty Name="SMSL2IssueDate" ColumnName="SMSL2IssueDate" />
                 <ScalarProperty Name="TypeFoker100ExpireDate" ColumnName="TypeFoker100ExpireDate" />
                 <ScalarProperty Name="TypeFoker50ExpireDate" ColumnName="TypeFoker50ExpireDate" />
                 <ScalarProperty Name="TypeFoker100IssueDate" ColumnName="TypeFoker100IssueDate" />
@@ -16542,6 +16771,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySetMapping Name="ViewEFBDSPReleases">
             <EntityTypeMapping TypeName="FLYModel.ViewEFBDSPReleas">
               <MappingFragment StoreEntitySet="ViewEFBDSPReleases">
+                <ScalarProperty Name="SGNDSPName" ColumnName="SGNDSPName" />
+                <ScalarProperty Name="JLDSPSignDate" ColumnName="JLDSPSignDate" />
+                <ScalarProperty Name="SgnCPTLicNo" ColumnName="SgnCPTLicNo" />
+                <ScalarProperty Name="SgnDSPLicNo" ColumnName="SgnDSPLicNo" />
                 <ScalarProperty Name="OFPTOTALFUEL" ColumnName="OFPTOTALFUEL" />
                 <ScalarProperty Name="MinFuelRequiredCFP" ColumnName="MinFuelRequiredCFP" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
@@ -16891,6 +17124,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySetMapping Name="EFBDSPReleases">
             <EntityTypeMapping TypeName="FLYModel.EFBDSPRelease">
               <MappingFragment StoreEntitySet="EFBDSPRelease">
+                <ScalarProperty Name="SGNDSPName" ColumnName="SGNDSPName" />
+                <ScalarProperty Name="JLDSPSignDate" ColumnName="JLDSPSignDate" />
+                <ScalarProperty Name="SgnCPTLicNo" ColumnName="SgnCPTLicNo" />
+                <ScalarProperty Name="SgnDSPLicNo" ColumnName="SgnDSPLicNo" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="VldRampPassCMDRRemark" ColumnName="VldRampPassCMDRRemark" />
                 <ScalarProperty Name="VldRampPassFOORemark" ColumnName="VldRampPassFOORemark" />
@@ -18023,6 +18260,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySetMapping Name="AppFTLs">
             <EntityTypeMapping TypeName="FLYModel.AppFTL">
               <MappingFragment StoreEntitySet="AppFTL">
+                <ScalarProperty Name="RERRP" ColumnName="RERRP" />
                 <ScalarProperty Name="IsCockpit" ColumnName="IsCockpit" />
                 <ScalarProperty Name="JobGroupCode" ColumnName="JobGroupCode" />
                 <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
@@ -18110,6 +18348,21 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
                 <ScalarProperty Name="Takeoff" ColumnName="Takeoff" />
                 <ScalarProperty Name="Landing" ColumnName="Landing" />
                 <ScalarProperty Name="ChocksIn" ColumnName="ChocksIn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlightCharterers">
+            <EntityTypeMapping TypeName="FLYModel.FlightCharterer">
+              <MappingFragment StoreEntitySet="FlightCharterer">
+                <ScalarProperty Name="Infanct" ColumnName="Infanct" />
+                <ScalarProperty Name="Child" ColumnName="Child" />
+                <ScalarProperty Name="Adult" ColumnName="Adult" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Book" ColumnName="Book" />
+                <ScalarProperty Name="ChartererId" ColumnName="ChartererId" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

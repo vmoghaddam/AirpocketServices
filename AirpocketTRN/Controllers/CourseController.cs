@@ -560,6 +560,22 @@ namespace AirpocketTRN.Controllers
 
             return Ok(result);
         }
+        [Route("api/course/type/notapplicable/save")]
+        [AcceptVerbs("POST")]
+        public async Task<IHttpActionResult> PostCourseTypeApplicable( CourseService.course_type_notapplicable_viewmodel  dto)
+        {
+            var result = await courseService.SaveCourseTypeNotApplicable(dto);
+
+            return Ok(result);
+        }
+        [Route("api/course/type/notapplicable/{ctid}")]
+        [AcceptVerbs("GET")]
+        public async Task<IHttpActionResult> GetCourseTypeNotApplicable(int ctid)
+        {
+            var result = await courseService.GetCourseTypeNotApplicable(ctid);
+
+            return Ok(result);
+        }
 
         [Route("api/course/type/group/save")]
         [AcceptVerbs("POST")]

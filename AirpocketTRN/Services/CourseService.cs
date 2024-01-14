@@ -858,7 +858,7 @@ namespace AirpocketTRN.Services
             };
         }
 
-
+        //2024-01-09
         public async Task<DataResponse> GetProfilesAbs(string grp)
         {
 
@@ -867,7 +867,7 @@ namespace AirpocketTRN.Services
 
             grp = grp.Replace('x', '/');
             if (grp != "-1")
-                query = query.Where(q => q.JobGroupRoot == grp);
+                query = query.Where(q => q.JobGroupRoot == grp || q.PostRoot == grp);
             var profiles = await query.Select(q => new
             {
                 q.Id,
@@ -1392,6 +1392,17 @@ namespace AirpocketTRN.Services
         public async Task<DataResponse> GetCoursePeople(int cid)
         {
             var result = await context.ViewCoursePeoples.OrderBy(q => q.CourseId == cid).ToListAsync();
+
+            return new DataResponse()
+            {
+                Data = result,
+                IsSuccess = true,
+            };
+        }
+
+        public async Task<DataResponse> GetCourseTypeNotApplicable(int ctid)
+        {
+            var result = await context.CourseTypeApplicables.Where(q => q.IsApplicable == false && q.CourseTypeId == ctid).Select(q => q.TrainingGroup).ToListAsync();
 
             return new DataResponse()
             {
@@ -2019,6 +2030,75 @@ namespace AirpocketTRN.Services
 
             await context.SaveChangesAsync();
             dto.Id = entity.Id;
+
+            await SaveCourseTypeNotApplicable(new course_type_notapplicable_viewmodel() { 
+              groups=dto.not_applicables,
+               type_id=dto.Id
+            });
+
+            return new DataResponse()
+            {
+                IsSuccess = true,
+                Data = dto,
+            };
+        }
+
+
+        public class course_type_notapplicable_viewmodel
+        {
+            public int type_id { get; set; }
+            public List<string> groups { get; set; }
+            
+        }
+
+        public async Task<DataResponse> SaveCourseTypeNotApplicable( course_type_notapplicable_viewmodel  dto)
+        {
+            var type_id = dto.type_id;
+            var exist = context.CourseTypeApplicables.Where(q => q.CourseTypeId == type_id).ToList();
+            context.CourseTypeApplicables.RemoveRange(exist);
+            if (dto.groups.Count == 0)
+            {
+                await context.SaveChangesAsync();
+                return new DataResponse()
+                {
+                    IsSuccess = true,
+                    Data = dto,
+                };
+            }
+
+            foreach (var item in dto.groups)
+            {
+                context.CourseTypeApplicables.Add(new CourseTypeApplicable()
+                {
+                    CourseTypeId =type_id,
+                    TrainingGroup = item  ,
+                    IsApplicable = false
+                });
+            }
+
+           // var not_applicables = dto.Where(q => q.applicable == false).ToList();
+           
+            var certificate_type = (from ct in context.CourseTypes
+                                    join c in context.CertificateTypes on ct.CertificateTypeId equals c.Id
+                                    where ct.Id == type_id
+                                    select c).FirstOrDefault();
+            var dto_groups = dto.groups;
+            var profiles = context.ViewProfiles.Where(q => dto_groups.Contains(q.JobGroupRoot) || dto_groups.Contains(q.PostRoot)).ToList();
+            var profile_ids = profiles.Select(q => q.PersonId).ToList();
+            var last_history = context.ViewCertificateHistoryRankeds.Where(q => q.RankOrder == 1 && profile_ids.Contains(q.PersonId) && q.CertificateTypeId == certificate_type.Id).Select(q=>q.Id).ToList();
+            var history_whr = string.Join(",", last_history);
+            context.Database.ExecuteSqlCommand(
+                      "UPDATE CertificateHistory SET DateExpire = null WHERE Id in (" + history_whr + ")");
+
+            await context.SaveChangesAsync();
+
+            //return new DataResponse()
+            //{
+            //    Data = dto,
+            //    IsSuccess = false,
+            //    Errors = new List<string>() { "Duplicated Title Found" }
+            //};
+
             return new DataResponse()
             {
                 IsSuccess = true,
@@ -2830,6 +2910,8 @@ namespace AirpocketTRN.Services
         {
             CoursePeople cp = null;
 
+           
+
 
             if (dto.Id != -1)
                 cp = await context.CoursePeoples.Where(q => q.Id == dto.Id).FirstOrDefaultAsync();
@@ -2839,6 +2921,9 @@ namespace AirpocketTRN.Services
                 cp.DateStatus = DateTime.Now;
 
             var course = await context.ViewCourseNews.Where(q => q.Id == cp.CourseId).FirstOrDefaultAsync();
+            var profile = context.ViewProfiles.Where(q => q.PersonId == dto.PersonId).FirstOrDefault();
+            var not_applicable = context.CourseTypeApplicables.Where(q => q.IsApplicable == false && (q.TrainingGroup == profile.JobGroupRoot || q.TrainingGroup == profile.PostRoot)
+                  && q.CourseTypeId == course.CourseTypeId).FirstOrDefault();
             var history = await context.CertificateHistories.Where(q => q.PersonId == dto.PersonId && q.CourseId == dto.CourseId).FirstOrDefaultAsync();
 
             var certificate_type = await context.CertificateTypes.Where(q => q.Id == course.CertificateTypeId).FirstOrDefaultAsync();
@@ -2873,7 +2958,7 @@ namespace AirpocketTRN.Services
                     CourseId = dto.CourseId,
                     CertificateType = certificate_type != null ? (!string.IsNullOrEmpty(certificate_type.IssueField) ? certificate_type.IssueField : certificate_type.ExpireField) : "", //field_map.Identifier,
                     DateCreate = DateTime.Now,
-                    DateExpire = cp.DateExpire,
+                    DateExpire = not_applicable ==null? cp.DateExpire:null,
                     DateIssue = cp.DateIssue,
                     PersonId = (int)cp.PersonId,
                     Remark = "Update Course Result"
@@ -2894,6 +2979,8 @@ namespace AirpocketTRN.Services
                     cmd_upd_part.Add(/*field_map.DbFieldIssue*/certificate_type.IssueField + "='" + ((DateTime)cp.DateIssue).ToString("yyyy-MM-dd") + "' ");
                 if (cp.DateExpire != null && !string.IsNullOrEmpty(certificate_type.IssueField))
                     cmd_upd_part.Add(/*field_map.DbFieldExpire*/certificate_type.ExpireField + "='" + ((DateTime)cp.DateExpire).ToString("yyyy-MM-dd") + "' ");
+                if (cp.DateExpire == null  && !string.IsNullOrEmpty(certificate_type.IssueField))
+                    cmd_upd_part.Add(/*field_map.DbFieldExpire*/certificate_type.ExpireField + "=null ");
 
                 var cmd_upd = "Update Person set "
                     + string.Join(",", cmd_upd_part)
@@ -5090,13 +5177,76 @@ namespace AirpocketTRN.Services
             else
                 fileUrl = pdoc.Url;
 
-            var cp = await context.ViewCoursePeoplePassedRankeds.Where(q => q.PersonId == pid && q.CertificateTypeId == tid && q.RankLast == 1).FirstOrDefaultAsync();
-            var emp = await context.ViewEmployees.Where(q => q.PersonId == pid).FirstOrDefaultAsync();
-            return new DataResponse()
+            //SMSL2L3
+            if (tid ==  -1000 )
             {
-                Data = new { certificate = cp, document = new { FileUrl = fileUrl }, employee = emp },
-                IsSuccess = true,
-            };
+                var cp_l2=await context.ViewCoursePeoplePassedRankeds.Where(q => q.PersonId == pid && q.CertificateTypeId == 197 && q.RankLast == 1).FirstOrDefaultAsync();
+                var cp_l3 = await context.ViewCoursePeoplePassedRankeds.Where(q => q.PersonId == pid && q.CertificateTypeId == 198 && q.RankLast == 1).FirstOrDefaultAsync();
+                var emp = await context.ViewEmployees.Where(q => q.PersonId == pid).FirstOrDefaultAsync();
+                ViewCoursePeoplePassedRanked cp = cp_l2;
+                if (cp_l2 == null)
+                    cp = cp_l3;
+                else
+                {
+                    if (cp_l3 != null && cp_l3.DateExpire>=cp_l2.DateExpire)
+                    {
+                        cp = cp_l3;
+                    }
+                }
+                return new DataResponse()
+                {
+                    Data = new { certificate = cp, document = new { FileUrl = fileUrl }, employee = emp },
+                    IsSuccess = true,
+                };
+            }
+            else if (tid == -1001)
+            {
+                var cp_l1 = await context.ViewCoursePeoplePassedRankeds.Where(q => q.PersonId == pid && q.CertificateTypeId == 6 && q.RankLast == 1).FirstOrDefaultAsync();
+                var cp_l2 = await context.ViewCoursePeoplePassedRankeds.Where(q => q.PersonId == pid && q.CertificateTypeId == 197 && q.RankLast == 1).FirstOrDefaultAsync();
+                var cp_l3 = await context.ViewCoursePeoplePassedRankeds.Where(q => q.PersonId == pid && q.CertificateTypeId == 198 && q.RankLast == 1).FirstOrDefaultAsync();
+
+                var cp_l1_exp = cp_l1 == null || cp_l1.DateExpire==null ? new DateTime(1900, 1, 1) : cp_l1.DateExpire;
+                
+                var cp_l2_exp= cp_l2 == null || cp_l2.DateExpire == null ? new DateTime(1900, 1, 1) : cp_l2.DateExpire;
+                var cp_l3_exp = cp_l3 == null || cp_l3.DateExpire == null ? new DateTime(1900, 1, 1) : cp_l3.DateExpire;
+
+                var emp = await context.ViewEmployees.Where(q => q.PersonId == pid).FirstOrDefaultAsync();
+
+                DateTime? cp_date = cp_l1_exp;
+                
+
+                ViewCoursePeoplePassedRanked cp = cp_l1;
+
+                if (cp_l2_exp >= cp_date)
+                {
+                    cp = cp_l2;
+                    cp_date = cp_l2_exp;
+                        
+                }
+                if (cp_l3_exp >= cp_date)
+                {
+                    cp = cp_l3;
+                    cp_date = cp_l3_exp;
+                }
+
+               
+                return new DataResponse()
+                {
+                    Data = new { certificate = cp, document = new { FileUrl = fileUrl }, employee = emp },
+                    IsSuccess = true,
+                };
+            }
+            else
+            {
+                var cp = await context.ViewCoursePeoplePassedRankeds.Where(q => q.PersonId == pid && q.CertificateTypeId == tid && q.RankLast == 1).FirstOrDefaultAsync();
+                var emp = await context.ViewEmployees.Where(q => q.PersonId == pid).FirstOrDefaultAsync();
+                return new DataResponse()
+                {
+                    Data = new { certificate = cp, document = new { FileUrl = fileUrl }, employee = emp },
+                    IsSuccess = true,
+                };
+            }
+            
 
         }
 

@@ -30,7 +30,6 @@
         <EntityTypeShape EntityType="FLYModel.ViewEmployeeTraining" Width="1.5" PointX="5.375" PointY="22.75" />
         <EntityTypeShape EntityType="FLYModel.ViewJobGroupMain" Width="1.5" PointX="22.375" PointY="4.75" />
         <EntityTypeShape EntityType="FLYModel.GRPCourseTypeExpiring" Width="1.5" PointX="9.375" PointY="15.75" />
-        <EntityTypeShape EntityType="FLYModel.GRPCourseTypeExpiringGroup" Width="1.5" PointX="11.375" PointY="15.75" />
         <EntityTypeShape EntityType="FLYModel.GRPCourseTypeExpiringMainGroup" Width="1.5" PointX="9.375" PointY="20.75" />
         <EntityTypeShape EntityType="FLYModel.ViewEmployee" Width="1.5" PointX="11.375" PointY="20.75" />
         <EntityTypeShape EntityType="FLYModel.GRPGroupsCourseTypeExpiring" Width="1.5" PointX="23.375" PointY="21.75" />
@@ -99,6 +98,9 @@
         <EntityTypeShape EntityType="FLYModel.ViewCoursePeople" Width="1.5" PointX="24.375" PointY="32.75" />
         <EntityTypeShape EntityType="FLYModel.ViewCertificateHistory" Width="1.5" PointX="32.375" PointY="27.75" />
         <EntityTypeShape EntityType="FLYModel.ViewCoursePeopleRankedByStart" Width="1.5" PointX="13.375" PointY="5.75" />
+        <EntityTypeShape EntityType="FLYModel.GRPCourseTypeExpiringGroup" Width="1.5" PointX="9.375" PointY="9.75" />
+        <EntityTypeShape EntityType="FLYModel.CourseTypeApplicable" Width="1.5" PointX="21.375" PointY="26.75" />
+        <EntityTypeShape EntityType="FLYModel.ViewCourseTypeApplicable" Width="1.5" PointX="33.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -45,7 +45,6 @@ namespace AirpocketTRN.Models
         public virtual DbSet<ViewEmployeeTraining> ViewEmployeeTrainings { get; set; }
         public virtual DbSet<ViewJobGroupMain> ViewJobGroupMains { get; set; }
         public virtual DbSet<GRPCourseTypeExpiring> GRPCourseTypeExpirings { get; set; }
-        public virtual DbSet<GRPCourseTypeExpiringGroup> GRPCourseTypeExpiringGroups { get; set; }
         public virtual DbSet<GRPCourseTypeExpiringMainGroup> GRPCourseTypeExpiringMainGroups { get; set; }
         public virtual DbSet<ViewEmployee> ViewEmployees { get; set; }
         public virtual DbSet<GRPGroupsCourseTypeExpiring> GRPGroupsCourseTypeExpirings { get; set; }
@@ -94,5 +93,8 @@ namespace AirpocketTRN.Models
         public virtual DbSet<ViewCoursePeople> ViewCoursePeoples { get; set; }
         public virtual DbSet<ViewCertificateHistory> ViewCertificateHistories { get; set; }
         public virtual DbSet<ViewCoursePeopleRankedByStart> ViewCoursePeopleRankedByStarts { get; set; }
+        public virtual DbSet<GRPCourseTypeExpiringGroup> GRPCourseTypeExpiringGroups { get; set; }
+        public virtual DbSet<CourseTypeApplicable> CourseTypeApplicables { get; set; }
+        public virtual DbSet<ViewCourseTypeApplicable> ViewCourseTypeApplicables { get; set; }
     }
 }

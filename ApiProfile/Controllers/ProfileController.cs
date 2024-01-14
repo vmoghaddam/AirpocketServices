@@ -482,7 +482,7 @@ namespace ApiProfile.Controllers
                     query = query.Where(q => q.InActive == false);
                 grp = grp.Replace('x', '/');
                 if (grp != "-1")
-                    query = query.Where(q => q.JobGroupRoot == grp);
+                    query = query.Where(q => q.JobGroupRoot == grp || q.PostRoot==grp);
                 var profiles = await query.ToListAsync();
 
                 return Ok(profiles);

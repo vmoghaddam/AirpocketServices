@@ -87,6 +87,14 @@ namespace AirpocketTRN.Models
         public string InitPosition { get; set; }
         public Nullable<System.DateTime> PLNEnd { get; set; }
         public Nullable<System.DateTime> PLNRest { get; set; }
+        public string PosFrom { get; set; }
+        public string PosTo { get; set; }
+        public Nullable<System.DateTime> PosDep { get; set; }
+        public Nullable<System.DateTime> PosArr { get; set; }
+        public string PosAirline { get; set; }
+        public Nullable<int> PosFDPId { get; set; }
+        public string PosRemark { get; set; }
+        public string PosTicketUrl { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FDP> FDP1 { get; set; }

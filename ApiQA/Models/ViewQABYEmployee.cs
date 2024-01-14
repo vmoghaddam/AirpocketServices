@@ -21,5 +21,7 @@ namespace ApiQA.Models
         public string Category { get; set; }
         public Nullable<int> ReviewResult { get; set; }
         public string ReviewResultTitle { get; set; }
+        public Nullable<int> Priority { get; set; }
+        public Nullable<System.DateTime> DeadLine { get; set; }
     }
 }

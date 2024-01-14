@@ -108,6 +108,18 @@ namespace ApiScheduling.Controllers
                     return 1000;
             }
         }
+        [Route("api/roster/fdps/{crewId}/{year}/{month}")]
+        public IHttpActionResult GetCrewDuties(int crewId, int year, int month)
+        {
+            var context = new Models.dbEntities();
+            var query = from x in  context.ViewCrewDuties
+                        where x.DateStartYear == year && x.DateStartMonth == month && x.CrewId == crewId
+                        select x;
+
+            var result =   query.OrderBy(q => q.DateStartLocal).ToList ();
+            return Ok(result);
+
+        }
         //05-21
         [Route("api/fdps/flight/{ids}")]
 
@@ -1240,11 +1252,38 @@ namespace ApiScheduling.Controllers
 
             duty.InitStart = duty.DateStart;
             duty.InitEnd = duty.DateEnd;
-            //  var rest = new List<int>() { 1167, 1168, 1170, 5000, 5001, 100001, 100003, 300010 };
-            //  duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
-            duty.InitRestTo = duty.DateEnd;
+            var rest_after_duty = Convert.ToInt32(ConfigurationManager.AppSettings["rest_after_duty"]);
+            if (rest_after_duty == 1)
+            {
+                 var rest = new List<int>() { 1167, 1168, 1170, 5000, 5001, 100001, 100003, 300010,300014 };
+                 duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
+            }
+            else
+            {
+                var rest = new List<int>() { 1167, 1168, 1170 };
+                duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;  
+
+            }
+            int rerrp_check = Convert.ToInt32(ConfigurationManager.AppSettings["rerrp_check"]);
+            if (rerrp_check==1 && (new List<int>() { 1167,1168}). Contains(duty.DutyType))
+            {
+                var _dtdate = ((DateTime)duty.InitStart).Date;
+                var _rerrp = await context.AppFTLs.Where(q => q.CrewId == duty.CrewId && q.CDate == _dtdate && q.RERRP > 0).FirstOrDefaultAsync();
+                if (_rerrp == null && (dto.IsAdmin == null || dto.IsAdmin == 0))
+                {
+                    return new CustomActionResult(HttpStatusCode.OK, new
+                    {
+                        Code = 308,
+                        message = "RERRP Error. "
+
+                    });
+                }
+            }
+           
+
+
             var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
-            var d24s = new List<int>() { 1166, 1169, 300008, 100007, 100008, 100002 };
+            var d24s = new List<int>() { 1166, 1169,  100007, 100008, 100002 };
             if (d24s.IndexOf(duty.DutyType) != -1)
             {
                 var _start = ((DateTime)duty.InitStart);//.Date;//.AddMinutes(-utcdiff);
@@ -1253,58 +1292,92 @@ namespace ApiScheduling.Controllers
                 duty.DateEnd = _end.AddMinutes(-1);
                 duty.InitStart = duty.DateStart;
                 duty.InitEnd = duty.DateEnd;
+                duty.InitRestTo = duty.DateEnd;
             }
             if (duty.DutyType == 10000 || duty.DutyType == 10001)
             {
-                /*
-                var _start = ((DateTime)duty.InitStart).AddMinutes(utcdiff);
-                DateTime _end;
-                if (extendedRERRP == 0)
+                var rerrp_calculate = Convert.ToInt32(ConfigurationManager.AppSettings["rerrp_calculate"]);
+                if (rerrp_calculate == 1)
                 {
-                    if (_start.Hour >= 18)
+
+                    var _start = ((DateTime)duty.InitStart).AddMinutes(utcdiff);
+                    DateTime _end;
+                    if (extendedRERRP == 0)
                     {
-                        _end = _start.AddMinutes(36 * 60);
+                        if (_start.Hour >= 18)
+                        {
+                            _end = _start.AddMinutes(36 * 60);
+                        }
+                        else
+                        {
+                            _end = _start.AddMinutes(36 * 60);
+                            var _lnr = 18 * 60 - (_start.Hour * 60 + _start.Minute);
+                            _end = _end.AddMinutes(_lnr);
+                        }
                     }
                     else
                     {
-                        _end = _start.AddMinutes(36 * 60);
-                        var _lnr = 18 * 60 - (_start.Hour * 60 + _start.Minute);
+                        duty.Remark += "(EXTENDED)";
+                        _end = _start.AddMinutes(48 * 60);
+                        var _lnr = 24 * 60 - (_start.Hour * 60 + _start.Minute);
                         _end = _end.AddMinutes(_lnr);
                     }
+                    duty.DateStart = _start.AddMinutes(-utcdiff);
+                    duty.DateEnd = _end.AddMinutes(-utcdiff);
+                    duty.InitStart = duty.DateStart;
+                    duty.InitEnd = duty.DateEnd;
+                    duty.InitRestTo = duty.DateEnd;
                 }
                 else
                 {
-                    duty.Remark += "(EXTENDED)";
-                    _end = _start.AddMinutes(48 * 60);
-                    var _lnr = 24 * 60 - (_start.Hour * 60 + _start.Minute);
-                    _end = _end.AddMinutes(_lnr);
+                    duty.InitStart = duty.DateStart;
+                    duty.InitEnd = duty.DateEnd;
+                    duty.InitRestTo = duty.DateEnd;
                 }
-                duty.DateStart = _start.AddMinutes(-utcdiff);
-                duty.DateEnd = _end.AddMinutes(-utcdiff);*/
+
+
+
+
+            }
+            if (duty.DutyType == 300050)
+            {
+                duty.PosAirline = Convert.ToString(dto.airline);
+                duty.PosRemark = Convert.ToString(dto.ticket_no);
+                duty.PosFrom = Convert.ToString(dto.apt_from );
+                duty.PosTo= Convert.ToString(dto.apt_to);
+
+                
+
                 duty.InitStart = duty.DateStart;
                 duty.InitEnd = duty.DateEnd;
-                duty.InitRestTo = duty.DateEnd;
+                duty.InitRestTo= duty.DateEnd;
+
+                duty.PosDep= duty.DateStart;
+                duty.PosArr= duty.DateEnd;
+                
+
+
             }
-            //  var _bl = Convert.ToInt32(dto.BL);
-            //if (_bl != 0)
-            //{
-            //    duty.TableBlockTimes.Add(new TableBlockTime()
-            //    {
-            //        BlockTime = _bl,
-            //        CDate = _date,
-            //        CrewId = duty.CrewId,
+                //  var _bl = Convert.ToInt32(dto.BL);
+                //if (_bl != 0)
+                //{
+                //    duty.TableBlockTimes.Add(new TableBlockTime()
+                //    {
+                //        BlockTime = _bl,
+                //        CDate = _date,
+                //        CrewId = duty.CrewId,
 
 
-            //    });
-            //    duty.BL = _bl;
-            //}
-            //var _fx = Convert.ToInt32(dto.FX);
-            //if (_fx != 0)
-            //{
-            //    duty.FX = _fx;
-            //}
-            //1166: Dayoff 100003:sim 5000:trn 5001:ofc 10025:mission 300009:rest
-            var _interupted = await context.FDPs.FirstOrDefaultAsync(q =>
+                //    });
+                //    duty.BL = _bl;
+                //}
+                //var _fx = Convert.ToInt32(dto.FX);
+                //if (_fx != 0)
+                //{
+                //    duty.FX = _fx;
+                //}
+                //1166: Dayoff 100003:sim 5000:trn 5001:ofc 10025:mission 300009:rest
+                var _interupted = await context.FDPs.FirstOrDefaultAsync(q =>
 
                                              q.Id != duty.Id && q.CrewId == duty.CrewId
                                              && (
@@ -1495,6 +1568,7 @@ namespace ApiScheduling.Controllers
         //goh
         public async Task<IHttpActionResult> PostRosterSTBYSave(dynamic dto)
         {
+            var type = Convert.ToInt32(dto.type);
             var context = new Models.dbEntities();
             var sbam_start = 0 * 60;
             var sbam_durattion = 11 * 60 + 59;
@@ -1517,16 +1591,63 @@ namespace ApiScheduling.Controllers
             {
                 _end = Convert.ToString(dto.date_end);
             }
-
-
-
             DateTime day = (Convert.ToDateTime(dto.date));
-            var crewId = Convert.ToInt32(dto.crewId);
-            var type = Convert.ToInt32(dto.type);
+            //lool
+            var start = day;
+            var end = day.AddHours(12);
+            // var start = day.AddMinutes(sbam_start);
+            // var end = start.AddMinutes(sbam_durattion);
+            var _from_date = new DateTime();
+            if (string.IsNullOrEmpty(_from))
+            {
+                switch (type)
+                {
+                    case 1167:
+                        _from = day.AddMinutes(sbam_start).ToString("yyyyMMddHHmm");
+                         
+                        _end = day.AddMinutes(sbam_start).AddMinutes(sbam_durattion).ToString("yyyyMMddHHmm");
+                        break;
+                    case 1168:
+                        _from = day.AddMinutes(sbpm_start).ToString("yyyyMMddHHmm");
+                        _end = day.AddMinutes(sbpm_start).AddMinutes(sbam_durattion).ToString("yyyyMMddHHmm");
+                        break;
+                    case 1170:
+                        _from = day.AddMinutes(res_start).ToString("yyyyMMddHHmm");
+                        _end = day.AddMinutes(res_start).AddMinutes(res_duration).ToString("yyyyMMddHHmm");
+                        break;
+                    case 300013:
+                        _from = day.AddMinutes(sbc_start).ToString("yyyyMMddHHmm");
+                        _end = day.AddMinutes(sbc_start).AddMinutes(sbc_duration).ToString("yyyyMMddHHmm");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+
+
+            int crewId = Convert.ToInt32(dto.crewId);
+
             var isgantt = dto.isgantt != null ? Convert.ToInt32(dto.isgantt) : 0;
 
-            //var start = day;
-            //var end = day.AddHours(12);
+
+            int rerrp_check = Convert.ToInt32(ConfigurationManager.AppSettings["rerrp_check"]);
+            if (rerrp_check == 1 && (new List<int>() { 1167, 1168 }).Contains(type))
+            {
+                var _dtdate = ((DateTime)day).Date;
+                var _rerrp = await context.AppFTLs.Where(q => q.CrewId == crewId && q.CDate == _dtdate && q.RERRP > 0).FirstOrDefaultAsync();
+                if (_rerrp == null && (dto.IsAdmin == null || dto.IsAdmin == 0))
+                {
+                    return new CustomActionResult(HttpStatusCode.OK, new
+                    {
+                        Code = 308,
+                        message = "RERRP Error. "
+
+                    });
+                }
+            }
+
             //if (type == 1167)
             //{
             //    start = day.AddHours(12);
@@ -1538,15 +1659,16 @@ namespace ApiScheduling.Controllers
             //}
 
             //caspian
-            var start = day.AddMinutes(sbam_start);
-            var end = start.AddMinutes(sbam_durattion);
+
             if (type == 1168)
             {
+
                 start = toDateTime(_from).AddMinutes(-210);
                 end = toDateTime(_end).AddMinutes(-210);
             }
             if (type == 1167)
             {
+
                 // start = day.AddMinutes(sbpm_start);
                 // end = start.AddMinutes(sbpm_duration);
                 start = toDateTime(_from).AddMinutes(-210);
@@ -1554,6 +1676,7 @@ namespace ApiScheduling.Controllers
             }
             if (type == 300013)
             {
+
                 //start = day.AddMinutes(sbc_start);
                 // end = start.AddMinutes(sbc_duration);
                 start = toDateTime(_from).AddMinutes(-210);
@@ -1561,6 +1684,7 @@ namespace ApiScheduling.Controllers
             }
             if (type == 1170)
             {
+
                 //start = day.AddMinutes(res_start);
                 //end = start.AddMinutes(res_duration);
                 start = toDateTime(_from).AddMinutes(-210);
@@ -2008,6 +2132,9 @@ namespace ApiScheduling.Controllers
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> SaveFDP(RosterFDPDto dto)
         {
+            //rest_after_post_flight
+            int rest_after_post_flight = Convert.ToInt32(ConfigurationManager.AppSettings["rest_after_post_flight"]);
+            int rerrp_check = Convert.ToInt32(ConfigurationManager.AppSettings["rerrp_check"]);
             int _ln = 1;
             if (dto.Id == -100)
             {
@@ -2082,16 +2209,20 @@ namespace ApiScheduling.Controllers
                 var ftlYearFrom = new DateTime(stdday.Year, 1, 1);
                 var ftlYearTo = (new DateTime(stdday.Year + 1, 1, 1)).AddDays(-1);
                 _ln = 7;
-                // var _rerrp = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate == ftlDateFrom && q.RERRP > 0).FirstOrDefaultAsync();
-                // if (_rerrp == null && (dto.IsAdmin == null || dto.IsAdmin == 0))
-                // {
-                //     return new CustomActionResult(HttpStatusCode.OK, new
-                //     {
-                //         Code = 308,
-                //         message = "RERRP Error. "
+                if (rerrp_check == 1)
+                {
+                    var _rerrp = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate == ftlDateFrom && q.RERRP > 0).FirstOrDefaultAsync();
+                    if (_rerrp == null && (dto.IsAdmin == null || dto.IsAdmin == 0))
+                    {
+                        return new CustomActionResult(HttpStatusCode.OK, new
+                        {
+                            Code = 308,
+                            message = "RERRP Error. "
 
-                //    });
-                //}
+                        });
+                    }
+                }
+               
                 _ln = 8;
                 //var _d7 = await this.context.TableDutyFDPs.Where(q => q.CrewId == ncrewid && q.CDate >= _d2 && q.CDate <= _d1).Select(q => q.DurationLocal).SumAsync();
                 var _d7 = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate >= ftlDateFrom && q.CDate <= ftlDate7 && q.Duty7 > 60 * 60 - fdpDuty).FirstOrDefaultAsync();
@@ -2212,6 +2343,10 @@ namespace ApiScheduling.Controllers
                 // if (dto.extension != null && dto.extension > 0)
                 //     rst += 4;
                 //bini
+
+                var post_flight_rest = rest_after_post_flight == 1 ? 30 : 0;
+
+
                 var fdp = new FDP()
                 {
                     IsTemplate = false,
@@ -2230,7 +2365,9 @@ namespace ApiScheduling.Controllers
                     InitEnd = !alldh ? dto.items.Last().onblock.AddMinutes(30) : dto.items.Last().onblock,
                     DateStart = !alldh ? dto.items.First().offblock.AddMinutes(-default_reporting) : dto.items.First().offblock,
                     DateEnd = !alldh ? dto.items.Last().onblock.AddMinutes(30) : dto.items.Last().onblock,
-                    InitRestTo = !alldh ? dto.items.Last().onblock.AddMinutes(30).AddHours(rst) : dto.items.Last().onblock,
+
+                    InitRestTo = !alldh ? dto.items.Last().onblock.AddMinutes(post_flight_rest).AddHours(rst) : dto.items.Last().onblock,
+
                     InitFlights = string.Join("*", dto.flights),
                     InitGroup = dto.group,
                     InitHomeBase = dto.homeBase,
@@ -2973,7 +3110,7 @@ namespace ApiScheduling.Controllers
                         case 1170:
                             x.TypeStr = "RES";
                             break;
-                        
+
                         default:
                             x.TypeStr = "DTY";
                             break;
@@ -3361,6 +3498,7 @@ namespace ApiScheduling.Controllers
                         case 100003:
                         case 1167:
                         case 1168:
+                        case 300013:
                             coef = 0.25;
                             ext = 1;
                             break;

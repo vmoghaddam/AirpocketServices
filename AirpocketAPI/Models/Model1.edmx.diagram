@@ -110,6 +110,9 @@
         <EntityTypeShape EntityType="FLYModel.ReportRoster" Width="1.5" PointX="13.625" PointY="16.75" />
         <EntityTypeShape EntityType="FLYModel.AppFTL" Width="1.5" PointX="9.375" PointY="25.75" />
         <EntityTypeShape EntityType="FLYModel.ViewFlightCharterer" Width="1.5" PointX="5.375" PointY="32.75" />
+        <EntityTypeShape EntityType="FLYModel.FlightCharterer" Width="1.5" PointX="45.625" PointY="39.125" />
+        <AssociationConnector Association="FLYModel.fk_chr_chr" />
+        <AssociationConnector Association="FLYModel.fk_chr_flt" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

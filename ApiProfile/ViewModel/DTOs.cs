@@ -434,6 +434,9 @@ namespace ApiProfile.ViewModels
         public Nullable<System.DateTime> TypeFoker50ExpireDate { get; set; }
         public Nullable<System.DateTime> TypeFoker100ExpireDate { get; set; }
 
+        public Nullable<System.DateTime> TRG07AIssueDate { get; set; }
+        public Nullable<System.DateTime> TRG07AExpireDate { get; set; }
+
         public string BaseAirline { get; set; }
 
         public Nullable<bool> IsType737 { get; set; }
@@ -956,6 +959,9 @@ namespace ApiProfile.ViewModels
             entity.TRG16IssueDate = person.TRG16IssueDate;
             entity.TRG16ExpireDate = person.TRG16ExpireDate;
 
+            entity.TRG07AExpireDate = person.TRG07AExpireDate;
+            entity.TRG07AIssueDate = person.TRG07AIssueDate;
+
 
             entity.Phase1IssueDate = person.Phase1IssueDate;
             entity.Phase1ExpireDate = person.Phase1ExpireDate;
@@ -1398,6 +1404,8 @@ namespace ApiProfile.ViewModels
             person.TRG01ExpireDate = entity.TRG01ExpireDate;
             person.TRG16IssueDate = entity.TRG16IssueDate;
             person.TRG16ExpireDate = entity.TRG16ExpireDate;
+            person.TRG07AIssueDate = entity.TRG07AIssueDate;
+            person.TRG07AExpireDate = entity.TRG07AExpireDate;
 
 
             person.Phase1IssueDate = entity.Phase1IssueDate;
@@ -1709,6 +1717,8 @@ namespace ApiProfile.ViewModels
             if (employee.DateInactiveEnd != null)
                 entity.DateInactiveEnd = ((DateTime)employee.DateInactiveEnd).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
         }
+
+       
     }
 
     public partial class EmployeeLocation

@@ -309,6 +309,9 @@
     <Compile Include="Models\FDPItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FlightCharterer.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FlightDelay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
