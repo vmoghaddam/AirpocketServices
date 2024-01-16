@@ -33,5 +33,6 @@ namespace ApiQA.Models
         public Nullable<System.DateTime> DateEnd { get; set; }
         public Nullable<int> DutyTypeId { get; set; }
         public int Id { get; set; }
+        public Nullable<int> DutyId { get; set; }
     }
 }

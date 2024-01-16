@@ -34,5 +34,16 @@ namespace ApiQA.Models
         public Nullable<int> DutyTypeId { get; set; }
         public int Id { get; set; }
         public string DutyType { get; set; }
+        public Nullable<int> DutyId { get; set; }
+        public Nullable<int> RelatedFDP_Id { get; set; }
+        public Nullable<int> RelatedFDP_DutyTypeId { get; set; }
+        public Nullable<System.DateTime> RelatedFDP_InitStart { get; set; }
+        public Nullable<System.DateTime> RelatedFDP_InitEnd { get; set; }
+        public Nullable<System.DateTime> RelatedFDP_InitRestTo { get; set; }
+        public string RelatedFDP_Flts { get; set; }
+        public string RelatedFDP_Route { get; set; }
+        public Nullable<int> Log2_Id { get; set; }
+        public Nullable<System.DateTime> Log2_DateCreate { get; set; }
+        public string RelatedFDP_DutyType { get; set; }
     }
 }

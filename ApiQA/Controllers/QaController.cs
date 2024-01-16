@@ -1978,7 +1978,7 @@ namespace ApiQA.Controllers
             {
                 var df = ((DateTime)dto.dt_from).Date;
                 var dt = ((DateTime)dto.dt_to).Date.AddDays(1);
-                var ds = context.QAGetEntities((int?)dto.employeeId, (int?)dto.type, df, dt).ToList();
+                var ds = context.QAGetEntities((int?)dto.employeeId, (int?)dto.type, df, dt).ToList().OrderBy(q =>q.DateSign).ThenBy(q => q.DeadLine);
                 var result = new
                 {
                     New = ds.Where(q => q.Category == "New"),
@@ -2503,6 +2503,27 @@ namespace ApiQA.Controllers
             public DateTime DeadLine { get; set; }
         }
 
+        [HttpGet]
+        [Route("get/ast/entityId/{flightId}")]
+        public async Task<DataResponse> GetASREntityId(int flightId)
+        {
+            try
+            {
+              var result = context.EFBASRs.SingleOrDefault(q => q.FlightId == flightId).Id;
+                return new DataResponse() { Data = result, IsSuccess = true };
+
+            }
+            catch (Exception ex)
+            {
+                return new DataResponse()
+                {
+                    Data = ex,
+                    IsSuccess = false
+                };
+            }
+        }
+
+
 
         [HttpPost]
         [Route("api/qa/referr")]
@@ -2512,6 +2533,7 @@ namespace ApiQA.Controllers
             {
                 var test = dto;
                 var parentId = 0;
+               
                 foreach (var y in test)
                 {
                     parentId = context.ViewQAFollowingUps.Where(q => q.Type == (int?)y.Type && q.EntityId == (int?)y.EntityId && q.ReferredId == (int?)y.ReferrerId).ToList().OrderByDescending(q => q.Id).First().Id;
@@ -2521,6 +2543,7 @@ namespace ApiQA.Controllers
 
                 foreach (var x in test)
                 {
+
                     var entity = new QAFollowingUp();
                     context.QAFollowingUps.Add(entity);
                     entity.EntityId = x.EntityId;
@@ -2531,7 +2554,7 @@ namespace ApiQA.Controllers
                     entity.ReviewResult = 2;
                     entity.Comment = x.Comment;
                     entity.ParentId = parentId;
-                    entity.DeadLine = x.DeadLine;
+                    entity.DeadLine = null;
                     entity.Priority = x.Priority;
                 };
                 context.SaveChanges();

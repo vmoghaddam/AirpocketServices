@@ -38,7 +38,6 @@ namespace ApiQA.Models
         public virtual DbSet<ViewQAResponsibility> ViewQAResponsibilities { get; set; }
         public virtual DbSet<ViewQAComment> ViewQAComments { get; set; }
         public virtual DbSet<ViewQAFollowingUp> ViewQAFollowingUps { get; set; }
-        public virtual DbSet<ViewQABYEmployee> ViewQABYEmployees { get; set; }
         public virtual DbSet<ViewQAByEmployeeCount> ViewQAByEmployeeCounts { get; set; }
         public virtual DbSet<ViewFlightLogMain> ViewFlightLogMains { get; set; }
         public virtual DbSet<ViewFlightLog> ViewFlightLogs { get; set; }
@@ -64,7 +63,6 @@ namespace ApiQA.Models
         public virtual DbSet<ViewQASecurity> ViewQASecurities { get; set; }
         public virtual DbSet<Airport> Airports { get; set; }
         public virtual DbSet<ViewEmployee> ViewEmployees { get; set; }
-        public virtual DbSet<QAGetEntites_Result> QAGetEntites_Result { get; set; }
         public virtual DbSet<ViewProfile> ViewProfiles { get; set; }
         public virtual DbSet<ViewProfileLog> ViewProfileLogs { get; set; }
         public virtual DbSet<ViewQADashCatering> ViewQADashCaterings { get; set; }
@@ -80,6 +78,9 @@ namespace ApiQA.Models
         public virtual DbSet<ViewQaReportsByCreator> ViewQaReportsByCreators { get; set; }
         public virtual DbSet<QAFollowingUp> QAFollowingUps { get; set; }
         public virtual DbSet<QAFeedback> QAFeedbacks { get; set; }
+        public virtual DbSet<QAGetEntites_Result> QAGetEntites_Result { get; set; }
+        public virtual DbSet<ViewQABYEmployee> ViewQABYEmployees { get; set; }
+        public virtual DbSet<EFBASR> EFBASRs { get; set; }
     
         public virtual int QAByEmployeeCount(Nullable<int> type, Nullable<int> entityId)
         {
