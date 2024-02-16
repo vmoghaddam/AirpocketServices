@@ -296,7 +296,7 @@ namespace ApiPlanning.Controllers
         }
 
         [Route("api/plan/group/update/utc")]
-
+        //2024-02-16
         [AcceptVerbs("POST")]
         public async Task<IHttpActionResult> PostFlightGroupUpdate(ViewModels.FlightDto dto)
         {
@@ -375,7 +375,7 @@ namespace ApiPlanning.Controllers
                 var _addDay = localSTD.Day == ((DateTime)dto.STD).Day ? 0 : 1;
 
                 var stdHours = ((DateTime)dto.STD).Hour;
-                var stdMinutes = ((DateTime)dto.STD).Minute;
+                var stdMinutes = ((DateTime)dto.STD).Minute; 
                 var staHours = ((DateTime)dto.STA).Hour;
                 var staMinutes = ((DateTime)dto.STA).Minute;
                 var duration = (((DateTime)dto.STA) - ((DateTime)dto.STD)).TotalMinutes;
