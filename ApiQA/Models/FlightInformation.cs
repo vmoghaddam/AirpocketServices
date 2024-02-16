@@ -24,6 +24,7 @@ namespace ApiQA.Models
             this.QAGroundIADs = new HashSet<QAGroundIAD>();
             this.QAMaintenances = new HashSet<QAMaintenance>();
             this.QASecurities = new HashSet<QASecurity>();
+            this.EFBASRs = new HashSet<EFBASR>();
         }
     
         public int ID { get; set; }
@@ -337,5 +338,7 @@ namespace ApiQA.Models
         public virtual ICollection<QASecurity> QASecurities { get; set; }
         public virtual Airport Airport { get; set; }
         public virtual Airport Airport1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EFBASR> EFBASRs { get; set; }
     }
 }

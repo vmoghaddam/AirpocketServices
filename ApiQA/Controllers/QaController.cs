@@ -82,7 +82,7 @@ namespace ApiQA.Controllers
             var feedbacks = context.ViewQaFeedbacks.Where(q => keys.Contains(q.FormKey)).ToList();
             return new DataResponse()
             {
-                Data =new { query, feedbacks },
+                Data = new { query, feedbacks },
                 IsSuccess = true
             };
         }
@@ -120,7 +120,60 @@ namespace ApiQA.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/qa/delete/feedback/{id}")]
+        public async Task<DataResponse> DeleteFeedBack(int id)
+        {
+            try
+            {
+                var entity = context.QAFeedbacks.Single(q => q.Id == id);
+                context.QAFeedbacks.Remove(entity);
 
+                context.SaveChanges();
+
+                return new DataResponse() { Data = entity, IsSuccess = true };
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = true
+                };
+            }
+        }
+
+        [HttpGet]
+        [Route("api/qa/get/feedback/{entityid}/{type}")]
+        public async Task<DataResponse> GetFeedBack(int entityid, int type)
+        {
+            try
+            {
+                var entity = context.ViewQaFeedbacks.Where(q => q.FormId == entityid && q.FormType == type).OrderByDescending(q => q.DateCreate).ToList();
+                return new DataResponse()
+                {
+                    Data = entity,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   " + ex.InnerException.Message;
+                return new DataResponse()
+                {
+                    Data = msg,
+                    IsSuccess = true
+                };
+            }
+
+
+        }
 
         [HttpGet]
         [Route("api/get/csr/flightphase")]
@@ -1553,6 +1606,8 @@ namespace ApiQA.Controllers
                     entity.ReferredId = x.ReceiverEmployeeId;
                     entity.ReferrerId = null;
                     entity.ReviewResult = 2;
+                    entity.Priority = dto.Priority;
+                    entity.DeadLine = dto.DeadLine;
                 };
 
 
@@ -1923,7 +1978,7 @@ namespace ApiQA.Controllers
             {
                 var df = ((DateTime)dto.dt_from).Date;
                 var dt = ((DateTime)dto.dt_to).Date.AddDays(1);
-                var ds = context.QAGetEntities((int?)dto.employeeId, (int?)dto.type, df, dt).ToList();
+                var ds = context.QAGetEntities((int?)dto.employeeId, (int?)dto.type, df, dt).ToList().OrderBy(q =>q.DateSign).ThenBy(q => q.DeadLine);
                 var result = new
                 {
                     New = ds.Where(q => q.Category == "New"),
@@ -2444,7 +2499,30 @@ namespace ApiQA.Controllers
             public int ReferrerId { get; set; }
             public int Type { get; set; }
             public string Comment { get; set; }
+            public int Priority { get; set; }
+            public DateTime DeadLine { get; set; }
         }
+
+        [HttpGet]
+        [Route("get/ast/entityId/{flightId}")]
+        public async Task<DataResponse> GetASREntityId(int flightId)
+        {
+            try
+            {
+              var result = context.EFBASRs.SingleOrDefault(q => q.FlightId == flightId).Id;
+                return new DataResponse() { Data = result, IsSuccess = true };
+
+            }
+            catch (Exception ex)
+            {
+                return new DataResponse()
+                {
+                    Data = ex,
+                    IsSuccess = false
+                };
+            }
+        }
+
 
 
         [HttpPost]
@@ -2455,6 +2533,7 @@ namespace ApiQA.Controllers
             {
                 var test = dto;
                 var parentId = 0;
+               
                 foreach (var y in test)
                 {
                     parentId = context.ViewQAFollowingUps.Where(q => q.Type == (int?)y.Type && q.EntityId == (int?)y.EntityId && q.ReferredId == (int?)y.ReferrerId).ToList().OrderByDescending(q => q.Id).First().Id;
@@ -2464,6 +2543,7 @@ namespace ApiQA.Controllers
 
                 foreach (var x in test)
                 {
+
                     var entity = new QAFollowingUp();
                     context.QAFollowingUps.Add(entity);
                     entity.EntityId = x.EntityId;
@@ -2474,6 +2554,8 @@ namespace ApiQA.Controllers
                     entity.ReviewResult = 2;
                     entity.Comment = x.Comment;
                     entity.ParentId = parentId;
+                    entity.DeadLine = null;
+                    entity.Priority = x.Priority;
                 };
                 context.SaveChanges();
 
