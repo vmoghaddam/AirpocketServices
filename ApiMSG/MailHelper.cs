@@ -1140,10 +1140,10 @@ namespace ApiMSG
     }
     public class Magfa
     {
-        string username = "flypersia_48000"; //"atlas_82173";// "varesh_85972"; //ConfigurationManager.AppSettings["magfa_user"];/* "taban";*/ //ConfigurationManager.AppSettings["magfa_user"]; //"caspianline"; //"flypersia_48000";
-        string password = "YYDWMU5BAJQQHCuG"; //"Ot9V0CWKbH1HUQGK";// "oJTyaWoLnQycrfdX"; //ConfigurationManager.AppSettings["magfa_pass"];/*"ZIECXHgRSJT1QLMy";*/ //ConfigurationManager.AppSettings["magfa_pass"]; // "ZQMihTmdLqCbnbrW"; //"YYDWMU5BAJQQHCuG";
+        string username = "varesh_85972"; //"flypersia_48000"; //"atlas_82173";// "varesh_85972"; //ConfigurationManager.AppSettings["magfa_user"];/* "taban";*/ //ConfigurationManager.AppSettings["magfa_user"]; //"caspianline"; //"flypersia_48000";
+        string password = "oJTyaWoLnQycrfdX"; //"YYDWMU5BAJQQHCuG"; //"Ot9V0CWKbH1HUQGK";// "oJTyaWoLnQycrfdX"; //ConfigurationManager.AppSettings["magfa_pass"];/*"ZIECXHgRSJT1QLMy";*/ //ConfigurationManager.AppSettings["magfa_pass"]; // "ZQMihTmdLqCbnbrW"; //"YYDWMU5BAJQQHCuG";
         string domain = "magfa"; //"http://atlasairplus.com/";// "magfa";// "tabanair"; /*"tabanair";*/
-        string senderNumber = "300048000"; //"300082173";//"300085972";// ConfigurationManager.AppSettings["magfa_no"]; /*"30006327";*/ // ConfigurationManager.AppSettings["magfa_no"]; // "3000748907"; //"300048000";
+        string senderNumber = "300085972";//"300048000"; //"300082173";//"300085972";// ConfigurationManager.AppSettings["magfa_no"]; /*"30006327";*/ // ConfigurationManager.AppSettings["magfa_no"]; // "3000748907"; //"300048000";
         public List<string> getStatus(List<Int64> refIds)
         {
 

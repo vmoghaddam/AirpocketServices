@@ -108,5 +108,8 @@ namespace AirpocketAPI.Models
         public virtual DbSet<AppFTL> AppFTLs { get; set; }
         public virtual DbSet<ViewFlightCharterer> ViewFlightCharterers { get; set; }
         public virtual DbSet<FlightCharterer> FlightCharterers { get; set; }
+        public virtual DbSet<ViewTicket> ViewTickets { get; set; }
+        public virtual DbSet<ViewCrewDutyTimeLineNew> ViewCrewDutyTimeLineNews { get; set; }
+        public virtual DbSet<ViewCrewDutyTimeLineNewGDate> ViewCrewDutyTimeLineNewGDates { get; set; }
     }
 }

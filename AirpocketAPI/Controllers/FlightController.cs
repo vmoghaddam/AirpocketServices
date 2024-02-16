@@ -34,6 +34,7 @@ using System.Net.Http.Headers;
 using System.Drawing;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
+using Spire.Xls.Core;
 
 namespace AirpocketAPI.Controllers
 {
@@ -3728,19 +3729,19 @@ namespace AirpocketAPI.Controllers
             workbook.LoadFromFile(mappedPathSource);
             Worksheet sheet = workbook.Worksheets[0];
 
-             sheet.Range[6, 3].Text = ((DateTime)result.stdLocal).ToString("yyyy-MM-dd");
+            sheet.Range[6, 3].Text = ((DateTime)result.stdLocal).ToString("yyyy-MM-dd");
             sheet.Range[8, 3].Text = result.regs;
-           // sheet.Range[3, 10].Text = ((DateTime)result.stdLocal).ToString("HH:mm");
-           // sheet.Range[4, 10].Text = ((DateTime)result.staLocal).ToString("HH:mm");
-             sheet.Range[15, 3].Text = _main_crew.First().Name;
+            // sheet.Range[3, 10].Text = ((DateTime)result.stdLocal).ToString("HH:mm");
+            // sheet.Range[4, 10].Text = ((DateTime)result.staLocal).ToString("HH:mm");
+            sheet.Range[15, 3].Text = _main_crew.First().Name;
             sheet.Range[7, 3].Text = result.no;
 
             //9,3
             var cockpit_cnt = _main_crew.Where(q => q.IsCockpit == 1).Count();
             var cabin_cnt = _main_crew.Where(q => q.IsCockpit != 1).Count();
-            sheet.Range[9, 3].Text = cockpit_cnt+" / "+cabin_cnt+" / ?";
+            sheet.Range[9, 3].Text = cockpit_cnt + " / " + cabin_cnt + " / ?";
 
-          
+
             sheet.Range[10, 3].Text = "DHD: " + _pos_crew.Count();
 
             var name = "trip-info-" + result.route + "-" + result.no2;
@@ -3895,7 +3896,7 @@ namespace AirpocketAPI.Controllers
 
 
             var _main_crew = result.crew.Where(q => q.IsPositioning == false).ToList();
-            var _pos_crew= result.crew.Where(q => q.IsPositioning == true).ToList();
+            var _pos_crew = result.crew.Where(q => q.IsPositioning == true).ToList();
             var r = 22;
             foreach (var cr in _main_crew)
             {
@@ -3914,7 +3915,7 @@ namespace AirpocketAPI.Controllers
 
                 sheet.Range[r, 8].Text = "DH";
 
-                sheet.Range[r, 10].Text = cr.Name+(string.IsNullOrEmpty( cr.LegsStr)?"":"("+cr.LegsStr+")");
+                sheet.Range[r, 10].Text = cr.Name + (string.IsNullOrEmpty(cr.LegsStr) ? "" : "(" + cr.LegsStr + ")");
                 sheet.Range[r, 13].Text = cr.PID;
                 r++;
             }
@@ -3942,7 +3943,382 @@ namespace AirpocketAPI.Controllers
 
         }
 
+        public class crew_group
+        {
+            public int? group_id { get; set; }
+            public string group_title { get; set; }
+            public List<ViewCrewValidFTL> items { get; set; }
+        }
+        public class duty_crew
+        {
+            public int? crew_id { get; set; }
+            public string group_title { get; set; }
+            public int? group_id { get; set; }
+            public DateTime? duty_date { get; set; }
+            public List<ViewCrewDutyTimeLineNewGDate> duties { get; set; }
+        }
 
+        [Route("api/xls/sch01")]
+        public HttpResponseMessage GetXLSSCH01(DateTime df, DateTime dt)
+        {
+            //2024-01-27
+            var context = new AirpocketAPI.Models.FLYEntities();
+            var query_crew = (from x in context.ViewCrewValidFTLs select x).ToList();
+            var grp_crews = (from x in query_crew
+                           group x by new { x.JobGroup, x.GroupId } into grp
+                           select new crew_group()
+                           {
+                               group_id = grp.Key.GroupId,
+                               group_title = grp.Key.JobGroup,
+                               items = grp.OrderBy(q => q.ScheduleName).ToList()
+
+                           }).ToList();
+
+            var crews = query_crew.OrderBy(q => q.GroupOrder).ThenBy(q=>q.BaseAirportId).ThenBy(q => q.LastName).ThenBy(q => q.FirstName).ToList();
+            var utcdiff = 210;
+            df = df.AddMinutes(0);
+            dt = dt.AddDays(1);
+            var cgrps = new List<string>() {"TRI","TRE","P1","P2","CCM","SCCM","ISCCM" };
+            var query_duty = (from x in context.ViewCrewDutyTimeLineNewGDates
+                             where x.GDate >= df && x.GDate < dt && cgrps.Contains(x.JobGroup)
+                             select x).ToList();
+            var grp_duties = (from x in query_duty
+                              group x by new { x.CrewId, x.JobGroup, x.JobGroupId,x.GDate } into grp
+                              select new duty_crew()
+                              {
+                                  crew_id = grp.Key.CrewId,
+                                  group_title = grp.Key.JobGroup,
+                                  group_id = grp.Key.JobGroupId,
+                                  duty_date=grp.Key.GDate,
+                                  duties = grp.OrderBy(q => q.GDate).ToList()
+                              }).OrderByDescending(q=>q.duties.Count).ToList();
+            var crew_ids = grp_duties.Select(q => q.crew_id).ToList();
+            var date_start = df;
+            List<DateTime> dates = new List<DateTime>();
+            while (date_start <= dt)
+            {
+                dates.Add(date_start);
+                date_start = date_start.AddDays(1);
+            }
+
+
+            Workbook workbook = new Workbook();
+            var mappedPathSource = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + "sch-01" + ".xlsx");
+            workbook.LoadFromFile(mappedPathSource);
+            Worksheet sheet;
+            var _ranks = new List<string>() { "IP-P1","P2","ISCCM-SCCM","CCM" };
+
+            
+
+
+            foreach (var _rank in _ranks)
+            {
+                var ds_crew = new List<ViewCrewValidFTL>();
+                switch (_rank)
+                {
+                    case "IP-P1":
+                        ds_crew = crews.Where(q => q.JobGroup == "TRE" || q.JobGroup == "TRI" || q.JobGroup == "P1").ToList();
+                        workbook.Worksheets[0].Name = "IP-P1";
+                        sheet = workbook.Worksheets[0];
+                      //  IPrstGeomShape triangle = sheet.PrstGeomShapes.AddPrstGeomShape(1, 1, 200, 40, PrstGeomShapeType.Rect);
+                        
+                     //  IPrstGeomShape triangle2 = sheet.PrstGeomShapes.AddPrstGeomShape(2, 1, 200, 40, PrstGeomShapeType.Rect)  ;
+                      //  var xxxx = sheet.Range[1, 1].GetRectangles();
+                         
+                        break;
+                    case "ISCCM-SCCM":
+                        ds_crew = crews.Where(q =>q.JobGroup == "ISCCM" || q.JobGroup == "SCCM").ToList();
+                        sheet=workbook.Worksheets.Add("ISCCM-SCCM");
+                        break;
+                    default:
+                        ds_crew = crews.Where(q => q.JobGroup == _rank).ToList();
+                        sheet = workbook.Worksheets.Add(_rank);
+                        break;
+                }
+                var _col = 2;
+                foreach (var _date in dates)
+                {
+                    sheet.Range[1, _col].Text = _date.ToString("yy-MMM-dd");
+                    sheet.Range[1, _col].HorizontalAlignment = HorizontalAlignType.Center;
+                    sheet.Range[1, _col].VerticalAlignment = VerticalAlignType.Center;
+                    sheet.Range[1, _col].Style.Color = Color.FromArgb(203, 203, 203);
+
+                    //sheet.Range[1, _col].BorderInside(LineStyleType.Thin, Color.Black);
+                    //sheet.Range[1, _col].BorderAround(LineStyleType.Thin, Color.Black);
+                    _col++;
+                }
+                var _row = 2;
+                foreach(var _crew in ds_crew)
+                {
+                    sheet.Range[_row, 1].Text = _crew.ScheduleName+"("+_crew.JobGroup+")";
+                    sheet.Range[_row, 1].HorizontalAlignment = HorizontalAlignType.Left;
+                    sheet.Range[_row, 1].VerticalAlignment = VerticalAlignType.Center;
+                    sheet.Range[_row, 1].Style.Color = Color.FromArgb(203, 203, 203);
+
+
+                    _col = 2;
+                    foreach (var _date in dates)
+                    {
+
+                        var _data = grp_duties.Where(q => q.crew_id == _crew.Id && ((DateTime)q.duty_date).Date == _date.Date).FirstOrDefault();
+                        if (_data!=null && _data.duties.Count > 0)
+                        {
+                            foreach(var dty in _data.duties)
+                            {
+                                if (dty.InitStartLocal == null || dty.InitEndLocal == null || dty.InitRestToLocal == null)
+                                    continue;
+                                var _start = ((DateTime)dty.InitStartLocal);
+                                var _end= ((DateTime)dty.InitEndLocal);
+                                var _start_date = _start.Date;
+                                var _end_date = _end.Date;
+                                
+                                switch (dty.DutyType)
+                                {
+                                    case 1165:
+                                        // sheet.Range[_row, _col].Text += dty.DutyTypeTitle + "\n";
+                                        //sheet.Range[_row, _col].IsWrapText = true;
+                                        //var txt= sheet.TextBoxes.AddTextBox(_row, _col, 50, 50);
+                                        //txt.Text = "FDP";
+                                        //sheet.Rows[_row - 1].SetRowHeight(80, false);
+                                        try
+                                        {
+                                            sheet.Range[_row, _col].Text += dty.InitRoute + "\n";
+                                            
+                                            sheet.Range[_row, _col].Text += ((DateTime)dty.InitStartLocal).ToString("HHmm") + " " + ((DateTime)dty.InitEndLocal).ToString("HHmm") +" "+ ((DateTime)dty.InitRestToLocal).ToString("HHmm") + "\n";
+                                           
+                                            
+                                            sheet.Range[_row, _col].Text += "\n";
+                                             sheet.Range[_row, _col].HorizontalAlignment = HorizontalAlignType.Center;
+                                            sheet.Range[_row, _col].VerticalAlignment = VerticalAlignType.Top;
+                                            sheet.Range[_row, _col].Style.Font.Size = 9;
+                                            sheet.Range[_row, _col].Style.Font.Color = Color.Black;
+                                            sheet.Range[_row, _col].Style.Font.IsBold = true;
+
+
+
+                                        }
+                                        catch(Exception ex)
+                                        {
+
+                                        }
+                                        
+                                        break;
+                                    case 1167:
+                                    case 1168:
+                                    case 300013:
+                                        try
+                                        {
+
+                                            sheet.Range[_row, _col].Text += dty.DutyTypeTitle + "\n";
+                                            if (_start_date == _end_date)
+                                                sheet.Range[_row, _col].Text += ((DateTime)dty.InitStartLocal).ToString("HHmm") + " " + ((DateTime)dty.InitEndLocal).ToString("HHmm") + " " + ((DateTime)dty.InitRestToLocal).ToString("HHmm") + "\n";
+                                            else
+                                                sheet.Range[_row, _col].Text += "("+_start.ToString("dd")+")"+(_start).ToString("HHmm") + " " + "("+ _end.ToString("dd") + ")" + (_end).ToString("HHmm") + " " + ((DateTime)dty.InitRestToLocal).ToString("HHmm") + "\n";
+
+
+                                            sheet.Range[_row, _col].Text += "\n";
+                                            sheet.Range[_row, _col].HorizontalAlignment = HorizontalAlignType.Center;
+                                            sheet.Range[_row, _col].VerticalAlignment = VerticalAlignType.Top;
+                                            sheet.Range[_row, _col].Style.Font.Size = 9;
+                                            sheet.Range[_row, _col].Style.Font.Color = Color.FromArgb(219, 9, 229);
+                                            sheet.Range[_row, _col].Style.Font.IsBold = true;
+
+
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+
+                                        break;
+                                    case 1170:
+                                        try
+                                        {
+                                            sheet.Range[_row, _col].Text += dty.DutyTypeTitle + "\n";
+                                            if (_start_date == _end_date)
+                                                sheet.Range[_row, _col].Text += ((DateTime)dty.InitStartLocal).ToString("HHmm") + " " + ((DateTime)dty.InitEndLocal).ToString("HHmm")  + "\n";
+                                            else
+                                                sheet.Range[_row, _col].Text += "(" + _start.ToString("dd") + ")" + (_start).ToString("HHmm") + " " + "(" + _end.ToString("dd") + ")" + (_end).ToString("HHmm")  + "\n";
+
+                                            sheet.Range[_row, _col].Text += "\n";
+                                            sheet.Range[_row, _col].HorizontalAlignment = HorizontalAlignType.Center;
+                                            sheet.Range[_row, _col].VerticalAlignment = VerticalAlignType.Top;
+                                            sheet.Range[_row, _col].Style.Font.Size = 9;
+                                            sheet.Range[_row, _col].Style.Font.Color = Color.FromArgb(233, 91, 27);
+                                            sheet.Range[_row, _col].Style.Font.IsBold = true;
+
+
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+                                        break;
+                                    case 10000:
+                                    case 1166:
+                                    case 1169:
+                                    case 100007:
+                                    case 100008:
+                                    case 300009:
+                                        try
+                                        {
+                                            sheet.Range[_row, _col].Text += dty.DutyTypeTitle + "\n";
+                                            if (_start_date == _end_date)
+                                                sheet.Range[_row, _col].Text += ((DateTime)dty.InitStartLocal).ToString("HHmm") + " " + ((DateTime)dty.InitEndLocal).ToString("HHmm") + "\n";
+                                            else
+                                                sheet.Range[_row, _col].Text += "(" + _start.ToString("dd") + ")" + (_start).ToString("HHmm") + " " + "(" + _end.ToString("dd") + ")" + (_end).ToString("HHmm") + "\n";
+                                            sheet.Range[_row, _col].Text += "\n";
+                                            sheet.Range[_row, _col].HorizontalAlignment = HorizontalAlignType.Center;
+                                            sheet.Range[_row, _col].VerticalAlignment = VerticalAlignType.Top;
+                                            sheet.Range[_row, _col].Style.Font.Size = 9;
+                                            sheet.Range[_row, _col].Style.Font.Color = Color.FromArgb(0, 168, 76);
+                                            sheet.Range[_row, _col].Style.Font.IsBold = true;
+                                           
+
+
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+                                        break;
+                                    case 100000:
+                                    case 100002:
+                                    case 100004:
+                                    case 100005:
+                                    case 100006:
+                                    case 100009:
+
+                                        try
+                                        {
+                                            sheet.Range[_row, _col].Text += dty.DutyTypeTitle + "\n";
+                                            if (_start_date == _end_date)
+                                                sheet.Range[_row, _col].Text += ((DateTime)dty.InitStartLocal).ToString("HHmm") + " " + ((DateTime)dty.InitEndLocal).ToString("HHmm") + "\n";
+                                            else
+                                                sheet.Range[_row, _col].Text += "(" + _start.ToString("dd") + ")" + (_start).ToString("HHmm") + " " + "(" + _end.ToString("dd") + ")" + (_end).ToString("HHmm") + "\n";
+                                            sheet.Range[_row, _col].Text += "\n";
+                                            sheet.Range[_row, _col].HorizontalAlignment = HorizontalAlignType.Center;
+                                            sheet.Range[_row, _col].VerticalAlignment = VerticalAlignType.Top;
+                                            sheet.Range[_row, _col].Style.Font.Size = 9;
+                                            sheet.Range[_row, _col].Style.Font.Color = Color.Red;
+                                            sheet.Range[_row, _col].Style.Font.IsBold = true;
+
+
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+                                        break;
+
+
+                                    case 5000:
+                                    case 5001:
+                                    case 100001:
+                                    case 100003:
+                                    case 100025:
+                                    case 300008:
+
+                                        try
+                                        {
+                                            sheet.Range[_row, _col].Text += dty.DutyTypeTitle + "\n";
+                                            if (_start_date == _end_date)
+                                                sheet.Range[_row, _col].Text += ((DateTime)dty.InitStartLocal).ToString("HHmm") + " " + ((DateTime)dty.InitEndLocal).ToString("HHmm") + "\n";
+                                            else
+                                                sheet.Range[_row, _col].Text += "(" + _start.ToString("dd") + ")" + (_start).ToString("HHmm") + " " + "(" + _end.ToString("dd") + ")" + (_end).ToString("HHmm") + "\n";
+                                            sheet.Range[_row, _col].Text += "\n";
+                                            sheet.Range[_row, _col].HorizontalAlignment = HorizontalAlignType.Center;
+                                            sheet.Range[_row, _col].VerticalAlignment = VerticalAlignType.Top;
+                                            sheet.Range[_row, _col].Style.Font.Size = 9;
+                                            sheet.Range[_row, _col].Style.Font.Color = Color.FromArgb(0, 153, 255);
+                                            sheet.Range[_row, _col].Style.Font.IsBold = true;
+
+
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+                                        break;
+
+                                    case 300050:
+
+                                        try
+                                        {
+                                            sheet.Range[_row, _col].Text += dty.PosFrom+"-"+dty.PosTo + "\n";
+                                            if (_start_date == _end_date)
+                                                sheet.Range[_row, _col].Text += ((DateTime)dty.InitStartLocal).ToString("HHmm") + " " + ((DateTime)dty.InitEndLocal).ToString("HHmm") + "\n";
+                                            else
+                                                sheet.Range[_row, _col].Text += "(" + _start.ToString("dd") + ")" + (_start).ToString("HHmm") + " " + "(" + _end.ToString("dd") + ")" + (_end).ToString("HHmm") + "\n";
+                                            sheet.Range[_row, _col].Text += dty.PosAirline + "(" + dty.PosRemark + ")"+"\n";
+                                            sheet.Range[_row, _col].Text += "\n";
+                                            sheet.Range[_row, _col].HorizontalAlignment = HorizontalAlignType.Center;
+                                            sheet.Range[_row, _col].VerticalAlignment = VerticalAlignType.Top;
+                                            sheet.Range[_row, _col].Style.Font.Size = 9;
+                                            sheet.Range[_row, _col].Style.Font.Color = Color.FromArgb(0, 153, 255);
+                                            sheet.Range[_row, _col].Style.Font.IsBold = true;
+
+
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+                                        break;
+
+                                    default:
+
+                                        break;
+                                }
+                              
+                            }
+
+                        }
+                        _col++;
+                    }
+
+                    _row++;
+                }
+
+                for (var _c = 1; _c <  _col; _c++)
+                    sheet.Columns[_c - 1].AutoFitColumns();
+                for (var _c = 1; _c <  _row; _c++)
+                    sheet.Rows[_c - 1].AutoFitRows();
+
+                // sheet.Range["A1" + ln + ":Q" + ln].BorderInside(LineStyleType.Thin, Color.Black);
+                // sheet.Range["B" + ln + ":Q" + ln].BorderAround(LineStyleType.Thin, Color.Black);
+                sheet.Range[1,1,_row-1,_col-1].BorderInside(LineStyleType.Thin, Color.Black);
+                sheet.Range[1, 1, _row - 1, _col - 1].BorderAround(LineStyleType.Thin, Color.Black);
+                sheet.FreezePanes(2, 2);
+
+
+            }
+
+
+
+            var name = "timeline_" + df.ToString("yyyy-MM-dd") + "_" + dt.ToString("yyyy-MM-dd");
+            var mappedPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + name + ".xlsx");
+
+
+
+            workbook.SaveToFile(mappedPath, ExcelVersion.Version2016);
+
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(new FileStream(mappedPath, FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = name + ".xlsx";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+           
+            return response;
+
+        }
         //chabahar
         [Route("api/xls/cl/chb")]
         [AcceptVerbs("GET")]
@@ -6832,7 +7208,7 @@ namespace AirpocketAPI.Controllers
                     break;
             }
             sheet.Range[2, 11].Text = p_day;
-           var name = "drd-" + ((DateTime)df).ToString("yyyy-MMM-dd");
+            var name = "drd-" + ((DateTime)df).ToString("yyyy-MMM-dd");
             var mappedPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + name + ".xlsx");
 
 
@@ -6906,7 +7282,7 @@ namespace AirpocketAPI.Controllers
                 q.POSITIONINGCABIN,
                 q.POSITIONINGCOCKPIT,
                 q.PDATE,
-                PIC=!string.IsNullOrEmpty(q.IP)?q.IP:q.CPT,
+                PIC = !string.IsNullOrEmpty(q.IP) ? q.IP : q.CPT,
 
             }).ToList();
 
@@ -6914,7 +7290,7 @@ namespace AirpocketAPI.Controllers
 
             var regs = (from x in main
 
-                        group x by new { x.Register, x.AircraftType,x.PIC } into grp
+                        group x by new { x.Register, x.AircraftType, x.PIC } into grp
                         select new
                         {
                             grp.Key.Register,
@@ -6922,16 +7298,16 @@ namespace AirpocketAPI.Controllers
                             //grp.Key.CPT,
                             Items = grp.OrderBy(q => q.STDx).ToList(),
                             Base = grp.OrderBy(q => q.STDx).First().Base,
-                            IPs=grp.Where(q=>!string.IsNullOrEmpty(q.IP)).Select(q=>q.IP).Distinct().ToList(),
-                            CPTs=grp.Where(q => !string.IsNullOrEmpty(q.CPT)).Select(q=>q.CPT).Distinct().ToList(),
+                            IPs = grp.Where(q => !string.IsNullOrEmpty(q.IP)).Select(q => q.IP).Distinct().ToList(),
+                            CPTs = grp.Where(q => !string.IsNullOrEmpty(q.CPT)).Select(q => q.CPT).Distinct().ToList(),
                             FOs = grp.Where(q => !string.IsNullOrEmpty(q.FO)).Select(q => q.FO).Distinct().ToList(),
                             SOs = grp.Where(q => !string.IsNullOrEmpty(q.SAFETY)).Select(q => q.SAFETY).Distinct().ToList(),
-                            OBSs = grp.Where(q => !string.IsNullOrEmpty(q.OBS)).Select(q =>"OBS:"+ q.OBS).Distinct().ToList(),
-                            ISCCMs=grp.Where(q => !string.IsNullOrEmpty(q.ISCCM)).Select(q => q.ISCCM).Distinct().ToList(),
+                            OBSs = grp.Where(q => !string.IsNullOrEmpty(q.OBS)).Select(q => "OBS:" + q.OBS).Distinct().ToList(),
+                            ISCCMs = grp.Where(q => !string.IsNullOrEmpty(q.ISCCM)).Select(q => q.ISCCM).Distinct().ToList(),
                             SCCMs = grp.Where(q => !string.IsNullOrEmpty(q.SCCM)).Select(q => q.SCCM).Distinct().ToList(),
                             CCMs = grp.Where(q => !string.IsNullOrEmpty(q.CCM)).Select(q => q.CCM).Distinct().ToList(),
                             OBSCs = grp.Where(q => !string.IsNullOrEmpty(q.OBSC)).Select(q => "OBS:" + q.OBSC).Distinct().ToList(),
-                            DHs=grp.Where(q=>!string.IsNullOrEmpty(q.POSITIONING)).Select(q=>"D"+q.FlightNumber.Substring(2)+":"+q.POSITIONING).ToList(),
+                            DHs = grp.Where(q => !string.IsNullOrEmpty(q.POSITIONING)).Select(q => "D" + q.FlightNumber.Substring(2) + ":" + q.POSITIONING).ToList(),
                             grp.Key.PIC
                         }
                        )
@@ -7033,7 +7409,7 @@ namespace AirpocketAPI.Controllers
                     var dh = line.Items[0].POSITIONING;
 
                     var _cpt = string.Join(" , ", line.IPs.Concat(line.CPTs).ToList());
-                    var _fo= string.Join(" , ", line.FOs.Concat(line.SOs).Concat(line.OBSs).ToList());
+                    var _fo = string.Join(" , ", line.FOs.Concat(line.SOs).Concat(line.OBSs).ToList());
                     var _cabin = string.Join(" , ", line.ISCCMs.Concat(line.SCCMs).Concat(line.CCMs).Concat(line.OBSCs).ToList());
                     var _extra = string.Join("\n", line.DHs);
                     //sheet.Range[reg_start, 14].Text = _cpt;
@@ -7048,7 +7424,7 @@ namespace AirpocketAPI.Controllers
                         sheet.Range[ln, 7].Text = ((DateTime)flt.STALocal).ToString("HH:mm");
 
                         sheet.Range[ln, 14].Text = _cpt;
-                      
+
                         if (flt != line.Items.Last())
                         {
                             // sheet.Range["B" + ln + ":Y" + ln].BorderInside(LineStyleType.Thin, Color.Black);
@@ -7071,7 +7447,7 @@ namespace AirpocketAPI.Controllers
 
                         ///if (total_row <= 18)
                         ln++;
-                       // else
+                        // else
                         //{
                         //    total_row = 0;
 
@@ -7102,7 +7478,7 @@ namespace AirpocketAPI.Controllers
                     sheet.Range[reg_start, 17].Style.HorizontalAlignment = HorizontalAlignType.Center;
                     sheet.Range[reg_start, 17].Style.VerticalAlignment = VerticalAlignType.Center;
 
-                    
+
 
 
 
@@ -7112,7 +7488,7 @@ namespace AirpocketAPI.Controllers
 
                 }
 
-                
+
 
             }
 
@@ -7124,7 +7500,7 @@ namespace AirpocketAPI.Controllers
 
             foreach (var n in t_rows)
             {
-                
+
 
 
                 sheet.Range["A" + (n) + ":Q" + (n)].Borders[BordersLineType.EdgeLeft].LineStyle = LineStyleType.Thin;
@@ -7133,7 +7509,7 @@ namespace AirpocketAPI.Controllers
                 sheet.Range["A" + (n) + ":Q" + (n)].Borders[BordersLineType.EdgeBottom].LineStyle = LineStyleType.Thin;
 
 
-                 sheet.Range["A" + (n) + ":Q" + (n)].Style.Color = Color.Silver;
+                sheet.Range["A" + (n) + ":Q" + (n)].Style.Color = Color.Silver;
 
 
             }
@@ -8805,6 +9181,17 @@ new JsonSerializerSettings
                 obsList.Add("[(" + x.FlightNumber + ") " + x.POSITIONING + "]");
             }
             var positioning = string.Join(" ", obsList);
+            var ticketQuery = (from x in context.ViewTickets
+                               where x.DateLocal == df
+                               orderby x.JobGroup
+                               select x).ToList();
+            if (ticketQuery != null && ticketQuery.Count > 0)
+            {
+                List<string> tickets = new List<string>();
+                foreach (var x in ticketQuery)
+                    tickets.Add("[ (" + x.PosAirline + " " + x.PosFrom + "-" + x.PosTo + " " + x.FlightNumber + ") " + x.ScheduleName + "(" + x.JobGroup + ")" + " ]");
+                positioning += "  TICKET(s): " + string.Join(" ", tickets);
+            }
             var dutiesQuery = (from x in context.ViewCrewDuties
                                where x.DateLocal == df && (x.DutyType == 1167 || x.DutyType == 1168 || x.DutyType == 300013 || x.DutyType == 1170 || x.DutyType == 5000 || x.DutyType == 5001
                                || x.DutyType == 100001 || x.DutyType == 100003)
@@ -9832,7 +10219,7 @@ new JsonSerializerSettings
 
             //var result = CallWebMethod("https://192.168.101.133/IdeaWeb/Apps/Services/TrainingWS.asmx/GetTotalDataJson", prms);
             var result = CallWebMethod("http://trainingweb.caspian.local/IdeaWeb/Apps/Services/TrainingWS.asmx/GetTotalDataJson", prms);
-        //http://trainingweb.caspian.local/IdeaWeb/Apps/Services/TrainingWS.asmx
+            //http://trainingweb.caspian.local/IdeaWeb/Apps/Services/TrainingWS.asmx
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(result);
 

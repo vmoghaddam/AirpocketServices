@@ -40,5 +40,7 @@ namespace ApiAPSB.Models
         public virtual DbSet<EFBDSPRelease> EFBDSPReleases { get; set; }
         public virtual DbSet<ViewEFBDSPReleas> ViewEFBDSPReleases { get; set; }
         public virtual DbSet<ViewEmployee> ViewEmployees { get; set; }
+        public virtual DbSet<EFBASR> EFBASRs { get; set; }
+        public virtual DbSet<EFBVoyageReport> EFBVoyageReports { get; set; }
     }
 }

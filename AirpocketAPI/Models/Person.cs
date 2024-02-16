@@ -498,5 +498,7 @@ namespace AirpocketAPI.Models
         public Nullable<System.DateTime> SMSL2ExpireDate { get; set; }
         public Nullable<System.DateTime> SMSL3IssueDate { get; set; }
         public Nullable<System.DateTime> SMSL3ExpireDate { get; set; }
+        public Nullable<System.DateTime> AMPIssueDate { get; set; }
+        public Nullable<System.DateTime> AMPExpireDate { get; set; }
     }
 }

@@ -116,6 +116,13 @@ namespace AirpocketAPI.Models
         public string OPSStaffUser { get; set; }
         public Nullable<int> OPSStatusId { get; set; }
         public Nullable<int> OPSStaffStatusId { get; set; }
+        public Nullable<System.DateTime> DateSign { get; set; }
+        public Nullable<int> EmployeeId { get; set; }
+        public Nullable<int> ReporterId { get; set; }
+        public Nullable<int> Status { get; set; }
+        public string FormNo { get; set; }
+        public Nullable<System.DateTime> DateStatus { get; set; }
+        public Nullable<int> StatusEmployeeId { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
     }

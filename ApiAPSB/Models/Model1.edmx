@@ -5,6 +5,120 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EFBASR">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FlightId" Type="int" Nullable="false" />
+          <Property Name="EventTypeId" Type="int" />
+          <Property Name="OccurrenceDate" Type="datetime" />
+          <Property Name="IsDay" Type="bit" />
+          <Property Name="SQUAWK" Type="nvarchar" MaxLength="255" />
+          <Property Name="FuelJettisoned" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Altitude" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Speed" Type="float" />
+          <Property Name="ACWeight" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TechLogPageNO" Type="varchar" MaxLength="255" />
+          <Property Name="TechLogItemNO" Type="varchar" MaxLength="255" />
+          <Property Name="FlightPhaseId" Type="int" />
+          <Property Name="LOCAirport" Type="nvarchar" MaxLength="255" />
+          <Property Name="LOCStand" Type="nvarchar" MaxLength="255" />
+          <Property Name="LOCRunway" Type="nvarchar" MaxLength="255" />
+          <Property Name="LOCGEOLongtitude" Type="nvarchar" MaxLength="255" />
+          <Property Name="LOCGEOAltitude" Type="nvarchar" MaxLength="255" />
+          <Property Name="METId" Type="int" />
+          <Property Name="ActualWX" Type="nvarchar" MaxLength="500" />
+          <Property Name="SigxWXId" Type="int" />
+          <Property Name="RunwayConditionId" Type="int" />
+          <Property Name="ACConfigAP" Type="nvarchar" MaxLength="255" />
+          <Property Name="ACConfigATHR" Type="nvarchar" MaxLength="255" />
+          <Property Name="ACConfigGear" Type="nvarchar" MaxLength="255" />
+          <Property Name="ACConfigFlap" Type="nvarchar" MaxLength="255" />
+          <Property Name="ACConfigSlat" Type="nvarchar" MaxLength="255" />
+          <Property Name="ACConfigSpoilers" Type="nvarchar" MaxLength="255" />
+          <Property Name="Summary" Type="nvarchar" MaxLength="2000" />
+          <Property Name="Result" Type="nvarchar" MaxLength="2000" />
+          <Property Name="OthersInfo" Type="nvarchar" MaxLength="2000" />
+          <Property Name="AATRiskId" Type="int" />
+          <Property Name="AATIsActionTaken" Type="bit" />
+          <Property Name="AATReportedToATC" Type="nvarchar" MaxLength="255" />
+          <Property Name="AATATCInstruction" Type="nvarchar" MaxLength="255" />
+          <Property Name="AATFrequency" Type="nvarchar" MaxLength="255" />
+          <Property Name="AATHeading" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="AATClearedAltitude" Type="nvarchar" MaxLength="255" />
+          <Property Name="AATMinVerticalSep" Type="nvarchar" MaxLength="255" />
+          <Property Name="AATMinHorizontalSep" Type="nvarchar" MaxLength="255" />
+          <Property Name="AATTCASAlertId" Type="int" />
+          <Property Name="AATTypeRA" Type="nvarchar" MaxLength="255" />
+          <Property Name="AATIsRAFollowed" Type="bit" />
+          <Property Name="AATVerticalDeviation" Type="nvarchar" MaxLength="255" />
+          <Property Name="AATOtherACType" Type="nvarchar" MaxLength="255" />
+          <Property Name="AATMarkingColour" Type="nvarchar" MaxLength="255" />
+          <Property Name="AATCallSign" Type="nvarchar" MaxLength="255" />
+          <Property Name="AATLighting" Type="nvarchar" MaxLength="255" />
+          <Property Name="WTHeading" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="WTTurningId" Type="int" />
+          <Property Name="WTGlideSlopePosId" Type="int" />
+          <Property Name="WTExtendedCenterlinePosId" Type="int" />
+          <Property Name="WTAttitudeChangeId" Type="int" />
+          <Property Name="WTAttitudeChangeDeg" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="WTIsBuffet" Type="bit" />
+          <Property Name="WTIsStickShaker" Type="bit" />
+          <Property Name="WTSuspect" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WTDescribeVA" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WTPrecedingAC" Type="nvarchar" MaxLength="255" />
+          <Property Name="WTIsAware" Type="bit" />
+          <Property Name="BSBirdType" Type="nvarchar" MaxLength="255" />
+          <Property Name="BSNrSeenId" Type="int" />
+          <Property Name="BSNrStruckId" Type="int" />
+          <Property Name="BSTimeId" Type="int" />
+          <Property Name="PICDate" Type="date" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DayNightStatusId" Type="int" />
+          <Property Name="IncidentTypeId" Type="int" />
+          <Property Name="AATXAbove" Type="int" />
+          <Property Name="AATYAbove" Type="int" />
+          <Property Name="AATXAstern" Type="int" />
+          <Property Name="AATYAstern" Type="int" />
+          <Property Name="AATHorizontalPlane" Type="int" />
+          <Property Name="BSImpactDec" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IsSecurityEvent" Type="bit" />
+          <Property Name="IsAirproxATC" Type="bit" />
+          <Property Name="IsTCASRA" Type="bit" />
+          <Property Name="IsWakeTur" Type="bit" />
+          <Property Name="IsBirdStrike" Type="bit" />
+          <Property Name="IsOthers" Type="bit" />
+          <Property Name="MachNo" Type="float" />
+          <Property Name="SigxWXTypeId" Type="int" />
+          <Property Name="BSHeading" Type="float" />
+          <Property Name="BSTurningId" Type="int" />
+          <Property Name="DateUpdate" Type="varchar" MaxLength="255" />
+          <Property Name="User" Type="varchar" MaxLength="255" />
+          <Property Name="JLSignedBy" Type="varchar" MaxLength="255" />
+          <Property Name="JLDatePICApproved" Type="datetime" />
+          <Property Name="PICId" Type="int" />
+          <Property Name="PIC" Type="varchar" MaxLength="500" />
+          <Property Name="OPSRemark" Type="nvarchar" MaxLength="4000" />
+          <Property Name="OPSRemarkDate" Type="datetime" />
+          <Property Name="OPSId" Type="int" />
+          <Property Name="OPSConfirmDate" Type="datetime" />
+          <Property Name="OPSStaffRemark" Type="varchar" MaxLength="4000" />
+          <Property Name="OPSStaffDateVisit" Type="datetime" />
+          <Property Name="OPSStaffConfirmDate" Type="datetime" />
+          <Property Name="OPSStaffId" Type="int" />
+          <Property Name="OPSStaffRemarkDate" Type="datetime" />
+          <Property Name="OPSUser" Type="varchar" MaxLength="500" />
+          <Property Name="OPSStaffUser" Type="varchar" MaxLength="500" />
+          <Property Name="OPSStatusId" Type="int" />
+          <Property Name="OPSStaffStatusId" Type="int" />
+          <Property Name="DateSign" Type="datetime2" Precision="7" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="ReporterId" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="FormNo" Type="varchar" MaxLength="255" />
+          <Property Name="DateStatus" Type="datetime" />
+          <Property Name="StatusEmployeeId" Type="int" />
+        </EntityType>
         <EntityType Name="EFBDSPRelease">
           <Key>
             <PropertyRef Name="Id" />
@@ -158,6 +272,41 @@
           <Property Name="TableKeyValueInt" Type="int" />
           <Property Name="TableKey2" Type="varchar" MaxLength="255" />
           <Property Name="TableKey2Value" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="EFBVoyageReport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="Route" Type="nvarchar" MaxLength="255" />
+          <Property Name="RestReduction" Type="int" />
+          <Property Name="DutyExtention" Type="int" />
+          <Property Name="Report" Type="nvarchar(max)" />
+          <Property Name="DatePICSignature" Type="date" />
+          <Property Name="ActionedById" Type="int" />
+          <Property Name="DateActioned" Type="date" />
+          <Property Name="DateConfirmed" Type="date" />
+          <Property Name="DepDelay" Type="int" />
+          <Property Name="DateUpdate" Type="varchar" MaxLength="255" />
+          <Property Name="User" Type="varchar" MaxLength="255" />
+          <Property Name="JLSignedBy" Type="varchar" MaxLength="255" />
+          <Property Name="JLDatePICApproved" Type="datetime" />
+          <Property Name="PICId" Type="int" />
+          <Property Name="PIC" Type="varchar" MaxLength="500" />
+          <Property Name="OPSRemark" Type="nvarchar" MaxLength="4000" />
+          <Property Name="OPSRemarkDate" Type="datetime" />
+          <Property Name="OPSId" Type="int" />
+          <Property Name="OPSConfirmDate" Type="datetime" />
+          <Property Name="OPSStaffRemark" Type="varchar" MaxLength="4000" />
+          <Property Name="OPSStaffDateVisit" Type="datetime" />
+          <Property Name="OPSStaffConfirmDate" Type="datetime" />
+          <Property Name="OPSStaffId" Type="int" />
+          <Property Name="OPSStaffRemarkDate" Type="datetime" />
+          <Property Name="OPSUser" Type="varchar" MaxLength="500" />
+          <Property Name="OPSStaffUser" Type="varchar" MaxLength="500" />
+          <Property Name="OPSStatusId" Type="int" />
+          <Property Name="OPSStaffStatusId" Type="int" />
         </EntityType>
         <EntityType Name="FDPItem">
           <Key>
@@ -1114,7 +1263,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployee' does not have a prima
             <PropertyRef Name="ExpCompany" />
             <PropertyRef Name="IsActive" />
             <PropertyRef Name="IsDeleted" />
-            <PropertyRef Name="JobGroupRoot" />
             <PropertyRef Name="MarriageId" />
             <PropertyRef Name="NID" />
             <PropertyRef Name="SexId" />
@@ -1174,6 +1322,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployee' does not have a prima
             <PropertyRef Name="FlightSum" />
             <PropertyRef Name="FlightEarly" />
             <PropertyRef Name="FlightLate" />
+            <PropertyRef Name="JobGroupRoot" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="PID" Type="nvarchar" MaxLength="500" Nullable="false" />
@@ -1201,7 +1350,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEmployee' does not have a prima
           <Property Name="C3GroupId" Type="int" />
           <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
           <Property Name="JobGroupCode" Type="varchar" MaxLength="500" />
-          <Property Name="JobGroupRoot" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="JobGroupRoot" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="MarriageId" Type="int" Nullable="false" />
           <Property Name="NID" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="SexId" Type="int" Nullable="false" />
@@ -1510,9 +1659,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewLegCrew' does not have a primar
             <PropertyRef Name="Name" />
             
             <PropertyRef Name="IsCockpit" />
-            <PropertyRef Name="FixTime" />
             <PropertyRef Name="FlightStatus" />
             <PropertyRef Name="PID" />
+            <PropertyRef Name="FixTime" />
           </Key>
           <Property Name="CrewId" Type="int" />
           <Property Name="FlightId" Type="int" />
@@ -1784,6 +1933,18 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <Property Name="DateConfirmed" Type="datetime" />
           <Property Name="IsConfirmed" Type="bit" />
         </EntityType>
+        <Association Name="fk_asr_flt">
+          <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="1" />
+          <End Role="EFBASR" Type="Self.EFBASR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EFBASR">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_EFB_FI">
           <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="0..1" />
           <End Role="EFBDSPRelease" Type="Self.EFBDSPRelease" Multiplicity="*" />
@@ -1836,9 +1997,23 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_vr_flt">
+          <End Role="FlightInformation" Type="Self.FlightInformation" Multiplicity="0..1" />
+          <End Role="EFBVoyageReport" Type="Self.EFBVoyageReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EFBVoyageReport">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="dbModelStoreContainer">
+          <EntitySet Name="EFBASR" EntityType="Self.EFBASR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EFBDSPRelease" EntityType="Self.EFBDSPRelease" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EFBValue" EntityType="Self.EFBValue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EFBVoyageReport" EntityType="Self.EFBVoyageReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FDPItem" EntityType="Self.FDPItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlightDocument" EntityType="Self.FlightDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlightInformation" EntityType="Self.FlightInformation" Schema="dbo" store:Type="Tables" />
@@ -2901,6 +3076,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
     [XFlightCrew].[IsConfirmed] AS [IsConfirmed]
     FROM [dbo].[XFlightCrew] AS [XFlightCrew]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="fk_asr_flt" Association="Self.fk_asr_flt">
+            <End Role="FlightInformation" EntitySet="FlightInformation" />
+            <End Role="EFBASR" EntitySet="EFBASR" />
+          </AssociationSet>
           <AssociationSet Name="fk_EFB_FI" Association="Self.fk_EFB_FI">
             <End Role="FlightInformation" EntitySet="FlightInformation" />
             <End Role="EFBDSPRelease" EntitySet="EFBDSPRelease" />
@@ -2916,6 +3095,10 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <AssociationSet Name="fk_ofpp_ofp" Association="Self.fk_ofpp_ofp">
             <End Role="OFPImport" EntitySet="OFPImport" />
             <End Role="OFPImportProp" EntitySet="OFPImportProp" />
+          </AssociationSet>
+          <AssociationSet Name="fk_vr_flt" Association="Self.fk_vr_flt">
+            <End Role="FlightInformation" EntitySet="FlightInformation" />
+            <End Role="EFBVoyageReport" EntitySet="EFBVoyageReport" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -2954,6 +3137,16 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
             <End Role="EFBDSPRelease" EntitySet="EFBDSPReleases" />
           </AssociationSet>
           <EntitySet Name="ViewEmployees" EntityType="dbModel.ViewEmployee" />
+          <EntitySet Name="EFBASRs" EntityType="dbModel.EFBASR" />
+          <AssociationSet Name="fk_asr_flt" Association="dbModel.fk_asr_flt">
+            <End Role="FlightInformation" EntitySet="FlightInformations" />
+            <End Role="EFBASR" EntitySet="EFBASRs" />
+          </AssociationSet>
+          <EntitySet Name="EFBVoyageReports" EntityType="dbModel.EFBVoyageReport" />
+          <AssociationSet Name="fk_vr_flt" Association="dbModel.fk_vr_flt">
+            <End Role="FlightInformation" EntitySet="FlightInformations" />
+            <End Role="EFBVoyageReport" EntitySet="EFBVoyageReports" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ViewLegCrew">
           <Key>
@@ -3705,6 +3898,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <Property Name="FuelUsed" Type="Int32" />
           <Property Name="FuelUpliftLitr" Type="Int32" />
           <NavigationProperty Name="EFBDSPReleases" Relationship="dbModel.fk_EFB_FI" FromRole="FlightInformation" ToRole="EFBDSPRelease" />
+          <NavigationProperty Name="EFBASRs" Relationship="dbModel.fk_asr_flt" FromRole="FlightInformation" ToRole="EFBASR" />
+          <NavigationProperty Name="EFBVoyageReports" Relationship="dbModel.fk_vr_flt" FromRole="FlightInformation" ToRole="EFBVoyageReport" />
         </EntityType>
         <Association Name="fk_fdpitem_flight">
           <End Type="dbModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1">
@@ -4459,7 +4654,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <Property Name="C3GroupId" Type="Int32" />
           <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="JobGroupCode" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="JobGroupRoot" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MarriageId" Type="Int32" Nullable="false" />
           <Property Name="NID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="SexId" Type="Int32" Nullable="false" />
@@ -4759,6 +4954,181 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
           <Property Name="Type737ExpireDate" Type="DateTime" Precision="7" />
           <Property Name="TypeMDExpireDate" Type="DateTime" Precision="7" />
         </EntityType>
+        <EntityType Name="EFBASR">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="EventTypeId" Type="Int32" />
+          <Property Name="OccurrenceDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDay" Type="Boolean" />
+          <Property Name="SQUAWK" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FuelJettisoned" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Altitude" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Speed" Type="Double" />
+          <Property Name="ACWeight" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TechLogPageNO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TechLogItemNO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FlightPhaseId" Type="Int32" />
+          <Property Name="LOCAirport" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LOCStand" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LOCRunway" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LOCGEOLongtitude" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LOCGEOAltitude" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="METId" Type="Int32" />
+          <Property Name="ActualWX" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SigxWXId" Type="Int32" />
+          <Property Name="RunwayConditionId" Type="Int32" />
+          <Property Name="ACConfigAP" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ACConfigATHR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ACConfigGear" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ACConfigFlap" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ACConfigSlat" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ACConfigSpoilers" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Summary" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="OthersInfo" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="AATRiskId" Type="Int32" />
+          <Property Name="AATIsActionTaken" Type="Boolean" />
+          <Property Name="AATReportedToATC" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AATATCInstruction" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AATFrequency" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AATHeading" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="AATClearedAltitude" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AATMinVerticalSep" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AATMinHorizontalSep" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AATTCASAlertId" Type="Int32" />
+          <Property Name="AATTypeRA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AATIsRAFollowed" Type="Boolean" />
+          <Property Name="AATVerticalDeviation" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AATOtherACType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AATMarkingColour" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AATCallSign" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AATLighting" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="WTHeading" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="WTTurningId" Type="Int32" />
+          <Property Name="WTGlideSlopePosId" Type="Int32" />
+          <Property Name="WTExtendedCenterlinePosId" Type="Int32" />
+          <Property Name="WTAttitudeChangeId" Type="Int32" />
+          <Property Name="WTAttitudeChangeDeg" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="WTIsBuffet" Type="Boolean" />
+          <Property Name="WTIsStickShaker" Type="Boolean" />
+          <Property Name="WTSuspect" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WTDescribeVA" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WTPrecedingAC" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="WTIsAware" Type="Boolean" />
+          <Property Name="BSBirdType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="BSNrSeenId" Type="Int32" />
+          <Property Name="BSNrStruckId" Type="Int32" />
+          <Property Name="BSTimeId" Type="Int32" />
+          <Property Name="PICDate" Type="DateTime" Precision="0" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DayNightStatusId" Type="Int32" />
+          <Property Name="IncidentTypeId" Type="Int32" />
+          <Property Name="AATXAbove" Type="Int32" />
+          <Property Name="AATYAbove" Type="Int32" />
+          <Property Name="AATXAstern" Type="Int32" />
+          <Property Name="AATYAstern" Type="Int32" />
+          <Property Name="AATHorizontalPlane" Type="Int32" />
+          <Property Name="BSImpactDec" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IsSecurityEvent" Type="Boolean" />
+          <Property Name="IsAirproxATC" Type="Boolean" />
+          <Property Name="IsTCASRA" Type="Boolean" />
+          <Property Name="IsWakeTur" Type="Boolean" />
+          <Property Name="IsBirdStrike" Type="Boolean" />
+          <Property Name="IsOthers" Type="Boolean" />
+          <Property Name="MachNo" Type="Double" />
+          <Property Name="SigxWXTypeId" Type="Int32" />
+          <Property Name="BSHeading" Type="Double" />
+          <Property Name="BSTurningId" Type="Int32" />
+          <Property Name="DateUpdate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="JLSignedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="JLDatePICApproved" Type="DateTime" Precision="3" />
+          <Property Name="PICId" Type="Int32" />
+          <Property Name="PIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OPSRemark" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="OPSRemarkDate" Type="DateTime" Precision="3" />
+          <Property Name="OPSId" Type="Int32" />
+          <Property Name="OPSConfirmDate" Type="DateTime" Precision="3" />
+          <Property Name="OPSStaffRemark" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="OPSStaffDateVisit" Type="DateTime" Precision="3" />
+          <Property Name="OPSStaffConfirmDate" Type="DateTime" Precision="3" />
+          <Property Name="OPSStaffId" Type="Int32" />
+          <Property Name="OPSStaffRemarkDate" Type="DateTime" Precision="3" />
+          <Property Name="OPSUser" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OPSStaffUser" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OPSStatusId" Type="Int32" />
+          <Property Name="OPSStaffStatusId" Type="Int32" />
+          <Property Name="DateSign" Type="DateTime" Precision="7" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="ReporterId" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="FlightInformation" Relationship="dbModel.fk_asr_flt" FromRole="EFBASR" ToRole="FlightInformation" />
+          <Property Name="FormNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
+        </EntityType>
+        <Association Name="fk_asr_flt">
+          <End Type="dbModel.FlightInformation" Role="FlightInformation" Multiplicity="1" />
+          <End Type="dbModel.EFBASR" Role="EFBASR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EFBASR">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EFBVoyageReport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="Route" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RestReduction" Type="Int32" />
+          <Property Name="DutyExtention" Type="Int32" />
+          <Property Name="Report" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DatePICSignature" Type="DateTime" Precision="0" />
+          <Property Name="ActionedById" Type="Int32" />
+          <Property Name="DateActioned" Type="DateTime" Precision="0" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="0" />
+          <Property Name="DepDelay" Type="Int32" />
+          <Property Name="DateUpdate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="JLSignedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="JLDatePICApproved" Type="DateTime" Precision="3" />
+          <Property Name="PICId" Type="Int32" />
+          <Property Name="PIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OPSRemark" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="OPSRemarkDate" Type="DateTime" Precision="3" />
+          <Property Name="OPSId" Type="Int32" />
+          <Property Name="OPSConfirmDate" Type="DateTime" Precision="3" />
+          <Property Name="OPSStaffRemark" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="OPSStaffDateVisit" Type="DateTime" Precision="3" />
+          <Property Name="OPSStaffConfirmDate" Type="DateTime" Precision="3" />
+          <Property Name="OPSStaffId" Type="Int32" />
+          <Property Name="OPSStaffRemarkDate" Type="DateTime" Precision="3" />
+          <Property Name="OPSUser" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OPSStaffUser" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OPSStatusId" Type="Int32" />
+          <Property Name="OPSStaffStatusId" Type="Int32" />
+          <NavigationProperty Name="FlightInformation" Relationship="dbModel.fk_vr_flt" FromRole="EFBVoyageReport" ToRole="FlightInformation" />
+        </EntityType>
+        <Association Name="fk_vr_flt">
+          <End Type="dbModel.FlightInformation" Role="FlightInformation" Multiplicity="0..1" />
+          <End Type="dbModel.EFBVoyageReport" Role="EFBVoyageReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EFBVoyageReport">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6414,6 +6784,157 @@ warning 6002: The table/view 'ppa_varesh.dbo.XFlightCrew' does not have a primar
                 <ScalarProperty Name="BaseAirport" ColumnName="BaseAirport" />
                 <ScalarProperty Name="BaseAirportId" ColumnName="BaseAirportId" />
                 <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EFBASRs">
+            <EntityTypeMapping TypeName="dbModel.EFBASR">
+              <MappingFragment StoreEntitySet="EFBASR">
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="FormNo" ColumnName="FormNo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ReporterId" ColumnName="ReporterId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
+                <ScalarProperty Name="OPSStaffStatusId" ColumnName="OPSStaffStatusId" />
+                <ScalarProperty Name="OPSStatusId" ColumnName="OPSStatusId" />
+                <ScalarProperty Name="OPSStaffUser" ColumnName="OPSStaffUser" />
+                <ScalarProperty Name="OPSUser" ColumnName="OPSUser" />
+                <ScalarProperty Name="OPSStaffRemarkDate" ColumnName="OPSStaffRemarkDate" />
+                <ScalarProperty Name="OPSStaffId" ColumnName="OPSStaffId" />
+                <ScalarProperty Name="OPSStaffConfirmDate" ColumnName="OPSStaffConfirmDate" />
+                <ScalarProperty Name="OPSStaffDateVisit" ColumnName="OPSStaffDateVisit" />
+                <ScalarProperty Name="OPSStaffRemark" ColumnName="OPSStaffRemark" />
+                <ScalarProperty Name="OPSConfirmDate" ColumnName="OPSConfirmDate" />
+                <ScalarProperty Name="OPSId" ColumnName="OPSId" />
+                <ScalarProperty Name="OPSRemarkDate" ColumnName="OPSRemarkDate" />
+                <ScalarProperty Name="OPSRemark" ColumnName="OPSRemark" />
+                <ScalarProperty Name="PIC" ColumnName="PIC" />
+                <ScalarProperty Name="PICId" ColumnName="PICId" />
+                <ScalarProperty Name="JLDatePICApproved" ColumnName="JLDatePICApproved" />
+                <ScalarProperty Name="JLSignedBy" ColumnName="JLSignedBy" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="DateUpdate" ColumnName="DateUpdate" />
+                <ScalarProperty Name="BSTurningId" ColumnName="BSTurningId" />
+                <ScalarProperty Name="BSHeading" ColumnName="BSHeading" />
+                <ScalarProperty Name="SigxWXTypeId" ColumnName="SigxWXTypeId" />
+                <ScalarProperty Name="MachNo" ColumnName="MachNo" />
+                <ScalarProperty Name="IsOthers" ColumnName="IsOthers" />
+                <ScalarProperty Name="IsBirdStrike" ColumnName="IsBirdStrike" />
+                <ScalarProperty Name="IsWakeTur" ColumnName="IsWakeTur" />
+                <ScalarProperty Name="IsTCASRA" ColumnName="IsTCASRA" />
+                <ScalarProperty Name="IsAirproxATC" ColumnName="IsAirproxATC" />
+                <ScalarProperty Name="IsSecurityEvent" ColumnName="IsSecurityEvent" />
+                <ScalarProperty Name="BSImpactDec" ColumnName="BSImpactDec" />
+                <ScalarProperty Name="AATHorizontalPlane" ColumnName="AATHorizontalPlane" />
+                <ScalarProperty Name="AATYAstern" ColumnName="AATYAstern" />
+                <ScalarProperty Name="AATXAstern" ColumnName="AATXAstern" />
+                <ScalarProperty Name="AATYAbove" ColumnName="AATYAbove" />
+                <ScalarProperty Name="AATXAbove" ColumnName="AATXAbove" />
+                <ScalarProperty Name="IncidentTypeId" ColumnName="IncidentTypeId" />
+                <ScalarProperty Name="DayNightStatusId" ColumnName="DayNightStatusId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PICDate" ColumnName="PICDate" />
+                <ScalarProperty Name="BSTimeId" ColumnName="BSTimeId" />
+                <ScalarProperty Name="BSNrStruckId" ColumnName="BSNrStruckId" />
+                <ScalarProperty Name="BSNrSeenId" ColumnName="BSNrSeenId" />
+                <ScalarProperty Name="BSBirdType" ColumnName="BSBirdType" />
+                <ScalarProperty Name="WTIsAware" ColumnName="WTIsAware" />
+                <ScalarProperty Name="WTPrecedingAC" ColumnName="WTPrecedingAC" />
+                <ScalarProperty Name="WTDescribeVA" ColumnName="WTDescribeVA" />
+                <ScalarProperty Name="WTSuspect" ColumnName="WTSuspect" />
+                <ScalarProperty Name="WTIsStickShaker" ColumnName="WTIsStickShaker" />
+                <ScalarProperty Name="WTIsBuffet" ColumnName="WTIsBuffet" />
+                <ScalarProperty Name="WTAttitudeChangeDeg" ColumnName="WTAttitudeChangeDeg" />
+                <ScalarProperty Name="WTAttitudeChangeId" ColumnName="WTAttitudeChangeId" />
+                <ScalarProperty Name="WTExtendedCenterlinePosId" ColumnName="WTExtendedCenterlinePosId" />
+                <ScalarProperty Name="WTGlideSlopePosId" ColumnName="WTGlideSlopePosId" />
+                <ScalarProperty Name="WTTurningId" ColumnName="WTTurningId" />
+                <ScalarProperty Name="WTHeading" ColumnName="WTHeading" />
+                <ScalarProperty Name="AATLighting" ColumnName="AATLighting" />
+                <ScalarProperty Name="AATCallSign" ColumnName="AATCallSign" />
+                <ScalarProperty Name="AATMarkingColour" ColumnName="AATMarkingColour" />
+                <ScalarProperty Name="AATOtherACType" ColumnName="AATOtherACType" />
+                <ScalarProperty Name="AATVerticalDeviation" ColumnName="AATVerticalDeviation" />
+                <ScalarProperty Name="AATIsRAFollowed" ColumnName="AATIsRAFollowed" />
+                <ScalarProperty Name="AATTypeRA" ColumnName="AATTypeRA" />
+                <ScalarProperty Name="AATTCASAlertId" ColumnName="AATTCASAlertId" />
+                <ScalarProperty Name="AATMinHorizontalSep" ColumnName="AATMinHorizontalSep" />
+                <ScalarProperty Name="AATMinVerticalSep" ColumnName="AATMinVerticalSep" />
+                <ScalarProperty Name="AATClearedAltitude" ColumnName="AATClearedAltitude" />
+                <ScalarProperty Name="AATHeading" ColumnName="AATHeading" />
+                <ScalarProperty Name="AATFrequency" ColumnName="AATFrequency" />
+                <ScalarProperty Name="AATATCInstruction" ColumnName="AATATCInstruction" />
+                <ScalarProperty Name="AATReportedToATC" ColumnName="AATReportedToATC" />
+                <ScalarProperty Name="AATIsActionTaken" ColumnName="AATIsActionTaken" />
+                <ScalarProperty Name="AATRiskId" ColumnName="AATRiskId" />
+                <ScalarProperty Name="OthersInfo" ColumnName="OthersInfo" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="ACConfigSpoilers" ColumnName="ACConfigSpoilers" />
+                <ScalarProperty Name="ACConfigSlat" ColumnName="ACConfigSlat" />
+                <ScalarProperty Name="ACConfigFlap" ColumnName="ACConfigFlap" />
+                <ScalarProperty Name="ACConfigGear" ColumnName="ACConfigGear" />
+                <ScalarProperty Name="ACConfigATHR" ColumnName="ACConfigATHR" />
+                <ScalarProperty Name="ACConfigAP" ColumnName="ACConfigAP" />
+                <ScalarProperty Name="RunwayConditionId" ColumnName="RunwayConditionId" />
+                <ScalarProperty Name="SigxWXId" ColumnName="SigxWXId" />
+                <ScalarProperty Name="ActualWX" ColumnName="ActualWX" />
+                <ScalarProperty Name="METId" ColumnName="METId" />
+                <ScalarProperty Name="LOCGEOAltitude" ColumnName="LOCGEOAltitude" />
+                <ScalarProperty Name="LOCGEOLongtitude" ColumnName="LOCGEOLongtitude" />
+                <ScalarProperty Name="LOCRunway" ColumnName="LOCRunway" />
+                <ScalarProperty Name="LOCStand" ColumnName="LOCStand" />
+                <ScalarProperty Name="LOCAirport" ColumnName="LOCAirport" />
+                <ScalarProperty Name="FlightPhaseId" ColumnName="FlightPhaseId" />
+                <ScalarProperty Name="TechLogItemNO" ColumnName="TechLogItemNO" />
+                <ScalarProperty Name="TechLogPageNO" ColumnName="TechLogPageNO" />
+                <ScalarProperty Name="ACWeight" ColumnName="ACWeight" />
+                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="Altitude" ColumnName="Altitude" />
+                <ScalarProperty Name="FuelJettisoned" ColumnName="FuelJettisoned" />
+                <ScalarProperty Name="SQUAWK" ColumnName="SQUAWK" />
+                <ScalarProperty Name="IsDay" ColumnName="IsDay" />
+                <ScalarProperty Name="OccurrenceDate" ColumnName="OccurrenceDate" />
+                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EFBVoyageReports">
+            <EntityTypeMapping TypeName="dbModel.EFBVoyageReport">
+              <MappingFragment StoreEntitySet="EFBVoyageReport">
+                <ScalarProperty Name="OPSStaffStatusId" ColumnName="OPSStaffStatusId" />
+                <ScalarProperty Name="OPSStatusId" ColumnName="OPSStatusId" />
+                <ScalarProperty Name="OPSStaffUser" ColumnName="OPSStaffUser" />
+                <ScalarProperty Name="OPSUser" ColumnName="OPSUser" />
+                <ScalarProperty Name="OPSStaffRemarkDate" ColumnName="OPSStaffRemarkDate" />
+                <ScalarProperty Name="OPSStaffId" ColumnName="OPSStaffId" />
+                <ScalarProperty Name="OPSStaffConfirmDate" ColumnName="OPSStaffConfirmDate" />
+                <ScalarProperty Name="OPSStaffDateVisit" ColumnName="OPSStaffDateVisit" />
+                <ScalarProperty Name="OPSStaffRemark" ColumnName="OPSStaffRemark" />
+                <ScalarProperty Name="OPSConfirmDate" ColumnName="OPSConfirmDate" />
+                <ScalarProperty Name="OPSId" ColumnName="OPSId" />
+                <ScalarProperty Name="OPSRemarkDate" ColumnName="OPSRemarkDate" />
+                <ScalarProperty Name="OPSRemark" ColumnName="OPSRemark" />
+                <ScalarProperty Name="PIC" ColumnName="PIC" />
+                <ScalarProperty Name="PICId" ColumnName="PICId" />
+                <ScalarProperty Name="JLDatePICApproved" ColumnName="JLDatePICApproved" />
+                <ScalarProperty Name="JLSignedBy" ColumnName="JLSignedBy" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="DateUpdate" ColumnName="DateUpdate" />
+                <ScalarProperty Name="DepDelay" ColumnName="DepDelay" />
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="DateActioned" ColumnName="DateActioned" />
+                <ScalarProperty Name="ActionedById" ColumnName="ActionedById" />
+                <ScalarProperty Name="DatePICSignature" ColumnName="DatePICSignature" />
+                <ScalarProperty Name="Report" ColumnName="Report" />
+                <ScalarProperty Name="DutyExtention" ColumnName="DutyExtention" />
+                <ScalarProperty Name="RestReduction" ColumnName="RestReduction" />
+                <ScalarProperty Name="Route" ColumnName="Route" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

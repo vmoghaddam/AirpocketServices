@@ -45,7 +45,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiFuel", "ApiFuel\ApiFuel.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiLibrary", "ApiLibrary\ApiLibrary.csproj", "{09957983-1B51-4F53-AE3E-DC1750E00594}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMSLibrary", "SMSLibrary\SMSLibrary.csproj", "{1646356E-9045-4650-BD26-A1F52CB48FA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMSLibrary", "SMSLibrary\SMSLibrary.csproj", "{1646356E-9045-4650-BD26-A1F52CB48FA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiQaSMS", "ApiQaSMS\ApiQaSMS.csproj", "{FD083B01-58B8-4D5D-9D74-677A377F953B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -231,6 +233,14 @@ Global
 		{1646356E-9045-4650-BD26-A1F52CB48FA6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1646356E-9045-4650-BD26-A1F52CB48FA6}.Release|x64.ActiveCfg = Release|Any CPU
 		{1646356E-9045-4650-BD26-A1F52CB48FA6}.Release|x64.Build.0 = Release|Any CPU
+		{FD083B01-58B8-4D5D-9D74-677A377F953B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD083B01-58B8-4D5D-9D74-677A377F953B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD083B01-58B8-4D5D-9D74-677A377F953B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FD083B01-58B8-4D5D-9D74-677A377F953B}.Debug|x64.Build.0 = Debug|Any CPU
+		{FD083B01-58B8-4D5D-9D74-677A377F953B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD083B01-58B8-4D5D-9D74-677A377F953B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD083B01-58B8-4D5D-9D74-677A377F953B}.Release|x64.ActiveCfg = Release|Any CPU
+		{FD083B01-58B8-4D5D-9D74-677A377F953B}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -45,6 +45,406 @@ namespace ApiScheduling.Controllers
     public class SchedulingController : ApiController
     {
 
+
+
+        ///// QA
+        ///// VIEW MODELS
+        //public class dto_qa_risk_assessment
+        //{
+
+
+        //    public int id { get; set; }
+        //    public Nullable<int> form_type { get; set; }
+        //    public Nullable<int> form_id { get; set; }
+        //    public Nullable<System.DateTime> id_date { get; set; }
+        //    public string id_department { get; set; }
+        //    public string id_risk_register_number { get; set; }
+        //    public string id_hazard_description { get; set; }
+        //    public string id_hazard_consequence { get; set; }
+        //    public Nullable<int> initial_prob_level { get; set; }
+        //    public string initial_severity_level { get; set; }
+        //    public string initial_index { get; set; }
+        //    public Nullable<int> final_prob_level { get; set; }
+        //    public string final_severity_level { get; set; }
+        //    public string final_index { get; set; }
+        //    public string approval_relevant_department { get; set; }
+        //    public Nullable<int> approval_relevant_department_id { get; set; }
+        //    public Nullable<System.DateTime> approval_relevant_department_date { get; set; }
+        //    public string approval_qa { get; set; }
+        //    public Nullable<int> approval_qa_id { get; set; }
+        //    public Nullable<System.DateTime> approval_qa_date { get; set; }
+        //    public string om_form_no { get; set; }
+        //    public string om_form_date { get; set; }
+        //    public string om_form_rev { get; set; }
+        //    public string om_form_issue { get; set; }
+        //    public string remark { get; set; }
+        //    public string id_source { get; set; }
+        //    public Nullable<bool> has_relevant { get; set; }
+
+        //    public string initial_acceptability { get; set; }
+        //    public string initital_description { get; set; }
+        //    public string initial_responsible_manager { get; set; }
+        //    public Nullable<System.DateTime> initial_responsible_sign { get; set; }
+        //    public string initial_qa_approval { get; set; }
+        //    public Nullable<System.DateTime> initial_qa_sign { get; set; }
+        //    public string final_acceptability { get; set; }
+
+
+
+        //    public List<dto_qa_consequence> consequences { get; set; }
+
+        //    public List<dto_qa_corrective_action> actions { get; set; }
+
+        //    public List<dto_qa_monitor> monitors { get; set; }
+
+        //    public List<dto_qa_risk_acceptability> acceptabilities { get; set; }
+
+        //    public List<dto_qa_root_cause> root_causes { get; set; }
+
+        //}
+        //public class dto_qa_consequence
+        //{
+        //    public int id { get; set; }
+        //    public Nullable<int> risk_id { get; set; }
+        //    public string title { get; set; }
+
+
+        //}
+        //public class dto_qa_corrective_action
+        //{
+        //    public int id { get; set; }
+        //    public Nullable<int> risk_id { get; set; }
+        //    public string action { get; set; }
+        //    public string responsible_staff { get; set; }
+        //    public Nullable<int> responsible_staff_id { get; set; }
+        //    public Nullable<System.DateTime> time_limit_date { get; set; }
+        //    public string time_limit_remark { get; set; }
+        //    public Nullable<System.DateTime> date { get; set; }
+        //    public string qa_approval { get; set; }
+        //    public Nullable<int> qa_approval_id { get; set; }
+        //    public Nullable<System.DateTime> qa_approval_date { get; set; }
+
+
+        //}
+        //public class dto_qa_monitor
+        //{
+        //    public int id { get; set; }
+        //    public Nullable<int> risk_id { get; set; }
+        //    public Nullable<System.DateTime> date_last_updated { get; set; }
+        //    public string cpmment { get; set; }
+
+
+        //}
+        //public class dto_qa_risk_acceptability
+        //{
+        //    public int id { get; set; }
+        //    public Nullable<int> risk_id { get; set; }
+        //    public string risk_type { get; set; }
+        //    public Nullable<bool> is_control_action { get; set; }
+        //    public Nullable<bool> is_no_control_action { get; set; }
+        //    public Nullable<bool> is_urgent_control_action { get; set; }
+        //    public Nullable<bool> is_stop_operation { get; set; }
+        //    public string responsible_manager { get; set; }
+        //    public Nullable<int> responsible_manager_id { get; set; }
+        //    public Nullable<System.DateTime> responsible_manager_date { get; set; }
+        //    public Nullable<System.DateTime> responsible_manager_qa_date { get; set; }
+        //    public Nullable<int> responsible_manager_qa_id { get; set; }
+        //    public Nullable<int> level_id { get; set; }
+        //    public string level_remark { get; set; }
+
+
+
+        //}
+        //public class dto_qa_root_cause
+        //{
+        //    public int id { get; set; }
+        //    public Nullable<int> risk_id { get; set; }
+        //    public string root_cause { get; set; }
+
+
+        //}
+        ///// 
+        //[Route("api/sch/qa/register/save")]
+        //[AcceptVerbs("POST")]
+        //public async Task<IHttpActionResult> PostRegisterSave(dto_qa_risk_assessment dto)
+        //{
+        //    var context = new Models.dbEntities();
+
+        //    var entity = context.qa_risk_assessment.FirstOrDefault(q => q.id == dto.id);
+        //    if (entity == null)
+        //    {
+        //        entity = new qa_risk_assessment();
+        //        context.qa_risk_assessment.Add(entity);
+        //    }
+
+        //    // entity.id = dto.id;
+
+
+        //    entity.form_type = dto.form_type;
+        //    entity.form_id = dto.form_id;
+
+        //    entity.id_date = dto.id_date;
+        //    entity.id_department = dto.id_department;
+        //    entity.id_risk_register_number = dto.id_risk_register_number;
+        //    entity.id_hazard_description = dto.id_hazard_description;
+        //    entity.id_hazard_consequence = dto.id_hazard_consequence;
+        //    entity.initial_prob_level = dto.initial_prob_level;
+        //    entity.initial_severity_level = dto.initial_severity_level;
+        //    entity.initial_index = dto.initial_index;
+        //    entity.final_prob_level = dto.final_prob_level;
+        //    entity.final_severity_level = dto.final_severity_level;
+        //    entity.final_index = dto.final_index;
+        //    entity.approval_relevant_department = dto.approval_relevant_department;
+        //    entity.approval_relevant_department_id = dto.approval_relevant_department_id;
+        //    entity.approval_relevant_department_date = dto.approval_relevant_department_date;
+        //    entity.approval_qa = dto.approval_qa;
+        //    entity.approval_qa_id = dto.approval_qa_id;
+        //    entity.approval_qa_date = dto.approval_qa_date;
+        //    entity.om_form_no = dto.om_form_no;
+        //    entity.om_form_date = dto.om_form_date;
+        //    entity.om_form_rev = dto.om_form_rev;
+        //    entity.om_form_issue = dto.om_form_issue;
+        //    entity.remark = dto.remark;
+        //    entity.id_source = dto.id_source;
+        //    entity.has_relevant = dto.has_relevant;
+
+        //    entity.initial_acceptability = dto.initial_acceptability;
+        //    entity.initital_description = dto.initital_description;
+        //    entity.initial_responsible_manager = dto.initial_responsible_manager;
+        //    entity.initial_responsible_sign = dto.initial_responsible_sign;
+        //    entity.initial_qa_approval = dto.initial_qa_approval;
+        //    entity.initial_qa_sign = dto.initial_qa_sign;
+        //    entity.final_acceptability = dto.final_acceptability;
+
+        //    if (entity.id > 0)
+        //    {
+        //        var _cons = context.qa_consequence.Where(q => q.risk_id == entity.id).ToList();
+        //        context.qa_consequence.RemoveRange(_cons);
+
+        //        var _causes = context.qa_root_cause.Where(q => q.risk_id == entity.id).ToList();
+        //        context.qa_root_cause.RemoveRange(_causes);
+
+        //        var _action = context.qa_corrective_action.Where(q => q.risk_id == entity.id).ToList();
+        //        context.qa_corrective_action.RemoveRange(_action);
+
+        //       // var _acc = context.qa_risk_acceptability.Where(q => q.risk_id == entity.id).ToList();
+        //       // context.qa_risk_acceptability.RemoveRange(_acc);
+
+        //        var _mon = context.qa_monitor.Where(q => q.risk_id == entity.id).ToList();
+        //        context.qa_monitor.RemoveRange(_mon);
+
+        //    }
+
+        //    foreach (var q in dto.consequences)
+        //    {
+        //        entity.qa_consequence.Add(new qa_consequence()
+        //        {
+        //            title = q.title
+        //        });
+        //    }
+        //    foreach (var q in dto.root_causes)
+        //        entity.qa_root_cause.Add(new qa_root_cause()
+        //        {
+        //            root_cause = q.root_cause
+        //        });
+
+        //    foreach (var q in dto.actions)
+        //    {
+        //        entity.qa_corrective_action.Add(new qa_corrective_action()
+        //        {
+        //            action = q.action,
+        //            date = q.date,
+        //            qa_approval = q.qa_approval,
+        //            qa_approval_date = q.qa_approval_date,
+        //            qa_approval_id = q.qa_approval_id,
+        //            responsible_staff = q.responsible_staff,
+        //            responsible_staff_id = q.responsible_staff_id,
+        //            time_limit_date = q.time_limit_date,
+        //            time_limit_remark = q.time_limit_remark,
+
+        //        });
+        //    }
+
+        //    //foreach (var q in dto.acceptabilities)
+        //    //{
+        //    //    entity.qa_risk_acceptability.Add(new qa_risk_acceptability()
+        //    //    {
+        //    //        is_control_action = q.is_control_action,
+        //    //        is_no_control_action = q.is_no_control_action,
+        //    //        is_stop_operation = q.is_stop_operation,
+        //    //        is_urgent_control_action = q.is_urgent_control_action,
+        //    //        level_id = q.level_id,
+        //    //        level_remark = q.level_remark,
+        //    //        responsible_manager = q.responsible_manager,
+        //    //        responsible_manager_date = q.responsible_manager_date,
+        //    //        responsible_manager_id = q.responsible_manager_id,
+        //    //        responsible_manager_qa_date = q.responsible_manager_qa_date,
+        //    //        responsible_manager_qa_id = q.responsible_manager_qa_id,
+        //    //        risk_type = q.risk_type,
+
+
+        //    //    });
+        //    //}
+
+        //    foreach (var q in dto.monitors)
+        //    {
+        //        entity.qa_monitor.Add(new qa_monitor()
+        //        {
+        //            cpmment = q.cpmment,
+        //            date_last_updated = q.date_last_updated,
+
+        //        });
+        //    }
+
+        //    context.SaveChanges();
+
+        //    return Ok(entity.id);
+
+        //    // return new DataResponse() { IsSuccess = false };
+        //}
+
+        //[Route("api/sch/qa/hazard/logs")]
+        //[AcceptVerbs("GET")]
+        //public async Task<IHttpActionResult> GetQaHL( )
+        //{
+        //    var context = new Models.dbEntities();
+        //    var result = await context.ViewQaHazardLogs.OrderByDescending(q => q.id).ToListAsync();
+        //    return Ok(result);
+        //}
+        //[Route("api/sch/qa/register/{fid}/{type}")]
+        //[AcceptVerbs("GET")]
+        //public async Task<IHttpActionResult> GetQaRegister(int fid, int type)
+        //{
+        //    var context = new Models.dbEntities();
+
+        //    var entity = context.qa_risk_assessment.FirstOrDefault(q => q.form_id == fid && q.form_type == type);
+        //    if (entity == null)
+        //        return Ok(new dto_qa_risk_assessment()
+        //        {
+        //            id = -1,
+        //            actions=new List<dto_qa_corrective_action>(),
+        //             monitors=new List<dto_qa_monitor>(),
+        //              acceptabilities=new List<dto_qa_risk_acceptability>(),
+        //               root_causes=new List<dto_qa_root_cause>(),
+        //                consequences=new List<dto_qa_consequence>(),
+
+        //        });
+        //    var dto = new dto_qa_risk_assessment();
+        //    dto.id = entity.id;
+        //    dto.form_type = entity.form_type;
+        //    dto.form_id = entity.form_id;
+        //    dto.id_date = entity.id_date;
+        //    dto.id_department = entity.id_department;
+        //    dto.id_risk_register_number = entity.id_risk_register_number;
+        //    dto.id_hazard_description = entity.id_hazard_description;
+        //    dto.id_hazard_consequence = entity.id_hazard_consequence;
+        //    dto.initial_prob_level = entity.initial_prob_level;
+        //    dto.initial_severity_level = entity.initial_severity_level;
+        //    dto.initial_index = entity.initial_index;
+        //    dto.final_prob_level = entity.final_prob_level;
+        //    dto.final_severity_level = entity.final_severity_level;
+        //    dto.final_index = entity.final_index;
+        //    dto.approval_relevant_department = entity.approval_relevant_department;
+        //    dto.approval_relevant_department_id = entity.approval_relevant_department_id;
+        //    dto.approval_relevant_department_date = entity.approval_relevant_department_date;
+        //    dto.approval_qa = entity.approval_qa;
+        //    dto.approval_qa_id = entity.approval_qa_id;
+        //    dto.approval_qa_date = entity.approval_qa_date;
+        //    dto.om_form_no = entity.om_form_no;
+        //    dto.om_form_date = entity.om_form_date;
+        //    dto.om_form_rev = entity.om_form_rev;
+        //    dto.om_form_issue = entity.om_form_issue;
+        //    dto.remark = entity.remark;
+        //    dto.id_source = entity.id_source;
+        //    dto.has_relevant = entity.has_relevant;
+
+        //    dto.initial_acceptability = entity.initial_acceptability;
+        //    dto.initital_description = entity.initital_description;
+        //    dto.initial_responsible_manager = entity.initial_responsible_manager;
+        //    dto.initial_responsible_sign = entity.initial_responsible_sign;
+        //    dto.initial_qa_approval = entity.initial_qa_approval;
+        //    dto.initial_qa_sign = entity.initial_qa_sign;
+        //    dto.final_acceptability = entity.final_acceptability;
+
+
+        //    var cons = context.qa_consequence.Where(q => q.risk_id == entity.id).ToList();
+        //    dto.consequences = new List<dto_qa_consequence>();
+        //    foreach (var q in cons)
+        //        dto.consequences.Add(new dto_qa_consequence()
+        //        {
+        //            id = q.id,
+        //            risk_id = q.risk_id,
+        //            title = q.title
+        //        });
+        //    var actions = context.qa_corrective_action.Where(q => q.risk_id == entity.id).ToList();
+        //    dto.actions = new List<dto_qa_corrective_action>();
+        //    foreach (var q in actions)
+        //        dto.actions.Add(new dto_qa_corrective_action()
+        //        {
+        //            action = q.action,
+        //            date = q.date,
+        //            id = q.id,
+        //            qa_approval = q.qa_approval,
+        //            qa_approval_date = q.qa_approval_date,
+        //            qa_approval_id = q.qa_approval_id,
+        //            responsible_staff = q.responsible_staff,
+        //            responsible_staff_id = q.responsible_staff_id,
+        //            risk_id = q.risk_id,
+        //            time_limit_date = q.time_limit_date,
+        //            time_limit_remark = q.time_limit_remark,
+        //        });
+
+        //    dto.root_causes = new List<dto_qa_root_cause>();
+        //    var root = context.qa_root_cause.Where(q => q.risk_id == entity.id).ToList();
+        //    foreach (var x in root)
+        //        dto.root_causes.Add(new dto_qa_root_cause()
+        //        {
+        //            id = x.id,
+        //            risk_id = x.risk_id,
+        //            root_cause = x.root_cause,
+        //        });
+
+        //    //dto.acceptabilities = new List<dto_qa_risk_acceptability>();
+        //    //var acc = context.qa_risk_acceptability.Where(q => q.risk_id == entity.id).ToList();
+        //    //foreach (var q in acc)
+        //    //{
+        //    //    dto.acceptabilities.Add(new dto_qa_risk_acceptability()
+        //    //    {
+        //    //        id = q.id,
+        //    //        is_control_action = q.is_control_action,
+        //    //        is_no_control_action = q.is_no_control_action,
+        //    //        is_stop_operation = q.is_stop_operation,
+        //    //        is_urgent_control_action = q.is_urgent_control_action,
+        //    //        level_id = q.level_id,
+        //    //        level_remark = q.level_remark,
+        //    //        responsible_manager = q.responsible_manager,
+        //    //        responsible_manager_date = q.responsible_manager_date,
+        //    //        responsible_manager_id = q.responsible_manager_id,
+        //    //        responsible_manager_qa_date = q.responsible_manager_qa_date,
+        //    //        responsible_manager_qa_id = q.responsible_manager_qa_id,
+        //    //        risk_id = q.risk_id,
+        //    //        risk_type = q.risk_type
+
+        //    //    });
+        //    //}
+
+        //    dto.monitors = new List<dto_qa_monitor>();
+        //    var monitor = context.qa_monitor.Where(q => q.risk_id == entity.id).ToList();
+        //    foreach (var q in monitor)
+        //        dto.monitors.Add(new dto_qa_monitor()
+        //        {
+        //            cpmment = q.cpmment,
+        //            date_last_updated = q.date_last_updated,
+        //            id = q.id,
+        //            risk_id = q.risk_id
+        //        });
+
+        //    return Ok(dto);
+
+        //    // return new DataResponse() { IsSuccess = false };
+        //}
+        ///// 
+
         [Route("api/test")]
         [AcceptVerbs("GET")]
         public async Task<IHttpActionResult> GetTEST()
@@ -112,12 +512,93 @@ namespace ApiScheduling.Controllers
         public IHttpActionResult GetCrewDuties(int crewId, int year, int month)
         {
             var context = new Models.dbEntities();
-            var query = from x in  context.ViewCrewDuties
+            var query = from x in context.ViewCrewDuties
                         where x.DateStartYear == year && x.DateStartMonth == month && x.CrewId == crewId
                         select x;
 
-            var result =   query.OrderBy(q => q.DateStartLocal).ToList ();
+            var result = query.OrderBy(q => q.DateStartLocal).ToList();
             return Ok(result);
+
+        }
+        [Route("api/pp/fdps/{crewId}/{year}/{month}")]
+        public IHttpActionResult GetPPCrewDuties(int crewId, int year, int month)
+        {
+            var context = new Models.dbEntities();
+            var query = from x in context.ViewCrewDutyPulsePockets
+                        where x.DateStartYear == year && x.DateStartMonth == month && x.CrewId == crewId
+                        select x;
+
+            var result = query.OrderBy(q => q.DateStartLocal).ToList();
+            return Ok(result);
+
+        }
+
+        [Route("api/pp/duty/{fdpid}/{type}")]
+        public IHttpActionResult GetPPCrewDuties(int fdpid, int type)
+        {
+            var context = new Models.dbEntities();
+            var is_crew_visible = Convert.ToInt32(ConfigurationManager.AppSettings["is_crew_visible"]);
+           
+            switch (type)
+            {
+                case 1165:
+                    var fdp = context.FDPs.FirstOrDefault(q => q.Id == fdpid);
+                    var crew = context.ViewEmployeeLights.Where(q => q.Id == fdp.CrewId).FirstOrDefault();
+                    var show_crew = is_crew_visible == 1 || crew.Id==4811 || (crew.JobGroup != "SCCM" && crew.JobGroup != "CCM" && crew.JobGroup != "ISCCM");
+                    var flts = context.AppCrewFlights.Where(q => q.FDPId == fdpid).OrderBy(q => q.STD).ToList();
+                    var flt_ids = flts.Select(q => q.FlightId).ToList();
+                    var crews =!show_crew?null: context.AppCrewFlights.Where(q => flt_ids.Contains(q.FlightId)).Select(q => new { q.Name, q.Position, q.IsPositioning, q.GroupOrder,q.FlightId }).OrderBy(q => q.GroupOrder).ToList();
+                    return Ok(new { type, flts,crews });
+
+                case 5000:
+                    var sessions = context.ViewCourseFDPs.Where(q => q.FDPId == fdpid).OrderBy(q => q.SessionStart).ToList();
+                    return Ok(new { type, sessions });
+                    break;
+                default:
+                    var duty = context.ViewCrewDutyTimeLineNews.Where(q => q.Id == fdpid).FirstOrDefault();
+                    return Ok(new { type, duty });
+                    break;
+            }
+
+            
+
+        }
+        [Route("api/pp/duty/date/{cid}")]
+        public IHttpActionResult GetPPCrewDutiesByDate(int cid,DateTime df,DateTime dt)
+        {
+            var context = new Models.dbEntities();
+            df = df.Date;
+            dt = dt.Date.AddDays(1);
+            List<object> result = new List<object>();
+
+            var duties = context.ViewCrewDutyTimeLineNews.Where(q => q.CrewId == cid && q.DateStartLocal >= df && q.DateStartLocal < dt).ToList();
+            var crew = context.ViewEmployeeLights.Where(q => q.Id == cid).FirstOrDefault();
+            var is_crew_visible = Convert.ToInt32(ConfigurationManager.AppSettings["is_crew_visible"]);
+            var show_crew = is_crew_visible==1 || cid==4811 || ( crew.JobGroup != "SCCM" && crew.JobGroup != "CCM" && crew.JobGroup != "ISCCM");
+            foreach (var x in duties)
+            {
+                if (x.DutyType == 1165)
+                {
+                    var flts = context.AppCrewFlights.Where(q => q.FDPId == x.Id).OrderBy(q => q.STD).ToList();
+                    var flt_ids = flts.Select(q => q.FlightId).ToList();
+                    var crews =!show_crew? null: context.AppCrewFlights.Where(q => flt_ids.Contains(q.FlightId)).Select(q => new { q.Name, q.Position, q.IsPositioning, q.GroupOrder, q.FlightId }).OrderBy(q => q.GroupOrder).ToList();
+                    result.Add(new { type = x.DutyType, flts, crews, duty = x ,date=x.DutyDateLocal});
+
+                }
+                else if (x.DutyType == 5000)
+                {
+                    var sessions = context.ViewCourseFDPs.Where(q => q.FDPId == x.Id).OrderBy(q => q.SessionStart).ToList();
+                    result.Add(new { type = x.DutyType, sessions, duty = x, date = x.DutyDateLocal });
+                }
+                else
+                {
+                    result.Add(new { type = x.DutyType, duty = x, date = x.DutyDateLocal });
+                }
+            }
+
+            return Ok(result);
+
+
 
         }
         //05-21
@@ -462,57 +943,65 @@ namespace ApiScheduling.Controllers
         {
             //nooz
             //this.context.Database.CommandTimeout = 160;
-
-            var context = new Models.dbEntities();
-            df = df.Date;
-            dt = dt.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-            var _start = df.ToUniversalTime();
-            var _end = dt.ToUniversalTime();
-            var fdps = await context.FDPs.Where(q => q.DutyType == 1165 && q.CrewId != null && q.InitStart >= _start && q.InitStart <= _end
-             && !string.IsNullOrEmpty(q.Key)
-            ).ToListAsync();
-            var _ids = fdps.Select(q => q.Id).ToList();
-            //  var viewfdps=await this.context.ViewFDPRests.Where(q => _ids.Contains(q.Id)).ToListAsync();
-            var result = new List<RosterFDPDto>();
-            foreach (var x in fdps)
+            try
             {
-                //   var rfdp = viewfdps.FirstOrDefault(q => q.Id == x.Id);
-                var item = new RosterFDPDto()
+                var context = new Models.dbEntities();
+                df = df.Date;
+                dt = dt.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                var _start = df.ToUniversalTime();
+                var _end = dt.ToUniversalTime();
+                var fdps = await context.FDPs.Where(q => q.DutyType == 1165 && q.CrewId != null && q.InitStart >= _start && q.InitStart <= _end
+                 && !string.IsNullOrEmpty(q.Key)
+                ).ToListAsync();
+                var _ids = fdps.Select(q => q.Id).ToList();
+                //  var viewfdps=await this.context.ViewFDPRests.Where(q => _ids.Contains(q.Id)).ToListAsync();
+                var result = new List<RosterFDPDto>();
+                foreach (var x in fdps)
                 {
-                    Id = x.Id,
-                    crewId = (int)x.CrewId,
-                    flts = x.InitFlts,
-                    from = Convert.ToInt32(x.InitFromIATA),
-                    group = x.InitGroup,
-                    homeBase = (int)x.InitHomeBase,
-                    index = (int)x.InitIndex,
-                    key = x.Key.Replace("*0", ""),
-                    no = x.InitNo,
-                    rank = x.InitRank,
-                    route = x.InitRoute,
-                    scheduleName = x.InitScheduleName,
-                    to = Convert.ToInt32(x.InitToIATA),
-                    flights = x.InitFlights.Split('*').ToList(),
+                    //   var rfdp = viewfdps.FirstOrDefault(q => q.Id == x.Id);
+                    var item = new RosterFDPDto()
+                    {
+                        Id = x.Id,
+                        crewId = (int)x.CrewId,
+                        flts = x.InitFlts,
+                        from = Convert.ToInt32(x.InitFromIATA),
+                        group = x.InitGroup,
+                        homeBase = (int)x.InitHomeBase,
+                        index = (int)x.InitIndex,
+                        key = x.Key.Replace("*0", ""),
+                        no = x.InitNo,
+                        rank = x.InitRank,
+                        route = x.InitRoute,
+                        scheduleName = x.InitScheduleName,
+                        to = Convert.ToInt32(x.InitToIATA),
+                        flights = x.InitFlights.Split('*').ToList(),
 
-                };
-                // if (rfdp!=null)
-                //  {
-                //     item.IsSplitDuty = rfdp.ExtendedBySplitDuty > 0;
-                //     item.SplitValue = rfdp.DelayAmount;
-                // }
-                item.ids = new List<RosterFDPId>();
-                foreach (var f in item.flights)
-                {
-                    var prts = f.Split('_').ToList();
-                    item.ids.Add(new RosterFDPId() { id = Convert.ToInt32(prts[0]), dh = Convert.ToInt32(prts[1]) });
+                    };
+                    // if (rfdp!=null)
+                    //  {
+                    //     item.IsSplitDuty = rfdp.ExtendedBySplitDuty > 0;
+                    //     item.SplitValue = rfdp.DelayAmount;
+                    // }
+                    item.ids = new List<RosterFDPId>();
+                    foreach (var f in item.flights)
+                    {
+                        var prts = f.Split('_').ToList();
+                        item.ids.Add(new RosterFDPId() { id = Convert.ToInt32(prts[0]), dh = Convert.ToInt32(prts[1]) });
+                    }
+                    result.Add(item);
+
                 }
-                result.Add(item);
+
+                return Ok(result);
 
             }
-
-            return Ok(result);
-
-
+            catch(Exception ex)
+            {
+                 var msg = ex.Message;
+                 if (ex.InnerException != null)
+                     msg += "     " + ex.InnerException.Message;
+                return Ok(msg);
+            }
         }
 
 
@@ -1255,17 +1744,17 @@ namespace ApiScheduling.Controllers
             var rest_after_duty = Convert.ToInt32(ConfigurationManager.AppSettings["rest_after_duty"]);
             if (rest_after_duty == 1)
             {
-                 var rest = new List<int>() { 1167, 1168, 1170, 5000, 5001, 100001, 100003, 300010,300014 };
-                 duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
+                var rest = new List<int>() { 1167, 1168, 1170, 5000, 5001, 100001, 100003, 300010, 300014 };
+                duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
             }
             else
             {
                 var rest = new List<int>() { 1167, 1168, 1170 };
-                duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;  
+                duty.InitRestTo = rest.Contains(duty.DutyType) ? ((DateTime)duty.InitEnd).AddHours(12) : duty.DateEnd;
 
             }
             int rerrp_check = Convert.ToInt32(ConfigurationManager.AppSettings["rerrp_check"]);
-            if (rerrp_check==1 && (new List<int>() { 1167,1168}). Contains(duty.DutyType))
+            if (rerrp_check == 1 && (new List<int>() { 1167, 1168 }).Contains(duty.DutyType))
             {
                 var _dtdate = ((DateTime)duty.InitStart).Date;
                 var _rerrp = await context.AppFTLs.Where(q => q.CrewId == duty.CrewId && q.CDate == _dtdate && q.RERRP > 0).FirstOrDefaultAsync();
@@ -1279,11 +1768,11 @@ namespace ApiScheduling.Controllers
                     });
                 }
             }
-           
+
 
 
             var utcdiff = Convert.ToInt32(ConfigurationManager.AppSettings["utcdiff"]);
-            var d24s = new List<int>() { 1166, 1169,  100007, 100008, 100002 };
+            var d24s = new List<int>() {   100007, 100008, 100002 };
             if (d24s.IndexOf(duty.DutyType) != -1)
             {
                 var _start = ((DateTime)duty.InitStart);//.Date;//.AddMinutes(-utcdiff);
@@ -1323,7 +1812,12 @@ namespace ApiScheduling.Controllers
                         _end = _end.AddMinutes(_lnr);
                     }
                     duty.DateStart = _start.AddMinutes(-utcdiff);
-                    duty.DateEnd = _end.AddMinutes(-utcdiff);
+                    if (duty.DateEnd > _end.AddMinutes(-utcdiff))
+                        _end =(DateTime) duty.DateEnd;
+                    else
+                        _end = _end.AddMinutes(-utcdiff);
+
+                    duty.DateEnd = _end;  
                     duty.InitStart = duty.DateStart;
                     duty.InitEnd = duty.DateEnd;
                     duty.InitRestTo = duty.DateEnd;
@@ -1343,51 +1837,51 @@ namespace ApiScheduling.Controllers
             {
                 duty.PosAirline = Convert.ToString(dto.airline);
                 duty.PosRemark = Convert.ToString(dto.ticket_no);
-                duty.PosFrom = Convert.ToString(dto.apt_from );
-                duty.PosTo= Convert.ToString(dto.apt_to);
+                duty.PosFrom = Convert.ToString(dto.apt_from);
+                duty.PosTo = Convert.ToString(dto.apt_to);
 
-                
+
 
                 duty.InitStart = duty.DateStart;
                 duty.InitEnd = duty.DateEnd;
-                duty.InitRestTo= duty.DateEnd;
+                duty.InitRestTo = duty.DateEnd;
 
-                duty.PosDep= duty.DateStart;
-                duty.PosArr= duty.DateEnd;
-                
+                duty.PosDep = duty.DateStart;
+                duty.PosArr = duty.DateEnd;
+
 
 
             }
-                //  var _bl = Convert.ToInt32(dto.BL);
-                //if (_bl != 0)
-                //{
-                //    duty.TableBlockTimes.Add(new TableBlockTime()
-                //    {
-                //        BlockTime = _bl,
-                //        CDate = _date,
-                //        CrewId = duty.CrewId,
+            //  var _bl = Convert.ToInt32(dto.BL);
+            //if (_bl != 0)
+            //{
+            //    duty.TableBlockTimes.Add(new TableBlockTime()
+            //    {
+            //        BlockTime = _bl,
+            //        CDate = _date,
+            //        CrewId = duty.CrewId,
 
 
-                //    });
-                //    duty.BL = _bl;
-                //}
-                //var _fx = Convert.ToInt32(dto.FX);
-                //if (_fx != 0)
-                //{
-                //    duty.FX = _fx;
-                //}
-                //1166: Dayoff 100003:sim 5000:trn 5001:ofc 10025:mission 300009:rest
-                var _interupted = await context.FDPs.FirstOrDefaultAsync(q =>
+            //    });
+            //    duty.BL = _bl;
+            //}
+            //var _fx = Convert.ToInt32(dto.FX);
+            //if (_fx != 0)
+            //{
+            //    duty.FX = _fx;
+            //}
+            //1166: Dayoff 100003:sim 5000:trn 5001:ofc 10025:mission 300009:rest
+            var _interupted = await context.FDPs.FirstOrDefaultAsync(q =>
 
-                                             q.Id != duty.Id && q.CrewId == duty.CrewId
-                                             && (
+                                         q.Id != duty.Id && q.CrewId == duty.CrewId
+                                         && (
 
-                                                   (duty.InitStart >= q.InitStart && duty.InitRestTo <= q.InitRestTo)
-                                                   || (q.InitStart >= duty.InitStart && q.InitRestTo <= duty.InitRestTo)
-                                                   || (q.InitStart >= duty.InitStart && q.InitStart < duty.InitRestTo)
-                                                   || (q.InitRestTo > duty.InitStart && q.InitRestTo <= duty.InitRestTo)
-                                                 )
-                                              );
+                                               (duty.InitStart >= q.InitStart && duty.InitRestTo <= q.InitRestTo)
+                                               || (q.InitStart >= duty.InitStart && q.InitRestTo <= duty.InitRestTo)
+                                               || (q.InitStart >= duty.InitStart && q.InitStart < duty.InitRestTo)
+                                               || (q.InitRestTo > duty.InitStart && q.InitRestTo <= duty.InitRestTo)
+                                             )
+                                          );
             var _interupted_norest = await context.FDPs.FirstOrDefaultAsync(q =>
 
                                             q.Id != duty.Id && q.CrewId == duty.CrewId
@@ -1604,7 +2098,7 @@ namespace ApiScheduling.Controllers
                 {
                     case 1167:
                         _from = day.AddMinutes(sbam_start).ToString("yyyyMMddHHmm");
-                         
+
                         _end = day.AddMinutes(sbam_start).AddMinutes(sbam_durattion).ToString("yyyyMMddHHmm");
                         break;
                     case 1168:
@@ -1721,25 +2215,44 @@ namespace ApiScheduling.Controllers
                 duty.InitRestTo = duty.DateEnd;
             //porn
             var exc = new List<int>() { 100009, 100020, 100021, 100022, 100023, 1170 };
-            var check = new List<int>() { 1165, 1166, 1167, 1168, 300013, 1169, 5000, 5001, 100000, 100002, 100003, 100004, 100005, 100006, 100008, 100025, 300008, 300009, 300010, 300014 };
+            var check = new List<int>() { 1165, 1166, 1167, 1168, 300013, 1169, 5000, 5001, 100000, 100002, 100003, 100004, 100005, 100006,100007, 100008, 100025, 300008, 300009, 300010, 300014 };
             // var _interupted = await this.context.FDPs.FirstOrDefaultAsync(q => !exc.Contains(q.DutyType) && q.CrewId == duty.CrewId
             // && (
             //       (duty.InitStart >= q.InitStart && duty.InitStart <= q.InitRestTo)
             //    || (duty.InitEnd >= q.InitStart && duty.InitEnd <= q.InitRestTo)
             //    || (q.InitStart >= duty.InitStart && q.InitRestTo <= duty.InitRestTo)
-            //   )
+            //   )300051
             //);
-            var _interupted = await context.FDPs.FirstOrDefaultAsync(q =>
-                                               check.Contains(q.DutyType) &&
-                                               q.Id != duty.Id && q.CrewId == duty.CrewId
-                                               && (
+            FDP _interupted = null;
+            if (duty.DutyType == 1170)
+            {
+                _interupted = await context.FDPs.FirstOrDefaultAsync(q =>
+                                         check.Contains(q.DutyType) &&
+                                         q.Id != duty.Id && q.CrewId == duty.CrewId
+                                         && (
 
-                                                     (duty.InitStart >= q.InitStart && duty.InitRestTo <= q.InitRestTo)
-                                                     || (q.InitStart >= duty.InitStart && q.InitRestTo <= duty.InitRestTo)
-                                                     || (q.InitStart >= duty.InitStart && q.InitStart < duty.InitRestTo)
-                                                     || (q.InitRestTo > duty.InitStart && q.InitRestTo <= duty.InitRestTo)
-                                                   )
-                                                );
+                                               (duty.InitStart >= q.InitStart && duty.InitRestTo <= q.InitEnd)
+                                               || (q.InitStart >= duty.InitStart && q.InitEnd <= duty.InitRestTo)
+                                               || (q.InitStart >= duty.InitStart && q.InitStart < duty.InitRestTo)
+                                                || (q.InitEnd > duty.InitStart && q.InitEnd <= duty.InitRestTo)
+                                             )
+                                          );
+            }
+            else
+            {
+                _interupted = await context.FDPs.FirstOrDefaultAsync(q =>
+                                                         check.Contains(q.DutyType) &&
+                                                         q.Id != duty.Id && q.CrewId == duty.CrewId
+                                                         && (
+
+                                                               (duty.InitStart >= q.InitStart && duty.InitRestTo <= q.InitRestTo)
+                                                               || (q.InitStart >= duty.InitStart && q.InitRestTo <= duty.InitRestTo)
+                                                               || (q.InitStart >= duty.InitStart && q.InitStart < duty.InitRestTo)
+                                                               || (q.InitRestTo > duty.InitStart && q.InitRestTo <= duty.InitRestTo)
+                                                             )
+                                                          );
+            }
+       
 
             if (_interupted != null)
             {
@@ -2222,7 +2735,7 @@ namespace ApiScheduling.Controllers
                         });
                     }
                 }
-               
+
                 _ln = 8;
                 //var _d7 = await this.context.TableDutyFDPs.Where(q => q.CrewId == ncrewid && q.CDate >= _d2 && q.CDate <= _d1).Select(q => q.DurationLocal).SumAsync();
                 var _d7 = await context.AppFTLs.Where(q => q.CrewId == ncrewid && q.CDate >= ftlDateFrom && q.CDate <= ftlDate7 && q.Duty7 > 60 * 60 - fdpDuty).FirstOrDefaultAsync();
@@ -2330,10 +2843,52 @@ namespace ApiScheduling.Controllers
 
 
                 dto.flts = string.Join(",", dto.items.Select(q => q.no + (q.dh == 1 ? "(dh)" : "")).ToList());
-                var rts = dto.items.Select(q => q.from).ToList();
-                //if (dto.items.Count > 1)
-                rts.Add(dto.items.Last().to);
-                dto.route = string.Join(",", rts);
+
+                List<string> _rts = new List<string>();
+                int _rt_i = 0;
+                foreach (var x in dto.items)
+                {
+                   
+                   // if (x != dto.items.Last())
+                    {
+
+                        if (_rt_i > 0 && dto.items[_rt_i - 1].dh == 1)
+                        {
+                            _rts.Add(x.from + "(dh)");
+                        }
+                        else
+                        {
+                            //_rts.Add((x.pos.ToLower().Contains("obs") ? "(obs)" : "")+x.from); 
+                            if (_rt_i > 0 && dto.items[_rt_i - 1].pos.ToLower().Contains("obs"))
+                                _rts.Add("(obs)"+x.from );
+                            else
+                                _rts.Add(x.from);
+                        }
+
+                    }
+                    //else
+                    //{
+                    //    _rts.Add(x.from);
+                    //    if (x.dh != 1)
+                    //        _rts.Add(x.to);
+                    //    else
+                    //        _rts.Add(x.to + "(dh)");
+                    //}
+                    if (x == dto.items.Last())
+                    {
+                        if (x.dh != 1)
+                        { 
+                            _rts.Add(  (x.pos.ToLower().Contains("obs")?"(obs)":"")+x.to); 
+                        }
+                        else
+                            _rts.Add(x.to + "(dh)");
+                    }
+                    _rt_i++;
+                }
+                
+               // var rts = dto.items.Select(q => q.from).ToList();
+                //rts.Add(dto.items.Last().to);
+                dto.route = string.Join(",", _rts);
                 // if (dto.items.Count= 1)
 
 
@@ -3613,7 +4168,7 @@ namespace ApiScheduling.Controllers
 
 
             stat.RestTo = stat.RestFrom.AddHours(12);
-            stat.MaxFDP = getMaxFDP(((DateTime)flights.First().DepartureLocal).AddMinutes(-60), stat.Sectors, MaxFDPTable);
+            stat.MaxFDP = getMaxFDP(((DateTime)flights.First().DepartureLocal).AddMinutes(-rp), stat.Sectors, MaxFDPTable);
             stat.WOCL = wocl * 60;
             stat.Extended = 0;
             stat.AllowedExtension = 0;
@@ -3663,9 +4218,9 @@ namespace ApiScheduling.Controllers
             if (stat.Duration > stat.MaxFDP && stat.Extended == 0)
             {
                 var extTable = getExtensionTable();
-                var extend = getExtension(((DateTime)flights.First().DepartureLocal).AddMinutes(-60), stat.Sectors, extTable);
+                var extend = getExtension(((DateTime)flights.First().DepartureLocal).AddMinutes(-rp), stat.Sectors, extTable);
                 if (extend >= stat.Duration)
-                    stat.AllowedExtension = getExtension(((DateTime)flights.First().DepartureLocal).AddMinutes(-60), stat.Sectors, extTable);
+                    stat.AllowedExtension = getExtension(((DateTime)flights.First().DepartureLocal).AddMinutes(-rp), stat.Sectors, extTable);
 
 
             }

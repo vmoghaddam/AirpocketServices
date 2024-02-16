@@ -1000,7 +1000,8 @@ namespace XAPI.Controllers
                 no = no.Replace(" ", "");
                 if (no.StartsWith("A"))
                     no = no.Replace("A", "");
-              //  var _flt_flt = context.ViewLegTimes.OrderByDescending(q => q.STD).Take(10).ToList();
+                //  var _flt_flt = context.ViewLegTimes.OrderByDescending(q => q.STD).Take(10).ToList();
+                var _ffff = context.ViewLegTimes.OrderByDescending(q => q.ID).FirstOrDefault();
                 var flight = context.ViewLegTimes.Where(q => q.STDDay == flightDate && q.FlightNumber == no && q.FlightStatusID != 4).FirstOrDefault();
                 var fltobj = context.FlightInformations.Where(q => q.ID == flight.ID).FirstOrDefault();
                 var cplan = context.OFPImports.FirstOrDefault(q => q.FlightId == flight.ID);

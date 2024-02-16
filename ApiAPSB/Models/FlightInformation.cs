@@ -20,6 +20,8 @@ namespace ApiAPSB.Models
             this.FDPItems = new HashSet<FDPItem>();
             this.OFPImports = new HashSet<OFPImport>();
             this.EFBDSPReleases = new HashSet<EFBDSPRelease>();
+            this.EFBASRs = new HashSet<EFBASR>();
+            this.EFBVoyageReports = new HashSet<EFBVoyageReport>();
         }
     
         public int ID { get; set; }
@@ -323,5 +325,9 @@ namespace ApiAPSB.Models
         public virtual ICollection<OFPImport> OFPImports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EFBDSPRelease> EFBDSPReleases { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EFBASR> EFBASRs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EFBVoyageReport> EFBVoyageReports { get; set; }
     }
 }

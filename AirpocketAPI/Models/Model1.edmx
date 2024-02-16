@@ -251,6 +251,13 @@
           <Property Name="OPSStaffUser" Type="varchar" MaxLength="500" />
           <Property Name="OPSStatusId" Type="int" />
           <Property Name="OPSStaffStatusId" Type="int" />
+          <Property Name="DateSign" Type="datetime2" Precision="7" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="ReporterId" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="FormNo" Type="varchar" MaxLength="255" />
+          <Property Name="DateStatus" Type="datetime" />
+          <Property Name="StatusEmployeeId" Type="int" />
         </EntityType>
         <EntityType Name="EFBDSPRelease">
           <Key>
@@ -1692,6 +1699,8 @@
           <Property Name="SMSL2ExpireDate" Type="datetime2" Precision="7" />
           <Property Name="SMSL3IssueDate" Type="datetime2" Precision="7" />
           <Property Name="SMSL3ExpireDate" Type="datetime2" Precision="7" />
+          <Property Name="AMPIssueDate" Type="datetime2" Precision="7" />
+          <Property Name="AMPExpireDate" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="PersonHistory">
           <Key>
@@ -2021,9 +2030,6 @@ warning 6002: The table/view 'ppa_varesh.dbo.AppLeg' does not have a primary key
             <PropertyRef Name="MSN" />
             <PropertyRef Name="IsJL" />
             <PropertyRef Name="IsJLApproved" />
-            
-            
-            
             <PropertyRef Name="OFPTANKERINGFUEL" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
@@ -2139,13 +2145,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.AppLeg' does not have a primary key
           <Property Name="PF" Type="varchar" MaxLength="255" />
           <Property Name="IPName" Type="nvarchar" MaxLength="1001" />
           <Property Name="IPId" Type="int" />
-          <Property Name="IPScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="IPScheduleName" Type="varchar" MaxLength="500" />
           <Property Name="P1Name" Type="nvarchar" MaxLength="1001" />
           <Property Name="P1Id" Type="int" />
-          <Property Name="P1ScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="P1ScheduleName" Type="varchar" MaxLength="500" />
           <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
           <Property Name="P2Id" Type="int" />
-          <Property Name="P2ScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="P2ScheduleName" Type="varchar" MaxLength="500" />
           <Property Name="PIC" Type="nvarchar" MaxLength="1001" />
           <Property Name="PICId" Type="int" />
           <Property Name="SIC" Type="varchar" MaxLength="500" />
@@ -2913,6 +2919,161 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewDutyTimeLine' does not have
           <Property Name="InteruptedId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewDutyTimeLineNew' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewCrewDutyTimeLineNew">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="IsTemplate" />
+            <PropertyRef Name="DutyType" />
+            <PropertyRef Name="DutyTypeTitle" />
+            <PropertyRef Name="JobGroup" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CrewId" Type="int" />
+          <Property Name="ReportingTime" Type="datetime" />
+          <Property Name="JobGroupId" Type="int" />
+          <Property Name="IsTemplate" Type="bit" Nullable="false" />
+          <Property Name="DutyType" Type="int" Nullable="false" />
+          <Property Name="DutyTypeTitle" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="FDPId" Type="int" />
+          <Property Name="DateStart" Type="datetime" />
+          <Property Name="DateEnd" Type="datetime" />
+          <Property Name="CityId" Type="int" />
+          <Property Name="TemplateId" Type="int" />
+          <Property Name="FDPReportingTime" Type="datetime" />
+          <Property Name="FirstFlightId" Type="int" />
+          <Property Name="LastFlightId" Type="int" />
+          <Property Name="UPD" Type="int" />
+          <Property Name="IsMain" Type="bit" />
+          <Property Name="Key" Type="varchar" MaxLength="500" />
+          <Property Name="Remark" Type="varchar" MaxLength="1000" />
+          <Property Name="LocationId" Type="int" />
+          <Property Name="InitStart" Type="datetime" />
+          <Property Name="InitEnd" Type="datetime" />
+          <Property Name="InitRestTo" Type="datetime" />
+          <Property Name="InitFlts" Type="varchar" MaxLength="500" />
+          <Property Name="InitRoute" Type="varchar" MaxLength="500" />
+          <Property Name="InitFromIATA" Type="varchar" MaxLength="255" />
+          <Property Name="InitToIATA" Type="varchar" MaxLength="255" />
+          <Property Name="InitNo" Type="varchar" MaxLength="500" />
+          <Property Name="InitKey" Type="varchar" MaxLength="500" />
+          <Property Name="InitHomeBase" Type="int" />
+          <Property Name="InitRank" Type="varchar" MaxLength="255" />
+          <Property Name="InitIndex" Type="int" />
+          <Property Name="InitGroup" Type="varchar" MaxLength="255" />
+          <Property Name="InitScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="InitFlights" Type="varchar" MaxLength="2000" />
+          <Property Name="Remark2" Type="nvarchar" MaxLength="500" />
+          <Property Name="CanceledNo" Type="varchar" MaxLength="500" />
+          <Property Name="CanceledRoute" Type="varchar" MaxLength="500" />
+          <Property Name="Extension" Type="int" />
+          <Property Name="Split" Type="float" />
+          <Property Name="DateConfirmed" Type="datetime" />
+          <Property Name="ConfirmedBy" Type="varchar" MaxLength="500" />
+          <Property Name="MaxFDP" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FX" Type="int" />
+          <Property Name="BL" Type="int" />
+          <Property Name="ActualStart" Type="datetime" />
+          <Property Name="ActualEnd" Type="datetime" />
+          <Property Name="ActualRestTo" Type="datetime" />
+          <Property Name="IsOver" Type="bit" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="OutOfHomeBase" Type="bit" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="PosFrom" Type="varchar" MaxLength="255" />
+          <Property Name="PosTo" Type="varchar" MaxLength="255" />
+          <Property Name="PosDep" Type="datetime" />
+          <Property Name="PosArr" Type="datetime" />
+          <Property Name="PosAirline" Type="varchar" MaxLength="500" />
+          <Property Name="PosFDPId" Type="int" />
+          <Property Name="PosRemark" Type="varchar" MaxLength="500" />
+          <Property Name="PosTicketUrl" Type="varchar" MaxLength="500" />
+          <Property Name="InitStartLocal" Type="datetime" />
+          <Property Name="InitEndLocal" Type="datetime" />
+          <Property Name="InitRestToLocal" Type="datetime" />
+          <Property Name="DateStartLocal" Type="datetime" />
+          <Property Name="DateEndLocal" Type="datetime" />
+          <Property Name="DutyDateLocal" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewDutyTimeLineNewGDate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewCrewDutyTimeLineNewGDate">
+          <Key>
+            <PropertyRef Name="GDate" />
+            <PropertyRef Name="CID" />
+          </Key>
+          <Property Name="GDate" Type="datetime" Nullable="false" />
+          <Property Name="CID" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" />
+          <Property Name="CrewId" Type="int" />
+          <Property Name="ReportingTime" Type="datetime" />
+          <Property Name="JobGroupId" Type="int" />
+          <Property Name="IsTemplate" Type="bit" />
+          <Property Name="DutyType" Type="int" />
+          <Property Name="DutyTypeTitle" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FDPId" Type="int" />
+          <Property Name="DateStart" Type="datetime" />
+          <Property Name="DateEnd" Type="datetime" />
+          <Property Name="CityId" Type="int" />
+          <Property Name="TemplateId" Type="int" />
+          <Property Name="FDPReportingTime" Type="datetime" />
+          <Property Name="FirstFlightId" Type="int" />
+          <Property Name="LastFlightId" Type="int" />
+          <Property Name="UPD" Type="int" />
+          <Property Name="IsMain" Type="bit" />
+          <Property Name="Key" Type="varchar" MaxLength="500" />
+          <Property Name="Remark" Type="varchar" MaxLength="1000" />
+          <Property Name="LocationId" Type="int" />
+          <Property Name="InitStart" Type="datetime" />
+          <Property Name="InitEnd" Type="datetime" />
+          <Property Name="InitRestTo" Type="datetime" />
+          <Property Name="InitFlts" Type="varchar" MaxLength="500" />
+          <Property Name="InitRoute" Type="varchar" MaxLength="500" />
+          <Property Name="InitFromIATA" Type="varchar" MaxLength="255" />
+          <Property Name="InitToIATA" Type="varchar" MaxLength="255" />
+          <Property Name="InitNo" Type="varchar" MaxLength="500" />
+          <Property Name="InitKey" Type="varchar" MaxLength="500" />
+          <Property Name="InitHomeBase" Type="int" />
+          <Property Name="InitRank" Type="varchar" MaxLength="255" />
+          <Property Name="InitIndex" Type="int" />
+          <Property Name="InitGroup" Type="varchar" MaxLength="255" />
+          <Property Name="InitScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="InitFlights" Type="varchar" MaxLength="2000" />
+          <Property Name="Remark2" Type="nvarchar" MaxLength="500" />
+          <Property Name="CanceledNo" Type="varchar" MaxLength="500" />
+          <Property Name="CanceledRoute" Type="varchar" MaxLength="500" />
+          <Property Name="Extension" Type="int" />
+          <Property Name="Split" Type="float" />
+          <Property Name="DateConfirmed" Type="datetime" />
+          <Property Name="ConfirmedBy" Type="varchar" MaxLength="500" />
+          <Property Name="MaxFDP" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FX" Type="int" />
+          <Property Name="BL" Type="int" />
+          <Property Name="ActualStart" Type="datetime" />
+          <Property Name="ActualEnd" Type="datetime" />
+          <Property Name="ActualRestTo" Type="datetime" />
+          <Property Name="IsOver" Type="bit" />
+          <Property Name="STD" Type="datetime" />
+          <Property Name="STA" Type="datetime" />
+          <Property Name="OutOfHomeBase" Type="bit" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="PosFrom" Type="varchar" MaxLength="255" />
+          <Property Name="PosTo" Type="varchar" MaxLength="255" />
+          <Property Name="PosDep" Type="datetime" />
+          <Property Name="PosArr" Type="datetime" />
+          <Property Name="PosAirline" Type="varchar" MaxLength="500" />
+          <Property Name="PosFDPId" Type="int" />
+          <Property Name="PosRemark" Type="varchar" MaxLength="500" />
+          <Property Name="PosTicketUrl" Type="varchar" MaxLength="500" />
+          <Property Name="InitStartLocal" Type="datetime" />
+          <Property Name="InitEndLocal" Type="datetime" />
+          <Property Name="InitRestToLocal" Type="datetime" />
+          <Property Name="DateStartLocal" Type="datetime" />
+          <Property Name="DateEndLocal" Type="datetime" />
+          <Property Name="DutyDateLocal" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewCrewList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewCrewList">
           <Key>
@@ -3216,6 +3377,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBASR' does not have a primary
             <PropertyRef Name="NightTime" />
             <PropertyRef Name="IsJL" />
             <PropertyRef Name="IsJLApproved" />
+            
+            
+            
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="FlightId" Type="int" Nullable="false" />
@@ -3298,7 +3462,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBASR' does not have a primary
           <Property Name="FlightDate" Type="datetime" />
           <Property Name="CargoCount" Type="int" />
           <Property Name="BaggageCount" Type="int" />
-          <Property Name="FPFuel" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FPFuel" Type="decimal" Precision="18" Scale="0" />
           <Property Name="CPCrewId" Type="int" />
           <Property Name="CPRegister" Type="varchar" MaxLength="500" />
           <Property Name="CPPositionId" Type="int" />
@@ -3318,7 +3482,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBASR' does not have a primary
           <Property Name="JLDate" Type="datetime" />
           <Property Name="JLDateApproved" Type="datetime" />
           <Property Name="JLNo" Type="varchar" MaxLength="200" />
-          <Property Name="SerialNo" Type="varchar" MaxLength="255" />
+          <Property Name="SerialNo" Type="varchar" MaxLength="1000" />
           <Property Name="RVSM_GND_CPT" Type="decimal" Precision="18" Scale="4" />
           <Property Name="LTR" Type="varchar" MaxLength="255" />
           <Property Name="RVSM_GND_STBY" Type="decimal" Precision="18" Scale="4" />
@@ -3340,13 +3504,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBASR' does not have a primary
           <Property Name="PF" Type="varchar" MaxLength="255" />
           <Property Name="IPName" Type="nvarchar" MaxLength="1001" />
           <Property Name="IPId" Type="int" />
-          <Property Name="IPScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="IPScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="P1Name" Type="nvarchar" MaxLength="1001" />
           <Property Name="P1Id" Type="int" />
-          <Property Name="P1ScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="P1ScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="P2Name" Type="nvarchar" MaxLength="1001" />
           <Property Name="P2Id" Type="int" />
-          <Property Name="P2ScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="P2ScheduleName" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="PIC" Type="nvarchar" MaxLength="1001" />
           <Property Name="PICId" Type="int" />
           <Property Name="SIC" Type="varchar" MaxLength="500" />
@@ -3430,6 +3594,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBASR' does not have a primary
           <Property Name="User" Type="varchar" MaxLength="255" />
           <Property Name="BSHeading" Type="float" />
           <Property Name="BSTurningId" Type="int" />
+          <Property Name="DateSign" Type="datetime2" Precision="7" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="ReporterId" Type="int" />
+          <Property Name="FormNo" Type="varchar" MaxLength="1000" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewEFBDSPReleases' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -4844,6 +5013,36 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewRosterCrewCount' does not have 
           <Property Name="Register" Type="nvarchar" MaxLength="50" />
           <Property Name="CockpitCount" Type="int" />
           <Property Name="CabinCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ppa_varesh.dbo.ViewTicket' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewTicket">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CrewId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CrewId" Type="int" Nullable="false" />
+          <Property Name="ScheduleName" Type="varchar" MaxLength="500" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="500" />
+          <Property Name="JobGroup" Type="nvarchar" MaxLength="500" />
+          <Property Name="DateLocal" Type="date" />
+          <Property Name="DateStartLocal" Type="datetime" />
+          <Property Name="DateEndLocal" Type="datetime" />
+          <Property Name="Start" Type="datetime" />
+          <Property Name="StartUTC" Type="datetime" />
+          <Property Name="End" Type="datetime" />
+          <Property Name="EndUTC" Type="datetime" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="1013" />
+          <Property Name="PosFrom" Type="varchar" MaxLength="255" />
+          <Property Name="PosTo" Type="varchar" MaxLength="255" />
+          <Property Name="PosDepUtc" Type="datetime" />
+          <Property Name="PosArrUtc" Type="datetime" />
+          <Property Name="PosDep" Type="datetime" />
+          <Property Name="PosArr" Type="datetime" />
+          <Property Name="PosAirline" Type="varchar" MaxLength="500" />
+          <Property Name="FlightNumber" Type="varchar" MaxLength="500" />
+          <Property Name="PosTicketUrl" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ppa_varesh.dbo.ViewTimeTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -6390,6 +6589,150 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
     [ViewCrewDutyTimeLine].[InteruptedId] AS [InteruptedId]
     FROM [dbo].[ViewCrewDutyTimeLine] AS [ViewCrewDutyTimeLine]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ViewCrewDutyTimeLineNew" EntityType="Self.ViewCrewDutyTimeLineNew" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewCrewDutyTimeLineNew].[Id] AS [Id], 
+    [ViewCrewDutyTimeLineNew].[CrewId] AS [CrewId], 
+    [ViewCrewDutyTimeLineNew].[ReportingTime] AS [ReportingTime], 
+    [ViewCrewDutyTimeLineNew].[JobGroupId] AS [JobGroupId], 
+    [ViewCrewDutyTimeLineNew].[IsTemplate] AS [IsTemplate], 
+    [ViewCrewDutyTimeLineNew].[DutyType] AS [DutyType], 
+    [ViewCrewDutyTimeLineNew].[DutyTypeTitle] AS [DutyTypeTitle], 
+    [ViewCrewDutyTimeLineNew].[FDPId] AS [FDPId], 
+    [ViewCrewDutyTimeLineNew].[DateStart] AS [DateStart], 
+    [ViewCrewDutyTimeLineNew].[DateEnd] AS [DateEnd], 
+    [ViewCrewDutyTimeLineNew].[CityId] AS [CityId], 
+    [ViewCrewDutyTimeLineNew].[TemplateId] AS [TemplateId], 
+    [ViewCrewDutyTimeLineNew].[FDPReportingTime] AS [FDPReportingTime], 
+    [ViewCrewDutyTimeLineNew].[FirstFlightId] AS [FirstFlightId], 
+    [ViewCrewDutyTimeLineNew].[LastFlightId] AS [LastFlightId], 
+    [ViewCrewDutyTimeLineNew].[UPD] AS [UPD], 
+    [ViewCrewDutyTimeLineNew].[IsMain] AS [IsMain], 
+    [ViewCrewDutyTimeLineNew].[Key] AS [Key], 
+    [ViewCrewDutyTimeLineNew].[Remark] AS [Remark], 
+    [ViewCrewDutyTimeLineNew].[LocationId] AS [LocationId], 
+    [ViewCrewDutyTimeLineNew].[InitStart] AS [InitStart], 
+    [ViewCrewDutyTimeLineNew].[InitEnd] AS [InitEnd], 
+    [ViewCrewDutyTimeLineNew].[InitRestTo] AS [InitRestTo], 
+    [ViewCrewDutyTimeLineNew].[InitFlts] AS [InitFlts], 
+    [ViewCrewDutyTimeLineNew].[InitRoute] AS [InitRoute], 
+    [ViewCrewDutyTimeLineNew].[InitFromIATA] AS [InitFromIATA], 
+    [ViewCrewDutyTimeLineNew].[InitToIATA] AS [InitToIATA], 
+    [ViewCrewDutyTimeLineNew].[InitNo] AS [InitNo], 
+    [ViewCrewDutyTimeLineNew].[InitKey] AS [InitKey], 
+    [ViewCrewDutyTimeLineNew].[InitHomeBase] AS [InitHomeBase], 
+    [ViewCrewDutyTimeLineNew].[InitRank] AS [InitRank], 
+    [ViewCrewDutyTimeLineNew].[InitIndex] AS [InitIndex], 
+    [ViewCrewDutyTimeLineNew].[InitGroup] AS [InitGroup], 
+    [ViewCrewDutyTimeLineNew].[InitScheduleName] AS [InitScheduleName], 
+    [ViewCrewDutyTimeLineNew].[InitFlights] AS [InitFlights], 
+    [ViewCrewDutyTimeLineNew].[Remark2] AS [Remark2], 
+    [ViewCrewDutyTimeLineNew].[CanceledNo] AS [CanceledNo], 
+    [ViewCrewDutyTimeLineNew].[CanceledRoute] AS [CanceledRoute], 
+    [ViewCrewDutyTimeLineNew].[Extension] AS [Extension], 
+    [ViewCrewDutyTimeLineNew].[Split] AS [Split], 
+    [ViewCrewDutyTimeLineNew].[DateConfirmed] AS [DateConfirmed], 
+    [ViewCrewDutyTimeLineNew].[ConfirmedBy] AS [ConfirmedBy], 
+    [ViewCrewDutyTimeLineNew].[MaxFDP] AS [MaxFDP], 
+    [ViewCrewDutyTimeLineNew].[FX] AS [FX], 
+    [ViewCrewDutyTimeLineNew].[BL] AS [BL], 
+    [ViewCrewDutyTimeLineNew].[ActualStart] AS [ActualStart], 
+    [ViewCrewDutyTimeLineNew].[ActualEnd] AS [ActualEnd], 
+    [ViewCrewDutyTimeLineNew].[ActualRestTo] AS [ActualRestTo], 
+    [ViewCrewDutyTimeLineNew].[IsOver] AS [IsOver], 
+    [ViewCrewDutyTimeLineNew].[STD] AS [STD], 
+    [ViewCrewDutyTimeLineNew].[STA] AS [STA], 
+    [ViewCrewDutyTimeLineNew].[OutOfHomeBase] AS [OutOfHomeBase], 
+    [ViewCrewDutyTimeLineNew].[JobGroup] AS [JobGroup], 
+    [ViewCrewDutyTimeLineNew].[PosFrom] AS [PosFrom], 
+    [ViewCrewDutyTimeLineNew].[PosTo] AS [PosTo], 
+    [ViewCrewDutyTimeLineNew].[PosDep] AS [PosDep], 
+    [ViewCrewDutyTimeLineNew].[PosArr] AS [PosArr], 
+    [ViewCrewDutyTimeLineNew].[PosAirline] AS [PosAirline], 
+    [ViewCrewDutyTimeLineNew].[PosFDPId] AS [PosFDPId], 
+    [ViewCrewDutyTimeLineNew].[PosRemark] AS [PosRemark], 
+    [ViewCrewDutyTimeLineNew].[PosTicketUrl] AS [PosTicketUrl], 
+    [ViewCrewDutyTimeLineNew].[InitStartLocal] AS [InitStartLocal], 
+    [ViewCrewDutyTimeLineNew].[InitEndLocal] AS [InitEndLocal], 
+    [ViewCrewDutyTimeLineNew].[InitRestToLocal] AS [InitRestToLocal], 
+    [ViewCrewDutyTimeLineNew].[DateStartLocal] AS [DateStartLocal], 
+    [ViewCrewDutyTimeLineNew].[DateEndLocal] AS [DateEndLocal], 
+    [ViewCrewDutyTimeLineNew].[DutyDateLocal] AS [DutyDateLocal]
+    FROM [dbo].[ViewCrewDutyTimeLineNew] AS [ViewCrewDutyTimeLineNew]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewCrewDutyTimeLineNewGDate" EntityType="Self.ViewCrewDutyTimeLineNewGDate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewCrewDutyTimeLineNewGDate].[GDate] AS [GDate], 
+    [ViewCrewDutyTimeLineNewGDate].[CID] AS [CID], 
+    [ViewCrewDutyTimeLineNewGDate].[Id] AS [Id], 
+    [ViewCrewDutyTimeLineNewGDate].[CrewId] AS [CrewId], 
+    [ViewCrewDutyTimeLineNewGDate].[ReportingTime] AS [ReportingTime], 
+    [ViewCrewDutyTimeLineNewGDate].[JobGroupId] AS [JobGroupId], 
+    [ViewCrewDutyTimeLineNewGDate].[IsTemplate] AS [IsTemplate], 
+    [ViewCrewDutyTimeLineNewGDate].[DutyType] AS [DutyType], 
+    [ViewCrewDutyTimeLineNewGDate].[DutyTypeTitle] AS [DutyTypeTitle], 
+    [ViewCrewDutyTimeLineNewGDate].[FDPId] AS [FDPId], 
+    [ViewCrewDutyTimeLineNewGDate].[DateStart] AS [DateStart], 
+    [ViewCrewDutyTimeLineNewGDate].[DateEnd] AS [DateEnd], 
+    [ViewCrewDutyTimeLineNewGDate].[CityId] AS [CityId], 
+    [ViewCrewDutyTimeLineNewGDate].[TemplateId] AS [TemplateId], 
+    [ViewCrewDutyTimeLineNewGDate].[FDPReportingTime] AS [FDPReportingTime], 
+    [ViewCrewDutyTimeLineNewGDate].[FirstFlightId] AS [FirstFlightId], 
+    [ViewCrewDutyTimeLineNewGDate].[LastFlightId] AS [LastFlightId], 
+    [ViewCrewDutyTimeLineNewGDate].[UPD] AS [UPD], 
+    [ViewCrewDutyTimeLineNewGDate].[IsMain] AS [IsMain], 
+    [ViewCrewDutyTimeLineNewGDate].[Key] AS [Key], 
+    [ViewCrewDutyTimeLineNewGDate].[Remark] AS [Remark], 
+    [ViewCrewDutyTimeLineNewGDate].[LocationId] AS [LocationId], 
+    [ViewCrewDutyTimeLineNewGDate].[InitStart] AS [InitStart], 
+    [ViewCrewDutyTimeLineNewGDate].[InitEnd] AS [InitEnd], 
+    [ViewCrewDutyTimeLineNewGDate].[InitRestTo] AS [InitRestTo], 
+    [ViewCrewDutyTimeLineNewGDate].[InitFlts] AS [InitFlts], 
+    [ViewCrewDutyTimeLineNewGDate].[InitRoute] AS [InitRoute], 
+    [ViewCrewDutyTimeLineNewGDate].[InitFromIATA] AS [InitFromIATA], 
+    [ViewCrewDutyTimeLineNewGDate].[InitToIATA] AS [InitToIATA], 
+    [ViewCrewDutyTimeLineNewGDate].[InitNo] AS [InitNo], 
+    [ViewCrewDutyTimeLineNewGDate].[InitKey] AS [InitKey], 
+    [ViewCrewDutyTimeLineNewGDate].[InitHomeBase] AS [InitHomeBase], 
+    [ViewCrewDutyTimeLineNewGDate].[InitRank] AS [InitRank], 
+    [ViewCrewDutyTimeLineNewGDate].[InitIndex] AS [InitIndex], 
+    [ViewCrewDutyTimeLineNewGDate].[InitGroup] AS [InitGroup], 
+    [ViewCrewDutyTimeLineNewGDate].[InitScheduleName] AS [InitScheduleName], 
+    [ViewCrewDutyTimeLineNewGDate].[InitFlights] AS [InitFlights], 
+    [ViewCrewDutyTimeLineNewGDate].[Remark2] AS [Remark2], 
+    [ViewCrewDutyTimeLineNewGDate].[CanceledNo] AS [CanceledNo], 
+    [ViewCrewDutyTimeLineNewGDate].[CanceledRoute] AS [CanceledRoute], 
+    [ViewCrewDutyTimeLineNewGDate].[Extension] AS [Extension], 
+    [ViewCrewDutyTimeLineNewGDate].[Split] AS [Split], 
+    [ViewCrewDutyTimeLineNewGDate].[DateConfirmed] AS [DateConfirmed], 
+    [ViewCrewDutyTimeLineNewGDate].[ConfirmedBy] AS [ConfirmedBy], 
+    [ViewCrewDutyTimeLineNewGDate].[MaxFDP] AS [MaxFDP], 
+    [ViewCrewDutyTimeLineNewGDate].[FX] AS [FX], 
+    [ViewCrewDutyTimeLineNewGDate].[BL] AS [BL], 
+    [ViewCrewDutyTimeLineNewGDate].[ActualStart] AS [ActualStart], 
+    [ViewCrewDutyTimeLineNewGDate].[ActualEnd] AS [ActualEnd], 
+    [ViewCrewDutyTimeLineNewGDate].[ActualRestTo] AS [ActualRestTo], 
+    [ViewCrewDutyTimeLineNewGDate].[IsOver] AS [IsOver], 
+    [ViewCrewDutyTimeLineNewGDate].[STD] AS [STD], 
+    [ViewCrewDutyTimeLineNewGDate].[STA] AS [STA], 
+    [ViewCrewDutyTimeLineNewGDate].[OutOfHomeBase] AS [OutOfHomeBase], 
+    [ViewCrewDutyTimeLineNewGDate].[JobGroup] AS [JobGroup], 
+    [ViewCrewDutyTimeLineNewGDate].[PosFrom] AS [PosFrom], 
+    [ViewCrewDutyTimeLineNewGDate].[PosTo] AS [PosTo], 
+    [ViewCrewDutyTimeLineNewGDate].[PosDep] AS [PosDep], 
+    [ViewCrewDutyTimeLineNewGDate].[PosArr] AS [PosArr], 
+    [ViewCrewDutyTimeLineNewGDate].[PosAirline] AS [PosAirline], 
+    [ViewCrewDutyTimeLineNewGDate].[PosFDPId] AS [PosFDPId], 
+    [ViewCrewDutyTimeLineNewGDate].[PosRemark] AS [PosRemark], 
+    [ViewCrewDutyTimeLineNewGDate].[PosTicketUrl] AS [PosTicketUrl], 
+    [ViewCrewDutyTimeLineNewGDate].[InitStartLocal] AS [InitStartLocal], 
+    [ViewCrewDutyTimeLineNewGDate].[InitEndLocal] AS [InitEndLocal], 
+    [ViewCrewDutyTimeLineNewGDate].[InitRestToLocal] AS [InitRestToLocal], 
+    [ViewCrewDutyTimeLineNewGDate].[DateStartLocal] AS [DateStartLocal], 
+    [ViewCrewDutyTimeLineNewGDate].[DateEndLocal] AS [DateEndLocal], 
+    [ViewCrewDutyTimeLineNewGDate].[DutyDateLocal] AS [DutyDateLocal]
+    FROM [dbo].[ViewCrewDutyTimeLineNewGDate] AS [ViewCrewDutyTimeLineNewGDate]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewCrewList" EntityType="Self.ViewCrewList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewCrewList].[FDPId] AS [FDPId], 
@@ -6818,7 +7161,12 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
     [ViewEFBASR].[DateUpdate] AS [DateUpdate], 
     [ViewEFBASR].[User] AS [User], 
     [ViewEFBASR].[BSHeading] AS [BSHeading], 
-    [ViewEFBASR].[BSTurningId] AS [BSTurningId]
+    [ViewEFBASR].[BSTurningId] AS [BSTurningId], 
+    [ViewEFBASR].[DateSign] AS [DateSign], 
+    [ViewEFBASR].[EmployeeId] AS [EmployeeId], 
+    [ViewEFBASR].[Status] AS [Status], 
+    [ViewEFBASR].[ReporterId] AS [ReporterId], 
+    [ViewEFBASR].[FormNo] AS [FormNo]
     FROM [dbo].[ViewEFBASR] AS [ViewEFBASR]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewEFBDSPReleases" EntityType="Self.ViewEFBDSPReleases" store:Type="Views" store:Schema="dbo">
@@ -8040,6 +8388,32 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
     [ViewRosterCrewCount].[CabinCount] AS [CabinCount]
     FROM [dbo].[ViewRosterCrewCount] AS [ViewRosterCrewCount]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ViewTicket" EntityType="Self.ViewTicket" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewTicket].[Id] AS [Id], 
+    [ViewTicket].[CrewId] AS [CrewId], 
+    [ViewTicket].[ScheduleName] AS [ScheduleName], 
+    [ViewTicket].[Mobile] AS [Mobile], 
+    [ViewTicket].[JobGroup] AS [JobGroup], 
+    [ViewTicket].[DateLocal] AS [DateLocal], 
+    [ViewTicket].[DateStartLocal] AS [DateStartLocal], 
+    [ViewTicket].[DateEndLocal] AS [DateEndLocal], 
+    [ViewTicket].[Start] AS [Start], 
+    [ViewTicket].[StartUTC] AS [StartUTC], 
+    [ViewTicket].[End] AS [End], 
+    [ViewTicket].[EndUTC] AS [EndUTC], 
+    [ViewTicket].[Remark] AS [Remark], 
+    [ViewTicket].[PosFrom] AS [PosFrom], 
+    [ViewTicket].[PosTo] AS [PosTo], 
+    [ViewTicket].[PosDepUtc] AS [PosDepUtc], 
+    [ViewTicket].[PosArrUtc] AS [PosArrUtc], 
+    [ViewTicket].[PosDep] AS [PosDep], 
+    [ViewTicket].[PosArr] AS [PosArr], 
+    [ViewTicket].[PosAirline] AS [PosAirline], 
+    [ViewTicket].[FlightNumber] AS [FlightNumber], 
+    [ViewTicket].[PosTicketUrl] AS [PosTicketUrl]
+    FROM [dbo].[ViewTicket] AS [ViewTicket]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewTimeTable" EntityType="Self.ViewTimeTable" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewTimeTable].[ID] AS [ID], 
@@ -8496,6 +8870,9 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
             <End Role="FlightInformation" EntitySet="FlightInformations" />
             <End Role="FlightCharterer" EntitySet="FlightCharterers" />
           </AssociationSet>
+          <EntitySet Name="ViewTickets" EntityType="FLYModel.ViewTicket" />
+          <EntitySet Name="ViewCrewDutyTimeLineNews" EntityType="FLYModel.ViewCrewDutyTimeLineNew" />
+          <EntitySet Name="ViewCrewDutyTimeLineNewGDates" EntityType="FLYModel.ViewCrewDutyTimeLineNewGDate" />
           </EntityContainer>
         <EntityType Name="DlyGrpFlight">
           <Key>
@@ -9734,6 +10111,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="OPSStatusId" Type="Int32" />
           <Property Name="OPSStaffStatusId" Type="Int32" />
           <NavigationProperty Name="FlightInformation" Relationship="FLYModel.fk_asr_flt" FromRole="EFBASR" ToRole="FlightInformation" />
+          <Property Name="DateSign" Type="DateTime" Precision="7" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="ReporterId" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="FormNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateStatus" Type="DateTime" Precision="3" />
+          <Property Name="StatusEmployeeId" Type="Int32" />
         </EntityType>
         <EntityType Name="EFBVoyageReport">
           <Key>
@@ -10522,7 +10906,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="FlightDate" Type="DateTime" Precision="3" />
           <Property Name="CargoCount" Type="Int32" />
           <Property Name="BaggageCount" Type="Int32" />
-          <Property Name="FPFuel" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FPFuel" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="CPCrewId" Type="Int32" />
           <Property Name="CPRegister" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="CPPositionId" Type="Int32" />
@@ -10542,7 +10926,7 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="JLDate" Type="DateTime" Precision="3" />
           <Property Name="JLDateApproved" Type="DateTime" Precision="3" />
           <Property Name="JLNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="SerialNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SerialNo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="RVSM_GND_CPT" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="LTR" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="RVSM_GND_STBY" Type="Decimal" Precision="18" Scale="4" />
@@ -10564,13 +10948,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="PF" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="IPName" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="IPId" Type="Int32" />
-          <Property Name="IPScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IPScheduleName" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="P1Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="P1Id" Type="Int32" />
-          <Property Name="P1ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="P1ScheduleName" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="P2Id" Type="Int32" />
-          <Property Name="P2ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="P2ScheduleName" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PIC" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="PICId" Type="Int32" />
           <Property Name="SIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
@@ -10654,6 +11038,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="User" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="BSHeading" Type="Double" />
           <Property Name="BSTurningId" Type="Int32" />
+          <Property Name="DateSign" Type="DateTime" Precision="7" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="ReporterId" Type="Int32" />
+          <Property Name="FormNo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ViewFlightCockpit">
           <Key>
@@ -11702,6 +12091,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="SMSL2ExpireDate" Type="DateTime" Precision="7" />
           <Property Name="SMSL3IssueDate" Type="DateTime" Precision="7" />
           <Property Name="SMSL3ExpireDate" Type="DateTime" Precision="7" />
+          <Property Name="AMPIssueDate" Type="DateTime" Precision="7" />
+          <Property Name="AMPExpireDate" Type="DateTime" Precision="7" />
         </EntityType>
         <EntityType Name="OFPImportProp">
           <Key>
@@ -13095,13 +13486,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <Property Name="PF" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="IPName" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="IPId" Type="Int32" />
-          <Property Name="IPScheduleName" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IPScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="P1Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="P1Id" Type="Int32" />
-          <Property Name="P1ScheduleName" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="P1ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="P2Name" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="P2Id" Type="Int32" />
-          <Property Name="P2ScheduleName" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="P2ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="PIC" Type="String" MaxLength="1001" FixedLength="false" Unicode="true" />
           <Property Name="PICId" Type="Int32" />
           <Property Name="SIC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
@@ -13725,6 +14116,185 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ViewTicket">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CrewId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CrewId" Type="Int32" Nullable="false" />
+          <Property Name="ScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DateLocal" Type="DateTime" Precision="0" />
+          <Property Name="DateStartLocal" Type="DateTime" Precision="3" />
+          <Property Name="DateEndLocal" Type="DateTime" Precision="3" />
+          <Property Name="Start" Type="DateTime" Precision="3" />
+          <Property Name="StartUTC" Type="DateTime" Precision="3" />
+          <Property Name="End" Type="DateTime" Precision="3" />
+          <Property Name="EndUTC" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="1013" FixedLength="false" Unicode="true" />
+          <Property Name="PosFrom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosTo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosDepUtc" Type="DateTime" Precision="3" />
+          <Property Name="PosArrUtc" Type="DateTime" Precision="3" />
+          <Property Name="PosDep" Type="DateTime" Precision="3" />
+          <Property Name="PosArr" Type="DateTime" Precision="3" />
+          <Property Name="PosAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FlightNumber" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosTicketUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewCrewDutyTimeLineNew">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="IsTemplate" />
+            <PropertyRef Name="DutyType" />
+            <PropertyRef Name="DutyTypeTitle" />
+            <PropertyRef Name="JobGroup" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="ReportingTime" Type="DateTime" Precision="3" />
+          <Property Name="JobGroupId" Type="Int32" />
+          <Property Name="IsTemplate" Type="Boolean" Nullable="false" />
+          <Property Name="DutyType" Type="Int32" Nullable="false" />
+          <Property Name="DutyTypeTitle" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FDPId" Type="Int32" />
+          <Property Name="DateStart" Type="DateTime" Precision="3" />
+          <Property Name="DateEnd" Type="DateTime" Precision="3" />
+          <Property Name="CityId" Type="Int32" />
+          <Property Name="TemplateId" Type="Int32" />
+          <Property Name="FDPReportingTime" Type="DateTime" Precision="3" />
+          <Property Name="FirstFlightId" Type="Int32" />
+          <Property Name="LastFlightId" Type="Int32" />
+          <Property Name="UPD" Type="Int32" />
+          <Property Name="IsMain" Type="Boolean" />
+          <Property Name="Key" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="LocationId" Type="Int32" />
+          <Property Name="InitStart" Type="DateTime" Precision="3" />
+          <Property Name="InitEnd" Type="DateTime" Precision="3" />
+          <Property Name="InitRestTo" Type="DateTime" Precision="3" />
+          <Property Name="InitFlts" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitRoute" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitFromIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitToIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitKey" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitHomeBase" Type="Int32" />
+          <Property Name="InitRank" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitIndex" Type="Int32" />
+          <Property Name="InitGroup" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitFlights" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="Remark2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CanceledNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CanceledRoute" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Extension" Type="Int32" />
+          <Property Name="Split" Type="Double" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MaxFDP" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FX" Type="Int32" />
+          <Property Name="BL" Type="Int32" />
+          <Property Name="ActualStart" Type="DateTime" Precision="3" />
+          <Property Name="ActualEnd" Type="DateTime" Precision="3" />
+          <Property Name="ActualRestTo" Type="DateTime" Precision="3" />
+          <Property Name="IsOver" Type="Boolean" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="OutOfHomeBase" Type="Boolean" />
+          <Property Name="JobGroup" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PosFrom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosTo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosDep" Type="DateTime" Precision="3" />
+          <Property Name="PosArr" Type="DateTime" Precision="3" />
+          <Property Name="PosAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosFDPId" Type="Int32" />
+          <Property Name="PosRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosTicketUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitStartLocal" Type="DateTime" Precision="3" />
+          <Property Name="InitEndLocal" Type="DateTime" Precision="3" />
+          <Property Name="InitRestToLocal" Type="DateTime" Precision="3" />
+          <Property Name="DateStartLocal" Type="DateTime" Precision="3" />
+          <Property Name="DateEndLocal" Type="DateTime" Precision="3" />
+          <Property Name="DutyDateLocal" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="ViewCrewDutyTimeLineNewGDate">
+          <Key>
+            <PropertyRef Name="GDate" />
+            <PropertyRef Name="CID" />
+          </Key>
+          <Property Name="GDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CID" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" />
+          <Property Name="CrewId" Type="Int32" />
+          <Property Name="ReportingTime" Type="DateTime" Precision="3" />
+          <Property Name="JobGroupId" Type="Int32" />
+          <Property Name="IsTemplate" Type="Boolean" />
+          <Property Name="DutyType" Type="Int32" />
+          <Property Name="DutyTypeTitle" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FDPId" Type="Int32" />
+          <Property Name="DateStart" Type="DateTime" Precision="3" />
+          <Property Name="DateEnd" Type="DateTime" Precision="3" />
+          <Property Name="CityId" Type="Int32" />
+          <Property Name="TemplateId" Type="Int32" />
+          <Property Name="FDPReportingTime" Type="DateTime" Precision="3" />
+          <Property Name="FirstFlightId" Type="Int32" />
+          <Property Name="LastFlightId" Type="Int32" />
+          <Property Name="UPD" Type="Int32" />
+          <Property Name="IsMain" Type="Boolean" />
+          <Property Name="Key" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="LocationId" Type="Int32" />
+          <Property Name="InitStart" Type="DateTime" Precision="3" />
+          <Property Name="InitEnd" Type="DateTime" Precision="3" />
+          <Property Name="InitRestTo" Type="DateTime" Precision="3" />
+          <Property Name="InitFlts" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitRoute" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitFromIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitToIATA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitKey" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitHomeBase" Type="Int32" />
+          <Property Name="InitRank" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitIndex" Type="Int32" />
+          <Property Name="InitGroup" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InitScheduleName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitFlights" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="Remark2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CanceledNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CanceledRoute" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Extension" Type="Int32" />
+          <Property Name="Split" Type="Double" />
+          <Property Name="DateConfirmed" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MaxFDP" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FX" Type="Int32" />
+          <Property Name="BL" Type="Int32" />
+          <Property Name="ActualStart" Type="DateTime" Precision="3" />
+          <Property Name="ActualEnd" Type="DateTime" Precision="3" />
+          <Property Name="ActualRestTo" Type="DateTime" Precision="3" />
+          <Property Name="IsOver" Type="Boolean" />
+          <Property Name="STD" Type="DateTime" Precision="3" />
+          <Property Name="STA" Type="DateTime" Precision="3" />
+          <Property Name="OutOfHomeBase" Type="Boolean" />
+          <Property Name="JobGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PosFrom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosTo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PosDep" Type="DateTime" Precision="3" />
+          <Property Name="PosArr" Type="DateTime" Precision="3" />
+          <Property Name="PosAirline" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosFDPId" Type="Int32" />
+          <Property Name="PosRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PosTicketUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="InitStartLocal" Type="DateTime" Precision="3" />
+          <Property Name="InitEndLocal" Type="DateTime" Precision="3" />
+          <Property Name="InitRestToLocal" Type="DateTime" Precision="3" />
+          <Property Name="DateStartLocal" Type="DateTime" Precision="3" />
+          <Property Name="DateEndLocal" Type="DateTime" Precision="3" />
+          <Property Name="DutyDateLocal" Type="DateTime" Precision="0" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14750,6 +15320,13 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySetMapping Name="EFBASRs">
             <EntityTypeMapping TypeName="FLYModel.EFBASR">
               <MappingFragment StoreEntitySet="EFBASR">
+                <ScalarProperty Name="StatusEmployeeId" ColumnName="StatusEmployeeId" />
+                <ScalarProperty Name="DateStatus" ColumnName="DateStatus" />
+                <ScalarProperty Name="FormNo" ColumnName="FormNo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ReporterId" ColumnName="ReporterId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
                 <ScalarProperty Name="OPSStaffStatusId" ColumnName="OPSStaffStatusId" />
                 <ScalarProperty Name="OPSStatusId" ColumnName="OPSStatusId" />
                 <ScalarProperty Name="OPSStaffUser" ColumnName="OPSStaffUser" />
@@ -15453,6 +16030,11 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySetMapping Name="ViewEFBASRs">
             <EntityTypeMapping TypeName="FLYModel.ViewEFBASR">
               <MappingFragment StoreEntitySet="ViewEFBASR">
+                <ScalarProperty Name="FormNo" ColumnName="FormNo" />
+                <ScalarProperty Name="ReporterId" ColumnName="ReporterId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="DateSign" ColumnName="DateSign" />
                 <ScalarProperty Name="BSTurningId" ColumnName="BSTurningId" />
                 <ScalarProperty Name="BSHeading" ColumnName="BSHeading" />
                 <ScalarProperty Name="User" ColumnName="User" />
@@ -16148,6 +16730,8 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="FLYModel.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="AMPExpireDate" ColumnName="AMPExpireDate" />
+                <ScalarProperty Name="AMPIssueDate" ColumnName="AMPIssueDate" />
                 <ScalarProperty Name="SMSL3ExpireDate" ColumnName="SMSL3ExpireDate" />
                 <ScalarProperty Name="SMSL3IssueDate" ColumnName="SMSL3IssueDate" />
                 <ScalarProperty Name="SMSL2ExpireDate" ColumnName="SMSL2ExpireDate" />
@@ -18363,6 +18947,182 @@ warning 6002: The table/view 'ppa_varesh.dbo.ViewTrainingSMSHistory' does not ha
                 <ScalarProperty Name="ChartererId" ColumnName="ChartererId" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewTickets">
+            <EntityTypeMapping TypeName="FLYModel.ViewTicket">
+              <MappingFragment StoreEntitySet="ViewTicket">
+                <ScalarProperty Name="PosTicketUrl" ColumnName="PosTicketUrl" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="PosAirline" ColumnName="PosAirline" />
+                <ScalarProperty Name="PosArr" ColumnName="PosArr" />
+                <ScalarProperty Name="PosDep" ColumnName="PosDep" />
+                <ScalarProperty Name="PosArrUtc" ColumnName="PosArrUtc" />
+                <ScalarProperty Name="PosDepUtc" ColumnName="PosDepUtc" />
+                <ScalarProperty Name="PosTo" ColumnName="PosTo" />
+                <ScalarProperty Name="PosFrom" ColumnName="PosFrom" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EndUTC" ColumnName="EndUTC" />
+                <ScalarProperty Name="End" ColumnName="End" />
+                <ScalarProperty Name="StartUTC" ColumnName="StartUTC" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="DateEndLocal" ColumnName="DateEndLocal" />
+                <ScalarProperty Name="DateStartLocal" ColumnName="DateStartLocal" />
+                <ScalarProperty Name="DateLocal" ColumnName="DateLocal" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="ScheduleName" ColumnName="ScheduleName" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewCrewDutyTimeLineNews">
+            <EntityTypeMapping TypeName="FLYModel.ViewCrewDutyTimeLineNew">
+              <MappingFragment StoreEntitySet="ViewCrewDutyTimeLineNew">
+                <ScalarProperty Name="DutyDateLocal" ColumnName="DutyDateLocal" />
+                <ScalarProperty Name="DateEndLocal" ColumnName="DateEndLocal" />
+                <ScalarProperty Name="DateStartLocal" ColumnName="DateStartLocal" />
+                <ScalarProperty Name="InitRestToLocal" ColumnName="InitRestToLocal" />
+                <ScalarProperty Name="InitEndLocal" ColumnName="InitEndLocal" />
+                <ScalarProperty Name="InitStartLocal" ColumnName="InitStartLocal" />
+                <ScalarProperty Name="PosTicketUrl" ColumnName="PosTicketUrl" />
+                <ScalarProperty Name="PosRemark" ColumnName="PosRemark" />
+                <ScalarProperty Name="PosFDPId" ColumnName="PosFDPId" />
+                <ScalarProperty Name="PosAirline" ColumnName="PosAirline" />
+                <ScalarProperty Name="PosArr" ColumnName="PosArr" />
+                <ScalarProperty Name="PosDep" ColumnName="PosDep" />
+                <ScalarProperty Name="PosTo" ColumnName="PosTo" />
+                <ScalarProperty Name="PosFrom" ColumnName="PosFrom" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="OutOfHomeBase" ColumnName="OutOfHomeBase" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="IsOver" ColumnName="IsOver" />
+                <ScalarProperty Name="ActualRestTo" ColumnName="ActualRestTo" />
+                <ScalarProperty Name="ActualEnd" ColumnName="ActualEnd" />
+                <ScalarProperty Name="ActualStart" ColumnName="ActualStart" />
+                <ScalarProperty Name="BL" ColumnName="BL" />
+                <ScalarProperty Name="FX" ColumnName="FX" />
+                <ScalarProperty Name="MaxFDP" ColumnName="MaxFDP" />
+                <ScalarProperty Name="ConfirmedBy" ColumnName="ConfirmedBy" />
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="Split" ColumnName="Split" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="CanceledRoute" ColumnName="CanceledRoute" />
+                <ScalarProperty Name="CanceledNo" ColumnName="CanceledNo" />
+                <ScalarProperty Name="Remark2" ColumnName="Remark2" />
+                <ScalarProperty Name="InitFlights" ColumnName="InitFlights" />
+                <ScalarProperty Name="InitScheduleName" ColumnName="InitScheduleName" />
+                <ScalarProperty Name="InitGroup" ColumnName="InitGroup" />
+                <ScalarProperty Name="InitIndex" ColumnName="InitIndex" />
+                <ScalarProperty Name="InitRank" ColumnName="InitRank" />
+                <ScalarProperty Name="InitHomeBase" ColumnName="InitHomeBase" />
+                <ScalarProperty Name="InitKey" ColumnName="InitKey" />
+                <ScalarProperty Name="InitNo" ColumnName="InitNo" />
+                <ScalarProperty Name="InitToIATA" ColumnName="InitToIATA" />
+                <ScalarProperty Name="InitFromIATA" ColumnName="InitFromIATA" />
+                <ScalarProperty Name="InitRoute" ColumnName="InitRoute" />
+                <ScalarProperty Name="InitFlts" ColumnName="InitFlts" />
+                <ScalarProperty Name="InitRestTo" ColumnName="InitRestTo" />
+                <ScalarProperty Name="InitEnd" ColumnName="InitEnd" />
+                <ScalarProperty Name="InitStart" ColumnName="InitStart" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="IsMain" ColumnName="IsMain" />
+                <ScalarProperty Name="UPD" ColumnName="UPD" />
+                <ScalarProperty Name="LastFlightId" ColumnName="LastFlightId" />
+                <ScalarProperty Name="FirstFlightId" ColumnName="FirstFlightId" />
+                <ScalarProperty Name="FDPReportingTime" ColumnName="FDPReportingTime" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="DutyTypeTitle" ColumnName="DutyTypeTitle" />
+                <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+                <ScalarProperty Name="IsTemplate" ColumnName="IsTemplate" />
+                <ScalarProperty Name="JobGroupId" ColumnName="JobGroupId" />
+                <ScalarProperty Name="ReportingTime" ColumnName="ReportingTime" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewCrewDutyTimeLineNewGDates">
+            <EntityTypeMapping TypeName="FLYModel.ViewCrewDutyTimeLineNewGDate">
+              <MappingFragment StoreEntitySet="ViewCrewDutyTimeLineNewGDate">
+                <ScalarProperty Name="DutyDateLocal" ColumnName="DutyDateLocal" />
+                <ScalarProperty Name="DateEndLocal" ColumnName="DateEndLocal" />
+                <ScalarProperty Name="DateStartLocal" ColumnName="DateStartLocal" />
+                <ScalarProperty Name="InitRestToLocal" ColumnName="InitRestToLocal" />
+                <ScalarProperty Name="InitEndLocal" ColumnName="InitEndLocal" />
+                <ScalarProperty Name="InitStartLocal" ColumnName="InitStartLocal" />
+                <ScalarProperty Name="PosTicketUrl" ColumnName="PosTicketUrl" />
+                <ScalarProperty Name="PosRemark" ColumnName="PosRemark" />
+                <ScalarProperty Name="PosFDPId" ColumnName="PosFDPId" />
+                <ScalarProperty Name="PosAirline" ColumnName="PosAirline" />
+                <ScalarProperty Name="PosArr" ColumnName="PosArr" />
+                <ScalarProperty Name="PosDep" ColumnName="PosDep" />
+                <ScalarProperty Name="PosTo" ColumnName="PosTo" />
+                <ScalarProperty Name="PosFrom" ColumnName="PosFrom" />
+                <ScalarProperty Name="JobGroup" ColumnName="JobGroup" />
+                <ScalarProperty Name="OutOfHomeBase" ColumnName="OutOfHomeBase" />
+                <ScalarProperty Name="STA" ColumnName="STA" />
+                <ScalarProperty Name="STD" ColumnName="STD" />
+                <ScalarProperty Name="IsOver" ColumnName="IsOver" />
+                <ScalarProperty Name="ActualRestTo" ColumnName="ActualRestTo" />
+                <ScalarProperty Name="ActualEnd" ColumnName="ActualEnd" />
+                <ScalarProperty Name="ActualStart" ColumnName="ActualStart" />
+                <ScalarProperty Name="BL" ColumnName="BL" />
+                <ScalarProperty Name="FX" ColumnName="FX" />
+                <ScalarProperty Name="MaxFDP" ColumnName="MaxFDP" />
+                <ScalarProperty Name="ConfirmedBy" ColumnName="ConfirmedBy" />
+                <ScalarProperty Name="DateConfirmed" ColumnName="DateConfirmed" />
+                <ScalarProperty Name="Split" ColumnName="Split" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="CanceledRoute" ColumnName="CanceledRoute" />
+                <ScalarProperty Name="CanceledNo" ColumnName="CanceledNo" />
+                <ScalarProperty Name="Remark2" ColumnName="Remark2" />
+                <ScalarProperty Name="InitFlights" ColumnName="InitFlights" />
+                <ScalarProperty Name="InitScheduleName" ColumnName="InitScheduleName" />
+                <ScalarProperty Name="InitGroup" ColumnName="InitGroup" />
+                <ScalarProperty Name="InitIndex" ColumnName="InitIndex" />
+                <ScalarProperty Name="InitRank" ColumnName="InitRank" />
+                <ScalarProperty Name="InitHomeBase" ColumnName="InitHomeBase" />
+                <ScalarProperty Name="InitKey" ColumnName="InitKey" />
+                <ScalarProperty Name="InitNo" ColumnName="InitNo" />
+                <ScalarProperty Name="InitToIATA" ColumnName="InitToIATA" />
+                <ScalarProperty Name="InitFromIATA" ColumnName="InitFromIATA" />
+                <ScalarProperty Name="InitRoute" ColumnName="InitRoute" />
+                <ScalarProperty Name="InitFlts" ColumnName="InitFlts" />
+                <ScalarProperty Name="InitRestTo" ColumnName="InitRestTo" />
+                <ScalarProperty Name="InitEnd" ColumnName="InitEnd" />
+                <ScalarProperty Name="InitStart" ColumnName="InitStart" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="IsMain" ColumnName="IsMain" />
+                <ScalarProperty Name="UPD" ColumnName="UPD" />
+                <ScalarProperty Name="LastFlightId" ColumnName="LastFlightId" />
+                <ScalarProperty Name="FirstFlightId" ColumnName="FirstFlightId" />
+                <ScalarProperty Name="FDPReportingTime" ColumnName="FDPReportingTime" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="FDPId" ColumnName="FDPId" />
+                <ScalarProperty Name="DutyTypeTitle" ColumnName="DutyTypeTitle" />
+                <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+                <ScalarProperty Name="IsTemplate" ColumnName="IsTemplate" />
+                <ScalarProperty Name="JobGroupId" ColumnName="JobGroupId" />
+                <ScalarProperty Name="ReportingTime" ColumnName="ReportingTime" />
+                <ScalarProperty Name="CrewId" ColumnName="CrewId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
+                <ScalarProperty Name="GDate" ColumnName="GDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -67,5 +67,19 @@ namespace ApiScheduling.Models
         public Nullable<System.DateTime> STA { get; set; }
         public Nullable<bool> OutOfHomeBase { get; set; }
         public string JobGroup { get; set; }
+        public string PosFrom { get; set; }
+        public string PosTo { get; set; }
+        public Nullable<System.DateTime> PosDep { get; set; }
+        public Nullable<System.DateTime> PosArr { get; set; }
+        public string PosAirline { get; set; }
+        public Nullable<int> PosFDPId { get; set; }
+        public string PosRemark { get; set; }
+        public string PosTicketUrl { get; set; }
+        public Nullable<System.DateTime> InitStartLocal { get; set; }
+        public Nullable<System.DateTime> InitEndLocal { get; set; }
+        public Nullable<System.DateTime> InitRestToLocal { get; set; }
+        public Nullable<System.DateTime> DateStartLocal { get; set; }
+        public Nullable<System.DateTime> DateEndLocal { get; set; }
+        public Nullable<System.DateTime> DutyDateLocal { get; set; }
     }
 }

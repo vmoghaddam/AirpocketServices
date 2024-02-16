@@ -420,6 +420,12 @@
     <Compile Include="Models\ViewCrewDutyTimeLine.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewCrewDutyTimeLineNew.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewCrewDutyTimeLineNewGDate.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewCrewList.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -490,6 +496,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewRosterCrewCount.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewTicket.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewTimeTable.cs">

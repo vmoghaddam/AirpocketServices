@@ -1021,118 +1021,129 @@ namespace ApiAPSB.Controllers
             try
             {
                 var context = new Models.dbEntities();
-                var release = context.EFBDSPReleases.FirstOrDefault(q => q.FlightId == DSPRelease.FlightId);
-                if (release == null)
-                {
-                    release = new EFBDSPRelease();
-                    context.EFBDSPReleases.Add(release);
 
+                var appleg = context.XAppLegs.FirstOrDefault(q => q.FlightId == DSPRelease.FlightId);
+                var appcrewflight = context.AppCrewFlights.Where(q => q.FlightId == appleg.FlightId && q.CrewId == appleg.PICId).FirstOrDefault();
+                var fdpitems = context.FDPItems.Where(q => q.FDPId == appcrewflight.FDPId).ToList();
+                var fltIds = fdpitems.Select(q => q.FlightId).ToList();
+
+                foreach(var flt_id in fltIds)
+                {
+                    var release = context.EFBDSPReleases.FirstOrDefault(q => q.FlightId == flt_id);
+                    if (release == null)
+                    {
+                        release = new EFBDSPRelease();
+                        context.EFBDSPReleases.Add(release);
+
+                    }
+
+                    // release.User = DSPRelease.User;
+
+
+
+                    release.DateUpdate = DateTime.UtcNow.ToString("yyyyMMddHHmm");
+
+
+                    release.FlightId = flt_id;
+                    release.ActualWXDSP = DSPRelease.ActualWXDSP;
+                    // release.ActualWXCPT = DSPRelease.ActualWXCPT;
+                    release.ActualWXDSPRemark = DSPRelease.ActualWXDSPRemark;
+                    //release.ActualWXCPTRemark = DSPRelease.ActualWXCPTRemark;
+                    release.WXForcastDSP = DSPRelease.WXForcastDSP;
+                    //release.WXForcastCPT = DSPRelease.WXForcastCPT;
+                    release.WXForcastDSPRemark = DSPRelease.WXForcastDSPRemark;
+                    //release.WXForcastCPTRemark = DSPRelease.WXForcastCPTRemark;
+                    release.SigxWXDSP = DSPRelease.SigxWXDSP;
+                    //release.SigxWXCPT = DSPRelease.SigxWXCPT;
+                    release.SigxWXDSPRemark = DSPRelease.SigxWXDSPRemark;
+                    //release.SigxWXCPTRemark = DSPRelease.SigxWXCPTRemark;
+                    release.WindChartDSP = DSPRelease.WindChartDSP;
+                    //release.WindChartCPT = DSPRelease.WindChartCPT;
+                    release.WindChartDSPRemark = DSPRelease.WindChartDSPRemark;
+                    //release.WindChartCPTRemark = DSPRelease.WindChartCPTRemark;
+                    release.NotamDSP = DSPRelease.NotamDSP;
+                    //release.NotamCPT = DSPRelease.NotamCPT;
+                    release.NotamDSPRemark = DSPRelease.NotamDSPRemark;
+                    //release.NotamCPTRemark = DSPRelease.NotamCPTRemark;
+                    release.ComputedFligthPlanDSP = DSPRelease.ComputedFligthPlanDSP;
+                    //release.ComputedFligthPlanCPT = DSPRelease.ComputedFligthPlanCPT;
+                    release.ComputedFligthPlanDSPRemark = DSPRelease.ComputedFligthPlanDSPRemark;
+                    //release.ComputedFligthPlanCPTRemark = DSPRelease.ComputedFligthPlanCPTRemark;
+                    release.ATCFlightPlanDSP = DSPRelease.ATCFlightPlanDSP;
+                    //release.ATCFlightPlanCPT = DSPRelease.ATCFlightPlanCPT;
+                    release.ATCFlightPlanDSPRemark = DSPRelease.ATCFlightPlanDSPRemark;
+                    //release.ATCFlightPlanCPTRemark = DSPRelease.ATCFlightPlanCPTRemark;
+                    release.PermissionsDSP = DSPRelease.PermissionsDSP;
+                    //release.PermissionsCPT = DSPRelease.PermissionsCPT;
+                    release.PermissionsDSPRemark = DSPRelease.PermissionsDSPRemark;
+                    //release.PermissionsCPTRemark = DSPRelease.PermissionsCPTRemark;
+                    release.JeppesenAirwayManualDSP = DSPRelease.JeppesenAirwayManualDSP;
+                    //release.JeppesenAirwayManualCPT = DSPRelease.JeppesenAirwayManualCPT;
+                    release.JeppesenAirwayManualDSPRemark = DSPRelease.JeppesenAirwayManualDSPRemark;
+                    //release.JeppesenAirwayManualCPTRemark = DSPRelease.JeppesenAirwayManualCPTRemark;
+                    release.MinFuelRequiredDSP = DSPRelease.MinFuelRequiredDSP;
+                    //release.MinFuelRequiredCPT = DSPRelease.MinFuelRequiredCPT;
+                    //release.MinFuelRequiredCFP = DSPRelease.MinFuelRequiredCFP;
+                    //release.MinFuelRequiredPilotReq = DSPRelease.MinFuelRequiredPilotReq;
+                    release.GeneralDeclarationDSP = DSPRelease.GeneralDeclarationDSP;
+                    //release.GeneralDeclarationCPT = DSPRelease.GeneralDeclarationCPT;
+                    release.GeneralDeclarationDSPRemark = DSPRelease.GeneralDeclarationDSPRemark;
+                    //release.GeneralDeclarationCPTRemark = DSPRelease.GeneralDeclarationCPTRemark;
+                    release.FlightReportDSP = DSPRelease.FlightReportDSP;
+                    //release.FlightReportCPT = DSPRelease.FlightReportCPT;
+                    release.FlightReportDSPRemark = DSPRelease.FlightReportDSPRemark;
+                    //release.FlightReportCPTRemark = DSPRelease.FlightReportCPTRemark;
+                    release.TOLndCardsDSP = DSPRelease.TOLndCardsDSP;
+                    //release.TOLndCardsCPT = DSPRelease.TOLndCardsCPT;
+                    release.TOLndCardsDSPRemark = DSPRelease.TOLndCardsDSPRemark;
+                    //release.TOLndCardsCPTRemark = DSPRelease.TOLndCardsCPTRemark;
+                    release.LoadSheetDSP = DSPRelease.LoadSheetDSP;
+                    //release.LoadSheetCPT = DSPRelease.LoadSheetCPT;
+                    release.LoadSheetDSPRemark = DSPRelease.LoadSheetDSPRemark;
+                    //release.LoadSheetCPTRemark = DSPRelease.LoadSheetCPTRemark;
+                    release.FlightSafetyReportDSP = DSPRelease.FlightSafetyReportDSP;
+                    //release.FlightSafetyReportCPT = DSPRelease.FlightSafetyReportCPT;
+                    release.FlightSafetyReportDSPRemark = DSPRelease.FlightSafetyReportDSPRemark;
+                    //release.FlightSafetyReportCPTRemark = DSPRelease.FlightSafetyReportCPTRemark;
+                    release.AVSECIncidentReportDSP = DSPRelease.AVSECIncidentReportDSP;
+                    //release.AVSECIncidentReportCPT = DSPRelease.AVSECIncidentReportCPT;
+                    release.AVSECIncidentReportDSPRemark = DSPRelease.AVSECIncidentReportDSPRemark;
+                    //release.AVSECIncidentReportCPTRemark = DSPRelease.AVSECIncidentReportCPTRemark;
+                    release.OperationEngineeringDSP = DSPRelease.OperationEngineeringDSP;
+                    //release.OperationEngineeringCPT = DSPRelease.OperationEngineeringCPT;
+                    release.OperationEngineeringDSPRemark = DSPRelease.OperationEngineeringDSPRemark;
+                    //release.OperationEngineeringCPTRemark = DSPRelease.OperationEngineeringCPTRemark;
+                    release.VoyageReportDSP = DSPRelease.VoyageReportDSP;
+                    //release.VoyageReportCPT = DSPRelease.VoyageReportCPT;
+
+                    //release.VoyageReportCPTRemark = DSPRelease.VoyageReportCPTRemark;
+                    release.PIFDSP = DSPRelease.PIFDSP;
+                    //release.PIFCPT = DSPRelease.PIFCPT;
+                    release.PIFDSPRemark = DSPRelease.PIFDSPRemark;
+                    //release.PIFCPTRemark = DSPRelease.PIFCPTRemark;
+                    release.GoodDeclarationDSP = DSPRelease.GoodDeclarationDSP;
+                    // release.GoodDeclarationCPT = DSPRelease.GoodDeclarationCPT;
+                    release.GoodDeclarationDSPRemark = DSPRelease.GoodDeclarationDSPRemark;
+                    //  release.GoodDeclarationCPTRemark = DSPRelease.GoodDeclarationCPTRemark;
+                    release.IPADDSP = DSPRelease.IPADDSP;
+                    //release.IPADCPT = DSPRelease.IPADCPT;
+                    release.IPADDSPRemark = DSPRelease.IPADDSPRemark;
+                    //release.IPADCPTRemark = DSPRelease.IPADCPTRemark;
+
+
+
+                    //release.DateConfirmed = DateTime.Now; //DSPRelease.DateConfirmed;
+                    // release.DispatcherId = DSPRelease.DispatcherId;
+
+
+                    release.VoyageReportDSPRemark = DSPRelease.User;
                 }
 
-                // release.User = DSPRelease.User;
-
-
-
-                release.DateUpdate = DateTime.UtcNow.ToString("yyyyMMddHHmm");
-
-
-                release.FlightId = DSPRelease.FlightId;
-                release.ActualWXDSP = DSPRelease.ActualWXDSP;
-                // release.ActualWXCPT = DSPRelease.ActualWXCPT;
-                release.ActualWXDSPRemark = DSPRelease.ActualWXDSPRemark;
-                //release.ActualWXCPTRemark = DSPRelease.ActualWXCPTRemark;
-                release.WXForcastDSP = DSPRelease.WXForcastDSP;
-                //release.WXForcastCPT = DSPRelease.WXForcastCPT;
-                release.WXForcastDSPRemark = DSPRelease.WXForcastDSPRemark;
-                //release.WXForcastCPTRemark = DSPRelease.WXForcastCPTRemark;
-                release.SigxWXDSP = DSPRelease.SigxWXDSP;
-                //release.SigxWXCPT = DSPRelease.SigxWXCPT;
-                release.SigxWXDSPRemark = DSPRelease.SigxWXDSPRemark;
-                //release.SigxWXCPTRemark = DSPRelease.SigxWXCPTRemark;
-                release.WindChartDSP = DSPRelease.WindChartDSP;
-                //release.WindChartCPT = DSPRelease.WindChartCPT;
-                release.WindChartDSPRemark = DSPRelease.WindChartDSPRemark;
-                //release.WindChartCPTRemark = DSPRelease.WindChartCPTRemark;
-                release.NotamDSP = DSPRelease.NotamDSP;
-                //release.NotamCPT = DSPRelease.NotamCPT;
-                release.NotamDSPRemark = DSPRelease.NotamDSPRemark;
-                //release.NotamCPTRemark = DSPRelease.NotamCPTRemark;
-                release.ComputedFligthPlanDSP = DSPRelease.ComputedFligthPlanDSP;
-                //release.ComputedFligthPlanCPT = DSPRelease.ComputedFligthPlanCPT;
-                release.ComputedFligthPlanDSPRemark = DSPRelease.ComputedFligthPlanDSPRemark;
-                //release.ComputedFligthPlanCPTRemark = DSPRelease.ComputedFligthPlanCPTRemark;
-                release.ATCFlightPlanDSP = DSPRelease.ATCFlightPlanDSP;
-                //release.ATCFlightPlanCPT = DSPRelease.ATCFlightPlanCPT;
-                release.ATCFlightPlanDSPRemark = DSPRelease.ATCFlightPlanDSPRemark;
-                //release.ATCFlightPlanCPTRemark = DSPRelease.ATCFlightPlanCPTRemark;
-                release.PermissionsDSP = DSPRelease.PermissionsDSP;
-                //release.PermissionsCPT = DSPRelease.PermissionsCPT;
-                release.PermissionsDSPRemark = DSPRelease.PermissionsDSPRemark;
-                //release.PermissionsCPTRemark = DSPRelease.PermissionsCPTRemark;
-                release.JeppesenAirwayManualDSP = DSPRelease.JeppesenAirwayManualDSP;
-                //release.JeppesenAirwayManualCPT = DSPRelease.JeppesenAirwayManualCPT;
-                release.JeppesenAirwayManualDSPRemark = DSPRelease.JeppesenAirwayManualDSPRemark;
-                //release.JeppesenAirwayManualCPTRemark = DSPRelease.JeppesenAirwayManualCPTRemark;
-                release.MinFuelRequiredDSP = DSPRelease.MinFuelRequiredDSP;
-                //release.MinFuelRequiredCPT = DSPRelease.MinFuelRequiredCPT;
-                //release.MinFuelRequiredCFP = DSPRelease.MinFuelRequiredCFP;
-                //release.MinFuelRequiredPilotReq = DSPRelease.MinFuelRequiredPilotReq;
-                release.GeneralDeclarationDSP = DSPRelease.GeneralDeclarationDSP;
-                //release.GeneralDeclarationCPT = DSPRelease.GeneralDeclarationCPT;
-                release.GeneralDeclarationDSPRemark = DSPRelease.GeneralDeclarationDSPRemark;
-                //release.GeneralDeclarationCPTRemark = DSPRelease.GeneralDeclarationCPTRemark;
-                release.FlightReportDSP = DSPRelease.FlightReportDSP;
-                //release.FlightReportCPT = DSPRelease.FlightReportCPT;
-                release.FlightReportDSPRemark = DSPRelease.FlightReportDSPRemark;
-                //release.FlightReportCPTRemark = DSPRelease.FlightReportCPTRemark;
-                release.TOLndCardsDSP = DSPRelease.TOLndCardsDSP;
-                //release.TOLndCardsCPT = DSPRelease.TOLndCardsCPT;
-                release.TOLndCardsDSPRemark = DSPRelease.TOLndCardsDSPRemark;
-                //release.TOLndCardsCPTRemark = DSPRelease.TOLndCardsCPTRemark;
-                release.LoadSheetDSP = DSPRelease.LoadSheetDSP;
-                //release.LoadSheetCPT = DSPRelease.LoadSheetCPT;
-                release.LoadSheetDSPRemark = DSPRelease.LoadSheetDSPRemark;
-                //release.LoadSheetCPTRemark = DSPRelease.LoadSheetCPTRemark;
-                release.FlightSafetyReportDSP = DSPRelease.FlightSafetyReportDSP;
-                //release.FlightSafetyReportCPT = DSPRelease.FlightSafetyReportCPT;
-                release.FlightSafetyReportDSPRemark = DSPRelease.FlightSafetyReportDSPRemark;
-                //release.FlightSafetyReportCPTRemark = DSPRelease.FlightSafetyReportCPTRemark;
-                release.AVSECIncidentReportDSP = DSPRelease.AVSECIncidentReportDSP;
-                //release.AVSECIncidentReportCPT = DSPRelease.AVSECIncidentReportCPT;
-                release.AVSECIncidentReportDSPRemark = DSPRelease.AVSECIncidentReportDSPRemark;
-                //release.AVSECIncidentReportCPTRemark = DSPRelease.AVSECIncidentReportCPTRemark;
-                release.OperationEngineeringDSP = DSPRelease.OperationEngineeringDSP;
-                //release.OperationEngineeringCPT = DSPRelease.OperationEngineeringCPT;
-                release.OperationEngineeringDSPRemark = DSPRelease.OperationEngineeringDSPRemark;
-                //release.OperationEngineeringCPTRemark = DSPRelease.OperationEngineeringCPTRemark;
-                release.VoyageReportDSP = DSPRelease.VoyageReportDSP;
-                //release.VoyageReportCPT = DSPRelease.VoyageReportCPT;
-
-                //release.VoyageReportCPTRemark = DSPRelease.VoyageReportCPTRemark;
-                release.PIFDSP = DSPRelease.PIFDSP;
-                //release.PIFCPT = DSPRelease.PIFCPT;
-                release.PIFDSPRemark = DSPRelease.PIFDSPRemark;
-                //release.PIFCPTRemark = DSPRelease.PIFCPTRemark;
-                release.GoodDeclarationDSP = DSPRelease.GoodDeclarationDSP;
-                // release.GoodDeclarationCPT = DSPRelease.GoodDeclarationCPT;
-                release.GoodDeclarationDSPRemark = DSPRelease.GoodDeclarationDSPRemark;
-                //  release.GoodDeclarationCPTRemark = DSPRelease.GoodDeclarationCPTRemark;
-                release.IPADDSP = DSPRelease.IPADDSP;
-                //release.IPADCPT = DSPRelease.IPADCPT;
-                release.IPADDSPRemark = DSPRelease.IPADDSPRemark;
-                //release.IPADCPTRemark = DSPRelease.IPADCPTRemark;
-
-
-
-                //release.DateConfirmed = DateTime.Now; //DSPRelease.DateConfirmed;
-                // release.DispatcherId = DSPRelease.DispatcherId;
-
-
-                release.VoyageReportDSPRemark = DSPRelease.User;
+              
 
 
                 context.SaveChanges();
-                return Ok(true);
+                return Ok(fltIds);
             }
             catch (Exception ex)
             {
@@ -1157,6 +1168,7 @@ namespace ApiAPSB.Controllers
         {
             try
             {
+                var do_lic = Convert.ToInt32(ConfigurationManager.AppSettings["dsp_lic"]);
                 var context = new Models.dbEntities();
 
                 int flight_id = Convert.ToInt32(dto.flight_id);
@@ -1166,56 +1178,71 @@ namespace ApiAPSB.Controllers
 
 
                 var employee = context.ViewEmployees.Where(q => q.UserId == userid || q.PersonId.ToString()==userid).FirstOrDefault();
-                if (employee != null)
+                if (do_lic == 1)
                 {
-                    if (!employee.LicenceTitle.ToLower().Contains(lic_no.ToLower()))
+                    if (employee != null)
                     {
-                        return Ok(
-                            new
-                            {
-                                done = false,
-                                code = 100,
-                                message = "The license number is wrong."
-                            }
-                        );
+                        if (!employee.LicenceTitle.ToLower().Contains(lic_no.ToLower()))
+                        {
+                            return Ok(
+                                new
+                                {
+                                    done = false,
+                                    code = 100,
+                                    message = "The license number is wrong."
+                                }
+                            );
+                        }
+                    }
+                    else
+                    {
+                        if (lic_no.ToLower() != "lic4806")
+                        {
+                            return Ok(
+                                new
+                                {
+                                    done = false,
+                                    code = 100,
+                                    message = "The license number is wrong."
+                                }
+                            );
+                        }
                     }
                 }
-                else
-                {
-                    if (lic_no.ToLower() != "lic4806")
-                    {
-                        return Ok(
-                            new
-                            {
-                                done = false,
-                                code = 100,
-                                message = "The license number is wrong."
-                            }
-                        );
-                    }
-                }
+                
 
 
                 var appleg = context.XAppLegs.FirstOrDefault(q => q.FlightId == flight_id);
+                if (appleg.PICId==null)
+                {
+                    return Ok(
+                            new
+                            {
+                                done = false,
+                                code = 100,
+                                message = "The Flight Crew not found"
+                            }
+                        );
+                }
                 var appcrewflight = context.AppCrewFlights.Where(q => q.FlightId == appleg.FlightId && q.CrewId == appleg.PICId).FirstOrDefault();
                 var fdpitems = context.FDPItems.Where(q => q.FDPId == appcrewflight.FDPId).ToList();
                 var fltIds = fdpitems.Select(q => q.FlightId).ToList();
 
-                var ofp_req_fuel = context.FlightInformations.Where(q => fltIds.Contains(q.ID)).OrderBy(q => q.ChocksOut).FirstOrDefault();
-                if (ofp_req_fuel != null)
-                {
-                    if (ofp_req_fuel.FuelPlanned==null || ofp_req_fuel.OFPTOTALFUEL == null)
-                    {
-                        return Ok(
-                            new
-                            {
-                                done = false,
-                                code = 200,
-                                message = "The OFP FUEL and REQUESTED FUEL can not be empty."
-                            }
-                        );
-                    }
-                }
+                //var ofp_req_fuel = context.FlightInformations.Where(q => fltIds.Contains(q.ID)).OrderBy(q => q.ChocksOut).FirstOrDefault();
+                //if (ofp_req_fuel != null)
+                //{
+                //    if (ofp_req_fuel.FuelPlanned==null || ofp_req_fuel.OFPTOTALFUEL == null)
+                //    {
+                //        return Ok(
+                //            new
+                //            {
+                //                done = false,
+                //                code = 200,
+                //                message = "The OFP FUEL and REQUESTED FUEL can not be empty."
+                //            }
+                //        );
+                //    }
+                //}
 
                 var drs = context.EFBDSPReleases.Where(q => fltIds.Contains(q.FlightId)).ToList();
 
@@ -1416,6 +1443,174 @@ namespace ApiAPSB.Controllers
         }
 
 
+        [Route("api/pic/asr/sign/new")]
+        [AcceptVerbs("Post")]
+        public IHttpActionResult PostASRPICSIGNNew(dto_sign dto)
+        {
+            try
+            {
+                var context = new Models.dbEntities();
+
+                int flight_id = Convert.ToInt32(dto.flight_id);
+                string lic_no = Convert.ToString(dto.lic_no);
+                string userid = Convert.ToString(dto.user_id);
+
+
+
+                var employee = context.ViewEmployees.Where(q => q.UserId == userid).FirstOrDefault();
+                if (employee != null)
+                {
+                    if (!employee.NDTNumber.ToLower().Contains(lic_no.ToLower()))
+                    {
+                        return Ok(
+                            new
+                            {
+                                IsSuccess = false,
+                                code = 100,
+                                message = "The license number is wrong."
+                            }
+                        );
+                    }
+                }
+                else
+                {
+                    if (lic_no.ToLower() != "lic4806")
+                    {
+                        return Ok(
+                            new
+                            {
+                                // done = false,
+                                IsSuccess = false,
+                                code = 100,
+                                message = "The license number is wrong."
+                            }
+                        );
+                    }
+                }
+
+
+                var appleg = context.XAppLegs.FirstOrDefault(q => q.FlightId == flight_id);
+                // var appcrewflight = context.AppCrewFlights.Where(q => q.FlightId == appleg.FlightId && q.CrewId == appleg.PICId).FirstOrDefault();
+                // var fdpitems = context.FDPItems.Where(q => q.FDPId == appcrewflight.FDPId).ToList();
+                //  var fltIds = fdpitems.Select(q => q.FlightId).ToList();
+                var dt = DateTime.UtcNow;
+                var asr = context.EFBASRs.Where(q => q.FlightId==flight_id).FirstOrDefault();
+                asr.JLSignedBy = employee != null ? employee.Name : "PIC";
+                asr.JLDatePICApproved = dt;
+                asr.PICId = employee != null ? employee.Id : -1;
+                asr.PIC = employee != null ? employee.Name : "PIC";
+                
+                
+
+
+
+                context.SaveChanges();
+                //var rdr = drs.Where(q => q.FlightId == flight_id).FirstOrDefault();
+
+                var result = new { IsSuccess = true, Data = new { asr.Id, asr.FlightId, asr.PICId, asr.JLSignedBy, asr.JLDatePICApproved, asr.PIC  } };
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   INNER: " + ex.InnerException.Message;
+                //return Ok(new
+                //{
+                //    done = false,
+                //    code = 1,
+                //    message = msg,
+                //});
+                return Ok(new { IsSuccess = false, message = msg });
+            }
+
+        }
+
+
+        [Route("api/pic/vr/sign/new")]
+        [AcceptVerbs("Post")]
+        public IHttpActionResult PostVRPICSIGNNew(dto_sign dto)
+        {
+            try
+            {
+                var context = new Models.dbEntities();
+
+                int flight_id = Convert.ToInt32(dto.flight_id);
+                string lic_no = Convert.ToString(dto.lic_no);
+                string userid = Convert.ToString(dto.user_id);
+
+
+
+                var employee = context.ViewEmployees.Where(q => q.UserId == userid).FirstOrDefault();
+                if (employee != null)
+                {
+                    if (!employee.NDTNumber.ToLower().Contains(lic_no.ToLower()))
+                    {
+                        return Ok(
+                            new
+                            {
+                                IsSuccess = false,
+                                code = 100,
+                                message = "The license number is wrong."
+                            }
+                        );
+                    }
+                }
+                else
+                {
+                    if (lic_no.ToLower() != "lic4806")
+                    {
+                        return Ok(
+                            new
+                            {
+                                // done = false,
+                                IsSuccess = false,
+                                code = 100,
+                                message = "The license number is wrong."
+                            }
+                        );
+                    }
+                }
+
+
+                var appleg = context.XAppLegs.FirstOrDefault(q => q.FlightId == flight_id);
+                // var appcrewflight = context.AppCrewFlights.Where(q => q.FlightId == appleg.FlightId && q.CrewId == appleg.PICId).FirstOrDefault();
+                // var fdpitems = context.FDPItems.Where(q => q.FDPId == appcrewflight.FDPId).ToList();
+                //  var fltIds = fdpitems.Select(q => q.FlightId).ToList();
+                var dt = DateTime.UtcNow;
+                var asr = context.EFBVoyageReports.Where(q => q.FlightId == flight_id).FirstOrDefault();
+                asr.JLSignedBy = employee != null ? employee.Name : "PIC";
+                asr.JLDatePICApproved = dt;
+                asr.PICId = employee != null ? employee.Id : -1;
+                asr.PIC = employee != null ? employee.Name : "PIC";
+
+
+
+
+
+                context.SaveChanges();
+                //var rdr = drs.Where(q => q.FlightId == flight_id).FirstOrDefault();
+
+                var result = new { IsSuccess = true, Data = new { asr.Id, asr.FlightId, asr.PICId, asr.JLSignedBy, asr.JLDatePICApproved, asr.PIC } };
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "   INNER: " + ex.InnerException.Message;
+                //return Ok(new
+                //{
+                //    done = false,
+                //    code = 1,
+                //    message = msg,
+                //});
+                return Ok(new { IsSuccess = false, message = msg });
+            }
+
+        }
+
+
         [Route("api/dsp/dr/sign")]
         [AcceptVerbs("Post")]
         public IHttpActionResult PostDRDSPSIGN(dynamic dto)
@@ -1536,7 +1731,7 @@ namespace ApiAPSB.Controllers
 
                 foreach (var x in groupProps)
                 {
-                    var first_point = x.items.ToList().OrderBy(q => q.id).FirstOrDefault();
+                    /*var first_point = x.items.ToList().OrderBy(q => q.id).FirstOrDefault();
                     if (first_point != null)
                     {
                         var origin = first_point.name.Substring(0, 18);
@@ -1555,7 +1750,7 @@ namespace ApiAPSB.Controllers
                                 _err.takeoff = true;
                             }
                         }
-                    }
+                    }*/
                     var _toc = x.items.Where(q => q.name.Contains("toc_ata")).FirstOrDefault();
                     var _tod = x.items.Where(q => q.name.Contains("tod_ata")).FirstOrDefault();
                     if (string.IsNullOrEmpty(_toc.value) || string.IsNullOrEmpty(_tod.value))
