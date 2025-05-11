@@ -28,6 +28,7 @@ namespace ApiFDM.Controllers
                         select new
                         {
                             grp.Key.register_id,
+
                             grp.Key.register,
                             ac_type = grp.Key.ac_type2,
                             count = grp.Count(),
