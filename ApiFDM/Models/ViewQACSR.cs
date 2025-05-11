@@ -14,16 +14,20 @@ namespace ApiFDM.Models
     
     public partial class ViewQACSR
     {
-        public Nullable<int> Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string BOX { get; set; }
         public string RefNumber { get; set; }
         public string Reporter { get; set; }
+        public string EmployeeName { get; set; }
         public string ReportFiledBy { get; set; }
-        public Nullable<System.DateTime> OccurrenceDateTime { get; set; }
+        public Nullable<int> ReporterId { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string FlightNumber { get; set; }
-        public int FlightId { get; set; }
-        public string FlightSegment { get; set; }
+        public Nullable<int> FlightId { get; set; }
+        public string Route { get; set; }
+        public string Register { get; set; }
+        public Nullable<System.DateTime> FlightDate { get; set; }
         public string EventLocation { get; set; }
         public string TypeRegisteration { get; set; }
         public string WeatherCondition { get; set; }
@@ -31,10 +35,22 @@ namespace ApiFDM.Models
         public Nullable<int> PhaseId { get; set; }
         public string PhaseTitle { get; set; }
         public string Recommendation { get; set; }
-        public Nullable<int> EmploeeId { get; set; }
         public string Describtion { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
         public Nullable<System.DateTime> DateCreation { get; set; }
+        public string Recived { get; set; }
+        public string FollowUp { get; set; }
+        public string EventTitleRemark { get; set; }
         public string CSRPhaseTitle { get; set; }
+        public Nullable<int> EmployeeId { get; set; }
+        public Nullable<int> status { get; set; }
+        public Nullable<System.DateTime> dateStatus { get; set; }
+        public Nullable<int> StatusEmployeeId { get; set; }
+        public string StatusEmployeeName { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
+        public string Result { get; set; }
+        public string FormNo { get; set; }
+        public string EventTitles { get; set; }
     }
 }

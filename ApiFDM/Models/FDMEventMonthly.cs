@@ -28,5 +28,8 @@ namespace ApiFDM.Models
         public Nullable<int> HighScore { get; set; }
         public Nullable<int> MediumScore { get; set; }
         public Nullable<int> LowScore { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
+        public Nullable<int> FlightCount { get; set; }
     }
 }

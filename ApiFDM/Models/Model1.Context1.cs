@@ -50,36 +50,36 @@ namespace ApiFDM.Models
         public virtual DbSet<FDMFoMonthly> FDMFoMonthlies { get; set; }
         public virtual DbSet<FDMPhaseMonthly> FDMPhaseMonthlies { get; set; }
         public virtual DbSet<FDMRegFoMonthly> FDMRegFoMonthlies { get; set; }
-        public virtual DbSet<ViewFDM> ViewFDMs { get; set; }
         public virtual DbSet<FDMEventMonthly> FDMEventMonthlies { get; set; }
-        public virtual DbSet<QAOption> QAOptions { get; set; }
-        public virtual DbSet<QAHazard> QAHazards { get; set; }
         public virtual DbSet<QAGroundIAD> QAGroundIADs { get; set; }
-        public virtual DbSet<ViewQAGround> ViewQAGrounds { get; set; }
-        public virtual DbSet<ViewQAHazard> ViewQAHazards { get; set; }
-        public virtual DbSet<ViewQACSR> ViewQACSRs { get; set; }
-        public virtual DbSet<QACSR> QACSRs { get; set; }
         public virtual DbSet<QACSREvent> QACSREvents { get; set; }
-        public virtual DbSet<QAMOR> QAMORs { get; set; }
-        public virtual DbSet<ViewQAMOR> ViewQAMORs { get; set; }
+        public virtual DbSet<fdm_crew> fdm_crew { get; set; }
+        public virtual DbSet<fdm_processed> fdm_processed { get; set; }
+        public virtual DbSet<ViewQAGround> ViewQAGrounds { get; set; }
+        public virtual DbSet<QACSR> QACSRs { get; set; }
+        public virtual DbSet<QAHazard> QAHazards { get; set; }
+        public virtual DbSet<ViewQACSR> ViewQACSRs { get; set; }
+        public virtual DbSet<ViewQAHazard> ViewQAHazards { get; set; }
+        public virtual DbSet<QAOption> QAOptions { get; set; }
+        public virtual DbSet<ViewFDM> ViewFDMs { get; set; }
     
         public virtual int FillFDMCptMonthlyTBL(Nullable<int> yearFrom, Nullable<int> monthFrom, Nullable<int> yearTo, Nullable<int> monthTo)
         {
             var yearFromParameter = yearFrom.HasValue ?
-                new ObjectParameter("YearFrom", yearFrom) :
-                new ObjectParameter("YearFrom", typeof(int));
+                new ObjectParameter("yearFrom", yearFrom) :
+                new ObjectParameter("yearFrom", typeof(int));
     
             var monthFromParameter = monthFrom.HasValue ?
-                new ObjectParameter("MonthFrom", monthFrom) :
-                new ObjectParameter("MonthFrom", typeof(int));
+                new ObjectParameter("monthFrom", monthFrom) :
+                new ObjectParameter("monthFrom", typeof(int));
     
             var yearToParameter = yearTo.HasValue ?
-                new ObjectParameter("YearTo", yearTo) :
-                new ObjectParameter("YearTo", typeof(int));
+                new ObjectParameter("yearTo", yearTo) :
+                new ObjectParameter("yearTo", typeof(int));
     
             var monthToParameter = monthTo.HasValue ?
-                new ObjectParameter("MonthTo", monthTo) :
-                new ObjectParameter("MonthTo", typeof(int));
+                new ObjectParameter("monthTo", monthTo) :
+                new ObjectParameter("monthTo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("FillFDMCptMonthlyTBL", yearFromParameter, monthFromParameter, yearToParameter, monthToParameter);
         }

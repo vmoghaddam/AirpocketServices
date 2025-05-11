@@ -15,14 +15,25 @@ namespace ApiFDM.Models
     public partial class ViewQAHazard
     {
         public int Id { get; set; }
-        public Nullable<int> EmploeeId { get; set; }
-        public string Name { get; set; }
-        public string TelNumber { get; set; }
-        public string Email { get; set; }
-        public Nullable<System.DateTime> HazardDate { get; set; }
+        public Nullable<int> EmployeeId { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string AffectedArea { get; set; }
-        public Nullable<System.DateTime> ReportDate { get; set; }
         public string HazardDescription { get; set; }
         public string RecommendedAction { get; set; }
+        public Nullable<int> status { get; set; }
+        public Nullable<System.DateTime> dateStatus { get; set; }
+        public Nullable<int> StatusEmployeeId { get; set; }
+        public Nullable<System.DateTime> DateSign { get; set; }
+        public string StatusEmployeeName { get; set; }
+        public string Result { get; set; }
+        public Nullable<System.DateTime> DateReport { get; set; }
+        public string EmployeeName { get; set; }
+        public string Email { get; set; }
+        public string TelNumber { get; set; }
+        public string RelatedDepartment { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
+        public int FlightId { get; set; }
+        public string FormNo { get; set; }
     }
 }

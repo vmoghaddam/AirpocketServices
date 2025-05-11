@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a2e177df7f7042e999d7b80280df439b" Name="Diagram1" ZoomLevel="40">
+        <EntityTypeShape EntityType="EPACSPNModel.fdm_processed" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EPACSPNModel.FDM" Width="1.5" PointX="0.75" PointY="22.875" />
+        <AssociationConnector Association="EPACSPNModel.FK__fdm_proce__fdm_i__6C63F2D5" />
+        <EntityTypeShape EntityType="EPACSPNModel.fdm_crew" Width="1.5" PointX="3" PointY="9.875" />
+        <AssociationConnector Association="EPACSPNModel.fk_fdm_crew_event" />
+        <EntityTypeShape EntityType="EPACSPNModel.FlightInformation" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EPACSPNModel.ViewMSN" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EPACSPNModel.view_fdm_processed" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EPACSPNModel.view_fdm_flight_crew" Width="1.5" PointX="11.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

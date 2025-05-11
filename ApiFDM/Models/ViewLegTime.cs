@@ -131,5 +131,14 @@ namespace ApiFDM.Models
         public string CPRegister { get; set; }
         public string DepCountry { get; set; }
         public string ArrCountry { get; set; }
+        public Nullable<int> OFPMINTOFFUEL { get; set; }
+        public Nullable<int> OFPOFFBLOCKFUEL { get; set; }
+        public Nullable<int> OFPTRIPFUEL { get; set; }
+        public Nullable<int> PILOTREQFUEL { get; set; }
+        public Nullable<decimal> FuelPlanned { get; set; }
+        public string PF { get; set; }
+        public Nullable<int> OFPTOTALFUEL { get; set; }
+        public Nullable<System.DateTime> STDDayLocal1 { get; set; }
+        public Nullable<System.DateTime> FlightDateX1 { get; set; }
     }
 }

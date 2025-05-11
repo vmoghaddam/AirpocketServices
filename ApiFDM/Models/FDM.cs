@@ -14,6 +14,12 @@ namespace ApiFDM.Models
     
     public partial class FDM
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public FDM()
+        {
+            this.fdm_processed = new HashSet<fdm_processed>();
+        }
+    
         public int Id { get; set; }
         public string Severity { get; set; }
         public string EventName { get; set; }
@@ -68,5 +74,11 @@ namespace ApiFDM.Models
         public Nullable<bool> Confirmation { get; set; }
         public string ValidationPerson { get; set; }
         public string ConfirmationPerson { get; set; }
+        public string PIC { get; set; }
+        public string FlightNo { get; set; }
+        public string MainParameter { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<fdm_processed> fdm_processed { get; set; }
     }
 }

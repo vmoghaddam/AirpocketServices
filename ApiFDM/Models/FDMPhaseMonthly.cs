@@ -23,5 +23,13 @@ namespace ApiFDM.Models
         public string JobGroup { get; set; }
         public Nullable<int> EventCount { get; set; }
         public Nullable<int> Score { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
+        public Nullable<int> HighCount { get; set; }
+        public Nullable<int> MediumCount { get; set; }
+        public Nullable<int> LowCount { get; set; }
+        public Nullable<int> HighScore { get; set; }
+        public Nullable<int> MediumScore { get; set; }
+        public Nullable<int> LowScore { get; set; }
     }
 }

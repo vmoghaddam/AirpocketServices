@@ -79,9 +79,5 @@ namespace ApiFDM.Models
     
         public virtual Airport Airport { get; set; }
         public virtual FlightInformation FlightInformation { get; set; }
-        public virtual QAOption QAOption { get; set; }
-        public virtual QAOption QAOption1 { get; set; }
-        public virtual QAOption QAOption2 { get; set; }
-        public virtual QAOption QAOption3 { get; set; }
     }
 }

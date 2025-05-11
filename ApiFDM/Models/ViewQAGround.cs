@@ -15,23 +15,24 @@ namespace ApiFDM.Models
     public partial class ViewQAGround
     {
         public int Id { get; set; }
+        public Nullable<int> FlightId { get; set; }
         public Nullable<int> AirportId { get; set; }
+        public string Airport { get; set; }
         public string AirportName { get; set; }
         public string Title { get; set; }
         public Nullable<int> DamageById { get; set; }
         public string DamageBy { get; set; }
-        public Nullable<System.DateTime> DamageDate { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string OperationPhase { get; set; }
         public string Area { get; set; }
         public string Register { get; set; }
         public string AircraftType { get; set; }
-        public int FlightId { get; set; }
         public string FlightNumber { get; set; }
-        public Nullable<int> ScheduledGroundTime { get; set; }
         public Nullable<int> DelayBlockOff { get; set; }
         public Nullable<int> DelayTakeoff { get; set; }
         public Nullable<int> FlightStatusID { get; set; }
         public int flightCancelled { get; set; }
+        public Nullable<System.DateTime> FlightDate { get; set; }
         public string DamageDetails { get; set; }
         public Nullable<int> EmployeesFatalityNr { get; set; }
         public Nullable<int> EmployeesNonFatalityNr { get; set; }
@@ -39,17 +40,17 @@ namespace ApiFDM.Models
         public Nullable<int> PassengersNonFatalityNr { get; set; }
         public Nullable<int> OthersFatalityNr { get; set; }
         public Nullable<int> OthersNonFatalityNr { get; set; }
-        public Nullable<bool> VETyresCon { get; set; }
-        public Nullable<bool> VEBrakesCon { get; set; }
-        public Nullable<bool> VESteeringCon { get; set; }
-        public Nullable<bool> VELightsCon { get; set; }
-        public Nullable<bool> VEWipersCon { get; set; }
-        public Nullable<bool> VEProtectionCon { get; set; }
-        public Nullable<bool> VEWarningDevicesCon { get; set; }
-        public Nullable<bool> VEStabilizersCon { get; set; }
-        public Nullable<bool> VETowHitchCon { get; set; }
-        public Nullable<bool> VEFieldofVisionCon { get; set; }
-        public Nullable<bool> VEFromDrivingPoCon { get; set; }
+        public Nullable<int> VETyresCon { get; set; }
+        public Nullable<int> VEBrakesCon { get; set; }
+        public Nullable<int> VESteeringCon { get; set; }
+        public Nullable<int> VELightsCon { get; set; }
+        public Nullable<int> VEWipersCon { get; set; }
+        public Nullable<int> VEProtectionCon { get; set; }
+        public Nullable<int> VEWarningDevicesCon { get; set; }
+        public Nullable<int> VEStabilizersCon { get; set; }
+        public Nullable<int> VETowHitchCon { get; set; }
+        public Nullable<int> VEFieldofVisionCon { get; set; }
+        public Nullable<int> VEFromDrivingPoCon { get; set; }
         public string VESerialFleetNr { get; set; }
         public string VEType { get; set; }
         public string VEOwner { get; set; }
@@ -72,7 +73,8 @@ namespace ApiFDM.Models
         public string PersonnelCompany3 { get; set; }
         public string PersonnelStaffNr3 { get; set; }
         public string PersonnelLicense3 { get; set; }
-        public Nullable<int> WXVisibility { get; set; }
+        public Nullable<int> WXVisibilityM { get; set; }
+        public Nullable<int> WXVisibilityKM { get; set; }
         public Nullable<int> WXWind { get; set; }
         public Nullable<int> WXTemperature { get; set; }
         public string WXWeatherTitle { get; set; }
@@ -86,9 +88,21 @@ namespace ApiFDM.Models
         public string Event { get; set; }
         public string CorrectiveActionTaken { get; set; }
         public string OtherSuggestions { get; set; }
-        public Nullable<int> EmploeeId { get; set; }
-        public string EmploeeName { get; set; }
+        public Nullable<int> EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
         public string JobGroup { get; set; }
-        public Nullable<System.DateTime> DateSigne { get; set; }
+        public Nullable<System.DateTime> DateSign { get; set; }
+        public string DamageRemark { get; set; }
+        public Nullable<int> status { get; set; }
+        public Nullable<System.DateTime> dateStatus { get; set; }
+        public Nullable<int> StatusEmployeeId { get; set; }
+        public string StatusEmployeeName { get; set; }
+        public string Result { get; set; }
+        public string Route { get; set; }
+        public Nullable<System.TimeSpan> FlightDelay { get; set; }
+        public Nullable<System.TimeSpan> ScheduledGroundTime { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
+        public string FormNo { get; set; }
     }
 }

@@ -14,30 +14,33 @@ namespace ApiFDM.Models
     
     public partial class QACSR
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public QACSR()
-        {
-            this.QACSREvents = new HashSet<QACSREvent>();
-        }
-    
         public int Id { get; set; }
         public Nullable<System.DateTime> DateCreation { get; set; }
         public string Name { get; set; }
         public string BOX { get; set; }
         public string RefNumber { get; set; }
         public string ReportFiledBy { get; set; }
-        public Nullable<System.DateTime> OccurrenceDateTime { get; set; }
+        public Nullable<System.DateTime> DateOccurrence { get; set; }
         public string EventLocation { get; set; }
         public string WeatherCondition { get; set; }
         public Nullable<int> FlightPhaseId { get; set; }
         public Nullable<System.DateTime> DateSign { get; set; }
-        public Nullable<int> EmploeeId { get; set; }
+        public Nullable<int> EmployeeId { get; set; }
         public string Describtion { get; set; }
         public string Recommendation { get; set; }
-        public int FlightId { get; set; }
+        public Nullable<int> FlightId { get; set; }
+        public string Recived { get; set; }
+        public string FollowUp { get; set; }
+        public string EventTitleRemark { get; set; }
+        public Nullable<int> Status { get; set; }
+        public Nullable<System.DateTime> DateStatus { get; set; }
+        public Nullable<int> StatusEmployeeId { get; set; }
+        public string Result { get; set; }
+        public Nullable<int> ReporterId { get; set; }
+        public string DelayReason { get; set; }
+        public Nullable<int> Delay { get; set; }
+        public string FormNo { get; set; }
     
         public virtual FlightInformation FlightInformation { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QACSREvent> QACSREvents { get; set; }
     }
 }
